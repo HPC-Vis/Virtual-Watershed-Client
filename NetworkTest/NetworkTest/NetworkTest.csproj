@@ -57,6 +57,7 @@
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VW_JSON_Producer.cs" />
     <Compile Include="wcsUtils.cs" />
     <Compile Include="WCS_BIL_Producer.cs" />
     <Compile Include="WCS_DescribeCoverage_Producer.cs" />
