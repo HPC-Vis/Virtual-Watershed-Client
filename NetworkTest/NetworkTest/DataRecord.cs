@@ -53,6 +53,16 @@ public class DataRecord
     }*/
 
     // This datastructure holds the metadata for the OGC services.
+    /// <summary>
+    /// The WCS Operations is used to generate WCS downloads ~ to call the bil (or tif) factory.
+    /// 
+    /// </summary>
+    /// WCS Operations
+    public GetCapabilites.OperationsMetadata[] WCSOperations = null;
+    public string WMSCapabilities = "";
+    public string WFSCapabilities = "";
+    public string WCSCapabilities = "";
+
     public Dictionary<string, string> services;
 
     // Description of data **/
