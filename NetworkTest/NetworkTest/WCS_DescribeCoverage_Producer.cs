@@ -67,63 +67,50 @@ class WCS_DescribeCoverage_Producer : DataProducer
     {
         Record.WFSCapabilities = Str;
     }
-    public override DataRecord Import(DataRecord Record, string path, int priority = 1)
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Overrides Below
+    ///////////////////////////////////////////////////////////////////////////
+    protected override DataRecord ImportFromURL(DataRecord Record, string path, int priority = 1)
     {
-        // Create a record if one does not exist
-        if( Record == null )
+        // Beautiful Lambda here
+        // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
+        //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
+        //nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => ParseWFSCapabilities(Record, DownloadedString)), priority));
+
+        // Return
+        return Record;
+    }
+
+    protected override DataRecord ImportFromFile(DataRecord Record, string path)
+    {
+        // Get the file name
+        string filename = Path.GetFileNameWithoutExtension(path);
+        string fileDirPath = Path.GetDirectoryName(path);
+        string capabilities = fileDirPath + '\\' + filename + ".xml";
+
+        if (File.Exists(capabilities))
         {
-            Record = new DataRecord();
-        }
+            // Open the files
+            StreamReader capReader = new StreamReader(capabilities);
 
-        // The getType function will determine the type of transfer (file or url) and strip off special tokens to help determine the type.
-        TransferType type = getType( ref path );
-        Console.WriteLine("Path = " + path);
+            // Read the header and data
+            string header = capReader.ReadToEnd();
 
-        // If import type is URL or FILE
-        if (type == TransferType.URL)
-        {
-            // Beautiful Lambda here
-            // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
-
-            //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-
-            //nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => ParseWFSCapabilities(Record, DownloadedString)), priority));
-        }
-        else if (type == TransferType.FILE)
-        {
-            // Get the file name
-            string filename = Path.GetFileNameWithoutExtension(path);
-            string fileDirPath = Path.GetDirectoryName(path);
-            string capabilities = fileDirPath + '\\' + filename + ".xml";
-
-            if (File.Exists(capabilities))
-            {
-                // Open the files
-                StreamReader capReader = new StreamReader(capabilities);
-
-                // Read the header and data
-                string header = capReader.ReadToEnd();
-
-                // Close the files
-                capReader.Dispose();
-            }
-            else
-            {
-                // Throw an exception that the file does not exist
-                throw new System.ArgumentException("File does not exist: " + path);
-            }
+            // Close the files
+            capReader.Dispose();
         }
         else
         {
-            // Unhandled file types, error messages, invalid formatting
-            throw new System.ArgumentException("Invalid Path: " + path);
+            // Throw an exception that the file does not exist
+            throw new System.ArgumentException("File does not exist: " + path);
         }
 
         // Return
         return Record;
     }
 
-    public override bool Export(string path,string outputPath,string name)
+    public override bool ExportToFile(string path,string outputPath,string outputName)
     {
         // The getType function will determine the type of transfer (file or url) and strip off special tokens to help determine the type.
         TransferType type = getType(ref path);

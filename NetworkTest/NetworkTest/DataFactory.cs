@@ -53,55 +53,6 @@ public abstract class Parser
 }
 
 /// <summary>
-/// Defines the different types of paths that can be used.
-/// </summary>
-public enum TransferType
-{
-    URL, FILE, UNKNOWN
-};
-
-/// <summary>
-/// This class defines a general interface between the DataFactory and the 
-/// services used to acquire data.
-/// </summary>
-public abstract class DataProducer
-{
-    /// <summary>
-    /// This function imports the desired DataRecord specified by the Path.
-    /// This could be loading data from a url, or file.
-    /// </summary>
-    /// <param name="Record">The DataRecord being loaded into and returned</param>
-    /// <param name="Path">The location of the desired data</param>
-    /// <returns>A new or updated DataRecord including the newly acquired data</returns>
-    /// For path include file://"path" for files and for urls include url://"path"
-    public abstract DataRecord Import(DataRecord Record, string Path, int priority = 1);
-
-    /// <summary>
-    /// Exports to the file drive from a download.
-    /// </summary>
-    /// <param name="Path"></param>
-    /// <returns></returns>
-    public abstract bool Export(string Path,string outputPath, string OutputName);
-
-    protected TransferType getType(ref String str)
-    {
-        if (str.StartsWith("url://"))
-        {
-            str = str.Substring(6);
-            return TransferType.URL;
-        }
-        else if (str.StartsWith("file://"))
-        {
-            str = str.Substring(7);
-            return TransferType.FILE;
-        }
-
-        // Else
-        return TransferType.UNKNOWN;
-    }
-}
-
-/// <summary>
 /// This class is the base class describing how DataFactories will be constructed
 /// + i.e. FileFactory or NetworkingFactory
 /// </summary>
@@ -146,7 +97,7 @@ public class DataFactory
         // Check if the product exists
         if (Products.ContainsKey(type))
         {
-            Products[type].Export(Path,outputPath,name);
+            Products[type].ExportToFile(Path,outputPath,name);
         }
         else
         {
