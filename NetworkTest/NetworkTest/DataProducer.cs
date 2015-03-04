@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Collections.Generic;
+using System.Collections;
 /// <summary>
 /// Defines the different types of paths that can be used.
 /// </summary>
@@ -47,10 +48,38 @@ public abstract class DataProducer
         }
     }
 
+    public List<DataRecord> Import(List<DataRecord> Records, string Path, int priority = 1)
+    {
+        // Allocate a data record if one does not exist
+        if (Records == null) { Records = new List<DataRecord>(); }
+
+        // Check the path
+        Console.WriteLine("Path = " + Path);
+        TransferType type = getType(ref Path);
+        if (type == TransferType.URL)
+        {
+            // Call the url import function
+            return ImportFromURL(Records, Path, priority);
+        }
+        else if (type == TransferType.FILE)
+        {
+            // Call the file import function
+            return ImportFromFile(Records, Path);
+        }
+        else
+        {
+            // Throw an exception for unsupported operation
+            throw new System.ArgumentException("File type is not \'file\' or \'url\': " + Path);
+        }
+    }
+
     protected abstract DataRecord ImportFromURL(DataRecord Record, string path, int priority = 1);
 
     protected abstract DataRecord ImportFromFile(DataRecord Record, string path);
 
+    protected abstract List<DataRecord> ImportFromURL(List<DataRecord> Record, string path, int priority = 1);
+
+    protected abstract List<DataRecord> ImportFromFile(List<DataRecord> Record, string path);
     /// <summary>
     /// Exports to the file drive from a download.
     /// </summary>

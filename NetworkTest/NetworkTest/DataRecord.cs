@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine;
 
 /** 
  * @author Chase Carthen
@@ -23,12 +24,12 @@ public class DataRecord
     // The ID, name, description and categories of this dataset or uuid.
     public string id;
     public string name;
-
+    
     //****** Geospatial MetaData**/
-    //public Vector2 resolution;
+    public Vector2 resolution;
 
     // This variable must be in Lat Long
-    //Vector2 WGS84Origin;
+    Vector2 WGS84Origin;
 
     // The bounding box of this dataset
     public string bbox; // --- In the dataset class there will be a floating point representation. ---
@@ -37,10 +38,10 @@ public class DataRecord
     public string projection;
 
     // A rect in UTM coordinates that will be used for splatting textures onto terrain....
-    //public Rect boundingBox;
+    public Rect boundingBox;
 
     // An interface for acquiring the WGS84 Origin.
-    /*public Vector2 WGS84origin
+    public Vector2 WGS84origin
     {
         get
         {
@@ -50,7 +51,7 @@ public class DataRecord
         {
             WGS84Origin = value;
         }
-    }*/
+    }
 
     // This datastructure holds the metadata for the OGC services.
     /// <summary>

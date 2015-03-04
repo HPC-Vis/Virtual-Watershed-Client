@@ -22,6 +22,11 @@ public abstract class Parser
         throw new System.NotImplementedException();
     }
 
+    public virtual List<DataRecord> Parse(List<DataRecord> record, string Contents)
+    {
+        throw new System.NotImplementedException();
+    }
+
     // Define custom functionality here (i.e. writing to files)
     public virtual void Parse(string Path, string OutputName, string Contents)
     {
@@ -84,6 +89,20 @@ public class DataFactory
         if( Products.ContainsKey( type ) )
         {
             return Products[type].Import(Record, Path, priority);
+        }
+        else
+        {
+            // Unsupported type
+            throw new System.ArgumentException("Type: " + type + " is not supported.");
+        }
+    }
+
+    public List<DataRecord> Import(String type, List<DataRecord> Records, string Path, int priority = 1)
+    {
+        // Check if the product exists
+        if (Products.ContainsKey(type))
+        {
+            return Products[type].Import(Records, Path, priority);
         }
         else
         {
