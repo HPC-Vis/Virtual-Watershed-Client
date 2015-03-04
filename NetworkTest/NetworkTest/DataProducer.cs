@@ -77,9 +77,15 @@ public abstract class DataProducer
 
     protected abstract DataRecord ImportFromFile(DataRecord Record, string path);
 
-    protected abstract List<DataRecord> ImportFromURL(List<DataRecord> Record, string path, int priority = 1);
+    protected virtual List<DataRecord> ImportFromURL(List<DataRecord> Record, string path, int priority = 1)
+    {
+        throw new System.NotImplementedException();
+    }
 
-    protected abstract List<DataRecord> ImportFromFile(List<DataRecord> Record, string path);
+    protected virtual List<DataRecord> ImportFromFile(List<DataRecord> Record, string path)
+    {
+        throw new System.NotImplementedException();
+    }
     /// <summary>
     /// Exports to the file drive from a download.
     /// </summary>

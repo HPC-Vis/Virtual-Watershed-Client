@@ -1,0 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using System.Xml.Serialization;
+using UnityEngine;
+class WCS_DescribeCoverage_Parser :Parser
+{
+
+    int[] grab_dimensions(string lower, string upper)
+    {
+        string[] l = lower.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] u = upper.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+        return new[] { int.Parse(u[0]) - int.Parse(l[0]) + 1, int.Parse(u[1]) - int.Parse(l[1]) + 1 };
+    }
+
+    Vector2[] grab_dimensions_float(string lower, string upper)
+    {
+        string[] l = lower.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] u = upper.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        //int zone = coordsystem.GetZone(float.Parse(l[1]), float.Parse(l[0]));
+        //int zone2 = coordsystem.GetZone(float.Parse(u[1]), float.Parse(u[0]));
+        //Vector2 upperleft = coordsystem.transformToUTM(float.Parse(l[0]), float.Parse(l[1]));
+        //Vector2 lowerright = coordsystem.transformToUTM(float.Parse(u[0]), float.Parse(u[1]));
+        //Debug.LogError(lowerright);
+        //Debug.LogError(upperleft);
+        //Debug.LogError(zone2);
+        //Debug.Log(zone);
+        /*if (zone != zone2)
+        {
+            // Thanks to https://www.maptools.com/tutorials/utm/details
+            if (zone < zone2)
+                upperleft.x -= Mathf.Abs(zone - zone2) * 774000f;
+            else
+                lowerright.x -= Mathf.Abs(zone - zone2) * 774000f;
+        }*/
+        return new[] { Vector2.zero, Vector2.zero };
+    }
+
+
+    void parseDescribeCoverage(DataRecord Record, string Str)
+    {
+        var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
+
+        XmlSerializer serial = new XmlSerializer(typeof(DescribeCoverageWCS.CoverageDescriptions));
+        DescribeCoverageWCS.CoverageDescriptions testc = new DescribeCoverageWCS.CoverageDescriptions();
+
+        if (serial.CanDeserialize(reader))
+        {
+            testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
+        }
+
+        string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
+
+        int[] dim = grab_dimensions(testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].UpperCorner);
+
+
+        /// This should be passed to GetCoverage
+        int width = dim[0];
+        int height = dim[1];
+
+        Vector2[] utmWorldDimensions = grab_dimensions_float(testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner);
+
+        //Debug.LogError(bbox + " "  + manager.records[key].bbox);
+        string epsg = "EPSG:" + "4326";
+        Record.boundingBox = new Rect(utmWorldDimensions[1].x, utmWorldDimensions[0].y - Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y), Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
+        // Debug.LogError("Bounding BOX: " + manager.records[key].boundingBox);
+        int pot = Mathf.NextPowerOfTwo(width);
+        int pot2 = Mathf.NextPowerOfTwo(height);
+        pot = Mathf.Min(new int[] { pot, pot2 });
+
+        // This is a hard fixed addition.
+        if (pot >= 2048)
+        {
+            pot = 1024;
+        }
+        pot++;
+
+        // Need to figure out a way to get the resolution
+        //Record.resolution = new Vector2(Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x) / dim[0], -Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y) / dim[1]);//toVector2(testc.CoverageDescription.Domain.SpatialDomain.GridCRS.GridOffsets,new char[]{' '});
+    }
+
+
+    public override DataRecord Parse(DataRecord record, string Contents)
+    {
+        parseDescribeCoverage(record, Contents);
+        return record;
+    }
+}

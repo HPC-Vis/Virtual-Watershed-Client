@@ -59,12 +59,12 @@ public class DataRecord
     /// 
     /// </summary>
     /// WCS Operations
-    public GetCapabilites.OperationsMetadata[] WCSOperations = null;
+    public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
     public string WMSCapabilities = "";
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";
 
-    public Dictionary<string, string> services;
+    public Dictionary<string, string> services = new Dictionary<string,string>();
 
     // Description of data **/
     public string description;

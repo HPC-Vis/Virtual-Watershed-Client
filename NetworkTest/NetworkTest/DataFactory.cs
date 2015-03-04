@@ -72,6 +72,7 @@ public class DataFactory
         // Initialize the products --- We need to streamline this in someway.....
         Products.Add("WCS_BIL", new WCS_BIL_Producer(manager));
         Products.Add("WMS_PNG", new WMS_PNG_Producer(manager));
+        Products.Add("VW_JSON", new VW_JSON_Producer(manager));
         Products.Add("WCS_1", null);
         Products.Add("WCS_2", null);
         Products.Add("WCS_3", null);

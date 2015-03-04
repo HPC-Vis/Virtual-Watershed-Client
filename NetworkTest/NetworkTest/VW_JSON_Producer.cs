@@ -6,44 +6,45 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.IO;
 using System;
-
+using System.Collections;
+using System.Collections.Generic;
 class VW_JSON_Producer : DataProducer
 {
     // Fields
     NetworkManager nm;
-
+    VW_JSON_Parser parser = new VW_JSON_Parser();
     // Possible constructor
     public VW_JSON_Producer( NetworkManager refToNM ) 
     {
         nm = refToNM;
     }
 
-    XmlReader createStringReader(string sr)
-    {
-        XmlReaderSettings settings = new XmlReaderSettings();
-        settings.XmlResolver = null;
-        settings.ProhibitDtd = false;
-        return XmlReader.Create(new System.IO.StringReader(sr), settings);
-    }
+
 
     // Make a Parser
-    void ParseJSON(DataRecord Record ,string Str)
+    void ParseJSON (List<DataRecord> Record ,string Str)
     {
+        parser.Parse(Record, Str);
+    }
 
+
+    protected override DataRecord ImportFromURL(DataRecord Records, string path, int priority = 1)
+    {
+        throw new System.NotImplementedException();
     }
 
     ///////////////////////////////////////////////////////////////////////////
     // Overrides Below
     ///////////////////////////////////////////////////////////////////////////
-    protected override DataRecord ImportFromURL(DataRecord Record, string path, int priority = 1)
+    protected override List<DataRecord> ImportFromURL(List<DataRecord> Records, string path, int priority = 1)
     {
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-        nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => ParseJSON(Record, DownloadedString)), priority));
+        nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => ParseJSON(Records, DownloadedString)), priority));
 
         // Return
-        return Record;
+        return Records;
     }
 
     protected override DataRecord ImportFromFile(DataRecord Record, string path)

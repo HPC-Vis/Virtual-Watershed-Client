@@ -12,27 +12,11 @@ class WCS_GetCapabilities_Producer : DataProducer
 {
     // Fields
     NetworkManager nm;
-
+    WCS_GetCapabilites_Parser parser = new WCS_GetCapabilites_Parser();
     // Possible constructor
     public WCS_GetCapabilities_Producer( NetworkManager refToNM ) 
     {
         nm = refToNM;
-    }
-
-    void ParseWCSCapabilities(DataRecord Record ,string Str)
-    {
-        var reader = System.Xml.XmlTextReader.Create(Str);
-        Record.WCSCapabilities = Str;
-
-
-        XmlSerializer serial = new XmlSerializer(typeof(GetCapabilites.Capabilities));
-        GetCapabilites.Capabilities capabilities = new GetCapabilites.Capabilities();
-
-        if (serial.CanDeserialize(reader))
-        {
-            capabilities = ((GetCapabilites.Capabilities)serial.Deserialize(reader));
-            capabilities.OperationsMetadata = capabilities.OperationsMetadata;
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -43,7 +27,7 @@ class WCS_GetCapabilities_Producer : DataProducer
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-        nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => ParseWCSCapabilities(Record, DownloadedString)), priority));
+        nm.AddDownload(new DownloadRequest(path, (StringFunction) ((DownloadedString) => parser.Parse(Record, DownloadedString)), priority));
 
         // Return
         return Record;
