@@ -90,7 +90,7 @@ public class DataRecord
      * Metadata fields
      */
     // This will hold any metadata... -- This will include the height and width of the dataset.
-    public Dictionary<string, string> metaData;
+    public metadata metaData;
 
     // Unused as of this moment.
     public Dictionary<string, string> categories;
