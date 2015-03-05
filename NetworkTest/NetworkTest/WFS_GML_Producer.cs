@@ -18,18 +18,18 @@ class WFS_GML_Producer : DataProducer
     ///////////////////////////////////////////////////////////////////////////
     // Overrides Below
     ///////////////////////////////////////////////////////////////////////////
-    protected override DataRecord ImportFromURL(DataRecord Record, string path, int priority = 1)
+    protected override List<DataRecord> ImportFromURL(List<DataRecord> Records, string path, int priority = 1)
     {
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-        nm.AddDownload(new DownloadRequest(path, (StringFunction)((DownloadedString) => parser.Parse(Record, DownloadedString)), priority));
+        nm.AddDownload(new DownloadRequest(path, (StringFunction)((DownloadedString) => parser.Parse(Records[0], DownloadedString)), priority));
 
         // Return
-        return Record;
+        return Records;
     }
 
-    protected override DataRecord ImportFromFile(DataRecord Record, string path)
+    protected override List<DataRecord> ImportFromFile(List<DataRecord> Records, string path)
     {
         // Get the file name
         string filename = Path.GetFileNameWithoutExtension(path);
@@ -54,17 +54,17 @@ class WFS_GML_Producer : DataProducer
         }
 
         // Return
-        return Record;
+        return Records;
     }
 
     public override bool ExportToFile(string Path, string outputPath, string outputName)
     {
         // The getType function will determine the type of transfer (file or url) and strip off special tokens to help determine the type.
-        TransferType type = getType(ref Path);
+        Transfer.Type type = Transfer.GetType(ref Path);
 
         // Put Try Catch HERE
         // If file does not exist 
-        if (type == TransferType.URL)
+        if (type == Transfer.Type.URL)
         {
             Console.WriteLine("URL: " + Path);
             // Beautiful Lambda here

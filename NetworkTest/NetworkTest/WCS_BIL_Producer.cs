@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 // We will need to change this when the time comes around to do the networking version...
 using System.IO;
 
@@ -20,18 +21,18 @@ public class WCS_BIL_Producer : DataProducer
     ///////////////////////////////////////////////////////////////////////////
     // Overrides Below
     ///////////////////////////////////////////////////////////////////////////
-    protected override DataRecord ImportFromURL(DataRecord Record, string path, int priority = 1)
+    protected override List<DataRecord> ImportFromURL(List<DataRecord> Records, string path, int priority = 1)
     {
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-        nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority));
+        nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(Records[0], DownloadBytes)), priority));
 
         // Return
-        return Record;
+        return Records;
     }
 
-    protected override DataRecord ImportFromFile(DataRecord Record, string path)
+    protected override List<DataRecord> ImportFromFile(List<DataRecord> Records, string path)
     {
         // Get the file name
         string filename = Path.GetFileNameWithoutExtension(path);
@@ -51,14 +52,14 @@ public class WCS_BIL_Producer : DataProducer
             byte[] dataBytes = bilReader.ReadBytes((int)bilFI.Length);
 
             // Save into record
-            Record.Data = bilreader.parse(header, dataBytes);
+            Records[0].Data = bilreader.parse(header, dataBytes);
 
             // Close the files
             hdrReader.Dispose();
             bilReader.Close();
 
             // Return
-            return Record;
+            return Records;
         }
         else
         {
@@ -70,11 +71,11 @@ public class WCS_BIL_Producer : DataProducer
     public override bool ExportToFile(string Path, string outputPath, string outputName)
     {
         // The getType function will determine the type of transfer (file or url) and strip off special tokens to help determine the type.
-        TransferType type = getType(ref Path);
+        Transfer.Type type = Transfer.GetType(ref Path);
 
         // Put Try Catch HERE
         // If file does not exist 
-        if (type == TransferType.URL)
+        if (type == Transfer.Type.URL)
         {
             // Beautiful Lambda here
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
