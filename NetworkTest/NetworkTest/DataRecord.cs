@@ -104,7 +104,7 @@ public class DataRecord
     public byte[] texture;
 
     // If there is only one point per element in the list then it is a point
-    /*List<List<Vector2>> lines;
+    List<List<Vector2>> lines;
     public List<List<Vector2>> Lines
     {
         get
@@ -115,7 +115,7 @@ public class DataRecord
         {
             lines = value;
         }
-    }*/
+    }
 
     // This could be something else for shapes
     float[,] data;
