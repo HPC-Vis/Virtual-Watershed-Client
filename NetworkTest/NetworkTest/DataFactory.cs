@@ -73,9 +73,10 @@ public class DataFactory
         Products.Add("WCS_BIL", new WCS_BIL_Producer(manager));
         Products.Add("WMS_PNG", new WMS_PNG_Producer(manager));
         Products.Add("VW_JSON", new VW_JSON_Producer(manager));
-        Products.Add("WCS_Capabilities", new WCS_GetCapabilities_Producer(manager));
-        Products.Add("WMS_Capabilities", new WMS_GetCapabilities_Producer(manager));
-        Products.Add("WFS_Capabilities", new WFS_GetCapabilities_Producer(manager));
+        Products.Add("WCS_CAP", new WCS_GetCapabilities_Producer(manager));
+        Products.Add("WMS_CAP", new WMS_GetCapabilities_Producer(manager));
+        Products.Add("WFS_CAP", new WFS_GetCapabilities_Producer(manager));
+        Products.Add("WCS_DC", new WCS_DescribeCoverage_Producer(manager));
         Products.Add("WCS_1", null);
         Products.Add("WCS_2", null);
         Products.Add("WCS_3", null);
