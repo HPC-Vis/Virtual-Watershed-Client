@@ -88,20 +88,6 @@ public class DataFactory
     /// </summary>
     /// <returns>A DataProduct of one specified type
     /// + i.e. WCS Product, WMS Product, WFS Product, etc.</returns>
-    public DataRecord Import(String type, DataRecord Record, string Path, int priority = 1)
-    {
-        // Check if the product exists
-        if( Products.ContainsKey( type ) )
-        {
-            return Products[type].Import(Record, Path, priority);
-        }
-        else
-        {
-            // Unsupported type
-            throw new System.ArgumentException("Type: " + type + " is not supported.");
-        }
-    }
-
     public List<DataRecord> Import(String type, List<DataRecord> Records, string Path, int priority = 1)
     {
         // Check if the product exists

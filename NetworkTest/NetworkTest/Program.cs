@@ -30,10 +30,10 @@ namespace NetworkTest
             //df.Import( "WCS_BIL", a, MimeUrlOne );
             //df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
             //df.Import("WMS_PNG", a,TestPNG);
-            df.Import("WCS_CAP", a, WCSCapabilitiesS);
-            df.Import("WFS_CAP", a, WFSCapabilitiesS);
-            df.Import("WMS_CAP", a, WMSCapabilitiesS);
-            df.Import("WCS_DC", a, WCSDescribeCoverageS);
+            ////df.Import("WCS_CAP", a, WCSCapabilitiesS);
+            ////df.Import("WFS_CAP", a, WFSCapabilitiesS);
+            ////df.Import("WMS_CAP", a, WMSCapabilitiesS);
+            ////df.Import("WCS_DC", a, WCSDescribeCoverageS);
             List<DataRecord> records = new List<DataRecord>();
             
             //df.Import("VW_JSON", records, "url://http://129.24.63.65//apps/my_app/search/datasets.json?offset=0&limit=15");

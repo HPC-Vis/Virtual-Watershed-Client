@@ -36,14 +36,14 @@ class WMS_PNG_Producer : DataProducer
     ///////////////////////////////////////////////////////////////////////////
     // Overrides Below
     ///////////////////////////////////////////////////////////////////////////
-    protected override List<DataRecord> ImportFromURL(List<DataRecord> Record, string path, int priority = 1)
+    protected override List<DataRecord> ImportFromURL(List<DataRecord> Records, string path, int priority = 1)
     {
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => SetTexture(Records[0], DownloadBytes)), priority));
 
         // Return
-        return Record;
+        return Records;
     }
 
     protected override List<DataRecord> ImportFromFile(List<DataRecord> Records, string path)
@@ -63,7 +63,7 @@ class WMS_PNG_Producer : DataProducer
             byte[] dataBytes = pngReader.ReadBytes((int)pngFI.Length);
 
             // Save into record
-            Record[0].texture = dataBytes;
+            Records[0].texture = dataBytes;
 
             // Close the files
             pngReader.Close();
