@@ -9,7 +9,7 @@ class WCS_GetCapabilites_Parser : Parser
 {
     void ParseWCSCapabilities(DataRecord Record, string Str)
     {
-        var reader = System.Xml.XmlTextReader.Create(Str);
+        var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
         Record.WCSCapabilities = Str;
 
 
