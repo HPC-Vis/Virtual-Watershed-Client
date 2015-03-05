@@ -40,8 +40,9 @@ class WCS_DescribeCoverage_Parser :Parser
     }
 
 
-    void parseDescribeCoverage(DataRecord Record, string Str)
+    public void parseDescribeCoverage(DataRecord Record, string Str)
     {
+        Console.WriteLine(Str);
         var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
 
         XmlSerializer serial = new XmlSerializer(typeof(DescribeCoverageWCS.CoverageDescriptions));
@@ -53,30 +54,32 @@ class WCS_DescribeCoverage_Parser :Parser
         }
 
         string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
-
+    
         int[] dim = grab_dimensions(testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].UpperCorner);
 
 
         /// This should be passed to GetCoverage
         int width = dim[0];
         int height = dim[1];
-
+        
         Vector2[] utmWorldDimensions = grab_dimensions_float(testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner);
 
         //Debug.LogError(bbox + " "  + manager.records[key].bbox);
         string epsg = "EPSG:" + "4326";
+        
         Record.boundingBox = new Rect(utmWorldDimensions[1].x, utmWorldDimensions[0].y - Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y), Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
         // Debug.LogError("Bounding BOX: " + manager.records[key].boundingBox);
-        int pot = Mathf.NextPowerOfTwo(width);
-        int pot2 = Mathf.NextPowerOfTwo(height);
-        pot = Mathf.Min(new int[] { pot, pot2 });
-
-        // This is a hard fixed addition.
-        if (pot >= 2048)
-        {
-            pot = 1024;
-        }
-        pot++;
+        
+        //int pot = Mathf.NextPowerOfTwo(width);
+        //int pot2 = Mathf.NextPowerOfTwo(height);
+        //pot = Mathf.Min(new int[] { pot, pot2 });
+ 
+        //// This is a hard fixed addition.
+        //if (pot >= 2048)
+        //{
+        //    pot = 1024;
+        //}
+        //pot++;
 
         // Need to figure out a way to get the resolution
         //Record.resolution = new Vector2(Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x) / dim[0], -Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y) / dim[1]);//toVector2(testc.CoverageDescription.Domain.SpatialDomain.GridCRS.GridOffsets,new char[]{' '});
@@ -85,7 +88,16 @@ class WCS_DescribeCoverage_Parser :Parser
 
     public override DataRecord Parse(DataRecord record, string Contents)
     {
-        parseDescribeCoverage(record, Contents);
+        Console.WriteLine("AFAFAFAFAF");
+        try
+        {
+            parseDescribeCoverage(record, Contents);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
+        }
         return record;
     }
 }
