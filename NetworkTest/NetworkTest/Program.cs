@@ -22,7 +22,7 @@ namespace NetworkTest
         {
             DataFactory df = new DataFactory();
             DataRecord a, b, c;
-            
+            VWClient vw = new VWClient();
             a = new DataRecord( "Create_Url" );
             b = new DataRecord( "Create_File" );
             c = new DataRecord( "Export_Url" );
@@ -40,8 +40,11 @@ namespace NetworkTest
             //df.TestStringDownload("http://www.google.com");
             //df.Import( "WCS_BIL", b, TestFileOne );
             Console.WriteLine("DONE DOWNLOADING");
-           
-            Console.ReadKey();
+            for (int i = 0; i < 1000000; i++ )
+            {
+                vw.Download(i.ToString(), new DataRecord(), "wcs");
+            }
+                Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
         }
 

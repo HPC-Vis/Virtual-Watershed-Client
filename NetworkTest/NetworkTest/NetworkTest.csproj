@@ -67,7 +67,7 @@
   <ItemGroup>
     <Compile Include="bilreader.cs" />
     <Compile Include="DataFactory.cs" />
-    <Compile Include="DataProducer.cs" />
+    <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />
     <Compile Include="mimeparser.cs" />
@@ -80,22 +80,23 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleJSON\plugins\SimpleJSON.cs" />
     <Compile Include="Transfer.cs" />
-    <Compile Include="VW_FGDC_XML_Parser.cs" />
-    <Compile Include="VW_FGDC_XML_Producer.cs" />
-    <Compile Include="VW_JSON_Parser.cs" />
-    <Compile Include="VW_JSON_Producer.cs" />
+    <Compile Include="Parsers\VW_FGDC_XML_Parser.cs" />
+    <Compile Include="Producers\VW_FGDC_XML_Producer.cs" />
+    <Compile Include="Parsers\VW_JSON_Parser.cs" />
+    <Compile Include="Producers\VW_JSON_Producer.cs" />
+    <Compile Include="VWClient.cs" />
     <Compile Include="wcsUtils.cs" />
-    <Compile Include="WCS_BIL_Producer.cs" />
-    <Compile Include="WCS_DescribeCoverage_Parser.cs" />
-    <Compile Include="WCS_DescribeCoverage_Producer.cs" />
-    <Compile Include="WCS_GetCapabilites_Parser.cs" />
-    <Compile Include="WCS_GetCapabilities_Producer.cs" />
-    <Compile Include="WFS_GetCapabilites_Producer.cs" />
-    <Compile Include="WFS_GML_Parser.cs" />
-    <Compile Include="WFS_GML_Producer.cs" />
-    <Compile Include="WMS_GetCapabilites_Producer.cs" />
-    <Compile Include="WMS_GetCapabilities_Parser.cs" />
-    <Compile Include="WMS_PNG_Producer.cs" />
+    <Compile Include="Producers\WCS_BIL_Producer.cs" />
+    <Compile Include="Parsers\WCS_DescribeCoverage_Parser.cs" />
+    <Compile Include="Producers\WCS_DescribeCoverage_Producer.cs" />
+    <Compile Include="Parsers\WCS_GetCapabilites_Parser.cs" />
+    <Compile Include="Producers\WCS_GetCapabilities_Producer.cs" />
+    <Compile Include="Producers\WFS_GetCapabilites_Producer.cs" />
+    <Compile Include="Parsers\WFS_GML_Parser.cs" />
+    <Compile Include="Producers\WFS_GML_Producer.cs" />
+    <Compile Include="Producers\WMS_GetCapabilites_Producer.cs" />
+    <Compile Include="Parsers\WMS_GetCapabilities_Parser.cs" />
+    <Compile Include="Producers\WMS_PNG_Producer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
