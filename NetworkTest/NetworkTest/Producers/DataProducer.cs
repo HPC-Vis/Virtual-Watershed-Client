@@ -1,0 +1,55 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections;
+
+
+/// <summary>
+/// This class defines a general interface between the DataFactory and the 
+/// services used to acquire data.
+/// </summary>
+public abstract class DataProducer
+{
+    /// <summary>
+    /// This function imports the desired DataRecord specified by the Path.
+    /// This could be loading data from a url, or file.
+    /// </summary>
+    /// <param name="Record">The list of DataRecord being loaded into and returned</param>
+    /// <param name="Path">The location of the desired data</param>
+    /// <returns>A new or updated list of DataRecord including the newly acquired data</returns>
+    /// For path include file://"path" for files and for urls include url://"path"
+    public List<DataRecord> Import(List<DataRecord> Records, string Path, int priority = 1)
+    {
+        // Allocate a data record if one does not exist
+        if (Records == null) { Records = new List<DataRecord>(); }
+
+        // Check the path
+        Console.WriteLine("Path = " + Path);
+        Transfer.Type type = Transfer.GetType(ref Path);
+        if (type == Transfer.Type.URL)
+        {
+            // Call the url import function
+            return ImportFromURL(Records, Path, priority);
+        }
+        else if (type == Transfer.Type.FILE)
+        {
+            // Call the file import function
+            return ImportFromFile(Records, Path);
+        }
+        else
+        {
+            // Throw an exception for unsupported operation
+            throw new System.ArgumentException("File type is not \'file\' or \'url\': " + Path);
+        }
+    }
+
+    protected abstract List<DataRecord> ImportFromURL(List<DataRecord> Records, string path, int priority = 1);
+
+    protected abstract List<DataRecord> ImportFromFile(List<DataRecord> Records, string path);
+
+    /// <summary>
+    /// Exports to the file drive from a download.
+    /// </summary>
+    /// <param name="Path"></param>
+    /// <returns></returns>
+    public abstract bool ExportToFile(string Path, string outputPath, string outputName);
+}
