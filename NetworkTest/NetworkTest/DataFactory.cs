@@ -26,7 +26,7 @@ public abstract class Parser
     {
         throw new System.NotImplementedException();
     }
-
+    
     // Define custom functionality here (i.e. writing to files)
     public virtual void Parse(string Path, string OutputName, string Contents)
     {
@@ -44,6 +44,10 @@ public abstract class Parser
         throw new System.NotImplementedException();
     }
 
+    public virtual List<DataRecord> Parse(List<DataRecord> record, byte[] Contents)
+    {
+        throw new System.NotImplementedException();
+    }
     public string Name
     {
         get
@@ -77,6 +81,7 @@ public class DataFactory
         Products.Add("WMS_CAP", new WMS_GetCapabilities_Producer(manager));
         Products.Add("WFS_CAP", new WFS_GetCapabilities_Producer(manager));
         Products.Add("WCS_DC", new WCS_DescribeCoverage_Producer(manager));
+        Products.Add("VW_FGDC", new VW_FGDC_XML_Producer(manager));
         Products.Add("WCS_1", null);
         Products.Add("WCS_2", null);
         Products.Add("WCS_3", null);

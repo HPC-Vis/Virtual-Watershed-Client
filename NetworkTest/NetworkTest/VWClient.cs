@@ -171,6 +171,10 @@ public class SafeDictionary<TKey, TValue>
                 }
                 else
                 {
+                    Console.WriteLine("FGDC");
+                    List<DataRecord> templist = new List<DataRecord>();
+                    templist.Add(record);
+                    DataTracker.submitJob(url, templist);
                     var t = new Thread(() => GetMetaData(url,record));
                     Threads[url] =  t;
                     t.Start();
@@ -193,22 +197,50 @@ public class SafeDictionary<TKey, TValue>
 
         void GetMap(string url,DataRecord record)
         {
+            // Register Job with Data Tracker
+            // Call Get Capabilites Here....
+            // In the final steps populate the data record with GetMap Download
+            // Finish everything up
             Finished(record,url);
         }
 
         void GetCoverage(string url,DataRecord record)
         {
+            // Register Job with Data Tracker
             Finished(record,url);
         }
 
         void GetFeature(string url,DataRecord record)
         {
+            // Register Job with Data Tracker
             Finished(record,url);
         }
 
-        void GetMetaData(string url, DataRecord record)
+        void GetMetaData(string jobName, DataRecord record)
         {
-            Finished(record,url);
+            Console.WriteLine(jobName);
+            DataTracker.updateJob(jobName, "Started");
+            foreach(var i in record.services)
+            {
+                Console.WriteLine(i);
+            }
+            if (!record.services.ContainsKey("xml_fgdc"))
+            {
+                Finished(record, jobName);
+                Console.WriteLine("RETURNING" + record.name);
+                DataTracker.updateJob(jobName, "Finished");
+                return;
+            }
+            string xml_url =  record.services["xml_fgdc"];
+            // Register Job with Data Tracker
+            List<DataRecord> tempList = new List<DataRecord>();
+            tempList.Add(record);
+            dataFactory.Import("WMS_CAP", tempList, "url://"+xml_url);
+            while (DataTracker.CheckStatus(xml_url) != "Finished") { Console.WriteLine("WAITING"); }
+
+            Finished(record,jobName);
+            DataTracker.updateJob(jobName, "Finished");
+            Console.WriteLine("FINISHED");
         }
 
         // need some thread safety here..

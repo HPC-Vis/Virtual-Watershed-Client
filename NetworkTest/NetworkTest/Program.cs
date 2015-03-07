@@ -45,15 +45,31 @@ namespace NetworkTest
             {
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
             }*/
-            var url = vwClient.RequestRecords(0, 15);
-            var url2 = vwClient.RequestRecords(15, 30);
+            //var url2 = vwClient.RequestRecords(0, 15);
+            var url = vwClient.RequestRecords(0, 15,query:"DEM");
             List<DataRecord> records2;
             while (DataTracker.CheckStatus(url) != "Finished") {} //Console.WriteLine("Waiting"); }
                 records2 = DataTracker.JobFinished(url);
                 Console.WriteLine(records2.Count());
-                while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
-                records2 = DataTracker.JobFinished(url2);
-                Console.WriteLine(records2.Count());
+                //while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
+                //records2 = DataTracker.JobFinished(url2);
+                //Console.WriteLine(records2.Count());
+                Console.WriteLine("Seeing Keys");
+                foreach(var i in records2)
+                {
+                    Console.WriteLine(i.name);
+                    foreach(var k in i.services.Keys)
+                    {
+                        Console.WriteLine(k);
+                    }
+                }
+                Console.ReadKey();
+                vwClient.Download("testJob", records2[0], "FGDC");
+
+                while(DataTracker.CheckStatus("testJob") != "Finished")
+                {
+                    //Console.WriteLine("HELLO");
+                }
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
         }

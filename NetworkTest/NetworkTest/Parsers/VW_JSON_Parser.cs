@@ -62,7 +62,7 @@ class VW_JSON_Parser : Parser
                 }
 
                 current.services["xml_fgdc"] = encoded["results"][records]["metadata"][0]["FGDC-STD-001-1998"]["xml"];
-
+                Console.WriteLine(current.services["xml_fgdc"]);
                 var description = encoded["results"][records]["description"].ToString();
 
 
@@ -107,7 +107,7 @@ class VW_JSON_Parser : Parser
 
                 // Populate datarecord here.
                 current.projection = "epsg:" + projection.ToString();
-                current.services = new Dictionary<string, string>();
+                //current.services = new Dictionary<string, string>();
                 current.bbox = bbox;
                 current.id = id;
                 current.name = name;
