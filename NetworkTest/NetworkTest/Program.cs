@@ -21,6 +21,7 @@ namespace NetworkTest
         static void Main( string[] args )
         {
             DataFactory df = new DataFactory();
+            VWClient vwClient = new VWClient();
             DataRecord a, b, c;
             VWClient vw = new VWClient();
             a = new DataRecord( "Create_Url" );
@@ -40,10 +41,19 @@ namespace NetworkTest
             //df.TestStringDownload("http://www.google.com");
             //df.Import( "WCS_BIL", b, TestFileOne );
             Console.WriteLine("DONE DOWNLOADING");
-            for (int i = 0; i < 1000000; i++ )
+            /*for (int i = 0; i < 1000000; i++ )
             {
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
-            }
+            }*/
+            var url = vwClient.RequestRecords(0, 15);
+            var url2 = vwClient.RequestRecords(15, 30);
+            List<DataRecord> records2;
+            while (DataTracker.CheckStatus(url) != "Finished") {} //Console.WriteLine("Waiting"); }
+                records2 = DataTracker.JobFinished(url);
+                Console.WriteLine(records2.Count());
+                while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
+                records2 = DataTracker.JobFinished(url2);
+                Console.WriteLine(records2.Count());
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
         }

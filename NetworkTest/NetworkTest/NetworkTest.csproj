@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="bilreader.cs" />
     <Compile Include="DataFactory.cs" />
+    <Compile Include="DataTracker.cs" />
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />

@@ -64,8 +64,12 @@ public class NetworkClient : WebClient
         base.OnDownloadDataCompleted(args);
 
         // Dequeue current download request and use its callback
-        DownloadRequests.Dequeue().Callback(args.Result);
+        var Req = DownloadRequests.Dequeue();
+        Req.Callback(args.Result);
         Console.WriteLine("Completed byte download, passed to callback function.");
+        DataTracker.updateJob(Req.Url,"Finished");
+
+        // Need some way of notifying that this download is finished --- errors,success
 
         // Start the next one
         StartNextDownload();
@@ -81,8 +85,11 @@ public class NetworkClient : WebClient
         base.OnDownloadStringCompleted(args);
 
         // Dequeue current download request and use its callback
-        DownloadRequests.Dequeue().Callback(args.Result);
+        var Req = DownloadRequests.Dequeue();
+        Req.Callback(args.Result);
         Console.WriteLine("Completed string download, passed to callback function.");
+        DataTracker.updateJob(Req.Url, "Finished");
+        // Need some way of notifying that this download is finished --- errors,success
 
         // Start the next one
         StartNextDownload();
@@ -107,6 +114,7 @@ public class NetworkClient : WebClient
             // Start the next one
             DownloadRequest req = DownloadRequests.Peek();
             Console.WriteLine("Started: " + req.Url);
+            DataTracker.updateJob(req.Url, "Downloading");
             if (req.isByte)
             {
                 DownloadDataAsync(new System.Uri(req.Url));
