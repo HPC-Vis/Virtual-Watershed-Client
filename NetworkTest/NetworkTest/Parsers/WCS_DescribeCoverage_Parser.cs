@@ -54,13 +54,15 @@ class WCS_DescribeCoverage_Parser :Parser
         }
 
         string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
-    
+
+        Record.bbox = bbox;
         int[] dim = grab_dimensions(testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].UpperCorner);
+        Record.width = dim[0];
+        Record.height = dim[1];
 
-
-        /// This should be passed to GetCoverage
-        int width = dim[0];
-        int height = dim[1];
+        ///// This should be passed to GetCoverage
+        //int width = dim[0];
+        //int height = dim[1];
         
         Vector2[] utmWorldDimensions = grab_dimensions_float(testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner);
 

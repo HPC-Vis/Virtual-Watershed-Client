@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 //http://www.grumpydev.com/2010/02/25/thread-safe-dictionarytkeytvalue/
 public class SafeDictionary<TKey, TValue>
@@ -149,6 +150,9 @@ public class SafeDictionary<TKey, TValue>
                 if (service == "wms")
                 {
                     // Get Map Here
+                    List<DataRecord> templist = new List<DataRecord>();
+                    templist.Add(record);
+                    DataTracker.submitJob(url, templist);
                     var t = new Thread(() => GetMap(url,record));
 
                     Threads[url] =  t;
@@ -157,7 +161,11 @@ public class SafeDictionary<TKey, TValue>
                 else if (service == "wcs")
                 {
                     // Get Coverage Here
+                    List<DataRecord> templist = new List<DataRecord>();
+                    templist.Add(record);
+                    DataTracker.submitJob(url, templist);
                     var t = new Thread(() => GetCoverage(url,record));
+
                     Threads[url] =  t;
                     t.Start();
                 }
@@ -165,6 +173,9 @@ public class SafeDictionary<TKey, TValue>
                 else if (service == "wfs")
                 {
                     // Get Feature here
+                    List<DataRecord> templist = new List<DataRecord>();
+                    templist.Add(record);
+                    DataTracker.submitJob(url, templist);
                     var t = new Thread(() => GetFeature(url,record));
                     Threads[url] =  t;
                     t.Start();
@@ -184,7 +195,7 @@ public class SafeDictionary<TKey, TValue>
             }
             else
             {
-                Console.ReadKey();
+                //Console.ReadKey();
                 Requests[url] = new KeyValuePair<KeyValuePair<string, string>, DataRecord>(new KeyValuePair<string, string>(url, service), record);
             }
         }
@@ -194,26 +205,202 @@ public class SafeDictionary<TKey, TValue>
             doService(url, record, service);
         }
 
+        string bboxSplit(string bbox)
+        {
+            bbox = bbox.Replace('[', ' ');
+            bbox = bbox.Replace(']', ' ');
+            bbox = bbox.Replace('\"', ' ');
+            bbox = bbox.Replace(',', ' ');
+            string[] coords = bbox.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            bbox = coords[0] + ',' + coords[1] + ',' + coords[2] + ',' + coords[3];
+            return bbox;
+        }
 
-        void GetMap(string url,DataRecord record)
+
+
+        void GetMap(string jobName,DataRecord record,int width=100, int height=100,string format = "image/png")
         {
             // Register Job with Data Tracker
+            Console.WriteLine(jobName);
+            DataTracker.updateJob(jobName, "Started");
             // Call Get Capabilites Here....
+            if (!record.services.ContainsKey("wms"))
+            {
+                Finished(record, jobName);
+                Console.WriteLine("RETURNING" + record.name);
+                DataTracker.updateJob(jobName, "Finished");
+                return;
+            }
+
             // In the final steps populate the data record with GetMap Download
+            string wms_url = record.services["wms"];
+            // Register Job with Data Tracker
+            List<DataRecord> tempList = new List<DataRecord>();
+            tempList.Add(record);
+            dataFactory.Import("WMS_CAP", tempList, "url://" + wms_url);
+            while (DataTracker.CheckStatus(wms_url) != "Finished") { Console.WriteLine("WAITING"); }
+            Console.WriteLine("BBOX: " + record.bbox);
+            Console.ReadKey();
+            // Build wms string
+            string wms_get_map_string = "";
+            string request = Root + App + "/datasets/" + record.id.Replace('"', ' ').Trim() + 
+                "/services/ogc/wms?SERVICE=wms&Request=GetMap&" + "width=" + width + "&height=" + height + 
+                "&layers=" + record.title + "&bbox=" + bboxSplit(record.bbox) + 
+                "&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326";
+
+            dataFactory.Import("WMS_PNG", tempList, "url://" + request);
+            while (DataTracker.CheckStatus(request) != "Finished") { }//Console.WriteLine("WAITING"); }
+
+
+
             // Finish everything up
-            Finished(record,url);
+            Finished(record, jobName);
+            DataTracker.updateJob(jobName, "Finished");
+            Console.WriteLine("FINISHED");
+            
+            
         }
 
-        void GetCoverage(string url,DataRecord record)
+        string buildDescribeCoverage(DataRecord record)
         {
-            // Register Job with Data Tracker
-            Finished(record,url);
+            GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
+            foreach (GetCapabilites.OperationsMetadataOperation i in record.WCSOperations)
+            {
+                if (i.name == "DescribeCoverage")
+                {
+                    gc = i;
+                    break;
+                }
+            }
+            string parameters = "";
+
+            // For now picking first valid parameters
+            foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
+            {
+                foreach (string j in i.AllowedValues)
+                {
+                    parameters += i.name + "=" + j + "&";
+                    break;
+                }
+            }
+
+            string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
+            Console.WriteLine(req);
+
+            return req;
         }
 
-        void GetFeature(string url,DataRecord record)
+        string BuildGetCoverage(DataRecord record, string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
+        {
+
+            GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
+            foreach (GetCapabilites.OperationsMetadataOperation i in record.WCSOperations)
+            {
+                if (i.name == "GetCoverage")
+                {
+                    gc = i;
+                    break;
+                }
+            }
+            string parameters = "";
+            // For now picking first valid parameters
+            foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
+            {
+                foreach (string j in i.AllowedValues)
+                {
+                    if (i.name == "format")
+                    {
+                        // Hard CODENESS
+                        parameters += i.name + "=" + i.AllowedValues[6] + "&";
+                    }
+                    else
+                    {
+                        parameters += i.name + "=" + j + "&";
+                    }
+                    break;
+                }
+            }
+
+
+            string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + boundingbox + "&width=" + width + "&height=" + height;//+height.ToString();
+            return req;
+        }
+
+
+        void GetCoverage(string jobName, DataRecord record)
         {
             // Register Job with Data Tracker
-            Finished(record,url);
+            Console.WriteLine(jobName);
+            DataTracker.updateJob(jobName, "Started");
+
+            if (!record.services.ContainsKey("wcs"))
+            {
+                Finished(record, jobName);
+                Console.WriteLine("RETURNING" + record.name);
+                DataTracker.updateJob(jobName, "Finished");
+                return;
+            }
+            string wcs_url = record.services["wcs"];
+            // Register Job with Data Tracker
+            List<DataRecord> tempList = new List<DataRecord>();
+            tempList.Add(record);
+
+            // Get WCS Capabilities
+            dataFactory.Import("WCS_CAP", tempList, "url://" + wcs_url);
+            while (DataTracker.CheckStatus(wcs_url) != "Finished") { }//Console.WriteLine("WAITING"); }
+
+            // Build DescribeCoverage String.
+            string dcString = buildDescribeCoverage(record);
+            StreamWriter sw = new StreamWriter("test.txt");
+            sw.Write(dcString);
+            sw.Close();
+
+            // DescribeCoverage
+            dataFactory.Import("WCS_DC", tempList, "url://" + dcString);
+            while (DataTracker.CheckStatus(dcString) != "Finished") { }//Console.WriteLine("WAITING"); }
+            Console.WriteLine(record.width + " " + record.height);
+            Console.WriteLine(record.bbox);
+            // Build GetCoverage string
+            string wcsCoverageString = BuildGetCoverage(record, "EPSG:" + "4326", record.bbox, 100, 100, interpolation: "bilinear");
+
+            // GetCoverage
+            dataFactory.Import("WCS_BIL", tempList, "url://" + wcsCoverageString);
+            while (DataTracker.CheckStatus(wcsCoverageString) != "Finished") { }//Console.WriteLine("WAITING"); }
+
+            DataTracker.updateJob(jobName, "Finished");
+            Console.WriteLine("FINISHED");
+
+            Finished(record,jobName);
+        }
+
+        void GetFeature(string jobName, DataRecord record, string version = "1.0.0")
+        {
+            // Register Job with Data Tracker
+            Console.WriteLine(jobName);
+            DataTracker.updateJob(jobName, "Started");
+            Console.WriteLine(record.id);
+            Console.ReadKey();
+            string request = Root + App + "/datasets/" + record.id.Replace('"', ' ').Trim() + "/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&" + "&version=" + version + "&typename=" + record.name.Trim(new char[] { '\"' }) + "&bbox=" + bboxSplit(record.bbox) + "&outputformat=gml2&" + "&srs=epsg:4326";
+            /*if (!record.services.ContainsKey("wfs"))
+            {
+                Finished(record, jobName);
+                Console.WriteLine("RETURNING" + record.name);
+                DataTracker.updateJob(jobName, "Finished");
+                return;
+            }*/
+            //string wcs_url = record.services["wcs"];
+            // Register Job with Data Tracker
+            List<DataRecord> tempList = new List<DataRecord>();
+            tempList.Add(record);
+
+            dataFactory.Import("WFS_GML", tempList, "url://" + request);
+            while (DataTracker.CheckStatus(request) != "Finished") { }//Console.WriteLine("WAITING"); }
+
+            // Register Job with Data Tracker
+            Finished(record, jobName);
+            DataTracker.updateJob(jobName, "Finished");
+            Console.WriteLine("FINISHED");
+            
         }
 
         void GetMetaData(string jobName, DataRecord record)
@@ -235,7 +422,7 @@ public class SafeDictionary<TKey, TValue>
             // Register Job with Data Tracker
             List<DataRecord> tempList = new List<DataRecord>();
             tempList.Add(record);
-            dataFactory.Import("WMS_CAP", tempList, "url://"+xml_url);
+            dataFactory.Import("VW_FGDC", tempList, "url://"+xml_url);
             while (DataTracker.CheckStatus(xml_url) != "Finished") { Console.WriteLine("WAITING"); }
 
             Finished(record,jobName);

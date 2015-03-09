@@ -27,10 +27,11 @@ namespace NetworkTest
             a = new DataRecord( "Create_Url" );
             b = new DataRecord( "Create_File" );
             c = new DataRecord( "Export_Url" );
-
+            //List<DataRecord> drs = new List<DataRecord>();
+            //drs.Add(a);
             //df.Import( "WCS_BIL", a, MimeUrlOne );
             //df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
-            //df.Import("WMS_PNG", a,TestPNG);
+            //df.Import("WMS_PNG", drs,TestPNG);
             ////df.Import("WCS_CAP", a, WCSCapabilitiesS);
             ////df.Import("WFS_CAP", a, WFSCapabilitiesS);
             ////df.Import("WMS_CAP", a, WMSCapabilitiesS);
@@ -46,7 +47,7 @@ namespace NetworkTest
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
             }*/
             //var url2 = vwClient.RequestRecords(0, 15);
-            var url = vwClient.RequestRecords(0, 15,query:"DEM");
+            var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
             List<DataRecord> records2;
             while (DataTracker.CheckStatus(url) != "Finished") {} //Console.WriteLine("Waiting"); }
                 records2 = DataTracker.JobFinished(url);
@@ -64,12 +65,13 @@ namespace NetworkTest
                     }
                 }
                 Console.ReadKey();
-                vwClient.Download("testJob", records2[0], "FGDC");
+                vwClient.Download("testJob", records2[0], "wfs");
 
                 while(DataTracker.CheckStatus("testJob") != "Finished")
                 {
                     //Console.WriteLine("HELLO");
                 }
+                Console.WriteLine(records2[0].Lines.Count);
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
         }

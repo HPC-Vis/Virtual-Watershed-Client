@@ -65,7 +65,15 @@ public class NetworkClient : WebClient
 
         // Dequeue current download request and use its callback
         var Req = DownloadRequests.Dequeue();
-        Req.Callback(args.Result);
+        try
+        {
+            Req.Callback(args.Result);
+        }
+        catch(Exception e)
+        {
+            Console.WriteLine(e.Message + " " + e.StackTrace);
+            //Console.WriteLine(args.Result.Length);
+        }
         Console.WriteLine("Completed byte download, passed to callback function.");
         DataTracker.updateJob(Req.Url,"Finished");
 

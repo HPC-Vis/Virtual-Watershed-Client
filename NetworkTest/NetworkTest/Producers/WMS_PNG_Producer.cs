@@ -20,6 +20,8 @@ class WMS_PNG_Producer : DataProducer
     // We should define this somewhere else for other functions to use.
     void SetTexture(DataRecord Record,byte[] bytes)
     {
+        Console.WriteLine("TEXTURE: " + bytes);
+        //Console.ReadKey();
         Record.texture = bytes;
     }
 

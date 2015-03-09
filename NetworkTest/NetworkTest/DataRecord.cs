@@ -140,4 +140,9 @@ public class DataRecord
     // Currently the applciation uses the TYPE to designate the difference between Shapes, DEMs, and model data.
     public string TYPE;
 
+
+    // Temporary parameters.
+    public int width;
+    public int height;
+
 };
