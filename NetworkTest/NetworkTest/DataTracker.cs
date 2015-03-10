@@ -12,7 +12,13 @@ using System.Threading;
 /// </summary>
 static class DataTracker
 {
-    static private Dictionary<string, string> Jobs = new Dictionary<string,string>();
+    // Enum
+    public enum Status
+    {
+        QUEUED, RUNNING, FINISHED, ERROR
+    };
+
+    static private Dictionary<string, Status> Jobs = new Dictionary<string,Status>();
     static private Dictionary<string, List<DataRecord>> Records = new Dictionary<string, List<DataRecord>>();
     /// <summary>
     /// This function submits a job into this class.
@@ -20,7 +26,7 @@ static class DataTracker
     /// <param name="url"></param>
     public static void submitJob(string url,List<DataRecord> records)
     {
-        Jobs.Add(url, "Starting");
+        Jobs.Add(url, Status.RUNNING);
         Records.Add(url, records);
     }
 
@@ -29,7 +35,7 @@ static class DataTracker
     /// </summary>
     /// <param name="url"></param>
     /// <param name="status"></param>
-    public static void updateJob(string url, string status)
+    public static void updateJob(string url, Status status)
     {
         Jobs[url] = status;
     }
@@ -56,7 +62,7 @@ static class DataTracker
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    public static string CheckStatus(string url)
+    public static Status CheckStatus(string url)
     {
         return Jobs[url];
     }
