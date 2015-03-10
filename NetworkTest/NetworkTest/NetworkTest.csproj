@@ -80,6 +80,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimpleJSON\plugins\SimpleJSON.cs" />
+    <Compile Include="ThreadSafeDictionary.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="Parsers\VW_FGDC_XML_Parser.cs" />
     <Compile Include="Producers\VW_FGDC_XML_Producer.cs" />
