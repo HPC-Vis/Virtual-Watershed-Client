@@ -21,7 +21,7 @@ public abstract class DataProducer
     {
         // Allocate a data record if one does not exist
         if (Records == null) { Records = new List<DataRecord>(); }
-        DataTracker.updateJob(Path, "Starting");
+        DataTracker.updateJob(Path, DataTracker.Status.RUNNING);
         // Check the path
         Console.WriteLine("Path = " + Path);
         Transfer.Type type = Transfer.GetType(ref Path);

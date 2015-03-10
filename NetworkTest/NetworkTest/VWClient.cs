@@ -16,7 +16,8 @@ class VWClient
     DataFactory dataFactory = new DataFactory();
     // This will hold any unprocessed requests
 
-    ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>>();
+    //ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>>();
+    ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
         
     int Limit = 10;
 
@@ -132,7 +133,8 @@ class VWClient
         else
         {
             //Console.ReadKey();
-            Requests[url] = new KeyValuePair<KeyValuePair<string, string>, DataRecord>(new KeyValuePair<string, string>(url, service), record);
+            Requests[url] = new KeyValueTriple<string, string, DataRecord>(url, service, record);
+            // new KeyValuePair<KeyValuePair<string, string>, DataRecord>(new KeyValuePair<string, string>(url, service), record);
         }
     }
     // This function will have a lot of paramters that are default for the different services......
@@ -374,9 +376,12 @@ class VWClient
                 
             var front = Requests[url];
             Requests.Remove(url);;
-            Console.WriteLine("REMOVING !!!!" + front.Key.Key);
+            //Console.WriteLine("REMOVING !!!!" + front.Key.Key);
+            Console.WriteLine("REMOVING !!!!" + front.Key);
             // May want to replace with custom tuple class ~ Do not use .net 4.0 ~ Unity issues....
-            doService(front.Key.Key, front.Value, front.Key.Value);
+            
+            // doService(front.Key.Key, front.Value, front.Key.Value);
+            doService(front.Key, front.VTwo, front.VOne);
         }
     }
 }
