@@ -69,13 +69,13 @@ public class NetworkClient : WebClient
         {
             Req.Callback(args.Result);
         }
-        catch(Exception e)
+        catch(WebException e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
-            //Console.WriteLine(args.Result.Length);
+            Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
         }
         Console.WriteLine("Completed byte download, passed to callback function.");
-        DataTracker.updateJob(Req.Url,"Finished");
+        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
 
         // Need some way of notifying that this download is finished --- errors,success
 
@@ -96,7 +96,7 @@ public class NetworkClient : WebClient
         var Req = DownloadRequests.Dequeue();
         Req.Callback(args.Result);
         Console.WriteLine("Completed string download, passed to callback function.");
-        DataTracker.updateJob(Req.Url, "Finished");
+        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
         // Need some way of notifying that this download is finished --- errors,success
 
         // Start the next one
@@ -122,7 +122,7 @@ public class NetworkClient : WebClient
             // Start the next one
             DownloadRequest req = DownloadRequests.Peek();
             Console.WriteLine("Started: " + req.Url);
-            DataTracker.updateJob(req.Url, "Downloading");
+            DataTracker.updateJob(req.Url, DataTracker.Status.RUNNING);
             if (req.isByte)
             {
                 DownloadDataAsync(new System.Uri(req.Url));

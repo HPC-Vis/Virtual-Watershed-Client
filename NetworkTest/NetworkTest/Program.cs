@@ -49,7 +49,7 @@ namespace NetworkTest
             //var url2 = vwClient.RequestRecords(0, 15);
             var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
             List<DataRecord> records2;
-            while (DataTracker.CheckStatus(url) != "Finished") {} //Console.WriteLine("Waiting"); }
+            while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
                 records2 = DataTracker.JobFinished(url);
                 Console.WriteLine(records2.Count());
                 //while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
@@ -67,7 +67,7 @@ namespace NetworkTest
                 Console.ReadKey();
                 vwClient.Download("testJob", records2[0], "wfs");
 
-                while(DataTracker.CheckStatus("testJob") != "Finished")
+                while (DataTracker.CheckStatus("testJob") != DataTracker.Status.FINISHED)
                 {
                     //Console.WriteLine("HELLO");
                 }
