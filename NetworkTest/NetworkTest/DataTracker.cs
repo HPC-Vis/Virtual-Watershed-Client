@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 
 /// <summary>
+/// @author: Chase Carthen, Shub Gogna
 /// This class simply follows the path of DataRecords and keeps track of the work done with these data records.
 /// version 1.0 ~ This is a rough class, but is presented as a way to keep track everything going in the system.
 /// NOT THREAD SAFE!!!!!!

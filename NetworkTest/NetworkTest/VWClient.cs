@@ -4,17 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
+/**
+ * Author: Chase Carthen
+ * Class: VWClient
+ * Description: The following class represents the virtual watershed. 
+ */
 class VWClient
 {
+    // Descriptors for the VWCLient
     public string Name;
     public string App = "//apps/my_app";
     public string Description;
     public string Root;
+
     DataFactory dataFactory = new DataFactory();
-    // This will hold any unprocessed requests
+
 
     //ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>>();
     ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
@@ -24,16 +30,40 @@ class VWClient
     // We will create this not to mess with "Unity's threadpool"
     ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>();
 
-
     public VWClient(string root = "http://129.24.63.65")
     {
         Root = root;
     }
+
+    /// <summary>
+    /// This function determines whether the VWClient is busy or not.
+    /// </summary>
+    /// <returns></returns>
     bool Activity()
     {
         return Threads.Count() != 0;
     }
 
+    /// <summary>
+    /// RequestRecords makes requests to a Virtual Watershed Server and requests back certain information.
+    /// This passed back information will be populated into DataRecords.
+    /// NOTE: Another application developer will have to make sure that passed back records that are duplicates
+    /// are not duplicates of a currently existing record.
+    /// </summary>
+    /// <param name="offset"></param>
+    /// <param name="limit"></param>
+    /// <param name="model_set_type"></param>
+    /// <param name="service"></param>
+    /// <param name="query"></param>
+    /// <param name="starttime"></param>
+    /// <param name="endtime"></param>
+    /// <param name="location"></param>
+    /// <param name="state"></param>
+    /// <param name="modelname"></param>
+    /// <param name="timestamp_start"></param>
+    /// <param name="timestamp_end"></param>
+    /// <param name="model_vars"></param>
+    /// <returns></returns>
     public string RequestRecords(int offset, int limit, string model_set_type = "vis", string service = "", string query = "", string starttime = "", string endtime = "", string location = "", string state = "", string modelname = "", string timestamp_start = "", string timestamp_end = "", string model_vars = "")
     {
         List<DataRecord> Records = new List<DataRecord>();
@@ -78,6 +108,14 @@ class VWClient
         dataFactory.Import("VW_JSON", Records, "url://" + req);
         return req;
     }
+
+    /// <summary>
+    /// This function will make requests to a specific service and pass back data.
+    /// This function is slated to become depreciated...
+    /// </summary>
+    /// <param name="url"></param>
+    /// <param name="record"></param>
+    /// <param name="service"></param>
     void doService(string url, DataRecord record, string service)
     {
         Console.WriteLine(Limit);
@@ -137,6 +175,7 @@ class VWClient
             // new KeyValuePair<KeyValuePair<string, string>, DataRecord>(new KeyValuePair<string, string>(url, service), record);
         }
     }
+
     // This function will have a lot of paramters that are default for the different services......
     public void Download(string url, DataRecord record, string service)
     {
@@ -154,6 +193,15 @@ class VWClient
         return bbox;
     }
 
+    /// <summary>
+    /// This function handles requesting PNGs from the virtual watershed. 
+    /// The version of WMS must be version 1.1.1 for WMS.
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="record"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="format"></param>
     void GetMap(string jobName,DataRecord record,int width=100, int height=100,string format = "image/png")
     {
         // Register Job with Data Tracker
@@ -197,6 +245,12 @@ class VWClient
             
     }
 
+
+    /// <summary>
+    /// This function is a WCS service request that handles building a describe coverage string. 
+    /// </summary>
+    /// <param name="record"></param>
+    /// <returns></returns>
     string buildDescribeCoverage(DataRecord record)
     {
         GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
@@ -226,6 +280,17 @@ class VWClient
         return req;
     }
 
+
+    /// <summary>
+    /// This function handles building a getcoverage string based on a DataRecord.
+    /// </summary>
+    /// <param name="record"></param>
+    /// <param name="crs"></param>
+    /// <param name="boundingbox"></param>
+    /// <param name="width"></param>
+    /// <param name="height"></param>
+    /// <param name="interpolation"></param>
+    /// <returns></returns>
     string BuildGetCoverage(DataRecord record, string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
     {
 
@@ -262,7 +327,11 @@ class VWClient
         return req;
     }
 
-
+    /// <summary>
+    /// This function handles GetCoverage.
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="record"></param>
     void GetCoverage(string jobName, DataRecord record)
     {
         // Register Job with Data Tracker
@@ -309,6 +378,12 @@ class VWClient
         Finished(record,jobName);
     }
 
+    /// <summary>
+    /// The function handles GetFeature and expects version 1.0.0 of WFS!!
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="record"></param>
+    /// <param name="version"></param>
     void GetFeature(string jobName, DataRecord record, string version = "1.0.0")
     {
         // Register Job with Data Tracker
@@ -339,6 +414,11 @@ class VWClient
             
     }
 
+    /// <summary>
+    /// This handles the FGDC metadata from the server.
+    /// </summary>
+    /// <param name="jobName"></param>
+    /// <param name="record"></param>
     void GetMetaData(string jobName, DataRecord record)
     {
         Console.WriteLine(jobName);

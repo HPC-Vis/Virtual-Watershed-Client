@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+/// <summary>
+/// This Producer handles the FGDC xml data from the virtual watershed.
+/// </summary>
 class VW_FGDC_XML_Producer : DataProducer
 {
         // Fields

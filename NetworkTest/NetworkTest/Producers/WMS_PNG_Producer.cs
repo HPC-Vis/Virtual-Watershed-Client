@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading;
 using System.IO;
 
+/// <summary>
+/// WMS_PNG_Producer ... as of current it only handles version 1.1.1 of WMS
+/// </summary>
 class WMS_PNG_Producer : DataProducer
 {
     // Fields

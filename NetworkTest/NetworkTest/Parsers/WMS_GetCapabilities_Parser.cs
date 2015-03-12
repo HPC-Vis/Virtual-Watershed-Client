@@ -7,6 +7,10 @@ using System.Xml.Serialization;
 using System.Xml.Linq;
 using UnityEngine;
 
+
+/// <summary>
+/// This Parser handles the WMSCapabilities from a wms capabilities string.
+/// </summary>
 class WMS_GetCapabilities_Parser : Parser
 {
     XmlReader createStringReader(string sr)

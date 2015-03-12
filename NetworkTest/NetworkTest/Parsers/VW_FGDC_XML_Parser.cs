@@ -5,6 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
+
+/// <summary>
+/// VW_FGDC_XML_Parser is used to parse FGDC XML data records from the virtual watershed.
+/// </summary>
 class VW_FGDC_XML_Parser : Parser
 {
     public override DataRecord Parse(DataRecord record, byte[] Contents)
@@ -31,7 +35,7 @@ class VW_FGDC_XML_Parser : Parser
     }
 }
 
-
+// The following below should go in another class.
 /// Visual Studio Generated Class..... for the metadata
 /// <remarks/>
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]

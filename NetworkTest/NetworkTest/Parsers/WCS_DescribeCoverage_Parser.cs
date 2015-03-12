@@ -5,6 +5,11 @@ using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using UnityEngine;
+
+/// <summary>
+/// WCS_DescribeCoverage_Parser
+/// This parser will parse a DescribeCoverage xml from a WCS Request.
+/// </summary>
 class WCS_DescribeCoverage_Parser :Parser
 {
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//http://www.grumpydev.com/2010/02/25/thread-safe-dictionarytkeytvalue/
+//code from http://www.grumpydev.com/2010/02/25/thread-safe-dictionarytkeytvalue/
 public class ThreadSafeDictionary<TKey, TValue>
 {
     private readonly object _Padlock = new object();

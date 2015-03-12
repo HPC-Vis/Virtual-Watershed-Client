@@ -1,6 +1,17 @@
 ﻿using System.Collections;
 using System;
-//using SharpMap.Web;
+
+
+/// <summary>
+/// @author Chase Carthen
+/// bilreader 
+/// The bilreader is meant to handle any bile passed to it.
+/// It expects that you pass a the bil header and data.
+/// The header is used to help parse the byte data passed to it.
+/// A future consideration for this reader is to actually pass out any url information...
+/// As of current it only handles one band.
+/// This could be easily be extended to test more than one band.
+/// </summary>
 public class bilreader
 {
     // A simple parser that returns a two dimensional float array of data.
