@@ -18,7 +18,10 @@ static class DataTracker
         QUEUED, RUNNING, FINISHED, ERROR
     };
 
+    //Tracking the status of jobs
     static private Dictionary<string, Status> Jobs = new Dictionary<string,Status>();
+    
+    //Tracks the records for a current request
     static private Dictionary<string, List<DataRecord>> Records = new Dictionary<string, List<DataRecord>>();
     /// <summary>
     /// This function submits a job into this class.
@@ -50,11 +53,11 @@ static class DataTracker
         Jobs.Remove(url);
         
         // Get current record for job.
-        var Recordss = Records[url];
+        var Recordz = Records[url];
         Records.Remove(url);
 
         // Return the record for this job.
-        return Recordss;
+        return Recordz;
     }
     
     /// <summary>

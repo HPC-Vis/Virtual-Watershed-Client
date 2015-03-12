@@ -94,7 +94,15 @@ public class NetworkClient : WebClient
 
         // Dequeue current download request and use its callback
         var Req = DownloadRequests.Dequeue();
-        Req.Callback(args.Result);
+        try
+        {
+            Req.Callback(args.Result);
+        }
+        catch (WebException e)
+        {
+            Console.WriteLine(e.Message + " " + e.StackTrace);
+            Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+        }
         Console.WriteLine("Completed string download, passed to callback function.");
         DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
         // Need some way of notifying that this download is finished --- errors,success

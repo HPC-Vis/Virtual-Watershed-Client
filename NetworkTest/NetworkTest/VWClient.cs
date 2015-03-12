@@ -317,13 +317,13 @@ class VWClient
         Console.WriteLine(record.id);
         Console.ReadKey();
         string request = Root + App + "/datasets/" + record.id.Replace('"', ' ').Trim() + "/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&" + "&version=" + version + "&typename=" + record.name.Trim(new char[] { '\"' }) + "&bbox=" + bboxSplit(record.bbox) + "&outputformat=gml2&" + "&srs=epsg:4326";
-        /*if (!record.services.ContainsKey("wfs"))
+        if (!record.services.ContainsKey("wfs"))
         {
             Finished(record, jobName);
             Console.WriteLine("RETURNING" + record.name);
-            DataTracker.updateJob(jobName, "Finished");
+            DataTracker.updateJob(jobName, DataTracker.Status.FINISHED);
             return;
-        }*/
+        }
         //string wcs_url = record.services["wcs"];
         // Register Job with Data Tracker
         List<DataRecord> tempList = new List<DataRecord>();

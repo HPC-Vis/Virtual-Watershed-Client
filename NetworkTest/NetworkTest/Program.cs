@@ -41,7 +41,7 @@ namespace NetworkTest
             //df.Import("VW_JSON", records, "url://http://129.24.63.65//apps/my_app/search/datasets.json?offset=0&limit=15");
             //df.TestStringDownload("http://www.google.com");
             //df.Import( "WCS_BIL", b, TestFileOne );
-            Console.WriteLine("DONE DOWNLOADING");
+            //Console.WriteLine("DONE DOWNLOADING");
             /*for (int i = 0; i < 1000000; i++ )
             {
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
