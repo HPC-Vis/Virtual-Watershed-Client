@@ -20,13 +20,17 @@ namespace NetworkTest
         static String WCSDescribeCoverageS = "url://http://129.24.63.65//apps/my_app/datasets/b51ce262-ee85-4910-ad2b-dcce0e5b2de7/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=output_srtm&";
         static void Main( string[] args )
         {
-            DataFactory df = new DataFactory();
-            VWClient vwClient = new VWClient();
+            NetworkManager manager = new NetworkManager(4);
+            DataFactory df = new DataFactory( manager );
+            VWClient vwClient = new VWClient( df, manager );
             DataRecord a, b, c;
-            VWClient vw = new VWClient();
             a = new DataRecord( "Create_Url" );
             b = new DataRecord( "Create_File" );
             c = new DataRecord( "Export_Url" );
+
+            // Subscribe to events
+            manager.Subscribe(vwClient);
+
             //List<DataRecord> drs = new List<DataRecord>();
             //drs.Add(a);
             //df.Import( "WCS_BIL", a, MimeUrlOne );
@@ -47,6 +51,11 @@ namespace NetworkTest
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
             }*/
             //var url2 = vwClient.RequestRecords(0, 15);
+
+
+
+            // Needs a rewrite to the event system
+
             var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
             List<DataRecord> records2;
             while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }

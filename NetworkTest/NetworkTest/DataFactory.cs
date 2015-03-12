@@ -68,11 +68,14 @@ public abstract class Parser
 public class DataFactory
 {
     // Maps Strings to the their corresponding Producers
-    private NetworkManager manager = new NetworkManager(4);
+    private NetworkManager manager;
     protected Dictionary<String, DataProducer> Products = new Dictionary<String, DataProducer>();
 
-    public DataFactory()
+    public DataFactory(NetworkManager networkmanager)
     {
+        // Set the network manager
+        manager = networkmanager;
+
         // Initialize the products --- We need to streamline this in someway.....
         Products.Add("WCS_BIL", new WCS_BIL_Producer(manager));
         Products.Add("WMS_PNG", new WMS_PNG_Producer(manager));

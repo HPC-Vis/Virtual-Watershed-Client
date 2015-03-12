@@ -4,31 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 
-class VWClient
+public class VWClient : Observer
 {
+    int Limit = 10;
     public string Name;
     public string App = "//apps/my_app";
     public string Description;
     public string Root;
-    DataFactory dataFactory = new DataFactory();
-    // This will hold any unprocessed requests
-
-    //ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValuePair<KeyValuePair<string, string>, DataRecord>>();
+    DataFactory factory;
+    NetworkManager manager;
     ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
-        
-    int Limit = 10;
+    ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>(); // Alternative to Unity's threadpool
 
-    // We will create this not to mess with "Unity's threadpool"
-    ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>();
+    // Observed data
+    // String = URL
+    // Bool = is finished? 
+    // Will contain multiple types of information, one URL for the general data, multiple URLs for downloads
+    // General URL inserted when first request is made
+    // Download URL inserted when request is made
+    // Download URL removed by the worker thread after acknowledgement. OnDownloadComplete() called from worker.
+    // General URL removed by the worker thread after all downloads complete. OnDataComplete() called from worker.
+    Dictionary<string, bool> observed = new Dictionary<string, bool>();
 
-
-    public VWClient(string root = "http://129.24.63.65")
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://129.24.63.65")
     {
+        factory = datafactory;  // Added by constructor instead of building a new one inside here
+        manager = networkmanager;   // Added so worker threads can call events
         Root = root;
     }
+
     bool Activity()
     {
         return Threads.Count() != 0;
@@ -75,7 +81,7 @@ class VWClient
             
         // Make the request and enqueue it...
         // Request Download -- 
-        dataFactory.Import("VW_JSON", Records, "url://" + req);
+        factory.Import("VW_JSON", Records, "url://" + req);
         return req;
     }
     void doService(string url, DataRecord record, string service)
@@ -173,7 +179,7 @@ class VWClient
         // Register Job with Data Tracker
         List<DataRecord> tempList = new List<DataRecord>();
         tempList.Add(record);
-        dataFactory.Import("WMS_CAP", tempList, "url://" + wms_url);
+        factory.Import("WMS_CAP", tempList, "url://" + wms_url);
         while (DataTracker.CheckStatus(wms_url) != DataTracker.Status.FINISHED) { Console.WriteLine("WAITING"); }
         Console.WriteLine("BBOX: " + record.bbox);
         Console.ReadKey();
@@ -184,7 +190,7 @@ class VWClient
             "&layers=" + record.title + "&bbox=" + bboxSplit(record.bbox) + 
             "&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326";
 
-        dataFactory.Import("WMS_PNG", tempList, "url://" + request);
+        factory.Import("WMS_PNG", tempList, "url://" + request);
         while (DataTracker.CheckStatus(request) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
 
 
@@ -282,7 +288,7 @@ class VWClient
         tempList.Add(record);
 
         // Get WCS Capabilities
-        dataFactory.Import("WCS_CAP", tempList, "url://" + wcs_url);
+        factory.Import("WCS_CAP", tempList, "url://" + wcs_url);
         while (DataTracker.CheckStatus(wcs_url) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
 
         // Build DescribeCoverage String.
@@ -292,7 +298,7 @@ class VWClient
         sw.Close();
 
         // DescribeCoverage
-        dataFactory.Import("WCS_DC", tempList, "url://" + dcString);
+        factory.Import("WCS_DC", tempList, "url://" + dcString);
         while (DataTracker.CheckStatus(dcString) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
         Console.WriteLine(record.width + " " + record.height);
         Console.WriteLine(record.bbox);
@@ -300,7 +306,7 @@ class VWClient
         string wcsCoverageString = BuildGetCoverage(record, "EPSG:" + "4326", record.bbox, 100, 100, interpolation: "bilinear");
 
         // GetCoverage
-        dataFactory.Import("WCS_BIL", tempList, "url://" + wcsCoverageString);
+        factory.Import("WCS_BIL", tempList, "url://" + wcsCoverageString);
         while (DataTracker.CheckStatus(wcsCoverageString) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
 
         DataTracker.updateJob(jobName, DataTracker.Status.FINISHED);
@@ -329,7 +335,7 @@ class VWClient
         List<DataRecord> tempList = new List<DataRecord>();
         tempList.Add(record);
 
-        dataFactory.Import("WFS_GML", tempList, "url://" + request);
+        factory.Import("WFS_GML", tempList, "url://" + request);
         while (DataTracker.CheckStatus(request) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
 
         // Register Job with Data Tracker
@@ -358,7 +364,7 @@ class VWClient
         // Register Job with Data Tracker
         List<DataRecord> tempList = new List<DataRecord>();
         tempList.Add(record);
-        dataFactory.Import("VW_FGDC", tempList, "url://"+xml_url);
+        factory.Import("VW_FGDC", tempList, "url://"+xml_url);
         while (DataTracker.CheckStatus(xml_url) != DataTracker.Status.FINISHED) { Console.WriteLine("WAITING"); }
 
         Finished(record,jobName);
@@ -383,6 +389,27 @@ class VWClient
             // doService(front.Key.Key, front.Value, front.Key.Value);
             doService(front.Key, front.VTwo, front.VOne);
         }
+    }
+
+    public override void OnDataStart(string url)
+    {
+        observed.Add(url, false);
+    }
+
+    public override void OnDataComplete(string url)
+    {
+        observed.Remove(url);
+    }
+
+    public override void OnDownloadQueued(string url)
+    {
+        observed.Add(url, false);
+    }
+
+    public override void OnDownloadComplete(string url)
+    {
+        observed[url] = true;
+        // Now it becomes the worker's responsibility to remove from "onbserved"
     }
 }
 

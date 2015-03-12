@@ -18,12 +18,15 @@ public delegate void ByteFunction(byte[] bytes);
 public class NetworkClient : WebClient
 {
     public delegate void DownloadBytesCallback(Object sender, DownloadDataCompletedEventArgs e);
+    NetworkManager netmanager;
     PriorityQueue<DownloadRequest> DownloadRequests = new PriorityQueue<DownloadRequest>();
     Dictionary<string, DownloadDataCompletedEventHandler> DataCompletedEventHandlers = new Dictionary<string, DownloadDataCompletedEventHandler>();
+
     public int size { get {  return DownloadRequests.Count(); } }
 
-    public NetworkClient() : base()
+    public NetworkClient(NetworkManager manager) : base()
     {
+        netmanager = manager;
         DownloadProgressChanged += DownloadProgressCallback;
     }
 
@@ -39,8 +42,9 @@ public class NetworkClient : WebClient
     /// <param name="priority"></param>
     public void Download( DownloadRequest req )
     {
-        // Enqueue the current request
+        // Enqueue the current request and call the event
         DownloadRequests.Enqueue(req);
+        netmanager.CallDownloadQueued(req.Url);
 
         // Check if not busy
         if (!IsBusy)
@@ -51,8 +55,6 @@ public class NetworkClient : WebClient
             StartNextDownload();
         }
     }
-
-
 
     /// <summary>
     /// OnDownloadDataCompleted is the default WebClient function that is called after data has been downloaded.
@@ -78,6 +80,7 @@ public class NetworkClient : WebClient
         DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
 
         // Need some way of notifying that this download is finished --- errors,success
+        netmanager.CallDownloadComplete(Req.Url);
 
         // Start the next one
         StartNextDownload();
@@ -98,14 +101,15 @@ public class NetworkClient : WebClient
         {
             Req.Callback(args.Result);
         }
-        catch (WebException e)
+        catch(WebException e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
         }
         Console.WriteLine("Completed string download, passed to callback function.");
-        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
+
         // Need some way of notifying that this download is finished --- errors,success
+        netmanager.CallDownloadComplete(Req.Url);
 
         // Start the next one
         StartNextDownload();
@@ -130,7 +134,9 @@ public class NetworkClient : WebClient
             // Start the next one
             DownloadRequest req = DownloadRequests.Peek();
             Console.WriteLine("Started: " + req.Url);
-            DataTracker.updateJob(req.Url, DataTracker.Status.RUNNING);
+            netmanager.CallDownloadStart(req.Url);
+
+            // Check if its a byte
             if (req.isByte)
             {
                 DownloadDataAsync(new System.Uri(req.Url));
