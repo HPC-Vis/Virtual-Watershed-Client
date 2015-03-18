@@ -81,7 +81,7 @@ class WCS_DescribeCoverage_Producer : DataProducer
             // Beautiful Lambda here
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
-            //nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath,name,DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(path, (StringFunction)((DownloadedString) => parser.Parse(outputPath, outputName, DownloadedString))));
         }
 
         // Return

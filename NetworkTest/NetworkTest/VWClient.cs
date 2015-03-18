@@ -390,7 +390,7 @@ class VWClient
         Console.WriteLine(jobName);
         DataTracker.updateJob(jobName, DataTracker.Status.RUNNING);
         Console.WriteLine(record.id);
-        Console.ReadKey();
+
         string request = Root + App + "/datasets/" + record.id.Replace('"', ' ').Trim() + "/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&" + "&version=" + version + "&typename=" + record.name.Trim(new char[] { '\"' }) + "&bbox=" + bboxSplit(record.bbox) + "&outputformat=gml2&" + "&srs=epsg:4326";
         if (!record.services.ContainsKey("wfs"))
         {

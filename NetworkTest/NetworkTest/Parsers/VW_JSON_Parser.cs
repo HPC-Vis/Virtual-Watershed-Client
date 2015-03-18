@@ -18,6 +18,21 @@ class VW_JSON_Parser : Parser
         return null;
     }
 
+    /// <summary>
+    /// This version of parse parses the given input and outputs it to the file directory.
+    /// </summary>
+    /// <param name="Path"></param>
+    /// <param name="OutputName"></param>
+    /// <param name="str"></param>
+    public override void Parse(string Path, string OutputName, string Str)
+    {
+
+        // Initialize variables
+        var sw = new System.IO.StreamWriter(Path + OutputName + ".json");
+        sw.Write(Str);
+        sw.Close();
+    }
+
     DateTime getDateTime(string time)
     {
         string[] nums = time.Split(new char[] { '-', ':' }, StringSplitOptions.RemoveEmptyEntries);

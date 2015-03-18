@@ -76,7 +76,7 @@ class VW_FGDC_XML_Producer : DataProducer
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
             //Console.WriteLine("URL: " + Path);
-            //nm.AddDownload(new DownloadRequest(Path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath, outputName, DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(Path, (StringFunction)((DownloadedString) => parser.Parse(outputPath, outputName, DownloadedString))));
         }
 
         // Return

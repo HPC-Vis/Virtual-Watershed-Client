@@ -80,5 +80,19 @@ class WFS_GML_Parser : Parser
         return record;
     }
 
+    /// <summary>
+    /// This version of parse parses the given input and outputs it to the file directory.
+    /// </summary>
+    /// <param name="Path"></param>
+    /// <param name="OutputName"></param>
+    /// <param name="str"></param>
+    public override void Parse(string Path, string OutputName, string Str)
+    {
+        // Initialize variables
+        var sw = new System.IO.StreamWriter(Path + OutputName + ".gml");
+        sw.Write(Str);
+        sw.Close();
+    }
+
 }
 

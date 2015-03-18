@@ -34,7 +34,7 @@ class WFS_GML_Producer : DataProducer
         // Get the file name
         string filename = Path.GetFileNameWithoutExtension(path);
         string fileDirPath = Path.GetDirectoryName(path);
-        string capabilities = fileDirPath + '\\' + filename + ".xml";
+        string capabilities = fileDirPath + '\\' + filename + ".gml";
 
         if (File.Exists(capabilities))
         {
@@ -70,7 +70,7 @@ class WFS_GML_Producer : DataProducer
             // Beautiful Lambda here
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
-            //nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath,name,DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(Path, (StringFunction)((DownloadedString) => parser.Parse(outputPath,outputName,DownloadedString))));
         }
 
         // Return

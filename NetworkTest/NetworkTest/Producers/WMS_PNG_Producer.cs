@@ -32,10 +32,10 @@ class WMS_PNG_Producer : DataProducer
     void WriteTexture(string OutputPath, string OutputName, byte[] byteData)
     {
         // Output to files. Need this error catching here......
-        var bw = new System.IO.BinaryWriter(new System.IO.FileStream(OutputPath + OutputName + ".bil", System.IO.FileMode.Create));
+        var bw = new System.IO.BinaryWriter(new System.IO.FileStream(OutputPath + OutputName + ".png", System.IO.FileMode.Create));
         bw.Write(byteData, 0, byteData.Length);
         bw.Close();
-        Console.WriteLine("WROTE: " + OutputPath + OutputName + ".bil");
+        Console.WriteLine("WROTE: " + OutputPath + OutputName + ".png");
     }
 
     ///////////////////////////////////////////////////////////////////////////

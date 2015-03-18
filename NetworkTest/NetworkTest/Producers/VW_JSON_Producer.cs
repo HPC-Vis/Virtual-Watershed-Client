@@ -44,7 +44,7 @@ class VW_JSON_Producer : DataProducer
         // Get the file name
         string filename = Path.GetFileNameWithoutExtension(path);
         string fileDirPath = Path.GetDirectoryName(path);
-        string capabilities = fileDirPath + '\\' + filename + ".xml";
+        string capabilities = fileDirPath + '\\' + filename + ".json";
 
         if (File.Exists(capabilities))
         {
@@ -80,7 +80,7 @@ class VW_JSON_Producer : DataProducer
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
             //Console.WriteLine("URL: " + Path);
-            //nm.AddDownload(new DownloadRequest(Path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath, outputName, DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(Path, (StringFunction)((DownloadedString) => parser.Parse(outputPath, outputName, DownloadedString))));
         }
 
         // Return

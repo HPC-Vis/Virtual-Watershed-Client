@@ -18,6 +18,7 @@ namespace NetworkTest
         static String WMSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1";
         static String WFSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0";
         static String WCSDescribeCoverageS = "url://http://129.24.63.65//apps/my_app/datasets/b51ce262-ee85-4910-ad2b-dcce0e5b2de7/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=output_srtm&";
+        static String WFSFeatureString = "url://http://129.24.63.65//apps/my_app/datasets/c04d87de-fbaa-475b-9145-5c32c90dd438/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&&version=1.0.0&typename=allstr_epsg4326_clipped&bbox=-116.25302,43.688476,-116.048662,43.790133&outputformat=gml2&&srs=epsg:4326";
         static void Main( string[] args )
         {
             DataFactory df = new DataFactory();
@@ -30,7 +31,13 @@ namespace NetworkTest
             //List<DataRecord> drs = new List<DataRecord>();
             //drs.Add(a);
             //df.Import( "WCS_BIL", a, MimeUrlOne );
-            //df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
+            df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
+            df.Export("WMS_PNG", TestPNG, "./","Test2");
+            df.Export("WCS_CAP", WCSCapabilitiesS, "./", "Test3");
+            df.Export("WFS_CAP", WFSCapabilitiesS, "./", "Test4");
+            df.Export("WMS_CAP", WMSCapabilitiesS, "./", "Test5");
+            df.Export("WCS_DC", WCSDescribeCoverageS, "./", "Test6");
+            df.Export("WFS_GML",WFSFeatureString, "./","Test7");
             //df.Import("WMS_PNG", drs,TestPNG);
             ////df.Import("WCS_CAP", a, WCSCapabilitiesS);
             ////df.Import("WFS_CAP", a, WFSCapabilitiesS);
@@ -47,15 +54,16 @@ namespace NetworkTest
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
             }*/
             //var url2 = vwClient.RequestRecords(0, 15);
-            var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
-            List<DataRecord> records2;
-            while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
-                records2 = DataTracker.JobFinished(url);
-                Console.WriteLine(records2.Count());
+            //var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
+            //List<DataRecord> records2;
+               //while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
+              // records2 = DataTracker.JobFinished(url);
+              // vwClient.Download("testJob", records2[0], "wfs");
+                //Console.WriteLine(records2.Count());
                 //while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
                 //records2 = DataTracker.JobFinished(url2);
                 //Console.WriteLine(records2.Count());
-                Console.WriteLine("Seeing Keys");
+                /*Console.WriteLine("Seeing Keys");
                 foreach(var i in records2)
                 {
                     Console.WriteLine(i.name);
@@ -71,7 +79,7 @@ namespace NetworkTest
                 {
                     //Console.WriteLine("HELLO");
                 }
-                Console.WriteLine(records2[0].Lines.Count);
+                Console.WriteLine(records2[0].Lines.Count);*/
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
         }

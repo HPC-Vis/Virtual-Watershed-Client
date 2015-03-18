@@ -108,6 +108,13 @@ public class DataFactory
         }
     }
 
+    /// <summary>
+    /// The Export function takes a downloaded file and spits it out into file(s).
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="Path"></param>
+    /// <param name="outputPath"></param>
+    /// <param name="name"></param>
     public void Export(String type,string Path, string outputPath,string name)
     {
         // Check if the product exists

@@ -18,9 +18,19 @@ class WFS_GetCapabilities_Producer : DataProducer
         nm = refToNM;
     }
 
+    // Need to create a parser stub for this.
     void ParseWFSCapabilities(DataRecord Record ,string Str)
     {
         Record.WFSCapabilities = Str;
+    }
+
+
+    void WriteToFile(string Path, string OutputName, string Str)
+    {
+        // Initialize variables
+        var sw = new System.IO.StreamWriter(Path + OutputName + ".xml");
+        sw.Write(Str);
+        sw.Close();
     }
 
     ///////////////////////////////////////////////////////////////////////////
@@ -78,7 +88,7 @@ class WFS_GetCapabilities_Producer : DataProducer
             // Beautiful Lambda here
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
-            //nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath,name,DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(Path, (StringFunction)((DownloadedString) => WriteToFile(outputPath, outputName, DownloadedString))));
         }
 
         // Return

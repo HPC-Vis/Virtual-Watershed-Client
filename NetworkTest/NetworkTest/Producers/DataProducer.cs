@@ -50,6 +50,9 @@ public abstract class DataProducer
 
     /// <summary>
     /// Exports to the file drive from a download.
+    /// Pass in the path to get data typically the url.
+    /// Pass in outputPath to specify the output file path
+    /// Pass in the outputName to specify the name that will be used for all files that are created. 
     /// </summary>
     /// <param name="Path"></param>
     /// <returns></returns>

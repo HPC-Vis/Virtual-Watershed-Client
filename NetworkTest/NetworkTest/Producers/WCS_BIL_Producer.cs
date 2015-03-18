@@ -10,7 +10,7 @@ public class WCS_BIL_Producer : DataProducer
 {
     // Fields
     NetworkManager nm;
-    mimeparser mp = new mimeparser();
+    mimeparser parser = new mimeparser();
 
     // Possible constructor
     public WCS_BIL_Producer( NetworkManager refToNM ) 
@@ -26,7 +26,7 @@ public class WCS_BIL_Producer : DataProducer
         // Beautiful Lambda here
         // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
         //nc.DownloadBytes(path, ((DownloadBytes) => mp.Parse(Record, DownloadBytes)), priority);
-        nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => mp.Parse(Records[0], DownloadBytes)), priority));
+        nm.AddDownload(new DownloadRequest(path, (ByteFunction)((DownloadBytes) => parser.Parse(Records[0], DownloadBytes)), priority));
 
         // Return
         return Records;
@@ -81,7 +81,7 @@ public class WCS_BIL_Producer : DataProducer
             // Downloads the bytes and uses the ByteFunction lambda described in the passed parameter which will call the mime parser and populate the record.
             // Network Manager download
             Console.WriteLine("URL: " + Path);
-            nm.AddDownload(new DownloadRequest(Path, (ByteFunction)((DownloadBytes) => mp.Parse(outputPath,outputName,DownloadBytes))));
+            nm.AddDownload(new DownloadRequest(Path, (ByteFunction)((DownloadBytes) => parser.Parse(outputPath,outputName,DownloadBytes))));
         }
 
         // Return
