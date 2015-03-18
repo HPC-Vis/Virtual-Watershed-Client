@@ -66,14 +66,14 @@ class WFS_GML_Parser : Parser
         var query = n.Root.Descendants(gml + "featureMember");
 
 
-        record.Lines = new List<List<Vector2>>();
+        record.Lines = new List<List<SerialVector2>>();
         foreach (var c in query)
         {
             //var d = c.Elements();
-
+            
             foreach (var e in c.Descendants(ms + "msGeometry").Elements())
             {
-                record.Lines.Add(getPoints(e.Value));
+                record.Lines.Add(SerialVector2.ToVector2Array(getPoints(e.Value).ToArray()).ToList());
             }
 
         }

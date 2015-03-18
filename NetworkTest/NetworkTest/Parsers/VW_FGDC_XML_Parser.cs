@@ -53,6 +53,7 @@ class VW_FGDC_XML_Parser : Parser
 // The following below should go in another class.
 /// Visual Studio Generated Class..... for the metadata
 /// <remarks/>
+[Serializable]
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
 [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
 public partial class metadata

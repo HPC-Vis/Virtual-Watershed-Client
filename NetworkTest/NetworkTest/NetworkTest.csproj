@@ -68,6 +68,7 @@
     <Compile Include="bilreader.cs" />
     <Compile Include="DataFactory.cs" />
     <Compile Include="DataTracker.cs" />
+    <Compile Include="FileBasedCache.cs" />
     <Compile Include="KeyValueTriple.cs" />
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
@@ -80,7 +81,11 @@
     <Compile Include="PriorityQueue.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerialRect.cs" />
+    <Compile Include="SerialVector2.cs" />
+    <Compile Include="SerialVector3.cs" />
     <Compile Include="SimpleJSON\plugins\SimpleJSON.cs" />
+    <Compile Include="TestSerialialization.cs" />
     <Compile Include="ThreadSafeDictionary.cs" />
     <Compile Include="Transfer.cs" />
     <Compile Include="Parsers\VW_FGDC_XML_Parser.cs" />

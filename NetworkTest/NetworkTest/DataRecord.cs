@@ -8,6 +8,7 @@ using UnityEngine;
  * @brief This is the dataRecord class meant to hold any information downloaded from the virutal watershed.
  * @details The dataRecord class has specific data fields that are meant to be used by the Unity application.
  */
+[Serializable]
 public class DataRecord
 {
     public DataRecord()
@@ -26,10 +27,10 @@ public class DataRecord
     public string name;
     
     //****** Geospatial MetaData**/
-    public Vector2 resolution;
+    public SerialVector2 resolution;
 
     // This variable must be in Lat Long
-    Vector2 WGS84Origin;
+    SerialVector2 WGS84Origin;
 
     // The bounding box of this dataset
     public string bbox; // --- In the dataset class there will be a floating point representation. ---
@@ -38,10 +39,10 @@ public class DataRecord
     public string projection;
 
     // A rect in UTM coordinates that will be used for splatting textures onto terrain....
-    public Rect boundingBox;
+    public SerialRect boundingBox;
 
     // An interface for acquiring the WGS84 Origin.
-    public Vector2 WGS84origin
+    public SerialVector2 WGS84origin
     {
         get
         {
@@ -104,8 +105,8 @@ public class DataRecord
     public byte[] texture;
 
     // If there is only one point per element in the list then it is a point
-    List<List<Vector2>> lines;
-    public List<List<Vector2>> Lines
+    List<List<SerialVector2>> lines;
+    public List<List<SerialVector2>> Lines
     {
         get
         {
