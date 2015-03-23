@@ -182,6 +182,11 @@ class VWClient
         doService(url, record, service);
     }
 
+    /// <summary>
+    /// Takes in a string representing a bounding box, splits it, and returns the splitted string
+    /// </summary>
+    /// <param name="bbox">The bounding box to be splitted into corner points</param>
+    /// <returns>A string containing the bounding box coordinates, in an easily readable format</returns>
     string bboxSplit(string bbox)
     {
         bbox = bbox.Replace('[', ' ');
