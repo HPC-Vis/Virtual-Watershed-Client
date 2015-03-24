@@ -23,8 +23,7 @@ namespace NetworkTest
         {
             NetworkManager nm = new NetworkManager();
             DataFactory df = new DataFactory(nm);
-            LogObserver lg = new LogObserver();
-            df.manager.Subscribe(lg);
+            
             df.TestStringDownload(VWPString);
 
             Console.ReadKey();
