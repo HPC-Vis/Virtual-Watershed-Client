@@ -28,15 +28,17 @@ class WCSClient : Observerable
     string CRS;
     string LayerName; // This only handles one layer.
     string interpolation;
-    DataRecord record; // The datarecord to apply changes too.
+    
 
 
     public override string Update()
     {
+        Console.WriteLine("UPDATE");
         if (StateList.Count >= 1)
         {
-            StateList.RemoveAt(0);
+            Console.WriteLine(StateList[0]); 
             state = StateList[0];
+            StateList.RemoveAt(0);
         }
         else
         {
@@ -63,13 +65,15 @@ class WCSClient : Observerable
         else if (WCS_OPERATION.Done == state)
         {
             // Report Done
+            return "COMPLETE";
         }
         return "";
     }
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
-    public void GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
+    public void GetData(DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
     {
+        record = Record;
         CRS = crs;
         boundingbox = BoundingBox;
         width = Width;
@@ -78,7 +82,7 @@ class WCSClient : Observerable
         StateList.Add(WCS_OPERATION.GetCapabilities);
         StateList.Add(WCS_OPERATION.DescribeCoverage);
         StateList.Add(WCS_OPERATION.GetCoverage);
-        StateList.Add(WCS_OPERATION.None);
+        StateList.Add(WCS_OPERATION.Done);
     }
 
     public string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
@@ -115,7 +119,7 @@ class WCSClient : Observerable
         }
 
         // Build Get Coverage String
-        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + boundingbox + "&width=" + width + "&height=" + height;//+height.ToString();
+        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + record.bbox + "&width=" + width + "&height=" + height;//+height.ToString();
 
         List<DataRecord> records = new List<DataRecord>();
 

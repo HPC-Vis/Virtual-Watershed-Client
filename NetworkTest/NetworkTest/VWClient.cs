@@ -25,6 +25,9 @@ public class VWClient : Observer
     // Holds requests that are waiting
     Queue<Observerable> waiting = new Queue<Observerable>();
 
+    // Holds Data Records of current requests.....
+    Dictionary<string, List<DataRecord>> DataRecords = new Dictionary<string,List<DataRecord>>();
+
     int Limit = 10;
 
     public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://129.24.63.65")
@@ -33,7 +36,18 @@ public class VWClient : Observer
         manager = networkmanager;   // Added so worker threads can call events
         Root = root;
     }
-
+    public override void OnDataComplete(string url)
+    {
+        if (active.ContainsKey(url))
+        {
+            Console.WriteLine(active[url].record.Data.Length);
+            foreach (var i in active[url].record.Data)
+            {
+                Console.WriteLine(i);
+            }
+            active.Remove(url);
+        }
+    }
     public override void OnDownloadComplete(string url)
     {
         // Loop through the active
@@ -41,12 +55,12 @@ public class VWClient : Observer
         {
             // Update
             string result = active[url].Update();
-
+            Console.WriteLine("RESULT: " + result);
             // Check if complete
             if (result == "COMPLETE")
             {
                 // Remove from active
-                active.Remove(url);
+                //active.Remove(url);
 
                 // Call OnDataComplete event
                 manager.CallDataComplete(url);
@@ -65,12 +79,20 @@ public class VWClient : Observer
                 active.Remove(url);
             }
         }
+        if(DataRecords.ContainsKey(url))
+        {
+            Console.WriteLine("DONE");
+            Console.WriteLine("HAHA");
+            getCoverage(DataRecords[url][0], crs:"EPSG:4326", Width: 100, Height: 100);
+            DataRecords.Remove(url);
+            //Console.ReadKey();
+        }
     }
 
     void AddObservable(Observerable observable)
     {
         // If the number active is at threshold, move into waiting
-        if (Limit > active.Count)
+        if (Limit == active.Count)
         {
             waiting.Enqueue(observable);
         }
@@ -82,11 +104,12 @@ public class VWClient : Observer
         }
     }
 
-    public void getCoverage(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest") // Parameters TODO
+    public void getCoverage(DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest") // Parameters TODO
     {
         // Build a WCS observable
+        Console.WriteLine("GETCOVERAGE");
         var client = new WCSClient(factory);
-        client.GetData(crs, BoundingBox, Width, Height, Interpolation);
+        client.GetData(Record, crs, BoundingBox, Width, Height, Interpolation);
 
         AddObservable(client);
     }
@@ -158,6 +181,9 @@ public class VWClient : Observer
         // Make the request and enqueue it...
         // Request Download -- 
         factory.Import("VW_JSON", Records, "url://" + req);
+
+        DataRecords[req] = Records;
+
         return req;
     }
     void doService(string url, DataRecord record, string service)

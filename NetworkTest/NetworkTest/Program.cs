@@ -23,7 +23,8 @@ namespace NetworkTest
         {
             NetworkManager nm = new NetworkManager();
             VWClient vwc = new VWClient(new DataFactory(nm),nm);
-
+            nm.Subscribe(vwc);
+            vwc.RequestRecords(0, 15, query: "DEM");
             Console.ReadKey();
         }
 
