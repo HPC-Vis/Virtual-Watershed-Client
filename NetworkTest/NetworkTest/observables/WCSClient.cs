@@ -14,12 +14,12 @@ class WCSClient : Observerable
 {
     DataFactory factory;
 
-    public WCSClient (DataFactory Factory)
+    public WCSClient(DataFactory Factory)
     {
         factory = Factory;
     }
 
-    enum WCS_OPERATION { GetCapabilities,DescribeCoverage,GetCoverage,Done,Error,None};
+    enum WCS_OPERATION { GetCapabilities, DescribeCoverage, GetCoverage, Done, Error, None };
     WCS_OPERATION state = WCS_OPERATION.None;
     List<WCS_OPERATION> StateList = new List<WCS_OPERATION>();
 
@@ -85,7 +85,7 @@ class WCSClient : Observerable
 
     public string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
     {
-        
+
         state = WCS_OPERATION.GetCoverage;
         // By this point the get coverage string should be built.
         GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
@@ -191,4 +191,3 @@ class WCSClient : Observerable
     }
 
 }
-
