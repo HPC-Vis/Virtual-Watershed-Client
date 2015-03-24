@@ -12,17 +12,14 @@ using UnityEngine;
 /// </summary>
 class WCSClient : Observerable
 {
-    DataFactory factory;
-
-    public WCSClient(DataFactory Factory)
-    {
-        factory = Factory;
-    }
 
     enum WCS_OPERATION { GetCapabilities, DescribeCoverage, GetCoverage, Done, Error, None };
     WCS_OPERATION state = WCS_OPERATION.None;
     List<WCS_OPERATION> StateList = new List<WCS_OPERATION>();
-
+    public WCSClient(DataFactory Factory) : base(Factory)
+    {
+        
+    }
     public string current_url;
     // Now we can store parameters in this class or create another class to hold them!
     int width, height;
@@ -32,7 +29,9 @@ class WCSClient : Observerable
     string LayerName; // This only handles one layer.
     string interpolation;
     DataRecord record; // The datarecord to apply changes too.
-    public string Update()
+
+
+    public override string Update()
     {
         if (StateList.Count >= 1)
         {
@@ -69,7 +68,7 @@ class WCSClient : Observerable
     }
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
-    public string GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
+    public void GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
     {
         CRS = crs;
         boundingbox = BoundingBox;
@@ -80,7 +79,6 @@ class WCSClient : Observerable
         StateList.Add(WCS_OPERATION.DescribeCoverage);
         StateList.Add(WCS_OPERATION.GetCoverage);
         StateList.Add(WCS_OPERATION.None);
-        return GetCapabilities();
     }
 
     public string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")

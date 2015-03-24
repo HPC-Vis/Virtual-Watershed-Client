@@ -45,7 +45,7 @@ public class NetworkManager
             // Error and return
             return;
         }
-        toAdd.Provider = this;
+        
         // Else
         observers.Add(toAdd);
     }

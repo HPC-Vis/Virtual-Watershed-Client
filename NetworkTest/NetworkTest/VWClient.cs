@@ -8,7 +8,6 @@ using System.IO;
 
 public class VWClient : Observer
 {
-    int Limit = 10;
     public string Name;
     public string App = "//apps/my_app";
     public string Description;
@@ -24,10 +23,9 @@ public class VWClient : Observer
     Dictionary<string, Observerable> active = new Dictionary<string, Observerable>();
 
     // Holds requests that are waiting
-    Queue<string> waiting = new Queue<string>();
+    Queue<Observerable> waiting = new Queue<Observerable>();
 
-    // Holds observers
-    List<Observerable> observables = new List<Observerable>();
+    int Limit = 10;
 
     public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://129.24.63.65")
     {
@@ -48,49 +46,62 @@ public class VWClient : Observer
             if (result == "COMPLETE")
             {
                 // Remove from active
+                active.Remove(url);
 
                 // Call OnDataComplete event
+                manager.CallDataComplete(url);
             }
             else if (result == "")
             {
                 // Error code
+                // Print Some Error Here.
             }
             else
             {
                 // Add new request
-
-                // Add <result, observable>
+                active[result] = active[url];
 
                 // Remove old <url, observable>
+                active.Remove(url);
             }
         }
     }
 
-    public void getCoverage() // Parameters TODO
+    void AddObservable(Observerable observable)
+    {
+        // If the number active is at threshold, move into waiting
+        if (Limit > active.Count)
+        {
+            waiting.Enqueue(observable);
+        }
+        // Else Add the observable to "active" and "observables"
+        else
+        {
+            string URL = observable.Update();
+            active[URL] = observable;
+        }
+    }
+
+    public void getCoverage(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest") // Parameters TODO
     {
         // Build a WCS observable
-        
-        // If the number active is at threshold, move into waiting
+        var client = new WCSClient(factory);
+        client.GetData(crs, BoundingBox, Width, Height, Interpolation);
 
-        // Else Add the observable to "active" and "observables"
+        AddObservable(client);
     }
 
     public void getMap() // Parameters TODO
     {
         // Build a WMS observable
-
-        // If the number active is at threshold, move into waiting
-
-        // Else Add the observable to "active" and "observables"
+        // AddObservable();
     }
 
     public void getFeatures() // Parameters TODO
     {
         // Build a WFS observable
 
-        // If the number active is at threshold, move into waiting
-
-        // Else Add the observable to "active" and "observables"
+        // AddObservable();
     }
 
 

@@ -22,9 +22,7 @@ namespace NetworkTest
         static void Main( string[] args )
         {
             NetworkManager nm = new NetworkManager();
-            DataFactory df = new DataFactory(nm);
-            
-            df.TestStringDownload(VWPString);
+            VWClient vwc = new VWClient(new DataFactory(nm),nm);
 
             Console.ReadKey();
         }

@@ -18,7 +18,7 @@ abstract class Observerable
     // Fields
     string State;
     string NextState;
-    DataFactory factory;
+    protected DataFactory factory;
 
     // Methods
     public Observerable(DataFactory dataFactory)
