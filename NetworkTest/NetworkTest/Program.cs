@@ -18,71 +18,16 @@ namespace NetworkTest
         static String WMSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1";
         static String WFSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0";
         static String WCSDescribeCoverageS = "url://http://129.24.63.65//apps/my_app/datasets/b51ce262-ee85-4910-ad2b-dcce0e5b2de7/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=output_srtm&";
+        static String VWPString = "http://vwp-dev.unm.edu/";
         static void Main( string[] args )
         {
-            NetworkManager manager = new NetworkManager(4);
-            DataFactory df = new DataFactory( manager );
-            VWClient vwClient = new VWClient( df, manager );
-            DataRecord a, b, c;
-            a = new DataRecord( "Create_Url" );
-            b = new DataRecord( "Create_File" );
-            c = new DataRecord( "Export_Url" );
+            NetworkManager nm = new NetworkManager();
+            DataFactory df = new DataFactory(nm);
+            LogObserver lg = new LogObserver();
+            df.manager.Subscribe(lg);
+            df.TestStringDownload(VWPString);
 
-            // Subscribe to events
-            manager.Subscribe(vwClient);
-
-            //List<DataRecord> drs = new List<DataRecord>();
-            //drs.Add(a);
-            //df.Import( "WCS_BIL", a, MimeUrlOne );
-            //df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
-            //df.Import("WMS_PNG", drs,TestPNG);
-            ////df.Import("WCS_CAP", a, WCSCapabilitiesS);
-            ////df.Import("WFS_CAP", a, WFSCapabilitiesS);
-            ////df.Import("WMS_CAP", a, WMSCapabilitiesS);
-            ////df.Import("WCS_DC", a, WCSDescribeCoverageS);
-            List<DataRecord> records = new List<DataRecord>();
-            
-            //df.Import("VW_JSON", records, "url://http://129.24.63.65//apps/my_app/search/datasets.json?offset=0&limit=15");
-            //df.TestStringDownload("http://www.google.com");
-            //df.Import( "WCS_BIL", b, TestFileOne );
-            //Console.WriteLine("DONE DOWNLOADING");
-            /*for (int i = 0; i < 1000000; i++ )
-            {
-                vw.Download(i.ToString(), new DataRecord(), "wcs");
-            }*/
-            //var url2 = vwClient.RequestRecords(0, 15);
-
-
-
-            // Needs a rewrite to the event system
-
-            var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
-            List<DataRecord> records2;
-            while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
-                records2 = DataTracker.JobFinished(url);
-                Console.WriteLine(records2.Count());
-                //while (DataTracker.CheckStatus(url2) != "Finished") { } //Console.WriteLine("Waiting"); }
-                //records2 = DataTracker.JobFinished(url2);
-                //Console.WriteLine(records2.Count());
-                Console.WriteLine("Seeing Keys");
-                foreach(var i in records2)
-                {
-                    Console.WriteLine(i.name);
-                    foreach(var k in i.services.Keys)
-                    {
-                        Console.WriteLine(k);
-                    }
-                }
-                Console.ReadKey();
-                vwClient.Download("testJob", records2[0], "wfs");
-
-                while (DataTracker.CheckStatus("testJob") != DataTracker.Status.FINISHED)
-                {
-                    //Console.WriteLine("HELLO");
-                }
-                Console.WriteLine(records2[0].Lines.Count);
-                Console.ReadKey();
-            // Note: Function to say if downloads are done or not, + a logger for the past n downloads
+            Console.ReadKey();
         }
 
         static void download()

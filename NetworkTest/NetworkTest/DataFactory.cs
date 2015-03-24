@@ -68,7 +68,7 @@ public abstract class Parser
 public class DataFactory
 {
     // Maps Strings to the their corresponding Producers
-    private NetworkManager manager;
+    public NetworkManager manager;
     protected Dictionary<String, DataProducer> Products = new Dictionary<String, DataProducer>();
 
     public DataFactory(NetworkManager networkmanager)

@@ -40,16 +40,12 @@ public class NetworkManager
 
     public void Subscribe(Observer toAdd)
     {
-        // Loop through the observers
-        foreach (Observer obs in observers)
+        if(observers.Contains(toAdd))
         {
-            if( obs == toAdd )
-            {
-                // Error and return
-                return;
-            }
+            // Error and return
+            return;
         }
-
+        toAdd.Provider = this;
         // Else
         observers.Add(toAdd);
     }
@@ -57,7 +53,10 @@ public class NetworkManager
     public void Unsubscribe(Observer toRemove)
     {
         // Remove
-        observers.Remove(toRemove);
+        if (observers.Contains(toRemove))
+        {
+            observers.Remove(toRemove);
+        }
     }
 
     public void CallDownloadQueued(String url) 
