@@ -10,18 +10,6 @@ public abstract class Observer
     ///  Provider attribute and member variable.
     /// </summary>
     protected NetworkManager provider;
-    public NetworkManager Provider
-    {
-        set
-        {
-            provider = value;
-        }
-        get
-        {
-            // yikes..
-            return provider;
-        }
-    }
 
     public virtual void OnDownloadQueued(String url) 
     {
