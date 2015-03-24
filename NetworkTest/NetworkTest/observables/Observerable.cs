@@ -15,6 +15,8 @@ using System.Collections.Generic;
 /// </summary>
 abstract class Observerable
 {
+    string State;
+    string NextState;
     public abstract void Update(string URL)
     {
 
