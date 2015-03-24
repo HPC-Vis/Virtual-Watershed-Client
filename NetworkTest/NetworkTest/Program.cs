@@ -32,7 +32,7 @@ namespace NetworkTest
             //FileBasedCache.Insert<int>("SOMEINT", 1);
             try
             {
-                Console.WriteLine(FileBasedCache.Get<int>("SOMEINT"));
+                //Console.WriteLine(FileBasedCache.Get<int>("SOMEINT"));
             }
             catch (Exception e)
             {
@@ -44,7 +44,7 @@ namespace NetworkTest
 
             //Console.WriteLine(FileBasedCache.Get<List<DataRecord>>("RECORDS2")[0].Lines.Count);
             Console.ReadKey();
-            FileBasedCache.Insert<TestSerialialization>("TEST", new TestSerialialization());
+            //FileBasedCache.Insert<TestSerialialization>("TEST", new TestSerialialization());
             
             //List<DataRecord> drs = new List<DataRecord>();
             //drs.Add(a);
@@ -72,11 +72,24 @@ namespace NetworkTest
                 vw.Download(i.ToString(), new DataRecord(), "wcs");
             }*/
             //var url2 = vwClient.RequestRecords(0, 15);
-            var url = vwClient.RequestRecords(0, 15,query:"Shapefile");
-           List<DataRecord> records2;
+            var url = vwClient.RequestRecords(0, 15);
+            List<DataRecord> records2;
                while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
                records2 = DataTracker.JobFinished(url);
-               FileBasedCache.Insert<List<DataRecord>>("RECORDS", records2);
+               List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
+               for (int i = 0; i < records2.Count; i++)
+               {
+                   if (records2[i].name == cachedRecords[i].name)
+                   {
+                       Console.WriteLine("record " + i + " is equal");
+                   }
+                   else
+                   {
+                       Console.WriteLine("record " + i + " is NOT equal");
+                   }
+               }
+                   
+               FileBasedCache.Insert<List<DataRecord>>("RECORD", records2);
                vwClient.Download("testJob", records2[0], "wfs");
                 //Console.WriteLine(records2.Count());
                 //while (DataTracker.CheckStatus(url2) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
@@ -98,12 +111,12 @@ namespace NetworkTest
                 {
                     //Console.WriteLine("HELLO");
                 }
-                FileBasedCache.Insert<List<DataRecord>>("RECORDS2", records2);
-                Console.WriteLine(records2[0].Lines.Count);
+                //FileBasedCache.Insert<List<DataRecord>>("RECORDS2", records2);
+                //Console.WriteLine(records2[0].Lines.Count);
                 Console.WriteLine("COMPLETED! DONE!");
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
-                FileBasedCache.Clear();
+                //FileBasedCache.Clear();
         }
 
         static void download()

@@ -70,10 +70,10 @@
     <Compile Include="DataTracker.cs" />
     <Compile Include="FileBasedCache.cs" />
     <Compile Include="KeyValueTriple.cs" />
+    <Compile Include="Parsers\mimeparser.cs" />
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />
-    <Compile Include="Parsers\mimeparser.cs" />
     <Compile Include="NetworkClient.cs">
       <SubType>Component</SubType>
     </Compile>
