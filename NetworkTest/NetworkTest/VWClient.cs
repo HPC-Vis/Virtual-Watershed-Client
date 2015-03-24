@@ -15,18 +15,19 @@ public class VWClient : Observer
     public string Root;
     DataFactory factory;
     NetworkManager manager;
-    ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
     ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>(); // Alternative to Unity's threadpool
 
-    // Observed data
-    // String = URL
-    // Bool = is finished? 
-    // Will contain multiple types of information, one URL for the general data, multiple URLs for downloads
-    // General URL inserted when first request is made
-    // Download URL inserted when request is made
-    // Download URL removed by the worker thread after acknowledgement. OnDownloadComplete() called from worker.
-    // General URL removed by the worker thread after all downloads complete. OnDataComplete() called from worker.
-    Dictionary<string, bool> observed = new Dictionary<string, bool>();
+    // Needed still? 
+    ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
+
+    // Holds URL -> Observable
+    Dictionary<string, Observerable> active = new Dictionary<string, Observerable>();
+
+    // Holds requests that are waiting
+    Queue<string> waiting = new Queue<string>();
+
+    // Holds observers
+    List<Observerable> observables = new List<Observerable>();
 
     public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://129.24.63.65")
     {
@@ -34,6 +35,70 @@ public class VWClient : Observer
         manager = networkmanager;   // Added so worker threads can call events
         Root = root;
     }
+
+    public override void OnDownloadComplete(string url)
+    {
+        // Loop through the active
+        if( active.ContainsKey(url) )
+        {
+            // Update
+            string result = active[url].Update();
+
+            // Check if complete
+            if (result == "COMPLETE")
+            {
+                // Remove from active
+
+                // Call OnDataComplete event
+            }
+            else if (result == "")
+            {
+                // Error code
+            }
+            else
+            {
+                // Add new request
+
+                // Add <result, observable>
+
+                // Remove old <url, observable>
+            }
+        }
+    }
+
+    public void getCoverage() // Parameters TODO
+    {
+        // Build a WCS observable
+        
+        // If the number active is at threshold, move into waiting
+
+        // Else Add the observable to "active" and "observables"
+    }
+
+    public void getMap() // Parameters TODO
+    {
+        // Build a WMS observable
+
+        // If the number active is at threshold, move into waiting
+
+        // Else Add the observable to "active" and "observables"
+    }
+
+    public void getFeatures() // Parameters TODO
+    {
+        // Build a WFS observable
+
+        // If the number active is at threshold, move into waiting
+
+        // Else Add the observable to "active" and "observables"
+    }
+
+
+
+
+
+
+
 
     bool Activity()
     {
@@ -389,27 +454,6 @@ public class VWClient : Observer
             // doService(front.Key.Key, front.Value, front.Key.Value);
             doService(front.Key, front.VTwo, front.VOne);
         }
-    }
-
-    public override void OnDataStart(string url)
-    {
-        observed.Add(url, false);
-    }
-
-    public override void OnDataComplete(string url)
-    {
-        observed.Remove(url);
-    }
-
-    public override void OnDownloadQueued(string url)
-    {
-        observed.Add(url, false);
-    }
-
-    public override void OnDownloadComplete(string url)
-    {
-        observed[url] = true;
-        // Now it becomes the worker's responsibility to remove from "onbserved"
     }
 }
 
