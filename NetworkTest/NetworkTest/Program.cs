@@ -79,7 +79,7 @@ namespace NetworkTest
                List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
                for (int i = 0; i < records2.Count; i++)
                {
-                   if (records2[i].name == cachedRecords[i].name)
+                   if (records2[i] == cachedRecords[i])
                    {
                        Console.WriteLine("record " + i + " is equal");
                    }
