@@ -21,17 +21,29 @@ class WCSClient : Observerable
 
     enum WCS_OPERATION { GetCapabilities,DescribeCoverage,GetCoverage,Done,Error,None};
     WCS_OPERATION state = WCS_OPERATION.None;
-    WCS_OPERATION nextState = WCS_OPERATION.None;
+    List<WCS_OPERATION> StateList = new List<WCS_OPERATION>();
+
     public string current_url;
     // Now we can store parameters in this class or create another class to hold them!
     int width, height;
     Rect bbox;
-    string BBOX;
+    string boundingbox;
     string CRS;
     string LayerName; // This only handles one layer.
+    string interpolation;
     DataRecord record; // The datarecord to apply changes too.
-    public void Update(string URL)
+    public void Update()
     {
+        if (StateList.Count >= 1)
+        {
+            StateList.RemoveAt(0);
+            state = StateList[0];
+        }
+        else
+        {
+            state = WCS_OPERATION.None;
+        }
+
         if (state == WCS_OPERATION.GetCapabilities)
         {
             GetCapabilities();
@@ -55,14 +67,22 @@ class WCSClient : Observerable
     }
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
-    public void GetData()
+    public void GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
     {
-        nextState = WCS_OPERATION.DescribeCoverage;
+        CRS = crs;
+        boundingbox = BoundingBox;
+        width = Width;
+        height = Height;
+        interpolation = Interpolation;
+        StateList.Add(WCS_OPERATION.GetCapabilities);
+        StateList.Add(WCS_OPERATION.DescribeCoverage);
+        StateList.Add(WCS_OPERATION.GetCoverage);
+        GetCapabilities();
     }
 
-    public void GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest", WCS_OPERATION next_state = WCS_OPERATION.None)
+    public void GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
     {
-        nextState = next_state;
+        
         state = WCS_OPERATION.GetCoverage;
         // By this point the get coverage string should be built.
         GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
@@ -105,9 +125,8 @@ class WCSClient : Observerable
 
     }
 
-    public void GetCapabilities(WCS_OPERATION next_state=WCS_OPERATION.None)
+    public void GetCapabilities()
     {
-        nextState = next_state;
         state = WCS_OPERATION.GetCapabilities;
         if (!record.services.ContainsKey("wcs"))
         {
@@ -152,9 +171,8 @@ class WCSClient : Observerable
         return req;
     }
 
-    public void DescribeCoverage(WCS_OPERATION next_state = WCS_OPERATION.None)
+    public void DescribeCoverage()
     {
-        nextState = next_state;
         state = WCS_OPERATION.DescribeCoverage;
         // Build Describe Coverage String
         string req = buildDescribeCoverage();
