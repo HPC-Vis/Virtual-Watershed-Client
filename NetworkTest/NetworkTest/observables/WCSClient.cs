@@ -32,7 +32,7 @@ class WCSClient : Observerable
     string LayerName; // This only handles one layer.
     string interpolation;
     DataRecord record; // The datarecord to apply changes too.
-    public void Update()
+    public string Update()
     {
         if (StateList.Count >= 1)
         {
@@ -46,28 +46,30 @@ class WCSClient : Observerable
 
         if (state == WCS_OPERATION.GetCapabilities)
         {
-            GetCapabilities();
+            return GetCapabilities();
         }
         else if (state == WCS_OPERATION.DescribeCoverage)
         {
-            DescribeCoverage();
+            return DescribeCoverage();
         }
         else if (state == WCS_OPERATION.GetCoverage)
         {
-            GetCoverage(CRS, record.bbox, width, height);
+            return GetCoverage(CRS, record.bbox, width, height);
         }
         else if (state == WCS_OPERATION.Error)
         {
             // Report Error
+            return "";
         }
         else if (WCS_OPERATION.Done == state)
         {
             // Report Done
         }
+        return "";
     }
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
-    public void GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
+    public string GetData(string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
     {
         CRS = crs;
         boundingbox = BoundingBox;
@@ -77,10 +79,11 @@ class WCSClient : Observerable
         StateList.Add(WCS_OPERATION.GetCapabilities);
         StateList.Add(WCS_OPERATION.DescribeCoverage);
         StateList.Add(WCS_OPERATION.GetCoverage);
-        GetCapabilities();
+        StateList.Add(WCS_OPERATION.None);
+        return GetCapabilities();
     }
 
-    public void GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
+    public string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
     {
         
         state = WCS_OPERATION.GetCoverage;
@@ -122,16 +125,17 @@ class WCSClient : Observerable
 
         // Download Coverage
         factory.Import("WCS_BIL", records, "url://" + req);
+        return req;
 
     }
 
-    public void GetCapabilities()
+    public string GetCapabilities()
     {
         state = WCS_OPERATION.GetCapabilities;
         if (!record.services.ContainsKey("wcs"))
         {
             Console.WriteLine("RETURNING" + record.name);
-            return;
+            return "";
         }
         string wcs_url = record.services["wcs"];
         // Register Job with Data Tracker
@@ -140,6 +144,7 @@ class WCSClient : Observerable
 
         // Get WCS Capabilities
         factory.Import("WCS_CAP", tempList, "url://" + wcs_url);
+        return wcs_url;
     }
 
     string buildDescribeCoverage()
@@ -171,7 +176,7 @@ class WCSClient : Observerable
         return req;
     }
 
-    public void DescribeCoverage()
+    public string DescribeCoverage()
     {
         state = WCS_OPERATION.DescribeCoverage;
         // Build Describe Coverage String
@@ -182,6 +187,7 @@ class WCSClient : Observerable
 
         // Download Describe Coverage
         factory.Import("WCS_DC", tempList, "url://" + req);
+        return req;
     }
 
 }
