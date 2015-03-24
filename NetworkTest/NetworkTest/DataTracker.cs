@@ -24,7 +24,11 @@ static class DataTracker
     //Tracks the records for a current request
     static private Dictionary<string, List<DataRecord>> Records = new Dictionary<string, List<DataRecord>>();
 
-    //
+    public static List<DataRecord> GetRecords(string url)
+    {
+        return Records[url];
+    }
+
     /// <summary>
     /// This function submits a job into this class.
     /// </summary>
