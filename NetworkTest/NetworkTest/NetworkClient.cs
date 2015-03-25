@@ -21,7 +21,8 @@ public class NetworkClient : WebClient
     NetworkManager netmanager;
     PriorityQueue<DownloadRequest> DownloadRequests = new PriorityQueue<DownloadRequest>();
     Dictionary<string, DownloadDataCompletedEventHandler> DataCompletedEventHandlers = new Dictionary<string, DownloadDataCompletedEventHandler>();
-
+    private readonly object _Padlock = new object();
+    int count = 0;
     public int size { get {  return DownloadRequests.Count(); } }
 
     public NetworkClient(NetworkManager manager) : base()
@@ -43,7 +44,10 @@ public class NetworkClient : WebClient
     public void Download( DownloadRequest req )
     {
         // Enqueue the current request and call the event
-        DownloadRequests.Enqueue(req);
+        lock (_Padlock)
+        {
+            DownloadRequests.Enqueue(req);
+        }
         netmanager.CallDownloadQueued(req.Url);
 
         // Check if not busy
@@ -62,11 +66,16 @@ public class NetworkClient : WebClient
     /// <param name="args"></param>
     protected override void OnDownloadDataCompleted(DownloadDataCompletedEventArgs args)
     {
+        count++;
         // Call the base function
         base.OnDownloadDataCompleted(args);
 
         // Dequeue current download request and use its callback
-        var Req = DownloadRequests.Dequeue();
+        DownloadRequest Req;
+        lock (_Padlock)
+        {
+            Req = DownloadRequests.Dequeue();
+        }
         try
         {
             Req.Callback(args.Result);
@@ -77,7 +86,7 @@ public class NetworkClient : WebClient
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
         }
         Console.WriteLine("Completed byte download, passed to callback function.");
-        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
+        //DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
 
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
@@ -92,11 +101,16 @@ public class NetworkClient : WebClient
     /// <param name="args"></param>
     protected override void OnDownloadStringCompleted(DownloadStringCompletedEventArgs args)
     {
+        count++;
         // Call the base function
         base.OnDownloadStringCompleted(args);
 
         // Dequeue current download request and use its callback
-        var Req = DownloadRequests.Dequeue();
+        DownloadRequest Req;
+        lock (_Padlock)
+        {
+            Req = DownloadRequests.Dequeue();
+        }
         try
         {
             Req.Callback(args.Result);
@@ -125,25 +139,31 @@ public class NetworkClient : WebClient
             e.TotalBytesToReceive + " " +
             e.ProgressPercentage);*/
     }
-
+    
     private void StartNextDownload()
     {
         // If there are any downloads remaining do them!
-        if (DownloadRequests.Count() > 0)
+        lock (_Padlock)
         {
-            // Start the next one
-            DownloadRequest req = DownloadRequests.Peek();
-            Console.WriteLine("Started: " + req.Url);
-            netmanager.CallDownloadStart(req.Url);
-
-            // Check if its a byte
-            if (req.isByte)
+            if (DownloadRequests.Count() > 0 && !IsBusy)
             {
-                DownloadDataAsync(new System.Uri(req.Url));
+                // Start the next one
+                DownloadRequest req = DownloadRequests.Peek();
+                Console.WriteLine("Started: " + req.Url);
+                netmanager.CallDownloadStart(req.Url);
+                // Check if its a byte
+                if (req.isByte)
+                {
+                    DownloadDataAsync(new System.Uri(req.Url));
+                }
+                else
+                {
+                    DownloadStringAsync(new System.Uri(req.Url));
+                }
             }
             else
-            {
-                DownloadStringAsync(new System.Uri(req.Url));
+            { 
+                Console.WriteLine("SCARY");
             }
         }
     }

@@ -30,7 +30,7 @@ public class NetworkManager
     public void AddDownload(DownloadRequest req)
     {
         //DataTracker.updateJob(req.Url, "Added to Network Client: " + index);
-        DataTracker.updateJob(req.Url, DataTracker.Status.QUEUED);
+        //DataTracker.updateJob(req.Url, DataTracker.Status.QUEUED);
         // Add request at index
         clients[index].Download(req);
 

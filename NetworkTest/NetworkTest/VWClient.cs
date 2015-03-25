@@ -20,13 +20,13 @@ public class VWClient : Observer
     ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>> Requests = new ThreadSafeDictionary<string, KeyValueTriple<string, string, DataRecord>>();
 
     // Holds URL -> Observable
-    Dictionary<string, Observerable> active = new Dictionary<string, Observerable>();
+    ThreadSafeDictionary<string, Observerable> active = new ThreadSafeDictionary<string, Observerable>();
 
     // Holds requests that are waiting
     Queue<Observerable> waiting = new Queue<Observerable>();
 
     // Holds Data Records of current requests.....
-    Dictionary<string, List<DataRecord>> DataRecords = new Dictionary<string,List<DataRecord>>();
+    ThreadSafeDictionary<string, List<DataRecord>> DataRecords = new ThreadSafeDictionary<string, List<DataRecord>>();
 
     int Limit = 10;
 
@@ -41,10 +41,6 @@ public class VWClient : Observer
         if (active.ContainsKey(url))
         {
             Console.WriteLine(active[url].record.Data.Length);
-            foreach (var i in active[url].record.Data)
-            {
-                Console.WriteLine(i);
-            }
             active.Remove(url);
         }
     }
@@ -81,9 +77,7 @@ public class VWClient : Observer
         }
         if(DataRecords.ContainsKey(url))
         {
-            Console.WriteLine("DONE");
-            Console.WriteLine("HAHA");
-            getCoverage(DataRecords[url][0], crs:"EPSG:4326", Width: 100, Height: 100);
+            // Data should go somewhere at this pointq
             DataRecords.Remove(url);
             //Console.ReadKey();
         }
@@ -92,7 +86,7 @@ public class VWClient : Observer
     void AddObservable(Observerable observable)
     {
         // If the number active is at threshold, move into waiting
-        if (Limit == active.Count)
+        if (Limit == active.Count())
         {
             waiting.Enqueue(observable);
         }
@@ -126,13 +120,6 @@ public class VWClient : Observer
 
         // AddObservable();
     }
-
-
-
-
-
-
-
 
     bool Activity()
     {

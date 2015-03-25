@@ -55,4 +55,12 @@ public class ThreadSafeDictionary<TKey, TValue>
             return _Dictionary.TryGetValue(key, out value);
         }
     }
+
+    public bool ContainsKey(TKey Key)
+    {
+        lock (_Padlock)
+        {
+            return _Dictionary.ContainsKey(Key);
+        }
+    }
 }

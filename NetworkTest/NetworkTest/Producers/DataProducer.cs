@@ -21,20 +21,20 @@ public abstract class DataProducer
     {
         // Allocate a data record if one does not exist
         if (Records == null) { Records = new List<DataRecord>(); }
-        DataTracker.updateJob(Path, DataTracker.Status.RUNNING);
+        //DataTracker.updateJob(Path, DataTracker.Status.RUNNING);
         // Check the path
         Console.WriteLine("Path = " + Path);
         Transfer.Type type = Transfer.GetType(ref Path);
         if (type == Transfer.Type.URL)
         {
             // Call the url import function
-            DataTracker.submitJob(Path, Records);
+            //DataTracker.submitJob(Path, Records);
             return ImportFromURL(Records, Path, priority);
         }
         else if (type == Transfer.Type.FILE)
         {
             // Call the file import function
-            DataTracker.submitJob(Path, Records);
+            //DataTracker.submitJob(Path, Records);
             return ImportFromFile(Records, Path);
         }
         else
