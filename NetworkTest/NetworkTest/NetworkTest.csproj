@@ -70,11 +70,10 @@
     <Compile Include="DataTracker.cs" />
     <Compile Include="observables\Observerable.cs" />
     <Compile Include="observables\WCSClient.cs" />
+    <Compile Include="observables\WFSClient.cs" />
+    <Compile Include="observables\WMSClient.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="KeyValueTriple.cs" />
-    <Compile Include="observers\ChainObserver.cs" />
-    <Compile Include="observers\LogObserver.cs" />
-    <Compile Include="observers\WCSObserver.cs" />
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />

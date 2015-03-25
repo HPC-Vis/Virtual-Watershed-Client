@@ -40,7 +40,7 @@ public class VWClient : Observer
     {
         if (active.ContainsKey(url))
         {
-            Console.WriteLine(active[url].record.Data.Length);
+            Console.WriteLine(active[url].record.texture.Length);
             active.Remove(url);
         }
     }
@@ -78,7 +78,9 @@ public class VWClient : Observer
         if(DataRecords.ContainsKey(url))
         {
             // Data should go somewhere at this pointq
+            getMap(DataRecords[url][0]);
             DataRecords.Remove(url);
+            
             //Console.ReadKey();
         }
     }
@@ -108,17 +110,27 @@ public class VWClient : Observer
         AddObservable(client);
     }
 
-    public void getMap() // Parameters TODO
+    public void getMap(DataRecord record, int Width = 100, int Height = 100, string Format = "image/png") // Parameters TODO
     {
+        Console.WriteLine("GetMap");
         // Build a WMS observable
-        // AddObservable();
+        var client = new WMSClient(factory);
+        client.App = App;
+        client.Root = Root;
+        client.GetData(record, Width, Height, Format);
+
+        AddObservable(client);
     }
 
-    public void getFeatures() // Parameters TODO
+    public void getFeatures(DataRecord record, string Version = "1.0.0") // Parameters TODO
     {
         // Build a WFS observable
+        var client = new WFSClient(factory);
+        client.App = App;
+        client.Root = Root;
+        client.GetData(record, Version);
 
-        // AddObservable();
+        AddObservable(client);
     }
 
     bool Activity()
