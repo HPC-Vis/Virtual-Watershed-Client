@@ -74,6 +74,7 @@
     <Compile Include="observables\WMSClient.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="KeyValueTriple.cs" />
+    <Compile Include="observer\DataObserver.cs" />
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />

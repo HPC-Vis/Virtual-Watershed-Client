@@ -22,12 +22,23 @@ namespace NetworkTest
         static void Main( string[] args )
         {
             NetworkManager nm = new NetworkManager();
+            DataObserver obs = new DataObserver();
             VWClient vwc = new VWClient(new DataFactory(nm),nm);
             nm.Subscribe(vwc);
-            vwc.RequestRecords(0, 15, query: "DEM");
+            nm.Subscribe(obs);
+            obs.Register("SDM", PrintMyContents);
+            obs.Register("SDM2", PrintMyContents);
+            vwc.RequestRecords("SDM",0, 15, query: "DEM");
+            vwc.RequestRecords("SDM2", 0, 1000);
             Console.ReadKey();
         }
-
+        static void PrintMyContents(List<DataRecord> contents)
+        {
+            foreach(var i in contents)
+            {
+                Console.WriteLine("NAMES: " + i.name);
+            }
+        }
         static void download()
         {
             Console.WriteLine("Hello from another thread");

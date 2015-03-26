@@ -18,6 +18,7 @@ abstract class Observerable
     // Fields
     string State;
     string NextState;
+    public string JobName;
     protected DataFactory factory;
     public DataRecord record; // The datarecord to apply changes too
 

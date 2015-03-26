@@ -104,6 +104,15 @@ public class NetworkManager
         }
     }
 
+    public void CallDataComplete(string Notification, List<DataRecord> Records)
+    {
+        // Loop through the observers
+        foreach (Observer obs in observers)
+        {
+            obs.OnDataComplete(Notification,Records);
+        }
+    }
+
     public void CallDataError(String url)
     {
         // Loop through the observers

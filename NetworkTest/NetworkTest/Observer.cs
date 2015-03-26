@@ -41,6 +41,12 @@ public abstract class Observer
         Console.WriteLine("--- In OnDataComplete ---");
     }
 
+    public virtual void OnDataComplete(string Notification, List<DataRecord> record)
+    {
+        // For the Records!!
+        Console.WriteLine("--- In OnDataComplete ---");
+    }
+
     public virtual void OnDataError(String url)
     {
         Console.WriteLine("--- In OnDataError ---");
