@@ -18,12 +18,16 @@ public delegate void ByteFunction(byte[] bytes);
 public class NetworkClient : WebClient
 {
     public delegate void DownloadBytesCallback(Object sender, DownloadDataCompletedEventArgs e);
+    NetworkManager netmanager;
     PriorityQueue<DownloadRequest> DownloadRequests = new PriorityQueue<DownloadRequest>();
     Dictionary<string, DownloadDataCompletedEventHandler> DataCompletedEventHandlers = new Dictionary<string, DownloadDataCompletedEventHandler>();
+    private readonly object _Padlock = new object();
+    int count = 0;
     public int size { get {  return DownloadRequests.Count(); } }
 
-    public NetworkClient() : base()
+    public NetworkClient(NetworkManager manager) : base()
     {
+        netmanager = manager;
         DownloadProgressChanged += DownloadProgressCallback;
     }
 
@@ -39,8 +43,12 @@ public class NetworkClient : WebClient
     /// <param name="priority"></param>
     public void Download( DownloadRequest req )
     {
-        // Enqueue the current request
-        DownloadRequests.Enqueue(req);
+        // Enqueue the current request and call the event
+        lock (_Padlock)
+        {
+            DownloadRequests.Enqueue(req);
+        }
+        netmanager.CallDownloadQueued(req.Url);
 
         // Check if not busy
         if (!IsBusy)
@@ -52,32 +60,39 @@ public class NetworkClient : WebClient
         }
     }
 
-
-
     /// <summary>
     /// OnDownloadDataCompleted is the default WebClient function that is called after data has been downloaded.
     /// </summary>
     /// <param name="args"></param>
     protected override void OnDownloadDataCompleted(DownloadDataCompletedEventArgs args)
     {
+        count++;
         // Call the base function
         base.OnDownloadDataCompleted(args);
 
         // Dequeue current download request and use its callback
-        var Req = DownloadRequests.Dequeue();
+        DownloadRequest Req;
+        lock (_Padlock)
+        {
+            Req = DownloadRequests.Dequeue();
+        }
         try
         {
             Req.Callback(args.Result);
         }
-        catch(WebException e)
+        catch(Exception e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+            netmanager.CallDataError(Req.Url);
+            StartNextDownload();
+            return;
         }
         Console.WriteLine("Completed byte download, passed to callback function.");
-        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
+        //DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
 
         // Need some way of notifying that this download is finished --- errors,success
+        netmanager.CallDownloadComplete(Req.Url);
 
         // Start the next one
         StartNextDownload();
@@ -89,23 +104,32 @@ public class NetworkClient : WebClient
     /// <param name="args"></param>
     protected override void OnDownloadStringCompleted(DownloadStringCompletedEventArgs args)
     {
+        count++;
         // Call the base function
         base.OnDownloadStringCompleted(args);
 
         // Dequeue current download request and use its callback
-        var Req = DownloadRequests.Dequeue();
+        DownloadRequest Req;
+        lock (_Padlock)
+        {
+            Req = DownloadRequests.Dequeue();
+        }
         try
         {
             Req.Callback(args.Result);
         }
-        catch (WebException e)
+        catch(Exception e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+            netmanager.CallDataError(Req.Url);
+            StartNextDownload();
+            return;
         }
         Console.WriteLine("Completed string download, passed to callback function.");
-        DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
+
         // Need some way of notifying that this download is finished --- errors,success
+        netmanager.CallDownloadComplete(Req.Url);
 
         // Start the next one
         StartNextDownload();
@@ -121,23 +145,31 @@ public class NetworkClient : WebClient
             e.TotalBytesToReceive + " " +
             e.ProgressPercentage);*/
     }
-
+    
     private void StartNextDownload()
     {
         // If there are any downloads remaining do them!
-        if (DownloadRequests.Count() > 0)
+        lock (_Padlock)
         {
-            // Start the next one
-            DownloadRequest req = DownloadRequests.Peek();
-            Console.WriteLine("Started: " + req.Url);
-            DataTracker.updateJob(req.Url, DataTracker.Status.RUNNING);
-            if (req.isByte)
+            if (DownloadRequests.Count() > 0 && !IsBusy)
             {
-                DownloadDataAsync(new System.Uri(req.Url));
+                // Start the next one
+                DownloadRequest req = DownloadRequests.Peek();
+                Console.WriteLine("Started: " + req.Url);
+                netmanager.CallDownloadStart(req.Url);
+                // Check if its a byte
+                if (req.isByte)
+                {
+                    DownloadDataAsync(new System.Uri(req.Url));
+                }
+                else
+                {
+                    DownloadStringAsync(new System.Uri(req.Url));
+                }
             }
             else
-            {
-                DownloadStringAsync(new System.Uri(req.Url));
+            { 
+                Console.WriteLine("SCARY");
             }
         }
     }
