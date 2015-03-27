@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 
+
+public delegate void DataRecordSetter(List<DataRecord> Records);
+
 /// <summary>
 /// THe Obserservable class is used for observer objects that are used for specifics purposes.
 /// The Observable object must define its "Update" function that takes in some string that could be a url.
@@ -18,8 +21,11 @@ abstract class Observerable
     // Fields
     string State;
     string NextState;
-    public string JobName;
+    public string Token;
     protected DataFactory factory;
+    
+    public DataRecordSetter Callback;
+
     public DataRecord record; // The datarecord to apply changes too
 
     // Methods
@@ -28,8 +34,11 @@ abstract class Observerable
         factory = dataFactory;
     }
 
+    public abstract void Error();
+
     // Thought: have Update return a bool which returns true if the chain is finished
     // In the VWClient when the function returns true, it can fire the OnDownloadComplete event.
     public abstract string Update();
+    public abstract void CallBack();
 }
 

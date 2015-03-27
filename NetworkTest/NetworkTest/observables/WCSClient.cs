@@ -28,8 +28,11 @@ class WCSClient : Observerable
     string CRS;
     string LayerName; // This only handles one layer.
     string interpolation;
-    
 
+    public override void Error()
+    {
+        state = WCS_OPERATION.Error;
+    }
 
     public override string Update()
     {
@@ -190,6 +193,13 @@ class WCSClient : Observerable
         // Download Describe Coverage
         factory.Import("WCS_DC", tempList, "url://" + req);
         return req;
+    }
+
+    public override void CallBack()
+    {
+        List<DataRecord> records = new List<DataRecord>();
+        records.Add(record);
+        Callback(records);
     }
 
 }

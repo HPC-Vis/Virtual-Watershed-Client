@@ -19,28 +19,42 @@ namespace NetworkTest
         static String WFSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0";
         static String WCSDescribeCoverageS = "url://http://129.24.63.65//apps/my_app/datasets/b51ce262-ee85-4910-ad2b-dcce0e5b2de7/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=output_srtm&";
         static String VWPString = "http://vwp-dev.unm.edu/";
+        static VWClient vwc;
+        static DataObserver obs;
         static void Main( string[] args )
         {
             NetworkManager nm = new NetworkManager();
-            DataObserver obs = new DataObserver();
-            VWClient vwc = new VWClient(new DataFactory(nm),nm);
+            obs = new DataObserver();
+            vwc = new VWClient(new DataFactory(nm),nm);
             nm.Subscribe(vwc);
             nm.Subscribe(obs);
-            obs.Register("SDM", PrintMyContents);
-            obs.Register("SDM2", PrintMyContents);
-            vwc.RequestRecords("SDM",0, 15, query: "DEM");
-            vwc.RequestRecords("SDM2", 0, 1000);
+            vwc.RequestRecords(PrintDataRecords,0, 100);
+            //vwc.RequestRecords(null,0, 1000);
+            //
             Console.ReadKey();
         }
-        static void PrintMyContents(List<DataRecord> contents)
+
+        static void PrintDataRecords(List<DataRecord> Records)
         {
-            foreach(var i in contents)
+            foreach (var i in Records)
             {
-                Console.WriteLine("NAMES: " + i.name);
+                Console.WriteLine("NAME: " + i.name);
+                List<DataRecord> Rs = new List<DataRecord>();
+                Rs.Add(i);
+                vwc.GetMetaData(PrintMetaData, Rs);
+            }
+        }
+
+        static void PrintMetaData(List<DataRecord> Records)
+        {
+            Console.WriteLine("METADATA");
+            foreach (var i in Records)
+            {
+                Console.WriteLine(i.metaData);
             }
         }
         static void download()
-        {
+        {  
             Console.WriteLine("Hello from another thread");
         }
     }

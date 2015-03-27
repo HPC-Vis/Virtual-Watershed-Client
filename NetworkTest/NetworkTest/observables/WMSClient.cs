@@ -23,7 +23,7 @@ class WMSClient : Observerable
     {
 
     }
-
+    
     string bboxSplit(string bbox)
     {
         bbox = bbox.Replace('[', ' ');
@@ -63,6 +63,11 @@ class WMSClient : Observerable
         }
 
         return "";
+    }
+
+    public override void Error()
+    {
+        state = WMSOperations.Error;
     }
 
     public void GetData(DataRecord Record, int Width=100, int Height=100, string Format = "image/png")
@@ -109,6 +114,11 @@ class WMSClient : Observerable
         factory.Import("WMS_CAP", tempList, "url://" + wms_url);
         return wms_url;
     }
-
+    public override void CallBack()
+    {
+        List<DataRecord> records = new List<DataRecord>();
+        records.Add(record);
+        Callback(records);
+    }
 }
 

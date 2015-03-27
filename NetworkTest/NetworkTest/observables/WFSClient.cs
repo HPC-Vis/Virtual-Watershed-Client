@@ -19,7 +19,10 @@ class WFSClient : Observerable
     {
 
     }
-
+    public override void Error()
+    {
+        state = WFSOperations.Error;
+    }
     public override string Update()
     {
         Console.WriteLine("UPDATE");
@@ -84,6 +87,12 @@ class WFSClient : Observerable
         string[] coords = bbox.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         bbox = coords[0] + ',' + coords[1] + ',' + coords[2] + ',' + coords[3];
         return bbox;
+    }
+    public override void CallBack()
+    {
+        List<DataRecord> records = new List<DataRecord>();
+        records.Add(record);
+        Callback(records);
     }
 }
 

@@ -80,10 +80,13 @@ public class NetworkClient : WebClient
         {
             Req.Callback(args.Result);
         }
-        catch(WebException e)
+        catch(Exception e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+            netmanager.CallDataError(Req.Url);
+            StartNextDownload();
+            return;
         }
         Console.WriteLine("Completed byte download, passed to callback function.");
         //DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
@@ -115,10 +118,13 @@ public class NetworkClient : WebClient
         {
             Req.Callback(args.Result);
         }
-        catch(WebException e)
+        catch(Exception e)
         {
             Console.WriteLine(e.Message + " " + e.StackTrace);
             Console.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+            netmanager.CallDataError(Req.Url);
+            StartNextDownload();
+            return;
         }
         Console.WriteLine("Completed string download, passed to callback function.");
 
