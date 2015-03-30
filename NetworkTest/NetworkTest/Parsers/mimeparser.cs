@@ -153,8 +153,5 @@ public class mimeparser : Parser
         sw.Close();
         Console.WriteLine("WROTE: " + Path + OutputName + ".hdr");
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 593dc4d291b72f5d4e5e79fd259be8ec0dad82e3
 }
