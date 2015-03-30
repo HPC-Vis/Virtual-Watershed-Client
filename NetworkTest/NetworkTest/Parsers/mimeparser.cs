@@ -141,7 +141,7 @@ public class mimeparser : Parser
         string header = "";
         byte[] byteData = new byte[1];
         parseBIL(bytes, ref header, ref byteData);
-     
+
         // Output to files.
         var bw = new System.IO.BinaryWriter(new System.IO.FileStream(Path+OutputName+".bil",System.IO.FileMode.Create));
         bw.Write(byteData, 0, byteData.Length);
@@ -155,3 +155,4 @@ public class mimeparser : Parser
     }
 
 }
+

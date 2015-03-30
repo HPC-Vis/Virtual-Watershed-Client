@@ -19,6 +19,60 @@ public class DataRecord
         name = recordName;
     }
 
+    public static bool operator ==(DataRecord a, DataRecord b)
+    {
+        // If both are null, or both are same instance, return true.
+        if (System.Object.ReferenceEquals(a, b))
+        {
+            return true;
+        }
+
+        // If one is null, but not both, return false.
+        if (((object)a == null) || ((object)b == null))
+        {
+            return false;
+        }
+
+        // Return true if the fields match:
+        return a.name == b.name &&
+               a.id == b.id &&
+               a.description == b.description &&
+               a.location == b.location &&
+               a.modelname == b.modelname &&
+               a.state == b.state &&
+               a.start == b.start &&
+               a.end == b.end &&
+               a.modelRunUUID == b.modelRunUUID &&
+               a.data == b.data;
+    }
+
+    public static bool operator !=(DataRecord a, DataRecord b)
+    {
+        // If both are null, or both are same instance, return true.
+        if (System.Object.ReferenceEquals(a, b))
+        {
+            return false;
+        }
+
+        // If one is null, but not both, return false.
+        if (((object)a == null) || ((object)b == null))
+        {
+            return false;
+        }
+
+        // Return true if the fields match:
+        return a.name != b.name &&
+               a.id != b.id &&
+               a.description != b.description &&
+               a.location != b.location &&
+               a.modelname != b.modelname &&
+               a.state != b.state &&
+               a.start != b.start &&
+               a.end != b.end &&
+               a.modelRunUUID != b.modelRunUUID &&
+               a.data != b.data;
+    }
+
     /** These fields are necessary for generating the key used in datamanager datastructure. 
      *
      */
