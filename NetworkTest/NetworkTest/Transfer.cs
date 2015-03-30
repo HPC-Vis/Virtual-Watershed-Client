@@ -14,6 +14,11 @@ class Transfer
         URL, FILE, UNKNOWN
     };
 
+    /// <summary>
+    /// Determines the type of file path being used
+    /// </summary>
+    /// <param name="str">File to be downloades's location, either a url or in a local directory</param>
+    /// <returns>The Type of the file path : URL or FILE</returns>
     public static Type GetType(ref String str)
     {
         if (str.StartsWith("url://"))

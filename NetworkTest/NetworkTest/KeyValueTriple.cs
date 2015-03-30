@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
+// A data structure accessed by one key that contains two values
 public struct KeyValueTriple<TKey, TOne, TTwo>
 {
     // Fields
