@@ -28,21 +28,48 @@ namespace NetworkTest
             vwc = new VWClient(new DataFactory(nm),nm);
             nm.Subscribe(vwc);
             nm.Subscribe(obs);
-            vwc.RequestRecords(PrintDataRecords,0, 100);
-            //vwc.RequestRecords(null,0, 1000);
-            //
+
+            vwc.RequestRecords(PrintDataRecords,0, 15);
+            
             Console.ReadKey();
+            Console.WriteLine("FINISHED EVERYTHING");
         }
 
         static void PrintDataRecords(List<DataRecord> Records)
         {
+            List<DataRecord> Rs = new List<DataRecord>();
             foreach (var i in Records)
             {
                 Console.WriteLine("NAME: " + i.name);
-                List<DataRecord> Rs = new List<DataRecord>();
                 Rs.Add(i);
                 vwc.GetMetaData(PrintMetaData, Rs);
             }
+
+            // ================================================
+            // TEST FOR DOWNLOAD VS CACHED DATA_RECORD EQUALITY
+            // ================================================
+            List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
+
+            for (int i = 0; i < Rs.Count; i++)
+            {
+                if (Rs[i].name == cachedRecords[i].name)
+                {
+                    Console.WriteLine("Record " + i + " is equal!");
+                }
+                else
+                {
+                    Console.WriteLine("Record " + i + " is NOT equal!");
+                }
+            }
+            FileBasedCache.Clear();
+            Console.WriteLine("CACHE CLEARED");
+            FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);
+            Console.WriteLine("RECORDS LOADED TO CACHE");
+
+            // ================================================
+            // END OF TEST
+            // ================================================
+
         }
 
         static void PrintMetaData(List<DataRecord> Records)
@@ -53,6 +80,7 @@ namespace NetworkTest
                 Console.WriteLine(i.metaData);
             }
         }
+
         static void download()
         {  
             Console.WriteLine("Hello from another thread");
