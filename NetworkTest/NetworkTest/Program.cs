@@ -21,41 +21,23 @@ namespace NetworkTest
         static String VWPString = "http://vwp-dev.unm.edu/";
         static VWClient vwc;
         static DataObserver obs;
-        static void Main( string[] args )
+        static void Main(string[] args)
         {
-<<<<<<< HEAD
-            
-            DataFactory df = new DataFactory();
-            VWClient vwClient = new VWClient();
-            DataRecord a, b, c;
-            VWClient vw = new VWClient();
-            a = new DataRecord( "Create_Url" );
-            b = new DataRecord( "Create_File" );
-            c = new DataRecord( "Export_Url" );
-            //FileBasedCache.Insert<int>("SOMEINT", 1);
-            try
-            {
-                //Console.WriteLine(FileBasedCache.Get<int>("SOMEINT"));
-            }
-            catch (Exception e)
-=======
             NetworkManager nm = new NetworkManager();
             obs = new DataObserver();
-            vwc = new VWClient(new DataFactory(nm),nm);
+            vwc = new VWClient(new DataFactory(nm), nm);
             nm.Subscribe(vwc);
             nm.Subscribe(obs);
-
-            vwc.RequestRecords(PrintDataRecords,0, 15);
-            
+            vwc.RequestRecords(PrintDataRecords, 0, 15);
+            //vwc.RequestRecords(null,0, 1000);
+            //
             Console.ReadKey();
-            Console.WriteLine("FINISHED EVERYTHING");
         }
 
         static void PrintDataRecords(List<DataRecord> Records)
         {
             List<DataRecord> Rs = new List<DataRecord>();
             foreach (var i in Records)
->>>>>>> origin
             {
                 Console.WriteLine("NAME: " + i.name);
                 Rs.Add(i);
@@ -89,83 +71,6 @@ namespace NetworkTest
 
         }
 
-<<<<<<< HEAD
-            //Console.WriteLine(FileBasedCache.Get<List<DataRecord>>("RECORDS2")[0].Lines.Count);
-            Console.ReadKey();
-            //FileBasedCache.Insert<TestSerialialization>("TEST", new TestSerialialization());
-            
-            //List<DataRecord> drs = new List<DataRecord>();
-            //drs.Add(a);
-            //df.Import( "WCS_BIL", a, MimeUrlOne );
-            //df.Export( "WCS_BIL", MimeUrlTwo, "./", "Test" );
-           // df.Export("WMS_PNG", TestPNG, "./","Test2");
-           // df.Export("WCS_CAP", WCSCapabilitiesS, "./", "Test3");
-            //df.Export("WFS_CAP", WFSCapabilitiesS, "./", "Test4");
-          // // df.Export("WMS_CAP", WMSCapabilitiesS, "./", "Test5");
-          //  df.Export("WCS_DC", WCSDescribeCoverageS, "./", "Test6");
-          //  df.Export("WFS_GML",WFSFeatureString, "./","Test7");
-            //df.Import("WMS_PNG", drs,TestPNG);
-            ////df.Import("WCS_CAP", a, WCSCapabilitiesS);
-            ////df.Import("WFS_CAP", a, WFSCapabilitiesS);
-            ////df.Import("WMS_CAP", a, WMSCapabilitiesS);
-            ////df.Import("WCS_DC", a, WCSDescribeCoverageS);
-            List<DataRecord> records = new List<DataRecord>();
-            
-            //df.Import("VW_JSON", records, "url://http://129.24.63.65//apps/my_app/search/datasets.json?offset=0&limit=15");
-            //df.TestStringDownload("http://www.google.com");
-            //df.Import( "WCS_BIL", b, TestFileOne );
-            //Console.WriteLine("DONE DOWNLOADING");
-            /*for (int i = 0; i < 1000000; i++ )
-            {
-                vw.Download(i.ToString(), new DataRecord(), "wcs");
-            }*/
-            //var url2 = vwClient.RequestRecords(0, 15);
-            var url = vwClient.RequestRecords(0, 15);
-            List<DataRecord> records2;
-               while (DataTracker.CheckStatus(url) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
-               records2 = DataTracker.JobFinished(url);
-               List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
-               for (int i = 0; i < records2.Count; i++)
-               {
-                   if (records2[i] == cachedRecords[i])
-                   {
-                       Console.WriteLine("record " + i + " is equal");
-                   }
-                   else
-                   {
-                       Console.WriteLine("record " + i + " is NOT equal");
-                   }
-               }
-                   
-               FileBasedCache.Insert<List<DataRecord>>("RECORD", records2);
-               vwClient.Download("testJob", records2[0], "wfs");
-                //Console.WriteLine(records2.Count());
-                //while (DataTracker.CheckStatus(url2) != DataTracker.Status.FINISHED) { } //Console.WriteLine("Waiting"); }
-                //records2 = DataTracker.JobFinished(url2);
-                //Console.WriteLine(records2.Count());
-                //Console.WriteLine("Seeing Keys");
-                /*foreach(var i in records2)
-                {
-                    Console.WriteLine(i.name);
-                    foreach(var k in i.services.Keys)
-                    {
-                        Console.WriteLine(k);
-                    }
-                }*/
-                //Console.ReadKey();
-                //vwClient.Download("testJob", records2[0], "wfs");
-
-                while (DataTracker.CheckStatus("testJob") != DataTracker.Status.FINISHED)
-                {
-                    //Console.WriteLine("HELLO");
-                }
-                //FileBasedCache.Insert<List<DataRecord>>("RECORDS2", records2);
-                //Console.WriteLine(records2[0].Lines.Count);
-                Console.WriteLine("COMPLETED! DONE!");
-                Console.ReadKey();
-            // Note: Function to say if downloads are done or not, + a logger for the past n downloads
-                //FileBasedCache.Clear();
-=======
         static void PrintMetaData(List<DataRecord> Records)
         {
             Console.WriteLine("METADATA");
@@ -173,7 +78,7 @@ namespace NetworkTest
             {
                 Console.WriteLine(i.metaData);
             }
->>>>>>> origin
+
         }
 
         static void download()

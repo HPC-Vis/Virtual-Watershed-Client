@@ -78,11 +78,7 @@
     <Compile Include="observables\WMSClient.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="KeyValueTriple.cs" />
-<<<<<<< HEAD
-    <Compile Include="Parsers\mimeparser.cs" />
-=======
     <Compile Include="observer\DataObserver.cs" />
->>>>>>> origin
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />
