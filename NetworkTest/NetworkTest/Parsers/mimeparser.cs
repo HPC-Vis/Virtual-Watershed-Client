@@ -141,15 +141,9 @@ public class mimeparser : Parser
         string header = "";
         byte[] byteData = new byte[1];
         parseBIL(bytes, ref header, ref byteData);
-<<<<<<< HEAD
 
         // Output to files.
-        var bw = new System.IO.BinaryWriter(new System.IO.FileStream(Path + OutputName + ".bil", System.IO.FileMode.Create));
-=======
-     
-        // Output to files.
         var bw = new System.IO.BinaryWriter(new System.IO.FileStream(Path+OutputName+".bil",System.IO.FileMode.Create));
->>>>>>> origin
         bw.Write(byteData, 0, byteData.Length);
         bw.Close();
         Console.WriteLine("WROTE: " + Path + OutputName + ".bil");
@@ -159,8 +153,6 @@ public class mimeparser : Parser
         sw.Close();
         Console.WriteLine("WROTE: " + Path + OutputName + ".hdr");
     }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> origin
+
