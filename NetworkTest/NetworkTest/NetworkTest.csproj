@@ -60,8 +60,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Resources\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -69,8 +70,19 @@
     <Compile Include="DataFactory.cs" />
     <Compile Include="DataTracker.cs" />
     <Compile Include="FileBasedCache.cs" />
-    <Compile Include="KeyValueTriple.cs" />
     <Compile Include="Parsers\mimeparser.cs" />
+    <Compile Include="observables\GenericObservable.cs" />
+    <Compile Include="observables\Observerable.cs" />
+    <Compile Include="observables\WCSClient.cs" />
+    <Compile Include="observables\WFSClient.cs" />
+    <Compile Include="observables\WMSClient.cs" />
+    <Compile Include="Observer.cs" />
+    <Compile Include="KeyValueTriple.cs" />
+<<<<<<< HEAD
+    <Compile Include="Parsers\mimeparser.cs" />
+=======
+    <Compile Include="observer\DataObserver.cs" />
+>>>>>>> origin
     <Compile Include="Producers\DataProducer.cs" />
     <Compile Include="DataRecord.cs" />
     <Compile Include="DownloadRequest.cs" />

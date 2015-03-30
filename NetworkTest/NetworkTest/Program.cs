@@ -18,9 +18,12 @@ namespace NetworkTest
         static String WMSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1";
         static String WFSCapabilitiesS = "url://http://129.24.63.65//apps/my_app/datasets/712c4319-fb36-4e87-b670-90aac2f5e133/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0";
         static String WCSDescribeCoverageS = "url://http://129.24.63.65//apps/my_app/datasets/b51ce262-ee85-4910-ad2b-dcce0e5b2de7/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=output_srtm&";
-        static String WFSFeatureString = "url://http://129.24.63.65//apps/my_app/datasets/c04d87de-fbaa-475b-9145-5c32c90dd438/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&&version=1.0.0&typename=allstr_epsg4326_clipped&bbox=-116.25302,43.688476,-116.048662,43.790133&outputformat=gml2&&srs=epsg:4326";
+        static String VWPString = "http://vwp-dev.unm.edu/";
+        static VWClient vwc;
+        static DataObserver obs;
         static void Main( string[] args )
         {
+<<<<<<< HEAD
             
             DataFactory df = new DataFactory();
             VWClient vwClient = new VWClient();
@@ -35,13 +38,31 @@ namespace NetworkTest
                 //Console.WriteLine(FileBasedCache.Get<int>("SOMEINT"));
             }
             catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
-                Console.ReadKey();
-            }
-            //Console.WriteLine(FileBasedCache.Get<List<int>>("INTS").Count);
+=======
+            NetworkManager nm = new NetworkManager();
+            obs = new DataObserver();
+            vwc = new VWClient(new DataFactory(nm),nm);
+            nm.Subscribe(vwc);
+            nm.Subscribe(obs);
+            vwc.RequestRecords(PrintDataRecords,0, 100);
+            //vwc.RequestRecords(null,0, 1000);
+            //
+            Console.ReadKey();
+        }
 
+        static void PrintDataRecords(List<DataRecord> Records)
+        {
+            foreach (var i in Records)
+>>>>>>> origin
+            {
+                Console.WriteLine("NAME: " + i.name);
+                List<DataRecord> Rs = new List<DataRecord>();
+                Rs.Add(i);
+                vwc.GetMetaData(PrintMetaData, Rs);
+            }
+        }
+
+<<<<<<< HEAD
             //Console.WriteLine(FileBasedCache.Get<List<DataRecord>>("RECORDS2")[0].Lines.Count);
             Console.ReadKey();
             //FileBasedCache.Insert<TestSerialialization>("TEST", new TestSerialialization());
@@ -117,10 +138,18 @@ namespace NetworkTest
                 Console.ReadKey();
             // Note: Function to say if downloads are done or not, + a logger for the past n downloads
                 //FileBasedCache.Clear();
-        }
-
-        static void download()
+=======
+        static void PrintMetaData(List<DataRecord> Records)
         {
+            Console.WriteLine("METADATA");
+            foreach (var i in Records)
+            {
+                Console.WriteLine(i.metaData);
+            }
+>>>>>>> origin
+        }
+        static void download()
+        {  
             Console.WriteLine("Hello from another thread");
         }
     }
