@@ -24,7 +24,6 @@ class GenericObservable : Observerable
         Console.WriteLine("UPDATE");
         if (StateList.Count >= 1)
         {
-            Console.Clear();
             Console.WriteLine("UPDATE");
             try
             {
@@ -33,6 +32,7 @@ class GenericObservable : Observerable
             }
             catch (Exception e)
             {
+                Console.Clear();
                 Console.WriteLine();
                 Console.WriteLine();
                 Console.WriteLine(e.StackTrace);

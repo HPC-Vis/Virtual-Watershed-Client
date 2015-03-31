@@ -112,6 +112,12 @@ public class VWClient : Observer
         }
     }
 
+
+    /// <summary>
+    /// Adds an observable to the list
+    /// </summary>
+    /// <param name="observable"></param>
+    /// <returns></returns>
     void AddObservable(Observerable observable)
     {
         // If the number active is at threshold, move into waiting
@@ -241,7 +247,11 @@ public class VWClient : Observer
         // Register Job with Data Tracker
         var Obs = new GenericObservable(factory);
         Obs.Callback = Setter;
+
+        // Generate Token
         Obs.Token = GenerateToken("RequestRecords");
+
+        // 
         Obs.Request(records, GetMetaData, xml_url);
         AddObservable(Obs);
     }
