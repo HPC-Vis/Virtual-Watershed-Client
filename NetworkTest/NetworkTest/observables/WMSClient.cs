@@ -38,6 +38,9 @@ class WMSClient : Observerable
     public override string Update()
     {
         Console.WriteLine("UPDATE");
+
+        Logger.Log("WMS, Token = " + Token);
+
         if (StateList.Count >= 1)
         {
             Console.WriteLine(StateList[0]);
@@ -93,6 +96,8 @@ class WMSClient : Observerable
 
         factory.Import("WMS_PNG", tempList, "url://" + request);
 
+        Logger.Log(Token + ": " + request);
+
         return request;
     }
 
@@ -107,6 +112,8 @@ class WMSClient : Observerable
 
         // In the final steps populate the data record with GetMap Download
         string wms_url = record.services["wms"];
+
+        Logger.Log(Token + ": " + wms_url);
 
         // Register Job with Data Tracker
         List<DataRecord> tempList = new List<DataRecord>();

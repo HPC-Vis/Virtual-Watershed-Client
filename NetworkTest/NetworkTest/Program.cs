@@ -40,7 +40,7 @@ namespace NetworkTest
             Logger.Close();
             Console.ReadKey();
         }
-
+        
         static void PrintDataRecords(List<DataRecord> Records)
         {
             List<DataRecord> Rs = new List<DataRecord>();
