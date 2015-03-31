@@ -33,7 +33,7 @@ namespace NetworkTest
             Logger.SetPath(".\\log.txt");
             Logger.Log("Scooby Dooby Dooo!");
 
-            vwc.RequestRecords(PrintDataRecords, 0, 15);
+            vwc.RequestRecords(PrintDataRecords, 0, 50);
             //vwc.RequestRecords(null,0, 1000);
             //
 
@@ -77,6 +77,14 @@ namespace NetworkTest
                 Logger.Log(e.Message);
             }
 
+            // if all is well this should work
+            foreach(var i in Records)
+            {
+                vwc.getMap(GetMap, i);
+                vwc.getCoverage(GetCoverage, i);
+                vwc.getFeatures(GetFeature, i);
+            }
+
             FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);
             Console.WriteLine("RECORDS LOADED TO CACHE");
 
@@ -101,7 +109,10 @@ namespace NetworkTest
         {
             foreach(var i in Records)
             {
-                Logger.Log(i.Data.ToString());
+                if (i.Data != null)
+                    Logger.Log(i.Data.ToString());
+                else
+                    Logger.Log(i.name +" is null " + i.Data);
             }
         }
 
