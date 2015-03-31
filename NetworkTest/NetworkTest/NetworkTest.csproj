@@ -70,6 +70,8 @@
     <Compile Include="DataFactory.cs" />
     <Compile Include="DataTracker.cs" />
     <Compile Include="FileBasedCache.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="observer\LoggedObserver.cs" />
     <Compile Include="Parsers\mimeparser.cs" />
     <Compile Include="observables\GenericObservable.cs" />
     <Compile Include="observables\Observerable.cs" />

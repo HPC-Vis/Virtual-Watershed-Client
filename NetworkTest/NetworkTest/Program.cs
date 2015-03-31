@@ -28,9 +28,16 @@ namespace NetworkTest
             vwc = new VWClient(new DataFactory(nm), nm);
             nm.Subscribe(vwc);
             nm.Subscribe(obs);
+            nm.Subscribe(new LoggedObserver());
+
+            Logger.SetPath("C:\\Users\\demo\\Documents\\GitHub\\Virtual-Watershed-Client\\NetworkTest\\log.txt");
+            Logger.Log("Scooby Dooby Dooo!");
+
             vwc.RequestRecords(PrintDataRecords, 0, 15);
             //vwc.RequestRecords(null,0, 1000);
             //
+
+            Logger.Close();
             Console.ReadKey();
         }
 
