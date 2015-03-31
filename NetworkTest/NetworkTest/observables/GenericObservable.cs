@@ -24,8 +24,20 @@ class GenericObservable : Observerable
         Console.WriteLine("UPDATE");
         if (StateList.Count >= 1)
         {
-            Console.WriteLine(StateList[0]);
-            state = StateList[0];
+            Console.Clear();
+            Console.WriteLine("UPDATE");
+            try
+            {
+                Console.WriteLine(StateList[0]);
+                state = StateList[0];
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine();
+                Console.WriteLine();
+                Console.WriteLine(e.StackTrace);
+                Console.ReadKey();
+            }
             StateList.RemoveAt(0);
         }
         else

@@ -37,9 +37,6 @@ public class VWClient : Observer
     // Holds requests that are waiting
     Queue<Observerable> waiting = new Queue<Observerable>();
 
-    // Holds Data Records of current requests.....
-    ThreadSafeDictionary<string, DataRecordJob> DataRecords = new ThreadSafeDictionary<string, DataRecordJob>();
-
     int Limit = 10;
     
 
@@ -112,14 +109,6 @@ public class VWClient : Observer
                 // Remove old <url, observable>
                 active.Remove(url);
             }
-        }
-        if(DataRecords.ContainsKey(url))
-        {
-            // Data should go somewhere at this pointq
-            //getMap(DataRecords[url][0]);
-            manager.CallDataComplete(DataRecords[url].jobname,DataRecords[url].records);
-            DataRecords.Remove(url);
-            //Console.ReadKey();
         }
     }
 

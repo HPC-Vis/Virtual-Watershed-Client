@@ -37,8 +37,10 @@ namespace NetworkTest
             //vwc.RequestRecords(null,0, 1000);
             //
 
-            Logger.Close();
+            
+            Console.WriteLine("DONE");
             Console.ReadKey();
+            Logger.Close();
         }
         
         static void PrintDataRecords(List<DataRecord> Records)
@@ -78,11 +80,11 @@ namespace NetworkTest
             }
 
             // if all is well this should work
-            foreach(var i in Records)
+            foreach(var i in Rs)
             {
-                vwc.getMap(GetMap, i);
-                vwc.getCoverage(GetCoverage, i);
-                vwc.getFeatures(GetFeature, i);
+                //vwc.getMap(GetMap, i);
+                //vwc.getCoverage(GetCoverage, i);
+                //vwc.getFeatures(GetFeature, i);
             }
 
             FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);
@@ -105,7 +107,7 @@ namespace NetworkTest
         }
 
 
-        static void GetMap(List<DataRecord> Records)
+        static void GetCoverage(List<DataRecord> Records)
         {
             foreach(var i in Records)
             {
@@ -116,7 +118,7 @@ namespace NetworkTest
             }
         }
 
-        static void GetCoverage(List<DataRecord> Records)
+        static void GetMap(List<DataRecord> Records)
         {
             foreach (var i in Records)
             {
