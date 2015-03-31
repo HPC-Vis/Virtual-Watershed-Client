@@ -35,9 +35,7 @@ namespace NetworkTest
 
             vwc.RequestRecords(PrintDataRecords, 0, 50);
             //vwc.RequestRecords(null,0, 1000);
-            //
-
-            
+                                    
             Console.WriteLine("DONE");
             Console.ReadKey();
             Logger.Close();
@@ -50,8 +48,10 @@ namespace NetworkTest
             {
                 Console.WriteLine("NAME: " + i.name);
                 Rs.Add(i);
-                vwc.GetMetaData(PrintMetaData, Rs);
             }
+
+            // Get the metadata (done only once!)
+            vwc.GetMetaData(PrintMetaData, Rs);
 
             // ================================================
             // TEST FOR DOWNLOAD VS CACHED DATA_RECORD EQUALITY
@@ -82,9 +82,9 @@ namespace NetworkTest
             // if all is well this should work
             foreach(var i in Rs)
             {
-                //vwc.getMap(GetMap, i);
-                //vwc.getCoverage(GetCoverage, i);
-                //vwc.getFeatures(GetFeature, i);
+                vwc.getMap(GetMap, i);
+                vwc.getCoverage(GetCoverage, i);
+                vwc.getFeatures(GetFeature, i);
             }
 
             FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);

@@ -12,92 +12,100 @@ using UnityEngine;
 /// </summary>
 class WCSClient : Observerable
 {
+    // Enum
+    private enum Operations { GetCapabilities, DescribeCoverage, GetCoverage, Done, Error };
 
-    enum WCS_OPERATION { GetCapabilities, DescribeCoverage, GetCoverage, Done, Error, None };
-    WCS_OPERATION state = WCS_OPERATION.None;
-    List<WCS_OPERATION> StateList = new List<WCS_OPERATION>();
+    // Fields
+    public string current_url;
+    private int width, height;
+    private Rect bbox;
+    private string boundingbox;
+    private string CRS;
+    private string LayerName; // This only handles one layer.
+    private string interpolation;
+    private Operations state;
+    private List<Operations> StateList = new List<Operations>();
+
+    // Constructor
     public WCSClient(DataFactory Factory) : base(Factory)
     {
-        
+        // Add states
+        StateList.Add(Operations.GetCapabilities);
+        StateList.Add(Operations.DescribeCoverage);
+        StateList.Add(Operations.GetCoverage);
+        StateList.Add(Operations.Done);
     }
-    public string current_url;
-    // Now we can store parameters in this class or create another class to hold them!
-    int width, height;
-    Rect bbox;
-    string boundingbox;
-    string CRS;
-    string LayerName; // This only handles one layer.
-    string interpolation;
-
-    public override void Error()
-    {
-        state = WCS_OPERATION.Error;
-    }
-
+    
+    // Update
     public override string Update()
     {
         Console.WriteLine("UPDATE");
-
         Logger.Log("WCS, Token = " + Token);
 
+        // Check if there is another state
         if (StateList.Count >= 1)
         {
-            Console.WriteLine(StateList[0]); 
+            Console.WriteLine(StateList[0]);
+
+            // Set the first state and remove from the list
             state = StateList[0];
             StateList.RemoveAt(0);
         }
         else
         {
-            state = WCS_OPERATION.None;
+            state = Operations.Error;
         }
 
-        if (state == WCS_OPERATION.GetCapabilities)
+        // Check the state
+        if (state == Operations.GetCapabilities)
         {
             return GetCapabilities();
         }
-        else if (state == WCS_OPERATION.DescribeCoverage)
+        else if (state == Operations.DescribeCoverage)
         {
             return DescribeCoverage();
         }
-        else if (state == WCS_OPERATION.GetCoverage)
+        else if (state == Operations.GetCoverage)
         {
-            return GetCoverage(CRS, record.bbox, width, height);
+            return GetCoverage(CRS, records[0].bbox, width, height);
         }
-        else if (state == WCS_OPERATION.Error)
+        else if (Operations.Done == state)
         {
-            // Report Error
-            return "";
-        }
-        else if (WCS_OPERATION.Done == state)
-        {
-            // Report Done
             return "COMPLETE";
         }
+
+        // Else
         return "";
     }
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
     public void GetData(DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest")
     {
-        record = Record;
+        records = new List<DataRecord>();
+        records.Add(Record);
         CRS = crs;
         boundingbox = BoundingBox;
         width = Width;
         height = Height;
         interpolation = Interpolation;
-        StateList.Add(WCS_OPERATION.GetCapabilities);
-        StateList.Add(WCS_OPERATION.DescribeCoverage);
-        StateList.Add(WCS_OPERATION.GetCoverage);
-        StateList.Add(WCS_OPERATION.Done);
     }
 
-    public string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
+    public override void CallBack()
     {
+        // Callback
+        callback(records);
+    }
 
-        state = WCS_OPERATION.GetCoverage;
+    public override void Error()
+    {
+        state = Operations.Error;
+    }
+
+    private string GetCoverage(string crs = "", string boundingbox = "", int width = 0, int height = 0, string interpolation = "nearest")
+    {
         // By this point the get coverage string should be built.
         GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
-        foreach (GetCapabilites.OperationsMetadataOperation i in record.WCSOperations)
+        foreach (GetCapabilites.OperationsMetadataOperation i in records[0].WCSOperations)
         {
             if (i.name == "GetCoverage")
             {
@@ -105,6 +113,7 @@ class WCSClient : Observerable
                 break;
             }
         }
+
         string parameters = "";
         // For now picking first valid parameters
         foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
@@ -125,44 +134,37 @@ class WCSClient : Observerable
         }
 
         // Build Get Coverage String
-        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + record.bbox + "&width=" + width + "&height=" + height;//+height.ToString();
-
-        List<DataRecord> records = new List<DataRecord>();
-
-        records.Add(record);
+        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox + "&width=" + width + "&height=" + height;//+height.ToString();
+        
+        // Import
+        factory.Import("WCS_BIL", records, "url://" + req);
 
         Logger.Log(Token + ": " + req);
-
-        // Download Coverage
-        factory.Import("WCS_BIL", records, "url://" + req);
         return req;
-
     }
 
-    public string GetCapabilities()
+    private string GetCapabilities()
     {
-        state = WCS_OPERATION.GetCapabilities;
-        if (!record.services.ContainsKey("wcs"))
+        // Check if services contains "wcs"
+        if (!records[0].services.ContainsKey("wcs"))
         {
-            Console.WriteLine("RETURNING" + record.name);
+            Console.WriteLine("RETURNING" + records[0].name);
             return "";
         }
-        string wcs_url = record.services["wcs"];
-        // Register Job with Data Tracker
-        List<DataRecord> tempList = new List<DataRecord>();
-        tempList.Add(record);
+        string wcs_url = records[0].services["wcs"];
+        
+        // Import
+        factory.Import("WCS_CAP", records, "url://" + wcs_url);
 
+        // Return
         Logger.Log(Token + ": " + wcs_url);
-
-        // Get WCS Capabilities
-        factory.Import("WCS_CAP", tempList, "url://" + wcs_url);
         return wcs_url;
     }
 
-    string buildDescribeCoverage()
+    private string buildDescribeCoverage()
     {
         GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
-        foreach (GetCapabilites.OperationsMetadataOperation i in record.WCSOperations)
+        foreach (GetCapabilites.OperationsMetadataOperation i in records[0].WCSOperations)
         {
             if (i.name == "DescribeCoverage")
             {
@@ -185,32 +187,21 @@ class WCSClient : Observerable
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
         Console.WriteLine(req);
 
+        // Return
         Logger.Log(Token + ": " + req);
-
         return req;
     }
 
-    public string DescribeCoverage()
+    private string DescribeCoverage()
     {
-        state = WCS_OPERATION.DescribeCoverage;
         // Build Describe Coverage String
         string req = buildDescribeCoverage();
 
-        List<DataRecord> tempList = new List<DataRecord>();
-        tempList.Add(record);
+        // Import
+        factory.Import("WCS_DC", records, "url://" + req);
 
+        // Return
         Logger.Log(Token + ": " + req);
-
-        // Download Describe Coverage
-        factory.Import("WCS_DC", tempList, "url://" + req);
         return req;
     }
-
-    public override void CallBack()
-    {
-        List<DataRecord> records = new List<DataRecord>();
-        records.Add(record);
-        Callback(records);
-    }
-
 }

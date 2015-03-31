@@ -140,7 +140,7 @@ public class VWClient : Observer
         var client = new WCSClient(factory);
         client.GetData(Record, crs, BoundingBox, Width, Height, Interpolation);
         client.Token = GenerateToken("GetCoverage");
-        client.Callback = Setter;
+        client.callback = Setter;
         AddObservable(client);
     }
 
@@ -153,7 +153,7 @@ public class VWClient : Observer
         client.App = App;
         client.Root = Root;
         client.GetData(record, Width, Height, Format);
-        client.Callback = Setter;
+        client.callback = Setter;
         AddObservable(client);
     }
 
@@ -165,7 +165,7 @@ public class VWClient : Observer
         client.Root = Root;
         client.GetData(record, Version);
         client.Token = GenerateToken("GetFeature");
-        client.Callback = Setter;
+        client.callback = Setter;
         AddObservable(client);
     }
 
@@ -218,7 +218,7 @@ public class VWClient : Observer
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();
         var Obs = new GenericObservable(factory);
-        Obs.Callback = Setter;
+        Obs.callback = Setter;
         Obs.Token = GenerateToken("RequestRecords");
         Obs.Request(Records, DownloadRecords2, req);
         AddObservable(Obs);
@@ -246,7 +246,7 @@ public class VWClient : Observer
         string xml_url = records[0].services["xml_fgdc"];
         // Register Job with Data Tracker
         var Obs = new GenericObservable(factory);
-        Obs.Callback = Setter;
+        Obs.callback = Setter;
 
         // Generate Token
         Obs.Token = GenerateToken("RequestRecords");

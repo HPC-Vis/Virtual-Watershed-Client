@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
-using System.Collections.Generic;
-
 
 public delegate void DataRecordSetter(List<DataRecord> Records);
 
@@ -19,14 +17,10 @@ public delegate void DataRecordSetter(List<DataRecord> Records);
 abstract class Observerable
 {
     // Fields
-    string State;
-    string NextState;
     public string Token;
+    public DataRecordSetter callback;
     protected DataFactory factory;
-    
-    public DataRecordSetter Callback;
-
-    public DataRecord record; // The datarecord to apply changes too
+    protected List<DataRecord> records;
 
     // Methods
     public Observerable(DataFactory dataFactory)
@@ -34,11 +28,13 @@ abstract class Observerable
         factory = dataFactory;
     }
 
+    // Call to indicate raise the error state
     public abstract void Error();
 
-    // Thought: have Update return a bool which returns true if the chain is finished
-    // In the VWClient when the function returns true, it can fire the OnDownloadComplete event.
+    // Call to go to the next state
     public abstract string Update();
+
+    // Call to finish chain
     public abstract void CallBack();
 }
 
