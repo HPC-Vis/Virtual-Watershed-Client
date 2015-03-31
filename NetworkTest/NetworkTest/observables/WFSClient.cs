@@ -26,6 +26,9 @@ class WFSClient : Observerable
     public override string Update()
     {
         Console.WriteLine("UPDATE");
+
+        Logger.Log("WFS, Token = " + Token);
+
         if (StateList.Count >= 1)
         {
             Console.WriteLine(StateList[0]);
@@ -74,6 +77,9 @@ class WFSClient : Observerable
             state = WFSOperations.Error;
             return "";
         }
+
+        Logger.Log(Token + ": " + request);
+
         factory.Import("WFS_GML", tempList, "url://" + request);
         return request;
     }

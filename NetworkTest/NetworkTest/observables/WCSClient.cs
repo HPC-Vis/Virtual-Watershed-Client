@@ -37,6 +37,9 @@ class WCSClient : Observerable
     public override string Update()
     {
         Console.WriteLine("UPDATE");
+
+        Logger.Log("WCS, Token = " + Token);
+
         if (StateList.Count >= 1)
         {
             Console.WriteLine(StateList[0]); 
@@ -128,6 +131,8 @@ class WCSClient : Observerable
 
         records.Add(record);
 
+        Logger.Log(Token + ": " + req);
+
         // Download Coverage
         factory.Import("WCS_BIL", records, "url://" + req);
         return req;
@@ -146,6 +151,8 @@ class WCSClient : Observerable
         // Register Job with Data Tracker
         List<DataRecord> tempList = new List<DataRecord>();
         tempList.Add(record);
+
+        Logger.Log(Token + ": " + wcs_url);
 
         // Get WCS Capabilities
         factory.Import("WCS_CAP", tempList, "url://" + wcs_url);
@@ -178,6 +185,8 @@ class WCSClient : Observerable
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
         Console.WriteLine(req);
 
+        Logger.Log(Token + ": " + req);
+
         return req;
     }
 
@@ -189,6 +198,8 @@ class WCSClient : Observerable
 
         List<DataRecord> tempList = new List<DataRecord>();
         tempList.Add(record);
+
+        Logger.Log(Token + ": " + req);
 
         // Download Describe Coverage
         factory.Import("WCS_DC", tempList, "url://" + req);
