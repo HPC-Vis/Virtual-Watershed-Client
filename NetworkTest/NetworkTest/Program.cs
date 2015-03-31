@@ -30,7 +30,7 @@ namespace NetworkTest
             nm.Subscribe(obs);
             nm.Subscribe(new LoggedObserver());
 
-            Logger.SetPath("C:\\Users\\demo\\Documents\\GitHub\\Virtual-Watershed-Client\\NetworkTest\\log.txt");
+            Logger.SetPath(".\\log.txt");
             Logger.Log("Scooby Dooby Dooo!");
 
             vwc.RequestRecords(PrintDataRecords, 0, 15);
@@ -54,21 +54,29 @@ namespace NetworkTest
             // ================================================
             // TEST FOR DOWNLOAD VS CACHED DATA_RECORD EQUALITY
             // ================================================
-            List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
-
-            for (int i = 0; i < Rs.Count; i++)
+            try
             {
-                if (Rs[i].name == cachedRecords[i].name)
+                List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
+
+                for (int i = 0; i < Rs.Count; i++)
                 {
-                    Console.WriteLine("Record " + i + " is equal!");
+                    if (Rs[i].name == cachedRecords[i].name)
+                    {
+                        Console.WriteLine("Record " + i + " is equal!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Record " + i + " is NOT equal!");
+                    }
                 }
-                else
-                {
-                    Console.WriteLine("Record " + i + " is NOT equal!");
-                }
+                FileBasedCache.Clear();
+                Console.WriteLine("CACHE CLEARED");
             }
-            FileBasedCache.Clear();
-            Console.WriteLine("CACHE CLEARED");
+            catch(Exception e)
+            {
+                Logger.Log(e.Message);
+            }
+
             FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);
             Console.WriteLine("RECORDS LOADED TO CACHE");
 
@@ -86,6 +94,31 @@ namespace NetworkTest
                 Console.WriteLine(i.metaData);
             }
 
+        }
+
+
+        static void GetMap(List<DataRecord> Records)
+        {
+            foreach(var i in Records)
+            {
+                Logger.Log(i.Data.ToString());
+            }
+        }
+
+        static void GetCoverage(List<DataRecord> Records)
+        {
+            foreach (var i in Records)
+            {
+                Logger.Log(i.texture.ToString());
+            }
+        }
+
+        static void GetFeature(List<DataRecord> Records)
+        {
+            foreach (var i in Records)
+            {
+                Logger.Log(i.Lines.ToString());
+            }
         }
 
         static void download()
