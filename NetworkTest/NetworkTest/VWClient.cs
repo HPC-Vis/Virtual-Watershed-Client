@@ -64,6 +64,11 @@ public class VWClient : Observer
         {
             active[url].CallBack();
             active.Remove(url);
+            if (waiting.Count > 0)
+            {
+                var job = waiting.Dequeue();
+                AddObservable(job);
+            }
         }
     }
 
@@ -73,6 +78,9 @@ public class VWClient : Observer
         if(active.ContainsKey(url))
         {
             active.Remove(url);
+            var job = waiting.Dequeue();
+            AddObservable(job);
+
             // Send second error message to notify other observers there was an error with obtaining the data record?
 
         }
@@ -120,6 +128,7 @@ public class VWClient : Observer
     /// <returns></returns>
     void AddObservable(Observerable observable)
     {
+        /// Add Lock here
         // If the number active is at threshold, move into waiting
         if (Limit == active.Count())
         {
