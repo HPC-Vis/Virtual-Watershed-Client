@@ -14,6 +14,7 @@ public delegate void DataRecordSetter(List<DataRecord> Records);
 /// This class built for convience so that we don't have to create 100 observers, but just 100 observables that
 /// the observers looked into.
 /// </summary>
+public enum DownloadType { Record, File };
 abstract class Observerable
 {
     // Fields
@@ -21,11 +22,16 @@ abstract class Observerable
     public DataRecordSetter callback;
     protected DataFactory factory;
     protected List<DataRecord> records;
-
+    protected string FilePath;
+    protected string FileName;
+    protected DownloadType type;
     // Methods
-    public Observerable(DataFactory dataFactory)
+    public Observerable(DataFactory dataFactory,DownloadType Type,string OutputPath="",string OutputName="")
     {
         factory = dataFactory;
+        type = Type;
+        FilePath = OutputPath;
+        FileName = OutputName;
     }
 
     // Call to indicate raise the error state

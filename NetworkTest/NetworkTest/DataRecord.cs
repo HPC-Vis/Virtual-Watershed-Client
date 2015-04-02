@@ -60,16 +60,16 @@ public class DataRecord
             return false;
         }
 
-        // Return true if the fields match:
-        return a.name != b.name &&
-               a.id != b.id &&
-               a.description != b.description &&
-               a.location != b.location &&
-               a.modelname != b.modelname &&
-               a.state != b.state &&
-               a.start != b.start &&
-               a.end != b.end &&
-               a.modelRunUUID != b.modelRunUUID &&
+        // Return true if the fields don't match:
+        return a.name != b.name ||
+               a.id != b.id ||
+               a.description != b.description ||
+               a.location != b.location ||
+               a.modelname != b.modelname ||
+               a.state != b.state ||
+               a.start != b.start ||
+               a.end != b.end ||
+               a.modelRunUUID != b.modelRunUUID ||
                a.data != b.data;
     }
 
@@ -156,8 +156,11 @@ public class DataRecord
      *
      */
 
+
+    //This for pngs
     public byte[] texture;
 
+    // This for shapes 
     // If there is only one point per element in the list then it is a point
     List<List<SerialVector2>> lines;
     public List<List<SerialVector2>> Lines
@@ -172,7 +175,8 @@ public class DataRecord
         }
     }
 
-    // This could be something else for shapes
+
+    // Thif for DEM,model runs, and raw float values
     float[,] data;
     public float[,] Data
     {

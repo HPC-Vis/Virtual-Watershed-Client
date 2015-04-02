@@ -133,22 +133,22 @@ public class VWClient : Observer
         }
     }
 
-    public void getCoverage(DataRecordSetter Setter, DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest") // Parameters TODO
+    public void getCoverage(DataRecordSetter Setter, DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     {
         // Build a WCS observable
         Console.WriteLine("GETCOVERAGE");
-        var client = new WCSClient(factory);
+        var client = new WCSClient(factory, type, OutputPath, OutputPath);
         client.GetData(Record, crs, BoundingBox, Width, Height, Interpolation);
         client.Token = GenerateToken("GetCoverage");
         client.callback = Setter;
         AddObservable(client);
     }
 
-    public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png") // Parameters TODO
+    public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     {
         Console.WriteLine("GetMap");
         // Build a WMS observable
-        var client = new WMSClient(factory);
+        var client = new WMSClient(factory, type, OutputPath, OutputName);
         client.Token = GenerateToken("GetMap");
         client.App = App;
         client.Root = Root;
@@ -157,10 +157,10 @@ public class VWClient : Observer
         AddObservable(client);
     }
 
-    public void getFeatures(DataRecordSetter Setter, DataRecord record, string Version = "1.0.0") // Parameters TODO
+    public void getFeatures(DataRecordSetter Setter, DataRecord record, string Version = "1.0.0", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     {
         // Build a WFS observable
-        var client = new WFSClient(factory);
+        var client = new WFSClient(factory, type, OutputPath, OutputName);
         client.App = App;
         client.Root = Root;
         client.GetData(record, Version);
@@ -175,7 +175,7 @@ public class VWClient : Observer
     }
 
 
-    public string RequestRecords(DataRecordSetter Setter, int offset, int limit, string model_set_type = "vis", string service = "", string query = "", string starttime = "", string endtime = "", string location = "", string state = "", string modelname = "", string timestamp_start = "", string timestamp_end = "", string model_vars = "")
+    public string RequestRecords(DataRecordSetter Setter, int offset, int limit, string model_set_type = "vis", string service = "", string query = "", string starttime = "", string endtime = "", string location = "", string state = "", string modelname = "", string timestamp_start = "", string timestamp_end = "", string model_vars = "", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
     {
         List<DataRecord> Records = new List<DataRecord>();
 
@@ -217,7 +217,7 @@ public class VWClient : Observer
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();
-        var Obs = new GenericObservable(factory);
+        var Obs = new GenericObservable(factory, type, OutputPath, OutputName);
         Obs.callback = Setter;
         Obs.Token = GenerateToken("RequestRecords");
         Obs.Request(Records, DownloadRecords2, req);
@@ -236,7 +236,7 @@ public class VWClient : Observer
 
     /// Metadata function needs a setter as well
     /// 
-    public void GetMetaData(DataRecordSetter Setter, List<DataRecord> records)
+    public void GetMetaData(DataRecordSetter Setter, List<DataRecord> records,DownloadType type=DownloadType.Record,string OutputPath="",string OutputName="")
     {
         // One Record only for this function
         if (!records[0].services.ContainsKey("xml_fgdc"))
@@ -245,7 +245,7 @@ public class VWClient : Observer
         }
         string xml_url = records[0].services["xml_fgdc"];
         // Register Job with Data Tracker
-        var Obs = new GenericObservable(factory);
+        var Obs = new GenericObservable(factory,type,OutputPath,OutputName);
         Obs.callback = Setter;
 
         // Generate Token

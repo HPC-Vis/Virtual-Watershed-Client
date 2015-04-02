@@ -20,7 +20,8 @@ class WMSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
 
     // Constructor
-    public WMSClient(DataFactory Factory) : base(Factory)
+    public WMSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+        : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
         StateList.Add(Operations.GetCapabilities);
@@ -96,8 +97,11 @@ class WMSClient : Observerable
             "&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326";
 
         // Import from URL
-        factory.Import("WMS_PNG", records, "url://" + request);
-
+        if (type == DownloadType.Record)
+            factory.Import("WMS_PNG", records, "url://" + request);
+        else
+            factory.Export("WMS_PNG", "url://" + request, FilePath, FileName);
+        Logger.Log("FILE: " + FileName + " " + FilePath);
         Logger.Log(Token + ": " + request);
 
         // Return

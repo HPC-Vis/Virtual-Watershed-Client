@@ -18,8 +18,8 @@ class WFSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
     private string version;
 
-    public WFSClient(DataFactory Factory)
-        : base(Factory)
+    public WFSClient(DataFactory Factory,DownloadType type=DownloadType.Record,string OutputPath="",string OutputName="")
+        : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
         StateList.Add(Operations.GetFeature);
@@ -92,8 +92,10 @@ class WFSClient : Observerable
         }
 
         // Import
+        if(type == DownloadType.Record)
         factory.Import("WFS_GML", records, "url://" + request);
-
+        else
+            factory.Export("WFS_GML", "url://" + request,FilePath,FileName);
         // Return
         Logger.Log(Token + ": " + request);
         return request;

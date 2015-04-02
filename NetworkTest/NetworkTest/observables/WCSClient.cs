@@ -27,7 +27,8 @@ class WCSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
 
     // Constructor
-    public WCSClient(DataFactory Factory) : base(Factory)
+    public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+        : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
         StateList.Add(Operations.GetCapabilities);
@@ -197,9 +198,16 @@ class WCSClient : Observerable
         // Build Describe Coverage String
         string req = buildDescribeCoverage();
 
-        // Import
-        factory.Import("WCS_DC", records, "url://" + req);
-
+        // Import if Record
+        if (type == DownloadType.Record)
+        {
+            factory.Import("WCS_DC", records, "url://" + req);
+        }
+        //else if (type == DownloadType.File)
+        //{
+        //    factory.Export("WCS_DC",)
+        //    factory.Import("WCS_DC", records, "url://" + req);
+        //}
         // Return
         Logger.Log(Token + ": " + req);
         return req;

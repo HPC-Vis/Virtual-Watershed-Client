@@ -33,7 +33,7 @@ namespace NetworkTest
             Logger.SetPath(".\\log.txt");
             Logger.Log("Scooby Dooby Dooo!");
 
-            vwc.RequestRecords(PrintDataRecords, 0, 50);
+            vwc.RequestRecords(PrintDataRecords, 20, 15);
             //vwc.RequestRecords(null,0, 1000);
                                     
             Console.WriteLine("DONE");
@@ -43,15 +43,15 @@ namespace NetworkTest
         
         static void PrintDataRecords(List<DataRecord> Records)
         {
-            List<DataRecord> Rs = new List<DataRecord>();
+            List<DataRecord> RecordsList = new List<DataRecord>();
             foreach (var i in Records)
             {
                 Console.WriteLine("NAME: " + i.name);
-                Rs.Add(i);
+                RecordsList.Add(i);
             }
 
             // Get the metadata (done only once!)
-            vwc.GetMetaData(PrintMetaData, Rs);
+            vwc.GetMetaData(PrintMetaData, RecordsList);
 
             // ================================================
             // TEST FOR DOWNLOAD VS CACHED DATA_RECORD EQUALITY
@@ -60,15 +60,15 @@ namespace NetworkTest
             {
                 List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>("RECORD");
 
-                for (int i = 0; i < Rs.Count; i++)
+                for (int i = 0; i < Math.Min(cachedRecords.Count,RecordsList.Count); i++)
                 {
-                    if (Rs[i].name == cachedRecords[i].name)
+                    if (RecordsList[i] == cachedRecords[i])
                     {
-                        Console.WriteLine("Record " + i + " is equal!");
+                        Logger.Log("Record " + i + " is equal!");
                     }
                     else
                     {
-                        Console.WriteLine("Record " + i + " is NOT equal!");
+                        Logger.Log("Record " + i + " is NOT equal!");
                     }
                 }
                 FileBasedCache.Clear();
@@ -80,14 +80,14 @@ namespace NetworkTest
             }
 
             // if all is well this should work
-            foreach(var i in Rs)
+            foreach(var i in RecordsList)
             {
-                vwc.getMap(GetMap, i);
+                vwc.getMap(GetMap, i,type:DownloadType.File,OutputPath: ".", OutputName: i.name);
                 vwc.getCoverage(GetCoverage, i);
                 vwc.getFeatures(GetFeature, i);
             }
 
-            FileBasedCache.Insert<List<DataRecord>>("RECORD", Rs);
+            FileBasedCache.Insert<List<DataRecord>>("RECORD", RecordsList);
             Console.WriteLine("RECORDS LOADED TO CACHE");
 
             // ================================================
@@ -122,6 +122,7 @@ namespace NetworkTest
         {
             foreach (var i in Records)
             {
+                if(i.texture != null)
                 Logger.Log(i.texture.ToString());
             }
         }

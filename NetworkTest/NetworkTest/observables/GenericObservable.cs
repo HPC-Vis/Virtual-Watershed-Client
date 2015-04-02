@@ -18,7 +18,8 @@ class GenericObservable : Observerable
     private StringFunc download;
 
     // Constructor
-    public GenericObservable(DataFactory Factory) : base(Factory) {}
+    public GenericObservable(DataFactory Factory,DownloadType type=DownloadType.Record,string OutputPath="",string OutputName="") : base(Factory,type,OutputPath,OutputPath) 
+    {}
 
     // Update
     public override string Update()
