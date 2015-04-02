@@ -53,7 +53,7 @@ class WFSClient : Observerable
         }
         else if(state == Operations.GetFeature)
         {
-            GetFeature();
+            return GetFeature();
         }
         else if(state == Operations.Done)
         {
@@ -92,10 +92,14 @@ class WFSClient : Observerable
         }
 
         // Import
-        if(type == DownloadType.Record)
-        factory.Import("WFS_GML", records, "url://" + request);
+        if (type == DownloadType.Record)
+        {
+            factory.Import("WFS_GML", records, "url://" + request);
+        }
         else
-            factory.Export("WFS_GML", "url://" + request,FilePath,FileName);
+        {
+            factory.Export("WFS_GML", "url://" + request, FilePath, FileName);
+        }
         // Return
         Logger.Log(Token + ": " + request);
         return request;

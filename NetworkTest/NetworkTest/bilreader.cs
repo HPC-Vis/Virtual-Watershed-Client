@@ -17,7 +17,11 @@ public class bilreader
     // A simple parser that returns a two dimensional float array of data.
     public static float[,] parse(string header, byte[] data)
     {
-
+        if(header == "")
+        {
+            Logger.Log("BILREADER: Error no Header for " + data.Length + " Bytes.");
+            return null;
+        }
         // Initialize variables
         float[,] arr = new float[1, 1];
 
@@ -98,6 +102,11 @@ public class bilreader
         {
             Console.WriteLine(e.Message);
             Console.WriteLine(e.StackTrace);
+            Logger.Log("BILREADER: " + e.Message);
+            Logger.Log("BILREADER: " + e.StackTrace);
+            Logger.Log("BILREADER: " + header);
+            /// Return if there is an error.
+            return null;
         }
 
 
