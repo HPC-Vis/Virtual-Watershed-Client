@@ -95,6 +95,15 @@ public class NetworkManager
         }
     }
 
+    public void CallDataStart(String url)
+    {
+        // Loop through the observers
+        foreach (Observer obs in observers)
+        {
+            obs.OnDataStart(url);
+        }
+    }
+
     public void CallDataComplete(String url)
     {
         // Loop through the observers
