@@ -33,12 +33,26 @@ namespace NetworkTest
             Logger.SetPath(".\\log.txt");
             Logger.Log("Scooby Dooby Dooo!");
 
-            vwc.RequestRecords(PrintDataRecords, 0, 50);
+            //vwc.RequestRecords(PrintDataRecords, 0, 50);
             //vwc.RequestRecords(null,0, 1000);
-                                    
+
+            vwc.RequestRecords(DummyMethod, 0, 10);
+            
+            Thread t = new Thread( () => tFunct(recs) );
+
+            vwc.RequestRecords(DummyMethod, 0, 9);
+
             Console.WriteLine("DONE");
             Console.ReadKey();
             Logger.Close();
+        }
+
+        public static int i = 1;
+        public static List<DataRecord> recs;
+        public static void DummyMethod(List<DataRecord> result)
+        {
+            if (i == 1) { recs = result; i++; foo("INDEX", result); }
+            else foo("INDEX", result);
         }
         
         static void PrintDataRecords(List<DataRecord> Records)
@@ -140,6 +154,52 @@ namespace NetworkTest
         static void download()
         {  
             Console.WriteLine("Hello from another thread");
+        }
+
+        public static void foo(string index, List<DataRecord> RecordsList)
+        {
+            if(! FileBasedCache.Exists(index))
+            {
+                FileBasedCache.Insert<List<DataRecord>>(index, RecordsList);
+                return;
+            }
+
+            try
+            {
+                List<DataRecord> cachedRecords = FileBasedCache.Get<List<DataRecord>>(index);
+                
+                for (int i = 0; i < Math.Min(cachedRecords.Count, RecordsList.Count); i++)
+                {
+                    if (RecordsList[i] == cachedRecords[i])
+                    {
+                        Logger.Log("Record " + i + " is equal!");
+                    }
+                    else
+                    {
+                        Logger.Log("Record " + i + " is NOT equal!");
+                        tfunctflag = true;
+
+                        // Decide which one is more up to data OR has more records
+                        RecordsList.Clear();
+                        RecordsList.AddRange(cachedRecords);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.Message);
+            }
+        }
+
+        public static bool tfunctflag = false;
+
+        public static void tFunct(List<DataRecord> recs)
+        {
+            while(tfunctflag == false)
+            {
+                
+            }
+            Console.WriteLine("COMPLETE");
         }
     }
 }
