@@ -48,11 +48,12 @@ namespace NetworkTest
             {
                 Console.WriteLine("NAME: " + i.name);
                 RecordsList.Add(i);
+
+                List<DataRecord> temp = new List<DataRecord>();
+                temp.Add(i);
+                vwc.GetMetaData(PrintMetaData, temp);
             }
-
-            // Get the metadata (done only once!)
-            vwc.GetMetaData(PrintMetaData, RecordsList);
-
+            
             // ================================================
             // TEST FOR DOWNLOAD VS CACHED DATA_RECORD EQUALITY
             // ================================================
