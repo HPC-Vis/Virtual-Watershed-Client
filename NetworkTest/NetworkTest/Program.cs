@@ -33,7 +33,7 @@ namespace NetworkTest
             Logger.SetPath(".\\log.txt");
             Logger.Log("Scooby Dooby Dooo!");
 
-            vwc.RequestRecords(PrintDataRecords, 20, 15);
+            vwc.RequestRecords(PrintDataRecords, 0, 50);
             //vwc.RequestRecords(null,0, 1000);
                                     
             Console.WriteLine("DONE");
@@ -82,7 +82,7 @@ namespace NetworkTest
             // if all is well this should work
             foreach(var i in RecordsList)
             {
-                vwc.getMap(GetMap, i,type:DownloadType.File,OutputPath: ".", OutputName: i.name);
+                vwc.getMap(GetMap, i,type:DownloadType.File,OutputPath: "./", OutputName: i.name);
                 vwc.getCoverage(GetCoverage, i);
                 vwc.getFeatures(GetFeature, i);
             }
@@ -129,9 +129,10 @@ namespace NetworkTest
 
         static void GetFeature(List<DataRecord> Records)
         {
+            Logger.Log("THE OBSERVERS");
             foreach (var i in Records)
             {
-                Logger.Log(i.Lines.ToString());
+                Logger.Log("GetFeature: " + i.Lines.ToString());
             }
         }
 
