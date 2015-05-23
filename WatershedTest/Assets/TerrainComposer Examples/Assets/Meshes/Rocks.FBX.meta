@@ -1,0 +1,131 @@
+fileFormatVersion: 2
+guid: 2c406404c6b768848bbbb971e81c0e6b
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    4300000: window_wood_b
+    4300002: window_wood_a
+    4300004: wood
+    4300006: concrete
+    4300008: dirt
+    4300010: wood_passage_a
+    4300012: wood_stair_a
+    4300014: wood_floor_b
+    4300016: wood_floor_a
+    4300018: wood_railing_d
+    4300020: wood_railing_a
+    4300022: wood_railing_stair_d
+    4300024: wood_railing_stair_a
+    4300026: wood
+    4300028: concrete01
+    4300030: interlaced_wood_b
+    4300032: interlaced_wood_a
+    4300034: concrete03
+    4300036: wood02
+    4300038: concrete_beam_small_a
+    4300040: bricks_a
+    4300042: rock_small_e
+    4300044: rock_big_b
+    4300046: rock_medium_g
+    4300048: rock_tiny_f
+    4300050: rock_medium_e
+    4300052: rock_medium_c
+    4300054: rock_small_d
+    4300056: rock_tiny_a
+    4300058: rock_tiny_g
+    4300060: rock_tiny_d
+    4300062: rock_small_c
+    4300064: rock_medium_f
+    4300066: rock_medium_d
+    4300068: rock_tiny_b
+    4300070: rock_tiny_c
+    4300072: rock_tiny_e
+    4300074: rock_small_a
+    4300076: rock_big_a
+    4300078: rock_medium_b
+    4300080: rock_small_b
+    4300082: rock_medium_a
+    4300084: broken_wall_a
+    4300086: broken_wall_b
+    4300088: broken_wall_c
+    4300090: platform_small_b
+    4300092: platform_medium_b
+    4300094: broken_tiles_a
+    4300096: broken_tiles_b
+    4300098: broken_tiles_c
+    4300100: concrete_beam_medium_b
+    4300102: concrete_beam_medium_c
+    4300104: concrete_beam_large
+    4300106: concrete_beam_medium
+    4300108: wood_railing_b
+    4300110: wood_railing_stair_b
+    4300112: wood_railing_c
+    4300114: wood_railing_stair_c
+    4300116: bricks_b
+    4300118: concrete02
+    4300120: wood01
+    4300122: alphas
+    4300124: concrete
+    4300126: wood03
+    4300128: metal
+    4300130: concrete
+    4300132: metal01
+    4300134: industry_far_view
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 1
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 0
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
