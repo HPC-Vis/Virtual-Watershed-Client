@@ -7,12 +7,12 @@ Temp/
 Library/
 Cache/
 Images/
-Assets/Northern_Vegetation/**
-Assets/AssetStoreFiles/**
-Assets/ReliefPack/**
-Assets/TerrainComposer/**
-Assets/TerrainComposer Examples/**
-Assets/Stereokopix3d/**
+Assets/Northern_Vegetation/*
+Assets/AssetStoreFiles/*
+Assets/ReliefPack/*
+Assets/TerrainComposer/*
+Assets/TerrainComposer Examples/*
+Assets/Stereokopix3d/*
 !Assets/Northern_Vegetation/**.meta
 !Assets/AssetStoreFiles/**.meta
 !Assets/ReliefPack/**.meta
