@@ -1,5 +1,5 @@
 #!*.meta
-!**.meta
+!/**/*.meta
 # =============== #
 # Unity generated #
 # =============== #
@@ -7,21 +7,6 @@ Temp/
 Library/
 Cache/
 Images/
-!Assets/Northern_Vegetation/**/*.meta
-!Assets/AssetStoreFiles/**/*.meta
-!Assets/ReliefPack/**/*.meta
-!Assets/TerrainComposer/**/*.meta
-!Assets/TerrainComposer Examples/**/*.meta
-!Assets/Stereokopix3d/**/*.meta
-Assets/Northern_Vegetation/**/*
-Assets/AssetStoreFiles/*
-Assets/ReliefPack/*
-Assets/TerrainComposer/*
-Assets/TerrainComposer Examples/**/*
-Assets/Stereokopix3d/*
-
-
-
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
