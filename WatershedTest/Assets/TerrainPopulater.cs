@@ -118,6 +118,11 @@ public class TerrainPopulater : MonoBehaviour
 		recordToBuild.Add(Record [0]);
 	}
 
+	public void onDestroy()
+	{
+		nm.Halt();
+	}
+
 	public void LoadSelected()
 	{
 		var Runs = TerrainList.GetSelected ();
