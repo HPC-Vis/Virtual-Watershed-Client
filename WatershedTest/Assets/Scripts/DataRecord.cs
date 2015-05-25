@@ -203,8 +203,14 @@ public class DataRecord : IEquatable<DataRecord>
     public string variableName;
 
     // Temporal Fields for metadata 
-    public DateTime start;
-    public DateTime end;
+    public DateTime? start = null;
+    public DateTime? end = null;
+
+
+	public bool IsTemporal()
+	{
+		return start == null && end == null;
+	}
 
     // A test set flag for one variable tests
     public bool isSet = false;

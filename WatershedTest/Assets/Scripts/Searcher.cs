@@ -40,16 +40,6 @@ public class Searcher : MonoBehaviour {
 
     // Lets get all of the model runs out of the way!!!!!
     ModelRunManager.SearchForModelRuns();
-		PriorityQueue<DownloadRequest> requesttest = new PriorityQueue<DownloadRequest> ();
-		DownloadRequest dr = new DownloadRequest ("", (StringFunction)null, 1);
-		DownloadRequest dr3 = new DownloadRequest ("", (StringFunction)null, 5000);
-		DownloadRequest dr2 = new DownloadRequest ("", (StringFunction)null, 100);
-		requesttest.Enqueue(dr);
-		requesttest.Enqueue (dr3);
-		requesttest.Enqueue(dr2);
-		Debug.LogError (requesttest.Dequeue ().Priority);
-		Debug.LogError (requesttest.Dequeue ().Priority);
-		Debug.LogError (requesttest.Dequeue ().Priority);
 	}
 
    /// <summary>

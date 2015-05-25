@@ -423,7 +423,7 @@ public  static class ModelRunManager
             {
                 // Handle it
             }
-            // Normal Case
+            // Normal Case -- create a model run
             else if (!modelRuns.ContainsKey(rec.modelRunUUID))
             {
                 // Cache Case -- Check if cache has a georef

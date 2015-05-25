@@ -25,9 +25,13 @@ public class ModelRun
 	public DateTime? End = null;
     public int Total;
     public int CurrentCapacity = 0;
+
+	// Replace with modelrun variable class  ....   ***********************************************
     //public ModelRunManager ModelRunManager;
     // private Dictionary<string, GeoReference> references = new Dictionary<string, GeoReference>();
     private Dictionary<string, List<DataRecord>> references = new Dictionary<string, List<DataRecord>>();
+	Dictionary<string,bool> IsTemporal = new Dictionary<string, bool> ();
+	// ************************************************
 
     public List<string> GetVariables()
     {
@@ -137,6 +141,7 @@ public class ModelRun
         if( ! references.ContainsKey(record.variableName) )
         {
             references[record.variableName] = new List<DataRecord>();
+			IsTemporal[record.variableName] = false;
         }
 
         // Insert data record into appopritate georef object --- if it doesn't already exist in this model run..
@@ -145,6 +150,7 @@ public class ModelRun
             CurrentCapacity++;
             //Debug.Log("ADDED: " + CurrentCapacity + " " + Total);
             references[record.variableName].Add(record);
+			IsTemporal[record.variableName] = ( record.IsTemporal() && (record.modelname.ToLower() != "reference") ) || IsTemporal[record.variableName];
         }
         
         //Debug.Log("VARIABLE: " + record.variableName + "RECORD NAME: " + record.name);
