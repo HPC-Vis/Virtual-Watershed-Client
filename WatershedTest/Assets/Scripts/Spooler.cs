@@ -67,8 +67,6 @@ public class Spooler : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        //RandomMovie();
-        
         //testImage.sprite = Reel[0].Picture;
         point = 0;
         
@@ -79,6 +77,8 @@ public class Spooler : MonoBehaviour
     bool first = true;
     float point;
 	public Text downloadTextBox;
+	public Text selectedVariableTextBox;
+
     // Update is called once per frame
     void Update()
     {
@@ -305,8 +305,9 @@ public class Spooler : MonoBehaviour
         // Load this 
         var temp = visual.listView.GetSelectedModelRuns();
         var seled = visual.listView.GetSelectedRowContent();
-        string variable = seled[0][1].ToString();
+        string variable = seled[0][2].ToString();
 		Debug.LogError (temp.Count);
+		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
 
 		if (selectedModelRun != "") 
 		{

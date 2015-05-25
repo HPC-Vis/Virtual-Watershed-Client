@@ -927,7 +927,7 @@ Material:
       data:
         first:
           name: _Opacity
-        second: .474000007
+        second: .5
       data:
         first:
           name: _Angle
