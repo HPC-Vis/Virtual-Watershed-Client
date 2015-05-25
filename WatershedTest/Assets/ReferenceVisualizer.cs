@@ -70,7 +70,7 @@ public class ReferenceVisualizer : MonoBehaviour
                 foreach(var record in MR.Get(variable))
                 {
                     //Debug.LogError(record.name);
-                    listView.AddRow(new object[] { record.name, record.Type }, record);
+                    listView.AddRow(new object[] { record.name, record.Type, record.description }, record);
                 }
             }
 

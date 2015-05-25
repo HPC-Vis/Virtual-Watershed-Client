@@ -17,7 +17,10 @@ public class DownloadManager : MonoBehaviour {
     public void AddModelRun(string UUID)
     {
         Debug.LogError("MWHWHWHWHHHAHAHHAHAHAHHAHAHHAHAHAHHAHAHHAHAHAHHAHAHAHHAHAHA");
-        Downloaded.Add(UUID);
+		if (!Downloaded.Contains (UUID)) 
+		{
+			Downloaded.Add (UUID);
+		}
     }
 
     public List<string> GetModelRuns()

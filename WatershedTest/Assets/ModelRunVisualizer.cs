@@ -35,7 +35,8 @@ public class ModelRunVisualizer : MonoBehaviour {
             List<string> variables = MR.GetVariables();
             foreach (var variable in variables)
             {
-                listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, MR.Description},MR);
+				if(variables.Count > 1)//MR.IsTemporal.ContainsKey(variable))
+                	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, MR.Description},MR);
             }
             
             //downloadManager.AddModelRun(i);

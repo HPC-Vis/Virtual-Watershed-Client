@@ -150,8 +150,8 @@ public class Spooler : MonoBehaviour
         Utilities utilities = new Utilities();
 
 
-        frame.starttime = rec.start;
-        frame.endtime = rec.end;
+        frame.starttime = rec.start.Value;
+        frame.endtime = rec.end.Value;
 		frame.Data = rec.Data;
         //Debug.LogError(rec.start + " | " + rec.end);
 		//Logger.enable = true;
@@ -271,8 +271,8 @@ public class Spooler : MonoBehaviour
         // Create a sprite
         frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
         // Attached an associate Date Time Object
-        frame.starttime = data.start;
-        frame.endtime = data.end;
+        frame.starttime = data.start.Value;
+        frame.endtime = data.end.Value;
         //Reel.Add(frame);
         //SortList();
         Insert(frame);

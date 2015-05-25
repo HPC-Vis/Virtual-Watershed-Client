@@ -30,7 +30,7 @@ public class ModelRun
     //public ModelRunManager ModelRunManager;
     // private Dictionary<string, GeoReference> references = new Dictionary<string, GeoReference>();
     private Dictionary<string, List<DataRecord>> references = new Dictionary<string, List<DataRecord>>();
-	Dictionary<string,bool> IsTemporal = new Dictionary<string, bool> ();
+	public Dictionary<string,bool> IsTemporal = new Dictionary<string, bool> ();
 	// ************************************************
 
     public List<string> GetVariables()
@@ -302,9 +302,9 @@ public class ModelRun
             foreach(var j in i.Value)
             {
                 Logger.WriteLine(j.start.ToString());
-                if(time > j.start)
+                if(time > j.start.Value)
                 {
-                    time = j.start;
+                    time = j.start.Value;
                 }
             }
         }
@@ -323,9 +323,9 @@ public class ModelRun
             foreach (var j in i.Value)
             {
                 Logger.WriteLine(j.end.ToString());
-                if (j.end > time)
+				if (j.end > time)
                 {
-                    time = j.end;
+					time = j.end.Value;
                 }
             }
         }
@@ -344,13 +344,13 @@ public class ModelRun
 			foreach (var j in i.Value)
 			{
 				Logger.WriteLine(j.end.ToString());
-				if (j.end > MaxTime)
+				if (j.end> MaxTime)
 				{
-					MaxTime = j.end;
+					MaxTime = j.end.Value;
 				}
 				if(j.start < MinTime)
 				{
-					MinTime = j.start;
+					MinTime = j.start.Value;
 				}
 			}
 		}
