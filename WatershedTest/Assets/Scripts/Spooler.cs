@@ -156,7 +156,7 @@ public class Spooler : MonoBehaviour
         //Debug.LogError(rec.start + " | " + rec.end);
 		//Logger.enable = true;
         //frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
-		var tex = utilities.buildTextures (rec.Data, Color.red, Color.blue);
+		var tex = utilities.buildTextures (rec.Data, Color.clear, Color.red);
 		for(int i = 0; i < tex.width; i++)
 		{
 

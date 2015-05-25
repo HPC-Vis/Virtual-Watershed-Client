@@ -623,7 +623,7 @@ public class Utilities
     // =========================================
     //          SHAPE BUILDING FUNCTIONS
     // =========================================
-    public Color[] colors = new[] { Color.blue, Color.red, Color.yellow, Color.green, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
+    public Color[] colors = new[] { Color.red, Color.clear, Color.yellow, Color.green, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
     int current = 0;
 
 	GameObject addPoint( Vector2 point,transform tr)
