@@ -37,6 +37,11 @@ public class raySlicer : MonoBehaviour
     void Start()
     {
 
+		if (!Directory.Exists (DirectoryLocation))
+		{
+			Directory.CreateDirectory(DirectoryLocation);
+		}
+
         height = 256;
         width = 256;
         
