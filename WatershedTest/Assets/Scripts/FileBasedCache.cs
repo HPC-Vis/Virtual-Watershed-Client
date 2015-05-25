@@ -24,8 +24,11 @@ public static class FileBasedCache
    
     static FileBasedCache()
     {
-        if (!Directory.Exists(DirectoryLocation))
-            throw new ArgumentException("directoryLocation msu exist");
+        if (!Directory.Exists (DirectoryLocation)) 
+		{
+			Directory.CreateDirectory(DirectoryLocation);
+			//throw new ArgumentException ("directoryLocation msu exist");
+		}
         if (File.Exists(MyMapFileName))
         {
             _FileMap = DeSerializeFromBin<Dictionary<string, string>>(MyMapFileName);
