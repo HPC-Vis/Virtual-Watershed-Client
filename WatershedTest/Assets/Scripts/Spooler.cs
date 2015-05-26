@@ -84,35 +84,45 @@ public class Spooler : MonoBehaviour
     {
         if (SliderFrames.Count > 0 && count > 0)
         {
-			// Clear time series graph
+			// Set a dequeue size for multiple dequeus in one update
+            int dequeueSize = 5;
 
+            if (SliderFrames.Count < dequeueSize)
+            {
+                dequeueSize = SliderFrames.Count;
+            }
+            
+            // Run the dequeue dequeueSize times
+            for (int i = 0; i < dequeueSize; i++)
+            {
+                // Clear time series graph
+                DataRecord record = SliderFrames.Dequeue();
 
-			DataRecord record = SliderFrames.Dequeue();
-			if(Reel.Count == 0)
-			{
-				// Set projector...
-				Utilities utilites = new Utilities();
+                if (Reel.Count == 0)
+                {
+                    // Set projector...
+                    Utilities utilites = new Utilities();
 
-				utilites.PlaceProjector(TimeProjector,record);
-				BoundingBox = Utilities.bboxSplit(record.bbox);
-				Debug.LogError(BoundingBox);
-				var tran = new transform();
-				tran.createCoordSystem(record.projection); // Create a coordinate transform
-				//Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
-				
-				tran.setOrigin(coordsystem.WorldOrigin);
-				Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
-				Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x+BoundingBox.width, BoundingBox.y-BoundingBox.height));
-				BoundingBox = new Rect(point.x,point2.y,Math.Abs(point.x-point2.x),Math.Abs(point.y-point2.y));
-				Debug.LogError(BoundingBox);
-			}
+                    utilites.PlaceProjector(TimeProjector, record);
+                    BoundingBox = Utilities.bboxSplit(record.bbox);
+                    Debug.LogError(BoundingBox);
+                    var tran = new transform();
+                    tran.createCoordSystem(record.projection); // Create a coordinate transform
+                    //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
-            count--;
-            textureBuilder(record);
-			if(downloadTextBox)
-				downloadTextBox.text = "Downloaded: " + ((float)Reel.Count/(float)TOTAL).ToString("P");
+                    tran.setOrigin(coordsystem.WorldOrigin);
+                    Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
+                    Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
+                    BoundingBox = new Rect(point.x, point2.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+                    Debug.LogError(BoundingBox);
+                }
+
+                count--;
+                textureBuilder(record);                
+            }
+            if (downloadTextBox)
+                downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
             timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, 1);
-
         }
 		if (Input.GetMouseButtonDown (0)) 
 		{
@@ -123,11 +133,23 @@ public class Spooler : MonoBehaviour
 			if(BoundingBox.Contains(CheckPoint))
 			{
 				Debug.LogError("CONTAINS");
-				trendGraph.Clear();
+                BuildTrendGraph();
 				NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint,BoundingBox);
 
 			}
 		}
+    }
+
+    private void BuildTrendGraph()
+    {
+        int i = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
+        int j = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
+
+        trendGraph.Clear();
+        foreach (var frame in Reel)
+        {
+            trendGraph.Add(frame.starttime,frame.Data[i,j]);
+        }
     }
 
     public void textureBuilder(DataRecord rec)
@@ -298,6 +320,7 @@ public class Spooler : MonoBehaviour
 
 
 	int previ=0,prevj=0;
+    string oldSelectedVariable;
     public void LoadSelected()
     {
 		Debug.LogError ("LOADING SELECTED");
@@ -309,12 +332,16 @@ public class Spooler : MonoBehaviour
 		Debug.LogError (temp.Count);
 		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
 
+
 		if (selectedModelRun != "") 
 		{
-			//ModelRunManager.RemoveFromDownloads(selectedModelRun);
+			//ModelRunManager.RemoveRecordData(selectedModelRun);
 			Reel.Clear();
+            SliderFrames.Clear();
 			// Add some code here to handle the time slider.
 			//timeslider.reset();
+            ModelRun oldData = ModelRunManager.GetByUUID(selectedModelRun);
+            oldData.ClearData(oldSelectedVariable);
 		}
         if(temp!= null)
         {
@@ -332,6 +359,7 @@ public class Spooler : MonoBehaviour
 			var Records = temp[0].FetchVariableData(variable);
 			TOTAL = Records.Count;
 			selectedModelRun = temp[0].ModelRunUUID;
+            oldSelectedVariable = variable;
 			Debug.LogError("NUMBER OF RECORDS: " + Records.Count);
             ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
         }
@@ -376,7 +404,7 @@ public class Spooler : MonoBehaviour
 			if(textureIndex != prevTextureIndex)
 			{
 				// Send data to time series graph.
-				trendGraph.Add(Reel[textureIndex].starttime,Reel[textureIndex].Data[i,j]);
+				// trendGraph.Add(Reel[textureIndex].starttime,Reel[textureIndex].Data[i,j]);
 			}
 
 			// Set projector image
