@@ -29,7 +29,7 @@ public class mouseray : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject};
+        IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject, marker1, marker2};
         //change model
         TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         TheTrailer.name = "THE TRAILER";
@@ -40,7 +40,9 @@ public class mouseray : MonoBehaviour
         tr.material = trailMaterial;
         Physics.IgnoreCollision(TheTrailer.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
-    }
+
+		
+	}
 
     bool previous;
     void activateCursor(bool val)
@@ -225,40 +227,27 @@ public class mouseray : MonoBehaviour
         // Determining what we need to highlight.
         if (marker1 != null && marker2 != null)
         {
-            /*if (mark1highlighted)
-            {
-                marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
-            }
-            if (mark2highlighted)
-            {
-                marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
-            }
+           
             if ((curposflat - mark1posflat).magnitude <= 50.0f)
             {
-                marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 0f, 1f, 1.0f));
+               // marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 0f, 1f, 1.0f));
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
+                    //marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
                     mark1highlighted = !mark1highlighted;
                 }
             }
-            else if (!mark1highlighted)
-            {
-                marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-            }
+           
             if ((curposflat - mark2posflat).magnitude <= 50.0f)
             {
-                marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 0f, 1f, 1.0f));
+                //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 0f, 1f, 1.0f));
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
+                    //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
                     mark2highlighted = !mark2highlighted;
                 }
             }
-            else if (!mark2highlighted)
-            {
-                marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-            }*/
+            
             //Debug.LogError(checkLineDistanceFromPoint(marker1.transform.position, marker2.transform.position, curpos));
             timecount += Time.deltaTime;
 
@@ -283,40 +272,52 @@ public class mouseray : MonoBehaviour
             if (Input.GetMouseButtonDown(0))
             {
                 // Place Markers
-                if (marker1 == null)
-                {
-                    // set first marker
+				if (marker1.transform.position == Vector3.zero)
+				{
+					marker1.SetActive(true);
+					// set first marker
                     //change this to load new model
-					marker1 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
+					//marker1 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
                     //marker1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     //marker1.transform.localScale += new Vector3(100f, 100f, 100f);
-					marker1.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+					marker1.transform.position = new Vector3(curpos.x, curpos.y - 10.0f, curpos.z);
 					//marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-                    Physics.IgnoreCollision(marker1.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
-                    //TrailerPosition = marker1.transform.position;
+                    //Physics.IgnoreCollision(marker1.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
+
+
+					
+					//TrailerPosition = marker1.transform.position;
                     resetTrailer();
                 }
-                else if (marker2 == null)
-                {
-                    TheTrailer.SetActive(true);
+				else if (marker2.transform.position == Vector3.zero)
+				{
+					marker2.SetActive(true);
+					TheTrailer.SetActive(true);
                     // set first marker
                     //change this to load new model
-					marker2 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
+					//marker2 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
 
                     //marker2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     //marker2.transform.localScale += new Vector3(100f, 100f, 100f);
-                    marker2.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+                    marker2.transform.position = new Vector3(curpos.x, curpos.y - 10.0f, curpos.z);
                     //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-                    Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
+                    //Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
-                    timecount = 0.0f;
+					
+					timecount = 0.0f;
                 }
                 else
                 {
-                    Destroy(marker1);
-                    Destroy(marker2);
-                    marker1 = null;
-                    marker2 = null;
+					marker1.transform.position = Vector3.zero;
+					marker2.transform.position = Vector3.zero;
+
+					marker1.SetActive(false);
+					marker2.SetActive(false);
+
+					
+					//Destroy(marker1);
+                    //Destroy(marker2);
+                    
                     mark1highlighted = false;
                     mark2highlighted = false;
                     //resetTrailer();
@@ -516,12 +517,12 @@ public class mouseray : MonoBehaviour
         {
             //Debug.LogError(TrailerPosition);
             Vector3 Direction = marker1.transform.position - marker2.transform.position;
-            if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 5.0)
+            if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 20.0)
             {
                 //TrailerPosition = marker1.transform.position;
                 direction = true;
             }
-            else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 5.0)
+            else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 20.0)
             {
                 //TrailerPosition = marker2.transform.position;
                 direction = false;
@@ -548,6 +549,7 @@ public class mouseray : MonoBehaviour
         if(marker1 != null )
         {
             TrailerPosition = marker1.transform.position;
+			TheTrailer.transform.position = TrailerPosition;
         }
         //TheTrailer.GetComponent<TrailRenderer>().time = 1f;
         TheTrailer.GetComponent<TrailRenderer>().time = 0f;
