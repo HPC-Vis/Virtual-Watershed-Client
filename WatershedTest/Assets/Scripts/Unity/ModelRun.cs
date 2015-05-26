@@ -168,6 +168,14 @@ public class ModelRun
         return references.Count;
     }
 
+    public void ClearData(string variable)
+    {
+        foreach (var record in references[variable])
+        {
+            record.Data = null;
+        }        
+    }
+
     // Other params
     public void DownloadDatasets(bool all=true,string operation="wcs",SystemParameters param=null)
     {

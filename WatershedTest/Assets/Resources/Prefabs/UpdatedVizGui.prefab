@@ -9119,6 +9119,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64598f7aa0900cd4dae6ad81f1ef5fec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  trendGraph: {fileID: 0}
+  timeSlider: {fileID: 0}
 --- !u!114 &11403024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16556,6 +16558,7 @@ MonoBehaviour:
   timebaseLabel: -1 hour
   unitsLabel: units
   valueFormatString: 0.00
+  Keep: 1
 --- !u!114 &11443576
 MonoBehaviour:
   m_ObjectHideFlags: 1

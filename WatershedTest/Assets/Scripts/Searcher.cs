@@ -85,8 +85,7 @@ public class Searcher : MonoBehaviour {
     Rect testRect = new Rect(0, 0, 150, 150);
 	// Update is called once per frame
 	void Update () {
-        
-		
+        		
 		UpdateTimer += Time.deltaTime;
 		if (!firstPopulation || UpdateTimer > 5)
 		{

@@ -168,8 +168,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .672142148, g: .454405159, b: 0, a: 0}
+        second: {r: .799021125, g: .330449283, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .629050612, g: .423739254, b: 0, a: 0}
+        second: {r: .818165779, g: .342520595, b: 0, a: 0}

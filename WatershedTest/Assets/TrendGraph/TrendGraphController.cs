@@ -30,7 +30,6 @@ namespace VTL.TrendGraph
 
     public class TrendGraphController : MonoBehaviour
     {
-		readonly static object Lock = new object();
         public Color lineColor = Color.white;
         public float lineWidth = 1f;
         public float yMax = 1;
@@ -40,16 +39,17 @@ namespace VTL.TrendGraph
                                                 // this makes sense with the timebase
         public string unitsLabel = "F"; // the units label
         public string valueFormatString = "D3";
-
+        private DateTime lastDraw;
+		public bool Keep = true;
         List<TimeseriesRecord> timeseries;
-        DateTime lastDraw;
         Text valueText;
         Vector3 origin;
         float w;
         float h;
 
         RectTransform rectTransform;
-        Transform lineAnchor;
+        RectTransform lineAnchor;
+        Canvas parentCanvas;
 
         public void OnValidate()
         {
@@ -76,7 +76,19 @@ namespace VTL.TrendGraph
             timeseries = new List<TimeseriesRecord>();
             rectTransform = transform.Find("Graph") as RectTransform;
             lineAnchor = transform.Find("Graph")
-                                  .Find("LineAnchor");
+                                  .Find("LineAnchor") as RectTransform;
+
+            // Walk up the Hierarchy to find the parent canvas.
+            var parent = transform.parent;
+            while(parent != null)
+            {
+                parentCanvas = parent.GetComponent<Canvas>();
+                if (parentCanvas != null)
+                    parent = null; // stop condition
+                else
+                    parent = parent.parent;
+            }
+
             valueText = transform.Find("Value").GetComponent<Text>();
         }
 
@@ -84,32 +96,70 @@ namespace VTL.TrendGraph
         // has to be drawn in draw line
         void OnGUI()
         {
-			lock (Lock) {
-				int n = timeseries.Count;
+            // sort the records incase they are out of order
+            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
+			Debug.LogError (timeseries.Count);
+            // cull old records
+			if (timeseries.Count == 0 || timeseries.Count > 8000) {
+				Debug.LogError("EXCEEDED");
+				return;
+			}
+			if (!Keep) {
+				var elapsed = (float)(lastDraw - timeseries [0].time).TotalSeconds;
+				while (elapsed > timebase && elapsed > 0) { 
+					timeseries.RemoveAt (0);
+					if (timeseries.Count == 0)
+						return;
+					elapsed = (float)(lastDraw - timeseries [0].time).TotalSeconds;
+				}
 
-				if (n < 2)
+				// cull future records
+				// e.g. SimTimeControl, user scrubbing backwards
+				int m = timeseries.Count - 1;
+				if (m == -1)
 					return;
-
-				// Need to check the origin and the width and height everytime
-				// just in case the panel has been resized
-				origin = rectTransform.position;
-				origin.y = Screen.height - origin.y;
-
-				w = rectTransform.rect.width * transform.localScale.x;
-				h = rectTransform.rect.height * transform.localScale.y;
-
-				// Need to save the latest time so we can remove old records
-				lastDraw = timeseries [n - 1].time;
-
-				// Iterate through the timeseries and draw the trend segment
-				// by segment.
-				var prev = Record2PixelCoords (timeseries [0]);
-				for (int i = 1; i < n; i++) {
-					var next = Record2PixelCoords (timeseries [i]);
-					Drawing.DrawLine (prev, next, lineColor, lineWidth, false);
-					prev = next;
+				while (timeseries[m].time > (DateTime)lastDraw) {
+					timeseries.RemoveAt (m);
+					m = timeseries.Count - 1;
+					if (m == -1)
+						return;
 				}
 			}
+            // return if there are less than 2 records after culling
+            int n = timeseries.Count;
+            if (n < 2)
+                return;
+
+            // Need to check the origin and the width and height every draw
+            // just in case the panel has been resized
+            switch (parentCanvas.renderMode)
+            {
+                case RenderMode.ScreenSpaceOverlay:
+                    origin = rectTransform.position;
+                    origin.y = Screen.height - origin.y;
+                    break;
+                default:
+                    origin = RectTransformUtility.WorldToScreenPoint(parentCanvas.worldCamera, lineAnchor.position);
+                    origin.y = Screen.height - origin.y;
+                    break;
+            }
+            w = rectTransform.rect.width * transform.localScale.x;
+            h = rectTransform.rect.height * transform.localScale.y;
+
+            // Iterate through the timeseries and draw the trend segment
+            // by segment.
+            var prev = Record2PixelCoords(timeseries[0]);
+            for (int i = 1; i < n; i++)
+            {
+                var next = Record2PixelCoords2(timeseries[i]);
+                Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
+                prev = next;
+            }
+        }
+
+        public void Clear()
+        {
+            timeseries.Clear();
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting
@@ -122,23 +172,35 @@ namespace VTL.TrendGraph
                                origin.y + h * (1 - normHeight));
         }
 
+
+		Vector2 Record2PixelCoords2(TimeseriesRecord record)
+		{
+			//float s = (float)(lastDraw - record.time).TotalSeconds;
+			//float s = (float)(lastDraw - record.time).TotalSeconds;
+			//float normTime = Mathf.Clamp01(1 - s / timebase);
+			float normTime = (float)(record.time - Start2).TotalSeconds / (float)(End - Start2).TotalSeconds;
+			float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
+			return new Vector2(origin.x + w * normTime,
+			                   origin.y + h * (1 - normHeight));
+		}
+
+		public DateTime Start2 = DateTime.MaxValue,End=DateTime.MinValue;
+
         // add a time series to the trend graph
         public void Add(TimeseriesRecord record)
         {
             timeseries.Add(record);
+			if (Start2 > record.time) 
+			{
+				Start2 = record.time;
+			}
+		    if (End < record.time) {
+				End = record.time;
+			}
+            lastDraw = record.time;
             valueText.text = record.value.ToString(valueFormatString);
-
-            // cull old records
-            while ((lastDraw - timeseries[0].time).TotalSeconds > (double)timebase)
-                timeseries.RemoveAt(0);
         }
         
-		public void Clear()
-		{
-			lock(Lock)
-			timeseries.Clear ();
-		}
-
         public void Add(DateTime time, float value)
         {
             Add(new TimeseriesRecord(time, value));

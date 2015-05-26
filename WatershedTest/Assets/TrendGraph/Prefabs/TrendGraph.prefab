@@ -94,7 +94,6 @@ GameObject:
   - 222: {fileID: 22259008}
   - 114: {fileID: 11410618}
   - 114: {fileID: 11429586}
-  - 114: {fileID: 11454476}
   m_Layer: 5
   m_Name: TrendGraph
   m_TagString: Untagged
@@ -198,8 +197,8 @@ MonoBehaviour:
   lineWidth: 1
   yMax: 120
   yMin: 80
-  timebase: 60
-  timebaseLabel: -1 min
+  timebase: 600
+  timebaseLabel: 10 h
   unitsLabel: F
   valueFormatString: 0.00
 --- !u!114 &11435146
@@ -254,17 +253,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 0.00
---- !u!114 &11454476
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 182734}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64598f7aa0900cd4dae6ad81f1ef5fec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &11465586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -290,7 +278,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: -1 min
+  m_Text: 10 h
 --- !u!114 &11476946
 MonoBehaviour:
   m_ObjectHideFlags: 1

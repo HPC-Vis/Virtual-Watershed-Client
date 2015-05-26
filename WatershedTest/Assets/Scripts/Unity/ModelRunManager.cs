@@ -475,9 +475,9 @@ public  static class ModelRunManager
 
     }
 
-	static public void RemoveFromDownloads(string ModelRunUUID)
+	static public void RemoveRecordData(string ModelRunUUID)
 	{
-		client.RemoveJobsByModelRunUUID (ModelRunUUID);
+		//client.RemoveJobsByModelRunUUID (ModelRunUUID);
 	}
 
     static public void InsertModelRun(string uuid, ModelRun mr)
