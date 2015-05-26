@@ -29,7 +29,7 @@ public class mouseray : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject};
+        IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject, marker1, marker2};
         //change model
         TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         TheTrailer.name = "THE TRAILER";
@@ -39,10 +39,10 @@ public class mouseray : MonoBehaviour
         //tr.materials[0] = trailMaterial;
         tr.material = trailMaterial;
         Physics.IgnoreCollision(TheTrailer.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
-		marker1.SetActive(false);
-		marker2.SetActive(false);
+
+
 		
-    }
+	}
 
     bool previous;
     void activateCursor(bool val)
@@ -280,11 +280,10 @@ public class mouseray : MonoBehaviour
 					//marker1 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
                     //marker1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     //marker1.transform.localScale += new Vector3(100f, 100f, 100f);
-					marker1.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+					marker1.transform.position = new Vector3(curpos.x, curpos.y - 10.0f, curpos.z);
 					//marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-                    Physics.IgnoreCollision(marker1.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
-					Physics.IgnoreCollision(marker1.GetComponent<Collider>(), cursor.GetComponent<Collider>());
-					Physics.IgnoreCollision(marker1.GetComponent<Collider>(), TheTrailer.GetComponent<Collider>());
+                    //Physics.IgnoreCollision(marker1.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
+
 
 					
 					//TrailerPosition = marker1.transform.position;
@@ -300,11 +299,9 @@ public class mouseray : MonoBehaviour
 
                     //marker2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     //marker2.transform.localScale += new Vector3(100f, 100f, 100f);
-                    marker2.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+                    marker2.transform.position = new Vector3(curpos.x, curpos.y - 10.0f, curpos.z);
                     //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-                    Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
-					Physics.IgnoreCollision(marker2.GetComponent<Collider>(), cursor.GetComponent<Collider>());
-					Physics.IgnoreCollision(marker2.GetComponent<Collider>(), TheTrailer.GetComponent<Collider>());
+                    //Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
 					
 					timecount = 0.0f;
@@ -520,12 +517,12 @@ public class mouseray : MonoBehaviour
         {
             //Debug.LogError(TrailerPosition);
             Vector3 Direction = marker1.transform.position - marker2.transform.position;
-            if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 5.0)
+            if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 20.0)
             {
                 //TrailerPosition = marker1.transform.position;
                 direction = true;
             }
-            else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 5.0)
+            else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 20.0)
             {
                 //TrailerPosition = marker2.transform.position;
                 direction = false;

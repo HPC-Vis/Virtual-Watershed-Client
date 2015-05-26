@@ -25,13 +25,20 @@ public class SlicerNode : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector2 Point = TerrainUtils.NormalizePointToTerrain(this.transform.position, GlobalConfig.TerrainBoundingBox);
+		Vector3 Point = coordsystem.transformToWorld(this.transform.position);
 		Lat.text = Point.x.ToString ();
-		Long.text = Point.y.ToString ();
+		Long.text = Point.z.ToString ();
 		//Lat.text = Get from scene;
 		//Long.text = Get From Scene;
 		if (Terrain.activeTerrain != null) {
-			Ele.text = ((mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y) + Terrain.activeTerrain.transform.position.y).ToString ();
+			float elevation;
+			if(Terrain.activeTerrain.transform.position.y > 0){
+				elevation = ((mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y) +  Terrain.activeTerrain.transform.position.y);
+			}
+			else{
+				elevation = ((mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y) +  (-1)*Terrain.activeTerrain.transform.position.y);
+			}
+			Ele.text = elevation.ToString ();
 		}
 	}
 }
