@@ -16555,7 +16555,8 @@ MonoBehaviour:
   yMax: 100
   yMin: -100
   timebase: 60
-  timebaseLabel: -1 hour
+  minTime: 
+  maxTime: 
   unitsLabel: units
   valueFormatString: 0.00
   Keep: 1
