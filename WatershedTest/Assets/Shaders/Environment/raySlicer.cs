@@ -30,14 +30,13 @@ public class raySlicer : MonoBehaviour
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
-
-
-
+	public ComputeShader CS;
+	MinMaxShader MinMax;
     // Use this for initialization
 
     void Start()
     {
-
+		MinMax = new MinMaxShader (CS);
 		if (!Directory.Exists (DirectoryLocation))
 		{
 			Directory.CreateDirectory(DirectoryLocation);
@@ -142,6 +141,7 @@ public class raySlicer : MonoBehaviour
                     GlobalConfig.TerrainBoundingBox.height = GlobalConfig.TerrainBoundingBox.height * 2;
                     GlobalConfig.TerrainBoundingBox.width = GlobalConfig.TerrainBoundingBox.width * 2;
                     screenMaterial.SetTexture("_MainTex2", slicerMap);
+					MinMax.SetDataArray(slicerMap);
                 }
                 else
                 {
@@ -214,6 +214,7 @@ public class raySlicer : MonoBehaviour
                     File.WriteAllBytes(ImageLoc, terrainBytes);
                 }
                 screenMaterial.SetTexture("_MainTex2", slicerMap);
+				MinMax.SetDataArray(slicerMap);
                 Debug.LogError("SETTING HEIGHTS");
             }
             
@@ -222,6 +223,7 @@ public class raySlicer : MonoBehaviour
         {
 			GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z,GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
             screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+			MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
         }
         
     }
@@ -256,11 +258,15 @@ public class raySlicer : MonoBehaviour
     public void setFirstPoint(Vector2 one)
     {
         firstPoint = one;
+		if(MinMax != null)
+		MinMax.SetFirstPoint (one);
     }
 
     public void setSecondPoint(Vector2 two)
     {
         secondPoint = two;
+		if(MinMax != null)
+		MinMax.SetSecondPoint (two);
     }
 
     public void setMin(float Min)
@@ -340,8 +346,10 @@ public class raySlicer : MonoBehaviour
         min = 0;
         //sliceSprite.onRender = setPropertices;
         // pass display min/max to shader
-        screenMaterial.SetFloat("_Min", (displayMin - min) / (max - min));
-        screenMaterial.SetFloat("_Max", (displayMax - min) / (max - min));
+        //screenMaterial.SetFloat("_Min", (displayMin - min) / (max - min));
+        //screenMaterial.SetFloat("_Max", (displayMax - min) / (max - min));
+
+
 
         //print("MIN " + ((displayMin - min) / (max - min)).ToString());
         //print("MAX " + ((displayMax - min) / (max - min)).ToString());
@@ -349,7 +357,15 @@ public class raySlicer : MonoBehaviour
         // get 2 point vects
         Vector2 fv = firstPoint;
         Vector2 sv =secondPoint;
+		MinMax.SetFirstPoint (fv);
+		MinMax.SetSecondPoint (sv);
 
+		MinMax.FindMinMax ();
+		float Range = MinMax.max - MinMax.min;
+		screenMaterial.SetFloat("_Min", MinMax.min-Mathf.Min(Range/2.0f,.2f));
+		screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range/2.0f,.2f));
+		Debug.LogError ("MAX: " + MinMax.max);
+		Debug.LogError ("MIN: " + MinMax.min);
         // flip dimensions of point vects, pass to shader
         screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
         screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));
