@@ -19475,6 +19475,7 @@ MonoBehaviour:
   environmentTex: {fileID: 0}
   spriteRend: {fileID: 21257368}
   sliceSprite: {fileID: 0}
+  CS: {fileID: 0}
 --- !u!114 &11455626
 MonoBehaviour:
   m_ObjectHideFlags: 1

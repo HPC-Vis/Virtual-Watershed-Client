@@ -8,6 +8,8 @@ public class ModelRunVisualizer : MonoBehaviour {
     public DownloadManager downloadManager;
     public ListViewManager listView;
 
+	//Adding the variable reference class here for now..
+	VariableReference vr = new VariableReference();
 
 	// Use this for initialization
 	void Start () {
@@ -36,7 +38,14 @@ public class ModelRunVisualizer : MonoBehaviour {
             foreach (var variable in variables)
             {
 				if(variables.Count > 1)//MR.IsTemporal.ContainsKey(variable))
-                	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, MR.Description},MR);
+				{
+					string desription = vr.GetDescription(variable);
+					if(desription == "")
+					{
+						desription = MR.Description;
+					}
+                	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, desription},MR);
+				}
             }
             
             //downloadManager.AddModelRun(i);
