@@ -13,7 +13,11 @@ public class PlayerControllerToggle : MonoBehaviour {
 	void Start () {
         ghost = true;
         guiCursor = false;
-        firstPerson.transform.position = new Vector3(400, 590, 400);
+		if (Application.loadedLevel == 1) {
+			firstPerson.transform.position = new Vector3 (400, 2000, 400);
+		} else {
+			firstPerson.transform.position = new Vector3 (400, 575, 400);
+		}
         fpsCam = firstPerson.GetComponentInChildren<Camera>();
         ghostCam = ghostPerson.GetComponentInChildren<Camera>();
         toggleGhosting();

@@ -32,6 +32,7 @@ public class raySlicer : MonoBehaviour
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 
 
+
     // Use this for initialization
 
     void Start()

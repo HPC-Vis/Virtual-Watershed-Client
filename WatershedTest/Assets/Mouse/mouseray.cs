@@ -225,7 +225,7 @@ public class mouseray : MonoBehaviour
         // Determining what we need to highlight.
         if (marker1 != null && marker2 != null)
         {
-            if (mark1highlighted)
+            /*if (mark1highlighted)
             {
                 marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
             }
@@ -258,7 +258,7 @@ public class mouseray : MonoBehaviour
             else if (!mark2highlighted)
             {
                 marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
-            }
+            }*/
             //Debug.LogError(checkLineDistanceFromPoint(marker1.transform.position, marker2.transform.position, curpos));
             timecount += Time.deltaTime;
 
@@ -287,10 +287,11 @@ public class mouseray : MonoBehaviour
                 {
                     // set first marker
                     //change this to load new model
-                    marker1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    marker1.transform.localScale += new Vector3(100f, 100f, 100f);
-                    marker1.transform.position = new Vector3(curpos.x, curpos.y + 3f, curpos.z);
-                    marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
+					marker1 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
+                    //marker1 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    //marker1.transform.localScale += new Vector3(100f, 100f, 100f);
+					marker1.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+					//marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
                     Physics.IgnoreCollision(marker1.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
                     //TrailerPosition = marker1.transform.position;
                     resetTrailer();
@@ -300,18 +301,20 @@ public class mouseray : MonoBehaviour
                     TheTrailer.SetActive(true);
                     // set first marker
                     //change this to load new model
-                    marker2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    marker2.transform.localScale += new Vector3(100f, 100f, 100f);
-                    marker2.transform.position = new Vector3(curpos.x, curpos.y + 3f, curpos.z);
-                    marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
+					marker2 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
+
+                    //marker2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    //marker2.transform.localScale += new Vector3(100f, 100f, 100f);
+                    marker2.transform.position = new Vector3(curpos.x, curpos.y - 3.0f, curpos.z);
+                    //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
                     Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
                     timecount = 0.0f;
                 }
                 else
                 {
-                    DestroyImmediate(marker1);
-                    DestroyImmediate(marker2);
+                    Destroy(marker1);
+                    Destroy(marker2);
                     marker1 = null;
                     marker2 = null;
                     mark1highlighted = false;
