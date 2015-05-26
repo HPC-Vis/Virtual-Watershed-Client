@@ -57,6 +57,11 @@
             return o;
     	}
     	
+    	float scale(float value,float Min, float Max)
+        {
+           return (value-Min)/(Max-Min);
+        }
+    	
 		// This works! 
 		float4 frag (v2f IN) : COLOR
 		{
@@ -75,7 +80,7 @@
 			float4 c = float4(0,0,.1,1);
 			
 			// terrain data is stored in the alpha component/anything below the height is set as the default color
-			if(b.a > IN.uv2.y)
+			if( scale(b.a,_Min,_Max) > IN.uv2.y)
 			{
 				c = b;
 			}
