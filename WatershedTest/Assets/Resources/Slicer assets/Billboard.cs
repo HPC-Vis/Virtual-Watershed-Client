@@ -14,10 +14,10 @@ public class Billboard: MonoBehaviour
 	     void Update()
 	     {
 	         //find the vector pointing from our position to the target
-	         //_direction = (Target.position - transform.position).normalized;
+	         _direction = (Target.position - transform.position).normalized;
  
          //create the rotation we need to be in to look at the target
-	         _lookRotation = Quaternion.LookRotation(_direction);
+	         _lookRotation = Quaternion.LookRotation(new Vector3(_direction.x, 0.0f, _direction.z));
 	 
 	         //rotate us over time according to speed until we are in the required rotation
 	         transform.rotation = Quaternion.Slerp(transform.rotation, _lookRotation, Time.deltaTime * RotationSpeed);

@@ -11,16 +11,27 @@ public class SlicerNode : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//TextMesh Text = (TextMesh)GetComponent (typeof(TextMesh));
+		Lat.fontSize = 14;
 		Lat.text = Latinput;
+
+		Long.fontSize = 14;
 		Long.text = Longinput;
+
+		Ele.fontSize = 14;
 		Ele.text = Elevation;
+
+
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		Vector2 Point = TerrainUtils.NormalizePointToTerrain(this.transform.position, GlobalConfig.TerrainBoundingBox);
+		Lat.text = Point.x.ToString ();
+		Long.text = Point.y.ToString ();
 		//Lat.text = Get from scene;
 		//Long.text = Get From Scene;
-		Ele.text = (mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y).ToString ();
-		Debug.Log ((mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y).ToString ());
+		if (Terrain.activeTerrain != null) {
+			Ele.text = ((mouseray.raycastHitFurtherest (this.transform.position, Vector3.up).y) + Terrain.activeTerrain.transform.position.y).ToString ();
+		}
 	}
 }
