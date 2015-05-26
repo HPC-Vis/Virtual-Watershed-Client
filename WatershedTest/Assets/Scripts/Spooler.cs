@@ -332,6 +332,7 @@ public class Spooler : MonoBehaviour
 		var temp = visual.listView.GetSelectedModelRuns();
 		var seled = visual.listView.GetSelectedRowContent();
 		string variable = seled[0][2].ToString();
+        trendGraph.SetUnit(variable);
 		Debug.LogError (temp.Count);
 		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
 

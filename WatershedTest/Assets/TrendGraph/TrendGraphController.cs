@@ -35,8 +35,10 @@ namespace VTL.TrendGraph
         public float yMax = 1;
         public float yMin = 0;
         public float timebase = 300; // in seconds
-        public string timebaseLabel = "-5 min"; // Its on the developer to make sure 
+        public string minTime = ""; // Its on the developer to make sure 
                                                 // this makes sense with the timebase
+        public string maxTime = ""; // Its on the developer to make sure 
+        // this makes sense with the timebase
         public string unitsLabel = "F"; // the units label
         public string valueFormatString = "D3";
         private DateTime lastDraw;
@@ -61,9 +63,13 @@ namespace VTL.TrendGraph
                      .GetComponent<Text>()
                      .text = yMin.ToString();
 
-            transform.Find("Timebase")
+            transform.Find("MinHour")
                      .GetComponent<Text>()
-                     .text = timebaseLabel;
+                     .text = minTime;
+
+            transform.Find("MaxHour")
+                     .GetComponent<Text>()
+                     .text = maxTime;
 
             transform.Find("Units")
                      .GetComponent<Text>()
@@ -160,6 +166,8 @@ namespace VTL.TrendGraph
         public void Clear()
         {
             timeseries.Clear();
+            yMin = float.MaxValue;
+            yMax = float.MinValue;
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting
@@ -199,6 +207,20 @@ namespace VTL.TrendGraph
 			}
             lastDraw = record.time;
             valueText.text = record.value.ToString(valueFormatString);
+            if (yMax < record.value)
+                yMax = record.value;
+            if (yMin > record.value)
+                yMin = record.value;
+            minTime = "0 Hour";
+            maxTime = "1 Year";
+            OnValidate();
+        }
+
+        public void SetUnit(string unit)
+        {
+            VariableReference newVariable = new VariableReference();
+            unitsLabel = newVariable.GetDescription(unit);
+            OnValidate();
         }
         
         public void Add(DateTime time, float value)
