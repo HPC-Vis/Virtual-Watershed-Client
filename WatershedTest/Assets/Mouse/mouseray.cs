@@ -270,7 +270,7 @@ public class mouseray : MonoBehaviour
             curpos = raycastHit(Input.mousePosition);//closestObject.point;
 
            
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z))
             {
                 // Place Markers
 				if (marker1.transform.position == Vector3.zero)
@@ -333,7 +333,7 @@ public class mouseray : MonoBehaviour
             setCursor(curpos);
             coordsystem.transformToUnity(curpos);
 
-            // Determining if we need to move the cursor
+            // Determining if we need to move the markers
             if (Input.GetMouseButton(1))
             {
                 if (mark1highlighted && !mark2highlighted)
