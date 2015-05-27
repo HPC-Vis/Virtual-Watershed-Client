@@ -11,7 +11,7 @@ public class VariableReference {
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+"/../../VariableReference/";
 #else
     const string VariableFile = "VariableReferenceData.txt";
-    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/";
 #endif
 
     // Failed to find file
@@ -22,17 +22,16 @@ public class VariableReference {
 
     // Use this for initialization
 	public VariableReference () {
-
         if (!Directory.Exists(DirectoryLocation))
         {
             File_Not_Found = true;
-            Debug.LogError("Refrence File not Found");
+            Debug.LogError("Variable Reference File not Found");
             return;
         }
         if (!File.Exists(DirectoryLocation + VariableFile))
         {
             File_Not_Found = true;
-            Debug.LogError("Refrence File not Found");
+            Debug.LogError("Variable Reference File not Found");
             return;
         }
 
@@ -42,11 +41,14 @@ public class VariableReference {
 
     public string GetDescription(string variable)
     {
-        foreach (var line in reference_lines)
+        if (!File_Not_Found)
         {
-            if (line.StartsWith(variable))
+            foreach (var line in reference_lines)
             {
-                return line.Substring(variable.Length + 2, line.Length - (variable.Length + 2));
+                if (line.StartsWith(variable))
+                {
+                    return line.Substring(variable.Length + 2, line.Length - (variable.Length + 2));
+                }
             }
         }
         return "No Description Found";

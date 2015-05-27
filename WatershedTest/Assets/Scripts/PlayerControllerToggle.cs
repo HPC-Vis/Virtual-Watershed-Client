@@ -14,9 +14,11 @@ public class PlayerControllerToggle : MonoBehaviour {
         ghost = true;
         guiCursor = false;
 		if (Application.loadedLevel == 1) {
-			firstPerson.transform.position = new Vector3 (400, 2000, 400);
+            firstPerson.transform.position = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
+			// firstPerson.transform.position = new Vector3 (400, 2000, 400);
 		} else {
-			firstPerson.transform.position = new Vector3 (400, 575, 400);
+            firstPerson.transform.position = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
+			// firstPerson.transform.position = new Vector3 (400, 575, 400);
 		}
         fpsCam = firstPerson.GetComponentInChildren<Camera>();
         ghostCam = ghostPerson.GetComponentInChildren<Camera>();

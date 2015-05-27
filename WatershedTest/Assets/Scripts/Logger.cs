@@ -47,7 +47,7 @@ public static class Logger
 
             Debug.Log(line);
 #else
-        Console.WriteLine(line);
+        //Console.WriteLine(line);
 #endif
 
         }
@@ -60,7 +60,7 @@ public static class Logger
     public static void ReadKey()
     {
 #if !(UNITY_EDITOR)
-        Console.ReadKey();
+        //Console.ReadKey();
 #endif
     }
 

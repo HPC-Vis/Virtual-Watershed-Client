@@ -87,7 +87,7 @@ public class Searcher : MonoBehaviour {
 	void Update () {
         		
 		UpdateTimer += Time.deltaTime;
-		if (!firstPopulation || UpdateTimer > 5)
+		if (!firstPopulation || UpdateTimer > 25)
 		{
 			SystemParameters parameters = new SystemParameters();
 			List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);

@@ -17,6 +17,10 @@ public  static class ModelRunManager
     // Fields
     static private VWClient Client;
 
+    // Global loading counter
+    static public int Total = 0;
+    static public int Counter = 0;
+
     /// <summary>
     ///  Make sure to set the client or OUCH!
     /// </summary>
@@ -386,7 +390,7 @@ public  static class ModelRunManager
     {
         Debug.LogError("Populating Model Run");
         Debug.LogError("RECIEVED DATA OF SIZE: " + Records.Count);
-        
+        Counter += Records.Count;
         onGetAvailableComplete(Records,(DataRecordSetter)null);
     }
 

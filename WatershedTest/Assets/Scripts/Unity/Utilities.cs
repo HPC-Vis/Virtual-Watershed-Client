@@ -93,18 +93,18 @@ public class Utilities
 	{
 		Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);
 		Debug.LogError ("BOUNDING BOX: " + record.boundingBox.width + " " + record.boundingBox.height);
-		GameObject GO;
-		GameObject GO2;
-		GameObject GO3;
-		GameObject GO4;
+		// GameObject GO;
+		// GameObject GO2;
+		// GameObject GO3;
+		// GameObject GO4;
 		// First Create a projector
 		GameObject projector = GameObject.Instantiate(Resources.Load("SlideProjector/Prefabs/SlideProjector",typeof(GameObject))) as GameObject;
 		projector.name = "SPAWNED PROJECTOR";
 		Debug.LogError (projector.name);
-		GO = GameObject.CreatePrimitive(PrimitiveType.Sphere);//Resources.Load("SlideProjector/Prefabs/SlideProjector") as GameObject;
-		GO2 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		GO3 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		GO4 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		// GO = GameObject.CreatePrimitive(PrimitiveType.Sphere);//Resources.Load("SlideProjector/Prefabs/SlideProjector") as GameObject;
+		// GO2 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		// GO3 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+		// GO4 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 		// Second Place the projector
 		// Time to place this guy somewhere
 		// Set Gameobject Transform
@@ -130,26 +130,26 @@ public class Utilities
 		pos.y += 10;
 
 
-		GO.transform.position = pos;
-		GO.transform.localScale = new Vector3 (100, 100, 100);
+		// GO.transform.position = pos;
+		// GO.transform.localScale = new Vector3 (100, 100, 100);
 
 		point = upperRight;
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 
-		GO2.transform.position = pos;
-		GO2.transform.localScale = new Vector3 (100, 100, 100);
+		// GO2.transform.position = pos;
+		// GO2.transform.localScale = new Vector3 (100, 100, 100);
 
 		point = lowerRight;
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 
-		GO3.transform.position = pos;
-		GO3.transform.localScale = new Vector3 (100, 100, 100);
+		// GO3.transform.position = pos;
+		// GO3.transform.localScale = new Vector3 (100, 100, 100);
 
 		point = lowerLeft;
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 
-		GO4.transform.position = pos;
-		GO4.transform.localScale = new Vector3 (100, 100, 100);
+		// GO4.transform.position = pos;
+		// GO4.transform.localScale = new Vector3 (100, 100, 100);
 
 
 		// Projector placement code

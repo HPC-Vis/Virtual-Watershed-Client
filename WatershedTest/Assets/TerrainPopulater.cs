@@ -29,6 +29,7 @@ public class TerrainPopulater : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		if (ModelRunManager.client == null) {
+            Debug.LogError("Does not have client.");
 			nm = new NetworkManager ();
 			vwc = new VWClient (new DataFactory (nm), nm);
 			nm.Subscribe (vwc);
@@ -36,6 +37,7 @@ public class TerrainPopulater : MonoBehaviour
 		} 
 		else 
 		{
+            Debug.LogError("Does Have Client");
 			vwc = ModelRunManager.client;
 		}
 		// Start downloading terrains

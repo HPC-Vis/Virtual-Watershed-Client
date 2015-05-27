@@ -306,6 +306,7 @@ public class VWClient : Observer
         Logger.WriteLine(encoded["results"][0]);
         //Logger.WriteLine(encoded["results"][1]);
 		int total = encoded["total"].AsInt;
+        ModelRunManager.Total += total;
         string model_set_type = encoded["results"][0]["model_set_type"];
         SystemParameters sp = new SystemParameters();
         sp.model_run_uuid = ModelRunUUID;
@@ -343,6 +344,7 @@ public class VWClient : Observer
 				mr.SetModelRunTime();
                 Debug.LogError(mr.GetVariables().Count);
                 Debug.LogError("GRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR!");
+                ModelRunManager.Counter += total;
                 return;
             }
 

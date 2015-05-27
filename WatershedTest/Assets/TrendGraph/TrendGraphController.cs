@@ -106,10 +106,7 @@ namespace VTL.TrendGraph
             timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
 			Debug.LogError (timeseries.Count);
             // cull old records
-			if (timeseries.Count == 0 || timeseries.Count > 8000) {
-				Debug.LogError("EXCEEDED");
-				return;
-			}
+
 			if (!Keep) {
 				var elapsed = (float)(lastDraw - timeseries [0].time).TotalSeconds;
 				while (elapsed > timebase && elapsed > 0) { 
@@ -131,6 +128,7 @@ namespace VTL.TrendGraph
 						return;
 				}
 			}
+
             // return if there are less than 2 records after culling
             int n = timeseries.Count;
             if (n < 2)
