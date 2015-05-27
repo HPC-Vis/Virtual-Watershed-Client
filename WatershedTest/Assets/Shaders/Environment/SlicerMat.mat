@@ -107,11 +107,11 @@ Material:
       data:
         first:
           name: _Max
-        second: .666536927
+        second: .600450099
       data:
         first:
           name: _Min
-        second: .577821016
+        second: .359327078
       data:
         first:
           name: _Parallax
@@ -152,14 +152,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _Max
-        second: .511764705
-      data:
-        first:
-          name: _Min
-        second: .268627465
     m_Colors:
       data:
         first:
@@ -172,8 +164,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .340282351, g: .403645486, b: 0, a: 0}
+        second: {r: .560403466, g: .504571974, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .6817168, g: .223347083, b: 0, a: 0}
+        second: {r: .782990396, g: .573461533, b: 0, a: 0}
