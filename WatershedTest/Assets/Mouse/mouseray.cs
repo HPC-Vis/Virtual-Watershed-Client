@@ -308,9 +308,6 @@ public class mouseray : MonoBehaviour
                 }
                 else
                 {
-					marker1.transform.position = Vector3.zero;
-					marker2.transform.position = Vector3.zero;
-
 					marker1.SetActive(false);
 					marker2.SetActive(false);
 
@@ -493,7 +490,7 @@ public class mouseray : MonoBehaviour
     void setPoints()
     {
         // Here is where the cross section information goes...
-        if(marker1 != null && marker2 != null)
+        if(marker1.activeSelf && marker2.activeSelf)
         {
             // Call Function that normalize the positions x and y between 0 and 1 for terrain.
             //Vector2 Point1 = TerrainUtils.NormalizePointToTerrain(marker1.transform.position, Terrain.activeTerrain);
