@@ -152,6 +152,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _Max
+        second: .511764705
+      data:
+        first:
+          name: _Min
+        second: .268627465
     m_Colors:
       data:
         first:
@@ -164,12 +172,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .478749961, g: .480590522, b: 0, a: 0}
+        second: {r: .340282351, g: .403645486, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .491134554, g: .500448465, b: 0, a: 0}
-      data:
-        first:
-          name: _EmissionColorUI
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .6817168, g: .223347083, b: 0, a: 0}

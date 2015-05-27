@@ -19,6 +19,7 @@ public class mouseray : MonoBehaviour
     public GameObject NoClipGhostPlayer;
     public GameObject FirstPersonControllerPlayer;
     public GameObject cursorObject;
+
     public raySlicer rs;
 
 	// Query this position for the world position for checking if the cursor is colliding with a bounding
@@ -308,6 +309,9 @@ public class mouseray : MonoBehaviour
                 }
                 else
                 {
+					marker1.transform.position = Vector3.zero;
+					marker2.transform.position = Vector3.zero;
+
 					marker1.SetActive(false);
 					marker2.SetActive(false);
 
@@ -510,7 +514,7 @@ public class mouseray : MonoBehaviour
     void MoveBetween()
     {   
         // Here is where the cross section information goes...
-        if (marker1 != null && marker2 != null)
+        if (marker1.activeSelf && marker2.activeSelf)
         {
             //Debug.LogError(TrailerPosition);
             Vector3 Direction = marker1.transform.position - marker2.transform.position;
