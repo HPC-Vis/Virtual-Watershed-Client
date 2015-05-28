@@ -26,8 +26,8 @@ public class SlicerNode : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		Vector3 Point = coordsystem.transformToWorld(this.transform.position);
-		Lat.text = Point.x.ToString ();
-		Long.text = Point.z.ToString ();
+        Lat.text = Point.x.ToString("#,##0");
+        Long.text = Point.z.ToString("#,##0");
 		//Lat.text = Get from scene;
 		//Long.text = Get From Scene;
 		if (Terrain.activeTerrain != null) {

@@ -27,6 +27,10 @@ public class mouseray : MonoBehaviour
 
     Vector3 TrailerPosition;
     public Material trailMaterial;
+
+    float slicerMinScale = 10;
+    float slicerDistanceScaleFactor = 20; // larger is smaller, smaller is larger
+
     // Use this for initialization
     void Start()
     {
@@ -459,16 +463,12 @@ public class mouseray : MonoBehaviour
 
         distance = (obj.transform.position - currentController.transform.position).magnitude;
 
-     
-        if (distance / 30 < 3)
-        {
+
+        if (distance / slicerDistanceScaleFactor < slicerMinScale)
             // Change this
-            zThresh = 3f;
-        }
+            zThresh = slicerMinScale;
         else
-        {
-            zThresh = distance / 30;
-        }
+            zThresh = distance / slicerDistanceScaleFactor;
 
         obj.transform.localScale = new Vector3(zThresh, zThresh, zThresh);
     }
