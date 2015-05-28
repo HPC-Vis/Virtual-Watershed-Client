@@ -51,6 +51,7 @@ public class TerrainPopulater : MonoBehaviour
 	VWClient vwc;
 	NetworkManager nm;
 	List<DataRecord> recordToBuild = new List<DataRecord>();
+    public Texture2D BaseMap;
 	// Use this for initialization
 	void Start () {
 		if (ModelRunManager.client == null) {
@@ -139,7 +140,7 @@ public class TerrainPopulater : MonoBehaviour
 		Debug.LogError ("REJOICE");
 			Utilities utilities = new Utilities();
 			record.Data = utilities.reflectData (record.Data);
-			var GO = ProceduralTerrain.BuildTerrain (record.Data, XRes, YRes, null);
+			var GO = ProceduralTerrain.BuildTerrain (record.Data, XRes, YRes, BaseMap);
 		GO.transform.position = new Vector3 (-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 		//GameObject.Instantiate (GO);
 		Debug.LogError ("DONE DOWNLOADING");

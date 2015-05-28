@@ -639,7 +639,7 @@ public class Utilities
     // =========================================
     //          SHAPE BUILDING FUNCTIONS
     // =========================================
-    public Color[] colors = new[] { Color.red, Color.clear, Color.yellow, Color.green, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
+    public Color[] colors = new[] { Color.red, Color.red, Color.red, Color.red, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
     int current = 0;
 
 	GameObject addPoint( Vector2 point,transform tr)
@@ -684,6 +684,7 @@ public class Utilities
         GameObject lineObject = new GameObject();
         LineRenderer line = lineObject.AddComponent<LineRenderer>();
 
+        line.SetWidth(30, 30);
         line.SetVertexCount(points.Count);
         for (int index = 0; index < points.Count; index++)
         {

@@ -16464,6 +16464,10 @@ MonoBehaviour:
     Type: 
     width: 0
     height: 0
+    xBound: 0
+    yBound: 0
+    xwidth: 0
+    yheight: 0
   ModelRun:
     Name: 
     ModelName: 
@@ -23341,6 +23345,10 @@ MonoBehaviour:
     Type: 
     width: 0
     height: 0
+    xBound: 0
+    yBound: 0
+    xwidth: 0
+    yheight: 0
   ModelRun:
     Name: 
     ModelName: 
@@ -25001,6 +25009,10 @@ MonoBehaviour:
     Type: 
     width: 0
     height: 0
+    xBound: 0
+    yBound: 0
+    xwidth: 0
+    yheight: 0
   ModelRun:
     Name: 
     ModelName: 
