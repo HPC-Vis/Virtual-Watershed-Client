@@ -678,6 +678,8 @@ public class Utilities
 		return cylinder;
 	}
 
+    public Material LineMaterial;
+
     GameObject addline(List<SerialVector2> Points,transform tr)
     {
         List<Vector2> points = SerialVector2.ToVector2Array(Points.ToArray()).ToList();
@@ -709,7 +711,7 @@ public class Utilities
 			}
         }
 
-        line.material = new Material(Shader.Find("Particles/Additive"));
+        line.material = LineMaterial;//= new Material(Shader.Find("Particles/Additive"));
 
         // Setting colors to some prefined scheme ... We should do this procedurely.
         line.SetColors(colors[current % colors.Length], colors[current % colors.Length]);

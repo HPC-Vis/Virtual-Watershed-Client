@@ -11,11 +11,12 @@ public class ReferenceVisualizer : MonoBehaviour
     public Dictionary<string, GameObject> viewableObjects = new Dictionary<string,GameObject>();
     Queue<DataRecord> queuedRecs = new Queue<DataRecord>();
     Utilities utils = new Utilities();
-
+    public Material LineMaterial;
 
     // Use this for initialization
     void Start()
     {
+        utils.LineMaterial = LineMaterial;
     }
 
     // Update is called once per frame

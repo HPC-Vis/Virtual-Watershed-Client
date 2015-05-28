@@ -18,7 +18,7 @@ public static class FileBasedCache
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+"/../../Cache";
 #else
     const string MAPFILENAME = "FileBasedCacheMAP.dat";
-    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+"/Cache";
 #endif
 
    

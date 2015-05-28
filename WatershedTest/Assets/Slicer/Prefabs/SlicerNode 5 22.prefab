@@ -327,7 +327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &162452
 GameObject:
   m_ObjectHideFlags: 1
@@ -375,7 +375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &170426
 GameObject:
   m_ObjectHideFlags: 1
@@ -1253,7 +1253,7 @@ TextMesh:
   m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
-  m_FontSize: 0
+  m_FontSize: 14
   m_FontStyle: 1
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: e67d0e1287966324491e7b6e6914f15d, type: 3}
@@ -1289,7 +1289,7 @@ TextMesh:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176660}
   m_Text: 'Elevation:'
-  m_OffsetZ: -.0599999987
+  m_OffsetZ: -.0399999991
   m_CharacterSize: .310000002
   m_LineSpacing: 1
   m_Anchor: 4
@@ -1310,7 +1310,7 @@ TextMesh:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 105790}
   m_Text: 'Location:'
-  m_OffsetZ: .0399999991
+  m_OffsetZ: -.0700000003
   m_CharacterSize: .310000002
   m_LineSpacing: 1
   m_Anchor: 4

@@ -38,6 +38,10 @@ public class mouseray : MonoBehaviour
     void Start()
     {
         IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject, marker1, marker2};
+        Vector3 Pos = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
+        Pos.y += 50;
+        NoClipGhostPlayer.transform.position = Pos;
+
         ////change model
         //TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //TheTrailer.name = "THE TRAILER";
