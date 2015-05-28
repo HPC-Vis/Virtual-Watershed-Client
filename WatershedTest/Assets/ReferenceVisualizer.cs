@@ -142,7 +142,7 @@ public class ReferenceVisualizer : MonoBehaviour
 	{
 		Debug.LogError("BUILDING OBJECTS");
 		GameObject go = utils.buildProjector(record);
-		utils.rebuildShape(go);
+		//utils.rebuildShape(go);
 		go.name = record.name;
 		viewableObjects.Add(go.name, go);
 		SetViewableFields(go, record);
@@ -150,6 +150,10 @@ public class ReferenceVisualizer : MonoBehaviour
 
     void buildQueue(List<DataRecord> recs)
     {
+        if (!FileBasedCache.Exists(recs[0].id))
+        {
+            FileBasedCache.Insert<DataRecord>(recs[0].id, recs[0]);
+        }
         queuedRecs.Enqueue(recs[0]);
     }
 

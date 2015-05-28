@@ -251,7 +251,7 @@ public class DataRecord : IEquatable<DataRecord>
 
 
     // Thif for DEM,model runs, and raw float values
-    float[,] data;
+    float[,] data = null;
     public float[,] Data
     {
         get
@@ -277,5 +277,8 @@ public class DataRecord : IEquatable<DataRecord>
     // Temporary parameters.
     public int width;
     public int height;
+
+    // Use these to rebuild bounding box
+    public float xBound, yBound, xwidth, yheight;
 
 };

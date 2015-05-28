@@ -104,7 +104,7 @@ namespace VTL.TrendGraph
         {
             // sort the records incase they are out of order
             timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
-			Debug.LogError (timeseries.Count);
+			//Debug.LogError (timeseries.Count);
             // cull old records
 
 			if (!Keep) {

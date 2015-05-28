@@ -292,6 +292,26 @@ public class VWClient : Observer
     {
         // We only want to grab 1 record .... I want to grab the amount of records for a specific model run from the virutal watershed.
         string req = Root + App + "/search/datasets.json" + "?offset=" + 0 + "&limit=" + 1 + "&version=3" + "&model_run_uuid="+param.model_run_uuid;
+        string ModelRunUUID = param.model_run_uuid;
+        if(FileBasedCache.Exists(ModelRunUUID)) // Cache Check
+        {
+            Debug.LogError("WE GOT THE CASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            // Get model run out of cache...
+            var mr = FileBasedCache.Get<ModelRun>(ModelRunUUID);
+
+            // Replace current existing model run with the cache model run
+            ModelRunManager.InsertModelRun(ModelRunUUID, mr);
+            ModelRunManager.Counter += mr.Total;
+            /*if(mr.GetCount() == total)
+            {
+				mr.SetModelRunTime();
+                Debug.LogError(mr.GetVariables().Count);
+                Debug.LogError("GRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR!");
+                ModelRunManager.Counter += total;
+                return;
+            }*/
+            return;
+        }
         factory.DownloadString(new DownloadRequest(req,((str) => ModelPopper(str,param.model_run_uuid)),10));
     }
 
@@ -330,7 +350,7 @@ public class VWClient : Observer
 			ModelRunManager.GetByUUID(ModelRunUUID).SetModelRunTime();
             return;
         }
-        else if(FileBasedCache.Exists(ModelRunUUID)) // Cache Check
+        /*else if(FileBasedCache.Exists(ModelRunUUID)) // Cache Check
         {
             Debug.LogError("WE GOT THE CASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             // Get model run out of cache...
@@ -348,7 +368,7 @@ public class VWClient : Observer
                 return;
             }
 
-        }
+        }*/
         
         int offset = 100;
         // Now lets enqueue a request to get all of the Model Run Data!!!!

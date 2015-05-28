@@ -10,7 +10,9 @@ public class TerrainPopulater : MonoBehaviour
 {
 	public ListViewManager TerrainList;
 	List<object[]> Lists = new List<object[]>();
+    List<string> PreviousLists = new List<string>();
 	List<DataRecord> Records = new List<DataRecord>();
+    string TerrainListStr = "terrainlist";
 	void GetTerrainList(List<DataRecord> Terrains)
 	{
 		Debug.LogError ("HELLO THERE" + Terrains.Count);
@@ -18,10 +20,33 @@ public class TerrainPopulater : MonoBehaviour
 		foreach(var rec in Terrains)
 		{
 			Debug.LogError(rec.name);
-			Lists.Add(new object[]{rec.name,
+            if (!PreviousLists.Contains(rec.name) && !Lists.Contains(new object[]{rec.name,
+				rec.location}))
+            {
+                Lists.Add(new object[]{rec.name,
 				rec.location});
+            }
 		}
+        if (!FileBasedCache.Exists(TerrainListStr))
+        {
+            FileBasedCache.Insert<List<DataRecord>>(TerrainListStr, Terrains);
+        }
+        else
+        {
+            var DEMs = FileBasedCache.Get<List<DataRecord>>(TerrainListStr);
+            /// Merge Collections
+            foreach(var i in DEMs)
+            {
+                if (!Terrains.Contains(i))
+                {
+                    //Debug.LogError("ADDED");
+                    Terrains.Add(i);
+                }
+            }
+            FileBasedCache.Insert<List<DataRecord>>(TerrainListStr, Terrains);
+        }
 	}
+
 	public ToggleObjects to;
 	VWClient vwc;
 	NetworkManager nm;
@@ -45,16 +70,24 @@ public class TerrainPopulater : MonoBehaviour
 		sp.query="DEM";
 		sp.limit = 100;
 		sp.offset = 0;
+        if(FileBasedCache.Exists(TerrainListStr))
+        {
+            GetTerrainList(FileBasedCache.Get<List<DataRecord>>(TerrainListStr));
+        }
 		vwc.RequestRecords (GetTerrainList, sp);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 	if (Lists.Count > 0) {
-			for(int i =0; i < Lists.Count; i++)
-			{
-				TerrainList.AddRow(Lists[i],Records[i]);
-					}
+        for (int i = 0; i < Lists.Count; i++)
+        {
+            if (!PreviousLists.Contains((string)Lists[i][0]))
+            {
+                PreviousLists.Add((string)Lists[i][0]);
+                TerrainList.AddRow(Lists[i], Records[i]);
+            }
+        }
 			Records.Clear();
 			Lists.Clear();
 		}
@@ -68,10 +101,15 @@ public class TerrainPopulater : MonoBehaviour
 
 	public void LoadTerrain(DataRecord record)
 	{
+        // Cache the record
+        if(!FileBasedCache.Exists(record.name))
+        {
+            FileBasedCache.Insert<DataRecord>(record.name, record);
+        }
 		Debug.LogError ("Load Terrain");
 
 
-		record.boundingBox = new SerialRect (Utilities.bboxSplit(record.bbox));
+		record.boundingBox = new SerialRect (Utilities.bboxSplit2(record.bbox));
 		transform tran = new global::transform ();
 
 		// EPSG code
@@ -134,6 +172,11 @@ public class TerrainPopulater : MonoBehaviour
 			SystemParameters sp = new SystemParameters();
 			sp.width = 1025;
 			sp.height=1025;
+            if(FileBasedCache.Exists(Runs[0].name))
+            {
+                loadTerrain(new List<DataRecord>{FileBasedCache.Get<DataRecord>(Runs[0].name)});
+            }
+
 			ModelRunManager.Download(new List<DataRecord>{Runs[0]},loadTerrain,param:sp);
 		}
 		// Load First Terrain

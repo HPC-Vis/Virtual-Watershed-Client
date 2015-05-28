@@ -86,7 +86,7 @@ namespace NetworkTest
             //Logger.WriteLine(recs.Count);
             //Logger.WriteLine("DONE 2!");
             Logger.ReadKey();
-            ModelRunManager.OnClose();
+            //ModelRunManager.OnClose();
             ////FileBasedCache.Clear();
             ////t.Suspend();
             Logger.Close();

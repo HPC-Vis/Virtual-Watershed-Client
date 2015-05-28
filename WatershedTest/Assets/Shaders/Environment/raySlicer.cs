@@ -364,8 +364,8 @@ public class raySlicer : MonoBehaviour
 		float Range = MinMax.max - MinMax.min;
 		screenMaterial.SetFloat("_Min", MinMax.min-Mathf.Min(Range/2.0f,.2f));
 		screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range/2.0f,.2f));
-		Debug.LogError ("MAX: " + MinMax.max);
-		Debug.LogError ("MIN: " + MinMax.min);
+		//Debug.LogError ("MAX: " + MinMax.max);
+		//Debug.LogError ("MIN: " + MinMax.min);
         // flip dimensions of point vects, pass to shader
         screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
         screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));

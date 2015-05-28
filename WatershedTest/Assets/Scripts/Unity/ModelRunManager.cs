@@ -126,7 +126,14 @@ public  static class ModelRunManager
     {
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
+
+        if (FileBasedCache.Exists("startup"))
+        {
+            Debug.LogError("Getting paid");
+            modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
+        }
         client.RequestModelRuns(OnGetModelRuns,param);
+
     }
 
     // NOTE: Populating the data inside a datarecord. Something like building the texture.
@@ -153,12 +160,19 @@ public  static class ModelRunManager
                     if (operation == "wms")
                     {
 						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.texture != null)
+						if(FileBasedCache.Exists(i.id) && i.texture == null)
 						{
+                            i.boundingBox = FileBasedCache.Get<DataRecord>(i.id).boundingBox;
 							i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
 							SettingTheRecord(new List<DataRecord>{i});
-							return;
+                            continue;
 						}
+                        else if (i.texture != null)
+                        {
+                            //i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
+                            SettingTheRecord(new List<DataRecord> { i });
+                            continue;
+                        }
 
 						if(param.width == 0 || param.height == 0)
 						{
@@ -170,23 +184,37 @@ public  static class ModelRunManager
                     else if (operation == "wcs")
                     {
 						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.Data != null)
+                        //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
+                        //Debug.LogError("ID: " + i.id); ;
+						if(FileBasedCache.Exists(i.id) && i.Data == null)
 						{
+                            //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
 							i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
 							SettingTheRecord(new List<DataRecord>{i});
-							return;
+                            continue;
 						}
+                        else if (i.Data != null)
+                        {
+                            //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
+                            SettingTheRecord(new List<DataRecord>{i});
+                            continue;
+                        }
                         client.getCoverage(SettingTheRecord, i, param);
                     }
                     else if (operation == "wfs")
                     {
 						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.Lines != null)
+						if(FileBasedCache.Exists(i.id) && i.Lines == null)
 						{
 							i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
 							SettingTheRecord(new List<DataRecord>{i});
-							return;
+                            continue;
 						}
+                        else if (i.Lines != null)
+                        {
+                            //i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
+                            SettingTheRecord(new List<DataRecord> { i });
+                        }
 						Debug.LogError("PRIORITY: " + param.Priority);
                         client.getFeatures(SettingTheRecord, i, param);
                     }
@@ -272,11 +300,11 @@ public  static class ModelRunManager
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
         Logger.WriteLine("HELLO THERE!!!");
 		Debug.Log(Records == null);
-        if (FileBasedCache.Exists("startup"))
-        {
-            Debug.LogError("Getting paid");
-             startRuns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
-        }
+        //if (FileBasedCache.Exists("startup"))
+        //{
+        //    Debug.LogError("Getting paid");
+        //     startRuns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
+        //}
         foreach (var i in Records)
         {
 			Debug.LogError("RUNNING");

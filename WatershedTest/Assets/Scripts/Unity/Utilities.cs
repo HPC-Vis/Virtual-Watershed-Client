@@ -34,8 +34,24 @@ public class Utilities
 		float miny = float.Parse(coords[1]);
 		float maxx = float.Parse(coords[2]);
 		float maxy = float.Parse(coords[3]);
-		return new Rect(minx,maxy,Math.Abs(minx-maxx),Math.Abs(miny-maxy));
+		return new Rect(minx,miny,Math.Abs(minx-maxx),Math.Abs(miny-maxy));
 	}
+
+    // A temporary patch
+    public static Rect bboxSplit2(string bbox)
+    {
+        bbox = bbox.Replace('[', ' ');
+        bbox = bbox.Replace(']', ' ');
+        bbox = bbox.Replace('\"', ' ');
+        bbox = bbox.Replace(',', ' ');
+        string[] coords = bbox.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        bbox = coords[0] + ',' + coords[1] + ',' + coords[2] + ',' + coords[3];
+        float minx = float.Parse(coords[0]);
+        float miny = float.Parse(coords[1]);
+        float maxx = float.Parse(coords[2]);
+        float maxy = float.Parse(coords[3]);
+        return new Rect(minx, maxy, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
+    }
 
 
 	public void PlaceProjector(Projector projector, DataRecord record)
@@ -71,7 +87,7 @@ public class Utilities
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 		pos.y += 3000;
 		pos.x += dim;
-		pos.z -= dim;
+		pos.z += dim;
 		projector.transform.position = pos;
 		
 		var pro = projector.GetComponent<Projector> ();

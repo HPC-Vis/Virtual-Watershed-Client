@@ -31,8 +31,8 @@ public class MinMaxShader
 
 	public void FindMinMax()
 	{
-		Debug.LogError (first);
-		Debug.LogError (second);
+		//Debug.LogError (first);
+		//Debug.LogError (second);
 		da [0] = uint.MinValue;
 		da [1] = uint.MaxValue;
 		if (buffer != null) {
@@ -49,12 +49,12 @@ public class MinMaxShader
 			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
 			
 			buffer.GetData (da);
-			Debug.LogError ("KERNEL: " + kernelHandle);
+			//Debug.LogError ("KERNEL: " + kernelHandle);
 			//int ii = BitConverter.ToInt32(BitConverter.GetBytes(ff), 0);
-			Debug.LogError ("Converted value x: " + BitConverter.ToSingle (BitConverter.GetBytes (da [0]), 0));
-			Debug.LogError ("Converted value y: " + BitConverter.ToSingle (BitConverter.GetBytes (da [1]), 0));
-			Debug.LogError ("x: " + da [0]);
-			Debug.LogError ("y: " + da [1]);
+			//Debug.LogError ("Converted value x: " + BitConverter.ToSingle (BitConverter.GetBytes (da [0]), 0));
+			//Debug.LogError ("Converted value y: " + BitConverter.ToSingle (BitConverter.GetBytes (da [1]), 0));
+			//Debug.LogError ("x: " + da [0]);
+			//Debug.LogError ("y: " + da [1]);
 			max = BitConverter.ToSingle (BitConverter.GetBytes (da [0]),0);
 			min = BitConverter.ToSingle (BitConverter.GetBytes (da [1]), 0);
 		}

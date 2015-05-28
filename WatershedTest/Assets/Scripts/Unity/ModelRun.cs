@@ -302,14 +302,14 @@ public class ModelRun
     public DateTime GetBeginModelTime()
     {
         DateTime time = DateTime.MaxValue;
-        Logger.WriteLine(time.ToString());
+        //Logger.WriteLine(time.ToString());
         foreach (var i in references)
         {
-            Logger.WriteLine(i.Value.Count.ToString());
-            Logger.WriteLine("ORIGINAL: " + references[i.Key][0].start);
+           // Logger.WriteLine(i.Value.Count.ToString());
+            //Logger.WriteLine("ORIGINAL: " + references[i.Key][0].start);
             foreach(var j in i.Value)
             {
-                Logger.WriteLine(j.start.ToString());
+                //Logger.WriteLine(j.start.ToString());
                 if(time > j.start.Value)
                 {
                     time = j.start.Value;
@@ -323,14 +323,14 @@ public class ModelRun
     public DateTime GetEndModelTime()
     {
         DateTime time = DateTime.MinValue;
-        Logger.WriteLine(time.ToString());
+        //Logger.WriteLine(time.ToString());
         foreach (var i in references)
         {
-            Logger.WriteLine(i.Value.Count.ToString());
-            Logger.WriteLine("ORIGINAL: " + i.Value[0].end);
+            //Logger.WriteLine(i.Value.Count.ToString());
+            //Logger.WriteLine("ORIGINAL: " + i.Value[0].end);
             foreach (var j in i.Value)
             {
-                Logger.WriteLine(j.end.ToString());
+                //Logger.WriteLine(j.end.ToString());
 				if (j.end > time)
                 {
 					time = j.end.Value;
@@ -351,7 +351,7 @@ public class ModelRun
 		{;
 			foreach (var j in i.Value)
 			{
-				Logger.WriteLine(j.end.ToString());
+				//Logger.WriteLine(j.end.ToString());
 				if (j.end> MaxTime)
 				{
 					MaxTime = j.end.Value;

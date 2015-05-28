@@ -39,7 +39,7 @@ public class Spooler : MonoBehaviour
 	public TimeSlider timeSlider;
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
-	
+    
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
 	
@@ -78,7 +78,7 @@ public class Spooler : MonoBehaviour
 	float point;
 	public Text downloadTextBox;
 	public Text selectedVariableTextBox;
-
+    transform tran;
     // Update is called once per frame
     void Update()
     {
@@ -87,7 +87,7 @@ public class Spooler : MonoBehaviour
         if (SliderFrames.Count > 0 && count > 0)
         {
 			// Set a dequeue size for multiple dequeus in one update
-            int dequeueSize = 5;
+            int dequeueSize = 2;
 
             if (SliderFrames.Count < dequeueSize)
             {
@@ -108,14 +108,14 @@ public class Spooler : MonoBehaviour
                     utilites.PlaceProjector(TimeProjector, record);
                     BoundingBox = Utilities.bboxSplit(record.bbox);
                     Debug.LogError(BoundingBox);
-                    var tran = new transform();
+                    tran = new transform();
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
                     tran.setOrigin(coordsystem.WorldOrigin);
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
-                    BoundingBox = new Rect(point.x, point2.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+                    BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
                     Debug.LogError(BoundingBox);
                 }
 
@@ -130,13 +130,26 @@ public class Spooler : MonoBehaviour
 		if (Input.GetMouseButtonDown (0)) 
 		{
 			// Check if mouse is inside bounding box 
-			Debug.LogError(coordsystem.transformToWorld(mouseray.CursorWorldPos));
+			//Debug.LogError(coordsystem.transformToWorld(mouseray.CursorWorldPos));
 			Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorWorldPos);
+            
+            //tran.createCoordSystem()
 			Vector2 CheckPoint = new Vector2(WorldPoint.x,WorldPoint.z);
+            //Debug.LogError("DIFFERENCE X: " + (CheckPoint.x - BoundingBox.x));
+            //Debug.LogError("DIFFERENCE Y: " + (CheckPoint.y - BoundingBox.y));
+            //CheckPoint = tran.transformPoint(CheckPoint);
+            //WorldPoint.x = CheckPoint.x;
+            //WorldPoint.z = CheckPoint.y;
+            //Debug.LogError("WORLD POINT: " + WorldPoint);
+            //Debug.LogError("BOUNDING BOX: " + BoundingBox);
+            //CheckPoint.x += BoundingBox.width;
+            //CheckPoint.y += BoundingBox.height;
 			if(BoundingBox.Contains(CheckPoint))
 			{
-				Debug.LogError("CONTAINS");
+				//Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 BuildTrendGraph();
+                //WorldPoint.x += BoundingBox.width;
+                //WorldPoint.z += BoundingBox.height;
 				NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint,BoundingBox);
 				
 			}
@@ -161,8 +174,13 @@ public class Spooler : MonoBehaviour
 		// Caching 
 		if (!FileBasedCache.Exists (rec.id))  
 		{
+            //Debug.LogError("INSERTING INTO CACHE " + rec.id);
 			FileBasedCache.Insert<DataRecord>(rec.id,rec);
 		}
+        else
+        {
+            //Debug.LogError("IN CACHE " + rec.id);
+        }
 		
 		// Else update the cache
 		if (rec.modelRunUUID != selectedModelRun) 
@@ -315,7 +333,13 @@ public class Spooler : MonoBehaviour
 	// This will handle wcs related requests..
 	void HandDataToSpooler(List<DataRecord> Records)
 	{
-		
+		//Add Caching here.
+        /*if (FileBasedCache.Exists(Records[0].id))
+        {
+            FileBasedCache.Insert<DataRecord>(Records[0].id, Records[0]);
+        }*/
+        
+
 		// Handing to spooler 
 		// first build a color map
 		SliderFrames.Enqueue(Records[0]);
@@ -339,6 +363,7 @@ public class Spooler : MonoBehaviour
 		if (selectedModelRun != "") 
 		{
 			//ModelRunManager.RemoveRecordData(selectedModelRun);
+            Debug.LogError("CLEARING");
 			Reel.Clear();
             SliderFrames.Clear();
 			// Add some code here to handle the time slider.
