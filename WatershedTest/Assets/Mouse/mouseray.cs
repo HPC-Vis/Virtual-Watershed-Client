@@ -9,7 +9,7 @@ public class mouseray : MonoBehaviour
     public GameObject cursor;
 
     public GameObject marker1, marker2;
-    GameObject TheTrailer;
+    //GameObject TheTrailer;
 
     public List<GameObject> markers = new List<GameObject>();
     Vector3 curpos;
@@ -25,8 +25,11 @@ public class mouseray : MonoBehaviour
 	// Query this position for the world position for checking if the cursor is colliding with a bounding
 	public static Vector3 CursorWorldPos = Vector3.zero;
 
-    Vector3 TrailerPosition;
-    public Material trailMaterial;
+//    Vector3 TrailerPosition;
+//    public Material trailMaterial;
+
+
+    public SlicerPlane slicerPlane;
 
     float slicerMinScale = 10;
     float slicerDistanceScaleFactor = 20; // larger is smaller, smaller is larger
@@ -35,15 +38,15 @@ public class mouseray : MonoBehaviour
     void Start()
     {
         IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject, marker1, marker2};
-        //change model
-        TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        TheTrailer.name = "THE TRAILER";
-        var tr = TheTrailer.AddComponent<TrailRenderer>();
-        tr.endWidth = tr.startWidth = 2;
-        //tr.sharedMaterials[0] = trailMaterial;
-        //tr.materials[0] = trailMaterial;
-        tr.material = trailMaterial;
-        Physics.IgnoreCollision(TheTrailer.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
+        ////change model
+        //TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        //TheTrailer.name = "THE TRAILER";
+        //var tr = TheTrailer.AddComponent<TrailRenderer>();
+        //tr.endWidth = tr.startWidth = 2;
+        ////tr.sharedMaterials[0] = trailMaterial;
+        ////tr.materials[0] = trailMaterial;
+        //tr.material = trailMaterial;
+        //Physics.IgnoreCollision(TheTrailer.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
 
 		
@@ -224,9 +227,9 @@ public class mouseray : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //TheTrailer.SetActive(true);
-        TheTrailer.GetComponent<TrailRenderer>().time = 2f;
-        MoveBetween();
+        ////TheTrailer.SetActive(true);
+        //TheTrailer.GetComponent<TrailRenderer>().time = 2f;
+        //MoveBetween();
         setPoints();
         //System.GC.Collect();
         // Determining what we need to highlight.
@@ -263,6 +266,10 @@ public class mouseray : MonoBehaviour
 
 
         }
+
+        if (!marker1.activeSelf || !marker2.activeSelf)
+            slicerPlane.DisableRendering();
+
         // First check if the current state of the mouse is terrain
         if (ml.state == mouselistener.mouseState.TERRAIN)
         {
@@ -292,12 +299,12 @@ public class mouseray : MonoBehaviour
 
 					
 					//TrailerPosition = marker1.transform.position;
-                    resetTrailer();
+                    //resetTrailer();
                 }
 				else if (marker2.transform.position == Vector3.zero)
 				{
 					marker2.SetActive(true);
-					TheTrailer.SetActive(true);
+                    //TheTrailer.SetActive(true);
                     // set first marker
                     //change this to load new model
 					//marker2 = (GameObject)Instantiate (Resources.Load("SlicerNode 5 22"));
@@ -305,6 +312,8 @@ public class mouseray : MonoBehaviour
                     //marker2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
                     //marker2.transform.localScale += new Vector3(100f, 100f, 100f);
                     marker2.transform.position = new Vector3(curpos.x, curpos.y - 10.0f, curpos.z);
+                    slicerPlane.Draw();
+
                     //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(0f, 1f, 0f, 1.0f));
                     //Physics.IgnoreCollision(marker2.GetComponent<Collider>(), FirstPersonControllerPlayer.GetComponent<Collider>());
 
@@ -326,8 +335,8 @@ public class mouseray : MonoBehaviour
                     mark1highlighted = false;
                     mark2highlighted = false;
                     //resetTrailer();
-                    TheTrailer.GetComponent<TrailRenderer>().time = 0;
-                    TheTrailer.SetActive(false);
+                    //TheTrailer.GetComponent<TrailRenderer>().time = 0;
+                    //TheTrailer.SetActive(false);
 
                 }
             }
@@ -344,7 +353,7 @@ public class mouseray : MonoBehaviour
                 {
                     //cursor.active = false;
                     marker1.transform.position = curpos;
-                    resetTrailer();
+                    //resetTrailer();
                     //if (mark1highlighted || mark2highlighted)
                     //{
                         //TheTrailer.GetComponent<TrailRenderer>().time = .0f;
@@ -358,7 +367,7 @@ public class mouseray : MonoBehaviour
                 {
                     //cursor.active = false;
                     marker2.transform.position = curpos;
-                    resetTrailer();
+                    //resetTrailer();
                     //TheTrailer.GetComponent<TrailRenderer>().time = .0f;
                     timecount = 0.0f;
                     activateCursor(true);
@@ -369,15 +378,15 @@ public class mouseray : MonoBehaviour
                 {
                     //cursor.active = false;
                     activateCursor(true);
-                    resetTrailer();
+                    //resetTrailer();
 
                     //TheTrailer.GetComponent<TrailRenderer>().time = .0f;
                     return;
                 }
-                else
-                {
-                    TheTrailer.SetActive(true);
-                }
+                //else
+                //{
+                //    TheTrailer.SetActive(true);
+                //}
             }
             
 
@@ -394,7 +403,7 @@ public class mouseray : MonoBehaviour
         ResizeObjects(cursor);
         ResizeUniformObjects(marker1);
         ResizeUniformObjects(marker2);
-        ResizeUniformObjects(TheTrailer);
+        //ResizeUniformObjects(TheTrailer);
         cursor.transform.Rotate(Vector3.forward, 1);
 
     }
@@ -509,51 +518,51 @@ public class mouseray : MonoBehaviour
             rs.setSecondPoint(Point2);
         }
     }
-    // A variable for switching the direction of the trail renderer
-    bool direction = false;
-    void MoveBetween()
-    {   
-        // Here is where the cross section information goes...
-        if (marker1.activeSelf && marker2.activeSelf)
-        {
-            //Debug.LogError(TrailerPosition);
-            Vector3 Direction = marker1.transform.position - marker2.transform.position;
-            if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 20.0)
-            {
-                //TrailerPosition = marker1.transform.position;
-                direction = true;
-            }
-            else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 20.0)
-            {
-                //TrailerPosition = marker2.transform.position;
-                direction = false;
-            }
-            //Debug.LogError(Vector3.Distance(TrailerPosition, marker2.transform.position));
-            //Debug.LogError(Vector3.Distance(TrailerPosition, marker1.transform.position));
-            if(!direction)
-                TrailerPosition = Vector3.MoveTowards(TrailerPosition, marker2.transform.position, Vector3.Distance(marker1.transform.position, marker2.transform.position) * Time.deltaTime/3);
-            else
-                TrailerPosition = Vector3.MoveTowards(TrailerPosition, marker1.transform.position, Vector3.Distance(marker1.transform.position, marker2.transform.position) * Time.deltaTime/3);
+    //// A variable for switching the direction of the trail renderer
+    //bool direction = false;
+    //void MoveBetween()
+    //{   
+    //    // Here is where the cross section information goes...
+    //    if (marker1.activeSelf && marker2.activeSelf)
+    //    {
+    //        //Debug.LogError(TrailerPosition);
+    //        Vector3 Direction = marker1.transform.position - marker2.transform.position;
+    //        if(Vector3.Distance(TrailerPosition,marker2.transform.position) < 20.0)
+    //        {
+    //            //TrailerPosition = marker1.transform.position;
+    //            direction = true;
+    //        }
+    //        else if (Vector3.Distance(TrailerPosition, marker1.transform.position) < 20.0)
+    //        {
+    //            //TrailerPosition = marker2.transform.position;
+    //            direction = false;
+    //        }
+    //        //Debug.LogError(Vector3.Distance(TrailerPosition, marker2.transform.position));
+    //        //Debug.LogError(Vector3.Distance(TrailerPosition, marker1.transform.position));
+    //        if(!direction)
+    //            TrailerPosition = Vector3.MoveTowards(TrailerPosition, marker2.transform.position, Vector3.Distance(marker1.transform.position, marker2.transform.position) * Time.deltaTime/3);
+    //        else
+    //            TrailerPosition = Vector3.MoveTowards(TrailerPosition, marker1.transform.position, Vector3.Distance(marker1.transform.position, marker2.transform.position) * Time.deltaTime/3);
 
-            float ypos = raycastHitFurtherest(TrailerPosition, Vector3.up).y + 5;
-            TrailerPosition.y = ypos;
-            TheTrailer.transform.position = TrailerPosition;
-        }
+    //        float ypos = raycastHitFurtherest(TrailerPosition, Vector3.up).y + 5;
+    //        TrailerPosition.y = ypos;
+    //        TheTrailer.transform.position = TrailerPosition;
+    //    }
 
 
-    }
+    //}
 
-    void resetTrailer()
-    {
-        direction = true;
-        //TrailRendererExtensions.Reset(TheTrailer.GetComponent<TrailRenderer>(), this);
-        if(marker1 != null )
-        {
-            TrailerPosition = marker1.transform.position;
-			TheTrailer.transform.position = TrailerPosition;
-        }
-        //TheTrailer.GetComponent<TrailRenderer>().time = 1f;
-        TheTrailer.GetComponent<TrailRenderer>().time = 0f;
-        //TheTrailer.SetActive(false);
-    }
+    //void resetTrailer()
+    //{
+    //    direction = true;
+    //    //TrailRendererExtensions.Reset(TheTrailer.GetComponent<TrailRenderer>(), this);
+    //    if(marker1 != null )
+    //    {
+    //        TrailerPosition = marker1.transform.position;
+    //        TheTrailer.transform.position = TrailerPosition;
+    //    }
+    //    //TheTrailer.GetComponent<TrailRenderer>().time = 1f;
+    //    TheTrailer.GetComponent<TrailRenderer>().time = 0f;
+    //    //TheTrailer.SetActive(false);
+    //}
 }
