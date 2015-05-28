@@ -321,7 +321,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 418980}
   - 114: {fileID: 11464378}
-  - 114: {fileID: 11493532}
   m_Layer: 0
   m_Name: SlicerNode 5 22
   m_TagString: Untagged
@@ -544,8 +543,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 153552}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.19000006, y: .209999993, z: 0}
-  m_LocalScale: {x: 1.10518813, y: -2, z: 1.40358865}
+  m_LocalPosition: {x: 2.19000006, y: .244000003, z: 0}
+  m_LocalScale: {x: -.959999979, y: 1.72000003, z: 1}
   m_Children: []
   m_Father: {fileID: 432154}
   m_RootOrder: 0
@@ -1486,19 +1485,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   newSortingOrder: 1
---- !u!114 &11493532
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 156678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9357f1ffe1b5d148ac3c50600a2f2d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Target: {fileID: 0}
-  RotationSpeed: 100
 --- !u!114 &11494304
 MonoBehaviour:
   m_ObjectHideFlags: 1
