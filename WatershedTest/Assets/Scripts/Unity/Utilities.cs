@@ -356,7 +356,7 @@ public class Utilities
                 {
                     max = data[i, j];
                 }
-                if (data[i, j] < min )
+                if (data[i, j] < min && min != 0)
                 {
                     min = data[i, j];
                 }
@@ -470,7 +470,10 @@ public class Utilities
         {
             for (int j = 0; j < height; j++)
             {
+                if(data[i,j] > 0)
                 colors[(width - i - 1) * height + (height - j - 1)] = Color.Lerp(high, low, data[i, j]);
+                else
+                colors[(width - i - 1) * height + (height - j - 1)] = Color.clear;
             }
         }
 

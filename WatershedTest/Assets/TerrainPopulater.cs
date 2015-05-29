@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.IO;
 using VTL;
 using VTL.ListView;
 using VTL.ProceduralTerrain;
@@ -140,6 +140,16 @@ public class TerrainPopulater : MonoBehaviour
 		Debug.LogError ("REJOICE");
 			Utilities utilities = new Utilities();
 			record.Data = utilities.reflectData (record.Data);
+            /*StreamWriter test = new StreamWriter("test.txt");
+            
+            for(int i = 0; i < record.Data.GetLength(0); i++ )
+            {
+                for(int j =0; j < record.Data.GetLength(1);j++)
+                {
+                    test.WriteLine(record.Data[i, j]);
+                }
+            }
+            test.Close();*/
 			var GO = ProceduralTerrain.BuildTerrain (record.Data, XRes, YRes, BaseMap);
 		GO.transform.position = new Vector3 (-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 		//GameObject.Instantiate (GO);

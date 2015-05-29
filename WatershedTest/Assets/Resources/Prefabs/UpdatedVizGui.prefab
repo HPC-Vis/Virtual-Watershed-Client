@@ -16997,6 +16997,8 @@ MonoBehaviour:
   unitsLabel: units
   valueFormatString: 0.00
   Keep: 1
+  row: 0
+  col: 0
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1

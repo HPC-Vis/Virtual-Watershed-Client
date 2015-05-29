@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using VTL.SimTimeControls;
+using System.Threading;
 using VTL;
 using VTL.TrendGraph;
 public struct Frame
@@ -28,6 +29,8 @@ public class FrameEndDateAscending : IComparer<Frame>
 
 public class Spooler : MonoBehaviour
 {
+
+    static readonly object LOCK;
 	public TrendGraphController trendGraph;
 	string selectedModelRun="";
 	public ModelRunVisualizer visual;
@@ -144,19 +147,22 @@ public class Spooler : MonoBehaviour
             //Debug.LogError("BOUNDING BOX: " + BoundingBox);
             //CheckPoint.x += BoundingBox.width;
             //CheckPoint.y += BoundingBox.height;
-			if(BoundingBox.Contains(CheckPoint))
+			if(BoundingBox.Contains(CheckPoint) )
 			{
 				//Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
-                BuildTrendGraph();
+                NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
+                trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
+                trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
+                //StartCoroutine(BuildTrendGraph());
                 //WorldPoint.x += BoundingBox.width;
                 //WorldPoint.z += BoundingBox.height;
-				NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint,BoundingBox);
+				
 				
 			}
 		}
     }
 
-    private void BuildTrendGraph()
+    /*private void BuildTrendGraph()
     {
         int i = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
         int j = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
@@ -166,8 +172,27 @@ public class Spooler : MonoBehaviour
         {
             trendGraph.Add(frame.starttime,frame.Data[i,j]);
         }
-    }
+    }*/
+    IEnumerator  BuildTrendGraph()
+    {
+        int counter = 0;
+        int i = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
+        int j = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
 
+        trendGraph.Clear();
+        
+        foreach (var frame in Reel)
+        {
+            counter++;
+            //trendGraph.Add(frame.starttime, frame.Data[i, j]);
+            if(counter % 10 == 0)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+        }
+
+        yield return null;
+    }
     public void textureBuilder(DataRecord rec)
     {
 
@@ -197,10 +222,13 @@ public class Spooler : MonoBehaviour
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
 		frame.Data = rec.Data;
+        trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
 		//Debug.LogError(rec.start + " | " + rec.end);
 		//Logger.enable = true;
 		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
-		var tex = utilities.buildTextures (rec.Data, Color.clear, Color.red);
+        var tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.green, Color.red);
+        //utilities.buildGradientContourTexture( frame.Data,new List<Color>{ Color.clear,Color.red,Color.blue,Color.green},new List<float> { 0.01f, 0.5f, 1.0f });
+
 		for(int i = 0; i < tex.width; i++)
 		{
 			
@@ -282,7 +310,8 @@ public class Spooler : MonoBehaviour
 		if(index >= 0)
 		{
 			//handle the duplicate!
-			throw new Exception("Duplicate Handling not implemented!!!!!");
+			//throw new Exception("Duplicate Handling not implemented!!!!!");
+            TOTAL--;
 		}
 		else
 		{
@@ -366,6 +395,7 @@ public class Spooler : MonoBehaviour
             Debug.LogError("CLEARING");
 			Reel.Clear();
             SliderFrames.Clear();
+            trendGraph.Clear();
 			// Add some code here to handle the time slider.
 			//timeslider.reset();
             ModelRun oldData = ModelRunManager.GetByUUID(selectedModelRun);

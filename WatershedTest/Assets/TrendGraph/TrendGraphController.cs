@@ -20,11 +20,12 @@ namespace VTL.TrendGraph
     {
         public DateTime time;
         public float value;
-
-        public TimeseriesRecord(DateTime time, float value)
+        public float[,] Data;
+        public TimeseriesRecord(DateTime time, float value,float[,] data)
         {
             this.time = time;
             this.value = value;
+            this.Data = data;
         }
     }
 
@@ -48,7 +49,8 @@ namespace VTL.TrendGraph
         Vector3 origin;
         float w;
         float h;
-
+        public int row = 0;
+        public int col = 0;
         RectTransform rectTransform;
         RectTransform lineAnchor;
         Canvas parentCanvas;
@@ -153,11 +155,21 @@ namespace VTL.TrendGraph
             // Iterate through the timeseries and draw the trend segment
             // by segment.
             var prev = Record2PixelCoords(timeseries[0]);
-            for (int i = 1; i < n; i++)
+            yMin = float.MaxValue;
+            yMax = float.MinValue;
+            for (int i = 1; i < n; i+=4)
             {
                 var next = Record2PixelCoords2(timeseries[i]);
                 Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
                 prev = next;
+                if(yMin > timeseries[i].Data[row,col])
+                {
+                    yMin = timeseries[i].Data[row, col];
+                }
+                if(yMax < timeseries[i].Data[row,col])
+                {
+                    yMax = timeseries[i].Data[row, col];
+                }
             }
         }
 
@@ -173,7 +185,8 @@ namespace VTL.TrendGraph
         {
             float s = (float)(lastDraw - record.time).TotalSeconds;
             float normTime = Mathf.Clamp01(1 - s / timebase);
-            float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
+            float normHeight = Mathf.Clamp01((record.Data[row,col] - yMin) / (yMax - yMin));
+            //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
             return new Vector2(origin.x + w * normTime,
                                origin.y + h * (1 - normHeight));
         }
@@ -185,7 +198,8 @@ namespace VTL.TrendGraph
 			//float s = (float)(lastDraw - record.time).TotalSeconds;
 			//float normTime = Mathf.Clamp01(1 - s / timebase);
 			float normTime = (float)(record.time - Start2).TotalSeconds / (float)(End - Start2).TotalSeconds;
-			float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
+            float normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
+            //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
 			return new Vector2(origin.x + w * normTime,
 			                   origin.y + h * (1 - normHeight));
 		}
@@ -221,9 +235,9 @@ namespace VTL.TrendGraph
             OnValidate();
         }
         
-        public void Add(DateTime time, float value)
+        public void Add(DateTime time, float value,float[,] data)
         {
-            Add(new TimeseriesRecord(time, value));
+            Add(new TimeseriesRecord(time, value,data));
         }
     }
 }

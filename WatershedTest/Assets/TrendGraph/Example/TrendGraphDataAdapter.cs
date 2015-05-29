@@ -30,6 +30,6 @@ public class TrendGraphDataAdapter : MonoBehaviour
     {
         var time = timeSlider.SimTime;
         float t = (float)(time - timeSlider.StartTime).TotalSeconds;
-        trendGraph.Add(time, dist.Sample(t));
+        //trendGraph.Add(time, dist.Sample(t));
     }
 }
