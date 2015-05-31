@@ -78,8 +78,8 @@ class WCS_DescribeCoverage_Parser :Parser
 
         //Debug.LogError(bbox + " "  + manager.records[key].bbox);
         string epsg = "EPSG:" + "4326";
-        
-        Record.boundingBox = new Rect(utmWorldDimensions[1].x, utmWorldDimensions[0].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
+		//Record.boundingBox = new Rect(utmWorldDimensions[1].x, utmWorldDimensions[0].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
+        Record.boundingBox = new Rect(utmWorldDimensions[0].x, utmWorldDimensions[1].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
 		///Debug.LogError("Dimensions: " + Record.boundingBox.x + " " +Record.boundingBox.y);
         // Debug.LogError("Bounding BOX: " + manager.records[key].boundingBox);
         

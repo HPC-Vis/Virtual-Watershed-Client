@@ -90,7 +90,7 @@ namespace VTL.ProceduralTerrain
 
             float width = xres * nx;
             float length = yres * ny;
-            terrainData.size = new Vector3(width, yrange, length);
+            terrainData.size = new Vector3(width, ymax, length);
 
             SplatPrototype[] splatPrototypes = new SplatPrototype[1];
             splatPrototypes[0] = new SplatPrototype();
@@ -252,7 +252,8 @@ namespace VTL.ProceduralTerrain
             // Unity wants terrain data normalized between 0 and 1
             for (int i = 0; i < data.GetLength(0); i++)
                 for (int j = 0; j < data.GetLength(1); j++)
-                    data[i, j] = (data[i, j] - min) / range;
+                    //data[i, j] = (data[i, j] - min) / range;
+					data[i, j] = (data[i, j]) / max;
         }
     }
 }

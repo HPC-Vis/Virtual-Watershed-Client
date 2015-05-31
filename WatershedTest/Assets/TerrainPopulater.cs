@@ -110,7 +110,8 @@ public class TerrainPopulater : MonoBehaviour
 		Debug.LogError ("Load Terrain");
 
 
-		record.boundingBox = new SerialRect (Utilities.bboxSplit2(record.bbox));
+		//record.boundingBox = new SerialRect (Utilities.bboxSplit2(record.bbox));
+		record.boundingBox = new SerialRect (Utilities.bboxSplit3(record.bbox2));
 		transform tran = new global::transform ();
 
 		// EPSG code

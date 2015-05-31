@@ -164,6 +164,8 @@ public  static class ModelRunManager
 						{
                             i.boundingBox = FileBasedCache.Get<DataRecord>(i.id).boundingBox;
 							i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
+							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
 							SettingTheRecord(new List<DataRecord>{i});
                             continue;
 						}
@@ -190,6 +192,8 @@ public  static class ModelRunManager
 						{
                             //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
 							i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
+							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
 							SettingTheRecord(new List<DataRecord>{i});
                             continue;
 						}

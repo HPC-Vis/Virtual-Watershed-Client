@@ -475,7 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dc0cb830b2723c4aa2e5b8903e14345, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minPanSpeed: .100000001
+  minPanSpeed: 100
   maxPanSpeed: 1000
   panTimeConstant: 20
   rotateSpeed: 10
@@ -2178,23 +2178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8eb22aceae5c9c4d8a6475e40f27943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glossDataMIP1: 
-  glossDataMIP2: 
-  glossDataMIP3: 
-  glossDataMIP4: 
-  glossDataMIP5: 
-  glossDataMIP6: 
-  glossDataMIP7: 
-  glossDataMIP8: 
-  glossDataMIP9: 
-  glossDataMIP10: 
-  glossDataMIP11: 
-  glossDataMIP12: 
-  size: 0
-  baked: 0
-  gloss_mult: 0
-  gloss_shaping: 0
-  used_in_atlas: 0
 --- !u!1001 &364681227
 Prefab:
   m_ObjectHideFlags: 0
@@ -2518,7 +2501,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d1292242288a641a3d7986961e0de4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightForSelfShadowing: {fileID: 0}
 --- !u!114 &500634649 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11467876, guid: 04d2c835a10ad3647bf4909f03aab92e,
@@ -5044,23 +5026,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8eb22aceae5c9c4d8a6475e40f27943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glossDataMIP1: 
-  glossDataMIP2: 
-  glossDataMIP3: 
-  glossDataMIP4: 
-  glossDataMIP5: 
-  glossDataMIP6: 
-  glossDataMIP7: 
-  glossDataMIP8: 
-  glossDataMIP9: 
-  glossDataMIP10: 
-  glossDataMIP11: 
-  glossDataMIP12: 
-  size: 0
-  baked: 0
-  gloss_mult: 0
-  gloss_shaping: 0
-  used_in_atlas: 0
 --- !u!1001 &1623918941
 Prefab:
   m_ObjectHideFlags: 0
@@ -5202,23 +5167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8eb22aceae5c9c4d8a6475e40f27943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glossDataMIP1: 
-  glossDataMIP2: 
-  glossDataMIP3: 
-  glossDataMIP4: 
-  glossDataMIP5: 
-  glossDataMIP6: 
-  glossDataMIP7: 
-  glossDataMIP8: 
-  glossDataMIP9: 
-  glossDataMIP10: 
-  glossDataMIP11: 
-  glossDataMIP12: 
-  size: 0
-  baked: 0
-  gloss_mult: 0
-  gloss_shaping: 0
-  used_in_atlas: 0
 --- !u!1 &1671068954
 GameObject:
   m_ObjectHideFlags: 0
@@ -5269,23 +5217,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8eb22aceae5c9c4d8a6475e40f27943, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glossDataMIP1: 
-  glossDataMIP2: 
-  glossDataMIP3: 
-  glossDataMIP4: 
-  glossDataMIP5: 
-  glossDataMIP6: 
-  glossDataMIP7: 
-  glossDataMIP8: 
-  glossDataMIP9: 
-  glossDataMIP10: 
-  glossDataMIP11: 
-  glossDataMIP12: 
-  size: 0
-  baked: 0
-  gloss_mult: 0
-  gloss_shaping: 0
-  used_in_atlas: 0
 --- !u!1 &1709478421
 GameObject:
   m_ObjectHideFlags: 0
@@ -5676,35 +5607,35 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 22405078, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchorMin.y
@@ -5804,11 +5735,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 337
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 674
       objectReference: {fileID: 0}
     - target: {fileID: 11463774, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: headerElementInfo.Array.data[1].text
@@ -5824,11 +5755,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1011
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 674
       objectReference: {fileID: 0}
     - target: {fileID: 11434540, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_Text
@@ -8949,135 +8880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a793589bb90f564693531d85e1c670e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RTP_LODlevel: 0
-  RTP_SHADOWS: 1
-  RTP_SOFT_SHADOWS: 1
-  show_first_features: 0
-  show_add_features: 0
-  RTP_NOFORWARDADD: 0
-  RTP_FULLFORWARDSHADOWS: 0
-  RTP_NOLIGHTMAP: 0
-  RTP_NODIRLIGHTMAP: 0
-  RTP_NODYNLIGHTMAP: 0
-  RTP_NOAMBIENT: 0
-  NO_SPECULARITY: 0
-  RTP_ADDSHADOW: 0
-  RTP_INDEPENDENT_TILING: 0
-  RTP_CUT_HOLES: 0
-  FIX_REFRESHING_ISSUE: 1
-  RTP_USE_COLOR_ATLAS_FIRST: 0
-  RTP_USE_COLOR_ATLAS_ADD: 0
-  RTP_FOGTYPE: 0
-  ADV_COLOR_MAP_BLENDING_FIRST: 0
-  ADV_COLOR_MAP_BLENDING_ADD: 0
-  RTP_UV_BLEND_FIRST: 1
-  RTP_UV_BLEND_ADD: 1
-  RTP_DISTANCE_ONLY_UV_BLEND_FIRST: 1
-  RTP_DISTANCE_ONLY_UV_BLEND_ADD: 1
-  RTP_NORMALS_FOR_REPLACE_UV_BLEND_FIRST: 1
-  RTP_NORMALS_FOR_REPLACE_UV_BLEND_ADD: 1
-  RTP_SUPER_DETAIL_FIRST: 1
-  RTP_SUPER_DETAIL_ADD: 1
-  RTP_SUPER_DETAIL_MULTS_FIRST: 0
-  RTP_SUPER_DETAIL_MULTS_ADD: 0
-  RTP_SNOW_FIRST: 0
-  RTP_SNOW_ADD: 0
-  RTP_SNW_CHOOSEN_LAYER_COLOR_FIRST: 0
-  RTP_SNW_CHOOSEN_LAYER_COLOR_ADD: 0
-  RTP_SNW_CHOOSEN_LAYER_COLOR_NUM_FIRST: 7
-  RTP_SNW_CHOOSEN_LAYER_COLOR_NUM_ADD: 7
-  RTP_SNW_CHOOSEN_LAYER_NORMAL_FIRST: 0
-  RTP_SNW_CHOOSEN_LAYER_NORMAL_ADD: 0
-  RTP_SNW_CHOOSEN_LAYER_NORMAL_NUM_FIRST: 7
-  RTP_SNW_CHOOSEN_LAYER_NORMAL_NUM_ADD: 7
-  MAX_LOD_FIRST: 3
-  MAX_LOD_FIRST_PLUS4: 4
-  MAX_LOD_ADD: 3
-  RTP_SHARPEN_HEIGHTBLEND_EDGES_PASS1_FIRST: 1
-  RTP_SHARPEN_HEIGHTBLEND_EDGES_PASS2_FIRST: 0
-  RTP_SHARPEN_HEIGHTBLEND_EDGES_PASS1_ADD: 1
-  RTP_SHARPEN_HEIGHTBLEND_EDGES_PASS2_ADD: 0
-  RTP_HEIGHTBLEND_AO_FIRST: 0
-  RTP_HEIGHTBLEND_AO_ADD: 0
-  RTP_EMISSION_FIRST: 0
-  RTP_EMISSION_ADD: 0
-  RTP_FUILD_EMISSION_WRAP_FIRST: 0
-  RTP_FUILD_EMISSION_WRAP_ADD: 0
-  RTP_HOTAIR_EMISSION_FIRST: 0
-  RTP_HOTAIR_EMISSION_ADD: 0
-  RTP_COMPLEMENTARY_LIGHTS: 0
-  RTP_SPEC_COMPLEMENTARY_LIGHTS: 0
-  RTP_PBL_FRESNEL: 0
-  RTP_PBL_VISIBILITY_FUNCTION: 0
-  RTP_DEFERRED_PBL_NORMALISATION: 0
-  RTP_COLORSPACE_LINEAR: 0
-  RTP_SKYSHOP_SYNC: 0
-  RTP_SKYSHOP_SKY_ROTATION: 0
-  RTP_IBL_DIFFUSE_FIRST: 0
-  RTP_IBL_DIFFUSE_ADD: 0
-  RTP_IBL_SPEC_FIRST: 0
-  RTP_IBL_SPEC_ADD: 0
-  RTP_SHOW_OVERLAPPED: 0
-  RTP_AMBIENT_EMISSIVE_MAP: 0
-  RTP_TRIPLANAR_FIRST: 0
-  RTP_TRIPLANAR_ADD: 0
-  RTP_NORMALGLOBAL: 0
-  RTP_TESSELLATION: 0
-  RTP_TESSELLATION_SAMPLE_TEXTURE: 0
-  RTP_HEIGHTMAP_SAMPLE_BICUBIC: 1
-  RTP_DETAIL_HEIGHTMAP_SAMPLE: 0
-  RTP_TREESGLOBAL: 0
-  RTP_SUPER_SIMPLE: 0
-  RTP_SS_GRAYSCALE_DETAIL_COLORS_FIRST: 0
-  RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD: 0
-  RTP_USE_BUMPMAPS_FIRST: 1
-  RTP_USE_BUMPMAPS_ADD: 1
-  RTP_USE_PERLIN_FIRST: 0
-  RTP_USE_PERLIN_ADD: 0
-  RTP_COLOR_MAP_BLEND_MULTIPLY_FIRST: 1
-  RTP_COLOR_MAP_BLEND_MULTIPLY_ADD: 1
-  RTP_SIMPLE_FAR_FIRST: 1
-  RTP_SIMPLE_FAR_ADD: 1
-  RTP_CROSSPASS_HEIGHTBLEND: 0
-  UV_BLEND_ROUTE_NUM_FIRST: 0000000001000000020000000300000004000000050000000600000007000000
-  UV_BLEND_ROUTE_NUM_ADD: 0000000001000000020000000300000004000000050000000600000007000000
-  RTP_HARD_CROSSPASS: 1
-  RTP_MAPPED_SHADOWS_FIRST: 0
-  RTP_MAPPED_SHADOWS_ADD: 0
-  RTP_VERTICAL_TEXTURE_FIRST: 0
-  RTP_VERTICAL_TEXTURE_ADD: 0
-  RTP_ADDITIONAL_FEATURES_IN_FALLBACKS: 1
-  PLATFORM_D3D9: 1
-  PLATFORM_D3D11: 1
-  PLATFORM_OPENGL: 1
-  PLATFORM_GLES: 1
-  PLATFORM_FLASH: 1
-  RTP_4LAYERS_MODE: 0
-  numLayers: 0
-  numLayersProcessedByFarShader: 8
-  ADDPASS_IN_BLENDBASE: 0
-  RTP_REFLECTION_FIRST: 0
-  RTP_REFLECTION_ADD: 0
-  RTP_ROTATE_REFLECTION: 0
-  RTP_WETNESS_FIRST: 0
-  RTP_WETNESS_ADD: 0
-  RTP_WET_RIPPLE_TEXTURE_FIRST: 0
-  RTP_WET_RIPPLE_TEXTURE_ADD: 0
-  RTP_CAUSTICS_FIRST: 0
-  RTP_CAUSTICS_ADD: 0
-  RTP_VERTALPHA_CAUSTICS: 0
-  SIMPLE_WATER_FIRST: 0
-  SIMPLE_WATER_ADD: 0
-  RTP_USE_EXTRUDE_REDUCTION_FIRST: 0
-  RTP_USE_EXTRUDE_REDUCTION_ADD: 0
-  SHADER_USAGE_FirstPass: 0
-  SHADER_USAGE_AddPass: 0
-  SHADER_USAGE_AddPassGeom: 0
-  SHADER_USAGE_TerrainFarOnly: 0
-  SHADER_USAGE_BlendBase: 0
-  SHADER_USAGE_Terrain2Geometry: 0
-  SHADER_USAGE_Terrain2GeometryBlendBase: 0
-  dont_sync: 0
 --- !u!114 &2005072647
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9089,8 +8891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b26800498ca25ec4f81612bfa192eabc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdateOnEveryFrame: 1
-  LinearColorSpace: 0
 --- !u!4 &2005072648
 Transform:
   m_ObjectHideFlags: 0

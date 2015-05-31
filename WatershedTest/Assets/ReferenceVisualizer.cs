@@ -32,10 +32,15 @@ public class ReferenceVisualizer : MonoBehaviour
 			else if(rec.Type.ToLower().Contains("dem") )
 			{
 				//BuildShapes(new List<DataRecord> { rec });
+				BuildDOQQ(rec);
 			}
 			else if(rec.Type.ToLower().Contains("doqq"))
 			{
 				//BuildShapes(new List<DataRecord> { rec });
+				BuildDOQQ(rec);
+			}
+			else
+			{
 				BuildDOQQ(rec);
 			}
 			// add build projector
@@ -59,8 +64,9 @@ public class ReferenceVisualizer : MonoBehaviour
             List<string> variables = MR.GetVariables();
             Debug.LogError(MR.ModelName.ToLower());
             Debug.LogError(MR.Total);
+			//Debug.LogError(variables[0]);
             // model_set_type  must be reference
-            if(!MR.ModelName.ToLower().Contains("reference"))
+			if(!MR.ModelName.ToLower().Contains("reference") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  "))
             {
                 Debug.LogError("Give me a break of that kitkat bar.");
                 continue;
@@ -125,6 +131,18 @@ public class ReferenceVisualizer : MonoBehaviour
 					Debug.LogError("DOWNLOADING OBJECTS");
 					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms",param: param);
 				}
+
+				else
+				{
+					// We need to do something about this later for now we assume that wcs works
+					SystemParameters param = new SystemParameters();
+					param.Priority = 100;
+					param.width = 100;
+					param.height = 100;
+					Debug.LogError("DOWNLOADING OBJECTS");
+					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs",param: param);
+				}
+
             }
         }
     }

@@ -52,8 +52,37 @@ public class Utilities
         float maxy = float.Parse(coords[3]);
         return new Rect(minx, maxy, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
     }
+	// WCS bbox
+	public static Rect bboxSplit3(string bbox)
+	{
+		bbox = bbox.Replace('[', ' ');
+		bbox = bbox.Replace(']', ' ');
+		bbox = bbox.Replace('\"', ' ');
+		bbox = bbox.Replace(',', ' ');
+		string[] coords = bbox.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+		bbox = coords[0] + ',' + coords[1] + ',' + coords[2] + ',' + coords[3];
+		float minx = float.Parse(coords[0]);
+		float miny = float.Parse(coords[1]);
+		float maxx = float.Parse(coords[2]);
+		float maxy = float.Parse(coords[3]);
+		return new Rect(minx, maxy, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
+	}
 
-
+	public static Rect bboxSplit4(string bbox)
+	{
+		bbox = bbox.Replace('[', ' ');
+		bbox = bbox.Replace(']', ' ');
+		bbox = bbox.Replace('\"', ' ');
+		bbox = bbox.Replace(',', ' ');
+		string[] coords = bbox.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+		bbox = coords[0] + ',' + coords[1] + ',' + coords[2] + ',' + coords[3];
+		float minx = float.Parse(coords[0]);
+		float miny = float.Parse(coords[1]);
+		float maxx = float.Parse(coords[2]);
+		float maxy = float.Parse(coords[3]);
+		return new Rect(minx, miny, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
+	}
+	
 	public void PlaceProjector(Projector projector, DataRecord record)
 	{
 		Debug.LogError (record.bbox2);
@@ -102,7 +131,55 @@ public class Utilities
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 	}
-	
+
+	public void PlaceProjector2(Projector projector, DataRecord record)
+	{
+		Debug.LogError (record.bbox2);
+		Debug.LogError (record.bbox);
+		//projector.name = "SPAWNED PROJECTOR";
+		record.boundingBox = new SerialRect (bboxSplit(record.bbox2));
+		Debug.LogError ("PROJECTOR TIME: " + record.boundingBox.x + " " + record.boundingBox.y);
+		projector.gameObject.GetComponent<transform> ();
+		if (projector.gameObject.GetComponent<transform>() != null) {
+			Component.Destroy(projector.gameObject.GetComponent<transform>());
+		}
+		var tran = projector.gameObject.AddComponent<transform>();
+		tran.createCoordSystem(record.projection); // Create a coordinate transform
+		//Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+		
+		tran.setOrigin(coordsystem.WorldOrigin);
+		
+		Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
+		Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
+		Vector2 upperRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y)));
+		Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y-record.boundingBox.height)));;
+		Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y-record.boundingBox.height)));
+		
+		point = upperLeft;
+		Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
+		pos.y += 10;
+		
+		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
+		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
+		
+		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
+		pos.y += 3000;
+		pos.x += dim;
+		pos.z += dim;
+		projector.transform.position = pos;
+		
+		var pro = projector.GetComponent<Projector> ();
+		pro.farClipPlane = 10000;
+		pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
+		
+		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
+		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
+		Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
+		Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
+		pro.material = Material.Instantiate (pro.material);
+		pro.material.SetFloat ("_MaxX", boundingAreaX);
+		pro.material.SetFloat ("_MaxY", boundingAreaY);
+	}
 
 	// Here are some projector building functions that need to be addressed
 	public GameObject buildProjector(DataRecord record,bool type=false)
@@ -190,19 +267,40 @@ public class Utilities
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 		if (record.texture != null) {
-			Texture2D image = new Texture2D(1024,1024,TextureFormat.ARGB32,false);
+			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
 			image.wrapMode = TextureWrapMode.Clamp;
-			image.LoadImage(record.texture);
-			for(int i = 0; i < image.width; i++)
-			{
-				image.SetPixel(0,i,Color.clear);
-				image.SetPixel(i,0,Color.clear);
-				image.SetPixel(image.width-1,i,Color.clear);
-				image.SetPixel(i,image.height-1,Color.clear);
+			image.LoadImage (record.texture);
+			for (int i = 0; i < image.width; i++) {
+				image.SetPixel (0, i, Color.clear);
+				image.SetPixel (i, 0, Color.clear);
+				image.SetPixel (image.width - 1, i, Color.clear);
+				image.SetPixel (i, image.height - 1, Color.clear);
 			}
-			image.Apply();
+			image.Apply ();
 			pro.material.SetTexture ("_ShadowTex", image);
+		} 
+		else if (record.Data != null) 
+		{
+			PlaceProjector2(pro,record);
+			Texture2D image = buildTextures(normalizeData(record.Data),Color.green,Color.red);
+			image.wrapMode = TextureWrapMode.Clamp;
+
+			for (int i = 0; i < image.width; i++) 
+			{
+				image.SetPixel (i, 0, Color.clear);
+				image.SetPixel (i, image.height - 1, Color.clear);
+			}
+
+			for(int i =0; i <image.height;i++)
+			{
+				image.SetPixel (0, i, Color.clear);
+				image.SetPixel (image.width - 1, i, Color.clear);
+			}
+			image.Apply ();
+
+			pro.material.SetTexture("_ShadowTex",image);
 		}
+
 		                        // Third what type of data are we visualizing...
 		// Determine if the data is a square or rect
 		// if square add it to the project material
