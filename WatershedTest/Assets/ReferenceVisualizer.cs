@@ -66,9 +66,9 @@ public class ReferenceVisualizer : MonoBehaviour
             Debug.LogError(MR.Total);
 			//Debug.LogError(variables[0]);
             // model_set_type  must be reference
-			if(!MR.ModelName.ToLower().Contains("reference") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  "))
+			if( !MR.ModelName.ToLower().Contains("fire") && !MR.ModelName.ToLower().Contains("reference") || (!variables.Contains("animation") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  ")))
             {
-                Debug.LogError("Give me a break of that kitkat bar.");
+				Debug.LogError( MR.ModelName + "Give me a break of that kitkat bar." + variables[0] + "after");
                 continue;
             }
 
@@ -95,6 +95,7 @@ public class ReferenceVisualizer : MonoBehaviour
 
     public void DownlaodObjects()
     {
+    	Logger.enable = true;
         List<DataRecord> recs = new List<DataRecord>();
         recs = listView.GetSelected();
 		 
@@ -122,6 +123,7 @@ public class ReferenceVisualizer : MonoBehaviour
 				}
 				else if(i.Type.ToLower().Contains("doqq"))
 				{
+					Logger.enable =true;
 					SystemParameters param = new SystemParameters();
 					param.Priority = 100;
 

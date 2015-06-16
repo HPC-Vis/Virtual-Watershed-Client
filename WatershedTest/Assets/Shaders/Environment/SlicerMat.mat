@@ -37,20 +37,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _3DTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -91,6 +77,20 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _3DTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -104,14 +104,6 @@ Material:
         first:
           name: _DstBlend
         second: 0
-      data:
-        first:
-          name: _Max
-        second: .660497725
-      data:
-        first:
-          name: _Min
-        second: .34454
       data:
         first:
           name: _Parallax
@@ -152,6 +144,14 @@ Material:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _Max
+        second: .200000003
+      data:
+        first:
+          name: _Min
+        second: NaN
     m_Colors:
       data:
         first:
@@ -164,8 +164,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .91712755, g: .936088562, b: 0, a: 0}
+        second: {r: 0, g: 0, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .827325106, g: .918365717, b: 0, a: 0}
+        second: {r: 1, g: 1, b: 0, a: 0}

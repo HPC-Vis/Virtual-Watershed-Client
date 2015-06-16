@@ -31,7 +31,7 @@ public class SystemParameters
     public string outputName = "";
     public string crs = "";
     public string boundingbox = "";
-    public string interpolation = "nearest";
+    public string interpolation = "bilinear";
     public string format = "image/png";
     public string version = "1.0.0";
     public string model_run_uuid="";

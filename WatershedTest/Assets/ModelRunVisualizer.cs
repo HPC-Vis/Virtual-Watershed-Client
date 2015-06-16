@@ -33,17 +33,19 @@ public class ModelRunVisualizer : MonoBehaviour {
         foreach (var i in downloadManager.GetModelRuns())
         {
             var MR = ModelRunManager.GetByUUID(i);
-            Debug.LogError("ADDING: " + MR.GetVariables().Count);
+            Debug.LogError("ADDING MODEL RUN VARIABLES: " + MR.GetVariables().Count);
             List<string> variables = MR.GetVariables();
+            Debug.LogError(MR.ModelRunUUID);
             foreach (var variable in variables)
             {
-				if(variables.Count > 1)//MR.IsTemporal.ContainsKey(variable))
+				if(variables.Count >= 1 && !MR.ModelName.ToLower().Contains("reference"))//MR.IsTemporal.ContainsKey(variable))
 				{
 					string desription = vr.GetDescription(variable);
 					if(desription == "")
 					{
 						desription = MR.Description;
 					}
+					Debug.LogError(variable);
                 	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, desription},MR);
 				}
             }

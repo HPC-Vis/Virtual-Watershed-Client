@@ -91,7 +91,7 @@ namespace VTL.SimTimeControls
             }
 
 #if DEBUG
-            Debug.Log(String.Format("{0}, {1}, {2}, {3}, {4}", IsPlaying, Time.time, slider.value, SimStep, SimTime));
+            //Debug.Log(String.Format("{0}, {1}, {2}, {3}, {4}", IsPlaying, Time.time, slider.value, SimStep, SimTime));
 #endif
 
         }
@@ -108,11 +108,21 @@ namespace VTL.SimTimeControls
 
         public void SetTimeDuration(DateTime start, DateTime end, float timestep)
         {
-            //TimeDelta = new TimeSpan(1,0,0);
+        	Debug.LogError(timestep);
+        	Debug.LogError("SETTING START TIME: " + start);
+        	Debug.LogError("SETTING END TIME: " + end);
+			TimeDelta = new TimeSpan(Math.Max((int)timestep,1),0,0);
             StartTime = start;
-			slider.maxValue = (int)(end-start).TotalHours;
-            //SimTimeProperty = start;
+            //TimeDeltaHours = 365*24;
+            //TimeDelta = new TimeSpan(365*24s);
+			slider.maxValue = (int)(end-start).TotalHours / timestep;
+            SimTimeProperty = start;
+            StartTimeProperty = start;
         }
-
+		public void SetTimeDelta(float value)
+		{
+			TimeDelta = new TimeSpan(365*24);
+		}
+		
     }
 }

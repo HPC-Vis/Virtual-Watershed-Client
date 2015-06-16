@@ -141,7 +141,7 @@ public  static class ModelRunManager
     // TODO Consider Removing DataRecordSetter
     static public void Download(List<DataRecord> records, DataRecordSetter SettingTheRecord, string service = "vwc", string operation = "wcs", SystemParameters param = null)
     {
-        Logger.enable = false;
+        //Logger.enable = false;
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
 

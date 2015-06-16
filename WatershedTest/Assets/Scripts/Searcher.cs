@@ -137,7 +137,7 @@ public class Searcher : MonoBehaviour {
 				Variables += s + ", ";
 			}
 			
-			Debug.LogError("Adding to list: " + mr.ModelName);
+			//Debug.LogError("Adding to list: " + mr.ModelName);
 			listViewManager.AddRow(new object[]{mr.ModelName,
 				mr.Description,
 				mr.Location,

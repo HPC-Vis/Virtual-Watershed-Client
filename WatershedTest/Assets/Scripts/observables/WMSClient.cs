@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using UnityEngine;
 
 class WMSClient : Observerable
 {
@@ -94,8 +95,8 @@ class WMSClient : Observerable
         string request = Root + App + "/datasets/" + records[0].id.Replace('"', ' ').Trim() +
             "/services/ogc/wms?SERVICE=wms&Request=GetMap&" + "width=" + width + "&height=" + height +
             "&layers=" + records[0].title + "&bbox=" + bboxSplit(records[0].bbox) +
-            "&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326";
-
+				"&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326" + "&TRANSPARENT=TRUE";
+		Debug.LogError(request);
         // Import from URL
         if (type == DownloadType.Record)
             factory.Import("WMS_PNG", records, "url://" + request);

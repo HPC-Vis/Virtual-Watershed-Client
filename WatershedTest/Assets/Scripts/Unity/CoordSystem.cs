@@ -25,7 +25,7 @@ public static class coordsystem
     static float xUnityRes, yUnityRes;
 
     // For now lets assume everything with respect to our zone :D.
-    static public int localzone = 11;
+    static public int localzone = 13;
 
     public static Vector2 WorldOrigin
     {

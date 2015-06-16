@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine.UI;
 using VTL.SimTimeControls;
 using System.Threading;
@@ -29,7 +30,8 @@ public class FrameEndDateAscending : IComparer<Frame>
 
 public class Spooler : MonoBehaviour
 {
-
+	float frameRatio = 0.0f;
+	bool WMS = false;
     static readonly object LOCK;
 	public TrendGraphController trendGraph;
 	string selectedModelRun="";
@@ -87,6 +89,8 @@ public class Spooler : MonoBehaviour
     {
         TimeProjector.material.SetVector ("_Point", NormalizedPoint);
 
+		// Enable the point to be used.
+		TimeProjector.material.SetInt ("_UsePoint", 1);
         if (SliderFrames.Count > 0 && count > 0)
         {
 			// Set a dequeue size for multiple dequeus in one update
@@ -100,7 +104,7 @@ public class Spooler : MonoBehaviour
             // Run the dequeue dequeueSize times
             for (int i = 0; i < dequeueSize; i++)
             {
-                // Clear time series graph
+                // Clear time series gra
                 DataRecord record = SliderFrames.Dequeue();
 
                 if (Reel.Count == 0)
@@ -108,9 +112,12 @@ public class Spooler : MonoBehaviour
                     // Set projector...
                     Utilities utilites = new Utilities();
 
-                    utilites.PlaceProjector(TimeProjector, record);
-                    BoundingBox = Utilities.bboxSplit(record.bbox);
-                    Debug.LogError(BoundingBox);
+                    utilites.PlaceProjector2(TimeProjector, record);
+                    if(record.bbox2 != "" && record.bbox2 != null)
+                    	BoundingBox = Utilities.bboxSplit(record.bbox2);
+                    else
+						BoundingBox = Utilities.bboxSplit(record.bbox);
+					Debug.LogError(BoundingBox);
                     tran = new transform();
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
@@ -127,7 +134,7 @@ public class Spooler : MonoBehaviour
             }
             if (downloadTextBox)
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
-            timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, 1);
+			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
         }
 
 		if (Input.GetMouseButtonDown (0)) 
@@ -224,9 +231,18 @@ public class Spooler : MonoBehaviour
 		frame.Data = rec.Data;
         trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
 		//Debug.LogError(rec.start + " | " + rec.end);
-		//Logger.enable = true;
+		Logger.enable = true;
 		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
-        var tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.green, Color.red);
+		Texture2D tex = new Texture2D(100,100);
+		if(!WMS)
+	    {
+        	tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);
+        }
+        else
+        {
+        	tex.LoadImage(rec.texture);
+        }
+        
         //utilities.buildGradientContourTexture( frame.Data,new List<Color>{ Color.clear,Color.red,Color.blue,Color.green},new List<float> { 0.01f, 0.5f, 1.0f });
 
 		for(int i = 0; i < tex.width; i++)
@@ -242,8 +258,9 @@ public class Spooler : MonoBehaviour
 		}
 		
 		tex.Apply ();
-		frame.Picture = Sprite.Create(tex, new Rect(0, 0, 115, 115), Vector2.zero);//new Texture2D();// Generate Sprite
-		
+		frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
+		//tex.EncodeToPNG()
+		 //File.WriteAllBytes(Application.dataPath + "/../"+frame.endtime.Year + "" + frame.endtime.Month+".png",tex.EncodeToPNG());
 		// second hand to spooler
 		Insert(frame);
 		count++;
@@ -410,8 +427,8 @@ public class Spooler : MonoBehaviour
 			SystemParameters sp = new SystemParameters();
 			
 			// This is not getting passed into WCS UGH! Right now width and height come out to equal 0!!!!!!
-			sp.width = 115;
-			sp.height = 115;
+			sp.width = 100;
+			sp.height = 100;
 			sp.interpolation = "bilinear";
 			Debug.LogError (temp[0].GetCount());
 			var Records = temp[0].FetchVariableData(variable);
@@ -419,7 +436,18 @@ public class Spooler : MonoBehaviour
 			selectedModelRun = temp[0].ModelRunUUID;
             oldSelectedVariable = variable;
 			Debug.LogError("NUMBER OF RECORDS: " + Records.Count);
-			ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
+			 
+			if(temp[0].Description.ToLower().Contains("doqq"))
+		    {
+		    	WMS=true;
+		    	Debug.LogError("USING WMS!!!!!!!");
+				ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
+			}
+			else
+		    {
+		    	WMS=false;
+				ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
+			}
 		}
 		//visual.listView.GetSelectedModelRuns()[0];
 	}
@@ -448,8 +476,13 @@ public class Spooler : MonoBehaviour
 			}
 			
 			testImage.sprite = Reel[textureIndex].Picture;
-			int i = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0)*NormalizedPoint.x),(double)Reel[textureIndex].Data.GetLength(0)-1);
-			int j = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1)*NormalizedPoint.y),(double)Reel[textureIndex].Data.GetLength(1)-1);
+			int i = -1;
+			int j = -1;
+			if(!WMS)
+			{
+				i = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0)*NormalizedPoint.x),(double)Reel[textureIndex].Data.GetLength(0)-1);
+				j = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1)*NormalizedPoint.y),(double)Reel[textureIndex].Data.GetLength(1)-1);
+			}
 			if(previ != i || prevj != j)
 			{
 				// Clear time series graph

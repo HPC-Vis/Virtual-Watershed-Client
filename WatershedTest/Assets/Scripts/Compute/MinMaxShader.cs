@@ -46,7 +46,7 @@ public class MinMaxShader
 			cs.SetFloats ("from", new float[]{first.x,first.y});
 			cs.SetFloats ("to", new float[]{second.x,second.y});
 			buffer.SetData (da);
-			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
+			//cs.Dispatch (kernelHandle, sampleRate, 1, 1);
 			
 			buffer.GetData (da);
 			//Debug.LogError ("KERNEL: " + kernelHandle);

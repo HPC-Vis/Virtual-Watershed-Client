@@ -34,7 +34,7 @@ public class Utilities
 		float miny = float.Parse(coords[1]);
 		float maxx = float.Parse(coords[2]);
 		float maxy = float.Parse(coords[3]);
-		return new Rect(minx,miny,Math.Abs(minx-maxx),Math.Abs(miny-maxy));
+		return new Rect(Mathf.Min(minx,maxx),miny,Math.Abs(minx-maxx),Math.Abs(miny-maxy));
 	}
 
     // A temporary patch
@@ -112,7 +112,7 @@ public class Utilities
 
 		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
 		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-		
+		Debug.LogError("POINT!!!!" + point);
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 		pos.y += 3000;
 		pos.x += dim;
@@ -134,10 +134,17 @@ public class Utilities
 
 	public void PlaceProjector2(Projector projector, DataRecord record)
 	{
-		Debug.LogError (record.bbox2);
-		Debug.LogError (record.bbox);
+		Debug.LogError ("WCS BBOX: " + "a" + record.bbox2 + "b");
+		Debug.LogError ("JSON BBOX: " + record.bbox);
 		//projector.name = "SPAWNED PROJECTOR";
-		record.boundingBox = new SerialRect (bboxSplit(record.bbox2));
+		if( record.bbox2 == "" || record.bbox2 == null || (Math.Abs(bboxSplit(record.bbox2).x) > 180  && Math.Abs(bboxSplit(record.bbox2).y) > 180) )
+	    {
+	    	record.boundingBox = new SerialRect (bboxSplit(record.bbox));
+	    }
+	    else
+	    {
+			record.boundingBox = new SerialRect (bboxSplit(record.bbox2));
+	    }
 		Debug.LogError ("PROJECTOR TIME: " + record.boundingBox.x + " " + record.boundingBox.y);
 		projector.gameObject.GetComponent<transform> ();
 		if (projector.gameObject.GetComponent<transform>() != null) {
@@ -266,6 +273,7 @@ public class Utilities
 		pro.material = Material.Instantiate (pro.material);
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
+		pro.material.SetInt ("_UsePoint", 0);
 		if (record.texture != null) {
 			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
 			image.wrapMode = TextureWrapMode.Clamp;
@@ -282,7 +290,7 @@ public class Utilities
 		else if (record.Data != null) 
 		{
 			PlaceProjector2(pro,record);
-			Texture2D image = buildTextures(normalizeData(record.Data),Color.green,Color.red);
+			Texture2D image = buildTextures(normalizeData(record.Data),Color.grey,Color.blue);
 			image.wrapMode = TextureWrapMode.Clamp;
 
 			for (int i = 0; i < image.width; i++) 
@@ -446,20 +454,27 @@ public class Utilities
     // finds the minimum and maximum values from a heightmap
     public void findMinMax(float[,] data, ref float min, ref float max)
     {
+    	float min2 = float.MaxValue;
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)
             {
-                if (data[i, j] > max)
+				float val = data[i,j];
+                if (val > max)
                 {
-                    max = data[i, j];
+                    max = val;
                 }
-                if (data[i, j] < min && min != 0)
+                if (val < min && val != min)//&& min != 0)
                 {
-                    min = data[i, j];
+                    min = val;
+                }
+                if(min2 > min && min2 != min)
+                {
+                	min2 = min;
                 }
             }
         }
+        min = min2;
     }
 
     public float[,] normalizeData(float[,] data)
@@ -468,10 +483,11 @@ public class Utilities
         float max = float.MinValue;
         float min = float.MaxValue;
         float[,] outData = new float[data.GetLength(0), data.GetLength(1)];
-        Debug.Log(data.GetLength(0) + data.GetLength(1));
+        //Debug.Log(data.GetLength(0) + data.GetLength(1));
 
         findMinMax(data, ref min, ref max);
-
+		Debug.LogError ("MIN!!!!! " + min);
+		Debug.LogError ("MAX!!!!! " + max);
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)

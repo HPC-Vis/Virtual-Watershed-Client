@@ -380,6 +380,20 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _3DTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -416,20 +430,6 @@ Material:
       data:
         first:
           name: _MetallicGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _3DTex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -778,6 +778,14 @@ Material:
         second: 0
       data:
         first:
+          name: _Max
+        second: -1
+      data:
+        first:
+          name: _Min
+        second: -1
+      data:
+        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -816,14 +824,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _Max
-        second: -1
-      data:
-        first:
-          name: _Min
-        second: -1
       data:
         first:
           name: _Rotation
@@ -963,6 +963,10 @@ Material:
       data:
         first:
           name: _MaxY
+        second: 1
+      data:
+        first:
+          name: _UsePoint
         second: 1
     m_Colors:
       data:
@@ -1835,15 +1839,15 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _EmissionColorUI
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
           name: _Point1
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _Point2
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
@@ -1881,3 +1885,7 @@ Material:
         first:
           name: _AtmosFar
         second: {r: 0, g: 0, b: 1, a: 1}
+      data:
+        first:
+          name: _Point
+        second: {r: 0, g: 0, b: 0, a: 0}

@@ -152,8 +152,8 @@ public class DataRecord : IEquatable<DataRecord>
     SerialVector2 WGS84Origin;
 
     // The bounding box of this dataset
-    public string bbox; // --- In the dataset class there will be a floating point representation. ---
-	public string bbox2; // A temporary fix for WCS's BBOX!!!!!!
+    public string bbox = null; // --- In the dataset class there will be a floating point representation. ---
+	public string bbox2 = null; // A temporary fix for WCS's BBOX!!!!!!
     // The EPSG of this dataset
     public string projection;
 

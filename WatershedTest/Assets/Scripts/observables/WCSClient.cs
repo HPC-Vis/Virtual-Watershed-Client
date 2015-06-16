@@ -134,7 +134,14 @@ class WCSClient : Observerable
                 }
                 else
                 {
-                    parameters += i.name + "=" + j + "&";
+					if(i.name == "InterpolationType" && param.interpolation != "" )
+				    {
+				       parameters += i.name + "=" + param.interpolation + "&";
+				    }
+				    else
+				    {
+                       parameters += i.name + "=" + j + "&";
+                    }
                 }
                 break;
             }

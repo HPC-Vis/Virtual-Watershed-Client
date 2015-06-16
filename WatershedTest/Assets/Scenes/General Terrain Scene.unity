@@ -5735,11 +5735,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 337
+      value: 340.25
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 674
+      value: 680.5
       objectReference: {fileID: 0}
     - target: {fileID: 11463774, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: headerElementInfo.Array.data[1].text
@@ -5755,11 +5755,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 1011
+      value: 1020.75
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 674
+      value: 680.5
       objectReference: {fileID: 0}
     - target: {fileID: 11434540, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_Text

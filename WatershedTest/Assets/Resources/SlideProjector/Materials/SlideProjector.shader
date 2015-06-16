@@ -23,6 +23,7 @@ Shader "VTL/SlideProjector" {
 		_MaxX("Max X",Float)=1
 		_MaxY("Max Y",Float)=1
 		_Point("Point for Graphing",Vector)=(0,0,0,0)
+		_UsePoint("Using point for graphing",int)=0
 	}
 	Subshader {
 		Tags {"Queue"="Transparent"}
@@ -45,6 +46,7 @@ Shader "VTL/SlideProjector" {
 			uniform float _MaxX;
 			uniform float _MaxY;
 			uniform float4 _Point;
+			uniform int _UsePoint;
 			struct vertexInput {
 				float4 uvShadow : TEXCOORD0;
 				float4 pos : SV_POSITION;
@@ -73,7 +75,7 @@ Shader "VTL/SlideProjector" {
 				texS.a = 1.0 - texS.a * _Opacity;
                 
                 
-                if(uv.x >= _Point.x - .025 && uv.x < _Point.x + .025 && uv.y >= _Point.y - .025 && uv.y < _Point.y + .025)
+                if(_UsePoint == 1 &&  uv.x >= _Point.x - .025 && uv.x < _Point.x + .025 && uv.y >= _Point.y - .025 && uv.y < _Point.y + .025)
                 {
                    return float4(1,1,1,0);
                 }
