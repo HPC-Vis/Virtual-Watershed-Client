@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: Heatmap
+  m_Shader: {fileID: 4800000, guid: 0f81900962b18ad4ea3b9e59bb25b557, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Orientation1
+        second: .839207888
+    m_Colors:
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point1
+        second: {r: .441999674, g: .655614972, b: 0, a: 0}
+      data:
+        first:
+          name: _Point2
+        second: {r: .342563719, g: .608187377, b: 0, a: 0}
+      data:
+        first:
+          name: _Color1
+        second: {r: 0, g: 1, b: 0, a: 1}
+      data:
+        first:
+          name: _Color2
+        second: {r: 1, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _Position1
+        second: {r: .583393395, g: .402765989, b: 0, a: 0}
+      data:
+        first:
+          name: _Orientation1
+        second: {r: -.965413034, g: -.260725319, b: 0, a: 0}

@@ -1,0 +1,1891 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: ProjMat
+  m_Shader: {fileID: 4800000, guid: 776b16dfd5612b444ba4211471c8f542, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailNormalMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Tex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Control
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Splat3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Normal3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Control1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Control2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Control3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatAtlasA
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatAtlasB
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatAtlasC
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatA0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatA1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatA2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatA3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatB0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatB1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatB2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatB3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatC0
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatC1
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatC2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SplatC3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap01
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap23
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap45
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap67
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap89
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMapAB
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TERRAIN_HeightMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TERRAIN_HeightMap2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TERRAIN_HeightMap3
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ColorMapGlobal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _NormalMapGlobal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _TreesMapGlobal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _AmbientEmissiveMapGlobal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMapGlobal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _VerticalTexture
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: TERRAIN_RippleMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SSColorCombinedA
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _CubemapDiff
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _CubemapSpec
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DiffCubeIBL
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecCubeIBL
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _3DTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ParallaxMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _OcclusionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailMask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DetailAlbedoMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MetallicGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Emission
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HeightMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FalloffTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: TERRAIN_FlowingMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ReflectionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainBump
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Mask
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Clouds
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Cutoff
+        second: .5
+      data:
+        first:
+          name: _Shininess
+        second: .200000003
+      data:
+        first:
+          name: _Exposure
+        second: 1
+      data:
+        first:
+          name: _SrcBlend
+        second: 1
+      data:
+        first:
+          name: _DstBlend
+        second: 0
+      data:
+        first:
+          name: _Phong
+        second: 0
+      data:
+        first:
+          name: _BumpMapGlobalScale
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapSaturation
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapSaturationFar
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapBrightness
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapBrightnessFar
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapNearMIP
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapDistortByPerlin
+        second: 1
+      data:
+        first:
+          name: EmissionRefractFiltering
+        second: 1
+      data:
+        first:
+          name: EmissionRefractAnimSpeed
+        second: 1
+      data:
+        first:
+          name: RTP_DeferredAddPassSpec
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_ReliefTransformTriplanarZ
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_DIST_STEPS
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_WAVELENGTH
+        second: 1
+      data:
+        first:
+          name: _blend_multiplier
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_ExtrudeHeight
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_LightmapShading
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_SHADOW_STEPS
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_WAVELENGTH_SHADOWS
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_SHADOW_SMOOTH_STEPS
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_SelfShadowStrength
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_ShadowSmoothing
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_color
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_bump
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_height
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_superdetail
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_flow
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_ripple
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_globalnorm
+        second: 1
+      data:
+        first:
+          name: rtp_mipoffset_caustics
+        second: 1
+      data:
+        first:
+          name: TERRAIN_CausticsAnimSpeed
+        second: 1
+      data:
+        first:
+          name: TERRAIN_CausticsTilingScale
+        second: 1
+      data:
+        first:
+          name: TERRAIN_ReflectionRotSpeed
+        second: 1
+      data:
+        first:
+          name: TERRAIN_ReflGlossAttenuation
+        second: 1
+      data:
+        first:
+          name: TERRAIN_ReflColorCenter
+        second: 1
+      data:
+        first:
+          name: TERRAIN_RippleScale
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FlowScale
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FlowSpeed
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FlowCycleScale
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FlowMipOffset
+        second: 1
+      data:
+        first:
+          name: TERRAIN_DropletsSpeed
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WetDarkening
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WetDropletsStrength
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WetHeight_Treshold
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WetHeight_Transition
+        second: 1
+      data:
+        first:
+          name: TERRAIN_mipoffset_flowSpeed
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_distance_start
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_distance_transition
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_distance_start_bumpglobal
+        second: 1
+      data:
+        first:
+          name: _TERRAIN_distance_transition_bumpglobal
+        second: 1
+      data:
+        first:
+          name: rtp_perlin_start_val
+        second: 1
+      data:
+        first:
+          name: _FarNormalDamp
+        second: 1
+      data:
+        first:
+          name: _RTP_MIP_BIAS
+        second: 1
+      data:
+        first:
+          name: _SuperDetailTiling
+        second: 1
+      data:
+        first:
+          name: _VerticalTextureTiling
+        second: 1
+      data:
+        first:
+          name: _VerticalTextureGlobalBumpInfluence
+        second: 1
+      data:
+        first:
+          name: RTP_AOamp
+        second: 1
+      data:
+        first:
+          name: RTP_AOsharpness
+        second: 1
+      data:
+        first:
+          name: _TessSubdivisions
+        second: 1
+      data:
+        first:
+          name: _TessSubdivisionsFar
+        second: 1
+      data:
+        first:
+          name: _TessYOffset
+        second: 0
+      data:
+        first:
+          name: _Max
+        second: -1
+      data:
+        first:
+          name: _Min
+        second: -1
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
+      data:
+        first:
+          name: _ZWrite
+        second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
+      data:
+        first:
+          name: _BumpScale
+        second: 1
+      data:
+        first:
+          name: _OcclusionStrength
+        second: 1
+      data:
+        first:
+          name: _DetailNormalMapScale
+        second: 1
+      data:
+        first:
+          name: _UVSec
+        second: 0
+      data:
+        first:
+          name: _EmissionScaleUI
+        second: 0
+      data:
+        first:
+          name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _Rotation
+        second: 0
+      data:
+        first:
+          name: _Stencil
+        second: 0
+      data:
+        first:
+          name: _StencilComp
+        second: 8
+      data:
+        first:
+          name: _StencilOp
+        second: 0
+      data:
+        first:
+          name: _StencilReadMask
+        second: 255
+      data:
+        first:
+          name: _StencilWriteMask
+        second: 255
+      data:
+        first:
+          name: _ColorMask
+        second: 15
+      data:
+        first:
+          name: TERRAIN_LayerReflection
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FresnelPow
+        second: 2
+      data:
+        first:
+          name: TERRAIN_FresnelOffset
+        second: .200000003
+      data:
+        first:
+          name: TERRAIN_LayerWetStrength
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WaterLevelSlopeDamp
+        second: 4
+      data:
+        first:
+          name: TERRAIN_ExtrudeHeight
+        second: .0199999996
+      data:
+        first:
+          name: TERRAIN_WaterSpecularity
+        second: .5
+      data:
+        first:
+          name: TERRAIN_WaterLevel
+        second: .5
+      data:
+        first:
+          name: TERRAIN_WaterEdge
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WaterOpacity
+        second: .5
+      data:
+        first:
+          name: TERRAIN_WaterGloss
+        second: 1
+      data:
+        first:
+          name: TERRAIN_Refraction
+        second: .0199999996
+      data:
+        first:
+          name: TERRAIN_WetRefraction
+        second: 1
+      data:
+        first:
+          name: TERRAIN_Flow
+        second: .100000001
+      data:
+        first:
+          name: TERRAIN_WetSpecularity
+        second: .100000001
+      data:
+        first:
+          name: TERRAIN_WetReflection
+        second: .5
+      data:
+        first:
+          name: TERRAIN_ReflDistortion
+        second: .0500000007
+      data:
+        first:
+          name: TERRAIN_RainIntensity
+        second: 1
+      data:
+        first:
+          name: _Opacity
+        second: .5
+      data:
+        first:
+          name: _Angle
+        second: 0
+      data:
+        first:
+          name: _LightAmount
+        second: 1
+      data:
+        first:
+          name: _AtmosFalloff
+        second: 3
+      data:
+        first:
+          name: _CloudHeight
+        second: .0500000007
+      data:
+        first:
+          name: _CloudSpeed
+        second: .00100000005
+      data:
+        first:
+          name: _Focus
+        second: -100
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
+          name: _MaxX
+        second: 1
+      data:
+        first:
+          name: _MaxY
+        second: 1
+      data:
+        first:
+          name: _UsePoint
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _EmissionColor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+      data:
+        first:
+          name: terrainTileSize
+        second: {r: 600, g: 200, b: 600, a: 1}
+      data:
+        first:
+          name: _GlobalColorMapBlendValues
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _TERRAIN_ReliefTransform
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_CausticsColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_ReflColorA
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_ReflColorB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_ReflColorC
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixScale0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBlend0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorPerLayer0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerSaturation0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness2Spec0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerAlbedo2SpecColor0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixSaturation0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBrightness0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixReplace0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmission0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractHBedge0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorR0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorG0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorB0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorA0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorBottom0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorTop0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapLoSat0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapHiSat0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerLoSat0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerHiSat0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLoBlend0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorHiBlend0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Spec0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FarSpecCorrection0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MIPmult0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_LayerWetStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevel0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevelSlopeDamp0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEdge0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterOpacity0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Refraction0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetRefraction0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Flow0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetSpecularity0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetFlow0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetGloss0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterSpecularity0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGloss0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGlossDamper0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEmission0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorR0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorG0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorB0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorA0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _BumpMapGlobalStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: PER_LAYER_HEIGHT_MODIFIER0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultA0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultB0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthNormal0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskNear0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskFar0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskNear0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskFar0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _VerticalTexture0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss2mask0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_mult0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_shaping0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_Fresnel0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_FresnelAtten0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_DiffFresnel0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_bump_smoothness0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_DiffuseStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_SpecStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWetStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWaterStrength0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_AO_0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixScale4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBlend4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorPerLayer4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerSaturation4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness2Spec4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerAlbedo2SpecColor4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixSaturation4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBrightness4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixReplace4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmission4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractHBedge4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorR4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorG4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorB4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorA4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorBottom4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorTop4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapLoSat4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapHiSat4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerLoSat4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerHiSat4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLoBlend4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorHiBlend4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Spec4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FarSpecCorrection4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MIPmult4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_LayerWetStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevel4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevelSlopeDamp4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEdge4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterOpacity4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Refraction4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetRefraction4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Flow4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetSpecularity4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetFlow4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetGloss4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterSpecularity4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGloss4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGlossDamper4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEmission4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorR4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorG4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorB4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorA4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _BumpMapGlobalStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: PER_LAYER_HEIGHT_MODIFIER4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultA4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultB4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthNormal4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskNear4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskFar4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskNear4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskFar4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _VerticalTexture4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss2mask4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_mult4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_shaping4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_Fresnel4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_FresnelAtten4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_DiffFresnel4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_bump_smoothness4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_DiffuseStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_SpecStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWetStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWaterStrength4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_AO_4567
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixScale89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBlend89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorPerLayer89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerSaturation89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerBrightness2Spec89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerAlbedo2SpecColor89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixSaturation89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixBrightness89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MixReplace89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmission89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionRefractHBedge89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorR89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorG89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorB89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _LayerEmissionColorA89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorBottom89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorTop89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapLoSat89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorColormapHiSat89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerLoSat89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLayerHiSat89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorLoBlend89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _GlobalColorHiBlend89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Spec89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _FarSpecCorrection89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _MIPmult89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_LayerWetStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevel89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterLevelSlopeDamp89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEdge89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterOpacity89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Refraction89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetRefraction89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_Flow89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetSpecularity89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetFlow89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WetGloss89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterSpecularity89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGloss89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterGlossDamper89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterEmission89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorR89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorG89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorB89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColorA89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _BumpMapGlobalStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: PER_LAYER_HEIGHT_MODIFIER89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultA89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultB89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthNormal89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskNear89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultASelfMaskFar89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskNear89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _SuperDetailStrengthMultBSelfMaskFar89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _VerticalTexture89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss2mask89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_mult89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_gloss_shaping89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_Fresnel89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_FresnelAtten89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_DiffFresnel89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_bump_smoothness89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_DiffuseStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_IBL_SpecStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWetStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWaterStrength89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: RTP_AO_89AB
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point1
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point2
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _EmissionColorUI
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Tint
+        second: {r: .5, g: .5, b: .5, a: .5}
+      data:
+        first:
+          name: TERRAIN_WaterColor
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Color1
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Color2
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Position1
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Orientation1
+        second: {r: 0, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Specular
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _AtmosNear
+        second: {r: 0, g: 0, b: 1, a: 1}
+      data:
+        first:
+          name: _AtmosFar
+        second: {r: 0, g: 0, b: 1, a: 1}
+      data:
+        first:
+          name: _Point
+        second: {r: 0, g: 0, b: 0, a: 0}
