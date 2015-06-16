@@ -40,8 +40,7 @@ class WCSClient : Observerable
     // Update
     public override string Update()
     {
-        Logger.WriteLine("UPDATE");
-        Logger.Log("WCS, Token = " + Token);
+        Logger.Log("WCS Client Token = " + Token);
 
         // Check if there is another state
         if (StateList.Count >= 1)

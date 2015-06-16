@@ -24,8 +24,6 @@ class GenericObservable : Observerable
     // Update
     public override string Update()
     {
-        Logger.WriteLine("UPDATE");
-
         // Check if there is another state
         if (StateList.Count >= 1)
         {
@@ -44,16 +42,12 @@ class GenericObservable : Observerable
         // Check the state
         if (state == States.Start)
         {
-            Logger.WriteLine("START");
-
             // Download
             download(url,records);
             return url;
         }
         else if (state == States.Done)
         {
-            Logger.WriteLine("COMPLETE");
-
             // Return
             return "COMPLETE";
         }
@@ -72,7 +66,7 @@ class GenericObservable : Observerable
     
     public override void CallBack()
     {
-        Logger.WriteLine("CALLBACK");
+        // Logger.WriteLine("CALLBACK");
 
         // Callback with the data
         callback(records);

@@ -38,7 +38,11 @@ public class VariableReference {
         reference_lines = System.IO.File.ReadAllLines(DirectoryLocation + VariableFile);      
 	}
 
-
+    /// <summary>
+    /// Grabs all the names in the file for refrence files
+    /// </summary>
+    /// <param name="variable"></param>
+    /// <returns></returns>
     public string GetDescription(string variable)
     {
         if (!File_Not_Found)

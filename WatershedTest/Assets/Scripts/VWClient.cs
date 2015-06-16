@@ -99,7 +99,7 @@ public class VWClient : Observer
         {
             // Update
             string result = active[url].Update();
-            Logger.WriteLine("RESULT: " + result);
+            // Logger.WriteLine("RESULT: " + result);
             // Check if complete
             if (result == "COMPLETE")
             {
@@ -151,7 +151,7 @@ public class VWClient : Observer
     public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
         // Build a WCS observable
-        Logger.WriteLine("GETCOVERAGE");
+        Logger.WriteLine("WCS getCoverage Called");
         var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
         client.GetData(Record, param);
         client.Token = GenerateToken("GetCoverage");
@@ -164,7 +164,7 @@ public class VWClient : Observer
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
-        Logger.WriteLine("GetMap");
+        Logger.WriteLine("WMS getMap Called");
         // Build a WMS observable
         var client = new WMSClient(factory, param.type, param.outputPath, param.outputName);
         client.Token = GenerateToken("GetMap");
@@ -295,7 +295,7 @@ public class VWClient : Observer
         string ModelRunUUID = param.model_run_uuid;
         if(FileBasedCache.Exists(ModelRunUUID)) // Cache Check
         {
-            Debug.LogError("WE GOT THE CASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            Logger.WriteLine("<color=red>File Based Cache for " + ModelRunUUID + " found.</color>");
             // Get model run out of cache...
             var mr = FileBasedCache.Get<ModelRun>(ModelRunUUID);
 

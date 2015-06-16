@@ -29,8 +29,7 @@ class WFSClient : Observerable
     // Update
     public override string Update()
     {
-        Logger.WriteLine("UPDATE");
-        Logger.Log("WFS, Token = " + Token);
+        Logger.Log("WFS Client Token = " + Token);
 
         // Check if there is another state
         if (StateList.Count >= 1)

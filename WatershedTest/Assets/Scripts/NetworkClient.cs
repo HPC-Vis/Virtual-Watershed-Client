@@ -177,10 +177,6 @@ public class NetworkClient : WebClient
                     DownloadStringAsync(new System.Uri(req.Url));
                 }
             }
-            else
-            { 
-                Logger.WriteLine("SCARY");
-            }
         }
     }
 

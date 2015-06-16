@@ -101,7 +101,6 @@ class WCS_DescribeCoverage_Parser :Parser
 
     public override DataRecord Parse(DataRecord record, string Contents)
     {
-        Logger.WriteLine("AFAFAFAFAF");
         try
         {
             parseDescribeCoverage(record, Contents);

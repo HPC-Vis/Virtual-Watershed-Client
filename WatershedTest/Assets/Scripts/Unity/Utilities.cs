@@ -85,12 +85,10 @@ public class Utilities
 	
 	public void PlaceProjector(Projector projector, DataRecord record)
 	{
-		Debug.LogError (record.bbox2);
-		Debug.LogError (record.bbox);
 		//projector.name = "SPAWNED PROJECTOR";
 		record.boundingBox = new SerialRect (bboxSplit(record.bbox));
-		Debug.LogError ("PROJECTOR TIME: " + record.boundingBox.x + " " + record.boundingBox.y);
-		projector.gameObject.GetComponent<transform> ();
+
+        projector.gameObject.GetComponent<transform> ();
 		if (projector.gameObject.GetComponent<transform>() != null) {
 			Component.Destroy(projector.gameObject.GetComponent<transform>());
 		}
@@ -112,8 +110,8 @@ public class Utilities
 
 		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
 		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-		Debug.LogError("POINT!!!!" + point);
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
+
+        pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 		pos.y += 3000;
 		pos.x += dim;
 		pos.z += dim;
@@ -125,8 +123,8 @@ public class Utilities
 
 		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
 		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
+		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
+		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
 		pro.material = Material.Instantiate (pro.material);
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
@@ -134,7 +132,8 @@ public class Utilities
 
 	public void PlaceProjector2(Projector projector, DataRecord record)
 	{
-		Debug.LogError ("WCS BBOX: " + "a" + record.bbox2 + "b");
+        Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
+		Debug.LogError ("WCS BBOX: " + record.bbox2);
 		Debug.LogError ("JSON BBOX: " + record.bbox);
 		//projector.name = "SPAWNED PROJECTOR";
 		if( record.bbox2 == "" || record.bbox2 == null || (Math.Abs(bboxSplit(record.bbox2).x) > 180  && Math.Abs(bboxSplit(record.bbox2).y) > 180) )
@@ -145,7 +144,7 @@ public class Utilities
 	    {
 			record.boundingBox = new SerialRect (bboxSplit(record.bbox2));
 	    }
-		Debug.LogError ("PROJECTOR TIME: " + record.boundingBox.x + " " + record.boundingBox.y);
+		
 		projector.gameObject.GetComponent<transform> ();
 		if (projector.gameObject.GetComponent<transform>() != null) {
 			Component.Destroy(projector.gameObject.GetComponent<transform>());
@@ -181,8 +180,8 @@ public class Utilities
 		
 		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
 		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
+		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
+		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
 		pro.material = Material.Instantiate (pro.material);
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
@@ -191,8 +190,8 @@ public class Utilities
 	// Here are some projector building functions that need to be addressed
 	public GameObject buildProjector(DataRecord record,bool type=false)
 	{
-		Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);
-		Debug.LogError ("BOUNDING BOX: " + record.boundingBox.width + " " + record.boundingBox.height);
+		// Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);
+		// Debug.LogError ("BOUNDING BOX: " + record.boundingBox.width + " " + record.boundingBox.height);
 		// GameObject GO;
 		// GameObject GO2;
 		// GameObject GO3;
@@ -200,7 +199,7 @@ public class Utilities
 		// First Create a projector
 		GameObject projector = GameObject.Instantiate(Resources.Load("SlideProjector/Prefabs/SlideProjector",typeof(GameObject))) as GameObject;
 		projector.name = "SPAWNED PROJECTOR";
-		Debug.LogError (projector.name);
+		// Debug.LogError (projector.name);
 		// GO = GameObject.CreatePrimitive(PrimitiveType.Sphere);//Resources.Load("SlideProjector/Prefabs/SlideProjector") as GameObject;
 		// GO2 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
 		// GO3 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
@@ -210,7 +209,7 @@ public class Utilities
 		// Set Gameobject Transform
 		var tran = projector.AddComponent<transform>();
 		tran.createCoordSystem(record.projection); // Create a coordinate transform
-		Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+		// Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 		
 		tran.setOrigin(coordsystem.WorldOrigin);
 		
@@ -268,8 +267,8 @@ public class Utilities
 
 		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
 		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
+		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
+		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
 		pro.material = Material.Instantiate (pro.material);
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
@@ -361,7 +360,7 @@ public class Utilities
         TerrainData terrainData = new TerrainData();
         GameObject terrainGO = Terrain.CreateTerrainGameObject(terrainData);
         Terrain terrain = terrainGO.GetComponent<Terrain>();
-        Debug.Log("Giving data to terrain");
+        // Debug.Log("Giving data to terrain");
 		record.Data = reflectData (record.Data);
         findMinMax(record.Data, ref this.min, ref this.max);
 
@@ -382,23 +381,20 @@ public class Utilities
         float min=float.MaxValue,max=float.MinValue;
         findMinMax(record.Data,ref  min, ref max);
 
-        Debug.Log("MAX: " + max);
-        Debug.Log("MIN: " + min);
-        Debug.Log("Resolution: " + record.Resolution.x + " " + record.Resolution.y);
-        Debug.Log("Width: " + record.width + " Height: " + record.height);
+        Logger.WriteLine("Building terrain with the data: MAX: " + max + " MIN: " + min + " Resolution: " + record.Resolution.x + " " + record.Resolution.y + " Width: " + record.width + " Height: " + record.height);
 
         //Set size of terrain
         terrainData.SetHeights(0, 0, normalizedData);
 
         // Resolution is the total height and total width
 		terrainData.size = new Vector3(Mathf.Abs(record.Resolution.x  / coordsystem.worldScaleZ), (max - min) / coordsystem.worldScaleY, Mathf.Abs(record.Resolution.y/ coordsystem.worldScaleX));
-        Debug.Log("TERRAIN SIZE: " + terrainData.size);
+        
         terrain.basemapDistance = 0;
 
         // Set Gameobject Transform
         var tran = terrain.gameObject.AddComponent<transform>();
         tran.createCoordSystem(record.projection); // Create a coordinate transform
-        Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+        // Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
         Vector2 origin = tran.transformPoint(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
 
@@ -428,7 +424,7 @@ public class Utilities
         testor = CreateGradientTexture(Palette, Ranges);//CreateGradientTexture(Palette, Ranges);
 
 
-        Debug.Log(" TERRAIN Long Lat : " + record.boundingBox.x + " " + record.boundingBox.y);
+        // Debug.Log(" TERRAIN Long Lat : " + record.boundingBox.x + " " + record.boundingBox.y);
 
 
         //makes the terrain ugly - find a fix for this
@@ -486,8 +482,8 @@ public class Utilities
         //Debug.Log(data.GetLength(0) + data.GetLength(1));
 
         findMinMax(data, ref min, ref max);
-		Debug.LogError ("MIN!!!!! " + min);
-		Debug.LogError ("MAX!!!!! " + max);
+		// Debug.LogError ("MIN!!!!! " + min);
+		// Debug.LogError ("MAX!!!!! " + max);
         for (int i = 0; i < data.GetLength(0); i++)
         {
             for (int j = 0; j < data.GetLength(1); j++)

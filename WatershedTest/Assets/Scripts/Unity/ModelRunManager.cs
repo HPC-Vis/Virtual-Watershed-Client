@@ -129,7 +129,7 @@ public  static class ModelRunManager
 
         if (FileBasedCache.Exists("startup"))
         {
-            Debug.LogError("Getting paid");
+            Logger.WriteLine("<color=red>Aquired data from the cache system.</color>");
             modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
         }
         client.RequestModelRuns(OnGetModelRuns,param);
@@ -283,7 +283,6 @@ public  static class ModelRunManager
         {
             if (modelRuns.ContainsKey(i.modelRunUUID))
             {
-
                 // Get Model Set Type
                 modelRuns[i.modelRunUUID].ModelDataSetType = i.model_set_type;
 				modelRuns[i.modelRunUUID].Location = i.location;
@@ -294,7 +293,7 @@ public  static class ModelRunManager
                 Debug.LogError("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-        Debug.LogError("Making a deposit");
+        Debug.LogError("Adding modelruns to file cache system.");
         FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
 
@@ -302,16 +301,16 @@ public  static class ModelRunManager
     private static void OnGetModelRuns(List<DataRecord> Records)
     {
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
-        Logger.WriteLine("HELLO THERE!!!");
+        
 		Debug.Log(Records == null);
         //if (FileBasedCache.Exists("startup"))
         //{
         //    Debug.LogError("Getting paid");
         //     startRuns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
         //}
+        Logger.Log("Getting Model Runs");
         foreach (var i in Records)
         {
-			Debug.LogError("RUNNING");
             if (!modelRuns.ContainsKey(i.modelRunUUID))
             {
                 

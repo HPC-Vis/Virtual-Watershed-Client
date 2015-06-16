@@ -47,12 +47,9 @@ public class Searcher : MonoBehaviour {
    /// </summary>
    public  void EmitSelected()
     {
-        Logger.WriteLine("Now emitting selection.");
-		Debug.LogError("SELECTED: " + listViewManager.GetSelectedModelRuns().Count);
+		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
         foreach (var i in listViewManager.GetSelectedModelRuns())
         {
-            Debug.LogError("Selected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.ModelName );
-
             // Now to load datasets...
             ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
 

@@ -395,21 +395,19 @@ public class Spooler : MonoBehaviour
 	int previ=0,prevj=0;
     string oldSelectedVariable;
     public void LoadSelected()
-    {
-		Debug.LogError ("LOADING SELECTED");
-		
+    {		
 		// Load this 
 		var temp = visual.listView.GetSelectedModelRuns();
 		var seled = visual.listView.GetSelectedRowContent();
 		string variable = seled[0][2].ToString();
         trendGraph.SetUnit(variable);
-		Debug.LogError (temp.Count);
+
 		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
 
 		if (selectedModelRun != "") 
 		{
 			//ModelRunManager.RemoveRecordData(selectedModelRun);
-            Debug.LogError("CLEARING");
+
 			Reel.Clear();
             SliderFrames.Clear();
             trendGraph.Clear();
@@ -430,17 +428,16 @@ public class Spooler : MonoBehaviour
 			sp.width = 100;
 			sp.height = 100;
 			sp.interpolation = "bilinear";
-			Debug.LogError (temp[0].GetCount());
+
 			var Records = temp[0].FetchVariableData(variable);
 			TOTAL = Records.Count;
 			selectedModelRun = temp[0].ModelRunUUID;
             oldSelectedVariable = variable;
-			Debug.LogError("NUMBER OF RECORDS: " + Records.Count);
+			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 			 
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
 		    	WMS=true;
-		    	Debug.LogError("USING WMS!!!!!!!");
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
 			}
 			else
