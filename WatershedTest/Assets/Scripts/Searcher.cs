@@ -130,24 +130,22 @@ public class Searcher : MonoBehaviour {
     {
         foreach (var mr in ModelRuns)
         {
-			var StringList = mr.GetVariables();
-			string Variables = "";
-			foreach (var s in StringList)
-			{
-				Variables += s + ", ";
-			}
-			
-			//Debug.LogError("Adding to list: " + mr.ModelName);
-			listViewManager.AddRow(new object[]{mr.ModelName,
-				mr.Description,
-				mr.Location,
-				mr.ModelRunUUID,
-				Variables,
-				mr.Start == null ? "" : mr.Start.ToString(),
-				mr.End == null ? "" : mr.End.ToString()}, mr);
-            
+            var StringList = mr.GetVariables();
+            string Variables = "";
+            foreach (var s in StringList)
+            {
+                Variables += s + ", ";
+            }
+                
+            //Debug.LogError("Adding to list: " + mr.ModelName);
+            listViewManager.AddRow(new object[]{mr.ModelName,
+			mr.Description,
+			mr.Location,
+			mr.ModelRunUUID,
+			Variables,
+			mr.Start == null ? "" : mr.Start.ToString(),
+			mr.End == null ? "" : mr.End.ToString()}, mr);
         }
-
     }
 
     /// <summary>

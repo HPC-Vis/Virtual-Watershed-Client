@@ -171,6 +171,14 @@ namespace VTL.TrendGraph
                     yMax = timeseries[i].Data[row, col];
                 }
             }
+
+            transform.Find("Ymax")
+                     .GetComponent<Text>()
+                     .text = yMax.ToString();
+
+            transform.Find("Ymin")
+                     .GetComponent<Text>()
+                     .text = yMin.ToString();
         }
 
         public void Clear()
