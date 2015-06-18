@@ -108,9 +108,9 @@ namespace VTL.SimTimeControls
 
         public void SetTimeDuration(DateTime start, DateTime end, float timestep)
         {
-        	Debug.LogError(timestep);
-        	Debug.LogError("SETTING START TIME: " + start);
-        	Debug.LogError("SETTING END TIME: " + end);
+        	// Debug.LogError(timestep);
+        	// Debug.LogError("SETTING START TIME: " + start);
+        	// Debug.LogError("SETTING END TIME: " + end);
 			TimeDelta = new TimeSpan(Math.Max((int)timestep,1),0,0);
             StartTime = start;
             //TimeDeltaHours = 365*24;

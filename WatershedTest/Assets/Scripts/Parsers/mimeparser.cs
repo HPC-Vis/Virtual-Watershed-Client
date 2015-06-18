@@ -89,7 +89,7 @@ public class mimeparser : Parser
     /// <param name="record">Record passed by reference. Parsed data will be stored in here.</param>
     public override DataRecord Parse(DataRecord record, byte[] bytes)
     {
-        Logger.WriteLine("HERE!!!!!!!!" + record.name);
+        // Logger.WriteLine("HERE!!!!!!!!" + record.name);
         // Stopwatch
         System.Diagnostics.Stopwatch stopWatch = new System.Diagnostics.Stopwatch();
         stopWatch.Start();

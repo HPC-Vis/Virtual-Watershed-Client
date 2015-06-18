@@ -29,13 +29,13 @@ public class ModelRunVisualizer : MonoBehaviour {
     {
         listView.Clear();
 
-        Debug.LogError("SET FIELDS");
+        // Debug.LogError("SET FIELDS");
         foreach (var i in downloadManager.GetModelRuns())
         {
             var MR = ModelRunManager.GetByUUID(i);
-            Debug.LogError("ADDING MODEL RUN VARIABLES: " + MR.GetVariables().Count);
+            Logger.WriteLine("<color=green>Adding Model Run Variables: " + MR.GetVariables().Count + ".</color>");
             List<string> variables = MR.GetVariables();
-            Debug.LogError(MR.ModelRunUUID);
+
             foreach (var variable in variables)
             {
 				if(variables.Count >= 1 && !MR.ModelName.ToLower().Contains("reference"))//MR.IsTemporal.ContainsKey(variable))
@@ -45,7 +45,7 @@ public class ModelRunVisualizer : MonoBehaviour {
 					{
 						desription = MR.Description;
 					}
-					Debug.LogError(variable);
+
                 	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, desription},MR);
 				}
             }

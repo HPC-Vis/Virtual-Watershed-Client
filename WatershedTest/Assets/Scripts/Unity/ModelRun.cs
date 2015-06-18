@@ -407,12 +407,11 @@ public class ModelRun
     /// <returns></returns>
     public int Update(string ModelVar, int CurrentTimeStep, DateTime current)
     {
-        //Logger.WriteLine("LOG!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //if (SetToStepThrough == null || previousRecord < 0 || SetToStepThrough.Count <= previousRecord)
-        {
+        //{
             // Throw Error
             //return;
-        }
+        //}
 
 
         // Creating a compartor

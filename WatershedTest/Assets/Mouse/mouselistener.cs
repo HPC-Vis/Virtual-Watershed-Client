@@ -37,8 +37,8 @@ public class mouselistener : MonoBehaviour {
 		if(Input.GetMouseButtonDown(2) || Input.GetKeyDown(KeyCode.Y))
 		{
 			state = states[(Array.IndexOf<mouseState>(states,state)+1)%states.Length];
-			Debug.Log(state);
-			//state =  Enum.GetValues(typeof(mouseState))[% Enum.GetNames(typeof(mouseState)).Length];
+			// Logger.WriteLine(state);
+			// state =  Enum.GetValues(typeof(mouseState))[% Enum.GetNames(typeof(mouseState)).Length];
 		}
 	    Cursor.visible = state == mouseState.OS;
 	}

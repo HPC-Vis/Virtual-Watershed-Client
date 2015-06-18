@@ -32,7 +32,7 @@ public class DownloadManager : MonoBehaviour {
 
     public List<string> GetModelRuns()
     {
-        Debug.LogError("RUNS!!!!: " + Downloaded.Count);
+        Logger.WriteLine("<color=green>Number of model runs: " + Downloaded.Count + ".</color>");
         return Downloaded;
     }
     

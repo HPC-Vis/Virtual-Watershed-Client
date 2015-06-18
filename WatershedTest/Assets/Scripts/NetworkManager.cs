@@ -145,7 +145,7 @@ public class NetworkManager
     ~NetworkManager()
     {
         observers.Clear();
-        Logger.WriteLine("DISPOSING");
+        Logger.WriteLine("Network Manager Destructor Called");
         for(int i = 0; i < clients.Length; i++)
         {
             clients[i].Dispose();

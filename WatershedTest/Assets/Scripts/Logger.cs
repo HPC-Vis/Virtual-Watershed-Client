@@ -43,8 +43,8 @@ public static class Logger
     {
         if (enable)
         {
-#if UNITY_EDITOR
 
+#if UNITY_EDITOR
             Debug.Log(line);
 #else
         //Console.WriteLine(line);
