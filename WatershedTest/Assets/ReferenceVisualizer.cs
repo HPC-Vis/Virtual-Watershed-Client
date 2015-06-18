@@ -56,19 +56,19 @@ public class ReferenceVisualizer : MonoBehaviour
     {
         listView.Clear();
 
-        Debug.LogError("SET FIELDS 2");
+        // Debug.LogError("SET FIELDS 2");
         foreach (var i in downloadManager.GetModelRuns())
         {
             var MR = ModelRunManager.GetByUUID(i);
-            Debug.LogError("ADDING: " + MR.GetVariables().Count);
+            // Debug.LogError("ADDING: " + MR.GetVariables().Count);
             List<string> variables = MR.GetVariables();
-            Debug.LogError(MR.ModelName.ToLower());
-            Debug.LogError(MR.Total);
+            // Debug.LogError(MR.ModelName.ToLower());
+            /// Debug.LogError(MR.Total);
 			//Debug.LogError(variables[0]);
             // model_set_type  must be reference
 			if( !MR.ModelName.ToLower().Contains("fire") && !MR.ModelName.ToLower().Contains("reference") || (!variables.Contains("animation") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  ")))
             {
-				Debug.LogError( MR.ModelName + "Give me a break of that kitkat bar." + variables[0] + "after");
+				Logger.WriteLine( MR.ModelName + " is not a refrence data being added.");
                 continue;
             }
 
@@ -88,7 +88,7 @@ public class ReferenceVisualizer : MonoBehaviour
     public void SetViewableFields(GameObject obj, DataRecord objectRec)
     {
 
-        Debug.LogError("SET FIELDS 3");
+        // Debug.LogError("SET FIELDS 3");
         listViewables.AddRow(new object[]{obj.name},objectRec);
         
     }
@@ -107,7 +107,7 @@ public class ReferenceVisualizer : MonoBehaviour
                 {
 					SystemParameters param = new SystemParameters();
 					param.Priority = 100;
-                    Debug.LogError("DOWNLOADING OBJECTS");
+                    // Debug.LogError("DOWNLOADING OBJECTS");
                     ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wfs",param: param);
 
                 }
@@ -118,7 +118,7 @@ public class ReferenceVisualizer : MonoBehaviour
 					param.Priority = 100;
 					param.width = 100;
 					param.height = 100;
-					Debug.LogError("DOWNLOADING OBJECTS");
+					// Debug.LogError("DOWNLOADING OBJECTS");
 					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs",param: param);
 				}
 				else if(i.Type.ToLower().Contains("doqq"))
@@ -130,7 +130,7 @@ public class ReferenceVisualizer : MonoBehaviour
 					// Param width, height hard codeness
 					param.width = 1024;
 					param.height = 1024;
-					Debug.LogError("DOWNLOADING OBJECTS");
+					// Debug.LogError("DOWNLOADING OBJECTS");
 					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms",param: param);
 				}
 
@@ -141,7 +141,7 @@ public class ReferenceVisualizer : MonoBehaviour
 					param.Priority = 100;
 					param.width = 100;
 					param.height = 100;
-					Debug.LogError("DOWNLOADING OBJECTS");
+					// Debug.LogError("DOWNLOADING OBJECTS");
 					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs",param: param);
 				}
 
@@ -151,7 +151,7 @@ public class ReferenceVisualizer : MonoBehaviour
 
     public void BuildShapes(List<DataRecord> records)
     {
-        Debug.LogError("BUILDING OBJECTS");
+        // Debug.LogError("BUILDING OBJECTS");
         GameObject go = utils.buildShape(records[0]);
         utils.rebuildShape(go);
         go.name = records[0].name;
@@ -161,7 +161,7 @@ public class ReferenceVisualizer : MonoBehaviour
 
 	public void BuildDOQQ(DataRecord record)
 	{
-		Debug.LogError("BUILDING OBJECTS");
+		// Debug.LogError("BUILDING OBJECTS");
 		GameObject go = utils.buildProjector(record);
 		//utils.rebuildShape(go);
 		go.name = record.name;
@@ -184,7 +184,7 @@ public class ReferenceVisualizer : MonoBehaviour
 
         foreach (var i in selected)
         {
-            Debug.LogError(i.name);
+            // Debug.LogError(i.name);
             if (viewableObjects.ContainsKey(i.name))
             {
                 viewableObjects[i.name].SetActive(true);

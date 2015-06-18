@@ -154,7 +154,7 @@ public class Spooler : MonoBehaviour
             //Debug.LogError("BOUNDING BOX: " + BoundingBox);
             //CheckPoint.x += BoundingBox.width;
             //CheckPoint.y += BoundingBox.height;
-			if(BoundingBox.Contains(CheckPoint) )
+			if( BoundingBox.Contains(CheckPoint) && !WMS)
 			{
 				//Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);

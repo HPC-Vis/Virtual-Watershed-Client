@@ -51,7 +51,7 @@ class WCS_DescribeCoverage_Parser :Parser
 
     public void parseDescribeCoverage(DataRecord Record, string Str)
     {
-        Logger.WriteLine(Str);
+        // Logger.WriteLine(Str);
         var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
 
         XmlSerializer serial = new XmlSerializer(typeof(DescribeCoverageWCS.CoverageDescriptions));

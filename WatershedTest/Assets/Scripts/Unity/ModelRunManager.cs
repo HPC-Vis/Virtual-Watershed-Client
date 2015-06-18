@@ -268,7 +268,7 @@ public  static class ModelRunManager
     // NOTE: Build a parameter struct (name of struct = ServiceParameters)
     static public void getAvailable(SystemParameters param, GeoRefMessage Message = null, DataRecordSetter Setter = null)
     {
-        Debug.Log(param.query);
+        // Debug.Log(param.query);
         // TODO
         if (Setter == null)
             client.RequestRecords(((List<DataRecord> records) => onGetAvailableComplete(records, Message)), param);
@@ -302,7 +302,7 @@ public  static class ModelRunManager
     {
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
         
-		Debug.Log(Records == null);
+		// Debug.Log(Records == null);
         //if (FileBasedCache.Exists("startup"))
         //{
         //    Debug.LogError("Getting paid");

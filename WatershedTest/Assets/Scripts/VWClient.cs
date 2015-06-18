@@ -319,11 +319,11 @@ public class VWClient : Observer
     {
         //Time to populate some model runs in.
         // Logger.WriteLine("LET THE POPPING BEGIN!!!!");
-        Debug.LogError(JsonString);
+        // Debug.LogError(JsonString);
         /// Now to parse the json string --- we need to create a class object for the stuff return from the virtual watershed to make things easier.
         var encoded = SimpleJSON.JSONNode.Parse(JsonString);
-        Logger.WriteLine(JsonString);
-        Logger.WriteLine(encoded["results"][0]);
+        // Logger.WriteLine(JsonString);
+        // Logger.WriteLine(encoded["results"][0]);
         //Logger.WriteLine(encoded["results"][1]);
 		int total = encoded["total"].AsInt;
         ModelRunManager.Total += total;
