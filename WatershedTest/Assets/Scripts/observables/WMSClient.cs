@@ -33,8 +33,7 @@ class WMSClient : Observerable
     // Update
     public override string Update()
     {
-        Logger.WriteLine("UPDATE");
-        Logger.Log("WMS, Token = " + Token);
+        Logger.Log("WMS Client Token = " + Token);
 
         // Check if there is another state
         if (StateList.Count >= 1)

@@ -46,23 +46,25 @@ public class Searcher : MonoBehaviour {
    /// EmitSelected a test function for showing that the datarecords have been selected.
    /// </summary>
    public  void EmitSelected()
-    {
-        Logger.WriteLine("Now emitting selection.");
-		Debug.LogError("SELECTED: " + listViewManager.GetSelectedModelRuns().Count);
+   {
+		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
         foreach (var i in listViewManager.GetSelectedModelRuns())
         {
-            Debug.LogError("Selected!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.ModelName );
-
             // Now to load datasets...
             ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
 
             // Pass things to downloaded -- Beware of the change of reference bug!!!
             downloadManager.AddModelRun(i.ModelRunUUID);
         }
+   }
 
-      
-
-    }
+   /// <summary>
+   /// Refresh is used by a GUI button to refesh the model run list view.
+   /// </summary>
+   public void Refresh()
+   {
+       firstPopulation = false;
+   }
 
    public void ApplyWMSService()
    {
@@ -85,20 +87,28 @@ public class Searcher : MonoBehaviour {
     Rect testRect = new Rect(0, 0, 150, 150);
 	// Update is called once per frame
 	void Update () {
-        		
+        
+        if( Input.GetKey(KeyCode.R) )
+        {
+            firstPopulation = false;
+        }
+
 		UpdateTimer += Time.deltaTime;
 		if (!firstPopulation || UpdateTimer > 25)
 		{
-			SystemParameters parameters = new SystemParameters();
-			List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);
-			if (Runs.Count > 0)
-			{
-				// Debug.Log("The List has Been Populated");
-				listViewManager.Clear();
-				ApplyToUI(Runs);
-				firstPopulation = true;
-			}
-			UpdateTimer = 0;
+            if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
+            {
+                SystemParameters parameters = new SystemParameters();
+                List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);
+                if (Runs.Count > 0)
+                {
+                    // Debug.Log("The List has Been Populated");
+                    listViewManager.Clear();
+                    ApplyToUI(Runs);
+                    firstPopulation = true;
+                }
+                UpdateTimer = 0;
+            }
 		}
 	}
 	
@@ -130,24 +140,22 @@ public class Searcher : MonoBehaviour {
     {
         foreach (var mr in ModelRuns)
         {
-			var StringList = mr.GetVariables();
-			string Variables = "";
-			foreach (var s in StringList)
-			{
-				Variables += s + ", ";
-			}
-			
-			//Debug.LogError("Adding to list: " + mr.ModelName);
-			listViewManager.AddRow(new object[]{mr.ModelName,
-				mr.Description,
-				mr.Location,
-				mr.ModelRunUUID,
-				Variables,
-				mr.Start == null ? "" : mr.Start.ToString(),
-				mr.End == null ? "" : mr.End.ToString()}, mr);
-            
+            var StringList = mr.GetVariables();
+            string Variables = "";
+            foreach (var s in StringList)
+            {
+                Variables += s + ", ";
+            }
+                
+            //Debug.LogError("Adding to list: " + mr.ModelName);
+            listViewManager.AddRow(new object[]{mr.ModelName,
+			mr.Description,
+			mr.Location,
+			mr.ModelRunUUID,
+			Variables,
+			mr.Start == null ? "" : mr.Start.ToString(),
+			mr.End == null ? "" : mr.End.ToString()}, mr);
         }
-
     }
 
     /// <summary>

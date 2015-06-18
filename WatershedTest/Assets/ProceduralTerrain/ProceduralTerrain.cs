@@ -61,11 +61,11 @@ namespace VTL.ProceduralTerrain
                                               int detailResolution=128,
                                               int resolutionPerPatch = 8)
         {
-			Debug.LogError ("BUILDING TERRAINNNNNNNN");
+			// Debug.LogError ("BUILDING TERRAINNNNNNNN");
             int nx = htmap.GetLength(0);
             int ny = htmap.GetLength(1);
-			Debug.LogError(nx);
-			Debug.LogError (ny);
+			// Debug.LogError(nx);
+			// Debug.LogError (ny);
             if (nx != ny)
                 throw new System.Exception("htmap must be square");
 
@@ -103,7 +103,7 @@ namespace VTL.ProceduralTerrain
 
             GameObject terrain;
             terrain = Terrain.CreateTerrainGameObject(terrainData);
-			Debug.LogError ("Created");
+			// Debug.LogError ("Created");
             return terrain;
         }
 

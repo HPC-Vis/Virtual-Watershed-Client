@@ -50,7 +50,7 @@ namespace NetworkTest
             sp.model_set_type = "";
             ModelRunManager.getAvailable(sp,Message: Recieved);
             Thread.Sleep(5000);
-            Console.WriteLine("HERE");
+            
             for (int i = 0; i < ModelRunManager.GetKeys().Count; i++)
             {
                 Console.WriteLine(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]));
@@ -59,7 +59,7 @@ namespace NetworkTest
                 simu.SetEndDate(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]).GetEndModelTime());
                 simu.Simulation(1.0f);
             }
-            Logger.WriteLine("HAHAHAAHHA");
+            
             //
             //simu.SetModelRun();
 

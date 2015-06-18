@@ -1,3 +1,225 @@
+<<<<<<< HEAD
+Got the bounding box size of: 4097 4097
+<color=red>Aquired data from the cache system.</color>
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+RESULTS: 89
+Done
+Getting Model Runs
+<color=green>Selected: 1</color>
+Now Downloading: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&limit=1&version=3&model_run_uuid=e54dfc75-5907-48aa-a4d8-dd5f503bd51b
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Done
+<color=green>Created this many model runs: 90</color>
+<color=green>Number of model runs: 1.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+Load Selected: Null with Number of Records: 1
+WCS getCoverage Called
+WCS Client Token = GetCoverage 780511039
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Argument cannot be null.
+Parameter name: s   at System.IO.StringReader..ctor (System.String s) [0x0000c] in /Users/builduser/buildslave/mono-runtime-and-classlibs/build/mcs/class/corlib/System.IO/StringReader.cs:50 
+  at (wrapper remoting-invoke-with-check) System.IO.StringReader:.ctor (string)
+  at WCS_GetCapabilites_Parser.ParseWCSCapabilities (.DataRecord Record, System.String Str) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs:12 
+  at WCS_GetCapabilites_Parser.Parse (.DataRecord record, System.String Contents) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs:29 
+  at WCS_GetCapabilities_Producer+<ImportFromURL>c__AnonStorey17.<>m__C (System.String DownloadedString) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Producers\WCS_GetCapabilities_Producer.cs:30 
+  at DownloadRequest.Callback (System.String str) [0x0000b] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\DownloadRequest.cs:48 
+  at NetworkClient.OnDownloadStringCompleted (System.Net.DownloadStringCompletedEventArgs args) [0x0003a] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\NetworkClient.cs:126 
+<color=red>Insert Custom Error Message / Error code for handling HTTP 404</color>
+There was an error in: http://vwp-dev.unm.edu/apps/vwp/datasets/df252a4d-4de1-4f4d-8bef-e5e8c77bd64b/services/ogc/wcs?SERVICE=wcs&REQUEST=GetCapabilities&VERSION=1.1.2
+--- In OnDataError ---
+<color=green>Selected: 1</color>
+Now Downloading: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&limit=1&version=3&model_run_uuid=afa29ca8-169a-42c3-83d2-0d0cee482822
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Done
+<color=green>Created this many model runs: 90</color>
+<color=green>Number of model runs: 2.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+Load Selected: Null with Number of Records: 1
+WCS getCoverage Called
+WCS Client Token = GetCoverage 765841297
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Argument cannot be null.
+Parameter name: s   at System.IO.StringReader..ctor (System.String s) [0x0000c] in /Users/builduser/buildslave/mono-runtime-and-classlibs/build/mcs/class/corlib/System.IO/StringReader.cs:50 
+  at (wrapper remoting-invoke-with-check) System.IO.StringReader:.ctor (string)
+  at WCS_GetCapabilites_Parser.ParseWCSCapabilities (.DataRecord Record, System.String Str) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs:12 
+  at WCS_GetCapabilites_Parser.Parse (.DataRecord record, System.String Contents) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs:29 
+  at WCS_GetCapabilities_Producer+<ImportFromURL>c__AnonStorey17.<>m__C (System.String DownloadedString) [0x00000] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Producers\WCS_GetCapabilities_Producer.cs:30 
+  at DownloadRequest.Callback (System.String str) [0x0000b] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\DownloadRequest.cs:48 
+  at NetworkClient.OnDownloadStringCompleted (System.Net.DownloadStringCompletedEventArgs args) [0x0003a] in C:\Users\hpcvi_000\Documents\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\NetworkClient.cs:126 
+<color=red>Insert Custom Error Message / Error code for handling HTTP 404</color>
+There was an error in: http://vwp-dev.unm.edu/apps/vwp/datasets/e17fb174-1c5d-4c86-86f7-0d4bf77ec837/services/ogc/wcs?SERVICE=wcs&REQUEST=GetCapabilities&VERSION=1.1.2
+--- In OnDataError ---
+<color=green>Selected: 1</color>
+Now Downloading: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&limit=1&version=3&model_run_uuid=17fcd8ca-818a-4dad-b7ab-5bc918cae0f7
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Done
+<color=green>Created this many model runs: 90</color>
+<color=green>Number of model runs: 3.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+<color=green>Adding Model Run Variables: 2.</color>
+Load Selected: Null with Number of Records: 4
+WCS getCoverage Called
+WCS Client Token = GetCoverage 1647852438
+WCS getCoverage Called
+WCS Client Token = GetCoverage 2111299322
+WCS getCoverage Called
+WCS Client Token = GetCoverage 1848161336
+WCS getCoverage Called
+WCS Client Token = GetCoverage 1116098205
+<color=green>Selected: 1</color>
+Now Downloading: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&limit=1&version=3&model_run_uuid=ed3a15d6-79b5-4f3f-b27f-e1a264bb754e
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Done
+<color=green>Created this many model runs: 90</color>
+<color=green>Number of model runs: 4.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+<color=green>Adding Model Run Variables: 2.</color>
+<color=green>Adding Model Run Variables: 1.</color>
+Load Selected: Null with Number of Records: 10
+WCS getCoverage Called
+WCS Client Token = GetCoverage 1073785356
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 2059488847
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 2107601217
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 712959493
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 352666848
+--- In OnDownloadQueued ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 4108791
+--- In OnDownloadQueued ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 791562141
+--- In OnDownloadQueued ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 143379664
+--- In OnDownloadQueued ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 2093561374
+--- In OnDownloadQueued ---
+WCS getCoverage Called
+WCS Client Token = GetCoverage 1073785356
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2059488847
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2107601217
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 712959493
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2093561374
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 1073785356
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2059488847
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2107601217
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 712959493
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 2093561374
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 1073785356
+WCS Client Token = GetCoverage 165445230
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 2059488847
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 2107601217
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 712959493
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 143379664
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 2093561374
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 352666848
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 4108791
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 165445230
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 791562141
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 143379664
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 352666848
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 165445230
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 4108791
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+WCS Client Token = GetCoverage 791562141
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 143379664
+--- In OnDownloadStart ---
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 165445230
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 352666848
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 4108791
+Completed byte download, passed to callback function.
+WCS Client Token = GetCoverage 791562141
+=======
 Got the bounding box size of: 4097 4097
 <color=red>Aquired data from the cache system.</color>
 Start

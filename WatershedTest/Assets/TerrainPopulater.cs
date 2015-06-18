@@ -15,11 +15,10 @@ public class TerrainPopulater : MonoBehaviour
     string TerrainListStr = "terrainlist";
 	void GetTerrainList(List<DataRecord> Terrains)
 	{
-		Debug.LogError ("HELLO THERE" + Terrains.Count);
 		Records = Terrains;
 		foreach(var rec in Terrains)
 		{
-			Debug.LogError(rec.name);
+			Logger.Log("Got the record named: " + rec.name);
             if (!PreviousLists.Contains(rec.name) && !Lists.Contains(new object[]{rec.name,
 				rec.location}))
             {
@@ -55,7 +54,7 @@ public class TerrainPopulater : MonoBehaviour
 	// Use this for initialization
 	void Start () {
 		if (ModelRunManager.client == null) {
-            Debug.LogError("Does not have client.");
+            Logger.WriteLine ("Does not have client.");
 			nm = new NetworkManager ();
 			vwc = new VWClient (new DataFactory (nm), nm);
 			nm.Subscribe (vwc);
@@ -94,7 +93,7 @@ public class TerrainPopulater : MonoBehaviour
 		}
 		if (recordToBuild.Count > 0) 
 		{
-			Debug.LogError("REJOICENESS");
+			// Debug.LogError("REJOICENESS");
 			LoadTerrain(recordToBuild[0]);
 			recordToBuild.Clear();
 		}
@@ -107,7 +106,7 @@ public class TerrainPopulater : MonoBehaviour
         {
             FileBasedCache.Insert<DataRecord>(record.name, record);
         }
-		Debug.LogError ("Load Terrain");
+		// Debug.LogError ("Load Terrain");
 
 
 		//record.boundingBox = new SerialRect (Utilities.bboxSplit2(record.bbox));
@@ -115,13 +114,13 @@ public class TerrainPopulater : MonoBehaviour
 		transform tran = new global::transform ();
 
 		// EPSG code
-		Debug.LogError (record.projection);
+		// Debug.LogError (record.projection);
 		string EPSG = record.projection.Replace ("epsg:", "");
-		Debug.LogError (EPSG);
+		// Debug.LogError (EPSG);
 		GlobalConfig.GlobalProjection = int.Parse (EPSG);
 
 		tran.createCoordSystem(record.projection);
-		Debug.LogError ("UTM COORD");
+		// Debug.LogError ("UTM COORD");
 
 		// Calculate UTM boundingbox
 		try
@@ -138,7 +137,7 @@ public class TerrainPopulater : MonoBehaviour
 		float XRes = GlobalConfig.BoundingBox.width / record.Data.GetLength(0);
 		float YRes = GlobalConfig.BoundingBox.height / record.Data.GetLength(1);
 		StartupConfiguration.LoadConfig ();
-		Debug.LogError ("REJOICE");
+		// Debug.LogError ("REJOICE");
 			Utilities utilities = new Utilities();
 			record.Data = utilities.reflectData (record.Data);
             /*StreamWriter test = new StreamWriter("test.txt");
@@ -154,7 +153,7 @@ public class TerrainPopulater : MonoBehaviour
 			var GO = ProceduralTerrain.BuildTerrain (record.Data, XRes, YRes, BaseMap);
 		GO.transform.position = new Vector3 (-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 		//GameObject.Instantiate (GO);
-		Debug.LogError ("DONE DOWNLOADING");
+		// Debug.LogError ("DONE DOWNLOADING");
 			to.toggleObjects();
 		}
 		catch (Exception e)
@@ -166,7 +165,7 @@ public class TerrainPopulater : MonoBehaviour
 
 	public void loadTerrain(List<DataRecord> Record)
 	{
-		Debug.LogError ("SETTING THE TERRAIN");
+		// Debug.LogError ("SETTING THE TERRAIN");
 		recordToBuild.Add(Record [0]);
 	}
 
@@ -178,7 +177,7 @@ public class TerrainPopulater : MonoBehaviour
 	public void LoadSelected()
 	{
 		var Runs = TerrainList.GetSelected ();
-		Debug.LogError ("LOAD SELECTED: " + Runs.Count);
+		// Debug.LogError ("LOAD SELECTED: " + Runs.Count);
 		if(Runs.Count > 0)
 		{
 			SystemParameters sp = new SystemParameters();

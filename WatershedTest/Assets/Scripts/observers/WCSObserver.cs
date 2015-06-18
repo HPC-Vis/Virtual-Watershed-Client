@@ -66,7 +66,7 @@ class WCSObserver : ChainObserver
         //while (DataTracker.CheckStatus(wcsCoverageString) != DataTracker.Status.FINISHED) { }//Console.WriteLine("WAITING"); }
 
         DataTracker.updateJob(jobName, DataTracker.Status.FINISHED);
-        Console.WriteLine("FINISHED");
+        // Console.WriteLine("FINISHED");
     }
 
 
