@@ -104,7 +104,7 @@ public class MinMaxShader
 		GUI.DrawTexture (new Rect (0, 0, 100, 100), DataArray);
 	}
 
-	void OnApplicationQuit()
+	void OnDestroy()
 	{
 		buffer.Release();
 		buffer.Dispose();

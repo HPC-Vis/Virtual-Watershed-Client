@@ -318,7 +318,7 @@ public class VWClient : Observer
     void ModelPopper(string JsonString,string ModelRunUUID)
     {
         //Time to populate some model runs in.
-        Logger.WriteLine("LET THE POPPING BEGIN!!!!");
+        // Logger.WriteLine("LET THE POPPING BEGIN!!!!");
         Debug.LogError(JsonString);
         /// Now to parse the json string --- we need to create a class object for the stuff return from the virtual watershed to make things easier.
         var encoded = SimpleJSON.JSONNode.Parse(JsonString);
@@ -332,15 +332,14 @@ public class VWClient : Observer
         sp.model_run_uuid = ModelRunUUID;
         sp.limit = total;
         sp.offset = 0;
-        Logger.WriteLine("MODEL SET TYPE: " + model_set_type);
+        // Logger.WriteLine("MODEL SET TYPE: " + model_set_type);
         sp.model_set_type = model_set_type;
 
-        Logger.WriteLine("TOTAL: " + total);
+        // Logger.WriteLine("TOTAL: " + total);
         //total = Math.Min(100, total);
         if (ModelRunManager.GetByUUID(ModelRunUUID) == null)
         {
-            Debug.LogError("NULL!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-			Debug.LogError(ModelRunUUID);
+            Debug.LogError("Null " + ModelRunUUID);
             return;
         }
         ModelRunManager.GetByUUID(ModelRunUUID).Total = total;

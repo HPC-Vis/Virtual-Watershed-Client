@@ -46,7 +46,7 @@ public class Searcher : MonoBehaviour {
    /// EmitSelected a test function for showing that the datarecords have been selected.
    /// </summary>
    public  void EmitSelected()
-    {
+   {
 		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
         foreach (var i in listViewManager.GetSelectedModelRuns())
         {
@@ -56,10 +56,15 @@ public class Searcher : MonoBehaviour {
             // Pass things to downloaded -- Beware of the change of reference bug!!!
             downloadManager.AddModelRun(i.ModelRunUUID);
         }
+   }
 
-      
-
-    }
+   /// <summary>
+   /// Refresh is used by a GUI button to refesh the model run list view.
+   /// </summary>
+   public void Refresh()
+   {
+       firstPopulation = false;
+   }
 
    public void ApplyWMSService()
    {
@@ -82,20 +87,28 @@ public class Searcher : MonoBehaviour {
     Rect testRect = new Rect(0, 0, 150, 150);
 	// Update is called once per frame
 	void Update () {
-        		
+        
+        if( Input.GetKey(KeyCode.R) )
+        {
+            firstPopulation = false;
+        }
+
 		UpdateTimer += Time.deltaTime;
 		if (!firstPopulation || UpdateTimer > 25)
 		{
-			SystemParameters parameters = new SystemParameters();
-			List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);
-			if (Runs.Count > 0)
-			{
-				// Debug.Log("The List has Been Populated");
-				listViewManager.Clear();
-				ApplyToUI(Runs);
-				firstPopulation = true;
-			}
-			UpdateTimer = 0;
+            if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
+            {
+                SystemParameters parameters = new SystemParameters();
+                List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);
+                if (Runs.Count > 0)
+                {
+                    // Debug.Log("The List has Been Populated");
+                    listViewManager.Clear();
+                    ApplyToUI(Runs);
+                    firstPopulation = true;
+                }
+                UpdateTimer = 0;
+            }
 		}
 	}
 	

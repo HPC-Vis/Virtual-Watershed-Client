@@ -155,7 +155,7 @@ public class DataFactory
         if (Request != null)
         {
             // Now downloading the request string....
-            Logger.WriteLine("Now Downloading!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + Request.Url);
+            Logger.WriteLine("Now Downloading: " + Request.Url);
             manager.AddDownload(Request);
         }
     }

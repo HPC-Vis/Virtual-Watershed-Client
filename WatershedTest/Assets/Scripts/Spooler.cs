@@ -117,7 +117,7 @@ public class Spooler : MonoBehaviour
                     	BoundingBox = Utilities.bboxSplit(record.bbox2);
                     else
 						BoundingBox = Utilities.bboxSplit(record.bbox);
-					Debug.LogError(BoundingBox);
+					// Debug.LogError(BoundingBox);
                     tran = new transform();
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
@@ -126,7 +126,7 @@ public class Spooler : MonoBehaviour
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
                     BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
-                    Debug.LogError(BoundingBox);
+                    // Debug.LogError(BoundingBox);
                 }
 
                 count--;

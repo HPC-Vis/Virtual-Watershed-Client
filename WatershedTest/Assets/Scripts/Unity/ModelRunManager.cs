@@ -331,7 +331,7 @@ public  static class ModelRunManager
             }
         }
         
-        Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
+        // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
     }
 
     /// <summary>
@@ -341,8 +341,8 @@ public  static class ModelRunManager
     /// <param name="message"></param>
     static private void onGetAvailableComplete(List<DataRecord> Records, DataRecordSetter message)
     {
-		Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
-        Logger.WriteLine(Records.Count.ToString());
+		// Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
+        // Logger.WriteLine(Records.Count.ToString());
 		int count = 0;
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
@@ -367,7 +367,7 @@ public  static class ModelRunManager
                 if (modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
                 {
                     // Cash it in!!!!
-                    Debug.LogError("GURANTEED TAKE IT TO THE BANK!!!!!!! CASHING IT IN NOW!!!!!!!!!!!!!!!!!!");
+                    Debug.LogError("The model run is now in the cache.");
                     FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
                    // Debug.LogError("DONE CACHING YEAH!!!!");
                 }
@@ -409,8 +409,8 @@ public  static class ModelRunManager
         {
             message(Records);
         }
-        Logger.WriteLine("CREATED THIS MANY MODEL RUNS: " + modelRuns.Count);
-		Debug.LogError("NUMBER ADDED: " + count);
+        Logger.WriteLine("<color=green>Created this many model runs: " + modelRuns.Count + "</color>");
+		// Debug.LogError("NUMBER ADDED: " + count);
         //foreach (var i in modelRuns)
         //{
         //    i.Value.DownloadDatasets();
@@ -419,8 +419,8 @@ public  static class ModelRunManager
 
     static public void OnModelRunDataAvaliable(List<DataRecord> Records)
     {
-        Debug.LogError("Populating Model Run");
-        Debug.LogError("RECIEVED DATA OF SIZE: " + Records.Count);
+        // Debug.LogError("Populating Model Run");
+        // Debug.LogError("RECIEVED DATA OF SIZE: " + Records.Count);
         Counter += Records.Count;
         onGetAvailableComplete(Records,(DataRecordSetter)null);
     }
@@ -432,18 +432,18 @@ public  static class ModelRunManager
     /// <param name="message"></param>
     static private void onGetAvailableComplete(List<DataRecord> Records, GeoRefMessage message)
     {
-        Logger.WriteLine(Records.Count.ToString());
+        // Logger.WriteLine(Records.Count.ToString());
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
         {
-            Logger.WriteLine(rec.modelRunUUID);
-            Logger.WriteLine(rec.start.ToString());
+            // Logger.WriteLine(rec.modelRunUUID);
+            // Logger.WriteLine(rec.start.ToString());
             // We should play with the other of the if statements...
             // Normal Case
             if (modelRuns.ContainsKey(rec.modelRunUUID))
             {
                 // Call insert operation
-                Logger.WriteLine("ADDED");
+                // Logger.WriteLine("ADDED");
                 modelRuns[rec.modelRunUUID].Insert(rec);
                 //modelRuns[rec.modelRunUUID].CurrentCapacity++;
                 // Replace with isFull Function
@@ -464,7 +464,7 @@ public  static class ModelRunManager
                 // Cache Case -- Check if cache has a georef
 
                 // Normal Case -- Insert it into storedModelRuns
-                Logger.WriteLine("ADDED");
+                // Logger.WriteLine("ADDED");
                 modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
 
                 // Call the insert
@@ -477,17 +477,15 @@ public  static class ModelRunManager
                 }
             }
         }
-        foreach (var i in modelRuns)
-        {
-            Logger.WriteLine(i.Value.VariableCount().ToString());
-        }
+
         if (message != null)
         {
             message(RecievedRefs);
         }
-        Logger.WriteLine("CREATED THIS MANY MODEL RUNS: " + modelRuns.Count);
+        // Logger.WriteLine("CREATED THIS MANY MODEL RUNS: " + modelRuns.Count);
         foreach (var i in modelRuns)
         {
+            // Logger.WriteLine(i.Value.VariableCount().ToString());
             i.Value.DownloadDatasets();
         }
     }

@@ -133,8 +133,8 @@ public class Utilities
 	public void PlaceProjector2(Projector projector, DataRecord record)
 	{
         Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
-		Debug.LogError ("WCS BBOX: " + record.bbox2);
-		Debug.LogError ("JSON BBOX: " + record.bbox);
+		// Debug.LogError ("WCS BBOX: " + record.bbox2);
+		// Debug.LogError ("JSON BBOX: " + record.bbox);
 		//projector.name = "SPAWNED PROJECTOR";
 		if( record.bbox2 == "" || record.bbox2 == null || (Math.Abs(bboxSplit(record.bbox2).x) > 180  && Math.Abs(bboxSplit(record.bbox2).y) > 180) )
 	    {
@@ -478,7 +478,11 @@ public class Utilities
         // (point - min) / (max-min)
         float max = float.MinValue;
         float min = float.MaxValue;
-        float[,] outData = new float[data.GetLength(0), data.GetLength(1)];
+        float[,] outData = new float[0, 0];
+        if( data != null)
+        {
+            outData = new float[data.GetLength(0), data.GetLength(1)];
+        }
         //Debug.Log(data.GetLength(0) + data.GetLength(1));
 
         findMinMax(data, ref min, ref max);

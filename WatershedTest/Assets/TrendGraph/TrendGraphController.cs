@@ -206,7 +206,11 @@ namespace VTL.TrendGraph
 			//float s = (float)(lastDraw - record.time).TotalSeconds;
 			//float normTime = Mathf.Clamp01(1 - s / timebase);
 			float normTime = (float)(record.time - Start2).TotalSeconds / (float)(End - Start2).TotalSeconds;
-            float normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
+            float normHeight = 0;
+            if (record.Data != null)
+            {
+                normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
+            }
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
 			return new Vector2(origin.x + w * normTime,
 			                   origin.y + h * (1 - normHeight));
