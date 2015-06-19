@@ -21,8 +21,18 @@ public class MinMaxShader
 		DataArray = Tex;
 		cs.SetTexture (kernelHandle, "PassedInData", DataArray);
 	}
+
+    public void SetMax(float max)
+    {
+        Max = max;
+    }
+
 	// The buffer to hold the min and max....
 	ComputeBuffer buffer;
+
+    // For the csv file build
+    float Max = 0;
+    ComputeBuffer csvDump;
 
 	// The Texture to find hte min and max
 	Texture2D DataArray;
@@ -41,14 +51,35 @@ public class MinMaxShader
 			cs.SetInt ("tox", 99);
 			cs.SetInt ("fromy", 98);
 			cs.SetInt ("toy", 99);
-			
+
+            cs.SetFloat("normalizeValue", Max);
 			cs.SetInt ("sampleRate", sampleRate);
 			cs.SetFloats ("from", new float[]{first.x,first.y});
 			cs.SetFloats ("to", new float[]{second.x,second.y});
 			buffer.SetData (da);
-			//cs.Dispatch (kernelHandle, sampleRate, 1, 1);
-			
+
+// Temp patch to the OS dependen Compute Shader
+#if UNITY_EDITOR_WIN
+			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
+#endif
+
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string pathDownload = pathUser + "\\slicer_path.txt";
+            float[] csv_file = new float[sampleRate];
 			buffer.GetData (da);
+            csvDump.GetData(csv_file);
+
+            if (Input.GetKey(KeyCode.L))
+            {
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+                {
+                    foreach (var i in csv_file)
+                    {
+                        file.WriteLine(i + ",");
+                    }
+                }
+            }
+
 			//Debug.LogError ("KERNEL: " + kernelHandle);
 			//int ii = BitConverter.ToInt32(BitConverter.GetBytes(ff), 0);
 			//Debug.LogError ("Converted value x: " + BitConverter.ToSingle (BitConverter.GetBytes (da [0]), 0));
@@ -75,6 +106,7 @@ public class MinMaxShader
 		}
 		DataArray = new Texture2D(100,100);
 		buffer = new ComputeBuffer(2,sizeof(float));
+        csvDump = new ComputeBuffer(sampleRate, sizeof(float));
 		
 		kernelHandle = cs.FindKernel("NormalizedSampler");
 		
@@ -94,6 +126,7 @@ public class MinMaxShader
 
 		cs.SetTexture (kernelHandle, "PassedInData", DataArray);
 		cs.SetBuffer (kernelHandle, "MinMax", buffer);
+        cs.SetBuffer(kernelHandle, "SampleLine", csvDump);
 
 		da [0] = 0;
 		da [1] = 1;

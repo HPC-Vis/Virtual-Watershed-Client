@@ -31,7 +31,7 @@ public static class TerrainUtils
         return new Vector3(ProjectedPoint.x,0,ProjectedPoint.y);
     }
 
-    public static Texture2D GetHeightMapAsTexture( Terrain terrain)
+    public static Texture2D GetHeightMapAsTexture(Terrain terrain)
     {
         var data = terrain.terrainData;
         int width = data.heightmapWidth;
@@ -58,6 +58,7 @@ public static class TerrainUtils
         //var data = terrain.terrainData;
         int width = Data.GetLength(0);
         int height = Data.GetLength(1);
+        
         //float[,] HeightData = data.GetHeights(0, 0, width, height);
         Texture2D TerrainTex = new Texture2D(width, height);
         Color[] Heights = new Color[width * height];
@@ -69,7 +70,7 @@ public static class TerrainUtils
                 Heights[i * height + j] = new Color(1, 0, 0, Data[i, j]);
             }
         }
-
+        
         TerrainTex.SetPixels(Heights);
         TerrainTex.Apply();
         return TerrainTex;
