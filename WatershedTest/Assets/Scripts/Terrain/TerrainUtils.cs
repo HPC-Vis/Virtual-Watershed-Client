@@ -91,4 +91,9 @@ public static class TerrainUtils
         //Vector3 Point = WorldPoint - Origin;
         return Rect.PointToNormalized(BoundingArea, new Vector2(WorldPoint.x, WorldPoint.z));/// new Vector2(Point.x / terrain.terrainData.size.x, Point.z / terrain.terrainData.size.z);
     }
+
+    static public Vector2 TerrainToNormalizedPoint(Vector3 WorldPoint, Rect BoundingArea)
+    {
+        return Rect.NormalizedToPoint(BoundingArea, new Vector2(WorldPoint.x, WorldPoint.z));
+    }
 }

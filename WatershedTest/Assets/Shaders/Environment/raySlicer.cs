@@ -31,7 +31,7 @@ public class raySlicer : MonoBehaviour
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 	public ComputeShader CS;
-	MinMaxShader MinMax;
+	public MinMaxShader MinMax;
     // Use this for initialization
 
     void Start()
@@ -225,7 +225,6 @@ public class raySlicer : MonoBehaviour
                 max = Mathf.Max(max, terrain.terrainData.size.y);
             }
 
-            Debug.LogError("Here is the max: " + max);
             MinMax.SetMax(max);
             
         }
@@ -235,7 +234,6 @@ public class raySlicer : MonoBehaviour
             screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
             float max = Terrain.activeTerrain.terrainData.size.y;
             MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
-            Debug.LogError("Here is the max: " + max);
             MinMax.SetMax(max);
         }
         
@@ -264,6 +262,11 @@ public class raySlicer : MonoBehaviour
     {
         environmentTex = environmentData;
         screenMaterial.SetTexture("_3DTex",environmentData);
+    }
+
+    public void WriteSlicerToFile()
+    {
+        MinMax.WriteSlicerToFile();
     }
 
     // Set cutting points into the world
