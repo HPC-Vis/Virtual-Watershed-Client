@@ -31,7 +31,7 @@ public class raySlicer : MonoBehaviour
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 	public ComputeShader CS;
-	MinMaxShader MinMax;
+	public MinMaxShader MinMax;
     // Use this for initialization
 
     void Start()
@@ -218,13 +218,23 @@ public class raySlicer : MonoBehaviour
 				MinMax.SetDataArray(slicerMap);
                 // Debug.LogError("SETTING HEIGHTS");
             }
+
+            float max = 0.0f;
+            foreach(var terrain in  Terrain.activeTerrains)
+            {
+                max = Mathf.Max(max, terrain.terrainData.size.y);
+            }
+
+            MinMax.SetMax(max);
             
         }
         else
         {
 			GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z,GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
             screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
-			MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+            float max = Terrain.activeTerrain.terrainData.size.y;
+            MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+            MinMax.SetMax(max);
         }
         
     }
@@ -252,6 +262,11 @@ public class raySlicer : MonoBehaviour
     {
         environmentTex = environmentData;
         screenMaterial.SetTexture("_3DTex",environmentData);
+    }
+
+    public void WriteSlicerToFile()
+    {
+        MinMax.WriteSlicerToFile();
     }
 
     // Set cutting points into the world
@@ -377,7 +392,4 @@ public class raySlicer : MonoBehaviour
         
         //print (f.ToString() + " " + windowRect.ToString());
     }
-
-    //
-
 }
