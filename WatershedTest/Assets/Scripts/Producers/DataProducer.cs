@@ -23,7 +23,7 @@ public abstract class DataProducer
         if (Records == null) { Records = new List<DataRecord>(); }
         //DataTracker.updateJob(Path, DataTracker.Status.RUNNING);
         // Check the path
-        Logger.WriteLine("Path = " + Path);
+        //Logger.WriteLine("Data Producer Path = " + Path);
         Transfer.Type type = Transfer.GetType(ref Path);
         if (type == Transfer.Type.URL)
         {

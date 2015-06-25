@@ -31,7 +31,7 @@ public class raySlicer : MonoBehaviour
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 	public ComputeShader CS;
-	MinMaxShader MinMax;
+	public MinMaxShader MinMax;
     // Use this for initialization
 
     void Start()
@@ -72,7 +72,7 @@ public class raySlicer : MonoBehaviour
         // Stitch multiple terrains together 
         if (Terrain.activeTerrains.Length > 1)
         {
-            Debug.LogError("STITCHING TIME");
+            // Debug.LogError("STITCHING TIME");
             List<Rect> Rects = new List<Rect>();
             List<float[,]> HeightMaps = new List<float[,]>();
             int count = 0;
@@ -90,9 +90,9 @@ public class raySlicer : MonoBehaviour
                 for (int j = i + 1; j < Terrain.activeTerrains.Length; j++)
                 {
                     // Determine if they can all be stitch together
-                    //Debug.LogError(Terrain.activeTerrains[i].s);
-                    Debug.LogError(i + " " + j);
-                    Debug.LogError(Rects[i].Contains(Rects[j].position));
+                    // Debug.LogError(Terrain.activeTerrains[i].s);
+                    // Debug.LogError(i + " " + j);
+                    // Debug.LogError(Rects[i].Contains(Rects[j].position));
                     if (Rects[i].Contains(Rects[j].position))
                         count++;
                 }
@@ -109,8 +109,8 @@ public class raySlicer : MonoBehaviour
                 // Time to stitch them all ... first find the correct order for things 
                 for (int i = 0; i < Terrain.activeTerrains.Length; i++)
                 {
-                    Debug.LogError(Rects[i].yMin);
-                    Debug.LogError(Rects[i].xMin);
+                    // Debug.LogError(Rects[i].yMin);
+                    // Debug.LogError(Rects[i].xMin);
                     if (upperLeftX > Rects[i].xMin)
                     {
                         x = i;
@@ -124,9 +124,10 @@ public class raySlicer : MonoBehaviour
                         upperLeftY = Rects[i].yMin;
                     }
                 }
-                Debug.LogError("SAMEEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + (x == y));
-                Debug.LogError(upperLeftX);
-                Debug.LogError(upperLeftY);
+
+                // Debug.LogError("SAMEEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + (x == y));
+                // Debug.LogError(upperLeftX);
+                // Debug.LogError(upperLeftY);
                 float xRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapWidth*2);
                 float yRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapHeight*2);
 
@@ -134,7 +135,7 @@ public class raySlicer : MonoBehaviour
                 if (File.Exists(ImageLoc))
                 {
                     terrainBytes = File.ReadAllBytes(ImageLoc);
-                    Debug.LogError("RETRIEVING slicer map");
+                    // Debug.LogError("RETRIEVING slicer map");
                     slicerMap.LoadImage(terrainBytes);
                     GlobalConfig.TerrainBoundingBox = Rects[y];
                     GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
@@ -215,15 +216,25 @@ public class raySlicer : MonoBehaviour
                 }
                 screenMaterial.SetTexture("_MainTex2", slicerMap);
 				MinMax.SetDataArray(slicerMap);
-                Debug.LogError("SETTING HEIGHTS");
+                // Debug.LogError("SETTING HEIGHTS");
             }
+
+            float max = 0.0f;
+            foreach(var terrain in  Terrain.activeTerrains)
+            {
+                max = Mathf.Max(max, terrain.terrainData.size.y);
+            }
+
+            MinMax.SetMax(max);
             
         }
         else
         {
 			GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z,GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
             screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
-			MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+            float max = Terrain.activeTerrain.terrainData.size.y;
+            MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+            MinMax.SetMax(max);
         }
         
     }
@@ -251,6 +262,11 @@ public class raySlicer : MonoBehaviour
     {
         environmentTex = environmentData;
         screenMaterial.SetTexture("_3DTex",environmentData);
+    }
+
+    public void WriteSlicerToFile()
+    {
+        MinMax.WriteSlicerToFile();
     }
 
     // Set cutting points into the world
@@ -376,7 +392,4 @@ public class raySlicer : MonoBehaviour
         
         //print (f.ToString() + " " + windowRect.ToString());
     }
-
-    //
-
 }

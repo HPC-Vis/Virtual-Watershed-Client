@@ -128,12 +128,12 @@ public class NetworkClient : WebClient
         catch(Exception e)
         {
             Logger.WriteLine(e.Message + " " + e.StackTrace);
-            Logger.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
+            Logger.WriteLine("<color=red>Insert Custom Error Message / Error code for handling HTTP 404</color>");
             netmanager.CallDataError(Req.Url);
             StartNextDownload();
             return;
         }
-        Logger.WriteLine("Completed string download, passed to callback function. " + Req.Url);
+        // Logger.WriteLine("Completed string download, passed to callback function. " + Req.Url);
 
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
@@ -165,7 +165,7 @@ public class NetworkClient : WebClient
             {
                 // Start the next one
                 DownloadRequest req = DownloadRequests.Peek();
-                Logger.WriteLine("Started: " + req.Url);
+                // Logger.WriteLine("Started: " + req.Url);
                 netmanager.CallDownloadStart(req.Url);
                 // Check if its a byte
                 if (req.isByte)
@@ -176,10 +176,6 @@ public class NetworkClient : WebClient
                 {
                     DownloadStringAsync(new System.Uri(req.Url));
                 }
-            }
-            else
-            { 
-                Logger.WriteLine("SCARY");
             }
         }
     }

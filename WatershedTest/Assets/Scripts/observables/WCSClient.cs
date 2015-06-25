@@ -40,13 +40,12 @@ class WCSClient : Observerable
     // Update
     public override string Update()
     {
-        Logger.WriteLine("UPDATE");
-        Logger.Log("WCS, Token = " + Token);
+        Logger.Log("WCS Client Token = " + Token);
 
         // Check if there is another state
         if (StateList.Count >= 1)
         {
-            Logger.WriteLine(StateList[0].ToString());
+            // Logger.WriteLine(StateList[0].ToString());
 
             // Set the first state and remove from the list
             state = StateList[0];
@@ -153,7 +152,7 @@ class WCSClient : Observerable
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);
 
-        Logger.Log(Token + ": " + req);
+        // Logger.Log(Token + ": " + req);
         return req;
     }
 
@@ -162,7 +161,7 @@ class WCSClient : Observerable
         // Check if services contains "wcs"
         if (!records[0].services.ContainsKey("wcs"))
         {
-            Logger.WriteLine("RETURNING" + records[0].name);
+            // Logger.WriteLine("RETURNING" + records[0].name);
             return "";
         }
         string wcs_url = records[0].services["wcs"];
@@ -171,7 +170,7 @@ class WCSClient : Observerable
         factory.Import("WCS_CAP", records, "url://" + wcs_url);
 
         // Return
-        Logger.Log(Token + ": " + wcs_url);
+        // Logger.Log(Token + ": " + wcs_url);
         return wcs_url;
     }
 
@@ -199,10 +198,10 @@ class WCSClient : Observerable
         }
 
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
-        Logger.WriteLine(req);
+        // Logger.WriteLine(req);
 
         // Return
-        Logger.Log(Token + ": " + req);
+        // Logger.Log(Token + ": " + req);
         return req;
     }
 
@@ -222,7 +221,7 @@ class WCSClient : Observerable
         //    factory.Import("WCS_DC", records, "url://" + req);
         //}
         // Return
-        Logger.Log(Token + ": " + req);
+        // Logger.Log(Token + ": " + req);
         return req;
     }
 }

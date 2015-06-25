@@ -19,6 +19,7 @@ public class mouseray : MonoBehaviour
     public GameObject NoClipGhostPlayer;
     public GameObject FirstPersonControllerPlayer;
     public GameObject cursorObject;
+    public GameObject csvButton;
 
     public raySlicer rs;
 
@@ -41,7 +42,7 @@ public class mouseray : MonoBehaviour
         Vector3 Pos = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
         Pos.y += 50;
         NoClipGhostPlayer.transform.position = Pos;
-
+        csvButton = GameObject.Find("SlicertoCSV");
         ////change model
         //TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //TheTrailer.name = "THE TRAILER";
@@ -520,6 +521,14 @@ public class mouseray : MonoBehaviour
             // Pass point 1 and point 2 to shader
             rs.setFirstPoint(Point1);
             rs.setSecondPoint(Point2);
+            csvButton.SetActive(true);
+        }
+        else
+        {
+            if(csvButton.activeSelf)
+            {
+                csvButton.SetActive(false);
+            }
         }
     }
     //// A variable for switching the direction of the trail renderer
