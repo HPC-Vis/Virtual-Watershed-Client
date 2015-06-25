@@ -188,27 +188,27 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 65
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -9.39500046
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 124
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22474310, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 10.79
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b0c6b463587194da98900d5dc818ced3, type: 2}
@@ -366,19 +366,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22436378, guid: be7385871d213f844981bd24e601eb98, type: 2}
       propertyPath: m_AnchorMin.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22436378, guid: be7385871d213f844981bd24e601eb98, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22436378, guid: be7385871d213f844981bd24e601eb98, type: 2}
       propertyPath: m_AnchorMax.x
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 22436378, guid: be7385871d213f844981bd24e601eb98, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11426308, guid: be7385871d213f844981bd24e601eb98, type: 2}
       propertyPath: target
