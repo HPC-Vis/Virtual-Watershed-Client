@@ -16,8 +16,7 @@ public class mouseray : MonoBehaviour
     float timecount;
 
     public static GameObject[] IgnoredObjects;
-    public GameObject NoClipGhostPlayer;
-    public GameObject FirstPersonControllerPlayer;
+    public GameObject PlayerController;
     public GameObject cursorObject;
     public GameObject csvButton;
 
@@ -38,10 +37,10 @@ public class mouseray : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        IgnoredObjects = new GameObject[]{ NoClipGhostPlayer,FirstPersonControllerPlayer, cursorObject, marker1, marker2};
+        IgnoredObjects = new GameObject[]{ PlayerController, cursorObject, marker1, marker2};
         Vector3 Pos = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
         Pos.y += 50;
-        NoClipGhostPlayer.transform.position = Pos;
+        PlayerController.transform.position = Pos;
         csvButton = GameObject.Find("SlicertoCSV");
         ////change model
         //TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -415,7 +414,6 @@ public class mouseray : MonoBehaviour
 
     void ResizeObjects(GameObject obj)
     {
-        GameObject currentController;
         float distance;
         float xyThresh, zThresh;
 
@@ -424,16 +422,7 @@ public class mouseray : MonoBehaviour
             return;
         }
 
-        if (NoClipGhostPlayer.activeSelf)
-        {
-            currentController = NoClipGhostPlayer;
-        }
-        else
-        {
-            currentController = FirstPersonControllerPlayer;
-        }
-
-        distance = (obj.transform.position - currentController.transform.position).magnitude;
+        distance = (obj.transform.position - PlayerController.transform.position).magnitude;
 
         if (distance/150 < 1)
         {
@@ -457,7 +446,6 @@ public class mouseray : MonoBehaviour
 
     void ResizeUniformObjects(GameObject obj)
     {
-        GameObject currentController;
         float distance;
         float xyThresh, zThresh;
 
@@ -466,16 +454,7 @@ public class mouseray : MonoBehaviour
             return;
         }
 
-        if (NoClipGhostPlayer.activeSelf)
-        {
-            currentController = NoClipGhostPlayer;
-        }
-        else
-        {
-            currentController = FirstPersonControllerPlayer;
-        }
-
-        distance = (obj.transform.position - currentController.transform.position).magnitude;
+        distance = (obj.transform.position - PlayerController.transform.position).magnitude;
 
 
         if (distance / slicerDistanceScaleFactor < slicerMinScale)

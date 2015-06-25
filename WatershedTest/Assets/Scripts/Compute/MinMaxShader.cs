@@ -79,10 +79,14 @@ public class MinMaxShader
     public void WriteSlicerToFile()
     {
         // Temp patch to the OS dependen Compute Shader
+		string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 #if UNITY_EDITOR_WIN
-            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             string pathDownload = pathUser + "\\slicer_path.txt";
+		#else
+		string pathDownload = pathUser + "/slicer_path.txt";
 #endif
+
 
             float[] csv_file = new float[sampleRate];
             csvDump.GetData(csv_file);
