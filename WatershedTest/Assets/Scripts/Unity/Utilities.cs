@@ -903,7 +903,7 @@ public class Utilities
     	// Pull bytes out of float
     	var byes = BitConverter.GetBytes(f);
     	
-    	Color32 convertedFloat = new Color32(byes[0],byes[1],byes[2],byes[3]);
+    	Color32 convertedFloat = new Color32(byes[3],byes[2],byes[1],byes[0]);
     	return convertedFloat;
     }
     
@@ -926,6 +926,8 @@ public class Utilities
    				colorData[i*height+j] = floatToColor32(data[i,j]);
    			}
    		}
+        tex.wrapMode = TextureWrapMode.Clamp;
+        tex.filterMode = FilterMode.Point;
    		tex.SetPixels32(colorData);
    		tex.Apply();
    		return tex;
