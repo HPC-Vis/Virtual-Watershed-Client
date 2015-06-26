@@ -892,5 +892,43 @@ public class Utilities
         //Destroy(parent);
         //buildShape(parent, shapes);
     }
+    
+    /// <summary>
+    /// Floats to color32.
+    /// </summary>
+    /// <returns>The to color32.</returns>
+    /// <param name="f">F.</param>
+    public Color32 floatToColor32(float f)
+    {
+    	// Pull bytes out of float
+    	var byes = BitConverter.GetBytes(f);
+    	
+    	Color32 convertedFloat = new Color32(byes[0],byes[1],byes[2],byes[3]);
+    	return convertedFloat;
+    }
+    
+    // Creepy how good this automatic summaries are VVV -- I didn't write that.
+    /// <summary>
+    /// Builds the data texture.
+    /// </summary>
+    /// <returns>The data texture.</returns>
+    /// <param name="data">Data.</param>
+    public Texture2D BuildDataTexture(float [,] data)
+   	{
+   		int width = data.GetLength(0);
+   		int height = data.GetLength(1);
+   		Texture2D tex = new Texture2D(width,height);
+   		Color32[] colorData = new Color32[width*height];
+   		for(int i = 0; i < width; i++)
+   		{
+   			for(int j = 0; j < height; j++)
+   			{
+   				colorData[i*height+j] = floatToColor32(data[i,j]);
+   			}
+   		}
+   		tex.SetPixels32(colorData);
+   		tex.Apply();
+   		return tex;
+   	}
 
 }

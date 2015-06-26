@@ -280,5 +280,6 @@ public class DataRecord : IEquatable<DataRecord>
 
     // Use these to rebuild bounding box
     public float xBound, yBound, xwidth, yheight;
+    
 
 };
