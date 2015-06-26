@@ -6,3 +6,4 @@ Start
 RESULTS: 94
 Done
 Getting Model Runs
+Network Manager Destructor Called

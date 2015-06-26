@@ -7,7 +7,7 @@ public class toggleScripts : MonoBehaviour
 {
 
     public bool noClip;
-    public bool fps;
+    public bool faster;
     public bool rts;
 
     public GameObject player;
@@ -17,21 +17,57 @@ public class toggleScripts : MonoBehaviour
     void Start()
     {
         noClip = false;
-        fps = true;
-        rts = false;
+        faster = false;
     }
 
 
     void Update()
     {
-        if (Input.GetKeyDown("n"))
+        if (Input.GetKeyDown("r"))
         {
-            swapToNoClip();
+            if (noClip)
+            {
+                swapToNoClip();
+
+            }
+            else
+            {
+                swapToFPS();
+            }
+            noClip = !noClip;
         }
         else if (Input.GetKeyDown("f"))
         {
-            swapToFPS();
+            if (faster)
+            {
+                slowDown();
+            }
+            else
+            {
+                speedUp();
+            }
+            faster = !faster;
+            
         }
+    }
+
+    void slowDown()
+    {
+        player.GetComponent<NoClipFirstPersonController>().movementForwardMultiplier = 100;
+        player.GetComponent<NoClipFirstPersonController>().movementSideMultiplier = 100;
+        player.GetComponent<CharacterMotor>().movement.maxBackwardsSpeed = 20;
+        player.GetComponent<CharacterMotor>().movement.maxForwardSpeed = 20;
+        player.GetComponent<CharacterMotor>().movement.maxSidewaysSpeed = 20;
+
+    }
+
+    void speedUp()
+    {
+        player.GetComponent<NoClipFirstPersonController>().movementForwardMultiplier = 300;
+        player.GetComponent<NoClipFirstPersonController>().movementSideMultiplier = 300;
+        player.GetComponent<CharacterMotor>().movement.maxBackwardsSpeed = 100;
+        player.GetComponent<CharacterMotor>().movement.maxForwardSpeed = 100;
+        player.GetComponent<CharacterMotor>().movement.maxSidewaysSpeed = 100;
     }
 
     public void swapToNoClip()
