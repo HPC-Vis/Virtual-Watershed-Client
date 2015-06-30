@@ -21,7 +21,7 @@
 		
 		private OperationsMetadataOperation[] operationsMetadataField;
 		
-		private CapabilitiesContents contentsField;
+		private CapabilitiesContents[] contentsField;
 		
 		private string versionField;
 		
@@ -69,7 +69,8 @@
 		}
 		
 		/// <remarks/>
-		public CapabilitiesContents Contents
+        [System.Xml.Serialization.XmlArrayItemAttribute("CoverageSummary",IsNullable=false)]
+		public CapabilitiesContents[] Contents
 		{
 			get
 			{

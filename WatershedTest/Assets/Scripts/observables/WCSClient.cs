@@ -98,7 +98,10 @@ class WCSClient : Observerable
     public override void CallBack()
     {
         // Callback
-        callback(records);
+        if (callback != null)
+        {
+            callback(records);
+        }
     }
 
     public override void Error()
@@ -198,7 +201,7 @@ class WCSClient : Observerable
         }
 
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
-        // Logger.WriteLine(req);
+         Logger.WriteLine(req);
 
         // Return
         // Logger.Log(Token + ": " + req);

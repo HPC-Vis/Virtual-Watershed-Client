@@ -77,7 +77,7 @@ public class HSVPicker : MonoBehaviour {
 		currentColor = MoveCursor(value,value2);
 		});
         
-        hsvImage.texture = HSVUtil.GenerateColorTexture((int)hsvImage.rectTransform.rect.width, (int)hsvImage.rectTransform.rect.height, ((Texture2D)hsvSlider.texture).GetPixelBilinear(0, 0));
+        hsvImage.texture = HSVUtil.GenerateColorTexture((int)hsvImage.rectTransform.rect.width, (int)hsvImage.rectTransform.rect.height, ((Texture2D)hsvSlider.texture).GetPixelBilinear(0, 1f));
         MoveCursor(cursorX, cursorY);
 	}
 	
@@ -169,7 +169,7 @@ public class HSVPicker : MonoBehaviour {
 
     public Color GetColor(float posX, float posY)
 	{
-		var color = HSVUtil.ConvertHsvToRgb(pointerPos * -360 + 360, posX, posY);
+		var color = HSVUtil.ConvertHsvToRgb( (1.0f - pointerPos) * -360 + 360, posX, posY);
 
 		return color;
         //Debug.Log(posX + " " + posY);
@@ -185,7 +185,7 @@ public class HSVPicker : MonoBehaviour {
         }
         pointerPos = newPos;
 
-        var mainColor =((Texture2D)hsvSlider.texture).GetPixelBilinear(0, pointerPos);
+        var mainColor =((Texture2D)hsvSlider.texture).GetPixelBilinear(0, 1.0f - pointerPos);
         if (hsvImage.texture != null)
         {
             if ((int)hsvImage.rectTransform.rect.width != hsvImage.texture.width || (int)hsvImage.rectTransform.rect.height != hsvImage.texture.height)
