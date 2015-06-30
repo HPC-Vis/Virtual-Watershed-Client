@@ -55,7 +55,7 @@ public  static class ModelRunManager
     static string cacheRestoreEntry = "restore";
 
     // Utilities Utilities where for art thou Utilites 
-    static Utilities utilities = new Utilities();
+    //static Utilities utilities = new Utilities();
 	private static readonly object _Padlock = new object();
     // NOTE: Some way of sorting and returning back a sorted list based on metadata
     // NOTE: On download, a GeoRef might already exist. No code has been written to handle that case other than a check.
@@ -154,76 +154,82 @@ public  static class ModelRunManager
             }
             else
             {
-                foreach (var i in records)
+                // Start Thread
+                new Thread(() =>
                 {
-					//Debug.LogError(i.name);
-                    if (operation == "wms")
+                    foreach (var i in records)
                     {
-						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.texture == null)
-						{
-                            i.boundingBox = FileBasedCache.Get<DataRecord>(i.id).boundingBox;
-							i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
-							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
-							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
-							SettingTheRecord(new List<DataRecord>{i});
-                            continue;
-						}
-                        else if (i.texture != null)
+                        //Debug.LogError(i.name);
+                        if (operation == "wms")
                         {
-                            //i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
-                            SettingTheRecord(new List<DataRecord> { i });
-                            continue;
+                            // Lets check if it exists in the cache by uuid
+                            if (FileBasedCache.Exists(i.id) && i.texture == null)
+                            {
+                                i.boundingBox = FileBasedCache.Get<DataRecord>(i.id).boundingBox;
+                                i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
+                                i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+                                i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+                            else if (i.texture != null)
+                            {
+                                //i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+
+                            if (param.width == 0 || param.height == 0)
+                            {
+                                param.width = 100;
+                                param.height = 100;
+                            }
+                            client.getMap(SettingTheRecord, i, param);
                         }
 
-						if(param.width == 0 || param.height == 0)
-						{
-							param.width = 100;
-							param.height = 100;
-						}
-                        client.getMap(SettingTheRecord, i, param);
-                    }
-                    else if (operation == "wcs")
-                    {
-						// Lets check if it exists in the cache by uuid
-                        //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
-                        //Debug.LogError("ID: " + i.id); ;
-						if(FileBasedCache.Exists(i.id) && i.Data == null)
-						{
-                            //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
-							i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
-							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
-							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
-							SettingTheRecord(new List<DataRecord>{i});
-                            continue;
-						}
-                        else if (i.Data != null)
+                        else if (operation == "wcs")
                         {
-                            //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
-                            SettingTheRecord(new List<DataRecord>{i});
-                            continue;
+                            // Lets check if it exists in the cache by uuid
+                            //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
+                            //Debug.LogError("ID: " + i.id); ;
+                            if (FileBasedCache.Exists(i.id) && i.Data == null)
+                            {
+                                //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
+                                i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
+                                i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+                                i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+                            else if (i.Data != null)
+                            {
+                                //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+                            client.getCoverage(SettingTheRecord, i, param);
                         }
-                        client.getCoverage(SettingTheRecord, i, param);
-                    }
-                    else if (operation == "wfs")
-                    {
-						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.Lines == null)
-						{
-							i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
-							SettingTheRecord(new List<DataRecord>{i});
-                            continue;
-						}
-                        else if (i.Lines != null)
+                        else if (operation == "wfs")
                         {
-                            //i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
-                            SettingTheRecord(new List<DataRecord> { i });
+                            // Lets check if it exists in the cache by uuid
+                            if (FileBasedCache.Exists(i.id) && i.Lines == null)
+                            {
+                                i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+                            else if (i.Lines != null)
+                            {
+                                //i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
+                                SettingTheRecord(new List<DataRecord> { i });
+                            }
+                            Debug.LogError("PRIORITY: " + param.Priority);
+                            client.getFeatures(SettingTheRecord, i, param);
                         }
-						Debug.LogError("PRIORITY: " + param.Priority);
-                        client.getFeatures(SettingTheRecord, i, param);
-                    }
 
-                }
+                    }
+                }).Start();
+                // End Thread
             }
         }
     }

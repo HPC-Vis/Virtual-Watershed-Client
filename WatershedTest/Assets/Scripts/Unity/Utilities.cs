@@ -917,17 +917,17 @@ public class Utilities
    	{
    		int width = data.GetLength(0);
    		int height = data.GetLength(1);
-   		Texture2D tex = new Texture2D(width,height);
+        Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
    		Color32[] colorData = new Color32[width*height];
    		for(int i = 0; i < width; i++)
    		{
    			for(int j = 0; j < height; j++)
    			{
-   				colorData[i*height+j] = floatToColor32(data[i,j]);
+   				colorData[(width-i-1)*height+(height-j-1)] = floatToColor32(data[i,j]);
    			}
    		}
         tex.wrapMode = TextureWrapMode.Clamp;
-        tex.filterMode = FilterMode.Point;
+        //tex.filterMode = FilterMode.Point;
    		tex.SetPixels32(colorData);
    		tex.Apply();
    		return tex;

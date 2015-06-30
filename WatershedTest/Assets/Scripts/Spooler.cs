@@ -44,6 +44,7 @@ public class Spooler : MonoBehaviour
 	public TimeSlider timeSlider;
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
+    public Material colorWindow, colorProjector, slideProjector;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -77,8 +78,8 @@ public class Spooler : MonoBehaviour
 		
 	}
 	int count = 10;
-	
-	
+
+    bool swapProjector = false;
 	bool first = true;
 	float point;
 	public Text downloadTextBox;
@@ -87,10 +88,28 @@ public class Spooler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeProjector.material.SetVector ("_Point", NormalizedPoint);
+        if (Input.GetKeyDown("z"))
+        {
+            if (swapProjector)
+            {
+                TimeProjector.material = colorProjector;
+                testImage.material = colorWindow;
+            }
+            else
+            {
+                TimeProjector.material = slideProjector;
+                //testImage.material = slideProjector;
+            }
+            swapProjector = !swapProjector;
+            Debug.LogError("SWAPPING MATERIALS: " + TimeProjector.material.name);
+        }
 
-		// Enable the point to be used.
-		TimeProjector.material.SetInt ("_UsePoint", 1);
+        Debug.LogError("NEW COUNT: " + Reel.Count);
+        TimeProjector.material.SetVector("_Point", NormalizedPoint);
+
+        // Enable the point to be used.
+        TimeProjector.material.SetInt("_UsePoint", 1);
+        
         if (SliderFrames.Count > 0 && count > 0)
         {
 			// Set a dequeue size for multiple dequeus in one update
@@ -236,7 +255,8 @@ public class Spooler : MonoBehaviour
 		Texture2D tex = new Texture2D(100,100);
 		if(!WMS)
 	    {
-        	tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);
+            tex = utilities.BuildDataTexture(rec.Data);
+        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);
         }
         else
         {
