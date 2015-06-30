@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5D25CB61-15E9-4C02-9762-3F2B990CDD67}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NetworkTest</RootNamespace>
+    <AssemblyName>NetworkTest</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="GeoAPI">
+      <HintPath>..\Assets\Assembly\GeoAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>SimpleJSON\plugins\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Proj4Net">
+      <HintPath>..\Assets\Assembly\Proj4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="ProjNet">
+      <HintPath>..\Assets\Assembly\ProjNet.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Unity\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Assets\Scripts\bilreader.cs" />
+    <Compile Include="..\Assets\Scripts\DataFactory.cs" />
+    <Compile Include="..\Assets\Scripts\DataTracker.cs" />
+    <Compile Include="..\Assets\Scripts\FileBasedCache.cs" />
+    <Compile Include="..\Assets\Scripts\Logger.cs" />
+    <Compile Include="..\Assets\Scripts\observer\LoggedObserver.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\mimeparser.cs" />
+    <Compile Include="..\Assets\Scripts\observables\GenericObservable.cs" />
+    <Compile Include="..\Assets\Scripts\observables\Observerable.cs" />
+    <Compile Include="..\Assets\Scripts\observables\WCSClient.cs" />
+    <Compile Include="..\Assets\Scripts\observables\WFSClient.cs" />
+    <Compile Include="..\Assets\Scripts\observables\WMSClient.cs" />
+    <Compile Include="..\Assets\Scripts\Observer.cs" />
+    <Compile Include="..\Assets\Scripts\KeyValueTriple.cs" />
+    <Compile Include="..\Assets\Scripts\observer\DataObserver.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\DataProducer.cs" />
+    <Compile Include="..\Assets\Scripts\DataRecord.cs" />
+    <Compile Include="..\Assets\Scripts\DownloadRequest.cs" />
+    <Compile Include="..\Assets\Scripts\NetworkClient.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="..\Assets\Scripts\NetworkManager.cs" />
+    <Compile Include="..\Assets\Scripts\PriorityQueue.cs" />
+    <Compile Include="..\Assets\Scripts\Program.cs" />
+	<Compile Include="..\Assets\Config\GlobalConfig.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\Simulator.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\ModelRunManager.cs" />
+	<Compile Include="..\Assets\Scripts\Comparers\DataRecordComparers.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\transform.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\ModelRun.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\CoordSystem.cs" />
+	<Compile Include="..\Assets\Scripts\SystemParameters.cs" />
+    <Compile Include="..\Assets\Scripts\SerialRect.cs" />
+    <Compile Include="..\Assets\Scripts\SerialVector2.cs" />
+    <Compile Include="..\Assets\Scripts\SerialVector3.cs" />
+    <Compile Include="..\Assets\Scripts\SimpleJSON\plugins\SimpleJSON.cs" />
+    <Compile Include="..\Assets\Scripts\TestSerialialization.cs" />
+    <Compile Include="..\Assets\Scripts\ThreadSafeDictionary.cs" />
+    <Compile Include="..\Assets\Scripts\Transfer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\VW_FGDC_XML_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\VW_FGDC_XML_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\VW_JSON_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\VW_JSON_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\VWClient.cs" />
+    <Compile Include="..\Assets\Scripts\wcsUtils.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WCS_BIL_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\WCS_DescribeCoverage_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WCS_DescribeCoverage_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WCS_GetCapabilities_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WFS_GetCapabilites_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\WFS_GML_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WFS_GML_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WMS_GetCapabilites_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\WMS_GetCapabilities_Parser.cs" />
+	<Compile Include="..\Assets\Scripts\Producers\VW_JSON_MODEL_RUN_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\Parsers\VW_JSON_MODEL_RUN_Parser.cs" />
+    <Compile Include="..\Assets\Scripts\Producers\WMS_PNG_Producer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -26,16 +26,20 @@ namespace NetworkTest
         static void Recieved(List<string> message)
         {
             Logger.WriteLine("This function has recieved: " + message.Count);
+            if(message.Count > 0)
+            Logger.WriteLine("THIS FUNCTION RECIEVED FOR FIRST: " + message[0]);
         }
 
         static void Main(string[] args)
         {
-            simu = new Simulator();
+            Console.WriteLine("BLAH BLAH");
+            //simu = new Simulator();
             //simu.Simulation(.1f);
             //Console.ReadKey();
             //return;
 
             Logger.WriteToFile();
+            Logger.enable = true;
             //FileBasedCache.Clear();
             NetworkManager nm = new NetworkManager();
             //obs = new DataObserver();
@@ -46,50 +50,13 @@ namespace NetworkTest
             nm.Subscribe(vwc);
             SystemParameters sp = new SystemParameters();
             sp.offset = 0;
-            sp.limit = 200;
+            sp.limit = 15;
+            sp.model_run_uuid = "80661ff3-2d25-4ae3-867b-74896b97d3c6";
             sp.model_set_type = "";
             ModelRunManager.getAvailable(sp,Message: Recieved);
             Thread.Sleep(5000);
             
-            for (int i = 0; i < ModelRunManager.GetKeys().Count; i++)
-            {
-                Console.WriteLine(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]));
-                simu.SetModelRun(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]));
-                simu.SetStartDate(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]).GetBeginModelTime());
-                simu.SetEndDate(ModelRunManager.GetByUUID(ModelRunManager.GetKeys()[i]).GetEndModelTime());
-                simu.Simulation(1.0f);
-            }
-            
-            //
-            //simu.SetModelRun();
-
-            // This is not guranteed to give you 10 records upon request because getAvaliable has not finished yet...
-            // This is for right now requests
-            //Logger.WriteLine("COUNT: " + ModelRunManager.Query(10).Count);
-            //nm.Subscribe(obs);
-            //nm.Subscribe(new LoggedObserver());
-
-            //Logger.SetPath(".\\log.txt");
-            //Logger.Log("Scooby Dooby Dooo!");
-
-            ////vwc.RequestRecords(PrintDataRecords, 0, 50);
-            ////vwc.RequestRecords(null,0, 1000);
-
-            //vwc.RequestRecords(DummyMethod, 0, 9);
-            
-            //Thread t = new Thread( () => tFunct(recs) );
-            
-            //vwc.RequestRecords(DummyMethod, 10, 9);
-            //t.Start();
-            //Logger.WriteLine("DONE");
-            //Logger.ReadKey();
-            //Logger.WriteLine(recs.Count);
-            //Logger.WriteLine("DONE 2!");
             Logger.ReadKey();
-            //ModelRunManager.OnClose();
-            ////FileBasedCache.Clear();
-            ////t.Suspend();
-            Logger.Close();
         }
 
         public static int i = 1;

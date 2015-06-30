@@ -11,15 +11,26 @@ class WCS_GetCapabilites_Parser : Parser
     {
         var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
         Record.WCSCapabilities = Str;
-
+        //var c = new XmlReaderSettings();
+        //var x = XmlReader.Create("",new XmlReaderSettings());
+        
 
         XmlSerializer serial = new XmlSerializer(typeof(GetCapabilites.Capabilities));
+        
         GetCapabilites.Capabilities capabilities = new GetCapabilites.Capabilities();
 
         if (serial.CanDeserialize(reader))
         {
             capabilities = ((GetCapabilites.Capabilities)serial.Deserialize(reader));
             Record.WCSOperations = capabilities.OperationsMetadata;
+            //var cap = ((GetCapabilites.Capabilities[])serial.Deserialize(reader));
+            //Logger.WriteLine(capabilities.Contents[0].CoverageSummary.);
+            Logger.WriteLine(capabilities.OperationsMetadata.Count().ToString());
+            //Logger.WriteLine(cap.Count().ToString());
+            //foreach(var i in capabilities)
+           // {
+           //     Logger.WriteLine(i.name);
+            //}
         }
     }
 

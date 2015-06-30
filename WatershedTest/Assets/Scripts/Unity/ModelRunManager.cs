@@ -55,7 +55,7 @@ public  static class ModelRunManager
     static string cacheRestoreEntry = "restore";
 
     // Utilities Utilities where for art thou Utilites 
-    static Utilities utilities = new Utilities();
+    //static Utilities utilities = new Utilities();
 	private static readonly object _Padlock = new object();
     // NOTE: Some way of sorting and returning back a sorted list based on metadata
     // NOTE: On download, a GeoRef might already exist. No code has been written to handle that case other than a check.

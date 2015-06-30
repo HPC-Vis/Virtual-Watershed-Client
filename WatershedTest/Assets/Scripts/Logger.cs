@@ -9,12 +9,14 @@ using UnityEngine;
 public static class Logger
 {
     static string path="./log.txt";
-    static StreamWriter writer;
+    static readonly object LOCK = new object();
+    static StreamWriter writer = null;
     static bool ToFile=false;
     static public bool enable=true;
+    static bool closed = false;
     public static void SetPath(string dest)
     {
-        if (path != null)
+        if (path != null && writer != null)
         {
             writer.Close();
         }
@@ -24,18 +26,27 @@ public static class Logger
     }
     public static void WriteToFile()
     {
-        if(writer == null)
-        writer = new StreamWriter(path);
+        if (writer == null)
+        {
+            writer = new StreamWriter(path);
+        }
         ToFile = true;
     }
     public static void Log(string line)
     {
-        if(writer == null)
-        WriteToFile();
-        if (writer != null && enable)
+        lock (LOCK)
         {
-            writer.WriteLine(line);
-            writer.Flush();
+            if(closed)
+            {
+                return;
+            }
+
+            if (writer == null)
+                WriteToFile();
+            if (writer != null && enable)
+            {
+                writer.WriteLine(line);
+            }
         }
     }
 
@@ -47,7 +58,7 @@ public static class Logger
 #if UNITY_EDITOR
             Debug.Log(line);
 #else
-        //Console.WriteLine(line);
+            Console.WriteLine(line);
 #endif
 
         }
@@ -56,18 +67,28 @@ public static class Logger
             Log(line);
         }
     }
-    
+
     public static void ReadKey()
     {
 #if !(UNITY_EDITOR)
-        //Console.ReadKey();
+        Console.ReadKey();
 #endif
     }
 
-    public static void Close()
+    public static void Finalize()
     {
-        path = null;
-        writer.Close();
-        writer = null;
+        Close();
+    }
+
+    private static void Close()
+    {
+        lock (LOCK)
+        {
+            path = null;
+            if (writer != null)
+                writer.Close();
+            writer = null;
+            closed = true;
+        }
     }
 }
