@@ -33,6 +33,9 @@ public class ModelRun
 	public Dictionary<string,bool> IsTemporal = new Dictionary<string, bool> ();
 	// ************************************************
 
+    // Dictionary used to add in the min and max
+    public Dictionary<string, Vector2> MinMax = new Dictionary<string,Vector2>();
+
     public List<string> GetVariables()
     {
         return references.Keys.ToList(); 
@@ -71,6 +74,7 @@ public class ModelRun
         {
             // Add to the model run
             references.Add(label, toAdd);
+            MinMax.Add(label, new Vector2(float.MaxValue, float.MinValue));
         }
     }
 
@@ -141,6 +145,7 @@ public class ModelRun
         if( ! references.ContainsKey(record.variableName) )
         {
             references[record.variableName] = new List<DataRecord>();
+            MinMax[record.variableName] = new Vector2(float.MaxValue, float.MinValue);
 			IsTemporal[record.variableName] = false;
         }
 

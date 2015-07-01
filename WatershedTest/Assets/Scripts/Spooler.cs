@@ -46,6 +46,7 @@ public class Spooler : MonoBehaviour
 	public Projector TimeProjector;
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
+    private ModelRun modelrun;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -100,7 +101,6 @@ public class Spooler : MonoBehaviour
     {
         if (swapProjector)
         {
-            Debug.LogError("We are in this update ... ");
             TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
@@ -134,7 +134,7 @@ public class Spooler : MonoBehaviour
             {
                 // Clear time series gra
                 DataRecord record = SliderFrames.Dequeue();
-
+                
                 if (Reel.Count == 0)
                 {
                     // Set projector...
@@ -158,7 +158,22 @@ public class Spooler : MonoBehaviour
                 }
 
                 count--;
-                textureBuilder(record);                
+                textureBuilder(record);
+
+                if(record.Max > modelrun.MinMax[oldSelectedVariable][1])
+                {
+                    Debug.LogError("Update of Max: " + record.Max);
+                    modelrun.MinMax[oldSelectedVariable] = new Vector2(modelrun.MinMax[oldSelectedVariable][0], record.Max);
+                    TimeProjector.material.SetFloat("_FloatMax", record.Max);
+                    testImage.material.SetFloat("_FloatMax", record.Max);
+                }
+                if(record.Min < modelrun.MinMax[oldSelectedVariable][0])
+                {
+                    Debug.LogError("Update of Min: " + record.Min);
+                    modelrun.MinMax[oldSelectedVariable] = new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable][1]);
+                    TimeProjector.material.SetFloat("_FloatMin", record.Min);
+                    testImage.material.SetFloat("_FloatMin", record.Min);
+                }
             }
             if (downloadTextBox)
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
@@ -253,7 +268,6 @@ public class Spooler : MonoBehaviour
 		Frame frame = new Frame();
 		Utilities utilities = new Utilities();
 		
-		
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
 		frame.Data = rec.Data;
@@ -264,8 +278,8 @@ public class Spooler : MonoBehaviour
 		Texture2D tex = new Texture2D(100,100);
 		if(!WMS)
 	    {
-            tex = utilities.BuildDataTexture(rec.Data);
-        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);
+            tex = utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
+        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);s
         }
         else
         {
@@ -442,8 +456,8 @@ public class Spooler : MonoBehaviour
             trendGraph.Clear();
 			// Add some code here to handle the time slider.
 			//timeslider.reset();
-            ModelRun oldData = ModelRunManager.GetByUUID(selectedModelRun);
-            oldData.ClearData(oldSelectedVariable);
+            modelrun = ModelRunManager.GetByUUID(selectedModelRun);
+            modelrun.ClearData(oldSelectedVariable);
 		}
 		if(temp!= null)
 		{
@@ -461,6 +475,7 @@ public class Spooler : MonoBehaviour
 			var Records = temp[0].FetchVariableData(variable);
 			TOTAL = Records.Count;
 			selectedModelRun = temp[0].ModelRunUUID;
+            modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 			 

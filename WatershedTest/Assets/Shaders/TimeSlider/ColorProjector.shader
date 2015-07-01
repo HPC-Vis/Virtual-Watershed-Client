@@ -1,9 +1,9 @@
-﻿Shader "Custom/ColorMap" {
+﻿Shader "Custom/ColorProjector" {
 	
 Properties {
 	_MainTex ("32bit Float Map", RECT) = "white" {}
 	
-	_FloatMin ("Min Value", float) = 10
+	_FloatMin ("Min Value", float) = 15
 	_FloatMax ("Max Value", float) =  100
     
     _SegmentData000 ("Segment Color 000", Color) = (0.00000, 0.00000, 0.00000, 1.00000)

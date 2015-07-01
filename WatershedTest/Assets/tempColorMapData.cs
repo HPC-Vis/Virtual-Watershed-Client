@@ -27,7 +27,8 @@ public class tempColorMapData : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyDown("t"))
         {
-            text = utilities.BuildDataTexture(data);
+            float dummy1, dummy2;
+            text = utilities.BuildDataTexture(data, out dummy1, out dummy2);
             temp.sprite = Sprite.Create(text, new Rect(0, 0, 256, 256), Vector2.zero);
             Debug.Log("Applying sprite");
         }
