@@ -464,6 +464,7 @@ public class Spooler : MonoBehaviour
             oldSelectedVariable = variable;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 			 
+
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
 		    	WMS=true;
