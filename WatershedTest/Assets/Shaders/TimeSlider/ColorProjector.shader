@@ -154,7 +154,7 @@ float4 frag (vertexInput i) : SV_Target
 
 	float x0, x1;
 
-		if(Y == 0.00)
+		if(Y <= 0.00)
 		{
 		return float4(0,0,0,1);
 		}

@@ -45,6 +45,7 @@ public class Spooler : MonoBehaviour
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
     public Material colorWindow, colorProjector, slideProjector;
+    private ColorPicker colorPicker;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -75,11 +76,20 @@ public class Spooler : MonoBehaviour
 	{
 		//testImage.sprite = Reel[0].Picture;
 		point = 0;
-		
+        colorPicker = GameObject.Find("ColorSelector").GetComponent<ColorPicker>();
+        if (swapProjector)
+        {
+            TimeProjector.material = colorProjector;
+            testImage.material = colorWindow;
+        }
+        else
+        {
+            TimeProjector.material = slideProjector;
+        }
 	}
 	int count = 10;
 
-    bool swapProjector = false;
+    bool swapProjector = true;
 	bool first = true;
 	float point;
 	public Text downloadTextBox;
@@ -88,23 +98,22 @@ public class Spooler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("z"))
+        if (swapProjector)
         {
-            if (swapProjector)
-            {
-                TimeProjector.material = colorProjector;
-                testImage.material = colorWindow;
-            }
-            else
-            {
-                TimeProjector.material = slideProjector;
-                //testImage.material = slideProjector;
-            }
-            swapProjector = !swapProjector;
-            Debug.LogError("SWAPPING MATERIALS: " + TimeProjector.material.name);
+            Debug.LogError("We are in this update ... ");
+            TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
+            TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
+            TimeProjector.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
+            TimeProjector.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
+            TimeProjector.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
         }
 
-        Debug.LogError("NEW COUNT: " + Reel.Count);
+        // Debug.LogError("NEW COUNT: " + Reel.Count);
         TimeProjector.material.SetVector("_Point", NormalizedPoint);
 
         // Enable the point to be used.
@@ -458,11 +467,14 @@ public class Spooler : MonoBehaviour
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
 		    	WMS=true;
+                TimeProjector.material = slideProjector;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
 			}
 			else
 		    {
 		    	WMS=false;
+                TimeProjector.material = colorProjector;
+                testImage.material = colorWindow;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
 			}
 		}

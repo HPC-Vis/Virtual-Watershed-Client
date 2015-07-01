@@ -17924,7 +17924,8 @@ MonoBehaviour:
   slider: {fileID: 11497506}
   timeSlider: {fileID: 11458378}
   TimeProjector: {fileID: 0}
-  colorMap: {fileID: 0}
+  colorWindow: {fileID: 0}
+  colorProjector: {fileID: 0}
   slideProjector: {fileID: 0}
   BoundingBox:
     serializedVersion: 2

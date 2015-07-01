@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 public class ColorPicker : MonoBehaviour {
 
-	List<GameObject> ColorBoxes = new List<GameObject>();
+	public List<GameObject> ColorBoxes = new List<GameObject>();
 	public Slider slider;
 	// Use this for initialization
 	void Start () {
-	
+        //AddColors(5);
 	}
-	
+
 	bool updateHeight = false;
 	int selected = -1;
+    bool enabled = false;
 	
 	// Update is called once per frame
 	void Update () {
@@ -31,9 +32,10 @@ public class ColorPicker : MonoBehaviour {
 			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(gameObject.GetComponent<RectTransform>().sizeDelta.x,height);
 			updateHeight = false;
 		}
-		if(Input.GetKeyDown(KeyCode.Space))
+		if(!enabled)
 		{
 			AddColors(5);
+            enabled = true;
 		}
 	}
 	

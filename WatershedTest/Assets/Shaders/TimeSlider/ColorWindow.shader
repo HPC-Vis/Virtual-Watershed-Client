@@ -20,6 +20,7 @@ Category {
 	SubShader {
 		Tags {"Queue" = "Geometry"}
 //		Zwrite Off
+		Blend OneMinusSrcAlpha SrcAlpha 
 		Pass {
 			Fog { Mode off }
 				
@@ -126,41 +127,60 @@ float4 frag (v2f_img i) : COLOR
 	
 	float x0, x1;
 
-	if(Y == 0.00)
+		if(Y <= 0.00)
 		{
 		return float4(0,0,0,1);
 		}
-
+		
         x0 = 0;
         x1 = 0.200000000000;
         if (Y <= x1)
-            return lerp(_SegmentData000, _SegmentData001, (Y - x0) / (x1 - x0));
+		{
+            float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (x1 - x0));
+			colour.a = 0;
+			return colour;
+		}
 
     
         x0 = 0.200000000000;
         x1 = 0.400000000000;
         if (Y <= x1)
-            return lerp(_SegmentData001, _SegmentData002, (Y - x0) / (x1 - x0));
+		{
+            float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - x0) / (x1 - x0));
+			colour.a = 0;
+			return colour;
+		}
     
         x0 = 0.400000000000;
         x1 = 0.600000000000;
         if (Y <= x1)
-            return lerp(_SegmentData002, _SegmentData003, (Y - x0) / (x1 - x0));
+		{
+            float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - x0) / (x1 - x0));
+			colour.a = 0;
+			return colour;
+		}
     
         x0 = 0.600000000000;
         x1 = 0.800000000000;
         if (Y <= x1)
-            return lerp(_SegmentData003, _SegmentData004, (Y - x0) / (x1 - x0));
+		{
+            float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - x0) / (x1 - x0));
+			colour.a = 0;
+			return colour;
+		}
     
         x0 = 0.800000000000;
         x1 = 1.000000000000;
         if (Y <= x1)
-            return lerp(_SegmentData004, _SegmentData005, (Y - x0) / (x1 - x0));
+		{
+            float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - x0) / (x1 - x0));
+			colour.a = 0;
+			return colour;
+		}
     
 
 
-	return float4(0, 0, 0, 0);
-}
+	return float4(1, 1, 1, 0);}
 ENDCG
 
 		}

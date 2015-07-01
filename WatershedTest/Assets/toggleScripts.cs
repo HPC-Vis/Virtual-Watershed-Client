@@ -19,7 +19,6 @@ public class toggleScripts : MonoBehaviour
         noClip = false;
         faster = false;
         player.GetComponent<MouseLook>().enabled = false;
-
     }
 
 
