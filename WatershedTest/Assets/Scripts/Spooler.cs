@@ -166,6 +166,7 @@ public class Spooler : MonoBehaviour
                     modelrun.MinMax[oldSelectedVariable] = new Vector2(modelrun.MinMax[oldSelectedVariable][0], record.Max);
                     TimeProjector.material.SetFloat("_FloatMax", record.Max);
                     testImage.material.SetFloat("_FloatMax", record.Max);
+                    //colorPicker.ColorBoxes[colorPicker.ColorBoxes.Count-1].GetComponent<Text>().text = record.Max.ToString();
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable][0])
                 {
@@ -178,6 +179,18 @@ public class Spooler : MonoBehaviour
             if (downloadTextBox)
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
+
+            if(first && Reel.Count == TOTAL)
+            {
+                first = false;
+                float increment = (modelrun.MinMax[oldSelectedVariable].y - modelrun.MinMax[oldSelectedVariable].x) / (colorPicker.ColorBoxes.Count - 1);
+                float assignment = modelrun.MinMax[oldSelectedVariable].x;
+                foreach(var box in colorPicker.ColorBoxes)
+                {
+                    box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
+                    assignment += increment;
+                }
+            }
         }
 
 		if (Input.GetMouseButtonDown (0)) 
@@ -477,6 +490,7 @@ public class Spooler : MonoBehaviour
 			selectedModelRun = temp[0].ModelRunUUID;
             modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
+            first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 			 
 

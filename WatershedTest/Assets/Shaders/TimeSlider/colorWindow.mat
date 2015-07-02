@@ -130,11 +130,11 @@ Material:
       data:
         first:
           name: _FloatMin
-        second: 10
+        second: 0
       data:
         first:
           name: _FloatMax
-        second: 100
+        second: 255
     m_Colors:
       data:
         first:
@@ -147,23 +147,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: .89205128, g: .00892050471, b: .00892050471, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: .625641048, g: .552036226, b: .552036226, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: .552036226, g: .625641048, b: .561258972, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: .769230783, g: .617619574, b: .158371061, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData005
