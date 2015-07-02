@@ -34,7 +34,7 @@ public class ModelRun
 	// ************************************************
 
     // Dictionary used to add in the min and max
-    public Dictionary<string, Vector2> MinMax = new Dictionary<string,Vector2>();
+    public Dictionary<string, SerialVector2> MinMax = new Dictionary<string, SerialVector2>();
 
     public List<string> GetVariables()
     {
@@ -74,7 +74,7 @@ public class ModelRun
         {
             // Add to the model run
             references.Add(label, toAdd);
-            MinMax.Add(label, new Vector2(float.MaxValue, float.MinValue));
+            MinMax.Add(label, new SerialVector2(new Vector2(float.MaxValue, float.MinValue)));
         }
     }
 
@@ -145,7 +145,7 @@ public class ModelRun
         if( ! references.ContainsKey(record.variableName) )
         {
             references[record.variableName] = new List<DataRecord>();
-            MinMax[record.variableName] = new Vector2(float.MaxValue, float.MinValue);
+            MinMax[record.variableName] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
 			IsTemporal[record.variableName] = false;
         }
 

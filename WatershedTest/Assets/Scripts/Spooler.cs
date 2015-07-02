@@ -160,18 +160,18 @@ public class Spooler : MonoBehaviour
                 count--;
                 textureBuilder(record);
 
-                if(record.Max > modelrun.MinMax[oldSelectedVariable][1])
+                if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
                 {
                     Debug.LogError("Update of Max: " + record.Max);
-                    modelrun.MinMax[oldSelectedVariable] = new Vector2(modelrun.MinMax[oldSelectedVariable][0], record.Max);
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(modelrun.MinMax[oldSelectedVariable].x, record.Max));
                     TimeProjector.material.SetFloat("_FloatMax", record.Max);
                     testImage.material.SetFloat("_FloatMax", record.Max);
                     //colorPicker.ColorBoxes[colorPicker.ColorBoxes.Count-1].GetComponent<Text>().text = record.Max.ToString();
                 }
-                if(record.Min < modelrun.MinMax[oldSelectedVariable][0])
+                if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
                 {
                     Debug.LogError("Update of Min: " + record.Min);
-                    modelrun.MinMax[oldSelectedVariable] = new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable][1]);
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable].y));
                     TimeProjector.material.SetFloat("_FloatMin", record.Min);
                     testImage.material.SetFloat("_FloatMin", record.Min);
                 }
