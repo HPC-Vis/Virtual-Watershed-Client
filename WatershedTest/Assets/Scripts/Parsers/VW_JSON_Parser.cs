@@ -73,6 +73,7 @@ class VW_JSON_Parser : Parser
                 }
                 if(current == null)
                 {*/
+                //if()
                 current = new DataRecord();
                 Records.Add(current);
                 //}
@@ -124,7 +125,10 @@ class VW_JSON_Parser : Parser
                         current.services["wms"] = services["wms"];
 
                     if (services["wcs"] != null)
+                    {
+                        // Make a request for wcs coveragess
                         current.services["wcs"] = services["wcs"];
+                    }
 
                     if (services["wfs"] != null)
                         current.services["wfs"] = services["wfs"];

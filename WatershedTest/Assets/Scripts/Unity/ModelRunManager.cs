@@ -12,7 +12,7 @@ using UnityEngine;
 /// <param name="RecievedGeoRefs"></param>
 public delegate void GeoRefMessage(List<string> RecievedGeoRefs);
 
-public  static class ModelRunManager
+public static class ModelRunManager
 {
     // Fields
     static private VWClient Client;
@@ -26,15 +26,15 @@ public  static class ModelRunManager
     /// </summary>
     static public VWClient client
     {
-        set 
+        set
         {
             Client = value;
         }
         get
         {
-            if(Client == null)
+            if (Client == null)
             {
-				return null;
+                return null;
                 //throw new NullReferenceException();
             }
             return Client;
@@ -56,7 +56,7 @@ public  static class ModelRunManager
 
     // Utilities Utilities where for art thou Utilites 
     //static Utilities utilities = new Utilities();
-	private static readonly object _Padlock = new object();
+    private static readonly object _Padlock = new object();
     // NOTE: Some way of sorting and returning back a sorted list based on metadata
     // NOTE: On download, a GeoRef might already exist. No code has been written to handle that case other than a check.
     public static void Start()
@@ -83,8 +83,8 @@ public  static class ModelRunManager
 
     static public ModelRun GetByUUID(string uuid)
     {
-        if(modelRuns.ContainsKey(uuid))
-        return modelRuns[uuid];
+        if (modelRuns.ContainsKey(uuid))
+            return modelRuns[uuid];
         //Debug.LogError("RETURNING NULL");
         return null;
     }
@@ -122,7 +122,7 @@ public  static class ModelRunManager
         }
     } */
 
-    static public void SearchForModelRuns(SystemParameters param=null)
+    static public void SearchForModelRuns(SystemParameters param = null)
     {
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
@@ -132,7 +132,7 @@ public  static class ModelRunManager
             Logger.WriteLine("<color=red>Aquired data from the cache system.</color>");
             modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
         }
-        client.RequestModelRuns(OnGetModelRuns,param);
+        client.RequestModelRuns(OnGetModelRuns, param);
 
     }
 
@@ -156,19 +156,19 @@ public  static class ModelRunManager
             {
                 foreach (var i in records)
                 {
-					//Debug.LogError(i.name);
+                    //Debug.LogError(i.name);
                     if (operation == "wms")
                     {
-						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.texture == null)
-						{
+                        // Lets check if it exists in the cache by uuid
+                        if (FileBasedCache.Exists(i.id) && i.texture == null)
+                        {
                             i.boundingBox = FileBasedCache.Get<DataRecord>(i.id).boundingBox;
-							i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
-							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
-							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
-							SettingTheRecord(new List<DataRecord>{i});
+                            i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
+                            i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+                            i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
+                            SettingTheRecord(new List<DataRecord> { i });
                             continue;
-						}
+                        }
                         else if (i.texture != null)
                         {
                             //i.texture = FileBasedCache.Get<DataRecord>(i.id).texture;
@@ -176,50 +176,50 @@ public  static class ModelRunManager
                             continue;
                         }
 
-						if(param.width == 0 || param.height == 0)
-						{
-							param.width = 100;
-							param.height = 100;
-						}
+                        if (param.width == 0 || param.height == 0)
+                        {
+                            param.width = 100;
+                            param.height = 100;
+                        }
                         client.getMap(SettingTheRecord, i, param);
                     }
                     else if (operation == "wcs")
                     {
-						// Lets check if it exists in the cache by uuid
+                        // Lets check if it exists in the cache by uuid
                         //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
                         //Debug.LogError("ID: " + i.id); ;
-						if(FileBasedCache.Exists(i.id) && i.Data == null)
-						{
+                        if (FileBasedCache.Exists(i.id) && i.Data == null)
+                        {
                             //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
-							i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
-							i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
-							i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
-							SettingTheRecord(new List<DataRecord>{i});
+                            i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
+                            i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+                            i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
+                            SettingTheRecord(new List<DataRecord> { i });
                             continue;
-						}
+                        }
                         else if (i.Data != null)
                         {
                             //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
-                            SettingTheRecord(new List<DataRecord>{i});
+                            SettingTheRecord(new List<DataRecord> { i });
                             continue;
                         }
                         client.getCoverage(SettingTheRecord, i, param);
                     }
                     else if (operation == "wfs")
                     {
-						// Lets check if it exists in the cache by uuid
-						if(FileBasedCache.Exists(i.id) && i.Lines == null)
-						{
-							i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
-							SettingTheRecord(new List<DataRecord>{i});
+                        // Lets check if it exists in the cache by uuid
+                        if (FileBasedCache.Exists(i.id) && i.Lines == null)
+                        {
+                            i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
+                            SettingTheRecord(new List<DataRecord> { i });
                             continue;
-						}
+                        }
                         else if (i.Lines != null)
                         {
                             //i.Lines = FileBasedCache.Get<DataRecord>(i.id).Lines;
                             SettingTheRecord(new List<DataRecord> { i });
                         }
-						Debug.LogError("PRIORITY: " + param.Priority);
+                        Debug.LogError("PRIORITY: " + param.Priority);
                         client.getFeatures(SettingTheRecord, i, param);
                     }
 
@@ -285,8 +285,8 @@ public  static class ModelRunManager
             {
                 // Get Model Set Type
                 modelRuns[i.modelRunUUID].ModelDataSetType = i.model_set_type;
-				modelRuns[i.modelRunUUID].Location = i.location;
-				modelRuns[i.modelRunUUID].Description = i.description;
+                modelRuns[i.modelRunUUID].Location = i.location;
+                modelRuns[i.modelRunUUID].Description = i.description;
             }
             else
             {
@@ -301,8 +301,8 @@ public  static class ModelRunManager
     private static void OnGetModelRuns(List<DataRecord> Records)
     {
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
-        
-		// Debug.Log(Records == null);
+
+        // Debug.Log(Records == null);
         //if (FileBasedCache.Exists("startup"))
         //{
         //    Debug.LogError("Getting paid");
@@ -313,8 +313,8 @@ public  static class ModelRunManager
         {
             if (!modelRuns.ContainsKey(i.modelRunUUID))
             {
-                
-                if(startRuns.ContainsKey(i.modelRunUUID))
+
+                if (startRuns.ContainsKey(i.modelRunUUID))
                 {
                     modelRuns.Add(i.modelRunUUID, startRuns[i.modelRunUUID]);
                 }
@@ -324,13 +324,13 @@ public  static class ModelRunManager
                     // SetModelSetType
                     SystemParameters sp = new SystemParameters();
                     sp.model_run_uuid = i.modelRunUUID;
-                    sp.limit=1;
-                    sp.offset=0;
+                    sp.limit = 1;
+                    sp.offset = 0;
                     client.RequestRecords(SetModelSetType, sp);
                 }
             }
         }
-        
+
         // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
     }
 
@@ -341,9 +341,9 @@ public  static class ModelRunManager
     /// <param name="message"></param>
     static private void onGetAvailableComplete(List<DataRecord> Records, DataRecordSetter message)
     {
-		// Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
+        // Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
         // Logger.WriteLine(Records.Count.ToString());
-		int count = 0;
+        int count = 0;
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
         {
@@ -356,11 +356,11 @@ public  static class ModelRunManager
                 // Call insert operation
                 //Logger.WriteLine("ADDED");
                 //Logger.WriteLine("ADDED: " + rec.name);
-				lock(_Padlock)
-				{
-				   modelRuns[rec.modelRunUUID].Insert(rec);
-				}
-				count++;
+                lock (_Padlock)
+                {
+                    modelRuns[rec.modelRunUUID].Insert(rec);
+                }
+                count++;
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
                 //Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
                 // Replace with isFull Function
@@ -369,7 +369,7 @@ public  static class ModelRunManager
                     // Cash it in!!!!
                     Debug.LogError("The model run is now in the cache.");
                     FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                   // Debug.LogError("DONE CACHING YEAH!!!!");
+                    // Debug.LogError("DONE CACHING YEAH!!!!");
                 }
             }
             // Cache Case
@@ -384,20 +384,25 @@ public  static class ModelRunManager
 
                 // Normal Case -- Insert it into storedModelRuns
                 Logger.WriteLine("ADDED: " + rec.name);
-                
+
                 modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
 
                 // Call the insert
-				lock(_Padlock)
-				{
-                modelRuns[rec.modelRunUUID].Insert(rec);
-				count++;
-                //  Testing Variable
-                if (!RecievedRefs.Contains(rec.modelRunUUID))
+                lock (_Padlock)
                 {
-                    RecievedRefs.Add(rec.modelRunUUID);
+                    // This is where things get interesting
+                    if(rec != null)
+                    {
+
+                    }
+                    modelRuns[rec.modelRunUUID].Insert(rec);
+                    count++;
+                    //  Testing Variable
+                    if (!RecievedRefs.Contains(rec.modelRunUUID))
+                    {
+                        RecievedRefs.Add(rec.modelRunUUID);
+                    }
                 }
-				}
             }
         }
         foreach (var i in modelRuns)
@@ -410,7 +415,7 @@ public  static class ModelRunManager
             message(Records);
         }
         Logger.WriteLine("<color=green>Created this many model runs: " + modelRuns.Count + "</color>");
-		// Debug.LogError("NUMBER ADDED: " + count);
+        // Debug.LogError("NUMBER ADDED: " + count);
         //foreach (var i in modelRuns)
         //{
         //    i.Value.DownloadDatasets();
@@ -422,7 +427,7 @@ public  static class ModelRunManager
         // Debug.LogError("Populating Model Run");
         // Debug.LogError("RECIEVED DATA OF SIZE: " + Records.Count);
         Counter += Records.Count;
-        onGetAvailableComplete(Records,(DataRecordSetter)null);
+        onGetAvailableComplete(Records, (DataRecordSetter)null);
     }
 
     /// <summary>
@@ -447,7 +452,7 @@ public  static class ModelRunManager
                 modelRuns[rec.modelRunUUID].Insert(rec);
                 //modelRuns[rec.modelRunUUID].CurrentCapacity++;
                 // Replace with isFull Function
-                if(modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
+                if (modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
                 {
                     // Cash it in!!!!
                     FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
@@ -508,10 +513,10 @@ public  static class ModelRunManager
 
     }
 
-	static public void RemoveRecordData(string ModelRunUUID)
-	{
-		//client.RemoveJobsByModelRunUUID (ModelRunUUID);
-	}
+    static public void RemoveRecordData(string ModelRunUUID)
+    {
+        //client.RemoveJobsByModelRunUUID (ModelRunUUID);
+    }
 
     static public void InsertModelRun(string uuid, ModelRun mr)
     {

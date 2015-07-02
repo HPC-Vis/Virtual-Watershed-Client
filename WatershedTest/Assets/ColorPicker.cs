@@ -7,8 +7,8 @@ public class ColorPicker : MonoBehaviour {
 	List<GameObject> ColorBoxes = new List<GameObject>();
 	public Slider slider;
 	// Use this for initialization
-	void Start () {
-	
+	void Awake () {
+		AddColors(5);
 	}
 	
 	bool updateHeight = false;
@@ -33,7 +33,7 @@ public class ColorPicker : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.Space))
 		{
-			AddColors(5);
+			//AddColors(5);	
 		}
 	}
 	

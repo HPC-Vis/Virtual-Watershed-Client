@@ -125,6 +125,12 @@ class WCSClient : Observerable
 
         string parameters = "";
         // For now picking first valid parameters
+        var a = gc.Parameter.First(x => { if (x.name == "Identifier") return true; return false; });//.Select(x => { if (x.name == "Identifier") return x; return null; });
+        Logger.WriteLine("IDENTIFIERS: " + a.AllowedValues.Count().ToString());
+        /*foreach(var i in a.AllowedValues)
+        {
+            Logger.WriteLine(i.ToString());
+        }*/
         foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
         {
             foreach (string j in i.AllowedValues)
@@ -133,6 +139,18 @@ class WCSClient : Observerable
                 {
                     // Hard CODENESS
                     parameters += i.name + "=" + i.AllowedValues[6] + "&";
+                }
+                else if (i.name == "Identifier")
+                {
+                    if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].Identifier) )
+                    {
+                        parameters += i.name + "=" + j + "&";
+                    }
+                    else
+                    {
+                        parameters += i.name + "=" + records[0].Identifier + "&";
+                    }
+                    break;
                 }
                 else
                 {
@@ -145,6 +163,7 @@ class WCSClient : Observerable
                        parameters += i.name + "=" + j + "&";
                     }
                 }
+                Logger.WriteLine(i.name + " " + j);
                 break;
             }
         }

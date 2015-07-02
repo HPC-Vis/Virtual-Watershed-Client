@@ -135,6 +135,8 @@ public class Spooler : MonoBehaviour
             if (downloadTextBox)
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
+			Debug.LogError(Reel[0].starttime);
+			Debug.LogError(Reel[Reel.Count - 1]);
         }
 
 		if (Input.GetMouseButtonDown (0)) 

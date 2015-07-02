@@ -106,6 +106,8 @@
 	<Compile Include="..\Assets\Scripts\Unity\transform.cs" />
 	<Compile Include="..\Assets\Scripts\Unity\ModelRun.cs" />
 	<Compile Include="..\Assets\Scripts\Unity\CoordSystem.cs" />
+	<Compile Include="..\Assets\Scripts\Unity\Variable.cs" />
+	<Compile Include="..\Assets\Scripts\Clients\OGCConnector.cs" />
 	<Compile Include="..\Assets\Scripts\SystemParameters.cs" />
     <Compile Include="..\Assets\Scripts\SerialRect.cs" />
     <Compile Include="..\Assets\Scripts\SerialVector2.cs" />
