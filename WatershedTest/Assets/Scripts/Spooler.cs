@@ -46,6 +46,7 @@ public class Spooler : MonoBehaviour
 	public Projector TimeProjector;
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
+    private ModelRun modelrun;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -90,7 +91,7 @@ public class Spooler : MonoBehaviour
 	int count = 10;
 
     bool swapProjector = true;
-	bool first = true;
+	bool first = true, second = true;
 	float point;
 	public Text downloadTextBox;
 	public Text selectedVariableTextBox;
@@ -100,17 +101,30 @@ public class Spooler : MonoBehaviour
     {
         if (swapProjector)
         {
-            Debug.LogError("We are in this update ... ");
             TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
+            TimeProjector.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
+            testImage.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
+
+            TimeProjector.material.SetFloat("_x1", float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text));
+            TimeProjector.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
+            TimeProjector.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
+            TimeProjector.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
+            TimeProjector.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
+            testImage.material.SetFloat("_x1", (float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text)));
+            testImage.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
+            testImage.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
+            testImage.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
+            testImage.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
+
         }
 
         // Debug.LogError("NEW COUNT: " + Reel.Count);
@@ -122,7 +136,7 @@ public class Spooler : MonoBehaviour
         if (SliderFrames.Count > 0 && count > 0)
         {
 			// Set a dequeue size for multiple dequeus in one update
-            int dequeueSize = 2;
+            int dequeueSize = 5;
 
             if (SliderFrames.Count < dequeueSize)
             {
@@ -134,7 +148,7 @@ public class Spooler : MonoBehaviour
             {
                 // Clear time series gra
                 DataRecord record = SliderFrames.Dequeue();
-
+                
                 if (Reel.Count == 0)
                 {
                     // Set projector...
@@ -158,11 +172,47 @@ public class Spooler : MonoBehaviour
                 }
 
                 count--;
-                textureBuilder(record);                
+                textureBuilder(record);
+
+                if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
+                {
+                    Debug.LogError("Update of Max: " + record.Max);
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(modelrun.MinMax[oldSelectedVariable].x, record.Max)); 
+                    TimeProjector.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
+                    testImage.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
+                }
+                if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
+                {
+                    Debug.LogError("Update of Min: " + record.Min);
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable].y));
+                    TimeProjector.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
+                    testImage.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
+                }
             }
             if (downloadTextBox)
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
+
+            // This will be called once the download reaches a selected percentage
+            float percentage = 0.80f;
+            if(percentage < (float)((float)Reel.Count / (float)TOTAL) && second)
+            {
+                // Set so this will not happen again
+                second = false;
+
+                // Update the mion max
+                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);
+            }
+
+            // This is called once and right after the download complete
+            if(first && Reel.Count == TOTAL)
+            {
+                // Set the first to false so this will not run again
+                first = false;
+
+                // For setting the data on the color boxes
+                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);                
+            }
         }
 
 		if (Input.GetMouseButtonDown (0)) 
@@ -253,7 +303,6 @@ public class Spooler : MonoBehaviour
 		Frame frame = new Frame();
 		Utilities utilities = new Utilities();
 		
-		
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
 		frame.Data = rec.Data;
@@ -264,8 +313,8 @@ public class Spooler : MonoBehaviour
 		Texture2D tex = new Texture2D(100,100);
 		if(!WMS)
 	    {
-            tex = utilities.BuildDataTexture(rec.Data);
-        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);
+            tex = utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
+        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);s
         }
         else
         {
@@ -373,7 +422,7 @@ public class Spooler : MonoBehaviour
 	public void Insert(DataRecord data, bool FromData)
 	{
 		var frame = new Frame();
-		Texture2D image = new Texture2D(100, 100);
+        Texture2D image = new Texture2D(100, 100);
 		if (!FromData)
 		{
 			image.LoadImage(data.texture);
@@ -384,10 +433,10 @@ public class Spooler : MonoBehaviour
 		{
 			// Build a color map from Raw Data...
 			// Create a sprite
-			frame.Picture = Sprite.Create(Texture2D.whiteTexture, new Rect(0, 0, 100, 100), new Vector2(0, 0));
+            frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 100, 100), new Vector2(0, 0));
 		}
 		// Create a sprite
-		frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
+        frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
 		// Attached an associate Date Time Object
 		frame.starttime = data.start.Value;
 		frame.endtime = data.end.Value;
@@ -442,8 +491,8 @@ public class Spooler : MonoBehaviour
             trendGraph.Clear();
 			// Add some code here to handle the time slider.
 			//timeslider.reset();
-            ModelRun oldData = ModelRunManager.GetByUUID(selectedModelRun);
-            oldData.ClearData(oldSelectedVariable);
+            modelrun = ModelRunManager.GetByUUID(selectedModelRun);
+            modelrun.ClearData(oldSelectedVariable);
 		}
 		if(temp!= null)
 		{
@@ -461,9 +510,12 @@ public class Spooler : MonoBehaviour
 			var Records = temp[0].FetchVariableData(variable);
 			TOTAL = Records.Count;
 			selectedModelRun = temp[0].ModelRunUUID;
+            modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
+            first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 			 
+
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
 		    	WMS=true;

@@ -14,6 +14,7 @@ public class ColorPicker : MonoBehaviour {
 	bool updateHeight = false;
 	int selected = -1;
     bool enabled = false;
+    float Min, Max;
 	
 	// Update is called once per frame
 	void Update () {
@@ -28,13 +29,12 @@ public class ColorPicker : MonoBehaviour {
 			}
 			height += 12.5f;
 			//gameObject.GetComponent<RectTransform>()
-			Debug.LogError(height);
 			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(gameObject.GetComponent<RectTransform>().sizeDelta.x,height);
 			updateHeight = false;
 		}
 		if(!enabled)
 		{
-			AddColors(5);
+			AddColors(6);
             enabled = true;
 		}
 	}
@@ -42,16 +42,53 @@ public class ColorPicker : MonoBehaviour {
 	public void SetSelected(int index)
 	{
 		selected = index;
-		Debug.LogError("selected: " + selected);
+        slider.value = float.Parse(ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text);
 	}
+
+    public void SetMinMax(float min, float max)
+    {
+        Min = min;
+        Max = max;
+        float increment = (Max - Min) / (ColorBoxes.Count - 1);
+        float assignment = Min;
+        foreach (var box in ColorBoxes)
+        {
+            box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
+            assignment += increment;
+        }
+        slider.minValue = Min;
+        slider.maxValue = Max;
+    }
 	
 	public void setSelectedValue()
 	{
-		if(selected != -1)
+		if(selected != -1 && selected != (ColorBoxes.Count - 1))
 		{
-			Debug.LogError(slider.value.ToString());
-			// Ugly accesss statements that needs to be fixed at some point... easy fix though
-			ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text = slider.value.ToString();
+            var highVal = float.Parse(ColorBoxes[selected+1].transform.GetChild(0).GetComponent<Text>().text);
+            
+            if( highVal > slider.value)
+            {
+                ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text = slider.value.ToString();
+            }
+            else
+            {
+                ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text = highVal.ToString();
+                slider.value = highVal;
+            }
+            if (selected > 0)
+            {
+                var lowVal = float.Parse(ColorBoxes[selected - 1].transform.GetChild(0).GetComponent<Text>().text);
+                if (lowVal < slider.value)
+                {
+                    ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text = slider.value.ToString();
+                }
+                else
+                {
+                    slider.value = lowVal;
+                }
+            }
+            // Ugly accesss statements that needs to be fixed at some point... easy fix though
+			// ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text = slider.value.ToString();
 		}
 	}
 	
@@ -80,7 +117,6 @@ public class ColorPicker : MonoBehaviour {
 		// spawn prefabs and attach them as children to this gameobject.
 		for(int i =0; i < numColors; i++)
 		{
-			Debug.LogError(i);
 			var go = Resources.Load<GameObject>("UI/ColorRow");
 			//go.activeSelf()
 			go = GameObject.Instantiate(go);
