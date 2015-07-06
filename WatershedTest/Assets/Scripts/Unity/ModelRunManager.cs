@@ -126,7 +126,7 @@ public static class ModelRunManager
     {
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
-
+		Logger.WriteLine ("Searching for Model Runs");
         if (FileBasedCache.Exists("startup"))
         {
             Logger.WriteLine("<color=red>Aquired data from the cache system.</color>");
@@ -290,10 +290,10 @@ public static class ModelRunManager
             }
             else
             {
-                Debug.LogError("FAILURE MODEL RUN DOES NOT EXIST");
+				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-        Debug.LogError("Adding modelruns to file cache system.");
+		Logger.WriteLine("Adding modelruns to file cache system.");
         FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
 
@@ -334,6 +334,50 @@ public static class ModelRunManager
         // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
     }
 
+	public static void InsertDataRecord(DataRecord record)
+	{
+		modelRuns[record.modelRunUUID].Insert(record);
+	}
+
+	public static void parseNetCDFRecords(List<DataRecord> record)
+	{
+		Logger.WriteLine ("PARSENETCDFRECORDS");
+		if (record.Count > 0) 
+		{
+			// See if layers variable is defined
+			if (record [0].wmslayers != null) 
+			{
+				// Lets create some new data records off of this one... and populate the boundingbox information with it as well.
+				foreach (var i in record[0].wmslayers) 
+				{
+					DataRecord dr = record[0].Clone();
+					dr.variableName = i.Title; // similar to wcs identifier
+					// WMS Bounding Box
+					InsertDataRecord(dr);
+					Logger.WriteLine (dr.variableName);
+				}
+			}
+		}
+	}
+
+	// Filter function goes here.
+	static void filter(DataRecord record)
+	{
+		Logger.WriteLine ("FILTER");
+		if (record.services ["wms"] != null) 
+		{
+			// Request Get Capabilities here
+			Logger.WriteLine("WMS");
+			client.getCapabilities(parseNetCDFRecords,record,new SystemParameters());
+		} 
+		else 
+		{
+			Logger.WriteLine ("FILTERING");
+			// Add it to its perspective model run
+			InsertDataRecord(record);
+		}
+	}
+
     /// <summary>
     /// This needs to be tested.
     /// </summary>
@@ -342,7 +386,7 @@ public static class ModelRunManager
     static private void onGetAvailableComplete(List<DataRecord> Records, DataRecordSetter message)
     {
         // Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
-        // Logger.WriteLine(Records.Count.ToString());
+         Logger.WriteLine(Records.Count.ToString());
         int count = 0;
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
@@ -358,7 +402,8 @@ public static class ModelRunManager
                 //Logger.WriteLine("ADDED: " + rec.name);
                 lock (_Padlock)
                 {
-                    modelRuns[rec.modelRunUUID].Insert(rec);
+					filter (rec);
+                    //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
                 count++;
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
@@ -367,7 +412,7 @@ public static class ModelRunManager
                 if (modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
                 {
                     // Cash it in!!!!
-                    Debug.LogError("The model run is now in the cache.");
+					Logger.WriteLine("The model run is now in the cache.");
                     FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
                     // Debug.LogError("DONE CACHING YEAH!!!!");
                 }
@@ -380,8 +425,6 @@ public static class ModelRunManager
             // Normal Case
             else if (!modelRuns.ContainsKey(rec.modelRunUUID))
             {
-                // Cache Case -- Check if cache has a georef
-
                 // Normal Case -- Insert it into storedModelRuns
                 Logger.WriteLine("ADDED: " + rec.name);
 
@@ -415,11 +458,6 @@ public static class ModelRunManager
             message(Records);
         }
         Logger.WriteLine("<color=green>Created this many model runs: " + modelRuns.Count + "</color>");
-        // Debug.LogError("NUMBER ADDED: " + count);
-        //foreach (var i in modelRuns)
-        //{
-        //    i.Value.DownloadDatasets();
-        //}
     }
 
     static public void OnModelRunDataAvaliable(List<DataRecord> Records)

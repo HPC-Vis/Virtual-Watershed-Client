@@ -142,7 +142,9 @@ public class VWClient : Observer
         // Else Add the observable to "active" and "observables"
         else
         {   
+			
             string URL = observable.Update();
+			//Logger.WriteLine ("Added to observables: " + URL); 
             active[URL] = observable;
         }
     }
@@ -191,6 +193,25 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
         AddObservable(client);
     }
+
+	public void getCapabilities(DataRecordSetter Setter,DataRecord Record, SystemParameters param)
+	{
+		// We need an observable here -- for now we assume a WMS Request
+		if (Record.services.ContainsKey ("wms")) 
+		{
+			Logger.WriteLine ("CALLBACK IS: " + (Setter == null).ToString());
+			// Let the magic begin
+			var client = new WMSClient(factory,param.type,param.outputPath,param.outputName,1);
+			client.App = App;
+			client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWMS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
+	}
 
 	// Ugly I know
 	public void RemoveJobsByModelRunUUID(string ModelRunUUID)
@@ -260,6 +281,7 @@ public class VWClient : Observer
         {
             req += "&model_run_uuid=" + param.model_run_uuid;
         }
+		Logger.WriteLine ("Loading: " + req);
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();

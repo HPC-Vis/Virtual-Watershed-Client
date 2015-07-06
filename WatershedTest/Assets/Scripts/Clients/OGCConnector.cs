@@ -8,7 +8,7 @@ using System.IO;
 using UnityEngine;
 
 /// <summary>
-/// The OGCConnector is the start of a generic ogc interface.
+/// The OGCConnector will be used for processing OGC services of anytype
 /// </summary>
 public class OGCConnector : Observer
 {
@@ -153,9 +153,24 @@ public class OGCConnector : Observer
 
     }
 
-    void GetCapabilities()
+	void GetCapabilities(string url, string service)
     {
-
+		// What service are we requesting 
+		switch (service.ToUpper()) {
+		case "WCS":
+			// Do WCS capabilities
+			break;
+		case "WFS":
+			// Do WFS capabilities
+			break;
+		case "WMS":
+			// Do WMS capabilities
+			break;
+		}
     }
-
+	// Based on the url download with the appropriate service
+	void MagicFunction(string url)
+	{
+		
+	}
 }

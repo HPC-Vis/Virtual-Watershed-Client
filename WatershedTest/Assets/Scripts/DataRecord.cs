@@ -18,6 +18,26 @@ public class DataRecord : IEquatable<DataRecord>
     {
         name = recordName;
     }
+	public DataRecord Clone()
+	{
+		DataRecord dr = new DataRecord ();
+		dr.name = name;
+		dr.boundingBox = boundingBox;
+		dr.bbox = bbox;
+		dr.bbox2 = bbox;
+		dr.variableName = variableName;
+		//dr.data = data;
+		//dr.texture = texture.Clone ();
+		dr.start = start;
+		dr.end = end;
+		dr.description = description;
+		dr.modelname = modelname;
+		dr.modelRunUUID = modelRunUUID;
+		dr.id = id;
+		dr.location = location;
+		return dr;
+	}
+	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers;
 
     public static bool operator ==(DataRecord a, DataRecord b)
     {

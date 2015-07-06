@@ -145,6 +145,7 @@ public class ModelRun
         if( ! variables.ContainsKey(record.variableName))//references.ContainsKey(record.variableName) )
         {
             //references[record.variableName] = new List<DataRecord>();
+			variables[record.variableName] = new Variable(record.variableName);
 			IsTemporal[record.variableName] = false;
         }
 

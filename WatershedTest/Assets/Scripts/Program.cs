@@ -48,16 +48,27 @@ namespace NetworkTest
             ModelRunManager.client = vwc;
             ModelRunManager.Start();
             nm.Subscribe(vwc);
-            SystemParameters sp = new SystemParameters();
-            sp.offset = 0;
-            sp.limit = 15;
-            sp.model_run_uuid = "80661ff3-2d25-4ae3-867b-74896b97d3c6";
-            sp.model_set_type = "";
-            ModelRunManager.getAvailable(sp,Message: Recieved);
-            Thread.Sleep(5000);
-            
-            Logger.ReadKey();
+			ModelRunManager.SearchForModelRuns();
+
+			SystemParameters testParameters = new SystemParameters ();
+			testParameters.model_run_uuid = "80661ff3-2d25-4ae3-867b-74896b97d3c6";
+			testParameters.model_set_type = "";
+			ModelRunManager.getAvailable(testParameters,null,DoNothing);
+
+			Logger.WriteLine ("Searching");
+			Thread.Sleep (5000);
+            //Logger.ReadKey();
+			Logger.ReadKey();
         }
+
+		public static void DoNothing(List<DataRecord>records)
+		{
+			Logger.WriteLine("Doing Absolutely Nothing HERE" + records.Count);
+			if (records.Count > 0) {
+				//SystemParameters sp = new SystemParameters ();
+				//vwc.getCapabilities (null, records [0], sp);
+			}
+		}
 
         public static int i = 1;
         public static List<DataRecord> recs;

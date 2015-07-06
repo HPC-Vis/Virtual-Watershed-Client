@@ -27,7 +27,7 @@ class WCSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
 
     // Constructor
-    public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
         : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
