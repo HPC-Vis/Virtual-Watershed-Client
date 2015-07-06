@@ -87,6 +87,7 @@ namespace VTL.SimTimeControls
             }
             else
             {
+                SimTimeProperty = StartTime + TimeSpan.FromTicks((Int64)((double)TimeDelta.Ticks * slider.value));
                 LastPlayState = false;
             }
 
@@ -96,7 +97,7 @@ namespace VTL.SimTimeControls
 
         }
 
-        void TogglePlaying()
+        public void TogglePlaying()
         {
             IsPlaying = !IsPlaying;
         }

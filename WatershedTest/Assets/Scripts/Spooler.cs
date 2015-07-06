@@ -194,8 +194,8 @@ public class Spooler : MonoBehaviour
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
 
             // This will be called once the download reaches a selected percentage
-            int percentage = 80;
-            if(percentage < (Reel.Count / TOTAL) && second)
+            float percentage = 0.80f;
+            if(percentage < (float)((float)Reel.Count / (float)TOTAL) && second)
             {
                 // Set so this will not happen again
                 second = false;

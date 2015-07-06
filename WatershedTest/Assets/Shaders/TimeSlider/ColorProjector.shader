@@ -60,6 +60,11 @@ float Normalize(float Y)
 {
 	return (Y - _FloatMin) / (_FloatMax - _FloatMin);
 }
+
+bool equalColor(float4 x, float4 y)
+{
+	return (x.r == y.r && x.g == y.g && x.b == y.b && x.a == y.a);
+}
  
 float Color2Float(float4 c)
 {
@@ -160,6 +165,11 @@ float4 frag (vertexInput i) : SV_Target
 	}
 
 	Y = Normalize(Y);
+	_x1 = Normalize(_x1);
+	_x2 = Normalize(_x2);
+	_x3 = Normalize(_x3);
+	_x4 = Normalize(_x4);
+	_x5 = Normalize(_x5);
 
 	float x0;
 
@@ -171,6 +181,10 @@ float4 frag (vertexInput i) : SV_Target
         x0 = 0.0000;
         if (Y <= _x1)
 		{
+			if(equalColor(_SegmentData000, float4(0,0,0,1)) || equalColor(_SegmentData001, float4(0,0,0,1)))
+			{
+				return float4(0,0,0,1);
+			}
             float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (_x1 - x0));
 			colour.a = 0;
 			return colour;
@@ -180,6 +194,10 @@ float4 frag (vertexInput i) : SV_Target
         x0 = _x1;
         if (Y <= _x2)
 		{
+			if(equalColor(_SegmentData001, float4(0,0,0,1)) || equalColor(_SegmentData002, float4(0,0,0,1)))
+			{
+				return float4(0,0,0,1);
+			}
             float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - x0) / (_x2 - x0));
 			colour.a = 0;
 			return colour;
@@ -188,6 +206,10 @@ float4 frag (vertexInput i) : SV_Target
         x0 = _x2;
         if (Y <= _x3)
 		{
+			if(equalColor(_SegmentData002, float4(0,0,0,1)) || equalColor(_SegmentData003, float4(0,0,0,1)))
+			{
+				return float4(0,0,0,1);
+			}
             float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - x0) / (_x3 - x0));
 			colour.a = 0;
 			return colour;
@@ -196,6 +218,10 @@ float4 frag (vertexInput i) : SV_Target
         x0 = _x3;
         if (Y <= _x4)
 		{
+			if(equalColor(_SegmentData003, float4(0,0,0,1)) || equalColor(_SegmentData004, float4(0,0,0,1)))
+			{
+				return float4(0,0,0,1);
+			}
             float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - x0) / (_x4 - x0));
 			colour.a = 0;
 			return colour;
@@ -204,6 +230,10 @@ float4 frag (vertexInput i) : SV_Target
         x0 = _x4;
         if (Y <= _x5)
 		{
+			if(equalColor(_SegmentData004, float4(0,0,0,1)) || equalColor(_SegmentData005, float4(0,0,0,1)))
+			{
+				return float4(0,0,0,1);
+			}
             float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - x0) / (_x5 - x0));
 			colour.a = 0;
 			return colour;

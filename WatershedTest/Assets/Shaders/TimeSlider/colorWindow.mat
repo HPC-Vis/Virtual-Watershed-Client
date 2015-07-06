@@ -93,6 +93,34 @@ Material:
         second: .5
       data:
         first:
+          name: _FloatMin
+        second: 0
+      data:
+        first:
+          name: _FloatMax
+        second: 255
+      data:
+        first:
+          name: _x1
+        second: 0
+      data:
+        first:
+          name: _x2
+        second: 51
+      data:
+        first:
+          name: _x3
+        second: 102
+      data:
+        first:
+          name: _x4
+        second: 153
+      data:
+        first:
+          name: _x5
+        second: 204
+      data:
+        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -127,14 +155,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _FloatMin
-        second: 0
-      data:
-        first:
-          name: _FloatMax
-        second: 255
     m_Colors:
       data:
         first:
@@ -147,24 +167,24 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .879230797, g: .021722177, b: .021722177, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .879230797, g: .511431575, b: .021722177, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .879230797, g: .759385824, b: .021722177, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .021722177, g: .879230797, b: .0361858085, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .021722177, g: .296538562, b: .879230797, a: 1}
       data:
         first:
           name: _SegmentData005
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: .242814362, g: .021722177, b: .879230797, a: 1}
