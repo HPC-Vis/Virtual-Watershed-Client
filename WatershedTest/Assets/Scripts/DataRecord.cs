@@ -286,6 +286,10 @@ public class DataRecord : IEquatable<DataRecord>
         }
     }
 
+    // For the min and max of the record
+    public float Min = float.MaxValue;
+    public float Max = float.MinValue;
+
     // Data setters for the dataRecord class that are utilized for setting data in these fields.
     public delegate void giveData(object o, System.Type type);
 

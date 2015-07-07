@@ -903,7 +903,7 @@ public class Utilities
     	// Pull bytes out of float
     	var byes = BitConverter.GetBytes(f);
     	
-    	Color32 convertedFloat = new Color32(byes[0],byes[1],byes[2],byes[3]);
+    	Color32 convertedFloat = new Color32(byes[3],byes[2],byes[1],byes[0]);
     	return convertedFloat;
     }
     
@@ -913,19 +913,31 @@ public class Utilities
     /// </summary>
     /// <returns>The data texture.</returns>
     /// <param name="data">Data.</param>
-    public Texture2D BuildDataTexture(float [,] data)
+    public Texture2D BuildDataTexture(float [,] data, out float min, out float max)
    	{
+        min = float.MaxValue;
+        max = float.MinValue;
    		int width = data.GetLength(0);
    		int height = data.GetLength(1);
-   		Texture2D tex = new Texture2D(width,height);
+        Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
    		Color32[] colorData = new Color32[width*height];
    		for(int i = 0; i < width; i++)
    		{
    			for(int j = 0; j < height; j++)
    			{
-   				colorData[i*height+j] = floatToColor32(data[i,j]);
+   				colorData[(width-i-1)*height+(height-j-1)] = floatToColor32(data[i,j]);
+                if(data[i,j] > max)
+                {
+                    max = data[i,j];
+                }
+                if(data[i,j] < min)
+                {
+                    min = data[i,j];
+                }
    			}
    		}
+        tex.wrapMode = TextureWrapMode.Clamp;
+        //tex.filterMode = FilterMode.Point;
    		tex.SetPixels32(colorData);
    		tex.Apply();
    		return tex;

@@ -26,6 +26,7 @@ public class raySlicer : MonoBehaviour
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
+    public Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -47,8 +48,6 @@ public class raySlicer : MonoBehaviour
         
         setFirstPoint(Vector2.zero);
         setSecondPoint(new Vector2(1f, 1f));
-        byte[] terrainBytes;
-        Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
 
 
         spriteRend.sprite = sliceSprite;
@@ -125,95 +124,11 @@ public class raySlicer : MonoBehaviour
                     }
                 }
 
-                // Debug.LogError("SAMEEEEEEEEEEEEEEEEEEEEEEEEEEEE: " + (x == y));
-                // Debug.LogError(upperLeftX);
-                // Debug.LogError(upperLeftY);
-                float xRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapWidth*2);
-                float yRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapHeight*2);
+                //Build the heightmap texture for the terrain slicer
+                buildHeightMap(heights, Rects, x, y, HeightMaps);
+                
 
-                // Fill in the heightmap at the appropriate place
-                if (File.Exists(ImageLoc))
-                {
-                    terrainBytes = File.ReadAllBytes(ImageLoc);
-                    // Debug.LogError("RETRIEVING slicer map");
-                    slicerMap.LoadImage(terrainBytes);
-                    GlobalConfig.TerrainBoundingBox = Rects[y];
-                    GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
-                    GlobalConfig.TerrainBoundingBox.height = GlobalConfig.TerrainBoundingBox.height * 2;
-                    GlobalConfig.TerrainBoundingBox.width = GlobalConfig.TerrainBoundingBox.width * 2;
-                    screenMaterial.SetTexture("_MainTex2", slicerMap);
-					MinMax.SetDataArray(slicerMap);
-                }
-                else
-                {
-                    for (int i = 0; i < Terrain.activeTerrain.terrainData.heightmapWidth * 2; i++)
-                    {
-                        for (int j = 0; j < Terrain.activeTerrain.terrainData.heightmapHeight * 2; j++)
-                        {
-                            float xpos = Rects[x].xMin + i * xRes;
-                            float ypos = Rects[y].yMin + j * yRes;
-                            float val = 0.0f;
-
-                            for (int k = 0; k < Terrain.activeTerrains.Length; k++)
-                            {
-                                if (Rects[k].Contains(new Vector2(xpos, ypos)))
-                                {
-                                    int row = (int)((float)(xpos - Rects[k].xMin) / (float)(Rects[k].xMax - Rects[k].xMin) * (float)Rects[k].width);
-                                    int col = (int)((float)(ypos - Rects[k].yMin) / (float)(Rects[k].yMax - Rects[k].yMin) * (float)Rects[k].height);
-                                    //row = Mathf.Abs(row);
-                                    //col = Mathf.Abs(col);
-                                    val = HeightMaps[k][row, col];
-
-                                    break;
-                                }
-
-                            }
-                            if ((i > Terrain.activeTerrain.terrainData.heightmapWidth && j < Terrain.activeTerrain.terrainData.heightmapHeight) || (i < Terrain.activeTerrain.terrainData.heightmapWidth && j > Terrain.activeTerrain.terrainData.heightmapHeight))
-                            {
-                                int ival = i, jval = j;
-                                if (i > Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    ival -= Terrain.activeTerrain.terrainData.heightmapWidth;
-                                }
-                                else if (i < Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    ival += Terrain.activeTerrain.terrainData.heightmapWidth;
-                                }
-                                if (j > Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    jval -= Terrain.activeTerrain.terrainData.heightmapWidth;
-                                }
-                                else if (j < Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    jval += Terrain.activeTerrain.terrainData.heightmapWidth;
-                                }
-                                /*if (i == Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    ival = 0;
-                                }
-                                if (j == Terrain.activeTerrain.terrainData.heightmapWidth)
-                                {
-                                    jval = 0;
-                                }*/
-                                heights[ival, jval] = val;
-                            }
-                            else
-                            {
-                                heights[i, j] = val;//(float)(i * j) /(float) (Terrain.activeTerrain.terrainData.heightmapWidth * 2 * Terrain.activeTerrain.terrainData.heightmapHeight * 2);
-                            }
-                            GlobalConfig.TerrainBoundingBox = Rects[y];
-                            GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
-                            GlobalConfig.TerrainBoundingBox.height = GlobalConfig.TerrainBoundingBox.height * 2;
-                            GlobalConfig.TerrainBoundingBox.width = GlobalConfig.TerrainBoundingBox.width * 2;
-                        }
-
-                    }
-                    Debug.LogError("WRITING slicer map");
-                    slicerMap = TerrainUtils.GetHeightMapAsTexture(heights);
-                    screenMaterial.SetTexture("_MainTex2", slicerMap);
-                    terrainBytes = slicerMap.EncodeToPNG();
-                    File.WriteAllBytes(ImageLoc, terrainBytes);
-                }
+                
                 screenMaterial.SetTexture("_MainTex2", slicerMap);
 				MinMax.SetDataArray(slicerMap);
                 // Debug.LogError("SETTING HEIGHTS");
@@ -237,6 +152,98 @@ public class raySlicer : MonoBehaviour
             MinMax.SetMax(max);
         }
         
+    }
+
+    public void buildHeightMap(float[,] heights, List<Rect> Rects, int x, int y, List<float[,]> HeightMaps)
+    {
+
+        byte[] terrainBytes;
+        float xRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapWidth*2);
+        float yRes = 1.0f;// / (float)(Terrain.activeTerrain.terrainData.heightmapHeight*2);
+
+        // Fill in the heightmap at the appropriate place
+        if (File.Exists(ImageLoc))
+        {
+            terrainBytes = File.ReadAllBytes(ImageLoc);
+            // Debug.LogError("RETRIEVING slicer map");
+            slicerMap.LoadImage(terrainBytes);
+            GlobalConfig.TerrainBoundingBox = Rects[y];
+            GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
+            GlobalConfig.TerrainBoundingBox.height = GlobalConfig.TerrainBoundingBox.height * 2;
+            GlobalConfig.TerrainBoundingBox.width = GlobalConfig.TerrainBoundingBox.width * 2;
+            screenMaterial.SetTexture("_MainTex2", slicerMap);
+            MinMax.SetDataArray(slicerMap);
+        }
+        else
+        {
+            for (int i = 0; i < Terrain.activeTerrain.terrainData.heightmapWidth * 2; i++)
+            {
+                for (int j = 0; j < Terrain.activeTerrain.terrainData.heightmapHeight * 2; j++)
+                {
+                    float xpos = Rects[x].xMin + i * xRes;
+                    float ypos = Rects[y].yMin + j * yRes;
+                    float val = 0.0f;
+
+                    for (int k = 0; k < Terrain.activeTerrains.Length; k++)
+                    {
+                        if (Rects[k].Contains(new Vector2(xpos, ypos)))
+                        {
+                            int row = (int)((float)(xpos - Rects[k].xMin) / (float)(Rects[k].xMax - Rects[k].xMin) * (float)Rects[k].width);
+                            int col = (int)((float)(ypos - Rects[k].yMin) / (float)(Rects[k].yMax - Rects[k].yMin) * (float)Rects[k].height);
+                            //row = Mathf.Abs(row);
+                            //col = Mathf.Abs(col);
+                            val = HeightMaps[k][row, col];
+
+                            break;
+                        }
+
+                    }
+                    if ((i > Terrain.activeTerrain.terrainData.heightmapWidth && j < Terrain.activeTerrain.terrainData.heightmapHeight) || (i < Terrain.activeTerrain.terrainData.heightmapWidth && j > Terrain.activeTerrain.terrainData.heightmapHeight))
+                    {
+                        int ival = i, jval = j;
+                        if (i > Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            ival -= Terrain.activeTerrain.terrainData.heightmapWidth;
+                        }
+                        else if (i < Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            ival += Terrain.activeTerrain.terrainData.heightmapWidth;
+                        }
+                        if (j > Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            jval -= Terrain.activeTerrain.terrainData.heightmapWidth;
+                        }
+                        else if (j < Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            jval += Terrain.activeTerrain.terrainData.heightmapWidth;
+                        }
+                        /*if (i == Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            ival = 0;
+                        }
+                        if (j == Terrain.activeTerrain.terrainData.heightmapWidth)
+                        {
+                            jval = 0;
+                        }*/
+                        heights[ival, jval] = val;
+                    }
+                    else
+                    {
+                        heights[i, j] = val;//(float)(i * j) /(float) (Terrain.activeTerrain.terrainData.heightmapWidth * 2 * Terrain.activeTerrain.terrainData.heightmapHeight * 2);
+                    }
+                    GlobalConfig.TerrainBoundingBox = Rects[y];
+                    GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
+                    GlobalConfig.TerrainBoundingBox.height = GlobalConfig.TerrainBoundingBox.height * 2;
+                    GlobalConfig.TerrainBoundingBox.width = GlobalConfig.TerrainBoundingBox.width * 2;
+                }
+
+            }
+            Debug.LogError("WRITING slicer map");
+            slicerMap = TerrainUtils.GetHeightMapAsTexture(heights);
+            screenMaterial.SetTexture("_MainTex2", slicerMap);
+            terrainBytes = slicerMap.EncodeToPNG();
+            File.WriteAllBytes(ImageLoc, terrainBytes);
+        }
     }
 
     public void generate3DTexture()

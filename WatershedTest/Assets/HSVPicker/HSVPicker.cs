@@ -94,6 +94,11 @@ public class HSVPicker : MonoBehaviour {
         
 	}
 
+    public void AssignClearColor()
+    {
+        AssignColor(new Color(0,0,0,1));
+    }
+
 
     public void AssignColor(Color color)
     {
