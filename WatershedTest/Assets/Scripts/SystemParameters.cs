@@ -16,7 +16,7 @@ public class SystemParameters
 
     public string name = "";
     public string TYPE = "";
-    public string model_set_type = "vis";
+    public string model_set_type = "";
     public string service = "";
     public string query = "";
     public string starttime = "";

@@ -197,7 +197,7 @@ public class VWClient : Observer
 	public void getCapabilities(DataRecordSetter Setter,DataRecord Record, SystemParameters param)
 	{
 		// We need an observable here -- for now we assume a WMS Request
-		if (Record.services.ContainsKey ("wms")) 
+		if (Record.services.ContainsKey ("wms") && param.service == "wms") 
 		{
 			Logger.WriteLine ("CALLBACK IS: " + (Setter == null).ToString());
 			// Let the magic begin
@@ -206,6 +206,20 @@ public class VWClient : Observer
 			client.Root = Root;
 			client.GetData (Record, param);
 			client.Token = GenerateToken ("GetCapabilitiesWMS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
+		else if(Record.services.ContainsKey ("wcs") && param.service == "wcs") 
+		{
+			Logger.WriteLine ("CALLBACK WCS IS: " + (Setter == null).ToString());
+			// Let the magic begin
+			var client = new WCSClient(factory,param.type,param.outputPath,param.outputName,1);
+			//client = App;
+			//client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWCS");
 			client.callback = Setter;
 			client.Priority = param.Priority;
 			client.ModelRunUUID = Record.modelRunUUID;
@@ -349,13 +363,15 @@ public class VWClient : Observer
         //Logger.WriteLine(encoded["results"][1]);
 		int total = encoded["total"].AsInt;
         ModelRunManager.Total += total;
-        string model_set_type = encoded["results"][0]["model_set_type"];
+        
         SystemParameters sp = new SystemParameters();
         sp.model_run_uuid = ModelRunUUID;
         sp.limit = total;
         sp.offset = 0;
         // Logger.WriteLine("MODEL SET TYPE: " + model_set_type);
-        sp.model_set_type = model_set_type;
+
+		//string model_set_type = encoded["results"][0]["model_set_type"];
+        //sp.model_set_type = model_set_type;
 
         // Logger.WriteLine("TOTAL: " + total);
         //total = Math.Min(100, total);

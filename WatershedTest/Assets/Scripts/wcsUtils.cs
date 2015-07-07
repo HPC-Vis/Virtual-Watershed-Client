@@ -21,7 +21,7 @@
 		
 		private OperationsMetadataOperation[] operationsMetadataField;
 		
-		private CapabilitiesContents[] contentsField;
+		private CapabilitiesContentsCoverageSummary[] contentsField;
 		
 		private string versionField;
 		
@@ -70,7 +70,7 @@
 		
 		/// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("CoverageSummary",IsNullable=false)]
-		public CapabilitiesContents[] Contents
+		public CapabilitiesContentsCoverageSummary[] Contents
 		{
 			get
 			{
@@ -920,7 +920,8 @@
 		private string identifierField;
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		
+		[System.Xml.Serialization.XmlElementAttribute("Title",Namespace = "http://www.opengis.net/ows/1.1")]
 		public string Title
 		{
 			get
@@ -934,7 +935,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Abstract",Namespace = "http://www.opengis.net/ows/1.1")]
 		public string Abstract
 		{
 			get
@@ -948,7 +949,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Keywords",Namespace = "http://www.opengis.net/ows/1.1")]
 		public Keywords Keywords
 		{
 			get
@@ -962,7 +963,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Metadata",Namespace = "http://www.opengis.net/ows/1.1")]
 		public Metadata Metadata
 		{
 			get
@@ -976,7 +977,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("WGS84BoundingBox",Namespace = "http://www.opengis.net/ows/1.1")]
 		public WGS84BoundingBox WGS84BoundingBox
 		{
 			get
@@ -1004,6 +1005,7 @@
 		}
 		
 		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Identifier")]
 		public string Identifier
 		{
 			get
@@ -1831,10 +1833,11 @@ namespace DescribeCoverageWCS
 	public partial class CoverageDescriptionsCoverageDescriptionRangeFieldAxisAvailableKeys
 	{
 		
-		private byte keyField;
-		
+		private string[] keyField;
+
 		/// <remarks/>
-		public byte Key
+		[System.Xml.Serialization.XmlElementAttribute("Key")]
+		public string[] Key
 		{
 			get
 			{

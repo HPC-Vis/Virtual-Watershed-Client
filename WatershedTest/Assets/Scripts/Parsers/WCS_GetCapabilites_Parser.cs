@@ -23,9 +23,11 @@ class WCS_GetCapabilites_Parser : Parser
         {
             capabilities = ((GetCapabilites.Capabilities)serial.Deserialize(reader));
             Record.WCSOperations = capabilities.OperationsMetadata;
+            Record.WCSCoverages = capabilities.Contents;
             //var cap = ((GetCapabilites.Capabilities[])serial.Deserialize(reader));
             //Logger.WriteLine(capabilities.Contents[0].CoverageSummary.);
             Logger.WriteLine(capabilities.OperationsMetadata.Count().ToString());
+            Logger.WriteLine((Record.WCSCoverages.Count().ToString()));//[0].CoverageSummary == null).ToString());
             //Logger.WriteLine(cap.Count().ToString());
             //foreach(var i in capabilities)
            // {

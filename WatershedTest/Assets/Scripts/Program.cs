@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
 //using System.Threading;
 
 namespace NetworkTest
@@ -32,7 +35,7 @@ namespace NetworkTest
 
         static void Main(string[] args)
         {
-            Console.WriteLine("BLAH BLAH");
+            /*Console.WriteLine("BLAH BLAH");
             //simu = new Simulator();
             //simu.Simulation(.1f);
             //Console.ReadKey();
@@ -56,8 +59,25 @@ namespace NetworkTest
 			ModelRunManager.getAvailable(testParameters,null,DoNothing);
 
 			Logger.WriteLine ("Searching");
-			Thread.Sleep (5000);
+			Thread.Sleep (5000);*/
+
             //Logger.ReadKey();
+			string Str = new StreamReader("/Users/appleseed/Desktop/wcsdescribecoverage.xml").ReadToEnd();
+			var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
+
+			XmlSerializer serial = new XmlSerializer(typeof(DescribeCoverageWCS.CoverageDescriptions));
+			DescribeCoverageWCS.CoverageDescriptions testc = new DescribeCoverageWCS.CoverageDescriptions();
+
+			if (serial.CanDeserialize(reader))
+			{
+
+				testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
+				/*foreach (var i in testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key) 
+				{
+					Logger.WriteLine (i);
+				}*/
+				//Logger.WriteLine (testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count().ToString());
+			}
 			Logger.ReadKey();
         }
 

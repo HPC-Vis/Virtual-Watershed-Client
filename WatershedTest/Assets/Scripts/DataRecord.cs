@@ -37,7 +37,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.location = location;
 		return dr;
 	}
-	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers;
+	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
 
     public static bool operator ==(DataRecord a, DataRecord b)
     {
@@ -203,6 +203,8 @@ public class DataRecord : IEquatable<DataRecord>
     /// WCS Operations
 	[NonSerializedAttribute]
     public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
+	[NonSerializedAttribute]
+	public GetCapabilites.CapabilitiesContentsCoverageSummary[] WCSCoverages = null;
     public string WMSCapabilities = "";
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";
@@ -225,7 +227,7 @@ public class DataRecord : IEquatable<DataRecord>
     // Temporal Fields for metadata 
     public DateTime? start = null;
     public DateTime? end = null;
-
+	public int numbands = 0;
 
 	public bool IsTemporal()
 	{

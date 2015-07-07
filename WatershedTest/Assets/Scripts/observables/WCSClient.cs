@@ -27,14 +27,22 @@ class WCSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
 
     // Constructor
-	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "",int operation = 0)
         : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
-        StateList.Add(Operations.GetCapabilities);
-        StateList.Add(Operations.DescribeCoverage);
-        StateList.Add(Operations.GetCoverage);
-        StateList.Add(Operations.Done);
+        if(operation == 0)
+       	{
+        	StateList.Add(Operations.GetCapabilities);
+        	StateList.Add(Operations.DescribeCoverage);
+        	StateList.Add(Operations.GetCoverage);
+        	StateList.Add(Operations.Done);
+        }
+        else if(operation==1)
+        {
+        	StateList.Add(Operations.GetCapabilities);
+        	StateList.Add(Operations.Done);
+        }
     }
     
     // Update
@@ -96,10 +104,12 @@ class WCSClient : Observerable
     }
 
     public override void CallBack()
-    {
+	{
+		Logger.WriteLine("WCS BEFORE CALLBACK");
         // Callback
         if (callback != null)
         {
+        	Logger.WriteLine("WCS CALLBACK");
             callback(records);
         }
     }
@@ -142,13 +152,13 @@ class WCSClient : Observerable
                 }
                 else if (i.name == "Identifier")
                 {
-                    if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].Identifier) )
+					if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].variableName) )
                     {
                         parameters += i.name + "=" + j + "&";
                     }
                     else
                     {
-                        parameters += i.name + "=" + records[0].Identifier + "&";
+						parameters += i.name + "=" + records[0].variableName.Replace(' ','_') + "&";
                     }
                     break;
                 }
@@ -192,7 +202,7 @@ class WCSClient : Observerable
         factory.Import("WCS_CAP", records, "url://" + wcs_url);
 
         // Return
-        // Logger.Log(Token + ": " + wcs_url);
+        Logger.Log(Token + ": " + wcs_url);
         return wcs_url;
     }
 

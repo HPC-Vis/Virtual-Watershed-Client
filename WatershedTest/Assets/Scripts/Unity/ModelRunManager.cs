@@ -341,11 +341,21 @@ public static class ModelRunManager
 
 	public static void parseNetCDFRecords(List<DataRecord> record)
 	{
-		Logger.WriteLine ("PARSENETCDFRECORDS");
+		Logger.WriteLine ("PARSENETCDFRECORDS" + (record[0].WCSCoverages != null).ToString());
 		if (record.Count > 0) 
 		{
+			if(record[0].WCSCoverages != null)
+			{
+				foreach (var i in record[0].WCSCoverages)
+				{
+					DataRecord dr = record[0].Clone();
+					dr.variableName = i.Identifier;
+					Logger.WriteLine(i.Identifier);
+					InsertDataRecord(dr);
+				}
+			}
 			// See if layers variable is defined
-			if (record [0].wmslayers != null) 
+			else if (record [0].wmslayers != null) 
 			{
 				// Lets create some new data records off of this one... and populate the boundingbox information with it as well.
 				foreach (var i in record[0].wmslayers) 
@@ -357,6 +367,7 @@ public static class ModelRunManager
 					Logger.WriteLine (dr.variableName);
 				}
 			}
+
 		}
 	}
 
@@ -364,11 +375,20 @@ public static class ModelRunManager
 	static void filter(DataRecord record)
 	{
 		Logger.WriteLine ("FILTER");
-		if (record.services ["wms"] != null) 
+		SystemParameters sp = new SystemParameters();
+		if(record.services.ContainsKey("wcs"))
 		{
+			sp.service = "wcs";
+			Logger.WriteLine("WCS");
+			client.getCapabilities(parseNetCDFRecords,record,sp);	
+		}
+		else if (record.services.ContainsKey("wms")) 
+		{
+			Logger.WriteLine("WMSSSSSSSSSSSSSSSSSSSSSSS!!!!");
 			// Request Get Capabilities here
+			sp.service  = "wms";
 			Logger.WriteLine("WMS");
-			client.getCapabilities(parseNetCDFRecords,record,new SystemParameters());
+			client.getCapabilities(parseNetCDFRecords,record,sp);
 		} 
 		else 
 		{
@@ -409,7 +429,7 @@ public static class ModelRunManager
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
                 //Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
                 // Replace with isFull Function
-                if (modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
+                if (modelRuns[rec.modelRunUUID].CurrentCapacity >= modelRuns[rec.modelRunUUID].Total)
                 {
                     // Cash it in!!!!
 					Logger.WriteLine("The model run is now in the cache.");
