@@ -19523,6 +19523,7 @@ MonoBehaviour:
   firstPoint: {x: 0, y: 0}
   secondPoint: {x: 0, y: 0}
   environmentTex: {fileID: 0}
+  slicerMap: {fileID: 0}
   spriteRend: {fileID: 21257368}
   sliceSprite: {fileID: 0}
   CS: {fileID: 7200000, guid: 54aca4b1703a51940b555691384a514d, type: 3}
