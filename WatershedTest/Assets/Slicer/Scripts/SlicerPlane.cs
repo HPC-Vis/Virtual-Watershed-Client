@@ -34,6 +34,11 @@ public class SlicerPlane : MonoBehaviour
 
     }
 
+    void Update()
+    {
+        Draw();
+    }
+
     public void DisableRendering()
     {
         renderer.enabled = false;
@@ -45,7 +50,7 @@ public class SlicerPlane : MonoBehaviour
     {
         renderer.enabled = true;
         topLineRenderer.enabled = true;
-        bottomLineRenderer.enabled = true;
+        bottomLineRenderer.enabled = false;
 
 
         // build mesh

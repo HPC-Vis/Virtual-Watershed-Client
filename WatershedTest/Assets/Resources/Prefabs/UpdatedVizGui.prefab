@@ -19522,6 +19522,7 @@ MonoBehaviour:
   min: 0
   max: 0
   units: m
+  cursor: {fileID: 0}
   displayMin: 1
   displayMax: 1
   firstPoint: {x: 0, y: 0}
@@ -19531,6 +19532,8 @@ MonoBehaviour:
   spriteRend: {fileID: 21257368}
   sliceSprite: {fileID: 0}
   CS: {fileID: 7200000, guid: 54aca4b1703a51940b555691384a514d, type: 3}
+  clear2d: {fileID: 0}
+  clear3d: {fileID: 0}
 --- !u!114 &11455626
 MonoBehaviour:
   m_ObjectHideFlags: 1
