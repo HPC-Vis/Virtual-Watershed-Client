@@ -156,18 +156,25 @@ public class Spooler : MonoBehaviour
 
                     utilites.PlaceProjector2(TimeProjector, record);
                     if(record.bbox2 != "" && record.bbox2 != null)
+                    {
+                        Debug.LogError("We added BBox TWO.");
                     	BoundingBox = Utilities.bboxSplit(record.bbox2);
+                    }
                     else
+                    {
+                        Debug.LogError("We added BBox ONE.");
 						BoundingBox = Utilities.bboxSplit(record.bbox);
+                    }
 					// Debug.LogError(BoundingBox);
                     tran = new transform();
+                    Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
                     tran.setOrigin(coordsystem.WorldOrigin);
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
-                    BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+                    // BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
                     // Debug.LogError(BoundingBox);
                 }
 
@@ -176,14 +183,12 @@ public class Spooler : MonoBehaviour
 
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
                 {
-                    Debug.LogError("Update of Max: " + record.Max);
                     modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(modelrun.MinMax[oldSelectedVariable].x, record.Max)); 
                     TimeProjector.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
                     testImage.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
                 {
-                    Debug.LogError("Update of Min: " + record.Min);
                     modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable].y));
                     TimeProjector.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
                     testImage.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
@@ -211,7 +216,11 @@ public class Spooler : MonoBehaviour
                 first = false;
 
                 // For setting the data on the color boxes
-                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);                
+                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);
+           
+                // Setup the trendgraph correctly
+                trendGraph.SetMinMax((int)modelrun.MinMax[oldSelectedVariable].x, (int)modelrun.MinMax[oldSelectedVariable].y);
+                trendGraph.SetTime(Reel[0].starttime.ToString(), Reel[Reel.Count - 1].starttime.ToString());
             }
         }
 
@@ -234,10 +243,11 @@ public class Spooler : MonoBehaviour
             //CheckPoint.y += BoundingBox.height;
 			if( BoundingBox.Contains(CheckPoint) && !WMS)
 			{
-				//Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
+				Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                 trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
+                Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
                 //StartCoroutine(BuildTrendGraph());
                 //WorldPoint.x += BoundingBox.width;
                 //WorldPoint.z += BoundingBox.height;
@@ -269,7 +279,7 @@ public class Spooler : MonoBehaviour
         foreach (var frame in Reel)
         {
             counter++;
-            //trendGraph.Add(frame.starttime, frame.Data[i, j]);
+            // trendGraph.Add(frame.starttime, frame.Data[i, j]);
             if(counter % 10 == 0)
             {
                 yield return new WaitForEndOfFrame();
