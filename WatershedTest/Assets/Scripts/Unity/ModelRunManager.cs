@@ -255,9 +255,16 @@ public static class ModelRunManager
 
         foreach (var i in modelRuns)
         {
+        	if(parameters == null)
+        	{
+        	Logger.WriteLine("ADDING" +i.Value.Name);
+        		// Add all
+        		Runs.Add(i.Value);
+        		//continue;
+        	}
             // Find matching model runs
             // This can be optimized by storing additional information in the ModelRun class.
-            if (parameters.model_set_type == i.Value.ModelDataSetType)
+            else if (parameters.model_set_type == i.Value.ModelDataSetType)
             {
                 Runs.Add(i.Value);
             }
@@ -301,8 +308,8 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-		Logger.WriteLine("Adding modelruns to file cache system.");
-        FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
+		
+        
     }
 
 
@@ -322,23 +329,24 @@ public static class ModelRunManager
             if (!modelRuns.ContainsKey(i.modelRunUUID))
             {
 
-                if (startRuns.ContainsKey(i.modelRunUUID))
-                {
-                    modelRuns.Add(i.modelRunUUID, startRuns[i.modelRunUUID]);
-                }
-                else
-                {
                     modelRuns.Add(i.modelRunUUID, new ModelRun(i.modelname, i.modelRunUUID));
-                    // SetModelSetType
-                    SystemParameters sp = new SystemParameters();
-                    sp.model_run_uuid = i.modelRunUUID;
-                    sp.limit = 1;
-                    sp.offset = 0;
-                    client.RequestRecords(SetModelSetType, sp);
-                }
+//;
+                //}
             }
-        }
 
+        }
+        
+		Logger.WriteLine("Adding modelruns to file cache system.");
+		FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
+		foreach(var i in modelRuns.Values)
+		{
+			// SetModelSetType
+			SystemParameters sp = new SystemParameters();
+			sp.model_run_uuid = i.ModelRunUUID;
+			sp.limit = 1;
+			sp.offset = 0;
+			client.RequestRecords(SetModelSetType, sp);
+		}
         // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
     }
 

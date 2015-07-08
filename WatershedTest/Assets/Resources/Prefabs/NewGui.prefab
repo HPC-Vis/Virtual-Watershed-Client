@@ -9113,6 +9113,7 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    numbands: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -10498,6 +10499,7 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    numbands: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38

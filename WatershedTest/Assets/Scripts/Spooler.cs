@@ -99,7 +99,7 @@ public class Spooler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swapProjector)
+        if (swapProjector && colorPicker.ColorBoxes.Count > 0)
         {
             TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);

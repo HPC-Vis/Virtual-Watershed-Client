@@ -67,14 +67,17 @@ class WCSClient : Observerable
         // Check the state
         if (state == Operations.GetCapabilities)
         {
+        	Logger.WriteLine("GETCAPABILITESWCS" + StateList.Count.ToString());
             return GetCapabilities();
         }
         else if (state == Operations.DescribeCoverage)
         {
+			Logger.WriteLine("DESCRIBECOVERAGE");
             return DescribeCoverage();
         }
         else if (state == Operations.GetCoverage)
         {
+			Logger.WriteLine("GETCOVERAGE");
             SystemParameters param = new SystemParameters();
             param.crs = CRS;
             param.boundingbox = records[0].bbox2;
@@ -180,7 +183,7 @@ class WCSClient : Observerable
 
         // Build Get Coverage String
         string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height;//+height.ToString();
-        
+        Logger.WriteLine("WCS COVERAGE LINK: " + req);
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);
 
@@ -193,7 +196,7 @@ class WCSClient : Observerable
         // Check if services contains "wcs"
         if (!records[0].services.ContainsKey("wcs"))
         {
-            // Logger.WriteLine("RETURNING" + records[0].name);
+            Logger.WriteLine("RETURNING" + records[0].name + "NO WCS CAPABILITIES");
             return "";
         }
         string wcs_url = records[0].services["wcs"];

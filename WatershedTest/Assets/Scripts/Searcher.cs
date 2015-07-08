@@ -94,12 +94,12 @@ public class Searcher : MonoBehaviour {
         }
 
 		UpdateTimer += Time.deltaTime;
-		if (!firstPopulation || UpdateTimer > 25)
+		if (!firstPopulation )//|| UpdateTimer > 25)
 		{
             if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
             {
-                SystemParameters parameters = new SystemParameters();
-                List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, parameters.limit);
+                SystemParameters parameters = null; //new SystemParameters();
+                List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
                 if (Runs.Count > 0)
                 {
                     // Debug.Log("The List has Been Populated");

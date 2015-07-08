@@ -1,7 +1,7 @@
 ﻿Shader "Custom/ColorMap" {
 	
 Properties {
-	_MainTex ("32bit Float Map", RECT) = "white" {}
+	_MainTex ("32bit Float Map", 2D) = "white" {}
 	
 	_FloatMin ("Min Value", float) = 10
 	_FloatMax ("Max Value", float) =  100
@@ -37,7 +37,7 @@ uniform sampler2D _MainTex;
 uniform float _FloatMin;
 uniform float _FloatMax;
 
-uniform float4 _SegmentData000;
+uniform half4 _SegmentData000;
 uniform float4 _SegmentData001;
 uniform float4 _SegmentData002;
 uniform float4 _SegmentData003;

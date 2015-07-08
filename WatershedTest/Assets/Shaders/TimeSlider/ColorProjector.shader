@@ -1,8 +1,7 @@
 ﻿Shader "Custom/ColorProjector" {
 	
 Properties {
-	_MainTex ("32bit Float Map", RECT) = "white" {}
-	
+	_MainTex ("32bit Float Map", 2D) = "white" {}
 	_FloatMin ("Min Value", float) = 15
 	_FloatMax ("Max Value", float) =  100
     
@@ -38,7 +37,6 @@ CGPROGRAM
 #include "UnityCG.cginc"
 
 uniform sampler2D _MainTex;
-
 uniform float _FloatMin;
 uniform float _FloatMax;
 uniform float _x1;

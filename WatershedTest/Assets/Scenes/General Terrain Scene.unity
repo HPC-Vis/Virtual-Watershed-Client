@@ -446,6 +446,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!114 &24815717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -706,7 +707,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!21 &346998625
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -715,6 +716,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -2665,6 +2667,7 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
+  m_StereoMirrorMode: 0
 --- !u!1001 &767842845
 Prefab:
   m_ObjectHideFlags: 0
@@ -3196,9 +3199,9 @@ MonoBehaviour:
   marker1: {fileID: 1441096808}
   marker2: {fileID: 145578614}
   markers: []
-  NoClipGhostPlayer: {fileID: 190463352}
-  FirstPersonControllerPlayer: {fileID: 1158746065}
+  PlayerController: {fileID: 0}
   cursorObject: {fileID: 1065944462}
+  csvButton: {fileID: 0}
   rs: {fileID: 877575890}
   slicerPlane: {fileID: 500634649}
 --- !u!114 &1065944468
@@ -3554,7 +3557,7 @@ GameObject:
   m_PrefabInternal: {fileID: 1441096807}
 --- !u!21 &1442094162
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -3563,6 +3566,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -5297,8 +5301,7 @@ MonoBehaviour:
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
-            Culture=neutral, PublicKeyToken=null
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5735,11 +5738,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 340.25
+      value: 182.75
       objectReference: {fileID: 0}
     - target: {fileID: 22479532, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 680.5
+      value: 365.5
       objectReference: {fileID: 0}
     - target: {fileID: 11463774, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: headerElementInfo.Array.data[1].text
@@ -5755,11 +5758,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 1020.75
+      value: 548.25
       objectReference: {fileID: 0}
     - target: {fileID: 22424984, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 680.5
+      value: 365.5
       objectReference: {fileID: 0}
     - target: {fileID: 11434540, guid: 11821e80d400c8147abb0013d2eb3022, type: 2}
       propertyPath: m_Text
@@ -5814,7 +5817,7 @@ Prefab:
   m_IsPrefabParent: 0
 --- !u!21 &1795698151
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -5823,6 +5826,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -7277,7 +7281,7 @@ Material:
         second: {r: 0, g: 0, b: 0, a: 0}
 --- !u!21 &1810852781
 Material:
-  serializedVersion: 5
+  serializedVersion: 6
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
@@ -7286,6 +7290,7 @@ Material:
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
+  stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
     m_TexEnvs:
@@ -8994,6 +8999,7 @@ MonoBehaviour:
   m_SubmitButton: Submit
   m_CancelButton: Cancel
   m_InputActionsPerSecond: 10
+  m_RepeatDelay: .5
   m_AllowActivationOnMobileDevice: 0
 --- !u!114 &2077973573
 MonoBehaviour:

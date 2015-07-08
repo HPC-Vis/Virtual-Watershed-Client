@@ -35,6 +35,8 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.modelRunUUID = modelRunUUID;
 		dr.id = id;
 		dr.location = location;
+		dr.services = services;
+		dr.projection = projection;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
