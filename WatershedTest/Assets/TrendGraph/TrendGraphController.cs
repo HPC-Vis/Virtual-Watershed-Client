@@ -41,6 +41,7 @@ namespace VTL.TrendGraph
         public string maxTime = ""; // Its on the developer to make sure 
         // this makes sense with the timebase
         public string unitsLabel = "F"; // the units label
+        public string variable_name = "";
         public string valueFormatString = "D3";
         private DateTime lastDraw;
 		public bool Keep = true;
@@ -54,6 +55,8 @@ namespace VTL.TrendGraph
         RectTransform rectTransform;
         RectTransform lineAnchor;
         Canvas parentCanvas;
+        public float easting;
+        public float northing;
 
         public void OnValidate()
         {
@@ -76,6 +79,32 @@ namespace VTL.TrendGraph
             transform.Find("Units")
                      .GetComponent<Text>()
                      .text = unitsLabel;
+        }
+
+        public void SetTime(string min, string max)
+        {
+            transform.Find("MinHour")
+                     .GetComponent<Text>()
+                     .text = min;
+            minTime = min;
+
+            transform.Find("MaxHour")
+                     .GetComponent<Text>()
+                     .text = max;
+            maxTime = max;
+        }
+
+        public void SetMinMax(int min, int max)
+        {
+            transform.Find("Ymax")
+                     .GetComponent<Text>()
+                     .text = max.ToString();
+            yMax = max;
+
+            transform.Find("Ymin")
+                     .GetComponent<Text>()
+                     .text = min.ToString();
+            yMin = min;
         }
 
         // Use this for initialization
@@ -155,37 +184,17 @@ namespace VTL.TrendGraph
             // Iterate through the timeseries and draw the trend segment
             // by segment.
             var prev = Record2PixelCoords(timeseries[0]);
-            yMin = float.MaxValue;
-            yMax = float.MinValue;
             for (int i = 1; i < n; i+=4)
             {
                 var next = Record2PixelCoords2(timeseries[i]);
                 Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
                 prev = next;
-                if(yMin > timeseries[i].Data[row,col])
-                {
-                    yMin = timeseries[i].Data[row, col];
-                }
-                if(yMax < timeseries[i].Data[row,col])
-                {
-                    yMax = timeseries[i].Data[row, col];
-                }
             }
-
-            transform.Find("Ymax")
-                     .GetComponent<Text>()
-                     .text = yMax.ToString();
-
-            transform.Find("Ymin")
-                     .GetComponent<Text>()
-                     .text = yMin.ToString();
         }
 
         public void Clear()
         {
             timeseries.Clear();
-            yMin = float.MaxValue;
-            yMax = float.MinValue;
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting
@@ -231,17 +240,12 @@ namespace VTL.TrendGraph
 			}
             lastDraw = record.time;
             valueText.text = record.value.ToString(valueFormatString);
-            if (yMax < record.value)
-                yMax = record.value;
-            if (yMin > record.value)
-                yMin = record.value;
-            minTime = "0 Hour";
-            maxTime = "1 Year";
             OnValidate();
         }
 
         public void SetUnit(string unit)
         {
+            variable_name = unit;
             VariableReference newVariable = new VariableReference();
             unitsLabel = newVariable.GetDescription(unit);
             OnValidate();
@@ -250,6 +254,38 @@ namespace VTL.TrendGraph
         public void Add(DateTime time, float value,float[,] data)
         {
             Add(new TimeseriesRecord(time, value,data));
+        }
+
+        public void SetCoordPoint(Vector3 point)
+        {
+            easting = point.x;
+            northing = point.z;
+        }
+
+        public void dataToFile()
+        {
+            // Temp patch to the OS dependen Compute Shader
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            string pathDownload = pathUser + "\\graph.txt";
+#else
+		string pathDownload = pathUser + "/slicer_path.txt";
+#endif
+
+            float[] csv_file = new float[timeseries.Count];
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            {
+                file.WriteLine(variable_name + ": " + unitsLabel);
+                file.WriteLine("Time Frame: " + minTime + " to " + maxTime);
+                file.WriteLine("UTM: (" + easting + ", " + northing + ")");
+                file.WriteLine("UTM Zone: " + coordsystem.localzone);
+                foreach (var i in timeseries)
+                {
+                    file.Write(i.Data[row, col] + ", ");
+                }
+            }
         }
     }
 }
