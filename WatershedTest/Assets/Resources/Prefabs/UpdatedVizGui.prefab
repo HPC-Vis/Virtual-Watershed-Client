@@ -16990,10 +16990,13 @@ MonoBehaviour:
   minTime: 
   maxTime: 
   unitsLabel: units
+  variable_name: 
   valueFormatString: 0.00
   Keep: 1
   row: 0
   col: 0
+  easting: 0
+  northing: 0
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17929,6 +17932,7 @@ MonoBehaviour:
   colorWindow: {fileID: 0}
   colorProjector: {fileID: 0}
   slideProjector: {fileID: 0}
+  cursor: {fileID: 0}
   BoundingBox:
     serializedVersion: 2
     x: 0

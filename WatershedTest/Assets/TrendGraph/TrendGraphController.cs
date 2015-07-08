@@ -41,6 +41,7 @@ namespace VTL.TrendGraph
         public string maxTime = ""; // Its on the developer to make sure 
         // this makes sense with the timebase
         public string unitsLabel = "F"; // the units label
+        public string variable_name = "";
         public string valueFormatString = "D3";
         private DateTime lastDraw;
 		public bool Keep = true;
@@ -54,6 +55,8 @@ namespace VTL.TrendGraph
         RectTransform rectTransform;
         RectTransform lineAnchor;
         Canvas parentCanvas;
+        public float easting;
+        public float northing;
 
         public void OnValidate()
         {
@@ -83,10 +86,12 @@ namespace VTL.TrendGraph
             transform.Find("MinHour")
                      .GetComponent<Text>()
                      .text = min;
+            minTime = min;
 
             transform.Find("MaxHour")
                      .GetComponent<Text>()
                      .text = max;
+            maxTime = max;
         }
 
         public void SetMinMax(int min, int max)
@@ -94,10 +99,12 @@ namespace VTL.TrendGraph
             transform.Find("Ymax")
                      .GetComponent<Text>()
                      .text = max.ToString();
+            yMax = max;
 
             transform.Find("Ymin")
                      .GetComponent<Text>()
                      .text = min.ToString();
+            yMin = min;
         }
 
         // Use this for initialization
@@ -238,6 +245,7 @@ namespace VTL.TrendGraph
 
         public void SetUnit(string unit)
         {
+            variable_name = unit;
             VariableReference newVariable = new VariableReference();
             unitsLabel = newVariable.GetDescription(unit);
             OnValidate();
@@ -246,6 +254,38 @@ namespace VTL.TrendGraph
         public void Add(DateTime time, float value,float[,] data)
         {
             Add(new TimeseriesRecord(time, value,data));
+        }
+
+        public void SetCoordPoint(Vector3 point)
+        {
+            easting = point.x;
+            northing = point.z;
+        }
+
+        public void dataToFile()
+        {
+            // Temp patch to the OS dependen Compute Shader
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            string pathDownload = pathUser + "\\graph.txt";
+#else
+		string pathDownload = pathUser + "/slicer_path.txt";
+#endif
+
+            float[] csv_file = new float[timeseries.Count];
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            {
+                file.WriteLine(variable_name + ": " + unitsLabel);
+                file.WriteLine("Time Frame: " + minTime + " to " + maxTime);
+                file.WriteLine("UTM: (" + easting + ", " + northing + ")");
+                file.WriteLine("UTM Zone: " + coordsystem.localzone);
+                foreach (var i in timeseries)
+                {
+                    file.Write(i.Data[row, col] + ", ");
+                }
+            }
         }
     }
 }

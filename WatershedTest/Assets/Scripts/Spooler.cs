@@ -47,6 +47,7 @@ public class Spooler : MonoBehaviour
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
     private ModelRun modelrun;
+    public GameObject cursor;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -165,7 +166,7 @@ public class Spooler : MonoBehaviour
                         Debug.LogError("We added BBox ONE.");
 						BoundingBox = Utilities.bboxSplit(record.bbox);
                     }
-					// Debug.LogError(BoundingBox);
+
                     tran = new transform();
                     Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
@@ -223,71 +224,25 @@ public class Spooler : MonoBehaviour
                 trendGraph.SetTime(Reel[0].starttime.ToString(), Reel[Reel.Count - 1].starttime.ToString());
             }
         }
-
-		if (Input.GetMouseButtonDown (0)) 
+        
+		if (Input.GetMouseButtonDown (0) && cursor.GetComponent<mouselistener>().state == cursor.GetComponent<mouselistener>().states[1]) 
 		{
 			// Check if mouse is inside bounding box 
-			//Debug.LogError(coordsystem.transformToWorld(mouseray.CursorWorldPos));
 			Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorWorldPos);
-            
-            //tran.createCoordSystem()
 			Vector2 CheckPoint = new Vector2(WorldPoint.x,WorldPoint.z);
-            //Debug.LogError("DIFFERENCE X: " + (CheckPoint.x - BoundingBox.x));
-            //Debug.LogError("DIFFERENCE Y: " + (CheckPoint.y - BoundingBox.y));
-            //CheckPoint = tran.transformPoint(CheckPoint);
-            //WorldPoint.x = CheckPoint.x;
-            //WorldPoint.z = CheckPoint.y;
-            //Debug.LogError("WORLD POINT: " + WorldPoint);
-            //Debug.LogError("BOUNDING BOX: " + BoundingBox);
-            //CheckPoint.x += BoundingBox.width;
-            //CheckPoint.y += BoundingBox.height;
+
 			if( BoundingBox.Contains(CheckPoint) && !WMS)
 			{
 				Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
+                trendGraph.SetCoordPoint(WorldPoint);
                 trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
                 Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
-                //StartCoroutine(BuildTrendGraph());
-                //WorldPoint.x += BoundingBox.width;
-                //WorldPoint.z += BoundingBox.height;
-				
-				
 			}
 		}
     }
 
-    /*private void BuildTrendGraph()
-    {
-        int i = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
-        int j = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-
-        trendGraph.Clear();
-        foreach (var frame in Reel)
-        {
-            trendGraph.Add(frame.starttime,frame.Data[i,j]);
-        }
-    }*/
-    IEnumerator  BuildTrendGraph()
-    {
-        int counter = 0;
-        int i = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
-        int j = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-
-        trendGraph.Clear();
-        
-        foreach (var frame in Reel)
-        {
-            counter++;
-            // trendGraph.Add(frame.starttime, frame.Data[i, j]);
-            if(counter % 10 == 0)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-        }
-
-        yield return null;
-    }
     public void textureBuilder(DataRecord rec)
     {
 
