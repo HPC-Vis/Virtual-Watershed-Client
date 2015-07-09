@@ -20,24 +20,28 @@ public class raySlicer : MonoBehaviour
     public float min;
     public float max;
     public string units = "m";
+    public GameObject cursor;
 
     public float displayMin = 1.0f;
     public float displayMax = 1.0f;
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
-    public Texture2D slicerMap;// = new Texture2D(115, 115, TextureFormat.ARGB32, false);
+    public Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
     public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 	public ComputeShader CS;
 	public MinMaxShader MinMax;
+
+    public Texture2D clear2d;
+    public Texture3D clear3d;
+
     // Use this for initialization
 
     void Start()
     {
-		slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
 		MinMax = new MinMaxShader (CS);
 		if (!Directory.Exists (DirectoryLocation))
 		{
@@ -64,94 +68,103 @@ public class raySlicer : MonoBehaviour
             }
 
         }
+
+        //create clear textures 
+        
         //screenMaterial = texas.drawCall.dynamicMaterial;
         guit.Apply();
         generate3DTexture();
         screenMaterial.SetTexture("_MainTex2", guit);
         //Terrain.activeTerrains.Length
         // Stitch multiple terrains together 
-        if (Terrain.activeTerrains.Length > 1)
-        {
-            // Debug.LogError("STITCHING TIME");
-            List<Rect> Rects = new List<Rect>();
-            List<float[,]> HeightMaps = new List<float[,]>();
-            int count = 0;
-            foreach (var i in Terrain.activeTerrains)
-            {
-                HeightMaps.Add(i.terrainData.GetHeights(0, 0, i.terrainData.heightmapWidth, i.terrainData.heightmapHeight));
-                Rects.Add(new Rect(i.transform.position.x, i.transform.position.z, i.terrainData.heightmapWidth, i.terrainData.heightmapHeight));
-            }
+        clear2d = new Texture2D(1, 1);
+        clear2d.SetPixel(1, 1, new Color(0, 0, 0, 0));
 
-            // Assume all terrain are near each other.... otherwise fail
+        clear3d = new Texture3D(1, 1, 1, TextureFormat.ARGB32, false);
+        clear3d.SetPixels(new Color []{new Color(0, 0, 0, 0)});
 
-            // Time to stitch these terrains...
-            for (int i = 0; i < Terrain.activeTerrains.Length; i++)
+            if (Terrain.activeTerrains.Length > 1)
             {
-                for (int j = i + 1; j < Terrain.activeTerrains.Length; j++)
+                // Debug.LogError("STITCHING TIME");
+                List<Rect> Rects = new List<Rect>();
+                List<float[,]> HeightMaps = new List<float[,]>();
+                int count = 0;
+                foreach (var i in Terrain.activeTerrains)
                 {
-                    // Determine if they can all be stitch together
-                    // Debug.LogError(Terrain.activeTerrains[i].s);
-                    // Debug.LogError(i + " " + j);
-                    // Debug.LogError(Rects[i].Contains(Rects[j].position));
-                    if (Rects[i].Contains(Rects[j].position))
-                        count++;
+                    HeightMaps.Add(i.terrainData.GetHeights(0, 0, i.terrainData.heightmapWidth, i.terrainData.heightmapHeight));
+                    Rects.Add(new Rect(i.transform.position.x, i.transform.position.z, i.terrainData.heightmapWidth, i.terrainData.heightmapHeight));
                 }
 
-            }
-            if (count == Terrain.activeTerrains.Length-1)
-            {
-                float upperLeftX = float.MaxValue;
-                float upperLeftY = float.MaxValue;
-                int x = -1;
-                int y = -1;
-                float[,] heights = new float[Terrain.activeTerrain.terrainData.heightmapWidth * 2, Terrain.activeTerrain.terrainData.heightmapHeight * 2];
+                // Assume all terrain are near each other.... otherwise fail
 
-                // Time to stitch them all ... first find the correct order for things 
+                // Time to stitch these terrains...
                 for (int i = 0; i < Terrain.activeTerrains.Length; i++)
                 {
-                    // Debug.LogError(Rects[i].yMin);
-                    // Debug.LogError(Rects[i].xMin);
-                    if (upperLeftX > Rects[i].xMin)
+                    for (int j = i + 1; j < Terrain.activeTerrains.Length; j++)
                     {
-                        x = i;
-                        
-                        upperLeftX = Rects[i].xMin;
+                        // Determine if they can all be stitch together
+                        // Debug.LogError(Terrain.activeTerrains[i].s);
+                        // Debug.LogError(i + " " + j);
+                        // Debug.LogError(Rects[i].Contains(Rects[j].position));
+                        if (Rects[i].Contains(Rects[j].position))
+                            count++;
                     }
 
-                    if (upperLeftY > Rects[i].yMin)
+                }
+                if (count == Terrain.activeTerrains.Length - 1)
+                {
+                    float upperLeftX = float.MaxValue;
+                    float upperLeftY = float.MaxValue;
+                    int x = -1;
+                    int y = -1;
+                    float[,] heights = new float[Terrain.activeTerrain.terrainData.heightmapWidth * 2, Terrain.activeTerrain.terrainData.heightmapHeight * 2];
+
+                    // Time to stitch them all ... first find the correct order for things 
+                    for (int i = 0; i < Terrain.activeTerrains.Length; i++)
                     {
-                        y = i;
-                        upperLeftY = Rects[i].yMin;
+                        // Debug.LogError(Rects[i].yMin);
+                        // Debug.LogError(Rects[i].xMin);
+                        if (upperLeftX > Rects[i].xMin)
+                        {
+                            x = i;
+
+                            upperLeftX = Rects[i].xMin;
+                        }
+
+                        if (upperLeftY > Rects[i].yMin)
+                        {
+                            y = i;
+                            upperLeftY = Rects[i].yMin;
+                        }
                     }
+
+                    //Build the heightmap texture for the terrain slicer
+                    buildHeightMap(heights, Rects, x, y, HeightMaps);
+
+
+
+                    screenMaterial.SetTexture("_MainTex2", slicerMap);
+                    MinMax.SetDataArray(slicerMap);
+                    // Debug.LogError("SETTING HEIGHTS");
                 }
 
-                //Build the heightmap texture for the terrain slicer
-                buildHeightMap(heights, Rects, x, y, HeightMaps);
-                
+                float max = 0.0f;
+                foreach (var terrain in Terrain.activeTerrains)
+                {
+                    max = Mathf.Max(max, terrain.terrainData.size.y);
+                }
 
-                
-                screenMaterial.SetTexture("_MainTex2", slicerMap);
-				MinMax.SetDataArray(slicerMap);
-                // Debug.LogError("SETTING HEIGHTS");
+                MinMax.SetMax(max);
+
             }
-
-            float max = 0.0f;
-            foreach(var terrain in  Terrain.activeTerrains)
+            else
             {
-                max = Mathf.Max(max, terrain.terrainData.size.y);
+                GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z, GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
+                screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+                float max = Terrain.activeTerrain.terrainData.size.y;
+                MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+                MinMax.SetMax(max);
             }
-
-            MinMax.SetMax(max);
-            
-        }
-        else
-        {
-			GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z,GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
-            screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
-            float max = Terrain.activeTerrain.terrainData.size.y;
-            MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
-            MinMax.SetMax(max);
-        }
         
     }
 
@@ -351,53 +364,64 @@ public class raySlicer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (sliceSprite.drawCall != null && sliceSprite.drawCall.baseMaterial != null)
-        //{
-        //    //print(texas.drawCall.dynamicMaterial);
-        //    //texas.material.SetTexture("_MainTex2", guit);
-        //    //texas.material.SetTexture("_3DTex", environmentTex);
-        //    //screenMaterial = texas.drawCall.baseMaterial;
-        //    //print(texas.drawCall.baseMaterial.name);
-        //   // print(texas.drawCall.dynamicMaterial.name);
-            
-        //}
-        // ensure display min/max do not exceed global min/max
-        if (displayMax > max)
-            displayMax = max;
-        if (displayMin < min)
-            displayMin = min;
-        max = 1;
-        min = 0;
-        //sliceSprite.onRender = setPropertices;
-        // pass display min/max to shader
-        //screenMaterial.SetFloat("_Min", (displayMin - min) / (max - min));
-        //screenMaterial.SetFloat("_Max", (displayMax - min) / (max - min));
+        if (cursor.GetComponent<mouseray>().marker1.activeSelf == true && cursor.GetComponent<mouseray>().marker2.activeSelf == true)
+        {
+            screenMaterial.SetTexture("_MainTex2", slicerMap);
+            screenMaterial.SetTexture("_3DTex", environmentTex);
+            //if (sliceSprite.drawCall != null && sliceSprite.drawCall.baseMaterial != null)
+            //{
+            //    //print(texas.drawCall.dynamicMaterial);
+            //    //texas.material.SetTexture("_MainTex2", guit);
+            //    //texas.material.SetTexture("_3DTex", environmentTex);
+            //    //screenMaterial = texas.drawCall.baseMaterial;
+            //    //print(texas.drawCall.baseMaterial.name);
+            //   // print(texas.drawCall.dynamicMaterial.name);
+
+            //}
+            // ensure display min/max do not exceed global min/max
+            if (displayMax > max)
+                displayMax = max;
+            if (displayMin < min)
+                displayMin = min;
+            max = 1;
+            min = 0;
+            //sliceSprite.onRender = setPropertices;
+            // pass display min/max to shader
+            //screenMaterial.SetFloat("_Min", (displayMin - min) / (max - min));
+            //screenMaterial.SetFloat("_Max", (displayMax - min) / (max - min));
 
 
 
-        //print("MIN " + ((displayMin - min) / (max - min)).ToString());
-        //print("MAX " + ((displayMax - min) / (max - min)).ToString());
+            //print("MIN " + ((displayMin - min) / (max - min)).ToString());
+            //print("MAX " + ((displayMax - min) / (max - min)).ToString());
 
-        // get 2 point vects
-        Vector2 fv = firstPoint;
-        Vector2 sv =secondPoint;
-		MinMax.SetFirstPoint (fv);
-		MinMax.SetSecondPoint (sv);
+            // get 2 point vects
+            Vector2 fv = firstPoint;
+            Vector2 sv = secondPoint;
+            MinMax.SetFirstPoint(fv);
+            MinMax.SetSecondPoint(sv);
 
-		MinMax.FindMinMax ();
-		float Range = MinMax.max - MinMax.min;
-		screenMaterial.SetFloat("_Min", MinMax.min-Mathf.Min(Range/2.0f,.2f));
-		screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range/2.0f,.2f));
-		//Debug.LogError ("MAX: " + MinMax.max);
-		//Debug.LogError ("MIN: " + MinMax.min);
-        // flip dimensions of point vects, pass to shader
-        screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
-        screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));
-        Rect f = windowRect;
-        f.y = 0;
-        
-        spriteRend.sprite = sliceSprite;
-        
-        //print (f.ToString() + " " + windowRect.ToString());
+            MinMax.FindMinMax();
+            float Range = MinMax.max - MinMax.min;
+            screenMaterial.SetFloat("_Min", MinMax.min - Mathf.Min(Range / 2.0f, .2f));
+            screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range / 2.0f, .2f));
+            //Debug.LogError ("MAX: " + MinMax.max);
+            //Debug.LogError ("MIN: " + MinMax.min);
+            // flip dimensions of point vects, pass to shader
+            screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
+            screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));
+            Rect f = windowRect;
+            f.y = 0;
+
+
+            spriteRend.sprite = sliceSprite;
+
+            //print (f.ToString() + " " + windowRect.ToString());
+        }
+        else
+        {
+            screenMaterial.SetTexture("_MainTex2", clear2d);
+            screenMaterial.SetTexture("_3DTex", clear3d);
+        }
     }
 }

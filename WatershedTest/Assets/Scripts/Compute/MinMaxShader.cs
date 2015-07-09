@@ -80,10 +80,9 @@ public class MinMaxShader
     {
         // Temp patch to the OS dependen Compute Shader
 		string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-#if UNITY_EDITOR_WIN
-
-            string pathDownload = pathUser + "\\slicer_path.txt";
-		#else
+#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        string pathDownload = pathUser + "\\slicer_path.txt";
+#else
 		string pathDownload = pathUser + "/slicer_path.txt";
 #endif
 

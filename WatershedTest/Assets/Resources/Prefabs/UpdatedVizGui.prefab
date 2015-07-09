@@ -16994,10 +16994,13 @@ MonoBehaviour:
   minTime: 
   maxTime: 
   unitsLabel: units
+  variable_name: 
   valueFormatString: 0.00
   Keep: 1
   row: 0
   col: 0
+  easting: 0
+  northing: 0
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -17933,6 +17936,7 @@ MonoBehaviour:
   colorWindow: {fileID: 0}
   colorProjector: {fileID: 0}
   slideProjector: {fileID: 0}
+  cursor: {fileID: 0}
   BoundingBox:
     serializedVersion: 2
     x: 0
@@ -19522,6 +19526,7 @@ MonoBehaviour:
   min: 0
   max: 0
   units: m
+  cursor: {fileID: 0}
   displayMin: 1
   displayMax: 1
   firstPoint: {x: 0, y: 0}
@@ -19531,6 +19536,8 @@ MonoBehaviour:
   spriteRend: {fileID: 21257368}
   sliceSprite: {fileID: 0}
   CS: {fileID: 7200000, guid: 54aca4b1703a51940b555691384a514d, type: 3}
+  clear2d: {fileID: 0}
+  clear3d: {fileID: 0}
 --- !u!114 &11455626
 MonoBehaviour:
   m_ObjectHideFlags: 1

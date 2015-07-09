@@ -248,6 +248,10 @@ public class mouseray : MonoBehaviour
                     //marker1.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
                     mark1highlighted = !mark1highlighted;
                 }
+                if( Input.GetMouseButtonUp(1))
+                {
+                    mark1highlighted = false;
+                }
             }
            
             if ((curposflat - mark2posflat).magnitude <= 50.0f)
@@ -258,6 +262,10 @@ public class mouseray : MonoBehaviour
                     //marker2.GetComponent<Renderer>().material.SetColor("_Color", new Color(1f, 0f, 0f, 1.0f));
                     mark2highlighted = !mark2highlighted;
                 }
+                if (Input.GetMouseButtonUp(1))
+                {
+                    mark2highlighted = false;
+                }
             }
             
             //Debug.LogError(checkLineDistanceFromPoint(marker1.transform.position, marker2.transform.position, curpos));
@@ -267,9 +275,8 @@ public class mouseray : MonoBehaviour
 
                 timecount = _modf(timecount, 3.0f);
 
-
-
         }
+        
 
         if (!marker1.activeSelf || !marker2.activeSelf)
             slicerPlane.DisableRendering();
