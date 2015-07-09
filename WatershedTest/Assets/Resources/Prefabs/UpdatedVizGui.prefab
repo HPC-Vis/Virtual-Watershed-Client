@@ -19138,6 +19138,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeSlider: {fileID: 11458378}
+  scaleSlider: {fileID: 0}
+  currentScale: 0
 --- !u!114 &11453584
 MonoBehaviour:
   m_ObjectHideFlags: 1
