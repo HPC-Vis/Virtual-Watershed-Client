@@ -62,6 +62,7 @@ class WCS_DescribeCoverage_Parser :Parser
             testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
         }
 		Record.numbands = testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count();
+		Debug.LogError("NUMBANDS"+Record.numbands);
         string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
 
         Record.bbox2 = bbox;

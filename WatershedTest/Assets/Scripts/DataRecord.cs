@@ -37,6 +37,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.location = location;
 		dr.services = services;
 		dr.projection = projection;
+		dr.WCSOperations = WCSOperations;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
@@ -65,7 +66,7 @@ public class DataRecord : IEquatable<DataRecord>
                a.start == b.start &&
                a.end == b.end &&
                a.modelRunUUID == b.modelRunUUID &&
-               a.data == b.data;
+               a.data == b.data && a.band_id == b.band_id;
     }
 
     public static bool operator !=(DataRecord a, DataRecord b)
@@ -92,7 +93,8 @@ public class DataRecord : IEquatable<DataRecord>
                a.start != b.start ||
                a.end != b.end ||
                a.modelRunUUID != b.modelRunUUID ||
-               a.data != b.data;
+				a.data != b.data || 
+				a.band_id == b.band_id;
     }
 
     public bool Equals(DataRecord b)
@@ -230,7 +232,9 @@ public class DataRecord : IEquatable<DataRecord>
     public DateTime? start = null;
     public DateTime? end = null;
 	public int numbands = 0;
-
+	
+	// A band_id of negative one means it is not part of a series.
+	public int band_id = -1;
 	public bool IsTemporal()
 	{
 		return start == null && end == null;

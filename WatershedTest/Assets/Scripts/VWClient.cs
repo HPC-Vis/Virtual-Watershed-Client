@@ -144,7 +144,7 @@ public class VWClient : Observer
         {   
 			
             string URL = observable.Update();
-			//Logger.WriteLine ("Added to observables: " + URL); 
+			Logger.WriteLine ("Added to observables: " + URL); 
             active[URL] = observable;
         }
     }
@@ -162,7 +162,18 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
         AddObservable(client);
     }
-
+	public void describeCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
+	{
+		// Build a WCS observable
+		Logger.WriteLine("WCS describeCoverage Called");
+		var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath,2);
+		client.GetData(Record, param);
+		client.Token = GenerateToken("DescribeCoverage");
+		client.callback = Setter;
+		client.Priority = param.Priority;
+		client.ModelRunUUID = Record.modelRunUUID;
+		AddObservable(client);
+	}
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {

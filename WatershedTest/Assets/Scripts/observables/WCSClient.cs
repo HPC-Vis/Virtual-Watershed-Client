@@ -43,6 +43,11 @@ class WCSClient : Observerable
         	StateList.Add(Operations.GetCapabilities);
         	StateList.Add(Operations.Done);
         }
+        else if(operation==2)
+       	{
+       		StateList.Add(Operations.DescribeCoverage);
+       		StateList.Add(Operations.Done);
+       	}
     }
     
     // Update
@@ -153,8 +158,9 @@ class WCSClient : Observerable
                     // Hard CODENESS
                     parameters += i.name + "=" + i.AllowedValues[6] + "&";
                 }
-                else if (i.name == "Identifier")
+				else if (i.name == "identifiers")
                 {
+                	Logger.WriteLine("IDENTIFIER" + records[0].variableName);
 					if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].variableName) )
                     {
                         parameters += i.name + "=" + j + "&";
@@ -227,7 +233,14 @@ class WCSClient : Observerable
         {
             foreach (string j in i.AllowedValues)
             {
-                parameters += i.name + "=" + j + "&";
+        		if(i.name == "identifiers")
+        		{
+        			parameters += i.name + "=" + records[0].variableName+"&";
+        		}
+        		else
+        		{
+                	parameters += i.name + "=" + j + "&";
+                }
                 break;
             }
         }

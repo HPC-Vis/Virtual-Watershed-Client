@@ -350,9 +350,9 @@ public static class ModelRunManager
         // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
     }
 
-	public static void InsertDataRecord(DataRecord record)
+	public static bool InsertDataRecord(DataRecord record)
 	{
-		modelRuns[record.modelRunUUID].Insert(record);
+		return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
 	public static void parseNetCDFRecords(List<DataRecord> record)
@@ -365,9 +365,13 @@ public static class ModelRunManager
 				foreach (var i in record[0].WCSCoverages)
 				{
 					DataRecord dr = record[0].Clone();
+					dr.band_id = 1;
 					dr.variableName = i.Identifier;
-					Logger.WriteLine(i.Identifier);
+					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
 					InsertDataRecord(dr);
+					
+					// Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
+					client.describeCoverage(CreateNewBands,dr,new SystemParameters());
 				}
 			}
 			// See if layers variable is defined
@@ -381,12 +385,28 @@ public static class ModelRunManager
 					// WMS Bounding Box
 					InsertDataRecord(dr);
 					Logger.WriteLine (dr.variableName);
+					
+
 				}
+			}
+			else
+			{
+				record[0].band_id = 1;
 			}
 
 		}
 	}
-
+	public static void CreateNewBands(List<DataRecord> record)
+	{
+		Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString());
+		// Lets create the records for this guy...
+		for(int i =2; i <= record[0].numbands; i++)
+		{
+			DataRecord dr = record[0].Clone();
+			dr.band_id = i;
+			Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr).ToString());
+		}
+	}
 	// Filter function goes here.
 	static void filter(DataRecord record)
 	{
