@@ -25,9 +25,14 @@ namespace VTL.SimTimeControls
         private Slider speedControlSlider;
         private Text speedText;
         int HOUR_STEPS = 24;
-        int DAY_STEPS = 7, DAY_MULTIPLIER = 24;
-        int WEEK_STEPS = 4, WEEK_MULTIPLIER = 168;
-        int MONTH_STEPS = 12, MONTH_MULTIPLIER = 730;
+        float HOUR_MULTIPLIER = 1f/600f;
+        int DAY_STEPS = 7;
+        float DAY_MULTIPLIER = 1f/25f;
+        int WEEK_STEPS = 4;
+        float WEEK_MULTIPLIER = 7f/25f;
+        int MONTH_STEPS = 12;
+        float MONTH_MULTIPLIER = 73f/60f;
+
 
         // Use this for initialization
         void Start()
@@ -63,7 +68,7 @@ namespace VTL.SimTimeControls
 
             if (currentScale == timeScales.HOURS)
             {
-                timeSlider.PlaySpeed = (newSpeed + 1);
+                timeSlider.PlaySpeed = HOUR_MULTIPLIER * (newSpeed + 1);
             }
             else if (currentScale == timeScales.DAYS)
             {
@@ -144,7 +149,7 @@ namespace VTL.SimTimeControls
             }
             else
             {
-                speedText.text = string.Format("1sec:{0:0}hour(s)", spd);
+                speedText.text = string.Format("1sec:{0:0}hour(s)", spd / HOUR_MULTIPLIER);
             }
         }
         
