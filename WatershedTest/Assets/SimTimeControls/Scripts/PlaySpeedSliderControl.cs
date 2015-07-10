@@ -118,6 +118,7 @@ namespace VTL.SimTimeControls
                 default:
                     break;
             }
+            OnValueChange();
             setSpeedText();
         }
 
@@ -131,19 +132,19 @@ namespace VTL.SimTimeControls
             float spd = timeSlider.PlaySpeed;
             if (spd >= MONTH_MULTIPLIER)
             {
-                speedText.text = string.Format("1s:{0:0}month(s)", spd / MONTH_MULTIPLIER);
+                speedText.text = string.Format("1sec:{0:0}month(s)", spd / MONTH_MULTIPLIER);
             }
             else if (spd >= WEEK_MULTIPLIER)
             {
-                speedText.text = string.Format("1s:{0:0}week(s)", spd / WEEK_MULTIPLIER);
+                speedText.text = string.Format("1sec:{0:0}week(s)", spd / WEEK_MULTIPLIER);
             }
             else if (spd >= DAY_MULTIPLIER)
             {
-                speedText.text = string.Format("1s:{0:0}day(s)", spd / DAY_MULTIPLIER);
+                speedText.text = string.Format("1sec:{0:0}day(s)", spd / DAY_MULTIPLIER);
             }
             else
             {
-                speedText.text = string.Format("1s:{0:0}hour(s)", spd);
+                speedText.text = string.Format("1sec:{0:0}hour(s)", spd);
             }
         }
         
