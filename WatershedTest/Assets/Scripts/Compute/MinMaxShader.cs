@@ -19,7 +19,6 @@ public class MinMaxShader
 	public void SetDataArray(Texture2D Tex)
 	{
 		DataArray = Tex;
-		cs.SetTexture (kernelHandle, "PassedInData", DataArray);
 	}
 
     public void SetMax(float max)
@@ -46,35 +45,27 @@ public class MinMaxShader
 		da [0] = uint.MinValue;
 		da [1] = uint.MaxValue;
 		if (buffer != null) {
-			cs.SetInts ("direction", new int[]{1,0});
-			cs.SetInt ("fromx", 98);
-			cs.SetInt ("tox", 99);
-			cs.SetInt ("fromy", 98);
-			cs.SetInt ("toy", 99);
-
+            // Send data to the shader
+            cs.SetTexture(kernelHandle, "PassedInData", DataArray);
             cs.SetFloat("normalizeValue", Max);
 			cs.SetInt ("sampleRate", sampleRate);
 			cs.SetFloats ("from", new float[]{first.x,first.y});
 			cs.SetFloats ("to", new float[]{second.x,second.y});
 			buffer.SetData (da);
 
-// Temp patch to the OS dependen Compute Shader
-#if UNITY_EDITOR_WIN
 			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
-#endif
             buffer.GetData(da);
-
-			//Debug.LogError ("KERNEL: " + kernelHandle);
-			//int ii = BitConverter.ToInt32(BitConverter.GetBytes(ff), 0);
-			//Debug.LogError ("Converted value x: " + BitConverter.ToSingle (BitConverter.GetBytes (da [0]), 0));
-			//Debug.LogError ("Converted value y: " + BitConverter.ToSingle (BitConverter.GetBytes (da [1]), 0));
-			//Debug.LogError ("x: " + da [0]);
-			//Debug.LogError ("y: " + da [1]);
 			max = BitConverter.ToSingle (BitConverter.GetBytes (da [0]),0);
 			min = BitConverter.ToSingle (BitConverter.GetBytes (da [1]), 0);
 		}
 
 	}
+
+    public void FindMinMaxCPU()
+    {
+        max = 1;
+        min = 0;
+    }
 
     public void WriteSlicerToFile()
     {
@@ -113,7 +104,8 @@ public class MinMaxShader
 	public MinMaxShader (ComputeShader CS) {
 		cs = CS;
 
-		if (buffer != null) {
+		if (buffer != null)
+        {
 			buffer.Release();
 			buffer.Dispose();
 			buffer = null;
@@ -144,11 +136,6 @@ public class MinMaxShader
 
 		da [0] = 0;
 		da [1] = 1;
-	}
-
-	void OnGUI()
-	{
-		GUI.DrawTexture (new Rect (0, 0, 100, 100), DataArray);
 	}
 
 	void OnDestroy()
