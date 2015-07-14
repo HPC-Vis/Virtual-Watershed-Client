@@ -57,6 +57,8 @@ namespace VTL.TrendGraph
         Canvas parentCanvas;
         public float easting;
         public float northing;
+        public Material GraphMaterial;
+        public Image GraphImage;
 
         public void OnValidate()
         {
@@ -127,6 +129,9 @@ namespace VTL.TrendGraph
             }
 
             valueText = transform.Find("Value").GetComponent<Text>();
+
+            // Set image material
+            GraphImage.material = GraphMaterial;
         }
 
         // The Drawing.DrawLine method using the GL and GUI class and 
@@ -181,6 +186,7 @@ namespace VTL.TrendGraph
             w = rectTransform.rect.width * transform.localScale.x;
             h = rectTransform.rect.height * transform.localScale.y;
 
+            /* OLD
             // Iterate through the timeseries and draw the trend segment
             // by segment.
             var prev = Record2PixelCoords(timeseries[0]);
@@ -190,11 +196,40 @@ namespace VTL.TrendGraph
                 Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
                 prev = next;
             }
+            */
         }
 
         public void Clear()
         {
             timeseries.Clear();
+        }
+
+        public void Compute()
+        {
+            Debug.LogError("trend Graph Compute Called");
+            int width = 290;
+            int height = 161;
+            Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+            Color[] color = new Color[width * height];
+            Utilities util = new Utilities();
+            for (int i = 0; i < width * height; i++)
+            {
+                if (i > (width * height)/2)
+                {
+                    color[i] = new Color(0, 0, 0, 1);
+                }
+                else
+                {
+                    color[i] = new Color(0, 0, 0, 0);
+                }
+            }
+            tex.wrapMode = TextureWrapMode.Clamp;
+            tex.SetPixels(color);
+            tex.Apply();
+            //GraphImage.material.SetTexture("_MainTex", tex);
+            //GraphMaterial.SetTexture("_MainTex", tex);
+            GraphImage.sprite = Sprite.Create(tex, new Rect(0, 0, width, height), Vector2.zero );
+            //GraphImage.material.mainTexture = tex;
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting

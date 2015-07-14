@@ -238,6 +238,7 @@ public class Spooler : MonoBehaviour
                 trendGraph.SetCoordPoint(WorldPoint);
                 trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
+                trendGraph.Compute();
                 Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
 			}
 		}

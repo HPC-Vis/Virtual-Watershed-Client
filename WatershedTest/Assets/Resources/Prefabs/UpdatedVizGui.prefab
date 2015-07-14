@@ -16997,6 +16997,8 @@ MonoBehaviour:
   col: 0
   easting: 0
   northing: 0
+  GraphMaterial: {fileID: 0}
+  GraphImage: {fileID: 0}
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1

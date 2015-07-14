@@ -5,8 +5,8 @@
 	Category {
 	SubShader {
 		Tags {"Queue" = "Geometry"}
-//		Zwrite Off
-		Blend OneMinusSrcAlpha SrcAlpha 
+		Zwrite Off
+		//Blend OneMinusSrcAlpha SrcAlpha 
 		Pass {
 			Fog { Mode off }
 				
@@ -23,7 +23,13 @@ uniform sampler2D _MainTex;
 
 float4 frag (v2f_img i) : COLOR
 {
-	return(1.0, 0.0, 1.0, 1.0);
+	float4 col = tex2D(_MainTex, i.uv);
+
+	if (col.a > 0.5)
+	{
+		return float4(0.0, 1.0, 0.0, 0.0);
+	}
+	return  float4(1.0, 0.0, 0.0, 0.0);
 }
 ENDCG
 
