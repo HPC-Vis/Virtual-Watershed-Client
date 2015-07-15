@@ -13,7 +13,10 @@ public class DataRecord : IEquatable<DataRecord>
 {
     public DataRecord()
     {
+    	start = DateTime.MinValue;
+    	end = DateTime.MaxValue;
     }
+    
     public DataRecord( string recordName )
     {
         name = recordName;
@@ -24,7 +27,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.name = name;
 		dr.boundingBox = boundingBox;
 		dr.bbox = bbox;
-		dr.bbox2 = bbox;
+		dr.bbox2 = bbox2;
 		dr.variableName = variableName;
 		//dr.data = data;
 		//dr.texture = texture.Clone ();
@@ -38,6 +41,8 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.services = services;
 		dr.projection = projection;
 		dr.WCSOperations = WCSOperations;
+		dr.CoverageDescription = CoverageDescription;
+		dr.WCSCoverages = WCSCoverages;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
@@ -209,6 +214,9 @@ public class DataRecord : IEquatable<DataRecord>
     public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
 	[NonSerializedAttribute]
 	public GetCapabilites.CapabilitiesContentsCoverageSummary[] WCSCoverages = null;
+	[NonSerializedAttribute]
+	public DescribeCoverageWCS.CoverageDescriptions CoverageDescription = null;
+	
     public string WMSCapabilities = "";
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";

@@ -404,6 +404,7 @@ public static class ModelRunManager
 		{
 			DataRecord dr = record[0].Clone();
 			dr.band_id = i;
+			dr.id += dr.band_id.ToString() + dr.variableName;
 			Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr).ToString());
 		}
 	}

@@ -114,7 +114,7 @@ public class Spooler : MonoBehaviour
             testImage.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
-
+			
             TimeProjector.material.SetFloat("_x1", float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text));
             TimeProjector.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
             TimeProjector.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
@@ -180,6 +180,7 @@ public class Spooler : MonoBehaviour
                 }
 
                 count--;
+                Debug.LogError("BUILDING BAND NUM: "  + record.band_id);
                 textureBuilder(record);
 
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)

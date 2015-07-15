@@ -2707,6 +2707,7 @@ MonoBehaviour:
     modelRunUUID: 
     variableName: 
     numbands: 0
+    band_id: -1
     isSet: 0
     texture: 
     Min: 3.40282347e+38

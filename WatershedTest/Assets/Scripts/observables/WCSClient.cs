@@ -68,14 +68,23 @@ class WCSClient : Observerable
         {
             state = Operations.Error;
         }
-
+        if(state == Operations.GetCapabilities && records[0].WCSCoverages != null)
+        {
+			state = StateList[0];
+			StateList.RemoveAt(0);
+        }
+		if(state == Operations.DescribeCoverage && records[0].CoverageDescription != null)
+		{
+			state = StateList[0];
+			StateList.RemoveAt(0);
+		}
         // Check the state
         if (state == Operations.GetCapabilities)
         {
         	Logger.WriteLine("GETCAPABILITESWCS" + StateList.Count.ToString());
             return GetCapabilities();
         }
-        else if (state == Operations.DescribeCoverage)
+        else if (state == Operations.DescribeCoverage )
         {
 			Logger.WriteLine("DESCRIBECOVERAGE");
             return DescribeCoverage();
@@ -145,6 +154,7 @@ class WCSClient : Observerable
         // For now picking first valid parameters
         var a = gc.Parameter.First(x => { if (x.name == "Identifier") return true; return false; });//.Select(x => { if (x.name == "Identifier") return x; return null; });
         Logger.WriteLine("IDENTIFIERS: " + a.AllowedValues.Count().ToString());
+        Logger.WriteLine("BAND ID: " + records[0].band_id.ToString());
         /*foreach(var i in a.AllowedValues)
         {
             Logger.WriteLine(i.ToString());
@@ -153,8 +163,10 @@ class WCSClient : Observerable
         {
             foreach (string j in i.AllowedValues)
             {
+            Debug.LogError(i.name);
                 if (i.name == "format")
                 {
+                	Debug.LogError(i.AllowedValues[6]);
                     // Hard CODENESS
                     parameters += i.name + "=" + i.AllowedValues[6] + "&";
                 }
@@ -188,7 +200,7 @@ class WCSClient : Observerable
         }
 
         // Build Get Coverage String
-        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height;//+height.ToString();
+		string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height + "&RangeSubset=" + records[0].CoverageDescription.CoverageDescription.Range.Field.Identifier + "[" + records[0].CoverageDescription.CoverageDescription.Range.Field.Axis.identifier + "[" + records[0].band_id + "]]";//+height.ToString();
         Logger.WriteLine("WCS COVERAGE LINK: " + req);
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);
