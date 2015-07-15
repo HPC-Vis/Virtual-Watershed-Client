@@ -1,6 +1,6 @@
 ﻿Shader "Custom/TrendGraph" {
 	Properties {
-		_MainTex ("32bit Float Map", RECT) = "white" {}
+		_MainTex ("Texture", 2D) = "white" {}
 	}
 	Category {
 	SubShader {
@@ -25,10 +25,11 @@ float4 frag (v2f_img i) : COLOR
 {
 	float4 col = tex2D(_MainTex, i.uv);
 
-	if (col.a > 0.5)
+	if (col.a > 0.2)
 	{
 		return float4(0.0, 1.0, 0.0, 0.0);
 	}
+	
 	return  float4(1.0, 0.0, 0.0, 0.0);
 }
 ENDCG

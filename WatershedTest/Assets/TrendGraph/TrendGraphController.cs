@@ -207,29 +207,25 @@ namespace VTL.TrendGraph
         public void Compute()
         {
             Debug.LogError("trend Graph Compute Called");
-            int width = 290;
-            int height = 161;
-            Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
+            int width = (int)w;
+            int height = (int)h;
+            Texture2D tex = new Texture2D(width, height);
             Color[] color = new Color[width * height];
             Utilities util = new Utilities();
             for (int i = 0; i < width * height; i++)
             {
                 if (i > (width * height)/2)
                 {
-                    color[i] = new Color(0, 0, 0, 1);
+                    color[i] = new Color(0, 0, 0, 0.1f);
                 }
                 else
                 {
-                    color[i] = new Color(0, 0, 0, 0);
+                    color[i] = new Color(0, 0, 0, 0.9f);
                 }
             }
-            tex.wrapMode = TextureWrapMode.Clamp;
             tex.SetPixels(color);
             tex.Apply();
-            //GraphImage.material.SetTexture("_MainTex", tex);
-            //GraphMaterial.SetTexture("_MainTex", tex);
             GraphImage.sprite = Sprite.Create(tex, new Rect(0, 0, width, height), Vector2.zero );
-            //GraphImage.material.mainTexture = tex;
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting

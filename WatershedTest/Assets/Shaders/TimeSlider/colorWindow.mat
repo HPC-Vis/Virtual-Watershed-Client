@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _FloatMax
-        second: 250
+        second: 249
       data:
         first:
           name: _x1
