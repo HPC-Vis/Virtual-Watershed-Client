@@ -27,7 +27,7 @@ public class raySlicer : MonoBehaviour
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
-    public Texture2D slicerMap;
+    public Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -38,11 +38,13 @@ public class raySlicer : MonoBehaviour
     public Texture2D clear2d;
     public Texture3D clear3d;
 
+    // Used for knowing when min and max is to be calculated
+    bool calc_min_max = true;
+
     // Use this for initialization
 
     void Start()
     {
-		slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
 		MinMax = new MinMaxShader (CS);
 		if (!Directory.Exists (DirectoryLocation))
 		{
@@ -141,9 +143,7 @@ public class raySlicer : MonoBehaviour
 
                     //Build the heightmap texture for the terrain slicer
                     buildHeightMap(heights, Rects, x, y, HeightMaps);
-
-
-
+                    
                     screenMaterial.SetTexture("_MainTex2", slicerMap);
                     MinMax.SetDataArray(slicerMap);
                     // Debug.LogError("SETTING HEIGHTS");
@@ -369,16 +369,7 @@ public class raySlicer : MonoBehaviour
         {
             screenMaterial.SetTexture("_MainTex2", slicerMap);
             screenMaterial.SetTexture("_3DTex", environmentTex);
-            //if (sliceSprite.drawCall != null && sliceSprite.drawCall.baseMaterial != null)
-            //{
-            //    //print(texas.drawCall.dynamicMaterial);
-            //    //texas.material.SetTexture("_MainTex2", guit);
-            //    //texas.material.SetTexture("_3DTex", environmentTex);
-            //    //screenMaterial = texas.drawCall.baseMaterial;
-            //    //print(texas.drawCall.baseMaterial.name);
-            //   // print(texas.drawCall.dynamicMaterial.name);
 
-            //}
             // ensure display min/max do not exceed global min/max
             if (displayMax > max)
                 displayMax = max;
@@ -386,15 +377,6 @@ public class raySlicer : MonoBehaviour
                 displayMin = min;
             max = 1;
             min = 0;
-            //sliceSprite.onRender = setPropertices;
-            // pass display min/max to shader
-            //screenMaterial.SetFloat("_Min", (displayMin - min) / (max - min));
-            //screenMaterial.SetFloat("_Max", (displayMax - min) / (max - min));
-
-
-
-            //print("MIN " + ((displayMin - min) / (max - min)).ToString());
-            //print("MAX " + ((displayMax - min) / (max - min)).ToString());
 
             // get 2 point vects
             Vector2 fv = firstPoint;
@@ -402,27 +384,36 @@ public class raySlicer : MonoBehaviour
             MinMax.SetFirstPoint(fv);
             MinMax.SetSecondPoint(sv);
 
-            MinMax.FindMinMax();
+            // Do a minmax update only when marker is down once, or marker is in movement
+            if (cursor.GetComponent<mouseray>().mark1highlighted || cursor.GetComponent<mouseray>().mark2highlighted || calc_min_max)
+            {
+                // Used to either run cpu minmax or gpu
+            #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+                MinMax.FindMinMax();
+            #else
+                MinMax.FindMinMaxCPU();
+            #endif
+            }
+
+            calc_min_max = false;
             float Range = MinMax.max - MinMax.min;
             screenMaterial.SetFloat("_Min", MinMax.min - Mathf.Min(Range / 2.0f, .2f));
             screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range / 2.0f, .2f));
             //Debug.LogError ("MAX: " + MinMax.max);
             //Debug.LogError ("MIN: " + MinMax.min);
+
             // flip dimensions of point vects, pass to shader
             screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
             screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));
             Rect f = windowRect;
             f.y = 0;
-
-
             spriteRend.sprite = sliceSprite;
-
-            //print (f.ToString() + " " + windowRect.ToString());
         }
         else
         {
             screenMaterial.SetTexture("_MainTex2", clear2d);
             screenMaterial.SetTexture("_3DTex", clear3d);
+            calc_min_max = true;
         }
     }
 }

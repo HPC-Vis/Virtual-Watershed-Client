@@ -225,8 +225,8 @@ public class mouseray : MonoBehaviour
         }
     }
 
-    bool mark1highlighted = false;
-    bool mark2highlighted = false;
+    public bool mark1highlighted = false;
+    public bool mark2highlighted = false;
 
     // Update is called once per frame
     void Update()
