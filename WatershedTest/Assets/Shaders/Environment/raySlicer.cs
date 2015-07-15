@@ -27,7 +27,7 @@ public class raySlicer : MonoBehaviour
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
-    public Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
+    public Texture2D slicerMap = new Texture2D(100, 100, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -51,8 +51,8 @@ public class raySlicer : MonoBehaviour
 			Directory.CreateDirectory(DirectoryLocation);
 		}
 
-        height = 256;
-        width = 256;
+        height = 100;
+        width = 100;
         
         setFirstPoint(Vector2.zero);
         setSecondPoint(new Vector2(1f, 1f));
@@ -166,6 +166,9 @@ public class raySlicer : MonoBehaviour
                 MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
                 MinMax.SetMax(max);
             }
+
+            screenMaterial.SetFloat("_Min", min);
+            screenMaterial.SetFloat("_Max", MinMax.max);
         
     }
 
@@ -395,10 +398,6 @@ public class raySlicer : MonoBehaviour
             #endif
             }
 
-            calc_min_max = false;
-            float Range = MinMax.max - MinMax.min;
-            screenMaterial.SetFloat("_Min", MinMax.min - Mathf.Min(Range / 2.0f, .2f));
-            screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range / 2.0f, .2f));
             //Debug.LogError ("MAX: " + MinMax.max);
             //Debug.LogError ("MIN: " + MinMax.min);
 
