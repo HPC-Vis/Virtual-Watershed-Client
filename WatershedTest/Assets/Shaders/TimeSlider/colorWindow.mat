@@ -138,23 +138,23 @@ Material:
       data:
         first:
           name: _x1
-        second: 1
+        second: .0288461503
       data:
         first:
           name: _x2
-        second: 1
+        second: .0480769202
       data:
         first:
           name: _x3
-        second: 1
+        second: .0961537734
       data:
         first:
           name: _x4
-        second: 1
+        second: .182692304
       data:
         first:
           name: _x5
-        second: 1
+        second: .365384609
     m_Colors:
       data:
         first:
@@ -167,24 +167,24 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 1, g: 0, b: 0, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 1, g: 0, b: .795180559, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: .481927633, g: 0, b: 1, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0, g: .0963855982, b: 1, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0, g: .891566157, b: 1, a: 1}
       data:
         first:
           name: _SegmentData005
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0, g: 1, b: .0963855982, a: 1}

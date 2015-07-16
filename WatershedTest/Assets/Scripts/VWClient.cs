@@ -54,7 +54,7 @@ public class VWClient : Observer
     }
 
     // http://h1.rd.unr.edu:8080
-    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")// "http://h1.rd.unr.edu:8080")
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://h1.rd.unr.edu:8080")// "http://vwp-dev.unm.edu")
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events
