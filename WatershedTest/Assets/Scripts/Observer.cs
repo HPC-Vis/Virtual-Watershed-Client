@@ -49,6 +49,14 @@ public abstract class Observer
 
     public virtual void OnDataError(String url)
     {
-        Logger.WriteLine("--- In OnDataError ---");
+        
+        if(url != null)
+        {
+			Logger.WriteLine("--- In OnDataError " + url +  " ---");
+        }
+        else
+        {
+			Logger.WriteLine("--- In OnDataError ---");
+        }
     }
 }

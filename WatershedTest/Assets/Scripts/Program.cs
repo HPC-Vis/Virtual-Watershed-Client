@@ -60,25 +60,24 @@ namespace NetworkTest
 
 			Logger.WriteLine ("Searching");
 			Thread.Sleep (5000);*/
+			StreamReader sr = new StreamReader ("./wcstest.xml");
+			string contents = sr.ReadToEnd ();
+			sr.Close ();
+			Logger.WriteLine (contents);
+			WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser ();
+			parser.Parse (new DataRecord (), contents);
 
-            //Logger.ReadKey();
-			string Str = new StreamReader("/Users/appleseed/Desktop/wcsdescribecoverage.xml").ReadToEnd();
-			var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
-
-			XmlSerializer serial = new XmlSerializer(typeof(DescribeCoverageWCS.CoverageDescriptions));
-			DescribeCoverageWCS.CoverageDescriptions testc = new DescribeCoverageWCS.CoverageDescriptions();
-
-			if (serial.CanDeserialize(reader))
-			{
-
-				testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
-				/*foreach (var i in testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key) 
-				{
-					Logger.WriteLine (i);
-				}*/
-				//Logger.WriteLine (testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count().ToString());
-			}
-			Logger.ReadKey();
+            Logger.ReadKey();
+			//NetworkManager nm = new NetworkManager();
+			//obs = new DataObserver();
+			//var df = new DataFactory(nm);
+			//var drr = new DownloadRequest();
+			
+			//drr.Url = "url://http://vwp-dev.unm.edu/apps/vwp/datasets/5365945d-3f7d-4b2b-baa5-f6ca20c0be50/services/ogc/wcs?SERVICE=wcs&REQUEST=DescribeCoverage&VERSION=1.1.2&identifier=in.0014.T_a.tif";
+			//df.DownloadString()
+			//vwc = new VWClient(new DataFactory(nm), nm);
+			//vwc.describeCoverage()
+            
         }
 
 		public static void DoNothing(List<DataRecord>records)

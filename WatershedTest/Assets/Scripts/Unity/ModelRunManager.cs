@@ -366,6 +366,7 @@ public static class ModelRunManager
 				{
 					DataRecord dr = record[0].Clone();
 					dr.band_id = 1;
+					dr.Identifier = i.Identifier;
 					dr.variableName = i.Identifier;
 					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
 					InsertDataRecord(dr);
@@ -413,24 +414,18 @@ public static class ModelRunManager
 	{
 		Logger.WriteLine ("FILTER");
 		SystemParameters sp = new SystemParameters();
-		if(record.services.ContainsKey("wcs"))
+		//Debug.LogError(record.multiLayered); patch is record.multilayered..
+		if(record.services.ContainsKey("wcs") && record.multiLayered != null)
 		{
 			sp.service = "wcs";
 			Logger.WriteLine("WCS");
 			client.getCapabilities(parseNetCDFRecords,record,sp);	
 		}
-		else if (record.services.ContainsKey("wms")) 
-		{
-			Logger.WriteLine("WMSSSSSSSSSSSSSSSSSSSSSSS!!!!");
-			// Request Get Capabilities here
-			sp.service  = "wms";
-			Logger.WriteLine("WMS");
-			client.getCapabilities(parseNetCDFRecords,record,sp);
-		} 
 		else 
 		{
 			Logger.WriteLine ("FILTERING");
 			// Add it to its perspective model run
+			record.band_id = 1;
 			InsertDataRecord(record);
 		}
 	}

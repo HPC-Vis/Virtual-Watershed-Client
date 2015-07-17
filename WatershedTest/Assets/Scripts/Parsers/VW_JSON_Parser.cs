@@ -99,6 +99,8 @@ class VW_JSON_Parser : Parser
                 current.state = encoded["results"][records]["categories"][0]["state"].ToString().Replace('"', ' ').Trim();
 
                 current.location = encoded["results"][records]["categories"][0]["location"].ToString().Replace('"', ' ').Trim();
+				current.multiLayered = encoded["results"][records]["downloads"][0]["nc"];
+                //Logger.WriteLine((current.multiLayered == null).ToString());
                 //if (encoded["results"][records].ToString().Contains("valid_dates"))
                 //Console.WriteLine(encoded["results"][records].ToString());
 

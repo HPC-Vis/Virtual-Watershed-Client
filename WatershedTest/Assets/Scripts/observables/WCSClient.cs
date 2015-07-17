@@ -70,11 +70,13 @@ class WCSClient : Observerable
         }
         if(state == Operations.GetCapabilities && records[0].WCSCoverages != null)
         {
+        	Logger.WriteLine("SKIPP");
 			state = StateList[0];
 			StateList.RemoveAt(0);
         }
 		if(state == Operations.DescribeCoverage && records[0].CoverageDescription != null)
 		{
+			Logger.WriteLine("SKIPP2");
 			state = StateList[0];
 			StateList.RemoveAt(0);
 		}
@@ -153,8 +155,8 @@ class WCSClient : Observerable
         string parameters = "";
         // For now picking first valid parameters
         var a = gc.Parameter.First(x => { if (x.name == "Identifier") return true; return false; });//.Select(x => { if (x.name == "Identifier") return x; return null; });
-        Logger.WriteLine("IDENTIFIERS: " + a.AllowedValues.Count().ToString());
-        Logger.WriteLine("BAND ID: " + records[0].band_id.ToString());
+        //Logger.WriteLine("IDENTIFIERS: " + a.AllowedValues.Count().ToString());
+        //Logger.WriteLine("BAND ID: " + records[0].band_id.ToString());
         /*foreach(var i in a.AllowedValues)
         {
             Logger.WriteLine(i.ToString());
@@ -163,23 +165,23 @@ class WCSClient : Observerable
         {
             foreach (string j in i.AllowedValues)
             {
-            Debug.LogError(i.name);
+            //Debug.LogError(i.name);
                 if (i.name == "format")
                 {
-                	Debug.LogError(i.AllowedValues[6]);
+                	//Debug.LogError(i.AllowedValues[6]);
                     // Hard CODENESS
                     parameters += i.name + "=" + i.AllowedValues[6] + "&";
                 }
 				else if (i.name == "identifiers")
                 {
-                	Logger.WriteLine("IDENTIFIER" + records[0].variableName);
+                	//Logger.WriteLine("IDENTIFIER" + records[0].variableName);
 					if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].variableName) )
                     {
                         parameters += i.name + "=" + j + "&";
                     }
                     else
                     {
-						parameters += i.name + "=" + records[0].variableName.Replace(' ','_') + "&";
+						parameters += i.name + "=" + records[0].Identifier + "&";
                     }
                     break;
                 }
@@ -194,7 +196,7 @@ class WCSClient : Observerable
                        parameters += i.name + "=" + j + "&";
                     }
                 }
-                Logger.WriteLine(i.name + " " + j);
+                //Logger.WriteLine(i.name + " " + j);
                 break;
             }
         }
@@ -221,7 +223,7 @@ class WCSClient : Observerable
         
         // Import
         factory.Import("WCS_CAP", records, "url://" + wcs_url);
-
+		Logger.WriteLine("WCS_CAP: " + wcs_url);
         // Return
         Logger.Log(Token + ": " + wcs_url);
         return wcs_url;
@@ -247,7 +249,7 @@ class WCSClient : Observerable
             {
         		if(i.name == "identifiers")
         		{
-        			parameters += i.name + "=" + records[0].variableName+"&";
+        			parameters += i.name + "=" + records[0].Identifier+"&";
         		}
         		else
         		{
@@ -258,7 +260,7 @@ class WCSClient : Observerable
         }
 
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
-         Logger.WriteLine(req);
+         //Logger.WriteLine(req);
 
         // Return
         // Logger.Log(Token + ": " + req);

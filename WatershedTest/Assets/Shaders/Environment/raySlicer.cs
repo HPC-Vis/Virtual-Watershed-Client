@@ -27,7 +27,7 @@ public class raySlicer : MonoBehaviour
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
-    public Texture2D slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
+    public Texture2D slicerMap;
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -45,6 +45,7 @@ public class raySlicer : MonoBehaviour
 
     void Start()
     {
+		slicerMap = new Texture2D(115, 115, TextureFormat.ARGB32, false);
 		MinMax = new MinMaxShader (CS);
 		if (!Directory.Exists (DirectoryLocation))
 		{

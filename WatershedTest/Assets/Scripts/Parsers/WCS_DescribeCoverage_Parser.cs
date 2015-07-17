@@ -60,12 +60,18 @@ class WCS_DescribeCoverage_Parser :Parser
         if (serial.CanDeserialize(reader))
         {
             testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
+			Logger.WriteLine ("PARSED: " + testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count().ToString());
+        }
+        else
+        {
+        	Debug.LogError("NOOOOOOOOOOOOOOOOOOOO! Failed to parse!!");
+        	return;
         }
         Record.CoverageDescription = testc;
-        Debug.LogError(testc.CoverageDescription.Range.Field.Identifier);
-        Debug.LogError(testc.CoverageDescription.Range.Field.Axis.identifier);
+        //Debug.LogError(testc.CoverageDescription.Range.Field.Identifier);
+        //Debug.LogError(testc.CoverageDescription.Range.Field.Axis.identifier);
 		Record.numbands = testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count();
-		Debug.LogError("NUMBANDS"+Record.numbands);
+		//Debug.LogError("NUMBANDS"+Record.numbands);
         string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
 
         Record.bbox2 = bbox;

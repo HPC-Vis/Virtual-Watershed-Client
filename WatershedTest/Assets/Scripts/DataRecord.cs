@@ -43,6 +43,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.WCSOperations = WCSOperations;
 		dr.CoverageDescription = CoverageDescription;
 		dr.WCSCoverages = WCSCoverages;
+		dr.Identifier = Identifier;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
@@ -236,6 +237,9 @@ public class DataRecord : IEquatable<DataRecord>
     public string modelRunUUID;
     public string variableName;
 
+	// Another patch to make things go faster
+	public string multiLayered = "none";
+	
     // Temporal Fields for metadata 
     public DateTime? start = null;
     public DateTime? end = null;
@@ -321,7 +325,7 @@ public class DataRecord : IEquatable<DataRecord>
     // Use these to rebuild bounding box
     public float xBound, yBound, xwidth, yheight;
 
-    public string Identifier="";
+    public string Identifier=null;
     public string Layer = "";
 
 };

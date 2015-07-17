@@ -306,7 +306,7 @@ public class VWClient : Observer
         {
             req += "&model_run_uuid=" + param.model_run_uuid;
         }
-		Logger.WriteLine ("Loading: " + req);
+		//Logger.WriteLine ("Loading: " + req);
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();
