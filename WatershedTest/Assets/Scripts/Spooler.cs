@@ -276,7 +276,7 @@ public class Spooler : MonoBehaviour
 		//Debug.LogError(rec.start + " | " + rec.end);
 		Logger.enable = true;
 		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
-		Texture2D tex = new Texture2D(100,100);
+		Texture2D tex = new Texture2D(rec.width, rec.height);
 		if(!WMS)
 	    {
             tex = utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
@@ -302,7 +302,7 @@ public class Spooler : MonoBehaviour
 		}
 		
 		tex.Apply ();
-		frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
+        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 500, 500), Vector2.zero);//new Texture2D();// Generate Sprite
 		//tex.EncodeToPNG()
 		 //File.WriteAllBytes(Application.dataPath + "/../"+frame.endtime.Year + "" + frame.endtime.Month+".png",tex.EncodeToPNG());
 		// second hand to spooler
@@ -388,7 +388,7 @@ public class Spooler : MonoBehaviour
 	public void Insert(DataRecord data, bool FromData)
 	{
 		var frame = new Frame();
-        Texture2D image = new Texture2D(100, 100);
+        Texture2D image = new Texture2D(data.width, data.height);
 		if (!FromData)
 		{
 			image.LoadImage(data.texture);
@@ -399,10 +399,10 @@ public class Spooler : MonoBehaviour
 		{
 			// Build a color map from Raw Data...
 			// Create a sprite
-            frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 100, 100), new Vector2(0, 0));
+            frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 500, 500), new Vector2(0, 0));
 		}
 		// Create a sprite
-        frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
+        frame.Picture = Sprite.Create(image, new Rect(0, 0, 500, 500), new Vector2(0, 0));
 		// Attached an associate Date Time Object
 		frame.starttime = data.start.Value;
 		frame.endtime = data.end.Value;
@@ -469,8 +469,7 @@ public class Spooler : MonoBehaviour
 			SystemParameters sp = new SystemParameters();
 			
 			// This is not getting passed into WCS UGH! Right now width and height come out to equal 0!!!!!!
-			sp.width = 100;
-			sp.height = 100;
+			
 			sp.interpolation = "bilinear";
 
 			var Records = temp[0].FetchVariableData(variable);
@@ -480,6 +479,9 @@ public class Spooler : MonoBehaviour
             oldSelectedVariable = variable;
             first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
+
+            sp.width = 500;
+            sp.height = 500;
 			 
 
 			if(temp[0].Description.ToLower().Contains("doqq"))
