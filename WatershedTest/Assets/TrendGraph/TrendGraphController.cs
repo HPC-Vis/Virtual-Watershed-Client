@@ -59,6 +59,7 @@ namespace VTL.TrendGraph
         public float northing;
         public Material GraphMaterial;
         public Image GraphImage;
+        private Texture2D TrendTexture = null;
 
         public void OnValidate()
         {
@@ -186,7 +187,7 @@ namespace VTL.TrendGraph
             w = rectTransform.rect.width * transform.localScale.x;
             h = rectTransform.rect.height * transform.localScale.y;
 
-            /* OLD
+            //* OLD
             // Iterate through the timeseries and draw the trend segment
             // by segment.
             var prev = Record2PixelCoords(timeseries[0]);
@@ -196,7 +197,7 @@ namespace VTL.TrendGraph
                 Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
                 prev = next;
             }
-            */
+            //*/
         }
 
         public void Clear()
@@ -206,26 +207,97 @@ namespace VTL.TrendGraph
 
         public void Compute()
         {
-            Debug.LogError("trend Graph Compute Called");
+            // Set the width and height to integers
             int width = (int)w;
             int height = (int)h;
-            Texture2D tex = new Texture2D(width, height);
-            Color[] color = new Color[width * height];
-            Utilities util = new Utilities();
-            for (int i = 0; i < width * height; i++)
+
+            Debug.LogError("Color white is built from: " + Color.white.r + ", " + Color.white.g + ", " + Color.white.b + ", " + Color.white.a);
+
+            // Build the new texture
+            if(TrendTexture != null)
             {
-                if (i > (width * height)/2)
+                Texture2D.Destroy(TrendTexture);
+            }
+            TrendTexture = new Texture2D(width, height);            
+            
+            // Loop through all the time series
+            for (int i = 0; i < timeseries.Count; i++ )
+            {
+                Vector2 location = Record2PixelCoords2(timeseries[i]);
+                TrendTexture.SetPixel((int)location.x, (int)location.y, Color.white);
+            }
+            
+            // Apply to the world
+            TrendTexture.wrapMode = TextureWrapMode.Clamp;
+            TrendTexture.Apply();
+            GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), new Vector2(0, 1));
+        }
+
+        public void Compute3()
+        {
+            // Set the width and height to integers
+            int width = (int)w;
+            int height = (int)h;
+
+            // Build the new texture
+            if (TrendTexture != null)
+            {
+                Texture2D.Destroy(TrendTexture);
+            }
+            TrendTexture = new Texture2D(width, height);
+            GraphMaterial.mainTexture = TrendTexture;
+
+            // Loop through all the time series
+            for (int i = 0; i < timeseries.Count; i++)
+            {
+                Vector2 location = Record2PixelCoords2(timeseries[i]);
+                TrendTexture.SetPixel((int)location.x, (int)location.y, Color.white);
+            }
+
+            // Apply to the world
+            TrendTexture.wrapMode = TextureWrapMode.Clamp;
+            TrendTexture.Apply();
+            // GraphMaterial.SetTexture("_MainTex", TrendTexture);
+        }
+
+        public void Compute2()
+        {
+            // Set the width and height to integers
+            int width = (int)w;
+            int height = (int)h;
+
+            // Build a texture if needed
+            if (TrendTexture != null)
+            {
+                if (TrendTexture.width != width)
                 {
-                    color[i] = new Color(0, 0, 0, 0.1f);
-                }
-                else
-                {
-                    color[i] = new Color(0, 0, 0, 0.9f);
+                    Texture2D.Destroy(TrendTexture);
+                    TrendTexture = new Texture2D(width, height);
                 }
             }
-            tex.SetPixels(color);
-            tex.Apply();
-            GraphImage.sprite = Sprite.Create(tex, new Rect(0, 0, width, height), Vector2.zero );
+            else
+            {
+                TrendTexture = new Texture2D(width, height);
+            }
+
+            // Clear the color out
+            Color[] color = new Color[width * height];
+            for (int i = 0; i < width * height; i++)
+            {
+                color[i] = new Color(0, 0, 0, 0);
+            }
+
+            // Loop through all the time series
+            for (int i = 0; i < timeseries.Count; i++)
+            {
+                Vector2 location = Record2PixelCoords2(timeseries[i]);
+                color[((int)location.x * height) + (int)location.y] = new Color(0, 1, 0, 0.5f);
+            }
+
+            // Set the color to the texture, and build the sprite
+            TrendTexture.SetPixels(color);
+            TrendTexture.Apply();
+            GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), Vector2.zero);
         }
 
         // converts a TimeseriesRecord to screen pixel coordinates for plotting

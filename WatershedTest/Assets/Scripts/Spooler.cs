@@ -48,6 +48,7 @@ public class Spooler : MonoBehaviour
     private ColorPicker colorPicker;
     private ModelRun modelrun;
     public GameObject cursor;
+    private bool mode = true;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -233,15 +234,30 @@ public class Spooler : MonoBehaviour
 
 			if( BoundingBox.Contains(CheckPoint) && !WMS)
 			{
-				Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
+				// Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                 trendGraph.SetCoordPoint(WorldPoint);
                 trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                trendGraph.Compute();
-                Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
+                if(mode)
+                {
+                    Debug.LogError("Compute 3 was called, " + trendGraph.row);
+                    trendGraph.Compute3();
+                }
+                else
+                {
+                    Debug.LogError("Compute was called, " + trendGraph.row);
+                    trendGraph.Compute();
+                }
+                
+                // Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
 			}
 		}
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            mode = !mode;
+        }
     }
 
     public void textureBuilder(DataRecord rec)

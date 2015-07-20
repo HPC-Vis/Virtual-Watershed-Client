@@ -247,6 +247,11 @@ float4 frag (v2f_img i) : COLOR
 	float Y = Color2FloatMod(col);
 #endif
 
+	if (i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	{
+		return float4(0, 0, 0, 1);
+	}
+
 	Y = Normalize(Y);
 	_x1 = Normalize(_x1);
 	_x2 = Normalize(_x2);

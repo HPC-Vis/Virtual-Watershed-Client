@@ -5,8 +5,8 @@
 	Category {
 	SubShader {
 		Tags {"Queue" = "Geometry"}
-		Zwrite Off
-		//Blend OneMinusSrcAlpha SrcAlpha 
+		//Zwrite Off
+		Blend OneMinusSrcAlpha SrcAlpha 
 		Pass {
 			Fog { Mode off }
 				
@@ -25,9 +25,13 @@ float4 frag (v2f_img i) : COLOR
 {
 	float4 col = tex2D(_MainTex, i.uv);
 
-	if (col.a > 0.2)
+	if (col.r < 0.9)
 	{
-		return float4(0.0, 1.0, 0.0, 0.0);
+		return float4(0, 0, 0, 0);
+	}
+	else if(col.g > 0.9)
+	{
+		return float4(1.0, 1.0, 1.0, 0.0);
 	}
 	
 	return  float4(1.0, 0.0, 0.0, 0.0);
