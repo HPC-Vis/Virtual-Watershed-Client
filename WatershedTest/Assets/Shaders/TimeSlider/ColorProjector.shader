@@ -4,6 +4,7 @@ Properties {
 	_MainTex ("32bit Float Map", RECT) = "white" {}
 	//_MainTex2 ("32bit Float Map", RECT) = "white" {}
 	_Blend ( "Blend", Range(0,1)) = 1
+	_NumLines( "Grid Lines", int) = 10
 	//_Opacity ("Opacity", Range(0,1)) = 1
 
 	
@@ -256,13 +257,22 @@ vertexInput vert (float4 vertex : POSITION)
 	uniform sampler2D _ShadowTex2;
 	uniform float _ShadowTex_ST;
 	uniform float _Blend;
+	uniform int _NumLines;
 	//uniform float _Opacity;
+
+float getDecimal(float x){
+	int intPart = (int)(x*_NumLines);
+	return ((x*_NumLines) - intPart);
+}
 
 float4 frag (vertexInput i) : SV_Target
 {
 	// return float4(1,1,1,0);
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 	float4 col2 = tex2Dproj(_ShadowTex2, UNITY_PROJ_COORD(i.uv));
+
+	
+
 #if SHADER_API_D3D11
 	float Y =  Color2Float(col);
 	float Y2 = Color2Float(col);
@@ -277,6 +287,16 @@ float4 frag (vertexInput i) : SV_Target
 	{
 		return float4(0,0,0,1);
 	}
+
+	if(getDecimal(i.uv.x) < .1)
+	{
+	return float4(0,0,0,0);
+	} 
+	if(getDecimal(i.uv.y) < .1)
+	{
+	return float4(0,0,0,0);
+	} 
+	
 
 	Y = Normalize(Y);
 	Y2 = Normalize(Y2);
@@ -321,7 +341,7 @@ float4 frag (vertexInput i) : SV_Target
             float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - x0) / (_x2 - x0));
 			colour.a = 0;
 
-			float4 colour2 = lerp(_SegmentData000, _SegmentData001, (Y2 - x0) / (_x2 - x0));
+			float4 colour2 = lerp(_SegmentData001, _SegmentData002, (Y2 - x0) / (_x2 - x0));
 			colour2.a = 0;
 			return lerp(colour, colour2, _Blend);		}
     
@@ -335,7 +355,7 @@ float4 frag (vertexInput i) : SV_Target
             float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - x0) / (_x3 - x0));
 			colour.a = 0;
 
-			float4 colour2 = lerp(_SegmentData000, _SegmentData001, (Y2 - x0) / (_x3 - x0));
+			float4 colour2 = lerp(_SegmentData002, _SegmentData003, (Y2 - x0) / (_x3 - x0));
 			colour2.a = 0;
 			return lerp(colour, colour2, _Blend);		}
     
@@ -349,7 +369,7 @@ float4 frag (vertexInput i) : SV_Target
             float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - x0) / (_x4 - x0));
 			colour.a = 0;
 
-			float4 colour2 = lerp(_SegmentData000, _SegmentData001, (Y2 - x0) / (_x4 - x0));
+			float4 colour2 = lerp(_SegmentData003, _SegmentData004, (Y2 - x0) / (_x4 - x0));
 			colour2.a = 0;
 			return lerp(colour, colour2, _Blend);		}
     
@@ -363,9 +383,11 @@ float4 frag (vertexInput i) : SV_Target
             float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - x0) / (_x5 - x0));
 			colour.a = 0;
 
-			float4 colour2 = lerp(_SegmentData000, _SegmentData001, (Y2 - x0) / (_x5 - x0));
+			float4 colour2 = lerp(_SegmentData004, _SegmentData005, (Y2 - x0) / (_x5 - x0));
 			colour2.a = 0;
 			return lerp(colour, colour2, _Blend);		}
+
+	
     
 
 

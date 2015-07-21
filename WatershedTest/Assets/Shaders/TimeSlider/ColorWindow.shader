@@ -18,6 +18,8 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+
+
    
 	
 }
@@ -237,9 +239,21 @@ float Color2FloatMod(float4 c)
 }
 
 
+
+
+
+
+
 float4 frag (v2f_img i) : COLOR
 {
 	float4 col = tex2D(_MainTex, i.uv);
+
+	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	{
+		return float4(0,0,0,1);
+	}
+
+	
 
 #if SHADER_API_D3D11
 	float Y = Color2Float(col);
