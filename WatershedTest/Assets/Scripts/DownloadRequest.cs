@@ -43,7 +43,7 @@ public class DownloadRequest : IComparable<DownloadRequest>
 
     public void Callback(string str)
     {
-        if (!isByte)
+		if (stringFunction != null)
         {
             stringFunction(str);
         }
@@ -51,7 +51,7 @@ public class DownloadRequest : IComparable<DownloadRequest>
 
     public void Callback(byte[] bytes)
     {
-        if (isByte)
+		if (byteFunction != null)
         {
             byteFunction(bytes);
         }

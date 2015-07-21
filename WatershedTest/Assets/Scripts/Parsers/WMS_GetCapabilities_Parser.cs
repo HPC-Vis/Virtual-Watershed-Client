@@ -43,11 +43,31 @@ class WMS_GetCapabilities_Parser : Parser
         // if(!manager.records.ContainsKey(key) || !manager.records[key].services.ContainsKey("wms"))
         //Debug.LogError(key);
         XmlReader reader = createStringReader(Str);
+
+		XmlSerializer serial = new XmlSerializer(typeof(WMS_CAPABILITIES.WMT_MS_Capabilities));
+
+		WMS_CAPABILITIES.WMT_MS_Capabilities capabilities = new WMS_CAPABILITIES.WMT_MS_Capabilities();
+
+		if (serial.CanDeserialize(reader))
+		{
+			try
+			{
+				capabilities = ((WMS_CAPABILITIES.WMT_MS_Capabilities)serial.Deserialize(reader));
+				Record.wmslayers = capabilities.Capability.Layer.Layer;
+				Logger.WriteLine(Record.wmslayers.Count().ToString());
+			}
+			catch(Exception e) 
+			{
+				Logger.WriteLine (e.Message);
+			}
+
+		}
+		return;
         System.Xml.Linq.XDocument document = System.Xml.Linq.XDocument.Load(reader);
 
         var query = document.Descendants("LatLonBoundingBox");//.Descendants("WMT_MS_Capabilities");
         var title = document.Descendants("Title");
-
+		//var layers = document.Descendants("Layer");
 
         foreach (var t in title)
         {
@@ -81,25 +101,7 @@ class WMS_GetCapabilities_Parser : Parser
             if (count == 4)
                 break;
         }
-
-
-        // Coordinate System CODE!!!!!!!
-        /*int zone = coordsystem.GetZone(maxy, minx);
-        int zone2 = coordsystem.GetZone(miny, maxx);
-        Debug.LogError(zone + " " + zone2);
-        Vector2 upperleft = coordsystem.transformToUTM(minx, maxy);
-        Vector2 lowerright = coordsystem.transformToUTM(maxx, miny);
-        if (zone != zone2)
-        {
-            // Thanks to https://www.maptools.com/tutorials/utm/details
-            if (zone < zone2)
-                upperleft.x -= Mathf.Abs(zone - zone2) * 674000f;
-            else
-                lowerright.x -= Mathf.Abs(zone - zone2) * 674000f;
-        }
-        //Debug.LogError(upperleft);
-        manager.records[key].boundingBox = new Rect(upperleft.x, upperleft.y - Mathf.Abs(upperleft.y - lowerright.y), Mathf.Abs(upperleft.x - lowerright.x), Mathf.Abs(upperleft.y - lowerright.y));*/
-       // We need to figure out what to assign the rect -- for now it is the logical thing to do 
+			
         Record.boundingBox = new Rect(minx, maxy, Mathf.Abs(maxx - minx), Mathf.Abs(maxy - miny));
 
     }

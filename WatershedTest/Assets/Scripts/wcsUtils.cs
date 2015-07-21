@@ -21,7 +21,7 @@
 		
 		private OperationsMetadataOperation[] operationsMetadataField;
 		
-		private CapabilitiesContents[] contentsField;
+		private CapabilitiesContentsCoverageSummary[] contentsField;
 		
 		private string versionField;
 		
@@ -70,7 +70,7 @@
 		
 		/// <remarks/>
         [System.Xml.Serialization.XmlArrayItemAttribute("CoverageSummary",IsNullable=false)]
-		public CapabilitiesContents[] Contents
+		public CapabilitiesContentsCoverageSummary[] Contents
 		{
 			get
 			{
@@ -920,7 +920,8 @@
 		private string identifierField;
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		
+		[System.Xml.Serialization.XmlElementAttribute("Title",Namespace = "http://www.opengis.net/ows/1.1")]
 		public string Title
 		{
 			get
@@ -934,7 +935,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Abstract",Namespace = "http://www.opengis.net/ows/1.1")]
 		public string Abstract
 		{
 			get
@@ -948,7 +949,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Keywords",Namespace = "http://www.opengis.net/ows/1.1")]
 		public Keywords Keywords
 		{
 			get
@@ -962,7 +963,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("Metadata",Namespace = "http://www.opengis.net/ows/1.1")]
 		public Metadata Metadata
 		{
 			get
@@ -976,7 +977,7 @@
 		}
 		
 		/// <remarks/>
-		[System.Xml.Serialization.XmlElementAttribute(Namespace = "http://www.opengis.net/ows/1.1")]
+		[System.Xml.Serialization.XmlElementAttribute("WGS84BoundingBox",Namespace = "http://www.opengis.net/ows/1.1")]
 		public WGS84BoundingBox WGS84BoundingBox
 		{
 			get
@@ -1004,6 +1005,7 @@
 		}
 		
 		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Identifier")]
 		public string Identifier
 		{
 			get
@@ -1831,10 +1833,11 @@ namespace DescribeCoverageWCS
 	public partial class CoverageDescriptionsCoverageDescriptionRangeFieldAxisAvailableKeys
 	{
 		
-		private byte keyField;
-		
+		private string[] keyField;
+
 		/// <remarks/>
-		public byte Key
+		[System.Xml.Serialization.XmlElementAttribute("Key")]
+		public string[] Key
 		{
 			get
 			{
@@ -1913,8 +1916,2496 @@ namespace DescribeCoverageWCS
 			}
 		}
 	}
-}	
+	
+	
+}
+	
 	/*******/
+
+namespace WMS_CAPABILITIES
+{
+	// WMS
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	[System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false)]
+	public partial class WMT_MS_Capabilities
+	{
+
+		private WMT_MS_CapabilitiesService serviceField;
+
+		private WMT_MS_CapabilitiesCapability capabilityField;
+
+		private string versionField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesService Service
+		{
+			get
+			{
+				return this.serviceField;
+			}
+			set
+			{
+				this.serviceField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapability Capability
+		{
+			get
+			{
+				return this.capabilityField;
+			}
+			set
+			{
+				this.capabilityField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string version
+		{
+			get
+			{
+				return this.versionField;
+			}
+			set
+			{
+				this.versionField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesService
+	{
+
+		private string nameField;
+
+		private string titleField;
+
+		private string abstractField;
+
+		private string[] keywordListField;
+
+		private WMT_MS_CapabilitiesServiceOnlineResource onlineResourceField;
+
+		private WMT_MS_CapabilitiesServiceContactInformation contactInformationField;
+
+		private string feesField;
+
+		private string accessConstraintsField;
+
+		/// <remarks/>
+		public string Name
+		{
+			get
+			{
+				return this.nameField;
+			}
+			set
+			{
+				this.nameField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Title
+		{
+			get
+			{
+				return this.titleField;
+			}
+			set
+			{
+				this.titleField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Abstract
+		{
+			get
+			{
+				return this.abstractField;
+			}
+			set
+			{
+				this.abstractField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlArrayItemAttribute("Keyword", IsNullable = false)]
+		public string[] KeywordList
+		{
+			get
+			{
+				return this.keywordListField;
+			}
+			set
+			{
+				this.keywordListField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesServiceOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesServiceContactInformation ContactInformation
+		{
+			get
+			{
+				return this.contactInformationField;
+			}
+			set
+			{
+				this.contactInformationField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Fees
+		{
+			get
+			{
+				return this.feesField;
+			}
+			set
+			{
+				this.feesField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string AccessConstraints
+		{
+			get
+			{
+				return this.accessConstraintsField;
+			}
+			set
+			{
+				this.accessConstraintsField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesServiceOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesServiceContactInformation
+	{
+
+		private WMT_MS_CapabilitiesServiceContactInformationContactPersonPrimary contactPersonPrimaryField;
+
+		private string contactPositionField;
+
+		private WMT_MS_CapabilitiesServiceContactInformationContactAddress contactAddressField;
+
+		private string contactVoiceTelephoneField;
+
+		private string contactFacsimileTelephoneField;
+
+		private string contactElectronicMailAddressField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesServiceContactInformationContactPersonPrimary ContactPersonPrimary
+		{
+			get
+			{
+				return this.contactPersonPrimaryField;
+			}
+			set
+			{
+				this.contactPersonPrimaryField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string ContactPosition
+		{
+			get
+			{
+				return this.contactPositionField;
+			}
+			set
+			{
+				this.contactPositionField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesServiceContactInformationContactAddress ContactAddress
+		{
+			get
+			{
+				return this.contactAddressField;
+			}
+			set
+			{
+				this.contactAddressField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string ContactVoiceTelephone
+		{
+			get
+			{
+				return this.contactVoiceTelephoneField;
+			}
+			set
+			{
+				this.contactVoiceTelephoneField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string ContactFacsimileTelephone
+		{
+			get
+			{
+				return this.contactFacsimileTelephoneField;
+			}
+			set
+			{
+				this.contactFacsimileTelephoneField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string ContactElectronicMailAddress
+		{
+			get
+			{
+				return this.contactElectronicMailAddressField;
+			}
+			set
+			{
+				this.contactElectronicMailAddressField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesServiceContactInformationContactPersonPrimary
+	{
+
+		private string contactPersonField;
+
+		private string contactOrganizationField;
+
+		/// <remarks/>
+		public string ContactPerson
+		{
+			get
+			{
+				return this.contactPersonField;
+			}
+			set
+			{
+				this.contactPersonField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string ContactOrganization
+		{
+			get
+			{
+				return this.contactOrganizationField;
+			}
+			set
+			{
+				this.contactOrganizationField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesServiceContactInformationContactAddress
+	{
+
+		private string addressTypeField;
+
+		private string addressField;
+
+		private string cityField;
+
+		private string stateOrProvinceField;
+
+		private uint postCodeField;
+
+		private string countryField;
+
+		/// <remarks/>
+		public string AddressType
+		{
+			get
+			{
+				return this.addressTypeField;
+			}
+			set
+			{
+				this.addressTypeField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Address
+		{
+			get
+			{
+				return this.addressField;
+			}
+			set
+			{
+				this.addressField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string City
+		{
+			get
+			{
+				return this.cityField;
+			}
+			set
+			{
+				this.cityField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string StateOrProvince
+		{
+			get
+			{
+				return this.stateOrProvinceField;
+			}
+			set
+			{
+				this.stateOrProvinceField = value;
+			}
+		}
+
+		/// <remarks/>
+		public uint PostCode
+		{
+			get
+			{
+				return this.postCodeField;
+			}
+			set
+			{
+				this.postCodeField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Country
+		{
+			get
+			{
+				return this.countryField;
+			}
+			set
+			{
+				this.countryField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapability
+	{
+
+		//private WMT_MS_CapabilitiesCapabilityRequest requestField;
+
+		//private string[] exceptionField;
+
+		//private object vendorSpecificCapabilitiesField;
+
+		//private WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization userDefinedSymbolizationField;
+
+		private WMT_MS_CapabilitiesCapabilityLayer layerField;
+
+		/// <remarks/>
+		/*public WMT_MS_CapabilitiesCapabilityRequest Request
+		{
+			get
+			{
+				return this.requestField;
+			}
+			set
+			{
+				this.requestField = value;
+			}
+		}*/
+
+		/// <remarks/>
+		/*[System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
+		public string[] Exception
+		{
+			get
+			{
+				return this.exceptionField;
+			}
+			set
+			{
+				this.exceptionField = value;
+			}
+		}*/
+
+		/// <remarks/>
+		/*public object VendorSpecificCapabilities
+		{
+			get
+			{
+				return this.vendorSpecificCapabilitiesField;
+			}
+			set
+			{
+				this.vendorSpecificCapabilitiesField = value;
+			}
+		}*/
+
+		/// <remarks/>
+		/*public WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization UserDefinedSymbolization
+		{
+			get
+			{
+				return this.userDefinedSymbolizationField;
+			}
+			set
+			{
+				this.userDefinedSymbolizationField = value;
+			}
+		}*/
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayer Layer
+		{
+			get
+			{
+				return this.layerField;
+			}
+			set
+			{
+				this.layerField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequest
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilities getCapabilitiesField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMap getMapField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfo getFeatureInfoField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayer describeLayerField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphic getLegendGraphicField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStyles getStylesField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilities GetCapabilities
+		{
+			get
+			{
+				return this.getCapabilitiesField;
+			}
+			set
+			{
+				this.getCapabilitiesField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMap GetMap
+		{
+			get
+			{
+				return this.getMapField;
+			}
+			set
+			{
+				this.getMapField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfo GetFeatureInfo
+		{
+			get
+			{
+				return this.getFeatureInfoField;
+			}
+			set
+			{
+				this.getFeatureInfoField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayer DescribeLayer
+		{
+			get
+			{
+				return this.describeLayerField;
+			}
+			set
+			{
+				this.describeLayerField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphic GetLegendGraphic
+		{
+			get
+			{
+				return this.getLegendGraphicField;
+			}
+			set
+			{
+				this.getLegendGraphicField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStyles GetStyles
+		{
+			get
+			{
+				return this.getStylesField;
+			}
+			set
+			{
+				this.getStylesField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilities
+	{
+
+		private string formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPType dCPTypeField;
+
+		/// <remarks/>
+		public string Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetCapabilitiesDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMap
+	{
+
+		private string[] formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPType dCPTypeField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Format")]
+		public string[] Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetMapDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfo
+	{
+
+		private string[] formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPType dCPTypeField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Format")]
+		public string[] Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetFeatureInfoDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayer
+	{
+
+		private string formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPType dCPTypeField;
+
+		/// <remarks/>
+		public string Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestDescribeLayerDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphic
+	{
+
+		private string[] formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPType dCPTypeField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Format")]
+		public string[] Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetLegendGraphicDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStyles
+	{
+
+		private string formatField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPType dCPTypeField;
+
+		/// <remarks/>
+		public string Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPType DCPType
+		{
+			get
+			{
+				return this.dCPTypeField;
+			}
+			set
+			{
+				this.dCPTypeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPType
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTP hTTPField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTP HTTP
+		{
+			get
+			{
+				return this.hTTPField;
+			}
+			set
+			{
+				this.hTTPField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTP
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGet getField;
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPost postField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGet Get
+		{
+			get
+			{
+				return this.getField;
+			}
+			set
+			{
+				this.getField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPost Post
+		{
+			get
+			{
+				return this.postField;
+			}
+			set
+			{
+				this.postField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGet
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGetOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGetOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPGetOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPost
+	{
+
+		private WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPostOnlineResource onlineResourceField;
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPostOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityRequestGetStylesDCPTypeHTTPPostOnlineResource
+	{
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization
+	{
+
+		private string supportSLDField;
+
+		private string userLayerField;
+
+		private string userStyleField;
+
+		private string remoteWFSField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string SupportSLD
+		{
+			get
+			{
+				return this.supportSLDField;
+			}
+			set
+			{
+				this.supportSLDField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string UserLayer
+		{
+			get
+			{
+				return this.userLayerField;
+			}
+			set
+			{
+				this.userLayerField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string UserStyle
+		{
+			get
+			{
+				return this.userStyleField;
+			}
+			set
+			{
+				this.userStyleField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string RemoteWFS
+		{
+			get
+			{
+				return this.remoteWFSField;
+			}
+			set
+			{
+				this.remoteWFSField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayer
+	{
+
+		private string nameField;
+
+		private string titleField;
+
+		private string abstractField;
+
+		private string[] keywordListField;
+
+		private string[] sRSField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLatLonBoundingBox latLonBoundingBoxField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerBoundingBox boundingBoxField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayer[] layerField;
+
+		/// <remarks/>
+		public string Name
+		{
+			get
+			{
+				return this.nameField;
+			}
+			set
+			{
+				this.nameField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Title
+		{
+			get
+			{
+				return this.titleField;
+			}
+			set
+			{
+				this.titleField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Abstract
+		{
+			get
+			{
+				return this.abstractField;
+			}
+			set
+			{
+				this.abstractField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlArrayItemAttribute("Keyword", IsNullable = false)]
+		public string[] KeywordList
+		{
+			get
+			{
+				return this.keywordListField;
+			}
+			set
+			{
+				this.keywordListField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("SRS")]
+		public string[] SRS
+		{
+			get
+			{
+				return this.sRSField;
+			}
+			set
+			{
+				this.sRSField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLatLonBoundingBox LatLonBoundingBox
+		{
+			get
+			{
+				return this.latLonBoundingBoxField;
+			}
+			set
+			{
+				this.latLonBoundingBoxField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerBoundingBox BoundingBox
+		{
+			get
+			{
+				return this.boundingBoxField;
+			}
+			set
+			{
+				this.boundingBoxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlElementAttribute("Layer")]
+		public WMT_MS_CapabilitiesCapabilityLayerLayer[] Layer
+		{
+			get
+			{
+				return this.layerField;
+			}
+			set
+			{
+				this.layerField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLatLonBoundingBox
+	{
+
+		private float minxField;
+
+		private float minyField;
+
+		private float maxxField;
+
+		private float maxyField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float minx
+		{
+			get
+			{
+				return this.minxField;
+			}
+			set
+			{
+				this.minxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float miny
+		{
+			get
+			{
+				return this.minyField;
+			}
+			set
+			{
+				this.minyField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float maxx
+		{
+			get
+			{
+				return this.maxxField;
+			}
+			set
+			{
+				this.maxxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float maxy
+		{
+			get
+			{
+				return this.maxyField;
+			}
+			set
+			{
+				this.maxyField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerBoundingBox
+	{
+
+		private string sRSField;
+
+		private float minxField;
+
+		private float minyField;
+
+		private float maxxField;
+
+		private float maxyField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string SRS
+		{
+			get
+			{
+				return this.sRSField;
+			}
+			set
+			{
+				this.sRSField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float minx
+		{
+			get
+			{
+				return this.minxField;
+			}
+			set
+			{
+				this.minxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float miny
+		{
+			get
+			{
+				return this.minyField;
+			}
+			set
+			{
+				this.minyField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float maxx
+		{
+			get
+			{
+				return this.maxxField;
+			}
+			set
+			{
+				this.maxxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float maxy
+		{
+			get
+			{
+				return this.maxyField;
+			}
+			set
+			{
+				this.maxyField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayer
+	{
+
+		private string nameField;
+
+		private string titleField;
+
+		private string abstractField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayerKeywordList keywordListField;
+
+		private string sRSField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayerLatLonBoundingBox latLonBoundingBoxField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayerBoundingBox boundingBoxField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURL metadataURLField;
+
+		private string queryableField;
+
+		private string opaqueField;
+
+		private string cascadedField;
+
+		/// <remarks/>
+		public string Name
+		{
+			get
+			{
+				return this.nameField;
+			}
+			set
+			{
+				this.nameField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Title
+		{
+			get
+			{
+				return this.titleField;
+			}
+			set
+			{
+				this.titleField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string Abstract
+		{
+			get
+			{
+				return this.abstractField;
+			}
+			set
+			{
+				this.abstractField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLayerKeywordList KeywordList
+		{
+			get
+			{
+				return this.keywordListField;
+			}
+			set
+			{
+				this.keywordListField = value;
+			}
+		}
+
+		/// <remarks/>
+		public string SRS
+		{
+			get
+			{
+				return this.sRSField;
+			}
+			set
+			{
+				this.sRSField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLayerLatLonBoundingBox LatLonBoundingBox
+		{
+			get
+			{
+				return this.latLonBoundingBoxField;
+			}
+			set
+			{
+				this.latLonBoundingBoxField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLayerBoundingBox BoundingBox
+		{
+			get
+			{
+				return this.boundingBoxField;
+			}
+			set
+			{
+				this.boundingBoxField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURL MetadataURL
+		{
+			get
+			{
+				return this.metadataURLField;
+			}
+			set
+			{
+				this.metadataURLField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string queryable
+		{
+			get
+			{
+				return this.queryableField;
+			}
+			set
+			{
+				this.queryableField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string opaque
+		{
+			get
+			{
+				return this.opaqueField;
+			}
+			set
+			{
+				this.opaqueField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string cascaded
+		{
+			get
+			{
+				return this.cascadedField;
+			}
+			set
+			{
+				this.cascadedField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayerKeywordList
+	{
+
+		private object keywordField;
+
+		/// <remarks/>
+		public object Keyword
+		{
+			get
+			{
+				return this.keywordField;
+			}
+			set
+			{
+				this.keywordField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayerLatLonBoundingBox
+	{
+
+		private decimal minxField;
+
+		private decimal minyField;
+
+		private decimal maxxField;
+
+		private decimal maxyField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public decimal minx
+		{
+			get
+			{
+				return this.minxField;
+			}
+			set
+			{
+				this.minxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public decimal miny
+		{
+			get
+			{
+				return this.minyField;
+			}
+			set
+			{
+				this.minyField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public decimal maxx
+		{
+			get
+			{
+				return this.maxxField;
+			}
+			set
+			{
+				this.maxxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public decimal maxy
+		{
+			get
+			{
+				return this.maxyField;
+			}
+			set
+			{
+				this.maxyField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayerBoundingBox
+	{
+
+		private string sRSField;
+
+		private uint minxField;
+
+		private float minyField;
+
+		private uint maxxField;
+
+		private float maxyField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string SRS
+		{
+			get
+			{
+				return this.sRSField;
+			}
+			set
+			{
+				this.sRSField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public uint minx
+		{
+			get
+			{
+				return this.minxField;
+			}
+			set
+			{
+				this.minxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float miny
+		{
+			get
+			{
+				return this.minyField;
+			}
+			set
+			{
+				this.minyField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public uint maxx
+		{
+			get
+			{
+				return this.maxxField;
+			}
+			set
+			{
+				this.maxxField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public float maxy
+		{
+			get
+			{
+				return this.maxyField;
+			}
+			set
+			{
+				this.maxyField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURL
+	{
+
+		private string formatField;
+
+		private WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURLOnlineResource onlineResourceField;
+
+		private string typeField;
+
+		/// <remarks/>
+		public string Format
+		{
+			get
+			{
+				return this.formatField;
+			}
+			set
+			{
+				this.formatField = value;
+			}
+		}
+
+		/// <remarks/>
+		public WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURLOnlineResource OnlineResource
+		{
+			get
+			{
+				return this.onlineResourceField;
+			}
+			set
+			{
+				this.onlineResourceField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute()]
+		public string type
+		{
+			get
+			{
+				return this.typeField;
+			}
+			set
+			{
+				this.typeField = value;
+			}
+		}
+	}
+
+	/// <remarks/>
+	[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true)]
+	public partial class WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURLOnlineResource
+	{
+
+		private string typeField;
+
+		private string hrefField;
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string type
+		{
+			get
+			{
+				return this.typeField;
+			}
+			set
+			{
+				this.typeField = value;
+			}
+		}
+
+		/// <remarks/>
+		[System.Xml.Serialization.XmlAttributeAttribute(Form = System.Xml.Schema.XmlSchemaForm.Qualified, Namespace = "http://www.w3.org/1999/xlink")]
+		public string href
+		{
+			get
+			{
+				return this.hrefField;
+			}
+			set
+			{
+				this.hrefField = value;
+			}
+		}
+	}
+}
 	
 
 

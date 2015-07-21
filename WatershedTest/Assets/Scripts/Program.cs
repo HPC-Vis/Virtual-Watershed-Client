@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Collections;
+using System.Xml;
+using System.Xml.Serialization;
+using System.IO;
+
 //using System.Threading;
 
 namespace NetworkTest
@@ -32,7 +36,7 @@ namespace NetworkTest
 
         static void Main(string[] args)
         {
-            Console.WriteLine("BLAH BLAH");
+            /*Console.WriteLine("BLAH BLAH");
             //simu = new Simulator();
             //simu.Simulation(.1f);
             //Console.ReadKey();
@@ -48,16 +52,47 @@ namespace NetworkTest
             ModelRunManager.client = vwc;
             ModelRunManager.Start();
             nm.Subscribe(vwc);
-            SystemParameters sp = new SystemParameters();
-            sp.offset = 0;
-            sp.limit = 15;
-            sp.model_run_uuid = "80661ff3-2d25-4ae3-867b-74896b97d3c6";
-            sp.model_set_type = "";
-            ModelRunManager.getAvailable(sp,Message: Recieved);
-            Thread.Sleep(5000);
-            
+			ModelRunManager.SearchForModelRuns();
+
+			SystemParameters testParameters = new SystemParameters ();
+			testParameters.model_run_uuid = "80661ff3-2d25-4ae3-867b-74896b97d3c6";
+			testParameters.model_set_type = "";
+			ModelRunManager.getAvailable(testParameters,null,DoNothing);
+
+			Logger.WriteLine ("Searching");
+			Thread.Sleep (5000);*/
+			StreamReader sr = new StreamReader ("./wmstest.xml");
+			string contents = sr.ReadToEnd ();
+			sr.Close ();
+			Logger.WriteLine (contents);
+			//WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser ();
+			//parser.Parse (new DataRecord (), contents);
+			//WFS_GetCapabilities_Producer prod = new WFS_GetCapabilities_Producer();
+			WMS_GetCapabilities_Parser pars = new WMS_GetCapabilities_Parser ();
+
+			//prod.ParseWFSCapabilities (new DataRecord (), contents);
+			pars.Parse(new DataRecord(),contents);
             Logger.ReadKey();
+			//NetworkManager nm = new NetworkManager();
+			//obs = new DataObserver();
+			//var df = new DataFactory(nm);
+			//var drr = new DownloadRequest();
+			
+			//drr.Url = "url://http://vwp-dev.unm.edu/apps/vwp/datasets/5365945d-3f7d-4b2b-baa5-f6ca20c0be50/services/ogc/wcs?SERVICE=wcs&REQUEST=DescribeCoverage&VERSION=1.1.2&identifier=in.0014.T_a.tif";
+			//df.DownloadString()
+			//vwc = new VWClient(new DataFactory(nm), nm);
+			//vwc.describeCoverage()
+            
         }
+
+		public static void DoNothing(List<DataRecord>records)
+		{
+			Logger.WriteLine("Doing Absolutely Nothing HERE" + records.Count);
+			if (records.Count > 0) {
+				//SystemParameters sp = new SystemParameters ();
+				//vwc.getCapabilities (null, records [0], sp);
+			}
+		}
 
         public static int i = 1;
         public static List<DataRecord> recs;
