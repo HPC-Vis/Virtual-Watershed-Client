@@ -159,6 +159,14 @@ Material:
         first:
           name: _EmissionScaleUI
         second: 0
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
+          name: _NumLines
+        second: 1
     m_Colors:
       data:
         first:

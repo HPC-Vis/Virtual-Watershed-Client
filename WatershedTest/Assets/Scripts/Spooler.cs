@@ -40,7 +40,7 @@ public class Spooler : MonoBehaviour
 	// This will hold all of the Reel...
 	List<Frame> Reel = new List<Frame>();
 	public Image testImage;
-	public Slider slider;
+	public Slider gridSlider;
 	public TimeSlider timeSlider;
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
@@ -125,6 +125,8 @@ public class Spooler : MonoBehaviour
             testImage.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
+
+            TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
 
         }
 
@@ -566,4 +568,6 @@ public class Spooler : MonoBehaviour
 			}
 		}
 	}
+
+    
 }
