@@ -2360,18 +2360,18 @@ namespace WMS_CAPABILITIES
 	public partial class WMT_MS_CapabilitiesCapability
 	{
 
-		private WMT_MS_CapabilitiesCapabilityRequest requestField;
+		//private WMT_MS_CapabilitiesCapabilityRequest requestField;
 
-		private string[] exceptionField;
+		//private string[] exceptionField;
 
-		private object vendorSpecificCapabilitiesField;
+		//private object vendorSpecificCapabilitiesField;
 
-		private WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization userDefinedSymbolizationField;
+		//private WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization userDefinedSymbolizationField;
 
 		private WMT_MS_CapabilitiesCapabilityLayer layerField;
 
 		/// <remarks/>
-		public WMT_MS_CapabilitiesCapabilityRequest Request
+		/*public WMT_MS_CapabilitiesCapabilityRequest Request
 		{
 			get
 			{
@@ -2381,10 +2381,10 @@ namespace WMS_CAPABILITIES
 			{
 				this.requestField = value;
 			}
-		}
+		}*/
 
 		/// <remarks/>
-		[System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
+		/*[System.Xml.Serialization.XmlArrayItemAttribute("Format", IsNullable = false)]
 		public string[] Exception
 		{
 			get
@@ -2395,10 +2395,10 @@ namespace WMS_CAPABILITIES
 			{
 				this.exceptionField = value;
 			}
-		}
+		}*/
 
 		/// <remarks/>
-		public object VendorSpecificCapabilities
+		/*public object VendorSpecificCapabilities
 		{
 			get
 			{
@@ -2408,10 +2408,10 @@ namespace WMS_CAPABILITIES
 			{
 				this.vendorSpecificCapabilitiesField = value;
 			}
-		}
+		}*/
 
 		/// <remarks/>
-		public WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization UserDefinedSymbolization
+		/*public WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization UserDefinedSymbolization
 		{
 			get
 			{
@@ -2421,7 +2421,7 @@ namespace WMS_CAPABILITIES
 			{
 				this.userDefinedSymbolizationField = value;
 			}
-		}
+		}*/
 
 		/// <remarks/>
 		public WMT_MS_CapabilitiesCapabilityLayer Layer
@@ -3615,17 +3615,17 @@ namespace WMS_CAPABILITIES
 	public partial class WMT_MS_CapabilitiesCapabilityUserDefinedSymbolization
 	{
 
-		private byte supportSLDField;
+		private string supportSLDField;
 
-		private byte userLayerField;
+		private string userLayerField;
 
-		private byte userStyleField;
+		private string userStyleField;
 
-		private byte remoteWFSField;
+		private string remoteWFSField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte SupportSLD
+		public string SupportSLD
 		{
 			get
 			{
@@ -3639,7 +3639,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte UserLayer
+		public string UserLayer
 		{
 			get
 			{
@@ -3653,7 +3653,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte UserStyle
+		public string UserStyle
 		{
 			get
 			{
@@ -3667,7 +3667,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte RemoteWFS
+		public string RemoteWFS
 		{
 			get
 			{
@@ -3814,17 +3814,17 @@ namespace WMS_CAPABILITIES
 	public partial class WMT_MS_CapabilitiesCapabilityLayerLatLonBoundingBox
 	{
 
-		private uint minxField;
+		private float minxField;
 
 		private float minyField;
 
-		private uint maxxField;
+		private float maxxField;
 
 		private float maxyField;
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public uint minx
+		public float minx
 		{
 			get
 			{
@@ -3852,7 +3852,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public uint maxx
+		public float maxx
 		{
 			get
 			{
@@ -3886,11 +3886,11 @@ namespace WMS_CAPABILITIES
 
 		private string sRSField;
 
-		private uint minxField;
+		private float minxField;
 
 		private float minyField;
 
-		private uint maxxField;
+		private float maxxField;
 
 		private float maxyField;
 
@@ -3910,7 +3910,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public uint minx
+		public float minx
 		{
 			get
 			{
@@ -3938,7 +3938,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public uint maxx
+		public float maxx
 		{
 			get
 			{
@@ -3986,11 +3986,11 @@ namespace WMS_CAPABILITIES
 
 		private WMT_MS_CapabilitiesCapabilityLayerLayerMetadataURL metadataURLField;
 
-		private byte queryableField;
+		private string queryableField;
 
-		private byte opaqueField;
+		private string opaqueField;
 
-		private byte cascadedField;
+		private string cascadedField;
 
 		/// <remarks/>
 		public string Name
@@ -4098,7 +4098,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte queryable
+		public string queryable
 		{
 			get
 			{
@@ -4112,7 +4112,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte opaque
+		public string opaque
 		{
 			get
 			{
@@ -4126,7 +4126,7 @@ namespace WMS_CAPABILITIES
 
 		/// <remarks/>
 		[System.Xml.Serialization.XmlAttributeAttribute()]
-		public byte cascaded
+		public string cascaded
 		{
 			get
 			{

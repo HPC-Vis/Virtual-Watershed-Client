@@ -35,10 +35,11 @@ public class ModelRunVisualizer : MonoBehaviour {
             var MR = ModelRunManager.GetByUUID(i);
             Logger.WriteLine("<color=green>Adding Model Run Variables: " + MR.GetVariables().Count + ".</color>");
             List<string> variables = MR.GetVariables();
-
+			Debug.LogError("VARIABLES COUNT: " + variables.Count);
+			
             foreach (var variable in variables)
             {
-				if(variables.Count >= 1 && !MR.ModelName.ToLower().Contains("reference"))//MR.IsTemporal.ContainsKey(variable))
+				if(variables.Count >= 1 && MR.GetVariable(variable).IsTemporal())//MR.IsTemporal.ContainsKey(variable))
 				{
 					string desription = vr.GetDescription(variable);
 					if(desription == "")

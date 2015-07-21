@@ -44,6 +44,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.CoverageDescription = CoverageDescription;
 		dr.WCSCoverages = WCSCoverages;
 		dr.Identifier = Identifier;
+		dr.Type = Type;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
@@ -247,9 +248,10 @@ public class DataRecord : IEquatable<DataRecord>
 	
 	// A band_id of negative one means it is not part of a series.
 	public int band_id = -1;
+	public bool Temporal = false;
 	public bool IsTemporal()
 	{
-		return start == null && end == null;
+		return Temporal;
 	}
 
     // A test set flag for one variable tests

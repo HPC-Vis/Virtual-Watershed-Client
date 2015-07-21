@@ -18,10 +18,51 @@ class WFS_GetCapabilities_Producer : DataProducer
         nm = refToNM;
     }
 
+	public WFS_GetCapabilities_Producer()
+	{
+	}
+
     // Need to create a parser stub for this.
-    void ParseWFSCapabilities(DataRecord Record ,string Str)
+    public void ParseWFSCapabilities(DataRecord Record ,string Str)
     {
+    	Logger.WriteLine("PARSE WFS CAPABILITIES");
         Record.WFSCapabilities = Str;
+        Record.Type = "shapefile";
+        //return;
+		var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
+		Record.WCSCapabilities = Str;
+		
+
+		XmlSerializer serial = new XmlSerializer(typeof(WFS_CAPABILITIES_SERVICE.WFS_Capabilities));
+		WFS_CAPABILITIES_SERVICE.WFS_CapabilitiesService t = new WFS_CAPABILITIES_SERVICE.WFS_CapabilitiesService ();
+
+		WFS_CAPABILITIES_SERVICE.WFS_Capabilities capabilities = new WFS_CAPABILITIES_SERVICE.WFS_Capabilities();
+
+		if (serial.CanDeserialize (reader)) {
+			//WFS_CAPABILITIES_SERVICE.WFS_CapabilitiesFeatureTypeList
+			try
+			{
+				capabilities = (WFS_CAPABILITIES_SERVICE.WFS_Capabilities)serial.Deserialize (reader);
+				Record.Identifier = capabilities.FeatureTypeList.FeatureType.Name;
+			}
+			catch (Exception e)
+			{
+				Logger.WriteLine (e.Message);
+				//Logger.WriteLine (e.StackTrace);
+				//Logger.WriteLine (e.InnerException.Message);
+				//Logger.WriteLine (e.InnerException.StackTrace);
+				//Logger.WriteLine (e.InnerException.InnerException.Message);
+				return;
+			}
+			Logger.WriteLine ("NAME: " + capabilities.FeatureTypeList.FeatureType.Name);
+			if (Record.Identifier == null) {
+				
+			}
+		} 
+		else 
+		{
+			Logger.WriteLine ("CANT PARSE");
+		}
     }
 
 

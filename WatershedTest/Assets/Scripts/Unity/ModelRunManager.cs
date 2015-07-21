@@ -368,6 +368,8 @@ public static class ModelRunManager
 					dr.band_id = 1;
 					dr.Identifier = i.Identifier;
 					dr.variableName = i.Identifier;
+					if(record[0].WCSCoverages.Count() > 1)
+					dr.Temporal = true;
 					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
 					InsertDataRecord(dr);
 					
@@ -382,17 +384,22 @@ public static class ModelRunManager
 				foreach (var i in record[0].wmslayers) 
 				{
 					DataRecord dr = record[0].Clone();
-					dr.variableName = i.Title; // similar to wcs identifier
+					dr.Identifier = i.Name;
+					dr.variableName = i.Name; // similar to wcs identifier
+					if(record[0].wmslayers.Count() > 1)
+					dr.Temporal = true;
 					// WMS Bounding Box
 					InsertDataRecord(dr);
 					Logger.WriteLine (dr.variableName);
-					
 
 				}
 			}
 			else
 			{
+				// WFS CASE HERE FOR NOW
 				record[0].band_id = 1;
+				// Get WFS Name here
+				InsertDataRecord(record[0]);
 			}
 
 		}
@@ -415,11 +422,23 @@ public static class ModelRunManager
 		Logger.WriteLine ("FILTER");
 		SystemParameters sp = new SystemParameters();
 		//Debug.LogError(record.multiLayered); patch is record.multilayered..
-		if(record.services.ContainsKey("wcs") && record.multiLayered != null)
-		{
+		if (record.services.ContainsKey ("wcs") && record.multiLayered != null) {
 			sp.service = "wcs";
-			Logger.WriteLine("WCS");
-			client.getCapabilities(parseNetCDFRecords,record,sp);	
+			Logger.WriteLine ("WCS");
+			client.getCapabilities (parseNetCDFRecords, record, sp);	
+		}
+
+		else if (record.services.ContainsKey ("wms")) 
+		{
+			sp.service = "wms";
+			Logger.WriteLine ("WMS");
+			client.getCapabilities (parseNetCDFRecords, record, sp);
+		}
+		else if(record.services.ContainsKey("wfs") )
+		{
+			sp.service = "wfs";
+			Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
+			client.getCapabilities(parseNetCDFRecords,record,sp);
 		}
 		else 
 		{
@@ -437,7 +456,7 @@ public static class ModelRunManager
     /// <param name="message"></param>
     static private void onGetAvailableComplete(List<DataRecord> Records, DataRecordSetter message)
     {
-        // Debug.LogError ("TOTAL!!!: " + modelRuns[Records[0].modelRunUUID].Total + " Recieved Records: " + Records.Count + " Totals: " + modelRuns[Records[0].modelRunUUID].CurrentCapacity);
+    	Debug.LogError("onGetAvaliableComplete...");
          Logger.WriteLine(Records.Count.ToString());
         int count = 0;
         List<string> RecievedRefs = new List<string>();

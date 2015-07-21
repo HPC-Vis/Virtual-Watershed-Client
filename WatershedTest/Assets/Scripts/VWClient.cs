@@ -236,6 +236,19 @@ public class VWClient : Observer
 			client.ModelRunUUID = Record.modelRunUUID;
 			AddObservable (client);
 		}
+		else if (Record.services.ContainsKey("wfs") && param.service == "wfs")
+		{
+			Logger.WriteLine("CALLBACK WFS IS: " + (Setter == null).ToString());
+			var client = new WFSClient(factory,param.type,param.outputPath,param.outputName,1);
+			client.App = App;
+			client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWFS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
 	}
 
 	// Ugly I know
@@ -369,9 +382,7 @@ public class VWClient : Observer
         // Debug.LogError(JsonString);
         /// Now to parse the json string --- we need to create a class object for the stuff return from the virtual watershed to make things easier.
         var encoded = SimpleJSON.JSONNode.Parse(JsonString);
-        // Logger.WriteLine(JsonString);
-        // Logger.WriteLine(encoded["results"][0]);
-        //Logger.WriteLine(encoded["results"][1]);
+
 		int total = encoded["total"].AsInt;
         ModelRunManager.Total += total;
         

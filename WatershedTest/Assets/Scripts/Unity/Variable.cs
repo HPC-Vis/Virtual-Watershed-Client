@@ -37,4 +37,13 @@ public class Variable
         Records.Add(record);
     }
     
+    public bool IsTemporal()
+    {
+    	return type == TYPE.Temporal;
+    }
+    
+    public void SetType(TYPE t)
+    {
+    	type = t;
+    }
 }

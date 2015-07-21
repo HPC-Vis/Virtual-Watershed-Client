@@ -66,14 +66,14 @@ public class ReferenceVisualizer : MonoBehaviour
             /// Debug.LogError(MR.Total);
 			//Debug.LogError(variables[0]);
             // model_set_type  must be reference
-			if( !MR.ModelName.ToLower().Contains("fire") && !MR.ModelName.ToLower().Contains("reference") || (!variables.Contains("animation") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  ")))
-            {
-				Logger.WriteLine( MR.ModelName + " is not a refrence data being added.");
-                continue;
-            }
+
 
             foreach (var variable in variables)
             {
+            	if(MR.GetVariable(variable).IsTemporal())
+            	{
+            		continue;
+            	}
                 foreach(var record in MR.Get(variable))
                 {
                     //Debug.LogError(record.name);
@@ -130,7 +130,7 @@ public class ReferenceVisualizer : MonoBehaviour
 					// Param width, height hard codeness
 					param.width = 1024;
 					param.height = 1024;
-					// Debug.LogError("DOWNLOADING OBJECTS");
+					Debug.LogError("DOWNLOADING OBJECTS DOQQ");
 					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms",param: param);
 				}
 
@@ -171,10 +171,11 @@ public class ReferenceVisualizer : MonoBehaviour
 
     void buildQueue(List<DataRecord> recs)
     {
-        if (!FileBasedCache.Exists(recs[0].id))
-        {
-            FileBasedCache.Insert<DataRecord>(recs[0].id, recs[0]);
-        }
+        //if (!FileBasedCache.Exists(recs[0].id))
+        //{
+            //FileBasedCache.Insert<DataRecord>(recs[0].id, recs[0]);
+        //}
+        Debug.LogError("ENQUEUE: " + recs[0].name + recs[0].variableName);
         queuedRecs.Enqueue(recs[0]);
     }
 

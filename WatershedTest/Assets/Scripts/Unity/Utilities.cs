@@ -274,6 +274,7 @@ public class Utilities
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 		pro.material.SetInt ("_UsePoint", 0);
 		if (record.texture != null) {
+			PlaceProjector2(pro,record);
 			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
 			image.wrapMode = TextureWrapMode.Clamp;
 			image.LoadImage (record.texture);

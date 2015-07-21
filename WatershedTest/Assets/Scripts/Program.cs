@@ -60,13 +60,17 @@ namespace NetworkTest
 
 			Logger.WriteLine ("Searching");
 			Thread.Sleep (5000);*/
-			StreamReader sr = new StreamReader ("./wcstest.xml");
+			StreamReader sr = new StreamReader ("./wmstest.xml");
 			string contents = sr.ReadToEnd ();
 			sr.Close ();
 			Logger.WriteLine (contents);
-			WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser ();
-			parser.Parse (new DataRecord (), contents);
+			//WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser ();
+			//parser.Parse (new DataRecord (), contents);
+			//WFS_GetCapabilities_Producer prod = new WFS_GetCapabilities_Producer();
+			WMS_GetCapabilities_Parser pars = new WMS_GetCapabilities_Parser ();
 
+			//prod.ParseWFSCapabilities (new DataRecord (), contents);
+			pars.Parse(new DataRecord(),contents);
             Logger.ReadKey();
 			//NetworkManager nm = new NetworkManager();
 			//obs = new DataObserver();

@@ -95,7 +95,10 @@ class VW_JSON_Parser : Parser
                 current.model_set_type = encoded["results"][records]["model_set_type"].ToString().Replace('"', ' ').Trim();
 
                 current.modelname = encoded["results"][records]["categories"][0]["modelname"].ToString().Replace('"', ' ').Trim();
-
+                
+				current.Temporal = !current.modelname.ToLower().Contains("reference");
+				Logger.WriteLine("TEMPORAL: " + current.Temporal.ToString());
+				
                 current.state = encoded["results"][records]["categories"][0]["state"].ToString().Replace('"', ' ').Trim();
 
                 current.location = encoded["results"][records]["categories"][0]["location"].ToString().Replace('"', ' ').Trim();
@@ -143,7 +146,7 @@ class VW_JSON_Parser : Parser
                 current.id = id;
                 current.name = name;
                 current.variableName = encoded["results"][records]["model_vars"].ToString().Replace('"', ' ').Trim();
-
+                current.Temporal = current.IsTemporal() || current.variableName.ToLower().Contains("animation");
                 current.description = description;
                // Logger.WriteLine(name);
 

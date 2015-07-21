@@ -50,8 +50,17 @@ class WMS_GetCapabilities_Parser : Parser
 
 		if (serial.CanDeserialize(reader))
 		{
-			capabilities = ((WMS_CAPABILITIES.WMT_MS_Capabilities)serial.Deserialize(reader));
-			Record.wmslayers = capabilities.Capability.Layer.Layer;
+			try
+			{
+				capabilities = ((WMS_CAPABILITIES.WMT_MS_Capabilities)serial.Deserialize(reader));
+				Record.wmslayers = capabilities.Capability.Layer.Layer;
+				Logger.WriteLine(Record.wmslayers.Count().ToString());
+			}
+			catch(Exception e) 
+			{
+				Logger.WriteLine (e.Message);
+			}
+
 		}
 		return;
         System.Xml.Linq.XDocument document = System.Xml.Linq.XDocument.Load(reader);

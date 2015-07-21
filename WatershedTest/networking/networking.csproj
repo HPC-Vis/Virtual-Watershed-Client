@@ -133,6 +133,7 @@
     <Compile Include="..\Assets\Scripts\Parsers\WCS_GetCapabilites_Parser.cs" />
     <Compile Include="..\Assets\Scripts\Producers\WCS_GetCapabilities_Producer.cs" />
     <Compile Include="..\Assets\Scripts\Producers\WFS_GetCapabilites_Producer.cs" />
+    <Compile Include="..\Assets\Scripts\WFSCapabilties.cs" />
     <Compile Include="..\Assets\Scripts\Parsers\WFS_GML_Parser.cs" />
     <Compile Include="..\Assets\Scripts\Producers\WFS_GML_Producer.cs" />
     <Compile Include="..\Assets\Scripts\Producers\WMS_GetCapabilites_Producer.cs" />

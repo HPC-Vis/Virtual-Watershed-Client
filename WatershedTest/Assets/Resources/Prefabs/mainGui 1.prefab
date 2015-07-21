@@ -5637,6 +5637,7 @@ MonoBehaviour:
     multiLayered: none
     numbands: 0
     band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38

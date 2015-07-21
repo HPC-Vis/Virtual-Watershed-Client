@@ -18,12 +18,21 @@ class WFSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
     private string version;
 
-    public WFSClient(DataFactory Factory,DownloadType type=DownloadType.Record,string OutputPath="",string OutputName="")
+    public WFSClient(DataFactory Factory,DownloadType type=DownloadType.Record,string OutputPath="",string OutputName="",int operation=0)
         : base(Factory,type,OutputPath,OutputName)
     {
-        // Add states
-        StateList.Add(Operations.GetFeature);
-        StateList.Add(Operations.Done);
+    	if(operation == 0)
+    	{
+        	// Add states
+        	StateList.Add(Operations.GetCapabilities);
+        	StateList.Add(Operations.GetFeature);
+        	StateList.Add(Operations.Done);
+        }
+        else if(operation == 1)
+       	{
+       		StateList.Add(Operations.GetCapabilities);
+       		StateList.Add(Operations.Done);
+       	}
     }
 
     // Update
@@ -48,7 +57,7 @@ class WFSClient : Observerable
         // Check states
         if(state == Operations.GetCapabilities)
         {
-
+			return this.GetCapabilities();
         }
         else if(state == Operations.GetFeature)
         {
@@ -80,10 +89,24 @@ class WFSClient : Observerable
         // Callback
         callback(records);
     }
-
+    
+	private string GetCapabilities()
+	{
+		if(records[0].services.ContainsKey("wfs"))
+		{
+			string url = records[0].services["wfs"];
+			if(type == DownloadType.Record)
+				factory.Import("WFS_CAP",records,"url://" + url,11);
+			else
+				factory.Export("WFS_CAP","url://" + url,FilePath,FileName);
+				return url;
+		}
+		return "";
+	}
+	
     private string GetFeature()
     {
-        string request = Root + App + "/datasets/" + records[0].id.Replace('"', ' ').Trim() + "/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&" + "&version=" + version + "&typename=" + records[0].name.Trim(new char[] { '\"' }) + "&bbox=" + bboxSplit(records[0].bbox) + "&outputformat=gml2&" + "&srs=epsg:4326"; 
+        string request = Root + App + "/datasets/" + records[0].id.Replace('"', ' ').Trim() + "/services/ogc/wfs?SERVICE=wfs&Request=GetFeature&" + "&version=" + version + "&typename=" + records[0].Identifier + "&bbox=" + bboxSplit(records[0].bbox) + "&outputformat=gml2&" + "&srs=epsg:4326"; 
         if (!records[0].services.ContainsKey("wfs"))
         {
             state = Operations.Error;

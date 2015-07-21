@@ -44,7 +44,15 @@ public class ModelRun
     {
         return variables.Keys.ToList();//references.Keys.ToList(); 
     }
-
+	
+	public Variable GetVariable (string key)
+	{
+		if(variables.ContainsKey(key))
+		{
+			return variables[key];
+		}
+		return null;
+	}
     // Constructors
     public ModelRun(string modelRunName,string modelRunUUID)
     {
@@ -149,7 +157,16 @@ public class ModelRun
         if( ! variables.ContainsKey(record.variableName))//references.ContainsKey(record.variableName) )
         {
             //references[record.variableName] = new List<DataRecord>();
-			variables[record.variableName] = new Variable(record.variableName);
+            if(record.Temporal)
+            {
+				variables[record.variableName] = new Variable(record.variableName,typef:Variable.TYPE.Temporal);
+			}
+			else
+			{
+				variables[record.variableName] = new Variable(record.variableName);
+			}
+			// Some coditions for creating a temporal variable
+
 			MinMax[record.variableName] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
 			IsTemporal[record.variableName] = false;
         }
@@ -160,6 +177,15 @@ public class ModelRun
             CurrentCapacity++;
             //Debug.Log("ADDED: " + CurrentCapacity + " " + Total);
             variables[record.variableName].Data.Add(record);//references[record.variableName].Add(record);
+			//if((!variables.Contains("animation") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  ")))
+			if(record.Temporal)
+			{
+				variables[record.variableName].SetType(Variable.TYPE.Temporal);
+			}
+			else
+			{
+				variables[record.variableName].SetType(Variable.TYPE.NonTemporal);
+			}
 			IsTemporal[record.variableName] = ( record.IsTemporal() && (record.modelname.ToLower() != "reference") ) || IsTemporal[record.variableName];
         }
         

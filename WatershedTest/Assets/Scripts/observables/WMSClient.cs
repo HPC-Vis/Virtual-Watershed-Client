@@ -110,7 +110,7 @@ class WMSClient : Observerable
         // Build wms string
         string request = Root + App + "/datasets/" + records[0].id.Replace('"', ' ').Trim() +
             "/services/ogc/wms?SERVICE=wms&Request=GetMap&" + "width=" + width + "&height=" + height +
-            "&layers=" + records[0].title + "&bbox=" + bboxSplit(records[0].bbox) +
+            "&layers=" + records[0].Identifier + "&bbox=" + bboxSplit(records[0].bbox) +
 				"&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326" + "&TRANSPARENT=TRUE";
 		Debug.LogError(request);
         // Import from URL
