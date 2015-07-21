@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 // The ListView is contained in its own name space
 using VTL.ListView;
@@ -23,6 +24,7 @@ public class Searcher : MonoBehaviour {
     int searchCounter = 0;
 	bool firstPopulation = false;
 	float UpdateTimer;
+    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../";
 
 	// Use this for initialization
 	void Start () {
@@ -63,6 +65,9 @@ public class Searcher : MonoBehaviour {
    /// </summary>
    public void Refresh()
    {
+       if(!Directory.Exists(DirectoryLocation + "Cache")){
+           Directory.CreateDirectory(DirectoryLocation + "Cache");
+       }
        firstPopulation = false;
    }
 
@@ -90,7 +95,7 @@ public class Searcher : MonoBehaviour {
         
         if( Input.GetKey(KeyCode.R) )
         {
-            firstPopulation = false;
+            Refresh();
         }
 
 		UpdateTimer += Time.deltaTime;

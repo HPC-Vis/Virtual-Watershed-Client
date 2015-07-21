@@ -45,6 +45,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.WCSCoverages = WCSCoverages;
 		dr.Identifier = Identifier;
 		dr.Type = Type;
+		dr.Temporal = Temporal;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;

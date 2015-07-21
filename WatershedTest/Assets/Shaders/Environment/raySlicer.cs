@@ -27,7 +27,7 @@ public class raySlicer : MonoBehaviour
     public Vector2 firstPoint;
     public Vector2 secondPoint;
     public Texture3D environmentTex;
-    public Texture2D slicerMap;
+    public Texture2D slicerMap = new Texture2D(100, 100, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -45,7 +45,6 @@ public class raySlicer : MonoBehaviour
 
     void Start()
     {
-		slicerMap = new Texture2D(100, 100, TextureFormat.ARGB32, false);
 		MinMax = new MinMaxShader (CS);
 		if (!Directory.Exists (DirectoryLocation))
 		{
@@ -168,8 +167,8 @@ public class raySlicer : MonoBehaviour
                 MinMax.SetMax(max);
             }
 
-            screenMaterial.SetFloat("_Min", min);
-            screenMaterial.SetFloat("_Max", MinMax.max);
+            //screenMaterial.SetFloat("_Min", min);
+            //screenMaterial.SetFloat("_Max", MinMax.max);
         
     }
 
@@ -403,6 +402,10 @@ public class raySlicer : MonoBehaviour
             //Debug.LogError ("MIN: " + MinMax.min);
 
             // flip dimensions of point vects, pass to shader
+            float Range = MinMax.max - MinMax.min;
+            screenMaterial.SetFloat("_Min", MinMax.min - Mathf.Min(Range / 2.0f, .2f));
+            screenMaterial.SetFloat("_Max", MinMax.max + Mathf.Min(Range / 2.0f, .2f));
+
             screenMaterial.SetVector("_Point1", new Vector2(fv.x, fv.y));
             screenMaterial.SetVector("_Point2", new Vector2(sv.x, sv.y));
             Rect f = windowRect;

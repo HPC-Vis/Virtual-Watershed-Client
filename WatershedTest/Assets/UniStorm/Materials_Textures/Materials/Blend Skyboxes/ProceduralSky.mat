@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: ProceduralSky
+  m_Shader: {fileID: 106, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _FrontTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BackTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _LeftTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RightTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _UpTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DownTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FrontTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BackTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _LeftTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RightTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _UpTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DownTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 2a2070a774203964fb8a35ad4c738586, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FogSideText
+        second:
+          m_Texture: {fileID: 2800000, guid: e3b2ab41da6c7374fbbabcfde5cd9391, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FogBottomText
+        second:
+          m_Texture: {fileID: 2800000, guid: e3b2ab41da6c7374fbbabcfde5cd9391, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FogSide
+        second:
+          m_Texture: {fileID: 2800000, guid: 50280d02faf22454487f42b59197082d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FogBottom
+        second:
+          m_Texture: {fileID: 2800000, guid: 50280d02faf22454487f42b59197082d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _Exposure
+        second: 1
+      data:
+        first:
+          name: _SunSize
+        second: 0
+      data:
+        first:
+          name: _AtmosphereThickness
+        second: 1.10000002
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
+          name: _BlendHorizon
+        second: .607142866
+      data:
+        first:
+          name: _HdrExposure
+        second: 2.79999995
+      data:
+        first:
+          name: _RL
+        second: .00499999989
+      data:
+        first:
+          name: _MIE
+        second: .00100000005
+      data:
+        first:
+          name: _SUN
+        second: 18.75
+      data:
+        first:
+          name: _SkyExponent
+        second: 8.5
+      data:
+        first:
+          name: _SkyIntensity
+        second: 1
+      data:
+        first:
+          name: _SunIntensity
+        second: 0
+    m_Colors:
+      data:
+        first:
+          name: _SkyTint
+        second: {r: .764705896, g: .661555886, b: .551038086, a: 1}
+      data:
+        first:
+          name: _GroundColor
+        second: {r: .382352948, g: .382352948, b: .382352948, a: 1}
+      data:
+        first:
+          name: _Tint
+        second: {r: .457558393, g: .572641551, b: .683823526, a: 1}
+      data:
+        first:
+          name: _SunColor
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _FogTint
+        second: {r: .786764741, g: .947058797, b: 1, a: 1}
+      data:
+        first:
+          name: _TopColor
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _HorizonColor
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _BottomColor
+        second: {r: .852941155, g: .852941155, b: .852941155, a: 0}
+--- !u!1002 &2100001
+EditorExtensionImpl:
+  serializedVersion: 6

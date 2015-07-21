@@ -18,7 +18,7 @@ public class toggleScripts : MonoBehaviour
     {
         noClip = false;
         faster = false;
-        player.GetComponent<MouseLook>().enabled = false;
+        //player.GetComponent<MouseLook>().enabled = false;
     }
 
 
@@ -49,15 +49,15 @@ public class toggleScripts : MonoBehaviour
             faster = !faster;
             
         }
-        if (Input.GetMouseButtonDown(1))
-        {
-            player.GetComponent<MouseLook>().enabled = true;
-        }
-        else if(Input.GetMouseButtonUp(1))
-        {
-            player.GetComponent<MouseLook>().enabled = false;
+        //if (Input.GetMouseButtonDown(1))
+        //{
+        //    player.GetComponent<MouseLook>().enabled = true;
+        //}
+        //else if(Input.GetMouseButtonUp(1))
+        //{
+        //    player.GetComponent<MouseLook>().enabled = false;
 
-        }
+        //}
     }
 
     void slowDown()

@@ -129,10 +129,6 @@ Material:
         second: 0
       data:
         first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
           name: _FloatMin
         second: 10
       data:
@@ -159,6 +155,18 @@ Material:
         first:
           name: _x5
         second: 1
+      data:
+        first:
+          name: _EmissionScaleUI
+        second: 0
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
+          name: _NumLines
+        second: 1
     m_Colors:
       data:
         first:
@@ -167,10 +175,6 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
@@ -195,4 +199,8 @@ Material:
       data:
         first:
           name: _SegmentData005
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}

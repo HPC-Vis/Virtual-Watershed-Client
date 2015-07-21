@@ -40,7 +40,7 @@ public class Spooler : MonoBehaviour
 	// This will hold all of the Reel...
 	List<Frame> Reel = new List<Frame>();
 	public Image testImage;
-	public Slider slider;
+	public Slider gridSlider;
 	public TimeSlider timeSlider;
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
@@ -125,6 +125,8 @@ public class Spooler : MonoBehaviour
             testImage.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
+
+            TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
 
         }
 
@@ -302,7 +304,7 @@ public class Spooler : MonoBehaviour
 		}
 		
 		tex.Apply ();
-        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 500, 500), Vector2.zero);//new Texture2D();// Generate Sprite
+        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
 		//tex.EncodeToPNG()
 		 //File.WriteAllBytes(Application.dataPath + "/../"+frame.endtime.Year + "" + frame.endtime.Month+".png",tex.EncodeToPNG());
 		// second hand to spooler
@@ -399,10 +401,10 @@ public class Spooler : MonoBehaviour
 		{
 			// Build a color map from Raw Data...
 			// Create a sprite
-            frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 500, 500), new Vector2(0, 0));
+            frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 100, 100), new Vector2(0, 0));
 		}
 		// Create a sprite
-        frame.Picture = Sprite.Create(image, new Rect(0, 0, 500, 500), new Vector2(0, 0));
+        frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
 		// Attached an associate Date Time Object
 		frame.starttime = data.start.Value;
 		frame.endtime = data.end.Value;
@@ -480,8 +482,8 @@ public class Spooler : MonoBehaviour
             first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 
-            sp.width = 500;
-            sp.height = 500;
+            sp.width = 100;
+            sp.height = 100;
 			 
 
 			if(temp[0].Description.ToLower().Contains("doqq"))
@@ -567,4 +569,6 @@ public class Spooler : MonoBehaviour
 			}
 		}
 	}
+
+    
 }
