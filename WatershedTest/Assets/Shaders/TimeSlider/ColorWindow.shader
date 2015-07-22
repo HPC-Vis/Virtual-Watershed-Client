@@ -2,6 +2,8 @@
 	
 Properties {
 	_MainTex ("32bit Float Map", RECT) = "white" {}
+	_MainTex2 ("32bit Float Map", RECT) = "white" {}
+
 	
 	_FloatMin ("Min Value", float) = 16
 	_FloatMax ("Max Value", float) =  100
@@ -18,6 +20,8 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+
+	_Blend("Blend", Range(0,1)) = 1
 
 
    
@@ -42,6 +46,8 @@ CGPROGRAM
 #include "UnityCG.cginc"
 
 uniform sampler2D _MainTex;
+uniform sampler2D _MainTex2;
+
 
 uniform float _FloatMin;
 uniform float _FloatMax;
@@ -239,7 +245,46 @@ float Color2FloatMod(float4 c)
 }
 
 
+float4 determineColor(float Y)
+{
+	float x0 = 0.0000;
 
+	if(equalColor(_SegmentData000, float4(0,0,0,1)) || equalColor(_SegmentData001, float4(0,0,0,1)))
+	{
+		return float4(0,0,0,1);
+	}
+	if(Y <= _x1)
+	{
+		float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (_x1 - x0));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x2)
+	{
+		float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - _x1) / (_x2 - _x1));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x3)
+	{
+		float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - _x2) / (_x3 - _x2));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x4)
+	{
+		float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - _x3) / (_x4 - _x3));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x5)
+	{
+		float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - _x4) / (_x5 - _x4));
+		colour.a = 0;
+		return colour;
+	}
+	return float4(0,0,0,1);
+}
 
 
 
@@ -247,6 +292,7 @@ float Color2FloatMod(float4 c)
 float4 frag (v2f_img i) : COLOR
 {
 	float4 col = tex2D(_MainTex, i.uv);
+	float4 col2 = tex2D(_MainTex2, i.uv);
 
 	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
 	{
@@ -257,87 +303,36 @@ float4 frag (v2f_img i) : COLOR
 
 #if SHADER_API_D3D11
 	float Y = Color2Float(col);
+	float Y2 = Color2Float(col2);
+
 #else
 	float Y = Color2FloatMod(col);
+	float Y2 = Color2FloatMod(col2);
+
 #endif
 
 	Y = Normalize(Y);
+	Y2 = Normalize(Y2);
 	_x1 = Normalize(_x1);
 	_x2 = Normalize(_x2);
 	_x3 = Normalize(_x3);
 	_x4 = Normalize(_x4);
 	_x5 = Normalize(_x5);
-	
-	float x0;
+	float _Blend;
 
-		if(Y <= 0.00)
-		{
-		return float4(0,0,0,1);
-		}
+	_Blend = 0.5;
+
+	if(Y <= 0.00)
+	{
+	return float4(0,0,0,1);
+	}
 		
-        x0 = 0.0000;
-        if (Y <= _x1)
-		{
-			if(equalColor(_SegmentData000, float4(0,0,0,1)) || equalColor(_SegmentData001, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (_x1 - x0));
-			colour.a = 0;
-			return colour;
-		}
+    float4 colour, colour2;
 
-		x0 = _x1;
-        if (Y <= _x2)
-		{
-			if(equalColor(_SegmentData001, float4(0,0,0,1)) || equalColor(_SegmentData002, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - x0) / (_x2 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-		x0 = _x2;
-        if (Y <= _x3)
-		{
-			if(equalColor(_SegmentData002, float4(0,0,0,1)) || equalColor(_SegmentData003, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - x0) / (_x3 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-        x0 = _x3;
-        if (Y <= _x4)
-		{
-			if(equalColor(_SegmentData003, float4(0,0,0,1)) || equalColor(_SegmentData004, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - x0) / (_x4 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-        x0 = _x4;
-        if (Y <= _x5)
-		{
-			if(equalColor(_SegmentData004, float4(0,0,0,1)) || equalColor(_SegmentData005, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - x0) / (_x5 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-
-
-	return float4(0, 0, 0, 1);}
+	colour = determineColor(Y);
+	colour2 = determineColor(Y2);
+	return lerp(colour, colour2, _Blend);
+}
 ENDCG
 
 		}

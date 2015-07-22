@@ -556,7 +556,9 @@ public class Spooler : MonoBehaviour
 				// Set both textures to last reel texture
 				TimeProjector.material.SetTexture("_ShadowTex",Reel[Reel.Count-1].Picture.texture);
 				TimeProjector.material.SetTexture("_ShadowTex2",Reel[Reel.Count-1].Picture.texture);
-				
+
+                testImage.material.SetTexture("_MainTex", Reel[Reel.Count - 1].Picture.texture);
+                testImage.material.SetTexture("_MainTex2", Reel[Reel.Count - 1].Picture.texture);
 			}
 			else
 			{
@@ -566,6 +568,9 @@ public class Spooler : MonoBehaviour
 				
 				// Set future texture
 				TimeProjector.material.SetTexture("_ShadowTex2",Reel[textureIndex+1].Picture.texture);
+
+                testImage.material.SetTexture("_MainTex", Reel[textureIndex].Picture.texture);
+                testImage.material.SetTexture("_MainTex2", Reel[textureIndex + 1].Picture.texture);
 			}
 		}
 	}
