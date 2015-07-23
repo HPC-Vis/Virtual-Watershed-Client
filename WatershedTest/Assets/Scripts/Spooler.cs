@@ -48,7 +48,6 @@ public class Spooler : MonoBehaviour
     private ColorPicker colorPicker;
     private ModelRun modelrun;
     public GameObject cursor;
-    private bool mode = true;
     
 	// BoundingBox used for the time series graph...
 	public Rect BoundingBox;
@@ -89,6 +88,9 @@ public class Spooler : MonoBehaviour
         {
             TimeProjector.material = slideProjector;
         }
+
+        trendGraph.row = 50;
+        trendGraph.col = 50;
 	}
 	int count = 10;
 
@@ -239,24 +241,14 @@ public class Spooler : MonoBehaviour
                 trendGraph.SetCoordPoint(WorldPoint);
                 trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                if(mode)
-                {
-                    Debug.LogError("Compute 3 was called, " + trendGraph.row);
-                    trendGraph.Compute3();
-                }
-                else
-                {
-                    Debug.LogError("Compute was called, " + trendGraph.row);
-                    trendGraph.Compute();
-                }
-                
-                // Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
+                trendGraph.Compute();
+                Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
 			}
 		}
 
         if(Input.GetKeyDown(KeyCode.L))
         {
-            mode = !mode;
+            trendGraph.Compute();
         }
     }
 

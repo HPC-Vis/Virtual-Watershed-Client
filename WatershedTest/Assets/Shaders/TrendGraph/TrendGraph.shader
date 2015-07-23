@@ -23,18 +23,16 @@ uniform sampler2D _MainTex;
 
 float4 frag (v2f_img i) : COLOR
 {
-	float4 col = tex2D(_MainTex, i.uv);
+	float4 col = tex2D(_MainTex, float2(1.0-i.uv.x, 1-i.uv.y));
 
-	if (col.r < 0.9)
+	if (col.r < 0.1 && col.g < 0.1 && col.b > 0.9)
 	{
-		return float4(0, 0, 0, 0);
+		return float4(1.0, 1.0, 1.0, 0.0); 
 	}
-	else if(col.g > 0.9)
+	else
 	{
-		return float4(1.0, 1.0, 1.0, 0.0);
+		return float4(0, 0, 0, 1);
 	}
-	
-	return  float4(1.0, 0.0, 0.0, 0.0);
 }
 ENDCG
 
