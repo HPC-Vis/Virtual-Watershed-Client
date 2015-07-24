@@ -23,11 +23,11 @@ import UnityStandardAssets.ImageEffects;
 		if (!ReferenceEquals (unistorm,null))	
 		{
 			weathers = unistorm.GetComponentsInChildren(UniStormWeatherSystem_JS);	
-			weather = weathers[0];
+			//weather = weathers[0];
 			
-			if (!ReferenceEquals (weather,null))	
+			/*if (!ReferenceEquals (weather,null))	
 			{	
-				weather.rain = rain;	
+				/*weather.rain = rain;	
 				weather.snow = snow;	
 				weather.butterflies = lightningBugs;		
 				weather.rainMist = rainMist;
@@ -38,6 +38,6 @@ import UnityStandardAssets.ImageEffects;
 				weather.windyLeaves = windyLeaves;		
 				weather.lightningBolt1 = lightningBolt1;	
 				weather.cameraObject = unistormCamera;	
-			}
+			}*/
 		}	
 	}

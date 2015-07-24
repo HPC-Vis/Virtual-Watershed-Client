@@ -28,6 +28,7 @@ public class Searcher : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+	
 		//Logger.enable = false;
 	//	if (ModelRunManager.client == null) {
 			nm = new NetworkManager ();
@@ -95,6 +96,7 @@ public class Searcher : MonoBehaviour {
         
         if( Input.GetKey(KeyCode.R) )
         {
+			Camera.main.backgroundColor = new Color(0,0,0,0);
             Refresh();
         }
 

@@ -1079,7 +1079,7 @@ function Awake ()
 		minuteCounterCalculator = Hour*60f;	
 
 		minuteCounter = minuteCounterCalculator;
-		minuteCounterNew = minuteCounter;
+		//minuteCounterNew = minuteCounter;
 		
 		var cloudScrollSpeedCalculator = cloudSpeed * .001f;
 		var heavCloudScrollSpeedCalculator = heavyCloudSpeed * .001f;
