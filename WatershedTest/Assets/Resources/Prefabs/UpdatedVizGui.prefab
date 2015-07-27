@@ -15809,9 +15809,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: eb5f6e2757c821940b69cf1456f7865a, type: 3}
-  - {fileID: 21300000, guid: 9d7c6e4896067aa4fa512a00f692ac1c, type: 3}
-  - {fileID: 21300000, guid: 49b611e658efbf443b686a4036f74fe3, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   - {fileID: 21300000, guid: 2f8a527e3d3d4d74481da703978c6b29, type: 3}
   - {fileID: 21300000, guid: 15dd611668f0ea442a8f677437e178f9, type: 3}
   slider: {fileID: 11497506}
@@ -16453,6 +16453,10 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    multiLayered: none
+    numbands: 0
+    band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -16464,6 +16468,8 @@ MonoBehaviour:
     yBound: 0
     xwidth: 0
     yheight: 0
+    Identifier: 
+    Layer: 
   ModelRun:
     Name: 
     ModelName: 
@@ -17928,7 +17934,7 @@ MonoBehaviour:
   trendGraph: {fileID: 11445736}
   visual: {fileID: 11408050}
   testImage: {fileID: 11440894}
-  slider: {fileID: 11497506}
+  gridSlider: {fileID: 0}
   timeSlider: {fileID: 11458378}
   TimeProjector: {fileID: 0}
   colorWindow: {fileID: 0}
@@ -23348,6 +23354,10 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    multiLayered: none
+    numbands: 0
+    band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -23359,6 +23369,8 @@ MonoBehaviour:
     yBound: 0
     xwidth: 0
     yheight: 0
+    Identifier: 
+    Layer: 
   ModelRun:
     Name: 
     ModelName: 
@@ -25013,6 +25025,10 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    multiLayered: none
+    numbands: 0
+    band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -25024,6 +25040,8 @@ MonoBehaviour:
     yBound: 0
     xwidth: 0
     yheight: 0
+    Identifier: 
+    Layer: 
   ModelRun:
     Name: 
     ModelName: 

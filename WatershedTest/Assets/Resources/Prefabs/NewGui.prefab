@@ -9113,6 +9113,10 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    multiLayered: none
+    numbands: 0
+    band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -9124,6 +9128,8 @@ MonoBehaviour:
     yBound: 0
     xwidth: 0
     yheight: 0
+    Identifier: 
+    Layer: 
   ModelRun:
     Name: 
     ModelName: 
@@ -10496,6 +10502,10 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    multiLayered: none
+    numbands: 0
+    band_id: -1
+    Temporal: 0
     isSet: 0
     texture: 
     Min: 3.40282347e+38
@@ -10507,6 +10517,8 @@ MonoBehaviour:
     yBound: 0
     xwidth: 0
     yheight: 0
+    Identifier: 
+    Layer: 
   ModelRun:
     Name: 
     ModelName: 

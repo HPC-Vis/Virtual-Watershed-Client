@@ -20,14 +20,26 @@ class WMSClient : Observerable
     private Operations state;
     private List<Operations> StateList = new List<Operations>();
 
-    // Constructor
-    public WMSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+    // Constructor 0 means all operations or in this case getmap
+	public WMSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "",int operations=0)
         : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
-        StateList.Add(Operations.GetCapabilities);
-        StateList.Add(Operations.GetMap);
-        StateList.Add(Operations.Done);
+		if (operations == 0) {
+			
+			StateList.Add (Operations.GetCapabilities);
+			StateList.Add (Operations.GetMap);
+			StateList.Add (Operations.Done);
+		} else if (operations == 1) {
+			StateList.Add (Operations.GetCapabilities);
+			StateList.Add (Operations.Done);
+			Logger.WriteLine ("GETCAPABILITIES");
+		} 
+		else 
+		{
+			StateList.Add (Operations.GetCapabilities);
+			StateList.Add (Operations.Done);
+		}
     }
 
     // Update
@@ -79,8 +91,13 @@ class WMSClient : Observerable
 
     public override void CallBack()
     {
+		Logger.WriteLine ("CALLBACKFSDFDSF");
         // Callback
-        callback(records);
+		if (callback != null) 
+		{
+			Logger.WriteLine ("CALLBACK WMS");
+			callback (records);
+		}
     }
 
     public override void Error()
@@ -93,7 +110,7 @@ class WMSClient : Observerable
         // Build wms string
         string request = Root + App + "/datasets/" + records[0].id.Replace('"', ' ').Trim() +
             "/services/ogc/wms?SERVICE=wms&Request=GetMap&" + "width=" + width + "&height=" + height +
-            "&layers=" + records[0].title + "&bbox=" + bboxSplit(records[0].bbox) +
+            "&layers=" + records[0].Identifier + "&bbox=" + bboxSplit(records[0].bbox) +
 				"&format=" + format + "&Version=1.1.1" + "&srs=epsg:4326" + "&TRANSPARENT=TRUE";
 		Debug.LogError(request);
         // Import from URL

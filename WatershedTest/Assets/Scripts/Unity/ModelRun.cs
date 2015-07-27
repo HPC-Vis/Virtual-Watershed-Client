@@ -29,7 +29,11 @@ public class ModelRun
 	// Replace with modelrun variable class  ....   ***********************************************
     //public ModelRunManager ModelRunManager;
     // private Dictionary<string, GeoReference> references = new Dictionary<string, GeoReference>();
-    private Dictionary<string, List<DataRecord>> references = new Dictionary<string, List<DataRecord>>();
+    //private Dictionary<string, List<DataRecord>> references = new Dictionary<string, List<DataRecord>>();
+
+    // It exists!!!
+    private Dictionary<string, Variable> variables = new Dictionary<string, Variable>();
+
 	public Dictionary<string,bool> IsTemporal = new Dictionary<string, bool> ();
 	// ************************************************
 
@@ -38,9 +42,17 @@ public class ModelRun
 
     public List<string> GetVariables()
     {
-        return references.Keys.ToList(); 
+        return variables.Keys.ToList();//references.Keys.ToList(); 
     }
-
+	
+	public Variable GetVariable (string key)
+	{
+		if(variables.ContainsKey(key))
+		{
+			return variables[key];
+		}
+		return null;
+	}
     // Constructors
     public ModelRun(string modelRunName,string modelRunUUID)
     {
@@ -65,7 +77,7 @@ public class ModelRun
     public void Add(string label, List<DataRecord> toAdd)
     {
         // Check if already in the model
-        if( references.ContainsKey(label) )
+        if( variables.ContainsKey(label))//references.ContainsKey(label) )
         {
             // Label already exists
             // Handle situation?
@@ -73,8 +85,8 @@ public class ModelRun
         else
         {
             // Add to the model run
-            references.Add(label, toAdd);
-            MinMax.Add(label, new SerialVector2(new Vector2(float.MaxValue, float.MinValue)));
+            variables.Add(label, new Variable(label));//references.Add(label, toAdd);
+			MinMax.Add(label, new SerialVector2(new Vector2(float.MaxValue, float.MinValue)));
         }
     }
 
@@ -142,19 +154,38 @@ public class ModelRun
         }
 
         // Determine whether or not we need to create a new List<DR>
-        if( ! references.ContainsKey(record.variableName) )
+        if( ! variables.ContainsKey(record.variableName))//references.ContainsKey(record.variableName) )
         {
-            references[record.variableName] = new List<DataRecord>();
-            MinMax[record.variableName] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
+            //references[record.variableName] = new List<DataRecord>();
+            if(record.Temporal)
+            {
+				variables[record.variableName] = new Variable(record.variableName,typef:Variable.TYPE.Temporal);
+			}
+			else
+			{
+				variables[record.variableName] = new Variable(record.variableName);
+			}
+			// Some coditions for creating a temporal variable
+
+			MinMax[record.variableName] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
 			IsTemporal[record.variableName] = false;
         }
 
         // Insert data record into appopritate georef object --- if it doesn't already exist in this model run..
-        if( ! references[record.variableName].Contains(record) )
+        if( ! variables[record.variableName].Data.Contains(record))//references[record.variableName].Contains(record) )
         {
             CurrentCapacity++;
             //Debug.Log("ADDED: " + CurrentCapacity + " " + Total);
-            references[record.variableName].Add(record);
+            variables[record.variableName].Data.Add(record);//references[record.variableName].Add(record);
+			//if((!variables.Contains("animation") && !variables.Contains("") && !variables.Contains(" ") && !variables.Contains("  ")))
+			if(record.Temporal)
+			{
+				variables[record.variableName].SetType(Variable.TYPE.Temporal);
+			}
+			else
+			{
+				variables[record.variableName].SetType(Variable.TYPE.NonTemporal);
+			}
 			IsTemporal[record.variableName] = ( record.IsTemporal() && (record.modelname.ToLower() != "reference") ) || IsTemporal[record.variableName];
         }
         
@@ -165,17 +196,17 @@ public class ModelRun
 
     public List<DataRecord> Get(string label)
     {
-        return references[label];
+        return variables[label].Data;//references[label];
     }
 
     public int VariableCount()
     {
-        return references.Count;
+        return variables.Count;// references.Count;
     }
 
     public void ClearData(string variable)
     {
-        foreach (var record in references[variable])
+        foreach (var record in variables[variable].Data)///references[variable])
         {
             record.Data = null;
         }        
@@ -196,9 +227,9 @@ public class ModelRun
         if(all)
         {
             // Simple Download Operation...
-            foreach(var i in references)
+            foreach(var i in variables)
             {
-                ModelRunManager.Download(i.Value, null, "vwc", operation, param);
+                ModelRunManager.Download(i.Value.Data, null, "vwc", operation, param);
             }
         }
 
@@ -209,7 +240,7 @@ public class ModelRun
     {
         
         // Let the downloading begin!
-        ModelRunManager.Download(references[ModelVar], SendToSimulator, "vwc", service, param);
+        ModelRunManager.Download(variables[ModelVar].Data, SendToSimulator, "vwc", service, param);
         //foreach (var i in references[ModelVar])
         //{
         //    List<DataRecord> Record = new List<DataRecord>();
@@ -233,10 +264,10 @@ public class ModelRun
         List<DataRecord> records = new List<DataRecord>();
 
         // iterate through the list of datarecords __ variables in this case
-        foreach (var variable in references)
+        foreach (var variable in variables)//references)
         {
             // iterate through the list of datarecords contain in this paricular variable
-            foreach(var record in variable.Value)
+            foreach(var record in variable.Value.Data)
             {
                 // Check if the case where everything is desired
                 if(number > 0)
@@ -308,11 +339,11 @@ public class ModelRun
     {
         DateTime time = DateTime.MaxValue;
         //Logger.WriteLine(time.ToString());
-        foreach (var i in references)
+        foreach (var i in variables)
         {
            // Logger.WriteLine(i.Value.Count.ToString());
             //Logger.WriteLine("ORIGINAL: " + references[i.Key][0].start);
-            foreach(var j in i.Value)
+            foreach(var j in i.Value.Data)
             {
                 //Logger.WriteLine(j.start.ToString());
                 if(time > j.start.Value)
@@ -329,11 +360,11 @@ public class ModelRun
     {
         DateTime time = DateTime.MinValue;
         //Logger.WriteLine(time.ToString());
-        foreach (var i in references)
+        foreach (var i in variables)
         {
             //Logger.WriteLine(i.Value.Count.ToString());
             //Logger.WriteLine("ORIGINAL: " + i.Value[0].end);
-            foreach (var j in i.Value)
+            foreach (var j in i.Value.Data)
             {
                 //Logger.WriteLine(j.end.ToString());
 				if (j.end > time)
@@ -352,9 +383,9 @@ public class ModelRun
 		DateTime MaxTime = DateTime.MinValue;
 		
 		
-		foreach (var i in references)
+		foreach (var i in variables)
 		{;
-			foreach (var j in i.Value)
+			foreach (var j in i.Value.Data)
 			{
 				//Logger.WriteLine(j.end.ToString());
 				if (j.end> MaxTime)
@@ -374,13 +405,13 @@ public class ModelRun
     public DataRecord FetchNearestDataPoint(string VariableName, DateTime pointOfInterest)
     {
         // Check if ModelRun exists here
-        if(!references.ContainsKey(VariableName))
+        if(!variables.ContainsKey(VariableName))
         {
             return null;
         }
 
         // For now a linear search -- This can be improved
-        foreach(var i in references[VariableName])
+        foreach(var i in variables[VariableName].Data)
         {
             if(i.start != null && i.end != null && pointOfInterest <= i.end && pointOfInterest >= i.start)
             {
@@ -394,9 +425,9 @@ public class ModelRun
 
     public List<DataRecord> FetchVariableData(string vari)
     {
-        if(references.ContainsKey(vari))
+        if(variables.ContainsKey(vari))
         {
-            return references[vari];
+            return variables[vari].Data;
         }
         return null;
     }
@@ -423,17 +454,17 @@ public class ModelRun
         DataRecordComparers.StartDateDescending compare = new DataRecordComparers.StartDateDescending();
 
         // Sort the list..
-        if (!references.ContainsKey(ModelVar))
+        if (!variables.ContainsKey(ModelVar))
             return -1;
-        references[ModelVar].Sort(compare);
+        variables[ModelVar].Data.Sort(compare);
 
         // Find next record -- Assuming that the list is in order at this point.
-        for (int i = CurrentTimeStep + 1; i < references[ModelVar].Count; i++)
+        for (int i = CurrentTimeStep + 1; i < variables[ModelVar].Data.Count; i++)
         {
             //Logger.WriteLine(SetToStepThrough[previousRecord].start.ToString() + " " + SetToStepThrough[previousRecord].end.ToString());
             //  Logger.WriteLine(SetToStepThrough[i].start.ToString() + " " + SetToStepThrough[i].end.ToString());
             //Logger.WriteLine(current.ToString());
-            if (references[ModelVar][i].start >= current)
+            if (variables[ModelVar].Data[i].start >= current)
             {
                 //TimeSpan delta = start - NextTime;
                 return i;

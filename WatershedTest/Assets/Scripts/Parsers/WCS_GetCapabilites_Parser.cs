@@ -9,6 +9,10 @@ class WCS_GetCapabilites_Parser : Parser
 {
     void ParseWCSCapabilities(DataRecord Record, string Str)
     {
+    	if(Str == null)
+    	{
+    		Logger.WriteLine("NULLL");
+    	}
         var reader = System.Xml.XmlTextReader.Create(new System.IO.StringReader(Str));
         Record.WCSCapabilities = Str;
         //var c = new XmlReaderSettings();
@@ -23,14 +27,42 @@ class WCS_GetCapabilites_Parser : Parser
         {
             capabilities = ((GetCapabilites.Capabilities)serial.Deserialize(reader));
             Record.WCSOperations = capabilities.OperationsMetadata;
-            //var cap = ((GetCapabilites.Capabilities[])serial.Deserialize(reader));
-            //Logger.WriteLine(capabilities.Contents[0].CoverageSummary.);
-            Logger.WriteLine(capabilities.OperationsMetadata.Count().ToString());
-            //Logger.WriteLine(cap.Count().ToString());
-            //foreach(var i in capabilities)
-           // {
-           //     Logger.WriteLine(i.name);
-            //}
+            Record.WCSCoverages = capabilities.Contents;
+            if(Record.Identifier == null)
+            {
+            	Logger.WriteLine("GETTING THE IDENTIFIERS");
+				GetCapabilites.OperationsMetadataOperation gc = new GetCapabilites.OperationsMetadataOperation();
+				foreach (GetCapabilites.OperationsMetadataOperation i in Record.WCSOperations)
+				{
+					if (i.name == "DescribeCoverage")
+					{
+						gc = i;
+						break;
+					}
+				}
+				string parameters = "";
+				bool done = false;
+				// For now picking first valid parameters
+				foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
+				{
+					foreach (string j in i.AllowedValues)
+					{
+						if(i.name == "identifiers")
+						{
+							Record.Identifier = i.AllowedValues[0];
+							done = true;
+							Logger.WriteLine("SMILE");
+							break;
+						}
+						
+						//break;
+					}
+					if(done)
+					{
+						break;
+					}
+				}
+            }
         }
     }
 

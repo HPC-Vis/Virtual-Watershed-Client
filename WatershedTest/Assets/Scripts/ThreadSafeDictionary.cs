@@ -82,4 +82,11 @@ public class ThreadSafeDictionary<TKey, TValue>
             return _Dictionary.ContainsKey(Key);
         }
     }
+    public void Clear()
+    {
+    	lock(_Padlock)
+    	{
+    		_Dictionary.Clear();
+    	}
+    }
 }

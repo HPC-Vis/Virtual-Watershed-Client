@@ -124,11 +124,12 @@ public class NetworkClient : WebClient
         try
         {
             Req.Callback(args.Result);
+            Logger.WriteLine("SUCCESSFUL WITH: " + Req.Url);
         }
         catch(Exception e)
         {
             Logger.WriteLine(e.Message + " " + e.StackTrace);
-            Logger.WriteLine("<color=red>Insert Custom Error Message / Error code for handling HTTP 404</color>");
+            Logger.WriteLine("<color=red>Insert Custom Error Message / Error code for handling HTTP 404 </color>");
             netmanager.CallDataError(Req.Url);
             StartNextDownload();
             return;

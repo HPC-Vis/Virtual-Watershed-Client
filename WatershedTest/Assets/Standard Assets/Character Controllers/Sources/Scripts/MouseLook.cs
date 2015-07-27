@@ -31,13 +31,17 @@ public class MouseLook : MonoBehaviour
 
     float rotationY = 0F;
 
-    bool MouseActive = true;
+    bool MouseActive = false;
 
     void Update()
     {
-        if (Input.GetKeyDown("m"))
+        if (Input.GetMouseButtonDown(1))
         {
-            MouseActive = !MouseActive;
+            MouseActive = true;
+        }
+        else if(Input.GetMouseButtonUp(1))
+        {
+            MouseActive = false;
         }
         if (MouseActive)
         {

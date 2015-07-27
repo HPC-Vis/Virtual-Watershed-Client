@@ -2,6 +2,8 @@
 	
 Properties {
 	_MainTex ("32bit Float Map", RECT) = "white" {}
+	_MainTex2 ("32bit Float Map", RECT) = "white" {}
+
 	
 	_FloatMin ("Min Value", float) = 16
 	_FloatMax ("Max Value", float) =  100
@@ -18,6 +20,10 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+
+	_Blend("Blend", Range(0,1)) = 1
+
+
    
 	
 }
@@ -40,6 +46,8 @@ CGPROGRAM
 #include "UnityCG.cginc"
 
 uniform sampler2D _MainTex;
+uniform sampler2D _MainTex2;
+
 
 uniform float _FloatMin;
 uniform float _FloatMax;
@@ -78,47 +86,47 @@ int modulo(int num, int den)
 float Color2Float(float4 c)
 {
 	float f;
-	int fi;
+	uint fi;
 					
 	fi = c.r * 256;
-	int i32 = (fi & 128) / 128;
-	int i31 = (fi & 64) / 64;
-	int i30 = (fi & 32) / 32;
-	int i29 = (fi & 16) / 16;
-	int i28 = (fi & 8) / 8;
-	int i27 = (fi & 4) / 4;
-	int i26 = (fi & 2) / 2;
-	int i25 = (fi & 1) / 1;
+	uint i32 = (fi & 128) / 128;
+	uint i31 = (fi & 64) / 64;
+	uint i30 = (fi & 32) / 32;
+	uint i29 = (fi & 16) / 16;
+	uint i28 = (fi & 8) / 8;
+	uint i27 = (fi & 4) / 4;
+	uint i26 = (fi & 2) / 2;
+	uint i25 = (fi & 1) / 1;
 					
 	fi = c.g * 256;
-	int i24 = (fi & 128) / 128;
-	int i23 = (fi & 64) / 64;
-	int i22 = (fi & 32) / 32;
-	int i21 = (fi & 16) / 16;
-	int i20 = (fi & 8) / 8;
-	int i19 = (fi & 4) / 4;
-	int i18 = (fi & 2) / 2;
-	int i17 = (fi & 1) / 1;
+	uint i24 = (fi & 128) / 128;
+	uint i23 = (fi & 64) / 64;
+	uint i22 = (fi & 32) / 32;
+	uint i21 = (fi & 16) / 16;
+	uint i20 = (fi & 8) / 8;
+	uint i19 = (fi & 4) / 4;
+	uint i18 = (fi & 2) / 2;
+	uint i17 = (fi & 1) / 1;
 					
 	fi = c.b * 256;
-	int i16 = (fi & 128) / 128;
-	int i15 = (fi & 64) / 64;
-	int i14 = (fi & 32) / 32;
-	int i13 = (fi & 16) / 16;
-	int i12 = (fi & 8) / 8;
-	int i11 = (fi & 4) / 4;
-	int i10 = (fi & 2) / 2;
-	int i09 = (fi & 1) / 1;
+	uint i16 = (fi & 128) / 128;
+	uint i15 = (fi & 64) / 64;
+	uint i14 = (fi & 32) / 32;
+	uint i13 = (fi & 16) / 16;
+	uint i12 = (fi & 8) / 8;
+	uint i11 = (fi & 4) / 4;
+	uint i10 = (fi & 2) / 2;
+	uint i09 = (fi & 1) / 1;
 					
 	fi = c.a * 256;
-	int i08 = (fi & 128) / 128;
-	int i07 = (fi & 64) / 64;
-	int i06 = (fi & 32) / 32;
-	int i05 = (fi & 16) / 16;
-	int i04 = (fi & 8) / 8;
-	int i03 = (fi & 4) / 4;
-	int i02 = (fi & 2) / 2;
-	int i01 = (fi & 1) / 1;
+	uint i08 = (fi & 128) / 128;
+	uint i07 = (fi & 64) / 64;
+	uint i06 = (fi & 32) / 32;
+	uint i05 = (fi & 16) / 16;
+	uint i04 = (fi & 8) / 8;
+	uint i03 = (fi & 4) / 4;
+	uint i02 = (fi & 2) / 2;
+	uint i01 = (fi & 1) / 1;
 					
 	float _sign = 1.0;
 	if (i32==1)
@@ -144,75 +152,75 @@ float Color2Float(float4 c)
 float Color2FloatMod(float4 c)
 {
 	float f;
-	int fi;
+	uint fi;
 
 	fi = c.a * 256;
-	int i01 = modulo(fi, 2);
+	uint i01 = modulo(fi, 2);
 	fi = fi / 2;
-	int i02 = modulo(fi, 2);
+	uint i02 = modulo(fi, 2);
 	fi = fi / 2;
-	int i03 = modulo(fi, 2);
+	uint i03 = modulo(fi, 2);
 	fi = fi / 2;
-	int i04 = modulo(fi, 2);
+	uint i04 = modulo(fi, 2);
 	fi = fi / 2;
-	int i05 = modulo(fi, 2);
+	uint i05 = modulo(fi, 2);
 	fi = fi / 2;
-	int i06 = modulo(fi, 2);
+	uint i06 = modulo(fi, 2);
 	fi = fi / 2;
-	int i07 = modulo(fi, 2);
+	uint i07 = modulo(fi, 2);
 	fi = fi / 2;
-	int i08 = modulo(fi, 2);
+	uint i08 = modulo(fi, 2);
 
 	fi = c.b * 256;
-	int i09 = modulo(fi, 2);
+	uint i09 = modulo(fi, 2);
 	fi = fi / 2;
-	int i10 = modulo(fi, 2);
+	uint i10 = modulo(fi, 2);
 	fi = fi / 2;
-	int i11 = modulo(fi, 2);
+	uint i11 = modulo(fi, 2);
 	fi = fi / 2;
-	int i12 = modulo(fi, 2);
+	uint i12 = modulo(fi, 2);
 	fi = fi / 2;
-	int i13 = modulo(fi, 2);
+	uint i13 = modulo(fi, 2);
 	fi = fi / 2;
-	int i14 = modulo(fi, 2);
+	uint i14 = modulo(fi, 2);
 	fi = fi / 2;
-	int i15 = modulo(fi, 2);
+	uint i15 = modulo(fi, 2);
 	fi = fi / 2;
-	int i16 = modulo(fi, 2);
+	uint i16 = modulo(fi, 2);
 
 	fi = c.g * 256;
-	int i17 = modulo(fi, 2);
+	uint i17 = modulo(fi, 2);
 	fi = fi / 2;
-	int i18 = modulo(fi, 2);
+	uint i18 = modulo(fi, 2);
 	fi = fi / 2;
-	int i19 = modulo(fi, 2);
+	uint i19 = modulo(fi, 2);
 	fi = fi / 2;
-	int i20 = modulo(fi, 2);
+	uint i20 = modulo(fi, 2);
 	fi = fi / 2;
-	int i21 = modulo(fi, 2);
+	uint i21 = modulo(fi, 2);
 	fi = fi / 2;
-	int i22 = modulo(fi, 2);
+	uint i22 = modulo(fi, 2);
 	fi = fi / 2;
-	int i23 = modulo(fi, 2);
+	uint i23 = modulo(fi, 2);
 	fi = fi / 2;
-	int i24 = modulo(fi, 2);
+	uint i24 = modulo(fi, 2);
 
 	fi = c.r * 256;
-	int i25 = modulo(fi, 2);
+	uint i25 = modulo(fi, 2);
 	fi = fi / 2;
-	int i26 = modulo(fi, 2);
+	uint i26 = modulo(fi, 2);
 	fi = fi / 2;
-	int i27 = modulo(fi, 2);
+	uint i27 = modulo(fi, 2);
 	fi = fi / 2;
-	int i28 = modulo(fi, 2);
+	uint i28 = modulo(fi, 2);
 	fi = fi / 2;
-	int i29 = modulo(fi, 2);
+	uint i29 = modulo(fi, 2);
 	fi = fi / 2;
-	int i30 = modulo(fi, 2);
+	uint i30 = modulo(fi, 2);
 	fi = fi / 2;
-	int i31 = modulo(fi, 2);
+	uint i31 = modulo(fi, 2);
 	fi = fi / 2;
-	int i32 = modulo(fi, 2);
+	uint i32 = modulo(fi, 2);
 
 	float _sign = 1.0;
 	if (i32 == 1)
@@ -237,14 +245,70 @@ float Color2FloatMod(float4 c)
 }
 
 
+float4 determineColor(float Y)
+{
+	float x0 = 0.0000;
+
+	if(equalColor(_SegmentData000, float4(0,0,0,1)) || equalColor(_SegmentData001, float4(0,0,0,1)))
+	{
+		return float4(0,0,0,1);
+	}
+	if(Y <= _x1)
+	{
+		float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (_x1 - x0));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x2)
+	{
+		float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - _x1) / (_x2 - _x1));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x3)
+	{
+		float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - _x2) / (_x3 - _x2));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x4)
+	{
+		float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - _x3) / (_x4 - _x3));
+		colour.a = 0;
+		return colour;
+	}
+	if(Y <= _x5)
+	{
+		float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - _x4) / (_x5 - _x4));
+		colour.a = 0;
+		return colour;
+	}
+	return float4(0,0,0,1);
+}
+
+
+
+
 float4 frag (v2f_img i) : COLOR
 {
 	float4 col = tex2D(_MainTex, i.uv);
+	float4 col2 = tex2D(_MainTex2, i.uv);
+
+	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	{
+		return float4(0,0,0,1);
+	}
+
+	
 
 #if SHADER_API_D3D11
 	float Y = Color2Float(col);
+	float Y2 = Color2Float(col2);
+
 #else
 	float Y = Color2FloatMod(col);
+	float Y2 = Color2FloatMod(col2);
+
 #endif
 
 	if (i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
@@ -253,82 +317,27 @@ float4 frag (v2f_img i) : COLOR
 	}
 
 	Y = Normalize(Y);
+	Y2 = Normalize(Y2);
 	_x1 = Normalize(_x1);
 	_x2 = Normalize(_x2);
 	_x3 = Normalize(_x3);
 	_x4 = Normalize(_x4);
 	_x5 = Normalize(_x5);
-	
-	float x0;
+	float _Blend;
 
-		if(Y <= 0.00)
-		{
-		return float4(0,0,0,1);
-		}
+	_Blend = 0.5;
+
+	if(Y <= 0.00)
+	{
+	return float4(0,0,0,1);
+	}
 		
-        x0 = 0.0000;
-        if (Y <= _x1)
-		{
-			if(equalColor(_SegmentData000, float4(0,0,0,1)) || equalColor(_SegmentData001, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData000, _SegmentData001, (Y - x0) / (_x1 - x0));
-			colour.a = 0;
-			return colour;
-		}
+    float4 colour, colour2;
 
-		x0 = _x1;
-        if (Y <= _x2)
-		{
-			if(equalColor(_SegmentData001, float4(0,0,0,1)) || equalColor(_SegmentData002, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData001, _SegmentData002, (Y - x0) / (_x2 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-		x0 = _x2;
-        if (Y <= _x3)
-		{
-			if(equalColor(_SegmentData002, float4(0,0,0,1)) || equalColor(_SegmentData003, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData002, _SegmentData003, (Y - x0) / (_x3 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-        x0 = _x3;
-        if (Y <= _x4)
-		{
-			if(equalColor(_SegmentData003, float4(0,0,0,1)) || equalColor(_SegmentData004, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData003, _SegmentData004, (Y - x0) / (_x4 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-        x0 = _x4;
-        if (Y <= _x5)
-		{
-			if(equalColor(_SegmentData004, float4(0,0,0,1)) || equalColor(_SegmentData005, float4(0,0,0,1)))
-			{
-				return float4(0,0,0,1);
-			}
-            float4 colour = lerp(_SegmentData004, _SegmentData005, (Y - x0) / (_x5 - x0));
-			colour.a = 0;
-			return colour;
-		}
-    
-
-
-	return float4(0, 0, 0, 1);}
+	colour = determineColor(Y);
+	colour2 = determineColor(Y2);
+	return lerp(colour, colour2, _Blend);
+}
 ENDCG
 
 		}

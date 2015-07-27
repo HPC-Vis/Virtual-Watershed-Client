@@ -13,11 +13,42 @@ public class DataRecord : IEquatable<DataRecord>
 {
     public DataRecord()
     {
+    	start = DateTime.MinValue;
+    	end = DateTime.MaxValue;
     }
+    
     public DataRecord( string recordName )
     {
         name = recordName;
     }
+	public DataRecord Clone()
+	{
+		DataRecord dr = new DataRecord ();
+		dr.name = name;
+		dr.boundingBox = boundingBox;
+		dr.bbox = bbox;
+		dr.bbox2 = bbox2;
+		dr.variableName = variableName;
+		//dr.data = data;
+		//dr.texture = texture.Clone ();
+		dr.start = start;
+		dr.end = end;
+		dr.description = description;
+		dr.modelname = modelname;
+		dr.modelRunUUID = modelRunUUID;
+		dr.id = id;
+		dr.location = location;
+		dr.services = services;
+		dr.projection = projection;
+		dr.WCSOperations = WCSOperations;
+		dr.CoverageDescription = CoverageDescription;
+		dr.WCSCoverages = WCSCoverages;
+		dr.Identifier = Identifier;
+		dr.Type = Type;
+		dr.Temporal = Temporal;
+		return dr;
+	}
+	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
 
     public static bool operator ==(DataRecord a, DataRecord b)
     {
@@ -43,7 +74,7 @@ public class DataRecord : IEquatable<DataRecord>
                a.start == b.start &&
                a.end == b.end &&
                a.modelRunUUID == b.modelRunUUID &&
-               a.data == b.data;
+               a.data == b.data && a.band_id == b.band_id;
     }
 
     public static bool operator !=(DataRecord a, DataRecord b)
@@ -70,7 +101,8 @@ public class DataRecord : IEquatable<DataRecord>
                a.start != b.start ||
                a.end != b.end ||
                a.modelRunUUID != b.modelRunUUID ||
-               a.data != b.data;
+				a.data != b.data || 
+				a.band_id == b.band_id;
     }
 
     public bool Equals(DataRecord b)
@@ -183,6 +215,11 @@ public class DataRecord : IEquatable<DataRecord>
     /// WCS Operations
 	[NonSerializedAttribute]
     public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
+	[NonSerializedAttribute]
+	public GetCapabilites.CapabilitiesContentsCoverageSummary[] WCSCoverages = null;
+	[NonSerializedAttribute]
+	public DescribeCoverageWCS.CoverageDescriptions CoverageDescription = null;
+	
     public string WMSCapabilities = "";
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";
@@ -202,14 +239,20 @@ public class DataRecord : IEquatable<DataRecord>
     public string modelRunUUID;
     public string variableName;
 
+	// Another patch to make things go faster
+	public string multiLayered = "none";
+	
     // Temporal Fields for metadata 
     public DateTime? start = null;
     public DateTime? end = null;
-
-
+	public int numbands = 0;
+	
+	// A band_id of negative one means it is not part of a series.
+	public int band_id = -1;
+	public bool Temporal = false;
 	public bool IsTemporal()
 	{
-		return start == null && end == null;
+		return Temporal;
 	}
 
     // A test set flag for one variable tests
@@ -284,6 +327,8 @@ public class DataRecord : IEquatable<DataRecord>
 
     // Use these to rebuild bounding box
     public float xBound, yBound, xwidth, yheight;
-    
+
+    public string Identifier=null;
+    public string Layer = "";
 
 };

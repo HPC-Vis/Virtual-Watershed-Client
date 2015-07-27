@@ -53,8 +53,7 @@ public class VWClient : Observer
         return Token;
     }
 
-    // http://h1.rd.unr.edu:8080
-    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")// "http://h1.rd.unr.edu:8080")
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events
@@ -143,7 +142,9 @@ public class VWClient : Observer
         // Else Add the observable to "active" and "observables"
         else
         {   
+			
             string URL = observable.Update();
+			Logger.WriteLine ("Added to observables: " + URL); 
             active[URL] = observable;
         }
     }
@@ -161,7 +162,18 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
         AddObservable(client);
     }
-
+	public void describeCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
+	{
+		// Build a WCS observable
+		Logger.WriteLine("WCS describeCoverage Called");
+		var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath,2);
+		client.GetData(Record, param);
+		client.Token = GenerateToken("DescribeCoverage");
+		client.callback = Setter;
+		client.Priority = param.Priority;
+		client.ModelRunUUID = Record.modelRunUUID;
+		AddObservable(client);
+	}
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
@@ -192,6 +204,52 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
         AddObservable(client);
     }
+
+	public void getCapabilities(DataRecordSetter Setter,DataRecord Record, SystemParameters param)
+	{
+		// We need an observable here -- for now we assume a WMS Request
+		if (Record.services.ContainsKey ("wms") && param.service == "wms") 
+		{
+			Logger.WriteLine ("CALLBACK IS: " + (Setter == null).ToString());
+			// Let the magic begin
+			var client = new WMSClient(factory,param.type,param.outputPath,param.outputName,1);
+			client.App = App;
+			client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWMS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
+		else if(Record.services.ContainsKey ("wcs") && param.service == "wcs") 
+		{
+			Logger.WriteLine ("CALLBACK WCS IS: " + (Setter == null).ToString());
+			// Let the magic begin
+			var client = new WCSClient(factory,param.type,param.outputPath,param.outputName,1);
+			//client = App;
+			//client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWCS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
+		else if (Record.services.ContainsKey("wfs") && param.service == "wfs")
+		{
+			Logger.WriteLine("CALLBACK WFS IS: " + (Setter == null).ToString());
+			var client = new WFSClient(factory,param.type,param.outputPath,param.outputName,1);
+			client.App = App;
+			client.Root = Root;
+			client.GetData (Record, param);
+			client.Token = GenerateToken ("GetCapabilitiesWFS");
+			client.callback = Setter;
+			client.Priority = param.Priority;
+			client.ModelRunUUID = Record.modelRunUUID;
+			AddObservable (client);
+		}
+	}
 
 	// Ugly I know
 	public void RemoveJobsByModelRunUUID(string ModelRunUUID)
@@ -261,6 +319,7 @@ public class VWClient : Observer
         {
             req += "&model_run_uuid=" + param.model_run_uuid;
         }
+		//Logger.WriteLine ("Loading: " + req);
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();
@@ -323,18 +382,18 @@ public class VWClient : Observer
         // Debug.LogError(JsonString);
         /// Now to parse the json string --- we need to create a class object for the stuff return from the virtual watershed to make things easier.
         var encoded = SimpleJSON.JSONNode.Parse(JsonString);
-        // Logger.WriteLine(JsonString);
-        // Logger.WriteLine(encoded["results"][0]);
-        //Logger.WriteLine(encoded["results"][1]);
+
 		int total = encoded["total"].AsInt;
         ModelRunManager.Total += total;
-        string model_set_type = encoded["results"][0]["model_set_type"];
+        
         SystemParameters sp = new SystemParameters();
         sp.model_run_uuid = ModelRunUUID;
         sp.limit = total;
         sp.offset = 0;
         // Logger.WriteLine("MODEL SET TYPE: " + model_set_type);
-        sp.model_set_type = model_set_type;
+
+		//string model_set_type = encoded["results"][0]["model_set_type"];
+        //sp.model_set_type = model_set_type;
 
         // Logger.WriteLine("TOTAL: " + total);
         //total = Math.Min(100, total);

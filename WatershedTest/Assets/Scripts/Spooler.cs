@@ -40,7 +40,7 @@ public class Spooler : MonoBehaviour
 	// This will hold all of the Reel...
 	List<Frame> Reel = new List<Frame>();
 	public Image testImage;
-	public Slider slider;
+	public Slider gridSlider;
 	public TimeSlider timeSlider;
 	public Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
 	public Projector TimeProjector;
@@ -103,7 +103,7 @@ public class Spooler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (swapProjector)
+        if (swapProjector && colorPicker.ColorBoxes.Count > 0)
         {
             TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
             TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
@@ -117,7 +117,7 @@ public class Spooler : MonoBehaviour
             testImage.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
             testImage.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
-
+			
             TimeProjector.material.SetFloat("_x1", float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text));
             TimeProjector.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
             TimeProjector.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
@@ -128,6 +128,8 @@ public class Spooler : MonoBehaviour
             testImage.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
             testImage.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
+
+            TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
 
         }
 
@@ -183,6 +185,7 @@ public class Spooler : MonoBehaviour
                 }
 
                 count--;
+                Debug.LogError("BUILDING BAND NUM: "  + record.band_id);
                 textureBuilder(record);
 
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
@@ -279,7 +282,7 @@ public class Spooler : MonoBehaviour
 		//Debug.LogError(rec.start + " | " + rec.end);
 		Logger.enable = true;
 		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
-		Texture2D tex = new Texture2D(100,100);
+		Texture2D tex = new Texture2D(rec.width, rec.height);
 		if(!WMS)
 	    {
             tex = utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
@@ -305,7 +308,7 @@ public class Spooler : MonoBehaviour
 		}
 		
 		tex.Apply ();
-		frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
+        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
 		//tex.EncodeToPNG()
 		 //File.WriteAllBytes(Application.dataPath + "/../"+frame.endtime.Year + "" + frame.endtime.Month+".png",tex.EncodeToPNG());
 		// second hand to spooler
@@ -391,7 +394,7 @@ public class Spooler : MonoBehaviour
 	public void Insert(DataRecord data, bool FromData)
 	{
 		var frame = new Frame();
-        Texture2D image = new Texture2D(100, 100);
+        Texture2D image = new Texture2D(data.width, data.height);
 		if (!FromData)
 		{
 			image.LoadImage(data.texture);
@@ -472,8 +475,7 @@ public class Spooler : MonoBehaviour
 			SystemParameters sp = new SystemParameters();
 			
 			// This is not getting passed into WCS UGH! Right now width and height come out to equal 0!!!!!!
-			sp.width = 100;
-			sp.height = 100;
+			
 			sp.interpolation = "bilinear";
 
 			var Records = temp[0].FetchVariableData(variable);
@@ -483,6 +485,9 @@ public class Spooler : MonoBehaviour
             oldSelectedVariable = variable;
             first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
+
+            sp.width = 100;
+            sp.height = 100;
 			 
 
 			if(temp[0].Description.ToLower().Contains("doqq"))
@@ -555,7 +560,9 @@ public class Spooler : MonoBehaviour
 				// Set both textures to last reel texture
 				TimeProjector.material.SetTexture("_ShadowTex",Reel[Reel.Count-1].Picture.texture);
 				TimeProjector.material.SetTexture("_ShadowTex2",Reel[Reel.Count-1].Picture.texture);
-				
+
+                testImage.material.SetTexture("_MainTex", Reel[Reel.Count - 1].Picture.texture);
+                testImage.material.SetTexture("_MainTex2", Reel[Reel.Count - 1].Picture.texture);
 			}
 			else
 			{
@@ -565,7 +572,12 @@ public class Spooler : MonoBehaviour
 				
 				// Set future texture
 				TimeProjector.material.SetTexture("_ShadowTex2",Reel[textureIndex+1].Picture.texture);
+
+                testImage.material.SetTexture("_MainTex", Reel[textureIndex].Picture.texture);
+                testImage.material.SetTexture("_MainTex2", Reel[textureIndex + 1].Picture.texture);
 			}
 		}
 	}
+
+    
 }

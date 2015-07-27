@@ -73,6 +73,7 @@ class VW_JSON_Parser : Parser
                 }
                 if(current == null)
                 {*/
+                //if()
                 current = new DataRecord();
                 Records.Add(current);
                 //}
@@ -94,10 +95,15 @@ class VW_JSON_Parser : Parser
                 current.model_set_type = encoded["results"][records]["model_set_type"].ToString().Replace('"', ' ').Trim();
 
                 current.modelname = encoded["results"][records]["categories"][0]["modelname"].ToString().Replace('"', ' ').Trim();
-
+                
+				current.Temporal = !current.modelname.ToLower().Contains("reference");
+				Logger.WriteLine("TEMPORAL: " + current.Temporal.ToString());
+				
                 current.state = encoded["results"][records]["categories"][0]["state"].ToString().Replace('"', ' ').Trim();
 
                 current.location = encoded["results"][records]["categories"][0]["location"].ToString().Replace('"', ' ').Trim();
+				current.multiLayered = encoded["results"][records]["downloads"][0]["nc"];
+                //Logger.WriteLine((current.multiLayered == null).ToString());
                 //if (encoded["results"][records].ToString().Contains("valid_dates"))
                 //Console.WriteLine(encoded["results"][records].ToString());
 
@@ -124,7 +130,10 @@ class VW_JSON_Parser : Parser
                         current.services["wms"] = services["wms"];
 
                     if (services["wcs"] != null)
+                    {
+                        // Make a request for wcs coveragess
                         current.services["wcs"] = services["wcs"];
+                    }
 
                     if (services["wfs"] != null)
                         current.services["wfs"] = services["wfs"];
@@ -137,7 +146,7 @@ class VW_JSON_Parser : Parser
                 current.id = id;
                 current.name = name;
                 current.variableName = encoded["results"][records]["model_vars"].ToString().Replace('"', ' ').Trim();
-
+                current.Temporal = current.IsTemporal() || current.variableName.ToLower().Contains("animation");
                 current.description = description;
                // Logger.WriteLine(name);
 

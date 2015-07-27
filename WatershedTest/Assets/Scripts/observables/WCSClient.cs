@@ -27,14 +27,27 @@ class WCSClient : Observerable
     private List<Operations> StateList = new List<Operations>();
 
     // Constructor
-    public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "")
+	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "",int operation = 0)
         : base(Factory,type,OutputPath,OutputName)
     {
         // Add states
-        StateList.Add(Operations.GetCapabilities);
-        StateList.Add(Operations.DescribeCoverage);
-        StateList.Add(Operations.GetCoverage);
-        StateList.Add(Operations.Done);
+        if(operation == 0)
+       	{
+        	StateList.Add(Operations.GetCapabilities);
+        	StateList.Add(Operations.DescribeCoverage);
+        	StateList.Add(Operations.GetCoverage);
+        	StateList.Add(Operations.Done);
+        }
+        else if(operation==1)
+        {
+        	StateList.Add(Operations.GetCapabilities);
+        	StateList.Add(Operations.Done);
+        }
+        else if(operation==2)
+       	{
+       		StateList.Add(Operations.DescribeCoverage);
+       		StateList.Add(Operations.Done);
+       	}
     }
     
     // Update
@@ -55,18 +68,32 @@ class WCSClient : Observerable
         {
             state = Operations.Error;
         }
-
+        if(state == Operations.GetCapabilities && records[0].WCSCoverages != null)
+        {
+        	Logger.WriteLine("SKIPP");
+			state = StateList[0];
+			StateList.RemoveAt(0);
+        }
+		if(state == Operations.DescribeCoverage && records[0].CoverageDescription != null)
+		{
+			Logger.WriteLine("SKIPP2");
+			state = StateList[0];
+			StateList.RemoveAt(0);
+		}
         // Check the state
         if (state == Operations.GetCapabilities)
         {
+        	Logger.WriteLine("GETCAPABILITESWCS" + StateList.Count.ToString());
             return GetCapabilities();
         }
-        else if (state == Operations.DescribeCoverage)
+        else if (state == Operations.DescribeCoverage )
         {
+			Logger.WriteLine("DESCRIBECOVERAGE");
             return DescribeCoverage();
         }
         else if (state == Operations.GetCoverage)
         {
+			Logger.WriteLine("GETCOVERAGE");
             SystemParameters param = new SystemParameters();
             param.crs = CRS;
             param.boundingbox = records[0].bbox2;
@@ -96,10 +123,12 @@ class WCSClient : Observerable
     }
 
     public override void CallBack()
-    {
+	{
+		Logger.WriteLine("WCS BEFORE CALLBACK");
         // Callback
         if (callback != null)
         {
+        	Logger.WriteLine("WCS CALLBACK");
             callback(records);
         }
     }
@@ -125,14 +154,36 @@ class WCSClient : Observerable
 
         string parameters = "";
         // For now picking first valid parameters
+        var a = gc.Parameter.First(x => { if (x.name == "Identifier") return true; return false; });//.Select(x => { if (x.name == "Identifier") return x; return null; });
+        //Logger.WriteLine("IDENTIFIERS: " + a.AllowedValues.Count().ToString());
+        //Logger.WriteLine("BAND ID: " + records[0].band_id.ToString());
+        /*foreach(var i in a.AllowedValues)
+        {
+            Logger.WriteLine(i.ToString());
+        }*/
         foreach (GetCapabilites.OperationsMetadataOperationParameter i in gc.Parameter)
         {
             foreach (string j in i.AllowedValues)
             {
+            //Debug.LogError(i.name);
                 if (i.name == "format")
                 {
+                	//Debug.LogError(i.AllowedValues[6]);
                     // Hard CODENESS
                     parameters += i.name + "=" + i.AllowedValues[6] + "&";
+                }
+				else if (i.name == "identifiers")
+                {
+                	//Logger.WriteLine("IDENTIFIER" + records[0].variableName);
+					if(records[0].Identifier == "" || !a.AllowedValues.Contains(records[0].variableName) )
+                    {
+                        parameters += i.name + "=" + j + "&";
+                    }
+                    else
+                    {
+						parameters += i.name + "=" + records[0].Identifier + "&";
+                    }
+                    break;
                 }
                 else
                 {
@@ -145,13 +196,14 @@ class WCSClient : Observerable
                        parameters += i.name + "=" + j + "&";
                     }
                 }
+                //Logger.WriteLine(i.name + " " + j);
                 break;
             }
         }
 
         // Build Get Coverage String
-        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height;//+height.ToString();
-        
+		string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height + "&RangeSubset=" + records[0].CoverageDescription.CoverageDescription.Range.Field.Identifier + "[" + records[0].CoverageDescription.CoverageDescription.Range.Field.Axis.identifier + "[" + records[0].band_id + "]]";//+height.ToString();
+        Logger.WriteLine("WCS COVERAGE LINK: " + req);
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);
 
@@ -164,16 +216,16 @@ class WCSClient : Observerable
         // Check if services contains "wcs"
         if (!records[0].services.ContainsKey("wcs"))
         {
-            // Logger.WriteLine("RETURNING" + records[0].name);
+            Logger.WriteLine("RETURNING" + records[0].name + "NO WCS CAPABILITIES");
             return "";
         }
         string wcs_url = records[0].services["wcs"];
         
         // Import
         factory.Import("WCS_CAP", records, "url://" + wcs_url);
-
+		Logger.WriteLine("WCS_CAP: " + wcs_url);
         // Return
-        // Logger.Log(Token + ": " + wcs_url);
+        Logger.Log(Token + ": " + wcs_url);
         return wcs_url;
     }
 
@@ -195,13 +247,20 @@ class WCSClient : Observerable
         {
             foreach (string j in i.AllowedValues)
             {
-                parameters += i.name + "=" + j + "&";
+        		if(i.name == "identifiers")
+        		{
+        			parameters += i.name + "=" + records[0].Identifier+"&";
+        		}
+        		else
+        		{
+                	parameters += i.name + "=" + j + "&";
+                }
                 break;
             }
         }
 
         string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
-         Logger.WriteLine(req);
+         //Logger.WriteLine(req);
 
         // Return
         // Logger.Log(Token + ": " + req);
