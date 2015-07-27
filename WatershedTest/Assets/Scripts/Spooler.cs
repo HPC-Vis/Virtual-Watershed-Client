@@ -245,11 +245,6 @@ public class Spooler : MonoBehaviour
                 Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
 			}
 		}
-
-        if(Input.GetKeyDown(KeyCode.L))
-        {
-            trendGraph.Compute();
-        }
     }
 
     public void textureBuilder(DataRecord rec)

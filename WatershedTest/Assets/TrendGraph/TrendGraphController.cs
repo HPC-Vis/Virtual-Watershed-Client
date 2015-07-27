@@ -141,7 +141,6 @@ namespace VTL.TrendGraph
         {
             if(timeseries.Count < 1)
             {
-                Debug.LogError("There was no data in the time series");
                 return;
             }
             // sort the records incase they are out of order
@@ -227,124 +226,84 @@ namespace VTL.TrendGraph
             Vector2 prev = Record2PixelCoords2(timeseries[0]);
             prev.y = prev.y - (int)origin.y - 1;
             int counter = 0;
-            for (int i = 1; i < timeseries.Count; i++)
+            for (int i = 0; i < timeseries.Count; i++)
             {
                 Vector2 next = Record2PixelCoords2(timeseries[i]);
                 next.y = next.y - (int)origin.y -1 ;
-                TrendTexture.SetPixel((int)next.x, (int)next.y, Color.blue);
-                /*
-                if (next.y != origin.y + h || prev.y != origin.y + h)
-                {
-                    counter++;
-                    next.y = next.y - (int)origin.y - 1;
-                    if(counter < 500)
-                    {
-                        DrawLine(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.white);
-                    }
-                    else 
-                    {
-                        TrendTexture.SetPixel((int)next.x, (int)next.y, Color.blue);
-                    }
-                    
-                }
-                else
-                {
-                    TrendTexture.SetPixel((int)next.x, (int)next.y, Color.blue);
-                }
-                */
+				next.x = next.x - (int)origin.x ;
+				Line (TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
                 prev = next;
             }
             
             // Apply to the world
             TrendTexture.wrapMode = TextureWrapMode.Clamp;
-
             TrendTexture.Apply();
             GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), new Vector2(0, 0));
         }
 
-        void Drawline(Vector2 previous, Vector2 next)
-        {
-            float x, y;
-            float dy = next.y - previous.y;
-            float dx = next.x - previous.x;
-            float m = dy / dx;
-            float dy_inc = -1;
-            float dx_inc = 1;
+		void Line (Texture2D tex, int x0, int y0, int x1, int y1, Color col) 
+		{
+			int dy = y1-y0;
+			int dx = x1-x0;
+			int stepy, stepx;
+			float fraction;
 
-            // Check if the dy is a negative
-            if(dy < 0)
-            {
-                dy = 1;
-            }
-
-            // check the dx value
-            if(dx < 0)
-            {
-                dx = -1;
-            }
-
-            // rende the line for the streatch of the points
-            if(Mathf.Abs(dy) > Mathf.Abs(dx))
-            {
-                for (y = next.y; y < previous.y; y += dy_inc)
-                {
-                    x = previous.x + (y - previous.y) * m;
-                    TrendTexture.SetPixel((int)x, (int)y, Color.white);
-                }
-            }
-            else
-            {
-                for (x = previous.x; x < next.x; x += dx_inc)
-                {
-                    y = previous.y + (x - previous.x) * m;
-                    TrendTexture.SetPixel((int)x, (int)y, Color.white);
-                }
-            }
-        }
-
-        void DrawLine(Texture2D tex, int x0, int y0, int x1, int y1, Color col)
-{
- 	int dy = (int)(y1-y0);
-	int dx = (int)(x1-x0);
- 	int stepx, stepy;
- 
-	if (dy < 0) {dy = -dy; stepy = -1;}
-	else {stepy = 1;}
-	if (dx < 0) {dx = -dx; stepx = -1;}
-	else {stepx = 1;}
-	dy <<= 1;
-	dx <<= 1;
- 
-	float fraction = 0;
- 
-	tex.SetPixel(x0, y0, col);
-	if (dx > dy) {
-		fraction = dy - (dx >> 1);
-		while (Mathf.Abs(x0 - x1) > 1) {
-			if (fraction >= 0) {
-				y0 += stepy;
-				fraction -= dx;
+			if (dy < 0) 
+			{
+				dy = -dy; 
+				stepy = -1;
 			}
-			x0 += stepx;
-			fraction += dy;
-			tex.SetPixel(x0, y0, col);
-		}
-	}
-	else {
-		fraction = dx - (dy >> 1);
-		while (Mathf.Abs(y0 - y1) > 1) {
-			if (fraction >= 0) {
-				x0 += stepx;
-				fraction -= dy;
+			else 
+			{
+				stepy = 1;
 			}
-			y0 += stepy;
-			fraction += dx;
+
+			if (dx < 0) 
+			{
+				dx = -dx; 
+				stepx = -1;
+			}
+			else 
+			{
+				stepx = 1;
+			}
+
+			dy <<= 1;
+			dx <<= 1;
+			
 			tex.SetPixel(x0, y0, col);
+			if (dx > dy) 
+			{
+				fraction = dy - (dx >> 1);
+				while (x0 != x1) 
+				{
+					if (fraction >= 0) 
+					{
+						y0 += stepy;
+						fraction -= dx;
+					}
+					x0 += stepx;
+					fraction += dy;
+					tex.SetPixel(x0, y0, col);
+				}
+			}
+			else 
+			{
+				fraction = dx - (dy >> 1);
+				while (y0 != y1) 
+				{
+					if (fraction >= 0) 
+					{
+						x0 += stepx;
+						fraction -= dy;
+					}
+					y0 += stepy;
+					fraction += dx;
+					tex.SetPixel(x0, y0, col);
+				}
+			}
 		}
-	}
-}
-
-
+		
         // converts a TimeseriesRecord to screen pixel coordinates for plotting
         Vector2 Record2PixelCoords(TimeseriesRecord record)
         {
@@ -415,11 +374,12 @@ namespace VTL.TrendGraph
             // Temp patch to the OS dependen Compute Shader
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            string pathDownload = pathUser + "\\graph.txt";
-#else
-		string pathDownload = pathUser + "/slicer_path.txt";
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string pathDownload = pathUser + "/graph.txt";
+#elif UNITY_EDITOR_WIN
+			string pathDownload = pathUser + "\\graph.txt";
 #endif
+			Debug.LogError ("The File Path: " + pathDownload);
 
             float[] csv_file = new float[timeseries.Count];
 
