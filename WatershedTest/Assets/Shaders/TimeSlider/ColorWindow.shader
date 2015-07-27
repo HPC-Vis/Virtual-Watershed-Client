@@ -311,6 +311,11 @@ float4 frag (v2f_img i) : COLOR
 
 #endif
 
+	if (i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	{
+		return float4(0, 0, 0, 1);
+	}
+
 	Y = Normalize(Y);
 	Y2 = Normalize(Y2);
 	_x1 = Normalize(_x1);
