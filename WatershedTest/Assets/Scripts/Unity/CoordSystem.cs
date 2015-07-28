@@ -144,9 +144,9 @@ public static class coordsystem
 	public static double[] transformToUTMDouble(float longitude, float latitude)
 	{
 		// For now we are gonna do everything with respect to the "local zone". I still do not know how to handle across zone datasets.
-		int zone = localzone;
+		//int zone = localzone;
 		
-		//int zone = GetZone(latitude, longitude);
+		int zone = GetZone(latitude, longitude);
 		//Transform to UTM
 		//Debug.LogError("ZONE: " + zone);
 		ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory ctfac = new ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory();

@@ -7139,4 +7139,143 @@ GetCapabilities
 GetCapabilitiesWMS 1001602928: http://vwp-dev.unm.edu/apps/vwp/datasets/833683c7-14be-42cf-a89d-43163aee5ef8/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
 Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/833683c7-14be-42cf-a89d-43163aee5ef8/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
 Input string was not in the correct format
-SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/f3bfedb6-7a
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/f3bfedb6-7a91-40eb-95eb-5fba5e0d8a4b/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 14884073
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 358606066
+GetCapabilities
+--- In OnDownloadQueued ---
+Input string was not in the correct format
+--- In OnDownloadStart ---
+GetCapabilitiesWMS 358606066: http://vwp-dev.unm.edu/apps/vwp/datasets/20e6bba7-79f5-4c03-ba93-654748a6b2dc/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/1911c4bb-4aea-43fa-bb74-720801ea1e1b/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 214598819
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/20e6bba7-79f5-4c03-ba93-654748a6b2dc/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Done
+--- In OnDownloadStart ---
+CALLBACKFSDFDSF
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1168696766
+GetCapabilities
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 1168696766: http://vwp-dev.unm.edu/apps/vwp/datasets/d812e137-b18a-43f7-999d-78e0f97b7f0d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/d812e137-b18a-43f7-999d-78e0f97b7f0d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/515ee24c-9cbb-4f9c-9254-8a34936cb54a/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1763260905
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+Input string was not in the correct format
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 421478962
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/434057af-62d6-449c-bbf7-edd08e5ec4c7/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 129083758
+GetCapabilities
+Done
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 421478962: http://vwp-dev.unm.edu/apps/vwp/datasets/3e06cdc9-24e3-40f9-aae9-5f0e84649c09/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+CALLBACKFSDFDSF
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/3e06cdc9-24e3-40f9-aae9-5f0e84649c09/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+CALLBACK WMS
+--- In OnDownloadStart ---
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1026329646
+GetCapabilities
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+GetCapabilitiesWMS 1026329646: http://vwp-dev.unm.edu/apps/vwp/datasets/3fa367a5-6b97-4e81-b728-f4312b65fe41/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/3fa367a5-6b97-4e81-b728-f4312b65fe41/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Input string was not in the correct format
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/2970c823-9927-4462-af38-ae0015c73964/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1076381581
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/dc44bc4e-bc84-4fe7-9216-fae62243ba07/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1827131590
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+Done
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 732343056
+CALLBACKFSDFDSF
+GetCapabilities
+CALLBACK WMS
+--- In OnDownloadQueued ---
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1322584464
+--- In OnDownloadStart ---
+GetCapabilitiesWMS 732343056: http://vwp-dev.unm.edu/apps/vwp/datasets/26475b13-4548-44df-87ae-2fe36486182e/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+GetCapabilities
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/26475b13-4548-44df-87ae-2fe36486182e/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 1322584464: http://vwp-dev.unm.edu/apps/vwp/datasets/53c4e53d-82ca-4050-af9e-230124773c5d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/53c4e53d-82ca-4050-af9e-230124773c5d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Input string was not in the correct format
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/833683c7-14be-42cf-a89d-43163aee5ef8/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1001602928
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/d812e137-b18a-43f7-999d-78e0f97b7f0d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1168696766
+Done
+Done
+CALLBACKFSDFDSF
+CALLBACKFSDFDSF
+CALLBACK WMS
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1918978068
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1399540742
+GetCapabilities
+GetCapabilities
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 1918978068: http://vwp-dev.unm.edu/apps/vwp/datasets/bf00d1dc-59ba-4393-8aed-0794b09fce8d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 1399540742: http://vwp-dev.unm.edu/apps/vwp/datasets/aa3bae7d-a4e9-4a12-b558-16a3b8177b64/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/bf00d1dc-59ba-4393-8aed-0794b09fce8d/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/aa3bae7d-a4e9-4a12-b558-16a3b8177b64/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+--- In OnDownloadStart ---
+--- In OnDownloadStart ---
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/20e6bba7-79f5-4c03-ba93-654748a6b2dc/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 358606066
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1091604043
+GetCapabilities
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+GetCapabilitiesWMS 1091604043: http://vwp-dev.unm.edu/apps/vwp/datasets/66115064-ea8d-4faf-a628-fe00ba22f4e3/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/66115064-ea8d-4faf-a628-fe00ba22f4e3/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/3e06cdc9-24e3-40f9-aae9-5f0e84649c09/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 421478962
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 1525841730
+GetCapabilities
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 1525841730: http://vwp-dev.unm.edu/apps/vwp/datasets/36a93ec8-e65a-4851-8b89-76796d356d7a/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/36a93ec8-e65a-4851-8b89-76796d356d7a/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+--- In OnDownloadStart ---
+Input string was not in the correct format
+SUCCESSFUL WITH: http://vwp-dev.unm.edu/apps/vwp/datasets/3fa367a5-6b97-4e81-b728-f4312b65fe41/services/ogc/wms?SERVICE=wms&REQUEST=GetCapabilities&VERSION=1.1.1
+WMS Client Token = GetCapabilitiesWMS 1026329646
+Done
+CALLBACKFSDFDSF
+CALLBACK WMS
+PARSENETCDFRECORDSFalse
+WMS Client Token = GetCapabilitiesWMS 400024026
+GetCapabilities
+--- In OnDownloadQueued ---
+GetCapabilitiesWMS 4000
