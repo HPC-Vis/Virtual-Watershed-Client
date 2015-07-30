@@ -5,10 +5,21 @@ using UnityEngine;
 
 namespace OGC_Tests
 {
+   
 	[TestFixture]
 	[Category("OGC Tests")]
 	internal class OGCTests
 	{
+        OGCConnector ogc;
+        public OGCTests()
+        {
+            Debug.LogError("AFASD");
+            NetworkManager nm = new NetworkManager();
+            DataFactory df = new DataFactory(nm);
+            ogc = new OGCConnector(df,nm);
+            nm.Subscribe(ogc);
+        }
+
 		[Test]
 		public void TestTest()
 		{
@@ -123,5 +134,17 @@ namespace OGC_Tests
 			Longitude = Longitude - remainder + 3;
 			return Longitude;
 		}
+
+
+        [Datapoint]
+        public string randomlink = "http://www.ncddc.noaa.gov/arcgis/services/DataAtlas/CMECS_Salinity_Summer/MapServer/WCSServer?request=GetCapabilities&version=1.1.2&service=WCS";
+
+        // Not really magic just us testing whether we can take a single link of a random ogc service and see it works
+        [Theory, Timeout(120000)]
+        [MaxTime(120000)]
+        public void MagicTest(string url)
+        {
+            Assert.That(ogc.MagicFunction(url));
+        }
 	}
 }
