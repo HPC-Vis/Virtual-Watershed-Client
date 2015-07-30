@@ -73,14 +73,6 @@ Material:
         second: .425000012
       data:
         first:
-          name: _FloatMin
-        second: 10
-      data:
-        first:
-          name: _FloatMax
-        second: 100
-      data:
-        first:
           name: _Max
         second: -1
       data:
@@ -89,17 +81,33 @@ Material:
         second: -1
       data:
         first:
+          name: _FloatMin
+        second: 10
+      data:
+        first:
+          name: _FloatMax
+        second: 100
+      data:
+        first:
           name: _Cull
         second: 2
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .320177346, g: .691176474, b: .629769683, a: .643137276}
+        second: {r: .0580122471, g: .764705896, b: 0, a: .643137276}
       data:
         first:
           name: _SpecColor
         second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _Point1
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point2
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _SegmentData000
@@ -124,14 +132,6 @@ Material:
         first:
           name: _SegmentData005
         second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _Point1
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _Point2
-        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _Color1

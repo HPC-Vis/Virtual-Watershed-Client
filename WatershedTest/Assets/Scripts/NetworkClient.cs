@@ -139,7 +139,7 @@ public class NetworkClient : WebClient
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
 
-        GlobalConfig.loading = false;
+        //GlobalConfig.loading = false;
 
         // Start the next one
         StartNextDownload();

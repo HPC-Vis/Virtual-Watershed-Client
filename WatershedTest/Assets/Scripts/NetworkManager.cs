@@ -85,6 +85,17 @@ public class NetworkManager
         {
             obs.OnDownloadComplete(url);
         }
+        for (int i = 0; i < clients.Length; i++)
+        {
+            if (clients[i].IsBusy)
+            {
+                GlobalConfig.loading = true;
+                return;
+            }
+        }
+        Logger.WriteLine("CHECKING IF BUSY IS FALSE");
+
+        GlobalConfig.loading = false;
     }
 
     public void CallDownloadError(String url, String message)
