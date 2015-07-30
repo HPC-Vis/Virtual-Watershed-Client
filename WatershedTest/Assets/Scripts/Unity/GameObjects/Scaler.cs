@@ -5,7 +5,7 @@ public class Scaler : MonoBehaviour {
 
     GameObject currentController;
     public GameObject FirstPersonControler;
-    public GameObject NoClipGhostPlayer;
+
     float OriginalHeight;
 	// Use this for initialization
 	void Start () {
@@ -25,14 +25,7 @@ public class Scaler : MonoBehaviour {
 
 
 
-        if (NoClipGhostPlayer.activeSelf)
-        {
-            currentController = NoClipGhostPlayer;
-        }
-        else
-        {
-            currentController = FirstPersonControler;
-        }
+        currentController = FirstPersonControler;
 
         distance = (gameObject.transform.position - currentController.transform.position).magnitude;
 

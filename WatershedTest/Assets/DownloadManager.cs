@@ -18,8 +18,11 @@ public class DownloadManager : MonoBehaviour {
             Application.Quit();
         }
         
+		//MAY WANT TO PUT THIS BACK IN!
         if (ModelRunManager.Total > 0)
             DownloadedText.text = "Loaded " + ((float)(ModelRunManager.Counter) / (float)(ModelRunManager.Total)).ToString("p");
+		if ((float)(ModelRunManager.Counter) / (float)(ModelRunManager.Total) == 100.0f)
+			DownloadedText.text = "";
 	}
     public void AddModelRun(string UUID)
     {

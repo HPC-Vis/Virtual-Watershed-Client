@@ -64,7 +64,7 @@ public static class ModelRunManager
         // Load up cache?
         if (FileBasedCache.Exists(cacheRestoreEntry))
         {
-            Logger.WriteLine("Restoring Previous Session");
+            Debug.LogError("Restoring Previous Session");
 
             // Don't know how to fix
             //storedGeoRefs = FileBasedCache.Get<Dictionary<string, GeoReference>>(cacheRestoreEntry);
@@ -352,6 +352,8 @@ public static class ModelRunManager
 
 	public static bool InsertDataRecord(DataRecord record)
 	{
+		Logger.WriteLine("The model run is now in the cache.");
+		FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
 		return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
@@ -458,7 +460,6 @@ public static class ModelRunManager
     {
     	Debug.LogError("onGetAvaliableComplete...");
          Logger.WriteLine(Records.Count.ToString());
-        int count = 0;
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
         {
@@ -468,6 +469,8 @@ public static class ModelRunManager
             // Normal Case
             if (modelRuns.ContainsKey(rec.modelRunUUID))
             {
+				Debug.LogError("modelRuns.ContatinsKey(rec.modelRunUUID)");
+
                 // Call insert operation
                 //Logger.WriteLine("ADDED");
                 //Logger.WriteLine("ADDED: " + rec.name);
@@ -476,17 +479,16 @@ public static class ModelRunManager
 					filter (rec);
                     //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
-                count++;
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
-                //Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
+                Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
                 // Replace with isFull Function
-                if (modelRuns[rec.modelRunUUID].CurrentCapacity >= modelRuns[rec.modelRunUUID].Total)
-                {
+                //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
+                //{
                     // Cash it in!!!!
-					Logger.WriteLine("The model run is now in the cache.");
-                    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                    // Debug.LogError("DONE CACHING YEAH!!!!");
-                }
+				//	Logger.WriteLine("The model run is now in the cache.");
+                //    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                //    Debug.LogError("DONE CACHING YEAH!!!!");
+                //}
             }
             // Cache Case
             else if (FileBasedCache.Exists(rec.modelRunUUID))
@@ -510,7 +512,6 @@ public static class ModelRunManager
 
                     }
                     modelRuns[rec.modelRunUUID].Insert(rec);
-                    count++;
                     //  Testing Variable
                     if (!RecievedRefs.Contains(rec.modelRunUUID))
                     {
@@ -546,6 +547,8 @@ public static class ModelRunManager
     /// <param name="message"></param>
     static private void onGetAvailableComplete(List<DataRecord> Records, GeoRefMessage message)
     {
+		Debug.LogError("OnGetAvailableComplete -GeoRef is being done");
+
         // Logger.WriteLine(Records.Count.ToString());
         List<string> RecievedRefs = new List<string>();
         foreach (DataRecord rec in Records)
@@ -561,9 +564,10 @@ public static class ModelRunManager
                 modelRuns[rec.modelRunUUID].Insert(rec);
                 //modelRuns[rec.modelRunUUID].CurrentCapacity++;
                 // Replace with isFull Function
-                if (modelRuns[rec.modelRunUUID].CurrentCapacity == modelRuns[rec.modelRunUUID].Total)
+                if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
                 {
                     // Cash it in!!!!
+					Debug.Log("IT IS CASH");
                     FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
                 }
             }
