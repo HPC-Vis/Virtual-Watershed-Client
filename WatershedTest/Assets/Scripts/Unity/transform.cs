@@ -76,14 +76,9 @@ public class transform : MonoBehaviour
 
     public Vector2 transformPoint(Vector2 point)
     {
-        //Debug.LogError(point);
         GeoAPI.Geometries.Coordinate tempSrc = new GeoAPI.Geometries.Coordinate(point.x, point.y);
         GeoAPI.Geometries.Coordinate tempTgt = new GeoAPI.Geometries.Coordinate();
         localTrans.Transform(tempSrc, tempTgt);
-		//Debug.LogError(point);
-        //Debug.LogError(coordsystem.transformToUTM(point.x, point.y));
-        //point.x = (float)tempTgt.X;
-        //point.y = (float)tempTgt.Y;
 
         return coordsystem.transformToUTM(point.x, point.y);
     }

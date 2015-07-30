@@ -791,8 +791,7 @@ public class Utilities
 			cylinder.GetComponent<Renderer>().material.color = Color.red;
 			var scaler = cylinder.AddComponent<Scaler>();
 			scaler.FirstPersonControler = GameObject.Find("First Person Controller");
-			scaler.NoClipGhostPlayer = GameObject.Find("NoClipFirstPersonController");
-			
+
 		}
 		return cylinder;
 	}
@@ -801,6 +800,7 @@ public class Utilities
 
     GameObject addline(List<SerialVector2> Points,transform tr)
     {
+		LineMaterial = new Material (Shader.Find ("Transparent/VertexLit with Z"));
         List<Vector2> points = SerialVector2.ToVector2Array(Points.ToArray()).ToList();
         GameObject lineObject = new GameObject();
         LineRenderer line = lineObject.AddComponent<LineRenderer>();

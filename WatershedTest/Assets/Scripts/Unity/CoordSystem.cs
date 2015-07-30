@@ -125,8 +125,6 @@ public static class coordsystem
 
     public static Vector2 transformToUTM(float longitude, float latitude)
     {
-
-
         // For now we are gonna do everything with respect to the "local zone". I still do not know how to handle across zone datasets.
         int zone = localzone;
 
@@ -141,6 +139,29 @@ public static class coordsystem
 
         return new Vector2((float)pUtm[0], (float)pUtm[1]);
     }
+
+
+	public static double[] transformToUTMDouble(float longitude, float latitude)
+	{
+		// For now we are gonna do everything with respect to the "local zone". I still do not know how to handle across zone datasets.
+		//int zone = localzone;
+		
+		int zone = GetZone(latitude, longitude);
+		//Transform to UTM
+		//Debug.LogError("ZONE: " + zone);
+		ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory ctfac = new ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory();
+		ProjNet.CoordinateSystems.ICoordinateSystem wgs84geo = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
+		ProjNet.CoordinateSystems.ICoordinateSystem utm = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WGS84_UTM(zone, latitude > 0);
+		ProjNet.CoordinateSystems.Transformations.ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84geo, utm);
+		double[] pUtm = trans.MathTransform.Transform(new double[] {longitude, latitude });
+		
+		return pUtm;
+	}
+
+	public static Vector2 transformToLatLong()
+	{
+		return new Vector2();
+	}
 
     public static Vector3 transformToUnity(Vector3 world)
     {
