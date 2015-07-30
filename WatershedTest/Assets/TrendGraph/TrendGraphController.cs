@@ -57,6 +57,9 @@ namespace VTL.TrendGraph
         Canvas parentCanvas;
         public float easting;
         public float northing;
+        public Material GraphMaterial;
+        public Image GraphImage;
+        private Texture2D TrendTexture = null;
 
         public void OnValidate()
         {
@@ -127,12 +130,19 @@ namespace VTL.TrendGraph
             }
 
             valueText = transform.Find("Value").GetComponent<Text>();
+
+            // Set image material
+            GraphImage.material = GraphMaterial;
         }
 
         // The Drawing.DrawLine method using the GL and GUI class and 
         // has to be drawn in draw line
         void OnGUI()
         {
+            if(timeseries.Count < 1)
+            {
+                return;
+            }
             // sort the records incase they are out of order
             timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
 			//Debug.LogError (timeseries.Count);
@@ -181,6 +191,7 @@ namespace VTL.TrendGraph
             w = rectTransform.rect.width * transform.localScale.x;
             h = rectTransform.rect.height * transform.localScale.y;
 
+            /* OLD
             // Iterate through the timeseries and draw the trend segment
             // by segment.
             var prev = Record2PixelCoords(timeseries[0]);
@@ -190,6 +201,7 @@ namespace VTL.TrendGraph
                 Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
                 prev = next;
             }
+            */
         }
 
         public void Clear()
@@ -197,6 +209,101 @@ namespace VTL.TrendGraph
             timeseries.Clear();
         }
 
+        public void Compute()
+        {
+            // Set the width and height to integers
+            int width = (int)w;
+            int height = (int)h;
+
+            // Build the new texture
+            if(TrendTexture != null)
+            {
+                Texture2D.Destroy(TrendTexture);
+            }
+            TrendTexture = new Texture2D(width, height);            
+            
+            // Loop through all the time series
+            Vector2 prev = Record2PixelCoords2(timeseries[0]);
+            prev.y = prev.y - (int)origin.y - 1;
+            int counter = 0;
+            for (int i = 0; i < timeseries.Count; i++)
+            {
+                Vector2 next = Record2PixelCoords2(timeseries[i]);
+                next.y = next.y - (int)origin.y -1 ;
+				next.x = next.x - (int)origin.x ;
+				Line (TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
+                prev = next;
+            }
+            
+            // Apply to the world
+            TrendTexture.wrapMode = TextureWrapMode.Clamp;
+            TrendTexture.Apply();
+            GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), new Vector2(0, 0));
+        }
+
+		void Line (Texture2D tex, int x0, int y0, int x1, int y1, Color col) 
+		{
+			int dy = y1-y0;
+			int dx = x1-x0;
+			int stepy, stepx;
+			float fraction;
+
+			if (dy < 0) 
+			{
+				dy = -dy; 
+				stepy = -1;
+			}
+			else 
+			{
+				stepy = 1;
+			}
+
+			if (dx < 0) 
+			{
+				dx = -dx; 
+				stepx = -1;
+			}
+			else 
+			{
+				stepx = 1;
+			}
+
+			dy <<= 1;
+			dx <<= 1;
+			
+			tex.SetPixel(x0, y0, col);
+			if (dx > dy) 
+			{
+				fraction = dy - (dx >> 1);
+				while (x0 != x1) 
+				{
+					if (fraction >= 0) 
+					{
+						y0 += stepy;
+						fraction -= dx;
+					}
+					x0 += stepx;
+					fraction += dy;
+					tex.SetPixel(x0, y0, col);
+				}
+			}
+			else 
+			{
+				fraction = dx - (dy >> 1);
+				while (y0 != y1) 
+				{
+					if (fraction >= 0) 
+					{
+						x0 += stepx;
+						fraction -= dy;
+					}
+					y0 += stepy;
+					fraction += dx;
+					tex.SetPixel(x0, y0, col);
+				}
+			}
+		}
+		
         // converts a TimeseriesRecord to screen pixel coordinates for plotting
         Vector2 Record2PixelCoords(TimeseriesRecord record)
         {
@@ -267,11 +374,12 @@ namespace VTL.TrendGraph
             // Temp patch to the OS dependen Compute Shader
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-#if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            string pathDownload = pathUser + "\\graph.txt";
-#else
-		string pathDownload = pathUser + "/slicer_path.txt";
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string pathDownload = pathUser + "/graph.txt";
+#elif UNITY_EDITOR_WIN
+			string pathDownload = pathUser + "\\graph.txt";
 #endif
+			Debug.LogError ("The File Path: " + pathDownload);
 
             float[] csv_file = new float[timeseries.Count];
 
