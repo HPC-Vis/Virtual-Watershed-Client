@@ -20,7 +20,7 @@ public class DownloadManager : MonoBehaviour {
         
 		//MAY WANT TO PUT THIS BACK IN!
         if (ModelRunManager.Total > 0)
-            DownloadedText.text = "Loaded " + ((float)(ModelRunManager.Counter) / (float)(ModelRunManager.Total)).ToString("p");
+            DownloadedText.text = ((float)(ModelRunManager.Counter) / (float)(ModelRunManager.Total)).ToString("p");
 		if ((float)(ModelRunManager.Counter) / (float)(ModelRunManager.Total) == 100.0f)
 			DownloadedText.text = "";
 	}
