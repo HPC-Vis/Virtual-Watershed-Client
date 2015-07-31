@@ -362,6 +362,8 @@ public static class ModelRunManager
 		Logger.WriteLine ("PARSENETCDFRECORDS" + (record[0].WCSCoverages != null).ToString());
 		if (record.Count > 0) 
 		{
+            // Add remove function here
+            modelRuns[record[0].modelRunUUID].Remove(record[0]);
 			if(record[0].WCSCoverages != null)
 			{
 				foreach (var i in record[0].WCSCoverages)
@@ -404,6 +406,9 @@ public static class ModelRunManager
 				InsertDataRecord(record[0]);
 			}
 
+            
+
+
 		}
 	}
 	public static void CreateNewBands(List<DataRecord> record)
@@ -421,6 +426,11 @@ public static class ModelRunManager
 	// Filter function goes here.
 	static void filter(DataRecord record)
 	{
+        Logger.WriteLine("FILTERING");
+        // Add it to its perspective model run
+        record.band_id = 1;
+        InsertDataRecord(record);
+
 		Logger.WriteLine ("FILTER");
 		SystemParameters sp = new SystemParameters();
 		//Debug.LogError(record.multiLayered); patch is record.multilayered..
@@ -441,13 +451,6 @@ public static class ModelRunManager
 			sp.service = "wfs";
 			Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
 			client.getCapabilities(parseNetCDFRecords,record,sp);
-		}
-		else 
-		{
-			Logger.WriteLine ("FILTERING");
-			// Add it to its perspective model run
-			record.band_id = 1;
-			InsertDataRecord(record);
 		}
 	}
 

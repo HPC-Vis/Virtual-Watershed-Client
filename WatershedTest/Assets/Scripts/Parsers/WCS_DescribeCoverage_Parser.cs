@@ -67,45 +67,34 @@ class WCS_DescribeCoverage_Parser :Parser
         	Debug.LogError("NOOOOOOOOOOOOOOOOOOOO! Failed to parse!!");
         	return;
         }
-        Record.CoverageDescription = testc;
-        //Debug.LogError(testc.CoverageDescription.Range.Field.Identifier);
-        //Debug.LogError(testc.CoverageDescription.Range.Field.Axis.identifier);
-		Record.numbands = testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count();
-		//Debug.LogError("NUMBANDS"+Record.numbands);
-        string bbox = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
 
-        Record.bbox2 = bbox;
-		//Debug.LogError ("WGS 84 BBOX: " + bbox); 
+        Record.CoverageDescription = testc;
+
+		Record.numbands = testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count();
+        Debug.LogError(testc.CoverageDescription.Domain.SpatialDomain != null);
+        if (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox != null)
+        {
+            Record.bbox2 = (testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner.Replace(" ", ",") + "," + testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner.Replace(" ", ","));
+            Vector2[] utmWorldDimensions = grab_dimensions_float(testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner);
+            Record.boundingBox = new Rect(utmWorldDimensions[0].x, utmWorldDimensions[1].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
+        }
+        else
+        {
+             var boundingbox = testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[1];
+             var lowerSplit = boundingbox.LowerCorner.Split(new char[] { ' ' },StringSplitOptions.RemoveEmptyEntries);
+             var upperSplit = boundingbox.UpperCorner.Split(new char[] { ' ' },StringSplitOptions.RemoveEmptyEntries);
+
+             Record.bbox2 = lowerSplit[0] + "," + lowerSplit[1] + "," + upperSplit[0] + "," + upperSplit[1];
+        }
         int[] dim = grab_dimensions(testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.BoundingBox[0].UpperCorner);
         Record.width = dim[0];
         Record.height = dim[1];
 
-        ///// This should be passed to GetCoverage
-        //int width = dim[0];
-        //int height = dim[1];
         
-        Vector2[] utmWorldDimensions = grab_dimensions_float(testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.LowerCorner, testc.CoverageDescription.Domain.SpatialDomain.WGS84BoundingBox.UpperCorner);
-
-        //Debug.LogError(bbox + " "  + manager.records[key].bbox);
-        string epsg = "EPSG:" + "4326";
-		//Record.boundingBox = new Rect(utmWorldDimensions[1].x, utmWorldDimensions[0].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
-        Record.boundingBox = new Rect(utmWorldDimensions[0].x, utmWorldDimensions[1].y, Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x), Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y));
-		///Debug.LogError("Dimensions: " + Record.boundingBox.x + " " +Record.boundingBox.y);
-        // Debug.LogError("Bounding BOX: " + manager.records[key].boundingBox);
         
-        //int pot = Mathf.NextPowerOfTwo(width);
-        //int pot2 = Mathf.NextPowerOfTwo(height);
-        //pot = Mathf.Min(new int[] { pot, pot2 });
- 
-        //// This is a hard fixed addition.
-        //if (pot >= 2048)
-        //{
-        //    pot = 1024;
-        //}
-        //pot++;
 
-        // Need to figure out a way to get the resolution
-        //Record.resolution = new Vector2(Mathf.Abs(utmWorldDimensions[0].x - utmWorldDimensions[1].x) / dim[0], -Mathf.Abs(utmWorldDimensions[0].y - utmWorldDimensions[1].y) / dim[1]);//toVector2(testc.CoverageDescription.Domain.SpatialDomain.GridCRS.GridOffsets,new char[]{' '});
+        //string epsg = "EPSG:" + "4326";
+        
     }
 
 

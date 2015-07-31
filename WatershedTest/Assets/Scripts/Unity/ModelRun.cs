@@ -194,6 +194,14 @@ public class ModelRun
         return true;
     }
 
+    public void Remove(DataRecord record)
+    {
+        if(variables.ContainsKey(record.modelRunUUID))
+        {
+            variables[record.modelRunUUID].Remove(record);
+        }
+    }
+
     public List<DataRecord> Get(string label)
     {
         return variables[label].Data;//references[label];
