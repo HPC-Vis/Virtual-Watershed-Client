@@ -16,6 +16,7 @@ public static class ModelRunManager
 {
     // Fields
     static private VWClient Client;
+    static private Searcher searcher;
 
     // Global loading counter
     static public int Total = 0;
@@ -122,9 +123,10 @@ public static class ModelRunManager
         }
     } */
 
-    static public void SearchForModelRuns(SystemParameters param = null)
+    static public void SearchForModelRuns(SystemParameters param = null, Searcher s = null)
     {
         // Create param if one does not exist
+        searcher = s;
         if (param == null) { param = new SystemParameters(); }
 		Logger.WriteLine ("Searching for Model Runs");
         if (FileBasedCache.Exists("startup"))
@@ -296,6 +298,8 @@ public static class ModelRunManager
 
         foreach (var i in Records)
         {
+            //Debug.LogError("The uuid is: " + i.modelRunUUID);
+            //Debug.LogError(" The location: " + i.location);
             if (modelRuns.ContainsKey(i.modelRunUUID))
             {
                 // Get Model Set Type
@@ -308,8 +312,7 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-		
-        
+        searcher.Refresh();
     }
 
 
@@ -317,27 +320,15 @@ public static class ModelRunManager
     {
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
 
-        // Debug.Log(Records == null);
-        //if (FileBasedCache.Exists("startup"))
-        //{
-        //    Debug.LogError("Getting paid");
-        //     startRuns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
-        //}
         Logger.Log("Getting Model Runs");
         foreach (var i in Records)
         {
             if (!modelRuns.ContainsKey(i.modelRunUUID))
             {
-
-                    modelRuns.Add(i.modelRunUUID, new ModelRun(i.modelname, i.modelRunUUID));
-//;
-                //}
+                modelRuns.Add(i.modelRunUUID, new ModelRun(i.modelname, i.modelRunUUID, i.description));
             }
-
         }
-        
-		Logger.WriteLine("Adding modelruns to file cache system.");
-		FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
+       
 		foreach(var i in modelRuns.Values)
 		{
 			// SetModelSetType
@@ -347,7 +338,8 @@ public static class ModelRunManager
 			sp.offset = 0;
 			client.RequestRecords(SetModelSetType, sp);
 		}
-        // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
+        Logger.WriteLine("Adding modelruns to file cache system.");
+        FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
 
 	public static bool InsertDataRecord(DataRecord record)
@@ -501,7 +493,7 @@ public static class ModelRunManager
                 // Normal Case -- Insert it into storedModelRuns
                 Logger.WriteLine("ADDED: " + rec.name);
 
-                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
+                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID, rec.description));
 
                 // Call the insert
                 lock (_Padlock)
@@ -583,7 +575,7 @@ public static class ModelRunManager
 
                 // Normal Case -- Insert it into storedModelRuns
                 // Logger.WriteLine("ADDED");
-                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
+                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID, rec.description));
 
                 // Call the insert
                 modelRuns[rec.modelRunUUID].Insert(rec);

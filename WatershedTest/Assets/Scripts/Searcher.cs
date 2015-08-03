@@ -42,7 +42,7 @@ public class Searcher : MonoBehaviour {
 		// }
 
     // Lets get all of the model runs out of the way!!!!!
-    ModelRunManager.SearchForModelRuns();
+    ModelRunManager.SearchForModelRuns(null, this);
 	}
 
    /// <summary>
