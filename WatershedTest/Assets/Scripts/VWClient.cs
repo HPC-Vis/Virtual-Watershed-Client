@@ -287,10 +287,12 @@ public class VWClient : Observer
         {
             req += "&query=" + param.query;
         }
+        /*
         if (param.location != "")
         {
             req += "&location=" + param.location;
         }
+        */
         if (param.modelname != "")
         {
             req += "&modelname=" + param.modelname;
