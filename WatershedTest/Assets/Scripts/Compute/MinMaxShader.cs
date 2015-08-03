@@ -49,8 +49,8 @@ public class MinMaxShader
             cs.SetTexture(kernelHandle, "PassedInData", DataArray);
             cs.SetFloat("normalizeValue", Max);
 			cs.SetInt ("sampleRate", sampleRate);
-			cs.SetFloats ("from", new float[]{first.x,first.y});
-			cs.SetFloats ("to", new float[]{second.x,second.y});
+			cs.SetFloats ("from", new float[]{first.x,first.y+0.1f});
+			cs.SetFloats ("to", new float[]{second.x,second.y+0.1f});
 			buffer.SetData (da);
 
 			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
