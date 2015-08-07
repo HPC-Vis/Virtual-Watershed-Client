@@ -53,7 +53,7 @@ public class VWClient : Observer
         return Token;
     }
 
-    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")//http://h1.unr.edu:8080
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events

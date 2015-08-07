@@ -106,7 +106,7 @@ public class ColorPicker : MonoBehaviour {
 			GameObject.Destroy(child.gameObject);
 		}
 		// Find the picker...
-		var found = GameObject.Find("Picker");
+		var found = GameObject.Find("ColorPicker");
 		
 		if(found == null)
 		{

@@ -49,8 +49,16 @@ public class MinMaxShader
             cs.SetTexture(kernelHandle, "PassedInData", DataArray);
             cs.SetFloat("normalizeValue", Max);
 			cs.SetInt ("sampleRate", sampleRate);
-			cs.SetFloats ("from", new float[]{first.x,first.y});
-			cs.SetFloats ("to", new float[]{second.x,second.y});
+            if (first.y > second.y)
+            {
+                cs.SetFloats("from", new float[] { first.x, first.y+0.05f });
+                cs.SetFloats("to", new float[] { second.x, second.y-0.05f });
+            }
+            else
+            {
+                cs.SetFloats("from", new float[] { first.x, first.y - 0.05f });
+                cs.SetFloats("to", new float[] { second.x, second.y + 0.05f });
+            }
 			buffer.SetData (da);
 
 			cs.Dispatch (kernelHandle, sampleRate, 1, 1);
@@ -83,8 +91,9 @@ public class MinMaxShader
 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
             {
-                Vector2 from = TerrainUtils.TerrainToNormalizedPoint(new Vector3(first.x, 0, first.y), GlobalConfig.TerrainBoundingBox);
-                Vector2 to = TerrainUtils.TerrainToNormalizedPoint(new Vector3(second.x, 0, second.y), GlobalConfig.TerrainBoundingBox);
+
+                Vector2 from = TerrainUtils.TerrainToNormalizedPoint(new Vector3(first.x, 0, first.y+0.1f), GlobalConfig.TerrainBoundingBox);
+                Vector2 to = TerrainUtils.TerrainToNormalizedPoint(new Vector3(second.x, 0, second.y-0.1f), GlobalConfig.TerrainBoundingBox);
                 Vector3 utm_from = coordsystem.transformToWorld(new Vector3(from.x, 0, from.y));
                 Vector3 utm_to = coordsystem.transformToWorld(new Vector3(to.x, 0, to.y));
                 file.WriteLine("UTM From: (" + utm_from.x + ", " + utm_from.z + ")");

@@ -154,7 +154,7 @@ public class NetworkClient : WebClient
          //   e.BytesReceived + " " + 
          //   e.TotalBytesToReceive + " " +
          //   e.ProgressPercentage);
-        GlobalConfig.loading = true;
+        //GlobalConfig.loading = true;
     }
     
     private void StartNextDownload()
