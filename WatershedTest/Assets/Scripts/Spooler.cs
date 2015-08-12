@@ -8,6 +8,8 @@ using VTL.SimTimeControls;
 using System.Threading;
 using VTL;
 using VTL.TrendGraph;
+
+
 public struct Frame
 {
 	public Sprite Picture;
@@ -105,19 +107,19 @@ public class Spooler : MonoBehaviour
     {
         if (swapProjector && colorPicker.ColorBoxes.Count > 0)
         {
-            TimeProjector.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
-            TimeProjector.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
-            TimeProjector.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
-            TimeProjector.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
-            TimeProjector.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
-            TimeProjector.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData000", colorPicker.ColorBoxes[0].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData001", colorPicker.ColorBoxes[1].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData002", colorPicker.ColorBoxes[2].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData003", colorPicker.ColorBoxes[3].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData004", colorPicker.ColorBoxes[4].GetComponent<Image>().color);
-            testImage.material.SetColor("_SegmentData005", colorPicker.ColorBoxes[5].GetComponent<Image>().color);
-			
+			// Add the colors to the timeprojector and image
+			for(int i = 0; i < 6; i++)
+			{
+				TimeProjector.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
+				testImage.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
+			}
+
+			// Add the ranges to the timeprojector and image
+			for(int i = 0; i < 5; i++)
+			{
+				TimeProjector.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
+				testImage.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
+			}
             TimeProjector.material.SetFloat("_x1", float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text));
             TimeProjector.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
             TimeProjector.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
