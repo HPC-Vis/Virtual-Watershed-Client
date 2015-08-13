@@ -7,17 +7,18 @@ using System.IO;
 // The ListView is contained in its own name space
 using VTL.ListView;
 
+/// <summary>
+/// Searcher. Will give us the search data results
+/// </summary>
 public class Searcher : MonoBehaviour {
-// This guy will give us the search data results
 
     // Current Menu Contents..
     List<DataRecord> Records = new List<DataRecord>();
-    
     public ListViewManager listViewManager;
 
-    bool NewSearch=false;
+    bool NewSearch = false;
     int count = 0;
-    //ModelRunManager ModelRunManager;
+
     VWClient vwc;
 	NetworkManager nm;
     public DownloadManager downloadManager;
@@ -26,123 +27,122 @@ public class Searcher : MonoBehaviour {
 	float UpdateTimer;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../";
 
-	// Use this for initialization
-	void Start () {
-	
-		//Logger.enable = false;
-	//	if (ModelRunManager.client == null) {
-			nm = new NetworkManager ();
-			vwc = new VWClient (new DataFactory (nm), nm);
-			nm.Subscribe (vwc);
-	ModelRunManager.client = vwc;
-	//	} 
-	//	else 
-	//	 {
-			//vwc = ModelRunManager.client;
-		// }
-
-    // Lets get all of the model runs out of the way!!!!!
-    ModelRunManager.SearchForModelRuns(null, this);
+	/// <summary>
+	/// Start this instance.
+	/// </summary>
+	void Start () 
+	{
+		nm = new NetworkManager ();
+		vwc = new VWClient (new DataFactory (nm), nm);
+		nm.Subscribe (vwc);
+		ModelRunManager.client = vwc;
+		ModelRunManager.SearchForModelRuns(null, this);
 	}
 
-   /// <summary>
-   /// EmitSelected a test function for showing that the datarecords have been selected.
-   /// </summary>
-   public  void EmitSelected()
-   {
+	/// <summary>
+	/// EmitSelected a test function for showing that the datarecords have been selected.
+	/// </summary>
+	public void EmitSelected()
+	{
 		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
-        foreach (var i in listViewManager.GetSelectedModelRuns())
-        {
-            // Now to load datasets...
-            ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
+		foreach (var i in listViewManager.GetSelectedModelRuns())
+		{
+			// Now to load datasets...
+			ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
 
-            // Pass things to downloaded -- Beware of the change of reference bug!!!
-            downloadManager.AddModelRun(i.ModelRunUUID);
-        }
-   }
+			// Pass things to downloaded -- Beware of the change of reference bug!!!
+			downloadManager.AddModelRun(i.ModelRunUUID);
+		}
+	}
 
-   /// <summary>
-   /// Refresh is used by a GUI button to refesh the model run list view.
-   /// </summary>
-   public void Refresh()
-   {
-       if(!Directory.Exists(DirectoryLocation + "Cache")){
-           Directory.CreateDirectory(DirectoryLocation + "Cache");
-       }
-       firstPopulation = false;
-   }
+	/// <summary>
+	/// Refresh is used by a GUI button to refesh the model run list view.
+	/// </summary>
+	public void Refresh()
+	{
+		if(!Directory.Exists(DirectoryLocation + "Cache"))
+		{
+		   Directory.CreateDirectory(DirectoryLocation + "Cache");
+		}
+		firstPopulation = false;
+	}
 
-   public void ApplyWMSService()
-   {
-       // Apply WMS Service to data
-       // and do something with it after it has finished based on the type.
-       // Add selected to buildable list
-   }
-    public void ApplyWFSService()
-   {
-        // Apply WFS Service to data
-        // build a gameobject or store it somewhere.
-        // Add selected to buildable list
-   }
-    public void ApplyWCSService()
-    {
-        // Apply WCS Service to data
-        // and do someting with after it has finished based on the type.
-        // Add selected to buildable list
-    }
-    Rect testRect = new Rect(0, 0, 150, 150);
-	// Update is called once per frame
-	void Update () {
-        
-        if( Input.GetKey(KeyCode.R) )
-        {
+	public void ApplyWMSService()
+	{
+	   // Apply WMS Service to data
+	   // and do something with it after it has finished based on the type.
+	   // Add selected to buildable list
+	}
+
+	public void ApplyWFSService()
+	{
+	    // Apply WFS Service to data
+	    // build a gameobject or store it somewhere.
+	    // Add selected to buildable list
+	}
+
+	public void ApplyWCSService()
+	{
+	    // Apply WCS Service to data
+	    // and do someting with after it has finished based on the type.
+	    // Add selected to buildable list
+	}
+
+	/// <summary>
+	/// This is called once per fram. 
+	/// This will update the list on the screen with more current values, only on refresh or init.
+	/// </summary>
+	void Update () 
+	{
+		if( Input.GetKey(KeyCode.R) )
+		{
 			Camera.main.backgroundColor = new Color(0,0,0,0);
-            Refresh();
-        }
+			Refresh();
+		}
 
 		UpdateTimer += Time.deltaTime;
 		if (!firstPopulation )//|| UpdateTimer > 25)
 		{
-            if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
-            {
-                SystemParameters parameters = null; //new SystemParameters();
-                List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
-                if (Runs.Count > 0)
-                {
-                    // Debug.Log("The List has Been Populated");
-                    listViewManager.Clear();
-                    ApplyToUI(Runs);
-                    firstPopulation = true;
-                }
-                UpdateTimer = 0;
-            }
+			if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
+			{
+				SystemParameters parameters = null; //new SystemParameters();
+				List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
+				if (Runs.Count > 0)
+				{
+					// Debug.Log("The List has Been Populated");
+					listViewManager.Clear();
+					ApplyToUI(Runs);
+					firstPopulation = true;
+				}
+				UpdateTimer = 0;
+			}
 		}
 	}
 	
     /// <summary>
     /// ApplyToUI applys a list of datarecords to the UI 
     /// </summary>
-    /// <param name="Records"></param>
+    /// <param name="Records">The records to be added.</param>
 	void ApplyToUI(List<DataRecord> Records)
     {
-        foreach(var rec in Records)
-        {
-            Debug.LogError(rec.name);
-            listViewManager.AddRow(new object[]{rec.name,
-                                            rec.description,
-                                            rec.location,
-                                            rec.modelRunUUID,
-                                            rec.variableName,
-                                            rec.start,
-                                            rec.end},rec);
-        }
+		foreach(var rec in Records)
+		{
+		    Debug.LogError(rec.name);
+		    listViewManager.AddRow(new object[]{rec.name,
+		                                    rec.description,
+		                                    rec.location,
+		                                    rec.modelRunUUID,
+		                                    rec.variableName,
+		                                    rec.start,
+		                                    rec.end},rec);
+		}
         
     }
 
-    /// <summary>
-    /// ApplyToUI applys a list of datarecords to the UI 
-    /// </summary>
-    /// <param name="Records"></param>
+	/// <summary>
+	/// Add the models runs to the UI list.
+	/// </summary>
+	/// <param name="ModelRuns">The model runs to be added.</param>
     void ApplyToUI(List<ModelRun> ModelRuns)
     {
         foreach (var mr in ModelRuns)
@@ -168,9 +168,9 @@ public class Searcher : MonoBehaviour {
     /// <summary>
     /// MergeCollections does a list intersection operation where the combination of the two records are returned without dups.
     /// </summary>
-    /// <param name="Records"></param>
-    /// <param name="Records2"></param>
-    /// <returns></returns>
+    /// <param name="Records">The item to be added to.</param>
+    /// <param name="Records2">The item to add from.</param>
+    /// <returns>The new DataRecord list</returns>
 	List<DataRecord> MergeCollections(List<DataRecord> Records,List<DataRecord> Records2)
     {
 		if(Records==null)
@@ -185,10 +185,7 @@ public class Searcher : MonoBehaviour {
 				Records.Add(i);
 		    }
 	    }
-	    foreach(var i in Records)
-	    {
-	    Debug.Log ("SOMETHING WITH THIS" + i.name);
-	    }
+
 	    return Records;
     }
 	
@@ -207,22 +204,29 @@ public class Searcher : MonoBehaviour {
 		Setted = records;
     }
 
+	/// <summary>
+	/// This will stop the network manager.
+	/// Raises the destroy event.
+	/// </summary>
     public void OnDestroy()
     {
         nm.Halt();
     }
 
-	// We can turn this into a thread later.
-	IEnumerator searchForAvailable(int Count, SystemParameters ps,bool or=true,int number=0)
+	/// <summary>
+	/// This will search for the available model runs from the network.
+	/// The parameters passed are search criteria.
+	/// </summary>
+	/// <returns>None, this is a coroutine.</returns>
+	/// <param name="Count">This is the count for the searcher, used to determine sync.</param>
+	/// <param name="ps">The system parameters that are used for searching.</param>
+	/// <param name="or">The bool or is passed to the modelrunmanager for QueryModelRunss.</param>
+	/// <param name="number">Number is passed to the ModelRunManager Query.</param>
+	IEnumerator searchForAvailable(int Count, SystemParameters ps,bool or=true,int number = 0)
     {
-        List<DataRecord> Records=new List<DataRecord>();
-        List<DataRecord> PassedRecords=null;
-        // Lets make sure the manager exists!!!!
-		/*if(ModelRunManager == null)
-	    {
-	      Debug.LogError("AFSDFSDF");
-	      yield return null;
-	    }*/
+       List<DataRecord> Records = new List<DataRecord>();
+       List<DataRecord> PassedRecords = null;
+
        // Lets do a local search!
        Records.InsertRange(0,ModelRunManager.Query(ps,or,number));
        Debug.Log("LOOK HERE " + Records.Count);
@@ -233,23 +237,30 @@ public class Searcher : MonoBehaviour {
        // Now we wait for this guy to finish
        while(PassedRecords == null)
        {
-		  //Debug.LogError("TEST");
           yield return new WaitForEndOfFrame();
        }
 
-       if(searchCounter==Count)
+       if(searchCounter == Count)
        {
             listViewManager.Clear();
 		    ApplyToUI(MergeCollections(Records,PassedRecords));
        }
        else
        {
-           Debug.Log("FAILURE");
+           Debug.Log("There was a failure in the searchForAvailable in Searcher");
        }
        yield return null;
     }
 
-    IEnumerator SearchForModelRuns(int Count, SystemParameters ps, bool or=true, int number=0)
+	/// <summary>
+	/// This is used once a search is done in order to call the network search based off the 
+	/// given criteria of system parameters.
+	/// </summary>
+	/// <returns>None, this is a coroutine.</returns>
+	/// <param name="Count">Count.</param>
+	/// <param name="ps">The system parameters that are used for searching.</param>
+	/// <param name="or">The bool or is passed to the modelrunmanager for QueryModelRunss.</param>
+    IEnumerator SearchForModelRuns(int Count, SystemParameters ps, bool or = true)
     {
         List<DataRecord> PassedRecords = null;
 
@@ -259,7 +270,6 @@ public class Searcher : MonoBehaviour {
         // Now we wait for this guy to finish
         while (PassedRecords == null)
         {
-            //Debug.LogError("TEST");
             yield return new WaitForEndOfFrame();
         }
 
@@ -274,23 +284,19 @@ public class Searcher : MonoBehaviour {
             Debug.Log("FAILURE");
         }
 
-        
-
         yield return null;
     }
-
-
-    // A search function used to search for avaliable datarecords
-    // Attach this to a button and as a callback for string requests
+	
+	/// <summary>
+	/// A search function used to search for avaliable datarecords.
+	/// Attach this to a button and as a callback for string requests
+	/// </summary>
+	/// <param name="query">The text query value if there was a value specified in the search.</param>
     public void search(Text query)
     {
-        //Debug.Log("SEARCHING NOW!!!!");
         SystemParameters parameters;
         parameters = buildList(query);
-        //Debug.Log(parameters.query);
-        //Debug.Log(parameters.location);
         searchCounter++;
-        //StartCoroutine(searchForAvailable(searchCounter, parameters));
         StartCoroutine(SearchForModelRuns(searchCounter, parameters));
     }
 

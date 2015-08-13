@@ -790,7 +790,7 @@ public class Utilities
 			cylinder.GetComponent<Light>().color = Color.red;
 			cylinder.GetComponent<Renderer>().material.color = Color.red;
 			var scaler = cylinder.AddComponent<Scaler>();
-			scaler.FirstPersonControler = GameObject.Find("First Person Controller");
+			scaler.FirstPersonController = GameObject.Find("First Person Controller");
 
 		}
 		return cylinder;

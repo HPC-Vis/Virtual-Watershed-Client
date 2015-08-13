@@ -392,10 +392,10 @@ public class raySlicer : MonoBehaviour
             if (cursor.GetComponent<mouseray>().mark1highlighted || cursor.GetComponent<mouseray>().mark2highlighted || calc_min_max)
             {
                 // Used to either run cpu minmax or gpu
-            #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-                MinMax.FindMinMax();
-            #else
-                MinMax.FindMinMaxCPU();
+			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+				MinMax.FindMinMaxCPU();
+			#elif UNITY_EDITOR_WIN
+				MinMax.FindMinMax();
             #endif
             }
 
