@@ -120,16 +120,6 @@ public class Spooler : MonoBehaviour
 				TimeProjector.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
 				testImage.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
 			}
-            TimeProjector.material.SetFloat("_x1", float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text));
-            TimeProjector.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
-            TimeProjector.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
-            TimeProjector.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
-            TimeProjector.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
-            testImage.material.SetFloat("_x1", (float.Parse(colorPicker.ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text)));
-            testImage.material.SetFloat("_x2", (float.Parse(colorPicker.ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text)));
-            testImage.material.SetFloat("_x3", (float.Parse(colorPicker.ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text)));
-            testImage.material.SetFloat("_x4", (float.Parse(colorPicker.ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text)));
-            testImage.material.SetFloat("_x5", (float.Parse(colorPicker.ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text)));
 
             TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
 

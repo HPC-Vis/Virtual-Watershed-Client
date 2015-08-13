@@ -394,7 +394,7 @@ public class raySlicer : MonoBehaviour
                 // Used to either run cpu minmax or gpu
 			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 				MinMax.FindMinMaxCPU();
-			#elif NITY_EDITOR_WIN
+			#elif UNITY_EDITOR_WIN
 				MinMax.FindMinMax();
             #endif
             }
