@@ -31,6 +31,9 @@ public class NetworkClient : WebClient
         DownloadProgressChanged += DownloadProgressCallback;
     }
 
+    /// <summary>
+    /// Halts all activity of the network client
+    /// </summary>
     public void Halt()
     {
         DownloadRequests.Clear();
@@ -40,12 +43,11 @@ public class NetworkClient : WebClient
     //http://stackoverflow.com/questions/2042258/webclient-downloadfileasync-download-files-one-at-a-time
     //http://stackoverflow.com/questions/1488099/call-an-eventhandler-with-arguments
 
-    /// <summary>
-    /// DownloadBytes will essentially download bytes based on the given url.
-    /// </summary>
-    /// <param name="url"></param>
-    /// <param name="byteFunc"></param>
-    /// <param name="priority"></param>
+    
+   /// <summary>
+   /// Enqueues a download request to the network manager
+   /// </summary>
+   /// <param name="req">The download request to be made (could be requested in string or byte format)</param>
     public void Download( DownloadRequest req )
     {
         // Enqueue the current request and call the event
@@ -68,7 +70,7 @@ public class NetworkClient : WebClient
     /// <summary>
     /// OnDownloadDataCompleted is the default WebClient function that is called after data has been downloaded.
     /// </summary>
-    /// <param name="args"></param>
+    /// <param name="args">The format of the data to be returned in</param>
     protected override void OnDownloadDataCompleted(DownloadDataCompletedEventArgs args)
     {
         count++;
@@ -99,7 +101,7 @@ public class NetworkClient : WebClient
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
 
-        //GlobalConfig.loading = false;
+        GlobalConfig.loading = false;
 
         // Start the next one
         StartNextDownload();
@@ -108,7 +110,7 @@ public class NetworkClient : WebClient
     /// <summary>
     /// OnDownloadStringCompleted is the default WebClient function that is called after a string has been downloaded.
     /// </summary>
-    /// <param name="args"></param>
+    /// <param name="args">The format of the data to be returned in</param>
     protected override void OnDownloadStringCompleted(DownloadStringCompletedEventArgs args)
     {
         count++;
@@ -157,6 +159,9 @@ public class NetworkClient : WebClient
         //GlobalConfig.loading = true;
     }
     
+    /// <summary>
+    /// Starts the next download in the DownloadRequest queue
+    /// </summary>
     private void StartNextDownload()
     {
         // If there are any downloads remaining do them!
@@ -181,6 +186,9 @@ public class NetworkClient : WebClient
         }
     }
 
+    /// <summary>
+    /// Destructor of the NetworkClient
+    /// </summary>
     ~NetworkClient()
     {
         this.CancelAsync();

@@ -15,15 +15,19 @@ using UnityEngine;
  */
 public class VWClient : Observer
 {
-    struct DataRecordJob
-    {
-        public List<DataRecord> records;
-        public string jobname;
-    }
+    //struct DataRecordJob
+    //{
+    //    public List<DataRecord> records;
+    //    public string jobname;
+    //}
+
     public string Name;
     public string App = "//apps/vwp";
     public string Description;
+
+    // The server to connect to for downloading
     public string Root;
+
     DataFactory factory;
     NetworkManager manager;
     ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>(); // Alternative to Unity's threadpool
@@ -50,12 +54,8 @@ public class VWClient : Observer
     /// <returns>A unique random token</returns>
     public string GenerateToken(string FunctionName)
     {
-        string Token = FunctionName + " " + R.Next();
-
         // Generate Random Token -- Wait until a random value is found that works ... We could do a counter system instead of random.
-        Token = FunctionName + " " + R.Next();
-
-        return Token;
+        return FunctionName + " " + R.Next();
     }
 
     /// <summary>
@@ -70,6 +70,7 @@ public class VWClient : Observer
         manager = networkmanager;   // Added so worker threads can call events
         Root = root;
     }
+
 	/// <summary>
 	/// Called when a job completes, if there is another job waiting after this one is finished, it will be
     /// added to the observables list to be processed.
@@ -80,7 +81,11 @@ public class VWClient : Observer
         if (active.ContainsKey(url))
         {
             active[url].CallBack();
+
+            // Remove the url from the active observables
             active.Remove(url);
+
+            // If there are more jobs waiting to be done, add it in the now open position of the queue
             if (waiting.Count() > 0)
             {
                 var job = waiting.Dequeue();
@@ -99,7 +104,10 @@ public class VWClient : Observer
         Logger.WriteLine("There was an error in: " + url);
         if(active.ContainsKey(url))
         {
+            // Remove the url from the active observables
             active.Remove(url);
+
+            // If there are more jobs waiting to be done, add it in the now open position of the queue
             if (waiting.Count() > 0)
             {
                 var job = waiting.Dequeue();
@@ -123,7 +131,7 @@ public class VWClient : Observer
         {
             // Update
             string result = active[url].Update();
-            // Logger.WriteLine("RESULT: " + result);
+
             // Check if complete
             if (result == "COMPLETE")
             {
@@ -157,20 +165,20 @@ public class VWClient : Observer
     void AddObservable(Observerable observable)
     {
         /// Add Lock here
-        // If the number active is at threshold, move into waiting
-        if (Limit == active.Count())
-        {
-            waiting.Enqueue(observable);
-        }
-        // Else Add the observable to "active" and "observables"
-        else
-        {   
+            // If the number active is at threshold, move into waiting
+            if (Limit == active.Count())
+            {
+                waiting.Enqueue(observable);
+            }
+            // Else Add the observable to "active" and "observables"
+            else
+            {   
 			
-            string URL = observable.Update();
-			Logger.WriteLine ("Added to observables: " + URL); 
-            active[URL] = observable;
+                string URL = observable.Update();
+			    Logger.WriteLine ("Added to observables: " + URL); 
+                active[URL] = observable;
+            }
         }
-    }
 
     //public void getCoverage(DataRecordSetter Setter, DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     /// <summary>
@@ -203,6 +211,7 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
 		AddObservable(client);
 	}
+
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
@@ -363,7 +372,6 @@ public class VWClient : Observer
         {
             req += "&model_run_uuid=" + param.model_run_uuid;
         }
-		//Logger.WriteLine ("Loading: " + req);
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();
