@@ -159,7 +159,13 @@ ADDING
 ADDING
 ADDING
 ADDING
-RESULTS: 152
+ADDING
+ADDING
+ADDING
+ADDING
+<color=green>Selected: 1</color>
+<color=red>File Based Cache for c79b1d3a-4ddf-4d19-8ed6-068a86d2de7d found.</color>
+<color=green>Number of model runs: 1.</color>
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/modelruns.json
 Done
 Getting Model Runs
@@ -195,434 +201,152 @@ Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4dea6f46-0527-4a75-ab80-6d46358fba0a
 Adding modelruns to file cache system.
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=27ea30c8-f5a9-49f6-90b0-2cdfdd033afc
 TEMPORAL: False
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c79b1d3a-4ddf-4d19-8ed6-068a86d2de7d
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=27ea30c8-f5a9-49f6-90b0-2cdfdd033afc
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4e8aff85-2418-4876-9133-86792d59decb
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=282eae20-5463-4dec-8989-cfaa4fa6d153
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=2ceac74e-fff5-4fa7-8f6e-874d6620d49b
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fe97c84b-ef12-4074-854c-0370b2af46e4
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a5e4b9f7-dfeb-402e-b7c6-22ae68f4a215
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3fcfd397-c386-422b-ac20-5b4b6780fef2
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48cc4343-7238-45ef-a799-b67c5c3adfd3
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7c843819-38b5-4b71-922b-06920250278a
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fe97c84b-ef12-4074-854c-0370b2af46e4
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3b3c9aa2-bbf0-40ec-be0a-d767295e0db5
 --- In OnDownloadStart ---
-ADDING
-ADDING
 TEMPORAL: True
-ADDING
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4dea6f46-0527-4a75-ab80-6d46358fba0a
-ADDING
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48cc4343-7238-45ef-a799-b67c5c3adfd3
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=2ceac74e-fff5-4fa7-8f6e-874d6620d49b
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
---- In OnDownloadStart ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d46a9e5c-46a2-4804-a40f-61f88d7a58f5
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: False
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=27ea30c8-f5a9-49f6-90b0-2cdfdd033afc
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=dfaf7a62-e6df-4cc9-9d86-c954bf8d974a
-ADDING
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3fcfd397-c386-422b-ac20-5b4b6780fef2
+TEMPORAL: False
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=27ea30c8-f5a9-49f6-90b0-2cdfdd033afc
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7b1a1fd4-822e-4ddf-ac33-6a2187618ee6
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=da5d66e0-be2d-4857-8c54-2ac625d60015
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4e8aff85-2418-4876-9133-86792d59decb
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=dfaf7a62-e6df-4cc9-9d86-c954bf8d974a
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fe97c84b-ef12-4074-854c-0370b2af46e4
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=231691b0-fa2a-4847-98c7-b4ad51f00970
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7b1a1fd4-822e-4ddf-ac33-6a2187618ee6
 --- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be9187a1-0746-4500-bfe2-8e22cebec03d
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6382389-4c34-48f9-a65b-3bd9593fe2e5
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48cc4343-7238-45ef-a799-b67c5c3adfd3
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80661ff3-2d25-4ae3-867b-74896b97d3c6
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dce0198-5e50-42a6-a918-1353851b5470
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3b3c9aa2-bbf0-40ec-be0a-d767295e0db5
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=222a592f-e0e5-466d-a4e5-dd2f55478989
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d46a9e5c-46a2-4804-a40f-61f88d7a58f5
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e05d4ead-b9fc-4edb-accf-2cd5673a8807
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=da5d66e0-be2d-4857-8c54-2ac625d60015
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=231691b0-fa2a-4847-98c7-b4ad51f00970
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=dfaf7a62-e6df-4cc9-9d86-c954bf8d974a
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed1a80f5-a4bd-4a5f-bb4c-3e3076c5e3c9
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6382389-4c34-48f9-a65b-3bd9593fe2e5
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7b1a1fd4-822e-4ddf-ac33-6a2187618ee6
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80661ff3-2d25-4ae3-867b-74896b97d3c6
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dce0198-5e50-42a6-a918-1353851b5470
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed1a80f5-a4bd-4a5f-bb4c-3e3076c5e3c9
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=222a592f-e0e5-466d-a4e5-dd2f55478989
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=920ad467-a3b9-43bd-87a9-1a489c5a70e2
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d46a9e5c-46a2-4804-a40f-61f88d7a58f5
-ADDING
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e05d4ead-b9fc-4edb-accf-2cd5673a8807
 Done
 Start
 --- In OnDownloadQueued ---
-ADDING
---- In OnDownloadStart ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6489db0d-fd0e-4927-b19f-fb6789080019
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
+--- In OnDownloadStart ---
 TEMPORAL: True
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=231691b0-fa2a-4847-98c7-b4ad51f00970
-ADDING
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=17fcd8ca-818a-4dad-b7ab-5bc918cae0f7
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80661ff3-2d25-4ae3-867b-74896b97d3c6
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ad620205-aab2-4b26-ae19-a0b326efff6a
---- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed1a80f5-a4bd-4a5f-bb4c-3e3076c5e3c9
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6017a9f4-eca5-45c8-b383-e2ff3a005168
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6382389-4c34-48f9-a65b-3bd9593fe2e5
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ad620205-aab2-4b26-ae19-a0b326efff6a
 --- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80661ff3-2d25-4ae3-867b-74896b97d3c6
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6017a9f4-eca5-45c8-b383-e2ff3a005168
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed1a80f5-a4bd-4a5f-bb4c-3e3076c5e3c9
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ba6e72c7-d543-431b-a409-a91a112775cc
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=920ad467-a3b9-43bd-87a9-1a489c5a70e2
 Done
@@ -630,219 +354,66 @@ Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0bc33c3-4213-4408-86b4-bf124774abd6
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ad620205-aab2-4b26-ae19-a0b326efff6a
+TEMPORAL: False
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6489db0d-fd0e-4927-b19f-fb6789080019
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=198862b9-e3c3-4c7b-88fa-ee431166145d
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=17fcd8ca-818a-4dad-b7ab-5bc918cae0f7
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ad620205-aab2-4b26-ae19-a0b326efff6a
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0a731da-1ea0-43c4-a6dc-c722e46f402d
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: False
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6489db0d-fd0e-4927-b19f-fb6789080019
-ADDING
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=17fcd8ca-818a-4dad-b7ab-5bc918cae0f7
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
---- In OnDownloadStart ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=10cb2dcd-ddb2-4167-84aa-61620a1043de
-ADDING
-ADDING
+--- In OnDownloadStart ---
 TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6017a9f4-eca5-45c8-b383-e2ff3a005168
-ADDING
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ba6e72c7-d543-431b-a409-a91a112775cc
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9b4a5e0b-fc56-464b-bf6d-0393161024e3
-ADDING
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0ade8df-fa85-40d1-ae60-69b63d1d876f
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6017a9f4-eca5-45c8-b383-e2ff3a005168
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ee7aaf56-e39a-4c23-88d0-63d8a0660b4e
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0bc33c3-4213-4408-86b4-bf124774abd6
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=198862b9-e3c3-4c7b-88fa-ee431166145d
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7a3d18c3-db02-45dc-925d-0766eff9b768
 --- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0bc33c3-4213-4408-86b4-bf124774abd6
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a0a0a37b-d87a-4ed4-97bf-833eab4d0d28
+--- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e0a731da-1ea0-43c4-a6dc-c722e46f402d
 Done
 Start
 --- In OnDownloadQueued ---
-TEMPORAL: True
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a0a0a37b-d87a-4ed4-97bf-833eab4d0d28
---- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ba6e72c7-d543-431b-a409-a91a112775cc
-Done
-Start
---- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80bb9eaf-07c2-4fa7-abb3-819ac3bb5064
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=198862b9-e3c3-4c7b-88fa-ee431166145d
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=10cb2dcd-ddb2-4167-84aa-61620a1043de
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=afa29ca8-169a-42c3-83d2-0d0cee482822
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9b4a5e0b-fc56-464b-bf6d-0393161024e3
 Done
@@ -850,207 +421,52 @@ Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e54dfc75-5907-48aa-a4d8-dd5f503bd51b
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=10cb2dcd-ddb2-4167-84aa-61620a1043de
-ADDING
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ee7aaf56-e39a-4c23-88d0-63d8a0660b4e
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
---- In OnDownloadStart ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1d7e4fdc-57a3-4978-bcc9-40b427692fe5
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7a3d18c3-db02-45dc-925d-0766eff9b768
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a0a0a37b-d87a-4ed4-97bf-833eab4d0d28
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a7d8b1ca-3805-45b4-9d54-e1481e0510fe
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ee7aaf56-e39a-4c23-88d0-63d8a0660b4e
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7a3d18c3-db02-45dc-925d-0766eff9b768
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c738877a-cd5d-4a40-b1ab-2ea668ed1b92
+--- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=80bb9eaf-07c2-4fa7-abb3-819ac3bb5064
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=40c96f0d-4dd5-4193-882c-60d7f92f4571
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a0a0a37b-d87a-4ed4-97bf-833eab4d0d28
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1d7e4fdc-57a3-4978-bcc9-40b427692fe5
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4b9555df-63a3-4e17-98b8-f403dc8ccc42
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e54dfc75-5907-48aa-a4d8-dd5f503bd51b
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=afa29ca8-169a-42c3-83d2-0d0cee482822
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6c7bc5c0-47fc-495c-8275-12035064d244
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=afa29ca8-169a-42c3-83d2-0d0cee482822
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e54dfc75-5907-48aa-a4d8-dd5f503bd51b
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=112fcbc9-fabe-483d-9ac7-acfdc979774a
+--- In OnDownloadStart ---
 TEMPORAL: False
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a7d8b1ca-3805-45b4-9d54-e1481e0510fe
 Done
@@ -1058,618 +474,177 @@ Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bd438e72-ebfe-441c-a016-307c52660536
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1d7e4fdc-57a3-4978-bcc9-40b427692fe5
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f8bc07a8-74de-47d7-a8dc-b2d7c876dded
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=40c96f0d-4dd5-4193-882c-60d7f92f4571
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be9187a1-0746-4500-bfe2-8e22cebec03d
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ac16daad-3a5d-4adf-9d14-be3236b5deff
 --- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f8bc07a8-74de-47d7-a8dc-b2d7c876dded
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c738877a-cd5d-4a40-b1ab-2ea668ed1b92
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ac16daad-3a5d-4adf-9d14-be3236b5deff
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d273b662-2cab-48c9-9dbf-5d35678e53d5
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6c7bc5c0-47fc-495c-8275-12035064d244
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df01e44d-452c-4306-8764-8877670b7d62
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d273b662-2cab-48c9-9dbf-5d35678e53d5
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bd438e72-ebfe-441c-a016-307c52660536
-Done
 TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=40c96f0d-4dd5-4193-882c-60d7f92f4571
+Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4518075c-2dff-448b-8c55-b84270e88cf2
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df01e44d-452c-4306-8764-8877670b7d62
+TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4b9555df-63a3-4e17-98b8-f403dc8ccc42
 Done
---- In OnDownloadStart ---
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a26e4bbc-6481-4525-8988-d30e7db28df8
+--- In OnDownloadStart ---
+WFS Client Token = GetFeature 332247793
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4518075c-2dff-448b-8c55-b84270e88cf2
+GetCapabilities
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu/apps/vwp/datasets/ce691ff6-da2a-46b9-a7ab-acb8bf94738d/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=112fcbc9-fabe-483d-9ac7-acfdc979774a
 Done
-Start
-TEMPORAL: True
---- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=02af323a-c622-4766-a562-78d44303138f
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ac16daad-3a5d-4adf-9d14-be3236b5deff
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bd438e72-ebfe-441c-a016-307c52660536
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f7972988-cbf7-4d06-92c6-19d1b45cfe84
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=02af323a-c622-4766-a562-78d44303138f
+--- In OnDownloadStart ---
+PARSE WFS CAPABILITIES
+Text node cannot appear in this state.  Line 1, position 1.   at Mono.Xml2.XmlTextReader.ReadText (Boolean notWhitespace) [0x00000] in <filename unknown>:0 
+  at Mono.Xml2.XmlTextReader.ReadContent () [0x00000] in <filename unknown>:0 
+  at Mono.Xml2.XmlTextReader.Read () [0x00000] in <filename unknown>:0 
+  at System.Xml.XmlTextReader.Read () [0x00000] in <filename unknown>:0 
+  at System.Xml.XmlReader.MoveToContent () [0x00000] in <filename unknown>:0 
+  at System.Xml.Serialization.XmlSerializer.CanDeserialize (System.Xml.XmlReader xmlReader) [0x00000] in <filename unknown>:0 
+  at WFS_GetCapabilities_Producer.ParseWFSCapabilities (.DataRecord Record, System.String Str) [0x0004b] in C:\Users\trushton\Desktop\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Producers\WFS_GetCapabilites_Producer.cs:41 
+  at WFS_GetCapabilities_Producer+<ImportFromURL>c__AnonStorey1D.<>m__16 (System.String DownloadedString) [0x00000] in C:\Users\trushton\Desktop\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\Producers\WFS_GetCapabilites_Producer.cs:85 
+  at DownloadRequest.Callback (System.String str) [0x0000b] in C:\Users\trushton\Desktop\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\DownloadRequest.cs:48 
+  at NetworkClient.OnDownloadStringCompleted (System.Net.DownloadStringCompletedEventArgs args) [0x0003a] in C:\Users\trushton\Desktop\Virtual-Watershed-Client\WatershedTest\Assets\Scripts\NetworkClient.cs:126 
+<color=red>Insert Custom Error Message / Error code for handling HTTP 404 </color>
+There was an error in: http://vwp-dev.unm.edu/apps/vwp/datasets/ce691ff6-da2a-46b9-a7ab-acb8bf94738d/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a26e4bbc-6481-4525-8988-d30e7db28df8
+--- In OnDataError http://vwp-dev.unm.edu/apps/vwp/datasets/ce691ff6-da2a-46b9-a7ab-acb8bf94738d/services/ogc/wfs?SERVICE=wfs&REQUEST=GetCapabilities&VERSION=1.0.0 ---
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f8bc07a8-74de-47d7-a8dc-b2d7c876dded
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54008aac-6483-4110-8e44-a47ac544c7dc
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df01e44d-452c-4306-8764-8877670b7d62
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=53ead6fc-bd68-42b9-ad8f-cb85066d03c1
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f7972988-cbf7-4d06-92c6-19d1b45cfe84
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d273b662-2cab-48c9-9dbf-5d35678e53d5
-ADDING
 Done
 Start
-ADDING
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54008aac-6483-4110-8e44-a47ac544c7dc
 --- In OnDownloadStart ---
-ADDING
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df01e44d-452c-4306-8764-8877670b7d62
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=53ead6fc-bd68-42b9-ad8f-cb85066d03c1
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ac16daad-3a5d-4adf-9d14-be3236b5deff
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=194f9b21-a923-4e78-8bf0-f9ff2cf37a66
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a26e4bbc-6481-4525-8988-d30e7db28df8
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4eea9429-48ef-4797-b957-90318f624ee1
-ADDING
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4518075c-2dff-448b-8c55-b84270e88cf2
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48ad25c3-2c1e-4d15-b4be-e24021421704
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4eea9429-48ef-4797-b957-90318f624ee1
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=02af323a-c622-4766-a562-78d44303138f
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48ad25c3-2c1e-4d15-b4be-e24021421704
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a26e4bbc-6481-4525-8988-d30e7db28df8
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5c4f7fa3-ac04-4ade-8acb-98f8a46dfa92
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f7972988-cbf7-4d06-92c6-19d1b45cfe84
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54008aac-6483-4110-8e44-a47ac544c7dc
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a3aa0200-7ec5-4f69-9ba2-09e54b823897
 --- In OnDownloadStart ---
 TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f7972988-cbf7-4d06-92c6-19d1b45cfe84
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf2c1c6f-b942-424b-9031-ae5a4d554991
+TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=53ead6fc-bd68-42b9-ad8f-cb85066d03c1
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf2c1c6f-b942-424b-9031-ae5a4d554991
---- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54008aac-6483-4110-8e44-a47ac544c7dc
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c9c54903-f359-478b-b3e2-57e10b69db92
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
+--- In OnDownloadStart ---
 TEMPORAL: True
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=194f9b21-a923-4e78-8bf0-f9ff2cf37a66
-ADDING
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=dbf25055-7749-4e7c-ab3a-45ee11cac474
-ADDING
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4eea9429-48ef-4797-b957-90318f624ee1
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=070c1eda-20bd-49d7-a8f9-ee049f134082
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5c4f7fa3-ac04-4ade-8acb-98f8a46dfa92
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=acfb20be-1cb2-46fa-b639-15bf0229ad53
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=48ad25c3-2c1e-4d15-b4be-e24021421704
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=070c1eda-20bd-49d7-a8f9-ee049f134082
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=291ebb7f-6771-4d92-aa06-93868ec91389
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf2c1c6f-b942-424b-9031-ae5a4d554991
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5c4f7fa3-ac04-4ade-8acb-98f8a46dfa92
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=929b7ec5-29e1-422e-a550-d566067b3a3e
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=acfb20be-1cb2-46fa-b639-15bf0229ad53
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4eea9429-48ef-4797-b957-90318f624ee1
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=291ebb7f-6771-4d92-aa06-93868ec91389
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a3aa0200-7ec5-4f69-9ba2-09e54b823897
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=929b7ec5-29e1-422e-a550-d566067b3a3e
 --- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c9c54903-f359-478b-b3e2-57e10b69db92
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3e4ced2a-9659-47ad-9e2d-7e758e76b589
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=dbf25055-7749-4e7c-ab3a-45ee11cac474
 Done
@@ -1678,192 +653,38 @@ Start
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=da49cd35-cd3e-479e-8024-bc4ea8c8efa7
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c9c54903-f359-478b-b3e2-57e10b69db92
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=acfb20be-1cb2-46fa-b639-15bf0229ad53
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=91cff9f4-2964-4303-8807-7062fa9cac2e
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=070c1eda-20bd-49d7-a8f9-ee049f134082
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=acfb20be-1cb2-46fa-b639-15bf0229ad53
-ADDING
-Done
 Done
 Start
-ADDING
-Start
 --- In OnDownloadQueued ---
---- In OnDownloadQueued ---
-ADDING
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=906436aa-879f-4daf-9d9d-184fdeecb2cc
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88c5d021-7271-489f-8322-4b1807e8f8d4
-ADDING
 --- In OnDownloadStart ---
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=291ebb7f-6771-4d92-aa06-93868ec91389
 Done
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=929b7ec5-29e1-422e-a550-d566067b3a3e
 Start
-Done
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88c5d021-7271-489f-8322-4b1807e8f8d4
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=929b7ec5-29e1-422e-a550-d566067b3a3e
+Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4a08d41-4510-4c79-b307-a113cdd96290
 --- In OnDownloadStart ---
+TEMPORAL: False
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=da49cd35-cd3e-479e-8024-bc4ea8c8efa7
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f44eb021-cd34-46f9-b153-1afd386fdd69
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3e4ced2a-9659-47ad-9e2d-7e758e76b589
@@ -1871,1274 +692,351 @@ Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9e2db930-61a1-4890-9529-6e061072b0f7
-TEMPORAL: False
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=da49cd35-cd3e-479e-8024-bc4ea8c8efa7
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c7276706-bd60-491d-9cc4-4573c63497b5
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=91cff9f4-2964-4303-8807-7062fa9cac2e
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c7276706-bd60-491d-9cc4-4573c63497b5
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=906436aa-879f-4daf-9d9d-184fdeecb2cc
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ee2d52d5-7ac9-4406-bd7e-aa1d59549379
 --- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88c5d021-7271-489f-8322-4b1807e8f8d4
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4a08d41-4510-4c79-b307-a113cdd96290
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cd271905-5576-4129-ae4f-f3294ee72752
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c7276706-bd60-491d-9cc4-4573c63497b5
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88c5d021-7271-489f-8322-4b1807e8f8d4
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d364ffde-04c1-4372-b91b-8c9a97c1da16
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4a08d41-4510-4c79-b307-a113cdd96290
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
-ADDING
 --- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ca622d2f-5f2f-493d-b4a0-c821b598a2ca
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f44eb021-cd34-46f9-b153-1afd386fdd69
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f826641c-7318-4ccb-8d00-9e34714dc702
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ca622d2f-5f2f-493d-b4a0-c821b598a2ca
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9e2db930-61a1-4890-9529-6e061072b0f7
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=15ecac89-9fdf-4d79-8a76-7b439b104804
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f826641c-7318-4ccb-8d00-9e34714dc702
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ca622d2f-5f2f-493d-b4a0-c821b598a2ca
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4f92caf-c825-4a0a-b1ec-2b0786e2ca39
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ee2d52d5-7ac9-4406-bd7e-aa1d59549379
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b430bfe3-12cf-400f-99f1-1cc8761e02a0
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=15ecac89-9fdf-4d79-8a76-7b439b104804
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cd271905-5576-4129-ae4f-f3294ee72752
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4f92caf-c825-4a0a-b1ec-2b0786e2ca39
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c7276706-bd60-491d-9cc4-4573c63497b5
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b430bfe3-12cf-400f-99f1-1cc8761e02a0
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d364ffde-04c1-4372-b91b-8c9a97c1da16
+Done
+Start
+--- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3b1ffc0b-72b3-40c2-bb62-7ace3a7ccfef
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d364ffde-04c1-4372-b91b-8c9a97c1da16
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f826641c-7318-4ccb-8d00-9e34714dc702
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e619a31e-d3c0-4024-81e0-bf09685766c3
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b430bfe3-12cf-400f-99f1-1cc8761e02a0
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=15ecac89-9fdf-4d79-8a76-7b439b104804
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=38524e7d-c8de-4bf9-ba23-e50ef100a3a0
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f826641c-7318-4ccb-8d00-9e34714dc702
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ca622d2f-5f2f-493d-b4a0-c821b598a2ca
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d2bcfcf4-0c77-4e81-9f5b-194430041b17
---- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=15ecac89-9fdf-4d79-8a76-7b439b104804
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4f92caf-c825-4a0a-b1ec-2b0786e2ca39
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=13c66b9f-538b-47bc-a51f-9ce7a51b3656
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d4f92caf-c825-4a0a-b1ec-2b0786e2ca39
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9a233390-9328-4b1d-bad4-e78e5854a1c2
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d2bcfcf4-0c77-4e81-9f5b-194430041b17
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=64d897e1-1c55-4d4d-a4fc-bf8c39daf394
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: False
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3b1ffc0b-72b3-40c2-bb62-7ace3a7ccfef
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=79a14c10-0d6e-4653-ada7-912a7fcf3752
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9a233390-9328-4b1d-bad4-e78e5854a1c2
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=e619a31e-d3c0-4024-81e0-bf09685766c3
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c4a13fce-f4f8-4393-b47c-1bb0921ec3e2
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=64d897e1-1c55-4d4d-a4fc-bf8c39daf394
 --- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b430bfe3-12cf-400f-99f1-1cc8761e02a0
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=79a14c10-0d6e-4653-ada7-912a7fcf3752
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=38524e7d-c8de-4bf9-ba23-e50ef100a3a0
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be97f8cc-b0f0-4ae5-a5a7-d155733d212d
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c4a13fce-f4f8-4393-b47c-1bb0921ec3e2
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=79a14c10-0d6e-4653-ada7-912a7fcf3752
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42db6cad-bd4e-46e5-b42d-cd90a9177ca7
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=9a233390-9328-4b1d-bad4-e78e5854a1c2
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf5bb01f-41ca-4fbb-bbd2-6bec445ba67a
---- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be97f8cc-b0f0-4ae5-a5a7-d155733d212d
 TEMPORAL: False
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=13c66b9f-538b-47bc-a51f-9ce7a51b3656
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42db6cad-bd4e-46e5-b42d-cd90a9177ca7
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f34a1fc3-439a-4871-aa4b-7e4ac76b3f6d
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d2bcfcf4-0c77-4e81-9f5b-194430041b17
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf5bb01f-41ca-4fbb-bbd2-6bec445ba67a
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=64d897e1-1c55-4d4d-a4fc-bf8c39daf394
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4f40384c-7893-4fce-a561-c83f2683ca98
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f34a1fc3-439a-4871-aa4b-7e4ac76b3f6d
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf5bb01f-41ca-4fbb-bbd2-6bec445ba67a
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88587e11-ded3-4096-bf90-145e9860c621
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be97f8cc-b0f0-4ae5-a5a7-d155733d212d
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=254fecb7-6ba6-49a6-adea-27e2ad9d992a
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c4a13fce-f4f8-4393-b47c-1bb0921ec3e2
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4f40384c-7893-4fce-a561-c83f2683ca98
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dfe9c69-6afa-44af-884b-5760465f37a8
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8a7f3994-c5fa-45fa-b765-7df05aadd363
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88587e11-ded3-4096-bf90-145e9860c621
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=79a14c10-0d6e-4653-ada7-912a7fcf3752
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=254fecb7-6ba6-49a6-adea-27e2ad9d992a
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42db6cad-bd4e-46e5-b42d-cd90a9177ca7
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1653fbf2-0728-4771-97ac-48288b391529
---- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=254fecb7-6ba6-49a6-adea-27e2ad9d992a
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cfde8599-43e3-4415-8f6d-31c4490cc0a7
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4f40384c-7893-4fce-a561-c83f2683ca98
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3a048eea-072e-4aea-a1f2-eebfbc3ccb89
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dfe9c69-6afa-44af-884b-5760465f37a8
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f34a1fc3-439a-4871-aa4b-7e4ac76b3f6d
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1653fbf2-0728-4771-97ac-48288b391529
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6263e7ad-c7db-46d6-b37a-ec923fe76aaf
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4f40384c-7893-4fce-a561-c83f2683ca98
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cfde8599-43e3-4415-8f6d-31c4490cc0a7
+--- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=88587e11-ded3-4096-bf90-145e9860c621
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3a048eea-072e-4aea-a1f2-eebfbc3ccb89
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cf5bb01f-41ca-4fbb-bbd2-6bec445ba67a
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6263e7ad-c7db-46d6-b37a-ec923fe76aaf
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dfe9c69-6afa-44af-884b-5760465f37a8
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6377113-3e46-4578-8e01-266a80c764af
 --- In OnDownloadStart ---
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3a048eea-072e-4aea-a1f2-eebfbc3ccb89
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1653fbf2-0728-4771-97ac-48288b391529
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=926a7880-c096-4227-a098-59965e0af397
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1653fbf2-0728-4771-97ac-48288b391529
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
 --- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4cd3f36a-47ed-4f43-b880-cd96309ec9b1
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=0dfe9c69-6afa-44af-884b-5760465f37a8
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5363672e-e35f-47ec-824c-e5ac45cc1787
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=cfde8599-43e3-4415-8f6d-31c4490cc0a7
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6887b2ef-4cf1-474e-b5a1-909ac6c9ecdb
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4cd3f36a-47ed-4f43-b880-cd96309ec9b1
 --- In OnDownloadStart ---
-TEMPORAL: False
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4cd3f36a-47ed-4f43-b880-cd96309ec9b1
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=361c6a08-73b9-417e-897b-4cf6d1219b95
 TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6377113-3e46-4578-8e01-266a80c764af
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3a048eea-072e-4aea-a1f2-eebfbc3ccb89
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be48bd38-97b3-4eeb-9197-7a7e6057ad85
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5363672e-e35f-47ec-824c-e5ac45cc1787
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6263e7ad-c7db-46d6-b37a-ec923fe76aaf
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6887b2ef-4cf1-474e-b5a1-909ac6c9ecdb
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f0c4c973-60ad-4acc-a567-c4901641924b
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b6377113-3e46-4578-8e01-266a80c764af
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=361c6a08-73b9-417e-897b-4cf6d1219b95
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=926a7880-c096-4227-a098-59965e0af397
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f2bb9b45-a174-4051-81c6-852d290c463c
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be48bd38-97b3-4eeb-9197-7a7e6057ad85
 --- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be48bd38-97b3-4eeb-9197-7a7e6057ad85
-ADDING
+TEMPORAL: False
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=4cd3f36a-47ed-4f43-b880-cd96309ec9b1
 Done
-ADDING
 Start
 --- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=86e5b58b-e6a5-4e6d-91ce-256384ad0add
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6887b2ef-4cf1-474e-b5a1-909ac6c9ecdb
-ADDING
-Done
-ADDING
-Start
---- In OnDownloadQueued ---
-ADDING
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f0c4c973-60ad-4acc-a567-c4901641924b
 --- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54d33ad1-f1d7-4921-b01b-3f7ebaad89a3
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5363672e-e35f-47ec-824c-e5ac45cc1787
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f2bb9b45-a174-4051-81c6-852d290c463c
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1bb031bd-38e0-48d1-a876-be0846f4a8c4
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=6887b2ef-4cf1-474e-b5a1-909ac6c9ecdb
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=86e5b58b-e6a5-4e6d-91ce-256384ad0add
+--- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=361c6a08-73b9-417e-897b-4cf6d1219b95
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b39f4f1d-1e96-4aec-9aa2-fe494f058496
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54d33ad1-f1d7-4921-b01b-3f7ebaad89a3
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54d33ad1-f1d7-4921-b01b-3f7ebaad89a3
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be48bd38-97b3-4eeb-9197-7a7e6057ad85
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3c43e114-c700-4896-838f-785afd220232
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f2bb9b45-a174-4051-81c6-852d290c463c
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8e0f7d4e-3452-440a-bc1f-b5f00234c4b5
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1bb031bd-38e0-48d1-a876-be0846f4a8c4
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f0c4c973-60ad-4acc-a567-c4901641924b
 Done
 Start
 --- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b39f4f1d-1e96-4aec-9aa2-fe494f058496
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df9d62dc-3a24-4dfa-bc41-d1a6ab624725
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f2bb9b45-a174-4051-81c6-852d290c463c
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3c43e114-c700-4896-838f-785afd220232
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=54d33ad1-f1d7-4921-b01b-3f7ebaad89a3
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
 TEMPORAL: True
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8e0f7d4e-3452-440a-bc1f-b5f00234c4b5
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=86e5b58b-e6a5-4e6d-91ce-256384ad0add
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=57c8a97a-7d93-4040-a7f6-50ff906fc400
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df9d62dc-3a24-4dfa-bc41-d1a6ab624725
 --- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8e0f7d4e-3452-440a-bc1f-b5f00234c4b5
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c93ff031-8457-4a9d-bb0f-ac95c6021f00
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b39f4f1d-1e96-4aec-9aa2-fe494f058496
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f01841f8-64b5-49f3-a26e-eb0ab69cfe00
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=57c8a97a-7d93-4040-a7f6-50ff906fc400
 TEMPORAL: True
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3c43e114-c700-4896-838f-785afd220232
-ADDING
-Done
-ADDING
-Start
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1bb031bd-38e0-48d1-a876-be0846f4a8c4
---- In OnDownloadQueued ---
-ADDING
 Done
---- In OnDownloadStart ---
-ADDING
 Start
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=33042667-ecfc-4fdf-af83-54087f97a3fa
 --- In OnDownloadQueued ---
-ADDING
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c93ff031-8457-4a9d-bb0f-ac95c6021f00
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=254fecb7-6ba6-49a6-adea-27e2ad9d992a
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f01841f8-64b5-49f3-a26e-eb0ab69cfe00
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=3c43e114-c700-4896-838f-785afd220232
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=33042667-ecfc-4fdf-af83-54087f97a3fa
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=be97f8cc-b0f0-4ae5-a5a7-d155733d212d
+Done
+Start
+--- In OnDownloadQueued ---
 --- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=296a7af6-38cc-4457-99d3-9a76c671d7cc
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f01841f8-64b5-49f3-a26e-eb0ab69cfe00
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8e0f7d4e-3452-440a-bc1f-b5f00234c4b5
 Done
 Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1f60bc09-38d4-4531-b90c-5eaa6299d6d8
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=57c8a97a-7d93-4040-a7f6-50ff906fc400
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df9d62dc-3a24-4dfa-bc41-d1a6ab624725
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bf984bf9-f3db-4a25-89bc-3b952f7ea67b
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=c93ff031-8457-4a9d-bb0f-ac95c6021f00
@@ -3147,18 +1045,41 @@ Start
 --- In OnDownloadQueued ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42e6ddc1-0604-4995-9680-9f25fb4b32c3
 --- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=df9d62dc-3a24-4dfa-bc41-d1a6ab624725
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=57c8a97a-7d93-4040-a7f6-50ff906fc400
 Done
 Start
 --- In OnDownloadQueued ---
+--- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=24c4e6db-0763-4eaf-8208-7fe0a459efaf
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=f01841f8-64b5-49f3-a26e-eb0ab69cfe00
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fd6280e2-0a57-4609-ac87-b4043ef07fdf
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=33042667-ecfc-4fdf-af83-54087f97a3fa
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5b1e1015-f419-42d0-a133-251fd22fac84
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1f60bc09-38d4-4531-b90c-5eaa6299d6d8
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=55b93e23-643b-4893-a931-76d884df3270
 --- In OnDownloadStart ---
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=296a7af6-38cc-4457-99d3-9a76c671d7cc
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fd6280e2-0a57-4609-ac87-b4043ef07fdf
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a234d470-c9c8-443b-b726-7a80e4f7bf9f
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42e6ddc1-0604-4995-9680-9f25fb4b32c3
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7c538679-1500-44ba-882c-e8a2facdce95
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bf984bf9-f3db-4a25-89bc-3b952f7ea67b
@@ -3166,416 +1087,75 @@ Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5b1e1015-f419-42d0-a133-251fd22fac84
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1f60bc09-38d4-4531-b90c-5eaa6299d6d8
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=42e6ddc1-0604-4995-9680-9f25fb4b32c3
-Done
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8f06e975-c841-4eff-a820-138e40dc0fba
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fd6280e2-0a57-4609-ac87-b4043ef07fdf
 Done
 Start
-Start
 --- In OnDownloadQueued ---
---- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed3a15d6-79b5-4f3f-b27f-e1a264bb754e
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a234d470-c9c8-443b-b726-7a80e4f7bf9f
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=55b93e23-643b-4893-a931-76d884df3270
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5b1e1015-f419-42d0-a133-251fd22fac84
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7c538679-1500-44ba-882c-e8a2facdce95
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=24c4e6db-0763-4eaf-8208-7fe0a459efaf
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8f06e975-c841-4eff-a820-138e40dc0fba
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=33042667-ecfc-4fdf-af83-54087f97a3fa
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed3a15d6-79b5-4f3f-b27f-e1a264bb754e
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8f06e975-c841-4eff-a820-138e40dc0fba
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bd23a036-2202-4bc6-a7d2-083bb306e4bc
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fd6280e2-0a57-4609-ac87-b4043ef07fdf
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=5b1e1015-f419-42d0-a133-251fd22fac84
 Done
 Start
 --- In OnDownloadQueued ---
---- In OnDownloadStart ---
 Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a9b6b3ed-d6e8-44d4-98ac-b49738e549d2
+--- In OnDownloadStart ---
+TEMPORAL: False
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=55b93e23-643b-4893-a931-76d884df3270
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a16b0f94-dd3d-47f4-a6de-51167433a152
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7c538679-1500-44ba-882c-e8a2facdce95
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1947f097-cf31-4ff4-9bb8-087b7166ea29
+--- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a234d470-c9c8-443b-b726-7a80e4f7bf9f
 Done
 Start
 --- In OnDownloadQueued ---
 --- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a16b0f94-dd3d-47f4-a6de-51167433a152
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ec878463-3728-4037-8df5-7e71c69af90b
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=8f06e975-c841-4eff-a820-138e40dc0fba
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d0cb97f5-e583-4a49-937a-44a1dbb9f9d9
+--- In OnDownloadStart ---
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a9b6b3ed-d6e8-44d4-98ac-b49738e549d2
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b5f7d5d3-2768-43ce-aed9-f54b61e02ecf
+--- In OnDownloadStart ---
+TEMPORAL: True
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed3a15d6-79b5-4f3f-b27f-e1a264bb754e
+Done
+Start
+--- In OnDownloadQueued ---
+--- In OnDownloadStart ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=22eb26da-7b40-4a6d-88d9-758c9288e48d
+SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a16b0f94-dd3d-47f4-a6de-51167433a152
+Done
+Start
+--- In OnDownloadQueued ---
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a5dc5e68-7dd4-498e-ae2a-eb1d6d419f05
 --- In OnDownloadStart ---
 TEMPORAL: True
 SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=bd23a036-2202-4bc6-a7d2-083bb306e4bc
 Done
 Start
 --- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1947f097-cf31-4ff4-9bb8-087b7166ea29
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=7c538679-1500-44ba-882c-e8a2facdce95
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ec878463-3728-4037-8df5-7e71c69af90b
---- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a16b0f94-dd3d-47f4-a6de-51167433a152
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=d0cb97f5-e583-4a49-937a-44a1dbb9f9d9
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-ADDING
-ADDING
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ed3a15d6-79b5-4f3f-b27f-e1a264bb754e
-ADDING
-Done
-Start
-ADDING
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-ADDING
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b5f7d5d3-2768-43ce-aed9-f54b61e02ecf
-ADDING
---- In OnDownloadStart ---
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-ADDING
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=ec878463-3728-4037-8df5-7e71c69af90b
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=22eb26da-7b40-4a6d-88d9-758c9288e48d
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a9b6b3ed-d6e8-44d4-98ac-b49738e549d2
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=a5dc5e68-7dd4-498e-ae2a-eb1d6d419f05
---- In OnDownloadStart ---
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=b5f7d5d3-2768-43ce-aed9-f54b61e02ecf
-Done
-Start
---- In OnDownloadQueued ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=fc137de7-e792-42c1-a4b9-3b4127c58311
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=1947f097-cf31-4ff4-9bb8-087b7166ea29
-Done
-Start
---- In OnDownloadQueued ---
---- In OnDownloadStart ---
-Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0&model_set_type=&limit=1&version=3&model_run_uuid=82b66a13-f5d5-4eed-a596-f4e6d03223f1
---- In OnDownloadStart ---
-TEMPORAL: True
-SUCCESSFUL WITH: http://vwp-dev.unm.edu//a
+Added to observables: http://vwp-dev.unm.edu//apps/vwp/search/datasets.json?offset=0

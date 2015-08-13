@@ -4,12 +4,14 @@ using System.Collections;
 public class Scaler : MonoBehaviour {
 
     GameObject currentController;
-    public GameObject FirstPersonControler;
+    public GameObject FirstPersonController;
 
     float OriginalHeight;
 	// Use this for initialization
 	void Start () {
         OriginalHeight = gameObject.transform.position.y;
+        FirstPersonController = GameObject.Find("ControlScripts");
+
 	}
 	
 	// Update is called once per frame
@@ -25,7 +27,7 @@ public class Scaler : MonoBehaviour {
 
 
 
-        currentController = FirstPersonControler;
+        currentController = FirstPersonController;
 
         distance = (gameObject.transform.position - currentController.transform.position).magnitude;
 
