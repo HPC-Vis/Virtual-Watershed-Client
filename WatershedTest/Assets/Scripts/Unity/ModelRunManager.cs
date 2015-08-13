@@ -345,6 +345,7 @@ public static class ModelRunManager
 	public static bool InsertDataRecord(DataRecord record)
 	{
 		Logger.WriteLine("The model run is now in the cache.");
+        
 		FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
 		return modelRuns[record.modelRunUUID].Insert(record);
 	}
@@ -553,15 +554,34 @@ public static class ModelRunManager
             {
                 // Call insert operation
                 // Logger.WriteLine("ADDED");
-                modelRuns[rec.modelRunUUID].Insert(rec);
+
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+
+                //modelRuns[rec.modelRunUUID].Insert(rec);
                 //modelRuns[rec.modelRunUUID].CurrentCapacity++;
                 // Replace with isFull Function
-                if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
-                {
-                    // Cash it in!!!!
-					Debug.Log("IT IS CASH");
-                    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                }
+                //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
+                //{
+                //    // Cash it in!!!!
+                //    Debug.Log("IT IS CASH");
+                //    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                //}
+
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
             }
             // Cache Case
             else if (FileBasedCache.Exists(rec.modelRunUUID))
