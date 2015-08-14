@@ -126,7 +126,7 @@ public class NetworkClient : WebClient
         try
         {
             Req.Callback(args.Result);
-            Logger.WriteLine("SUCCESSFUL WITH: " + Req.Url);
+            //Logger.WriteLine("SUCCESSFUL WITH: " + Req.Url);
         }
         catch(Exception e)
         {

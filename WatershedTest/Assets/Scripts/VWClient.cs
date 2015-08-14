@@ -64,7 +64,7 @@ public class VWClient : Observer
     /// <param name="datafactory">Parses data and transfers it into a usable format</param>
     /// <param name="networkmanager">Used to process network requests</param>
     /// <param name="root">The server being used to retrieve data from</param>
-    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")//http://h1.unr.edu:8080
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://h1.rd.unr.edu:8080")//http://vwp-dev.unm.edu
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events
@@ -175,7 +175,7 @@ public class VWClient : Observer
             {   
 			
                 string URL = observable.Update();
-			    Logger.WriteLine ("Added to observables: " + URL); 
+			    //Logger.WriteLine ("Added to observables: " + URL); 
                 active[URL] = observable;
             }
         }
