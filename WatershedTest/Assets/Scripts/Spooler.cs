@@ -206,6 +206,10 @@ public class Spooler : MonoBehaviour
 
                 // Update the mion max
                 colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);
+
+                // Setup the trendgraph correctly
+                trendGraph.SetMinMax((int)modelrun.MinMax[oldSelectedVariable].x, (int)modelrun.MinMax[oldSelectedVariable].y);
+                trendGraph.SetTime(Reel[0].starttime.ToString(), Reel[Reel.Count - 1].starttime.ToString());
             }
 
             // This is called once and right after the download complete
