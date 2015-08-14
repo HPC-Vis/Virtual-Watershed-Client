@@ -22,6 +22,8 @@ public static class ModelRunManager
     static public int Total = 0;
     static public int Counter = 0;
 
+    static bool timeToCache = true;
+
     /// <summary>
     ///  Make sure to set the client or OUCH!
     /// </summary>
@@ -135,6 +137,7 @@ public static class ModelRunManager
             modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
         }
         client.RequestModelRuns(OnGetModelRuns, param);
+        searcher.Refresh();
 
     }
 
@@ -312,7 +315,7 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-        searcher.Refresh();
+        //searcher.Refresh();
     }
 
 
@@ -342,12 +345,20 @@ public static class ModelRunManager
         FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
 
-	public static bool InsertDataRecord(DataRecord record)
+	public static bool InsertDataRecord(DataRecord record, List<DataRecord> allRecords)
 	{
-		Logger.WriteLine("The model run is now in the cache.");
-        
-		FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
-		return modelRuns[record.modelRunUUID].Insert(record);
+        if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
+        {
+            foreach (DataRecord rec in allRecords)
+            {
+                FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                Logger.WriteLine("The model run is now in the cache.");
+            }
+            timeToCache = false;
+        }
+
+	    //FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
+        return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
 	public static void parseNetCDFRecords(List<DataRecord> record)
@@ -366,7 +377,7 @@ public static class ModelRunManager
 					if(record[0].WCSCoverages.Count() > 1)
 					dr.Temporal = true;
 					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
-					InsertDataRecord(dr);
+					InsertDataRecord(dr, record);
 					
 					// Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
 					client.describeCoverage(CreateNewBands,dr,new SystemParameters());
@@ -384,7 +395,7 @@ public static class ModelRunManager
 					if(record[0].wmslayers.Count() > 1)
 					dr.Temporal = true;
 					// WMS Bounding Box
-					InsertDataRecord(dr);
+                    InsertDataRecord(dr, record);
 					Logger.WriteLine (dr.variableName);
 
 				}
@@ -394,7 +405,7 @@ public static class ModelRunManager
 				// WFS CASE HERE FOR NOW
 				record[0].band_id = 1;
 				// Get WFS Name here
-				InsertDataRecord(record[0]);
+                InsertDataRecord(record[0], record);
 			}
 
 		}
@@ -408,11 +419,11 @@ public static class ModelRunManager
 			DataRecord dr = record[0].Clone();
 			dr.band_id = i;
 			dr.id += dr.band_id.ToString() + dr.variableName;
-			Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr).ToString());
+            Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr, record).ToString());
 		}
 	}
 	// Filter function goes here.
-	static void filter(DataRecord record)
+	static void filter(DataRecord record, List<DataRecord> allRecords)
 	{
 		Logger.WriteLine ("FILTER");
 		SystemParameters sp = new SystemParameters();
@@ -440,7 +451,7 @@ public static class ModelRunManager
 			Logger.WriteLine ("FILTERING");
 			// Add it to its perspective model run
 			record.band_id = 1;
-			InsertDataRecord(record);
+            InsertDataRecord(record, allRecords);
 		}
 	}
 
@@ -469,7 +480,7 @@ public static class ModelRunManager
                 //Logger.WriteLine("ADDED: " + rec.name);
                 lock (_Padlock)
                 {
-					filter (rec);
+					filter (rec, Records);
                     //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
