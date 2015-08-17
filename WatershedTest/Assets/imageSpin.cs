@@ -2,16 +2,19 @@
 using UnityEngine.UI;
 using System.Collections;
 
-public class imageSpin : MonoBehaviour {
 
-    public static float progress;
+public class imageSpin : MonoBehaviour
+{
+
     public GameObject obj;
     Image loadingImage;
+    float initial, dt;
+    bool increase;
 
     void Start()
     {
-        progress = 0;
         loadingImage = obj.GetComponent<Image>();
+        initial = Time.time;
     }
 
     void Update()
@@ -23,26 +26,29 @@ public class imageSpin : MonoBehaviour {
         }
         else
         {
-            if (loadingImage.fillAmount == 1)
-            {
-                obj.GetComponent<Mask>().showMaskGraphic = false;
-            }
-            else
-            {
-                spin();
-            }
+            obj.GetComponent<Mask>().showMaskGraphic = false;
         }
     }
 
     public void spin()
     {
-        if (loadingImage.fillAmount < 1)
+        dt = Time.time - initial;
+        loadingImage.color = new Color(Mathf.Abs(Mathf.Sin(dt) + 0.3f), Mathf.Abs(Mathf.Cos(dt) + .6f), Mathf.Abs(Mathf.Sin(dt)), 1);
+
+        if (loadingImage.fillAmount == 1.0f || loadingImage.fillAmount == 0.0f)
         {
+            increase = !increase;
+        }
+
+        if (increase)
+        {
+            loadingImage.fillClockwise = true;
             loadingImage.fillAmount += 0.01f;
         }
         else
         {
-            loadingImage.fillAmount = 0.01f;
+            loadingImage.fillClockwise = false;
+            loadingImage.fillAmount -= 0.01f;
         }
     }
 }

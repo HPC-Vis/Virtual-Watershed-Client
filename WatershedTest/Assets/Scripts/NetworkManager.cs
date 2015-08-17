@@ -112,6 +112,20 @@ public class NetworkManager
         {
             obs.OnDataComplete(url);
         }
+
+        for (int i = 0; i < clients.Length; i++)
+        {
+            if (clients[i].IsBusy)
+            {
+                Logger.WriteLine("CHECKING IF BUSY IS TRUE");
+
+                GlobalConfig.loading = true;
+                return;
+            }
+        }
+        Logger.WriteLine("CHECKING IF BUSY IS FALSE");
+
+        GlobalConfig.loading = false;
     }
 
     public void CallDataComplete(string Notification, List<DataRecord> Records)
@@ -121,6 +135,8 @@ public class NetworkManager
         {
             obs.OnDataComplete(Notification,Records);
         }
+
+        
     }
 
     public void CallDataError(String url)

@@ -99,7 +99,7 @@ public class NetworkClient : WebClient
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
 
-        GlobalConfig.loading = false;
+        //GlobalConfig.loading = false;
 
         // Start the next one
         StartNextDownload();
@@ -139,7 +139,7 @@ public class NetworkClient : WebClient
         // Need some way of notifying that this download is finished --- errors,success
         netmanager.CallDownloadComplete(Req.Url);
 
-        GlobalConfig.loading = false;
+        //GlobalConfig.loading = false;
 
         // Start the next one
         StartNextDownload();
@@ -154,7 +154,7 @@ public class NetworkClient : WebClient
          //   e.BytesReceived + " " + 
          //   e.TotalBytesToReceive + " " +
          //   e.ProgressPercentage);
-        GlobalConfig.loading = true;
+        //GlobalConfig.loading = true;
     }
     
     private void StartNextDownload()
