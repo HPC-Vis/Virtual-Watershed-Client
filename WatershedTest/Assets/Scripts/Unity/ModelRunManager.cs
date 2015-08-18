@@ -443,13 +443,13 @@ public static class ModelRunManager
 			client.getCapabilities (parseNetCDFRecords, record, sp);	
 		}
 
-		else if (record.services.ContainsKey ("wms")) 
+        else if (record.services.ContainsKey("wms") && record.multiLayered != null) 
 		{
 			sp.service = "wms";
 			Logger.WriteLine ("WMS");
 			client.getCapabilities (parseNetCDFRecords, record, sp);
 		}
-		else if(record.services.ContainsKey("wfs") )
+        else if (record.services.ContainsKey("wfs") && record.multiLayered != null)
 		{
 			sp.service = "wfs";
 			Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
