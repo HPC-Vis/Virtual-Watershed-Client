@@ -45,10 +45,9 @@ public class ColorPicker : MonoBehaviour {
         slider.value = float.Parse(ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text);
 	}
 
-    public void SetMinMax(float min, float max)
+    public void SetMin(float min)
     {
         Min = min;
-        Max = max;
         float increment = (Max - Min) / (ColorBoxes.Count - 1);
         float assignment = Min;
         foreach (var box in ColorBoxes)
@@ -57,6 +56,18 @@ public class ColorPicker : MonoBehaviour {
             assignment += increment;
         }
         slider.minValue = Min;
+    }
+
+    public void SetMax(float max)
+    {
+        Max = max;
+        float increment = (Max - Min) / (ColorBoxes.Count - 1);
+        float assignment = Min;
+        foreach (var box in ColorBoxes)
+        {
+            box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
+            assignment += increment;
+        }
         slider.maxValue = Max;
     }
 	

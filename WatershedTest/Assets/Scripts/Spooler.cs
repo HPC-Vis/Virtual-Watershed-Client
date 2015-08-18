@@ -97,7 +97,6 @@ public class Spooler : MonoBehaviour
 	int count = 10;
 
     bool swapProjector = true;
-	bool first = true, second = true;
 	float point;
 	public Text downloadTextBox;
 	public Text selectedVariableTextBox;
@@ -182,49 +181,30 @@ public class Spooler : MonoBehaviour
 
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
                 {
-                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(modelrun.MinMax[oldSelectedVariable].x, record.Max)); 
-                    TimeProjector.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
-                    testImage.material.SetFloat("_FloatMax", modelrun.MinMax[oldSelectedVariable].y);
+                    float max = record.Max;
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(modelrun.MinMax[oldSelectedVariable].x, max)); 
+                    TimeProjector.material.SetFloat("_FloatMax", max);
+                    testImage.material.SetFloat("_FloatMax", max);
+                    colorPicker.SetMax(max);
+                    trendGraph.SetMax((int)max);
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
                 {
-                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(record.Min, modelrun.MinMax[oldSelectedVariable].y));
-                    TimeProjector.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
-                    testImage.material.SetFloat("_FloatMin", modelrun.MinMax[oldSelectedVariable].x);
+                    float min = record.Min;
+                    modelrun.MinMax[oldSelectedVariable] = new SerialVector2(new Vector2(min, modelrun.MinMax[oldSelectedVariable].y));
+                    TimeProjector.material.SetFloat("_FloatMin", min);
+                    testImage.material.SetFloat("_FloatMin", min);
+                    colorPicker.SetMin(min);
+                    trendGraph.SetMin((int)min);
                 }
             }
             if (downloadTextBox)
+            {
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
+            }
+
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
 
-            // This will be called once the download reaches a selected percentage
-            float percentage = 0.80f;
-            if(percentage < (float)((float)Reel.Count / (float)TOTAL) && second)
-            {
-                // Set so this will not happen again
-                second = false;
-
-                // Update the mion max
-                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);
-
-                // Setup the trendgraph correctly
-                trendGraph.SetMinMax((int)modelrun.MinMax[oldSelectedVariable].x, (int)modelrun.MinMax[oldSelectedVariable].y);
-                trendGraph.SetTime(Reel[0].starttime.ToString(), Reel[Reel.Count - 1].starttime.ToString());
-            }
-
-            // This is called once and right after the download complete
-            if(first && Reel.Count == TOTAL)
-            {
-                // Set the first to false so this will not run again
-                first = false;
-
-                // For setting the data on the color boxes
-                colorPicker.SetMinMax(modelrun.MinMax[oldSelectedVariable].x, modelrun.MinMax[oldSelectedVariable].y);
-           
-                // Setup the trendgraph correctly
-                trendGraph.SetMinMax((int)modelrun.MinMax[oldSelectedVariable].x, (int)modelrun.MinMax[oldSelectedVariable].y);
-                trendGraph.SetTime(Reel[0].starttime.ToString(), Reel[Reel.Count - 1].starttime.ToString());
-            }
         }
         
 		if (Input.GetMouseButtonDown (0) && cursor.GetComponent<mouselistener>().state == cursor.GetComponent<mouselistener>().states[1]) 
@@ -244,6 +224,15 @@ public class Spooler : MonoBehaviour
                 Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
 			}
 		}
+
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
+            Debug.LogError("Ran the trend graph test at location 50, 50");
+            trendGraph.row = 50;
+            trendGraph.col = 50;
+            trendGraph.Compute();
+        }
     }
 
     public void textureBuilder(DataRecord rec)
@@ -274,6 +263,11 @@ public class Spooler : MonoBehaviour
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
 		frame.Data = rec.Data;
+        if(rec.Data == null)
+        {
+            Debug.LogError("The data at UUID = " + rec.id + " was null.");
+            return;
+        }
         trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
 		//Debug.LogError(rec.start + " | " + rec.end);
 		Logger.enable = true;
@@ -479,7 +473,6 @@ public class Spooler : MonoBehaviour
 			selectedModelRun = temp[0].ModelRunUUID;
             modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
-            first = true;
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 
             sp.width = 100;

@@ -36,10 +36,7 @@ namespace VTL.TrendGraph
         public float yMax = 1;
         public float yMin = 0;
         public float timebase = 300; // in seconds
-        public string minTime = ""; // Its on the developer to make sure 
-        // this makes sense with the timebase
-        public string maxTime = ""; // Its on the developer to make sure 
-        // this makes sense with the timebase
+
         public string unitsLabel = "F"; // the units label
         public string variable_name = "";
         public string valueFormatString = "D3";
@@ -78,11 +75,11 @@ namespace VTL.TrendGraph
 
             transform.Find("MinHour")
                      .GetComponent<Text>()
-                     .text = minTime;
+                     .text = Begin.ToString();
 
             transform.Find("MaxHour")
                      .GetComponent<Text>()
-                     .text = maxTime;
+                     .text = End.ToString();
 
             transform.Find("Units")
                      .GetComponent<Text>()
@@ -90,39 +87,24 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
-        /// Sets the min and max time values on the trend graph. This is for the Y axis.
-        /// </summary>
-        /// <param name="min">The min time of the data.</param>
-        /// <param name="max">The max time of the data.</param>
-        public void SetTime(string min, string max)
-        {
-            transform.Find("MinHour")
-                     .GetComponent<Text>()
-                     .text = min;
-            minTime = min;
-
-            transform.Find("MaxHour")
-                     .GetComponent<Text>()
-                     .text = max;
-            maxTime = max;
-        }
-
-        /// <summary>
-        /// This sets the min and max values of the data. This is for the X axis.
+        /// This sets the min value of the data. This is for the X axis.
         /// </summary>
         /// <param name="min">Minimum.</param>
         /// <param name="max">Max.</param>
-        public void SetMinMax(int min, int max)
+        public void SetMin(int min)
         {
-            transform.Find("Ymax")
-                     .GetComponent<Text>()
-                     .text = max.ToString();
-            yMax = max;
-
-            transform.Find("Ymin")
-                     .GetComponent<Text>()
-                     .text = min.ToString();
             yMin = min;
+            OnValidate();
+        }
+
+        /// <summary>
+        /// This sets max value of the data. This is for the X axis.
+        /// </summary>
+        /// <param name="max">Max.</param>
+        public void SetMax(int max)
+        {
+            yMax = max;
+            OnValidate();
         }
 
         /// <summary>
@@ -220,6 +202,12 @@ namespace VTL.TrendGraph
         public void Clear()
         {
             timeseries.Clear();
+            Begin = DateTime.MaxValue;
+            End = DateTime.MinValue;
+            yMax = 100;
+            yMin = 0;
+            unitsLabel = "";
+            OnValidate();
         }
 
         /// <summary>
@@ -431,7 +419,7 @@ namespace VTL.TrendGraph
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
             {
                 file.WriteLine(variable_name + ": " + unitsLabel);
-                file.WriteLine("Time Frame: " + minTime + " to " + maxTime);
+                file.WriteLine("Time Frame: " + Begin.ToString() + " to " + End.ToString());
                 file.WriteLine("UTM: (" + easting + ", " + northing + ")");
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
                 foreach (var i in timeseries)
