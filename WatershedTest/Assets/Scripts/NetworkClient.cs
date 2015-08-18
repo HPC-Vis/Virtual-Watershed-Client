@@ -91,6 +91,7 @@ public class NetworkClient : WebClient
             Logger.WriteLine(e.Message + " " + e.StackTrace);
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             netmanager.CallDataError(CurrentDownload.Url);
+            CurrentDownload = null;
             StartNextDownload();
             return;
         }
@@ -102,6 +103,7 @@ public class NetworkClient : WebClient
         //GlobalConfig.loading = false;
 
         // Start the next one
+        CurrentDownload = null;
         StartNextDownload();
     }
 
@@ -127,6 +129,7 @@ public class NetworkClient : WebClient
             Logger.WriteLine(e.Message + " " + e.StackTrace);
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             netmanager.CallDataError(CurrentDownload.Url);
+            CurrentDownload = null;
             StartNextDownload();
             return;
         }
@@ -138,6 +141,7 @@ public class NetworkClient : WebClient
         //GlobalConfig.loading = false;
 
         // Start the next one
+        CurrentDownload = null;
         StartNextDownload();
     }
 
@@ -161,7 +165,7 @@ public class NetworkClient : WebClient
         // If there are any downloads remaining do them!
         lock (_Padlock)
         {
-            if (DownloadRequests.Count() > 0 && !IsBusy)
+            if (DownloadRequests.Count() > 0 && !IsBusy && CurrentDownload == null)
             {
                 // Start the next one
                 CurrentDownload = DownloadRequests.Dequeue();
