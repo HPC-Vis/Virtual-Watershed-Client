@@ -23,6 +23,8 @@ public class NetworkClient : WebClient
     Dictionary<string, DownloadDataCompletedEventHandler> DataCompletedEventHandlers = new Dictionary<string, DownloadDataCompletedEventHandler>();
     private readonly object _Padlock = new object();
     int count = 0;
+    DownloadRequest CurrentDownload;
+
     public int size { get {  return DownloadRequests.Count(); } }
 
     public NetworkClient(NetworkManager manager) : base()
@@ -77,37 +79,31 @@ public class NetworkClient : WebClient
         // Call the base function
         base.OnDownloadDataCompleted(args);
 
-        // Dequeue current download request and use its callback
-        DownloadRequest Req;
-        lock (_Padlock)
-        {
-            Req = DownloadRequests.Dequeue();
-        }
+        // get current download callback
         try
         {
-            Req.Callback(args.Result);
+            CurrentDownload.Callback(args.Result);
         }
         catch(Exception e)
         {
+            CurrentDownload.Priority = 1;
+            DownloadRequests.Enqueue(CurrentDownload);
             Logger.WriteLine(e.Message + " " + e.StackTrace);
-            Logger.WriteLine("Insert Custom Error Message / Error code for handling HTTP 404");
-            netmanager.CallDataError(Req.Url);
+            Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
+            netmanager.CallDataError(CurrentDownload.Url);
             StartNextDownload();
             return;
         }
-        Logger.WriteLine("Completed byte download, passed to callback function.");
-        //DataTracker.updateJob(Req.Url, DataTracker.Status.FINISHED);
 
         // Need some way of notifying that this download is finished --- errors,success
-        netmanager.CallDownloadComplete(Req.Url);
+        Logger.WriteLine("Completed byte download, passed to callback function.");
+        netmanager.CallDownloadComplete(CurrentDownload.Url);
 
         //GlobalConfig.loading = false;
 
         // Start the next one
         StartNextDownload();
     }
-
-    
 
     /// <summary>
     /// OnDownloadStringCompleted is the default WebClient function that is called after a string has been downloaded.
@@ -118,30 +114,26 @@ public class NetworkClient : WebClient
         count++;
         // Call the base function
         base.OnDownloadStringCompleted(args);
-        
-        // Dequeue current download request and use its callback
-        DownloadRequest Req;
-        lock (_Padlock)
-        {
-            Req = DownloadRequests.Dequeue();
-        }
+
+        // get current download callback
         try
         {
-            Req.Callback(args.Result);
-            //Logger.WriteLine("SUCCESSFUL WITH: " + Req.Url);
+            CurrentDownload.Callback(args.Result);
         }
         catch(Exception e)
         {
+            CurrentDownload.Priority = 1;
+            DownloadRequests.Enqueue(CurrentDownload);
             Logger.WriteLine(e.Message + " " + e.StackTrace);
-            Logger.WriteLine("<color=red>Insert Custom Error Message / Error code for handling HTTP 404 </color>");
-            netmanager.CallDataError(Req.Url);
+            Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
+            netmanager.CallDataError(CurrentDownload.Url);
             StartNextDownload();
             return;
         }
-        // Logger.WriteLine("Completed string download, passed to callback function. " + Req.Url);
 
         // Need some way of notifying that this download is finished --- errors,success
-        netmanager.CallDownloadComplete(Req.Url);
+        // Logger.WriteLine("Completed string download, passed to callback function. " + Req.Url);
+        netmanager.CallDownloadComplete(CurrentDownload.Url);
 
         //GlobalConfig.loading = false;
 
@@ -158,7 +150,7 @@ public class NetworkClient : WebClient
          //   e.BytesReceived + " " + 
          //   e.TotalBytesToReceive + " " +
          //   e.ProgressPercentage);
-        //GlobalConfig.loading = true;
+        GlobalConfig.loading = true;
     }
     
     /// <summary>
@@ -172,17 +164,17 @@ public class NetworkClient : WebClient
             if (DownloadRequests.Count() > 0 && !IsBusy)
             {
                 // Start the next one
-                DownloadRequest req = DownloadRequests.Peek();
-                // Logger.WriteLine("Started: " + req.Url);
-                netmanager.CallDownloadStart(req.Url);
+                CurrentDownload = DownloadRequests.Dequeue();
+                netmanager.CallDownloadStart(CurrentDownload.Url);
+
                 // Check if its a byte
-                if (req.isByte)
+                if (CurrentDownload.isByte)
                 {
-                    DownloadDataAsync(new System.Uri(req.Url));
+                    DownloadDataAsync(new System.Uri(CurrentDownload.Url));
                 }
                 else
                 {
-                    DownloadStringAsync(new System.Uri(req.Url));
+                    DownloadStringAsync(new System.Uri(CurrentDownload.Url));
                 }
             }
         }
