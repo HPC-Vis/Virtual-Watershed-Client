@@ -105,6 +105,8 @@ public class NetworkClient : WebClient
         StartNextDownload();
     }
 
+    
+
     /// <summary>
     /// OnDownloadStringCompleted is the default WebClient function that is called after a string has been downloaded.
     /// </summary>
@@ -114,7 +116,7 @@ public class NetworkClient : WebClient
         count++;
         // Call the base function
         base.OnDownloadStringCompleted(args);
-
+        
         // Dequeue current download request and use its callback
         DownloadRequest Req;
         lock (_Padlock)
