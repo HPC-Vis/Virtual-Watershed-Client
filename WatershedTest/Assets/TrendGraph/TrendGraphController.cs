@@ -21,7 +21,7 @@ namespace VTL.TrendGraph
         public DateTime time;
         public float value;
         public float[,] Data;
-        public TimeseriesRecord(DateTime time, float value,float[,] data)
+        public TimeseriesRecord(DateTime time, float value, float[,] data)
         {
             this.time = time;
             this.value = value;
@@ -37,14 +37,14 @@ namespace VTL.TrendGraph
         public float yMin = 0;
         public float timebase = 300; // in seconds
         public string minTime = ""; // Its on the developer to make sure 
-                                                // this makes sense with the timebase
+        // this makes sense with the timebase
         public string maxTime = ""; // Its on the developer to make sure 
         // this makes sense with the timebase
         public string unitsLabel = "F"; // the units label
         public string variable_name = "";
         public string valueFormatString = "D3";
         private DateTime lastDraw;
-		public bool Keep = true;
+        public bool Keep = true;
         List<TimeseriesRecord> timeseries;
         Text valueText;
         Vector3 origin;
@@ -60,7 +60,12 @@ namespace VTL.TrendGraph
         public Material GraphMaterial;
         public Image GraphImage;
         private Texture2D TrendTexture = null;
+        public DateTime Begin = DateTime.MaxValue;
+        public DateTime End = DateTime.MinValue;
 
+        /// <summary>
+        /// Called to update the fields on the trend graph.
+        /// </summary>
         public void OnValidate()
         {
             transform.Find("Ymax")
@@ -84,6 +89,11 @@ namespace VTL.TrendGraph
                      .text = unitsLabel;
         }
 
+        /// <summary>
+        /// Sets the min and max time values on the trend graph. This is for the Y axis.
+        /// </summary>
+        /// <param name="min">The min time of the data.</param>
+        /// <param name="max">The max time of the data.</param>
         public void SetTime(string min, string max)
         {
             transform.Find("MinHour")
@@ -97,6 +107,11 @@ namespace VTL.TrendGraph
             maxTime = max;
         }
 
+        /// <summary>
+        /// This sets the min and max values of the data. This is for the X axis.
+        /// </summary>
+        /// <param name="min">Minimum.</param>
+        /// <param name="max">Max.</param>
         public void SetMinMax(int min, int max)
         {
             transform.Find("Ymax")
@@ -110,7 +125,9 @@ namespace VTL.TrendGraph
             yMin = min;
         }
 
-        // Use this for initialization
+        /// <summary>
+        /// Use this for initialization of the trend graph and the locations on the scene.
+        /// </summary>
         void Start()
         {
             timeseries = new List<TimeseriesRecord>();
@@ -120,7 +137,7 @@ namespace VTL.TrendGraph
 
             // Walk up the Hierarchy to find the parent canvas.
             var parent = transform.parent;
-            while(parent != null)
+            while (parent != null)
             {
                 parentCanvas = parent.GetComponent<Canvas>();
                 if (parentCanvas != null)
@@ -135,45 +152,41 @@ namespace VTL.TrendGraph
             GraphImage.material = GraphMaterial;
         }
 
-        // The Drawing.DrawLine method using the GL and GUI class and 
-        // has to be drawn in draw line
+        /// <summary>
+        /// This wll ensure that the sizing of the trend graph is correct, and if not there will be a recomputation
+        /// </summary>
         void OnGUI()
         {
-            if(timeseries.Count < 1)
+            if (timeseries.Count < 1)
             {
                 return;
             }
-            // sort the records incase they are out of order
-            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
-			//Debug.LogError (timeseries.Count);
+           
             // cull old records
+            if (!Keep)
+            {
+                var elapsed = (float)(lastDraw - timeseries[0].time).TotalSeconds;
+                while (elapsed > timebase && elapsed > 0)
+                {
+                    timeseries.RemoveAt(0);
+                    if (timeseries.Count == 0)
+                        return;
+                    elapsed = (float)(lastDraw - timeseries[0].time).TotalSeconds;
+                }
 
-			if (!Keep) {
-				var elapsed = (float)(lastDraw - timeseries [0].time).TotalSeconds;
-				while (elapsed > timebase && elapsed > 0) { 
-					timeseries.RemoveAt (0);
-					if (timeseries.Count == 0)
-						return;
-					elapsed = (float)(lastDraw - timeseries [0].time).TotalSeconds;
-				}
-
-				// cull future records
-				// e.g. SimTimeControl, user scrubbing backwards
-				int m = timeseries.Count - 1;
-				if (m == -1)
-					return;
-				while (timeseries[m].time > (DateTime)lastDraw) {
-					timeseries.RemoveAt (m);
-					m = timeseries.Count - 1;
-					if (m == -1)
-						return;
-				}
-			}
-
-            // return if there are less than 2 records after culling
-            int n = timeseries.Count;
-            if (n < 2)
-                return;
+                // cull future records
+                // e.g. SimTimeControl, user scrubbing backwards
+                int m = timeseries.Count - 1;
+                if (m == -1)
+                    return;
+                while (timeseries[m].time > (DateTime)lastDraw)
+                {
+                    timeseries.RemoveAt(m);
+                    m = timeseries.Count - 1;
+                    if (m == -1)
+                        return;
+                }
+            }
 
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
@@ -188,168 +201,186 @@ namespace VTL.TrendGraph
                     origin.y = Screen.height - origin.y;
                     break;
             }
-            w = rectTransform.rect.width * transform.localScale.x;
-            h = rectTransform.rect.height * transform.localScale.y;
 
-            /* OLD
-            // Iterate through the timeseries and draw the trend segment
-            // by segment.
-            var prev = Record2PixelCoords(timeseries[0]);
-            for (int i = 1; i < n; i+=4)
+            float new_w = rectTransform.rect.width * transform.localScale.x;
+            float new_h = rectTransform.rect.height * transform.localScale.y;
+
+            if (w != new_w || h != new_h)
             {
-                var next = Record2PixelCoords2(timeseries[i]);
-                Drawing.DrawLine(prev, next, lineColor, lineWidth, false);
-                prev = next;
+                w = new_w;
+                h = new_h;
+                Compute();
             }
-            */
+
         }
 
+        /// <summary>
+        /// Will clear the currently loaded timeseries.
+        /// </summary>
         public void Clear()
         {
             timeseries.Clear();
         }
 
+        /// <summary>
+        /// Compute will build a new texture with the data at the row and col locations.
+        /// This function is build to sprite image that is the graph to be displayed. 
+        /// </summary>
         public void Compute()
         {
             // Set the width and height to integers
             int width = (int)w;
             int height = (int)h;
 
+            // Sort the time series
+            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
+
             // Build the new texture
-            if(TrendTexture != null)
+            if (TrendTexture != null)
             {
                 Texture2D.Destroy(TrendTexture);
             }
-            TrendTexture = new Texture2D(width, height);            
-            
+            TrendTexture = new Texture2D(width, height);
+
             // Loop through all the time series
-            Vector2 prev = Record2PixelCoords2(timeseries[0]);
+            Vector2 prev = Record2PixelCoords(timeseries[0]);
             prev.y = prev.y - (int)origin.y - 1;
-            int counter = 0;
+            
             for (int i = 0; i < timeseries.Count; i++)
             {
-                Vector2 next = Record2PixelCoords2(timeseries[i]);
-                next.y = next.y - (int)origin.y -1 ;
-				next.x = next.x - (int)origin.x ;
-				Line (TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
+                Vector2 next = Record2PixelCoords(timeseries[i]);
+                next.y = next.y - (int)origin.y - 1;
+                next.x = next.x - (int)origin.x;
+                Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
                 prev = next;
             }
-            
+
             // Apply to the world
             TrendTexture.wrapMode = TextureWrapMode.Clamp;
             TrendTexture.Apply();
             GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), new Vector2(0, 0));
         }
 
-		void Line (Texture2D tex, int x0, int y0, int x1, int y1, Color col) 
-		{
-			int dy = y1-y0;
-			int dx = x1-x0;
-			int stepy, stepx;
-			float fraction;
-
-			if (dy < 0) 
-			{
-				dy = -dy; 
-				stepy = -1;
-			}
-			else 
-			{
-				stepy = 1;
-			}
-
-			if (dx < 0) 
-			{
-				dx = -dx; 
-				stepx = -1;
-			}
-			else 
-			{
-				stepx = 1;
-			}
-
-			dy <<= 1;
-			dx <<= 1;
-			
-			tex.SetPixel(x0, y0, col);
-			if (dx > dy) 
-			{
-				fraction = dy - (dx >> 1);
-				while (x0 != x1) 
-				{
-					if (fraction >= 0) 
-					{
-						y0 += stepy;
-						fraction -= dx;
-					}
-					x0 += stepx;
-					fraction += dy;
-					tex.SetPixel(x0, y0, col);
-				}
-			}
-			else 
-			{
-				fraction = dx - (dy >> 1);
-				while (y0 != y1) 
-				{
-					if (fraction >= 0) 
-					{
-						x0 += stepx;
-						fraction -= dy;
-					}
-					y0 += stepy;
-					fraction += dx;
-					tex.SetPixel(x0, y0, col);
-				}
-			}
-		}
-		
-        // converts a TimeseriesRecord to screen pixel coordinates for plotting
-        Vector2 Record2PixelCoords(TimeseriesRecord record)
+        /// <summary>
+        /// Adds points on the texture that represent a straight line from the initial point
+        /// to the ending point.
+        /// </summary>
+        /// <param name="tex">The texture that will take the piexl locations.</param>
+        /// <param name="x0">The starting X location.</param>
+        /// <param name="y0">The starting Y location.</param>
+        /// <param name="x1">The ending X location.</param>
+        /// <param name="y1">The ending Y location.</param>
+        /// <param name="col">The color to make the pixel on the texture.</param>
+        void Line(Texture2D tex, int x0, int y0, int x1, int y1, Color col)
         {
-            float s = (float)(lastDraw - record.time).TotalSeconds;
-            float normTime = Mathf.Clamp01(1 - s / timebase);
-            float normHeight = Mathf.Clamp01((record.Data[row,col] - yMin) / (yMax - yMin));
-            //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
-            return new Vector2(origin.x + w * normTime,
-                               origin.y + h * (1 - normHeight));
+            int dy = y1 - y0;
+            int dx = x1 - x0;
+            int stepy, stepx;
+            float fraction;
+
+            if (dy < 0)
+            {
+                dy = -dy;
+                stepy = -1;
+            }
+            else
+            {
+                stepy = 1;
+            }
+
+            if (dx < 0)
+            {
+                dx = -dx;
+                stepx = -1;
+            }
+            else
+            {
+                stepx = 1;
+            }
+
+            dy <<= 1;
+            dx <<= 1;
+
+            tex.SetPixel(x0, y0, col);
+            if (dx > dy)
+            {
+                fraction = dy - (dx >> 1);
+                while (x0 != x1)
+                {
+                    if (fraction >= 0)
+                    {
+                        y0 += stepy;
+                        fraction -= dx;
+                    }
+                    x0 += stepx;
+                    fraction += dy;
+                    tex.SetPixel(x0, y0, col);
+                }
+            }
+            else
+            {
+                fraction = dx - (dy >> 1);
+                while (y0 != y1)
+                {
+                    if (fraction >= 0)
+                    {
+                        x0 += stepx;
+                        fraction -= dy;
+                    }
+                    y0 += stepy;
+                    fraction += dx;
+                    tex.SetPixel(x0, y0, col);
+                }
+            }
         }
 
-
-		Vector2 Record2PixelCoords2(TimeseriesRecord record)
-		{
-			//float s = (float)(lastDraw - record.time).TotalSeconds;
-			//float s = (float)(lastDraw - record.time).TotalSeconds;
-			//float normTime = Mathf.Clamp01(1 - s / timebase);
-			float normTime = (float)(record.time - Start2).TotalSeconds / (float)(End - Start2).TotalSeconds;
+        /// <summary>
+        /// Takes the given record value, gets the selected location in the array, and builds a vector
+        /// of the location the pixel should be based off the value. 
+        /// </summary>
+        /// <returns>The location of the pixel on the screen.</returns>
+        /// <param name="record">The current record that is to be made a pixel.</param>
+        Vector2 Record2PixelCoords(TimeseriesRecord record)
+        {
+            //float s = (float)(lastDraw - record.time).TotalSeconds;
+            //float s = (float)(lastDraw - record.time).TotalSeconds;
+            //float normTime = Mathf.Clamp01(1 - s / timebase);
+            float normTime = (float)(record.time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             float normHeight = 0;
             if (record.Data != null)
             {
                 normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
             }
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
-			return new Vector2(origin.x + w * normTime,
-			                   origin.y + h * (1 - normHeight));
-		}
+            return new Vector2(origin.x + w * normTime,
+                               origin.y + h * (1 - normHeight));
+        }
 
-		public DateTime Start2 = DateTime.MaxValue,End=DateTime.MinValue;
-
-        // add a time series to the trend graph
+        /// <summary>
+        /// Takes the record passed in and will set it to the timeseries record.
+        /// This will also take the time range and update if necessary.
+        /// </summary>
+        /// <param name="record">The TimeseriesRecord to add to the list of other records.</param>
         public void Add(TimeseriesRecord record)
         {
             timeseries.Add(record);
-			if (Start2 > record.time) 
-			{
-				Start2 = record.time;
-			}
-		    if (End < record.time) {
-				End = record.time;
-			}
+            if (Begin > record.time)
+            {
+                Begin = record.time;
+            }
+            if (End < record.time)
+            {
+                End = record.time;
+            }
             lastDraw = record.time;
             valueText.text = record.value.ToString(valueFormatString);
             OnValidate();
         }
 
+        /// <summary>
+        /// This will set the title of the graph with the string value.
+        /// </summary>
+        /// <param name="unit">The string value to set the unit type to.</param>
         public void SetUnit(string unit)
         {
             variable_name = unit;
@@ -357,18 +388,32 @@ namespace VTL.TrendGraph
             unitsLabel = newVariable.GetDescription(unit);
             OnValidate();
         }
-        
-        public void Add(DateTime time, float value,float[,] data)
+
+        /// <summary>
+        /// Takes the parameters and will build a timeseries record to add to the timeseries.
+        /// </summary>
+        /// <param name="time">The datetime of the data.</param>
+        /// <param name="value">This is a float that is currently not used in the record.</param>
+        /// <param name="data">A 2D array of the raw data.</param>
+        public void Add(DateTime time, float value, float[,] data)
         {
-            Add(new TimeseriesRecord(time, value,data));
+            Add(new TimeseriesRecord(time, value, data));
         }
 
+        /// <summary>
+        /// This will set the easting and northing of the selected location.
+        /// </summary>
+        /// <param name="point">This is the point with a set value of x and z that represent easting and northing respectibly.</param>
         public void SetCoordPoint(Vector3 point)
         {
             easting = point.x;
             northing = point.z;
         }
 
+        /// <summary>
+        /// This will take all the data at the selected point on the data set, throughout all datasets of time,
+        /// and send to a file on the Desktop named graph.txt.
+        /// </summary>
         public void dataToFile()
         {
             // Temp patch to the OS dependen Compute Shader
@@ -377,9 +422,9 @@ namespace VTL.TrendGraph
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
             string pathDownload = pathUser + "/graph.txt";
 #elif UNITY_EDITOR_WIN
-			string pathDownload = pathUser + "\\graph.txt";
+            string pathDownload = pathUser + "\\graph.txt";
 #endif
-			Debug.LogError ("The File Path: " + pathDownload);
+            Debug.LogError("The File Path: " + pathDownload);
 
             float[] csv_file = new float[timeseries.Count];
 

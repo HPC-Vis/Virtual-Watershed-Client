@@ -16,10 +16,13 @@ public static class ModelRunManager
 {
     // Fields
     static private VWClient Client;
+    static private Searcher searcher;
 
     // Global loading counter
     static public int Total = 0;
     static public int Counter = 0;
+
+    static bool timeToCache = true;
 
     /// <summary>
     ///  Make sure to set the client or OUCH!
@@ -122,9 +125,10 @@ public static class ModelRunManager
         }
     } */
 
-    static public void SearchForModelRuns(SystemParameters param = null)
+    static public void SearchForModelRuns(SystemParameters param = null, Searcher s = null)
     {
         // Create param if one does not exist
+        searcher = s;
         if (param == null) { param = new SystemParameters(); }
 		Logger.WriteLine ("Searching for Model Runs");
         if (FileBasedCache.Exists("startup"))
@@ -133,6 +137,7 @@ public static class ModelRunManager
             modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
         }
         client.RequestModelRuns(OnGetModelRuns, param);
+        searcher.Refresh();
 
     }
 
@@ -296,6 +301,8 @@ public static class ModelRunManager
 
         foreach (var i in Records)
         {
+            //Debug.LogError("The uuid is: " + i.modelRunUUID);
+            //Debug.LogError(" The location: " + i.location);
             if (modelRuns.ContainsKey(i.modelRunUUID))
             {
                 // Get Model Set Type
@@ -308,8 +315,7 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-		
-        
+        //searcher.Refresh();
     }
 
 
@@ -317,27 +323,15 @@ public static class ModelRunManager
     {
         Dictionary<string, ModelRun> startRuns = new Dictionary<string, ModelRun>();
 
-        // Debug.Log(Records == null);
-        //if (FileBasedCache.Exists("startup"))
-        //{
-        //    Debug.LogError("Getting paid");
-        //     startRuns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
-        //}
         Logger.Log("Getting Model Runs");
         foreach (var i in Records)
         {
             if (!modelRuns.ContainsKey(i.modelRunUUID))
             {
-
-                    modelRuns.Add(i.modelRunUUID, new ModelRun(i.modelname, i.modelRunUUID));
-//;
-                //}
+                modelRuns.Add(i.modelRunUUID, new ModelRun(i.modelname, i.modelRunUUID, i.description));
             }
-
         }
-        
-		Logger.WriteLine("Adding modelruns to file cache system.");
-		FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
+       
 		foreach(var i in modelRuns.Values)
 		{
 			// SetModelSetType
@@ -347,14 +341,33 @@ public static class ModelRunManager
 			sp.offset = 0;
 			client.RequestRecords(SetModelSetType, sp);
 		}
-        // Logger.WriteLine("MODEL RUNS: " + modelRuns.Count);
+        Logger.WriteLine("Adding modelruns to file cache system.");
+        FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
 
-	public static bool InsertDataRecord(DataRecord record)
+	public static bool InsertDataRecord(DataRecord record, List<DataRecord> allRecords)
 	{
-		Logger.WriteLine("The model run is now in the cache.");
-		FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
-		return modelRuns[record.modelRunUUID].Insert(record);
+        if(modelRuns[record.modelRunUUID].CurrentCapacity == (modelRuns[record.modelRunUUID].Total))
+        {
+            foreach (DataRecord rec in allRecords)
+            {
+                FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                Logger.WriteLine("The model run is now in the cache.");
+            }
+        }
+        else if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
+        {
+            foreach (DataRecord rec in allRecords)
+            {
+                FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                Logger.WriteLine("The model run is now in the cache.");
+            }
+            timeToCache = false;
+        }
+
+
+	    //FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
+        return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
 	public static void parseNetCDFRecords(List<DataRecord> record)
@@ -375,7 +388,7 @@ public static class ModelRunManager
 					if(record[0].WCSCoverages.Count() > 1)
 					dr.Temporal = true;
 					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
-					InsertDataRecord(dr);
+					InsertDataRecord(dr, record);
 					
 					// Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
 					client.describeCoverage(CreateNewBands,dr,new SystemParameters());
@@ -393,7 +406,7 @@ public static class ModelRunManager
 					if(record[0].wmslayers.Count() > 1)
 					dr.Temporal = true;
 					// WMS Bounding Box
-					InsertDataRecord(dr);
+                    InsertDataRecord(dr, record);
 					Logger.WriteLine (dr.variableName);
 
 				}
@@ -403,7 +416,7 @@ public static class ModelRunManager
 				// WFS CASE HERE FOR NOW
 				record[0].band_id = 1;
 				// Get WFS Name here
-				InsertDataRecord(record[0]);
+                InsertDataRecord(record[0], record);
 			}
 
             
@@ -420,11 +433,11 @@ public static class ModelRunManager
 			DataRecord dr = record[0].Clone();
 			dr.band_id = i;
 			dr.id += dr.band_id.ToString() + dr.variableName;
-			Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr).ToString());
+            Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr, record).ToString());
 		}
 	}
 	// Filter function goes here.
-	static void filter(DataRecord record)
+	static void filter(DataRecord record, List<DataRecord> allRecords)
 	{
         Logger.WriteLine("FILTERING");
         // Add it to its perspective model run
@@ -452,6 +465,16 @@ public static class ModelRunManager
 			Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
 			client.getCapabilities(parseNetCDFRecords,record,sp);
 		}
+<<<<<<< HEAD
+=======
+		else 
+		{
+			Logger.WriteLine ("FILTERING");
+			// Add it to its perspective model run
+			record.band_id = 1;
+            InsertDataRecord(record, allRecords);
+		}
+>>>>>>> master
 	}
 
     /// <summary>
@@ -479,7 +502,7 @@ public static class ModelRunManager
                 //Logger.WriteLine("ADDED: " + rec.name);
                 lock (_Padlock)
                 {
-					filter (rec);
+					filter (rec, Records);
                     //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
@@ -504,7 +527,7 @@ public static class ModelRunManager
                 // Normal Case -- Insert it into storedModelRuns
                 Logger.WriteLine("ADDED: " + rec.name);
 
-                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
+                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID, rec.description));
 
                 // Call the insert
                 lock (_Padlock)
@@ -564,15 +587,34 @@ public static class ModelRunManager
             {
                 // Call insert operation
                 // Logger.WriteLine("ADDED");
-                modelRuns[rec.modelRunUUID].Insert(rec);
+
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+
+                //modelRuns[rec.modelRunUUID].Insert(rec);
                 //modelRuns[rec.modelRunUUID].CurrentCapacity++;
                 // Replace with isFull Function
-                if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
-                {
-                    // Cash it in!!!!
-					Debug.Log("IT IS CASH");
-                    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                }
+                //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
+                //{
+                //    // Cash it in!!!!
+                //    Debug.Log("IT IS CASH");
+                //    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                //}
+
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
+                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
             }
             // Cache Case
             else if (FileBasedCache.Exists(rec.modelRunUUID))
@@ -586,7 +628,7 @@ public static class ModelRunManager
 
                 // Normal Case -- Insert it into storedModelRuns
                 // Logger.WriteLine("ADDED");
-                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID));
+                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID, rec.description));
 
                 // Call the insert
                 modelRuns[rec.modelRunUUID].Insert(rec);

@@ -15,15 +15,19 @@ using UnityEngine;
  */
 public class VWClient : Observer
 {
-    struct DataRecordJob
-    {
-        public List<DataRecord> records;
-        public string jobname;
-    }
+    //struct DataRecordJob
+    //{
+    //    public List<DataRecord> records;
+    //    public string jobname;
+    //}
+
     public string Name;
     public string App = "//apps/vwp";
     public string Description;
+
+    // The server to connect to for downloading
     public string Root;
+
     DataFactory factory;
     NetworkManager manager;
     ThreadSafeDictionary<string, Thread> Threads = new ThreadSafeDictionary<string, Thread>(); // Alternative to Unity's threadpool
@@ -37,35 +41,51 @@ public class VWClient : Observer
     // Holds requests that are waiting
     PriorityQueue<Observerable> waiting = new PriorityQueue<Observerable>();
 
+    // Number of observables able to download at a time
     int Limit = 10;
 
-
+    // Seed a random number generator
     System.Random R = new System.Random(1);
    
-
+    /// <summary>
+    /// Generates a random token for the job
+    /// </summary>
+    /// <param name="FunctionName">The job to be assigned a token</param>
+    /// <returns>A unique random token</returns>
     public string GenerateToken(string FunctionName)
     {
-        string Token = FunctionName + " " + R.Next();
-
         // Generate Random Token -- Wait until a random value is found that works ... We could do a counter system instead of random.
-        Token = FunctionName + " " + R.Next();
-
-        return Token;
+        return FunctionName + " " + R.Next();
     }
 
-    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")
+    /// <summary>
+    /// Constructor for the VWClient class
+    /// </summary>
+    /// <param name="datafactory">Parses data and transfers it into a usable format</param>
+    /// <param name="networkmanager">Used to process network requests</param>
+    /// <param name="root">The server being used to retrieve data from</param>
+    public VWClient(DataFactory datafactory, NetworkManager networkmanager, string root = "http://h1.rd.unr.edu:8080")//http://vwp-dev.unm.edu
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events
         Root = root;
     }
-	
+
+	/// <summary>
+	/// Called when a job completes, if there is another job waiting after this one is finished, it will be
+    /// added to the observables list to be processed.
+	/// </summary>
+	/// <param name="url">The url of the job that has completed</param>
     public override void OnDataComplete(string url)
     {
         if (active.ContainsKey(url))
         {
             active[url].CallBack();
+
+            // Remove the url from the active observables
             active.Remove(url);
+
+            // If there are more jobs waiting to be done, add it in the now open position of the queue
             if (waiting.Count() > 0)
             {
                 var job = waiting.Dequeue();
@@ -74,12 +94,20 @@ public class VWClient : Observer
         }
     }
 
+    /// <summary>
+    /// Called when a job runs into a data related error.
+    /// The job is removed and if there is another in the waiting queue, it will be processed
+    /// </summary>
+    /// <param name="url">The url of the job that has received an error</param>
     public override void OnDataError(string url)
     {
         Logger.WriteLine("There was an error in: " + url);
         if(active.ContainsKey(url))
         {
+            // Remove the url from the active observables
             active.Remove(url);
+
+            // If there are more jobs waiting to be done, add it in the now open position of the queue
             if (waiting.Count() > 0)
             {
                 var job = waiting.Dequeue();
@@ -92,6 +120,10 @@ public class VWClient : Observer
         base.OnDataError(url);
     }
 
+    /// <summary>
+    /// Called when a download has been completed either successfully or unsuccessfully and responds accordingly
+    /// </summary>
+    /// <param name="url">The url of the download that has been completed</param>
     public override void OnDownloadComplete(string url)
     {
         // Loop through the active
@@ -99,7 +131,7 @@ public class VWClient : Observer
         {
             // Update
             string result = active[url].Update();
-            // Logger.WriteLine("RESULT: " + result);
+
             // Check if complete
             if (result == "COMPLETE")
             {
@@ -130,26 +162,31 @@ public class VWClient : Observer
     /// Adds an observable to the list
     /// </summary>
     /// <param name="observable"></param>
-    /// <returns></returns>
     void AddObservable(Observerable observable)
     {
         /// Add Lock here
-        // If the number active is at threshold, move into waiting
-        if (Limit == active.Count())
-        {
-            waiting.Enqueue(observable);
-        }
-        // Else Add the observable to "active" and "observables"
-        else
-        {   
+            // If the number active is at threshold, move into waiting
+            if (Limit == active.Count())
+            {
+                waiting.Enqueue(observable);
+            }
+            // Else Add the observable to "active" and "observables"
+            else
+            {   
 			
-            string URL = observable.Update();
-			Logger.WriteLine ("Added to observables: " + URL); 
-            active[URL] = observable;
+                string URL = observable.Update();
+			    //Logger.WriteLine ("Added to observables: " + URL); 
+                active[URL] = observable;
+            }
         }
-    }
 
     //public void getCoverage(DataRecordSetter Setter, DataRecord Record, string crs = "", string BoundingBox = "", int Width = 0, int Height = 0, string Interpolation = "nearest", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="Setter"></param>
+    /// <param name="Record"></param>
+    /// <param name="param"></param>
     public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
         // Build a WCS observable
@@ -175,6 +212,7 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
 		AddObservable(client);
 	}
+
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
@@ -252,7 +290,10 @@ public class VWClient : Observer
 		}
 	}
 
-	// Ugly I know
+	/// <summary>
+	/// Removes a job from the waiting queue
+	/// </summary>
+	/// <param name="ModelRunUUID">The ModelRunUUID of the job to be removed</param>
 	public void RemoveJobsByModelRunUUID(string ModelRunUUID)
 	{
 		List<Observerable> obs = waiting.GiveRawList ();
@@ -269,11 +310,21 @@ public class VWClient : Observer
 		waiting = NewList;
 	}
 
+    /// <summary>
+    /// Determines if there are threads currently in use
+    /// </summary>
+    /// <returns>True if threads are active, false otherwise</returns>
     bool Activity()
     {
         return Threads.Count() != 0;
     }
 
+    /// <summary>
+    /// This function is used to request data records corresponding to the input query string
+    /// </summary>
+    /// <param name="Setter"></param>
+    /// <param name="param">The system parameters of the application</param>
+    /// <returns></returns>
     public string RequestRecords(DataRecordSetter Setter, SystemParameters param)
     {
         List<DataRecord> Records = new List<DataRecord>();
@@ -288,10 +339,12 @@ public class VWClient : Observer
         {
             req += "&query=" + param.query;
         }
+        /*
         if (param.location != "")
         {
             req += "&location=" + param.location;
         }
+        */
         if (param.modelname != "")
         {
             req += "&modelname=" + param.modelname;
@@ -320,7 +373,6 @@ public class VWClient : Observer
         {
             req += "&model_run_uuid=" + param.model_run_uuid;
         }
-		//Logger.WriteLine ("Loading: " + req);
         // Make the request and enqueue it...
         // Request Download -- 
         //DataRecordJob Job = new DataRecordJob();

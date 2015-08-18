@@ -54,10 +54,11 @@ public class ModelRun
 		return null;
 	}
     // Constructors
-    public ModelRun(string modelRunName,string modelRunUUID)
+    public ModelRun(string modelRunName,string modelRunUUID, string desc = "None")
     {
         ModelName = modelRunName;
         ModelRunUUID = modelRunUUID;
+        Description = desc;
     }
 
     public ModelRun()

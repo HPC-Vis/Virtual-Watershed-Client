@@ -44,8 +44,7 @@ namespace VTL.SimTimeControls
                 if (child.name == "Speed Text")
                     speedText = child.gameObject.GetComponent<Text>();
             }
-            setSpeedText();
-
+            OnValueChange();
 
             //Invoke("OnValueChange", 1f / 60f);
 

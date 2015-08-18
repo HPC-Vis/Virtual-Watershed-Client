@@ -6,11 +6,10 @@ using System.IO;
 public class VariableReference {
 
     // The file for loading in the data
+	const string VariableFile = "VariableReferenceData.txt";
 #if UNITY_EDITOR
-    const string VariableFile = "VariableReferenceData.txt";
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+"/../../VariableReference/";
 #else
-    const string VariableFile = "VariableReferenceData.txt";
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/";
 #endif
 
@@ -20,7 +19,11 @@ public class VariableReference {
     // File Data in Array
     private string[] reference_lines;
 
-    // Use this for initialization
+	/// <summary>
+	/// Initializes a new instance of the <see cref="VariableReference"/> class.
+	/// This will open the file, and read in all the data that is inside line by line.
+	/// These lines are added to an array of each line.
+	/// </summary>
 	public VariableReference () {
         if (!Directory.Exists(DirectoryLocation))
         {
@@ -39,10 +42,10 @@ public class VariableReference {
 	}
 
     /// <summary>
-    /// Grabs all the names in the file for refrence files
+    /// This will get the variable name in the list of refrences names, and extract the description from there.
     /// </summary>
-    /// <param name="variable"></param>
-    /// <returns></returns>
+    /// <param name="variable">This is a string to specify what the variable name is.</param>
+    /// <returns>A string of the description of the sent in variable string.</returns>
     public string GetDescription(string variable)
     {
         if (!File_Not_Found)

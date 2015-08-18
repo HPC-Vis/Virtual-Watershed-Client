@@ -3,8 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 
 
-public class imageSpin : MonoBehaviour
-{
+public class imageSpin : MonoBehaviour {
 
     public GameObject obj;
     Image loadingImage;
@@ -33,7 +32,7 @@ public class imageSpin : MonoBehaviour
     public void spin()
     {
         dt = Time.time - initial;
-        loadingImage.color = new Color(Mathf.Abs(Mathf.Sin(dt) + 0.3f), Mathf.Abs(Mathf.Cos(dt) + .6f), Mathf.Abs(Mathf.Sin(dt)), 1);
+        loadingImage.color = new Color(Mathf.Abs(Mathf.Sin(dt)+0.3f), Mathf.Abs(Mathf.Cos(dt)+.6f), Mathf.Abs(Mathf.Sin(dt)), 1);
 
         if (loadingImage.fillAmount == 1.0f || loadingImage.fillAmount == 0.0f)
         {

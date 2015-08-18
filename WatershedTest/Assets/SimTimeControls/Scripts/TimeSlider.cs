@@ -66,7 +66,7 @@ namespace VTL.SimTimeControls
             SimTimeProperty = StartTime;
             LastUpdate = DateTime.UtcNow;
 
-            PlaySpeed = 1f;
+            //PlaySpeed = 1f;
         }
 
 

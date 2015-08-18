@@ -106,14 +106,20 @@ public class ColorPicker : MonoBehaviour {
 			GameObject.Destroy(child.gameObject);
 		}
 		// Find the picker...
-		var found = GameObject.Find("Picker");
+		var found = GameObject.Find("ColorPicker");
 		
 		if(found == null)
 		{
 			// Create a color picker here	
 		}
-		
-		
+
+        Color[] setValues = new Color[6];
+        setValues[0] = Color.red;
+        setValues[1] = Color.blue;
+        setValues[2] = Color.green;
+        setValues[3] = Color.yellow;
+        setValues[4] = Color.gray;
+        setValues[5] = Color.black;
 		// spawn prefabs and attach them as children to this gameobject.
 		for(int i =0; i < numColors; i++)
 		{
@@ -124,6 +130,15 @@ public class ColorPicker : MonoBehaviour {
 			var picker = found.GetComponent<HSVPicker>();
 			var setter = go.GetComponent<ColorSetter>();
 			setter.picker = picker;
+            if(6 > i)
+            {
+                go.GetComponent<Image>().color =setValues[i];
+            }
+            else
+            {
+                go.GetComponent<Image>().color = Color.black;
+            }
+            
 			ColorBoxes.Add(go);
 		}
 		

@@ -9,7 +9,7 @@ public class MovieSliderPosition : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        vizWindow = GameObject.Find("DataViz panel");
+        vizWindow = GameObject.Find("DataPanel");
         handle = GameObject.Find("SliderHandle");
 	}
 	
