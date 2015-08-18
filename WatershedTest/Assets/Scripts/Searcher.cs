@@ -232,7 +232,7 @@ public class Searcher : MonoBehaviour {
        Debug.Log("LOOK HERE " + Records.Count);
        
        // Lets do a Virtual Watershed Search
-       ModelRunManager.getAvailable(ps,null,((records) => Setter(ref PassedRecords,records)));
+       ModelRunManager.getAvailable(ps, ((records) => Setter(ref PassedRecords,records)));
        
        // Now we wait for this guy to finish
        while(PassedRecords == null)
@@ -265,7 +265,7 @@ public class Searcher : MonoBehaviour {
         List<DataRecord> PassedRecords = null;
 
         // Lets do a Virtual Watershed Search
-        ModelRunManager.getAvailable(ps, null, ((records) => Setter(ref PassedRecords, records)));
+        ModelRunManager.getAvailable(ps, ((records) => Setter(ref PassedRecords, records)));
 
         // Now we wait for this guy to finish
         while (PassedRecords == null)

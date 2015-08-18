@@ -46,4 +46,9 @@ public class Variable
     {
     	type = t;
     }
+
+    public void Remove(DataRecord record)
+    {
+        Records.Remove(Records.Find((rec) => { return record.id == rec.id && record.Identifier == rec.Identifier;}));
+    }
 }

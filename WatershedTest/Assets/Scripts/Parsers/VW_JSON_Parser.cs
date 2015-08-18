@@ -6,7 +6,7 @@ using System.Text;
 /*
  * // Parses a response from virtual watershed query.
  */
-class VW_JSON_Parser : Parser
+public class VW_JSON_Parser : Parser
 {
     public override List<DataRecord> Parse(List<DataRecord> Records, string Contents)
     {
@@ -36,7 +36,7 @@ class VW_JSON_Parser : Parser
     DateTime getDateTime(string time)
     {
         string[] nums = time.Split(new char[] { '-', ':' }, StringSplitOptions.RemoveEmptyEntries);
-        Console.WriteLine(nums[0]);
+        //Console.WriteLine(nums[0]);
         return new DateTime(int.Parse(nums[0]), int.Parse(nums[1]), int.Parse(nums[2]), int.Parse(nums[3]), int.Parse(nums[4]), int.Parse(nums[5]));
     }
 
@@ -47,11 +47,13 @@ class VW_JSON_Parser : Parser
         var encoded = SimpleJSON.JSONNode.Parse(encodedString);
         if (encoded == null)
         {
+            UnityEngine.Debug.LogError("FAILED TO PARSE");
             return;
         }
         DataRecord current;
         if (encoded["results"].Count > 0)
         {
+            UnityEngine.Debug.LogError("PARSING THE JSON");
             // iterating through results
             for (int records = 0; records < encoded["results"].Count; records++)
             {
@@ -95,14 +97,14 @@ class VW_JSON_Parser : Parser
                 current.model_set_type = encoded["results"][records]["model_set_type"].ToString().Replace('"', ' ').Trim();
 
                 current.modelname = encoded["results"][records]["categories"][0]["modelname"].ToString().Replace('"', ' ').Trim();
-                
-				current.Temporal = !current.modelname.ToLower().Contains("reference");
-				Logger.WriteLine("TEMPORAL: " + current.Temporal.ToString());
-				
+
+                current.Temporal = !current.modelname.ToLower().Contains("reference");
+                Logger.WriteLine("TEMPORAL: " + current.Temporal.ToString());
+
                 current.state = encoded["results"][records]["categories"][0]["state"].ToString().Replace('"', ' ').Trim();
 
                 current.location = encoded["results"][records]["categories"][0]["location"].ToString().Replace('"', ' ').Trim();
-				current.multiLayered = encoded["results"][records]["downloads"][0]["nc"];
+                current.multiLayered = encoded["results"][records]["downloads"][0]["nc"];
                 //Logger.WriteLine((current.multiLayered == null).ToString());
                 //if (encoded["results"][records].ToString().Contains("valid_dates"))
                 //Console.WriteLine(encoded["results"][records].ToString());
@@ -111,8 +113,8 @@ class VW_JSON_Parser : Parser
                 {
                     current.start = getDateTime(encoded["results"][records]["valid_dates"]["start"].ToString().Replace('"', ' ').Trim());
                     current.end = getDateTime(encoded["results"][records]["valid_dates"]["end"].ToString().Replace('"', ' ').Trim());
-                    Console.WriteLine("DATE: " + encoded["results"][records]["valid_dates"]["start"] + " " + encoded["results"][records]["valid_dates"]["end"] + " " + records);
-                    Console.WriteLine(current.start);
+                    //Console.WriteLine("DATE: " + encoded["results"][records]["valid_dates"]["start"] + " " + encoded["results"][records]["valid_dates"]["end"] + " " + records);
+                    //Console.WriteLine(current.start);
 
                 }
 
@@ -148,10 +150,14 @@ class VW_JSON_Parser : Parser
                 current.variableName = encoded["results"][records]["model_vars"].ToString().Replace('"', ' ').Trim();
                 current.Temporal = current.IsTemporal() || current.variableName.ToLower().Contains("animation");
                 current.description = description;
-               // Logger.WriteLine(name);
+                // Logger.WriteLine(name);
 
             }
 
+        }
+        else
+        {
+            UnityEngine.Debug.LogError("FAILED TO PARSE");
         }
 
     }

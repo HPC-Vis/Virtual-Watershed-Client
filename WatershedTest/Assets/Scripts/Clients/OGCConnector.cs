@@ -13,9 +13,7 @@ using UnityEngine;
 public class OGCConnector : Observer
 {
     public string Name;
-    public string App = "//apps/vwp";
     public string Description;
-    public string Root;
     DataFactory factory;
     NetworkManager manager;
 
@@ -29,7 +27,8 @@ public class OGCConnector : Observer
 
 
     System.Random R = new System.Random(1);
-   
+
+    bool TESTDONE = false;
 
     public string GenerateToken(string FunctionName)
     {
@@ -41,13 +40,13 @@ public class OGCConnector : Observer
         return Token;
     }
 
-    public OGCConnector(DataFactory datafactory, NetworkManager networkmanager, string root = "http://vwp-dev.unm.edu")
+    public OGCConnector(DataFactory datafactory, NetworkManager networkmanager)
     {
         factory = datafactory;  // Added by constructor instead of building a new one inside here
         manager = networkmanager;   // Added so worker threads can call events
-        Root = root;
+
     }
-	
+
     public override void OnDataComplete(string url)
     {
         if (active.ContainsKey(url))
@@ -65,7 +64,7 @@ public class OGCConnector : Observer
     public override void OnDataError(string url)
     {
         Logger.WriteLine("There was an error in: " + url);
-        if(active.ContainsKey(url))
+        if (active.ContainsKey(url))
         {
             active.Remove(url);
             if (waiting.Count() > 0)
@@ -83,7 +82,7 @@ public class OGCConnector : Observer
     public override void OnDownloadComplete(string url)
     {
         // Loop through the active
-        if( active.ContainsKey(url) )
+        if (active.ContainsKey(url))
         {
             // Update
             string result = active[url].Update();
@@ -129,9 +128,10 @@ public class OGCConnector : Observer
         }
         // Else Add the observable to "active" and "observables"
         else
-        {   
+        {
             string URL = observable.Update();
             active[URL] = observable;
+            Debug.LogError("ADDED " + URL);
         }
     }
 
@@ -143,34 +143,120 @@ public class OGCConnector : Observer
 
     }
 
-    void GetFeatures()
+    void GetFeature()
     {
 
     }
 
-    void GetCoverage()
+    public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
-
+        // Build a WCS observable
+        Logger.WriteLine("WCS getCoverage Called");
+        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
+        client.GetData(Record, param);
+        client.Token = GenerateToken("GetCoverage");
+        client.callback = Setter;
+        client.Priority = param.Priority;
+        client.ModelRunUUID = Record.modelRunUUID;
+        AddObservable(client);
     }
 
-	void GetCapabilities(string url, string service)
+    public void getCapabilities(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
-		// What service are we requesting 
-		switch (service.ToUpper()) {
-		case "WCS":
-			// Do WCS capabilities
-			break;
-		case "WFS":
-			// Do WFS capabilities
-			break;
-		case "WMS":
-			// Do WMS capabilities
-			break;
-		}
+        // We need an observable here -- for now we assume a WMS Request
+        if (Record.services.ContainsKey("wms") && param.service == "wms")
+        {
+            Logger.WriteLine("CALLBACK IS: " + (Setter == null).ToString());
+            // Let the magic begin
+            var client = new WMSClient(factory, param.type, param.outputPath, param.outputName, 1);
+            client.GetData(Record, param);
+            client.Token = GenerateToken("GetCapabilitiesWMS");
+            client.callback = Setter;
+            client.Priority = param.Priority;
+            client.ModelRunUUID = Record.modelRunUUID;
+            AddObservable(client);
+        }
+        else if (Record.services.ContainsKey("wcs") && param.service == "wcs")
+        {
+            Logger.WriteLine("CALLBACK WCS IS: " + (Setter == null).ToString());
+            // Let the magic begin
+            var client = new WCSClient(factory, param.type, param.outputPath, param.outputName, 1);
+            //client = App;
+            //client.Root = Root;
+            client.GetData(Record, param);
+            client.Token = GenerateToken("GetCapabilitiesWCS");
+            client.callback = Setter;
+            client.Priority = param.Priority;
+            client.ModelRunUUID = Record.modelRunUUID;
+            AddObservable(client);
+        }
+        else if (Record.services.ContainsKey("wfs") && param.service == "wfs")
+        {
+            Logger.WriteLine("CALLBACK WFS IS: " + (Setter == null).ToString());
+            var client = new WFSClient(factory, param.type, param.outputPath, param.outputName, 1);
+            client.GetData(Record, param);
+            client.Token = GenerateToken("GetCapabilitiesWFS");
+            client.callback = Setter;
+            client.Priority = param.Priority;
+            client.ModelRunUUID = Record.modelRunUUID;
+            AddObservable(client);
+        }
     }
-	// Based on the url download with the appropriate service
-	void MagicFunction(string url)
-	{
-		
-	}
+
+    void GetTestCoverage(List<DataRecord> Records)
+    {
+        Debug.LogError("GetTestCoverage");
+        var sp = new SystemParameters();
+        sp.interpolation = "bilinear";
+        sp.width = 100;
+        sp.height = 100;
+        getCoverage(TestDone, Records[0], sp);
+        
+    }
+
+    void TestDone(List<DataRecord> Records)
+    {
+        if(Records[0].Data == null)
+        {
+            Debug.LogError("THE DATA IS NULL");
+        }
+        else
+        {
+            Debug.LogError("Origin: " + Records[0].Data[0, 0]);
+        }
+        TESTDONE = true;
+    }
+
+    // Based on the url download with the appropriate service
+    public bool MagicFunction(string url)
+    {
+        // Check if it contains wcs
+        if (url.ToLower().Contains("service=wcs"))
+        {
+
+            var Now = DateTime.UtcNow;
+            // GetCapabilities
+            var sp = new SystemParameters();
+            var record = new DataRecord();
+            record.services["wcs"] = url;
+            sp.service = "wcs";
+            getCapabilities(GetTestCoverage, record, sp);
+            Debug.LogError("HERE:  " + (DateTime.UtcNow - Now).TotalSeconds);
+            while (true)
+            {
+                if (TESTDONE)
+                {
+                    Debug.LogError("DONE");
+                    return true;
+                }
+                if ((DateTime.UtcNow - Now).TotalSeconds > 120.0)
+                {
+                    return false;
+                }
+            }
+            Debug.LogError("COUNT NOT GREATER THAN ZERO");
+            return false;
+        }
+        return false;
+    }
 }

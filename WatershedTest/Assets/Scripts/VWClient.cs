@@ -190,6 +190,7 @@ public class VWClient : Observer
     public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
         // Build a WCS observable
+        Debug.LogError("WCS GET COVERAGE");
         Logger.WriteLine("WCS getCoverage Called");
         var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
         client.GetData(Record, param);
