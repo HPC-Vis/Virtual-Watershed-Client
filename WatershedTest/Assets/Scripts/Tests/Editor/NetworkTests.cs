@@ -177,6 +177,32 @@ using System.Collections.Generic;
          Ints.Enqueue(dr2);
          Assert.AreEqual("apples2", Ints.Peek().Url);
      }
-     
+
+     [Test]
+     public void XmlDownloadAndParseTest()
+     {
+         string xml = "http://vwp-dev.unm.edu/apps/vwp/datasets/529f21aa-0846-41f8-948e-ea5d237099f8/metadata/FGDC-STD-001-1998.xml";
+         WebClient n = new WebClient();
+         byte[] xmlout  = n.DownloadData(xml);
+         VW_FGDC_XML_Parser parse = new VW_FGDC_XML_Parser();
+         DataRecord dr = new DataRecord();
+         parse.Parse(dr, xmlout);
+         if (dr.metaData != null)
+         {
+             UnityEngine.Debug.LogError(dr.metaData.idinfo.timeperd.timeinfo.rngdates.enddate);
+             Assert.Pass();
+         }
+         else
+             Assert.Fail();
+     }
+
+     [Test]
+     [Category("Data Record Tests")]
+     public void DataRecordSetDateTimeSetTest()
+     {
+         DataRecord dr = new DataRecord();
+         dr.start = new DateTime(1,1,1);
+         Assert.Pass();
+     }
 
 }

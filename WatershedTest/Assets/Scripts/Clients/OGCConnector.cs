@@ -216,6 +216,14 @@ public class OGCConnector : Observer
 
     void TestDone(List<DataRecord> Records)
     {
+        if(Records[0].Data == null)
+        {
+            Debug.LogError("THE DATA IS NULL");
+        }
+        else
+        {
+            Debug.LogError("Origin: " + Records[0].Data[0, 0]);
+        }
         TESTDONE = true;
     }
 
