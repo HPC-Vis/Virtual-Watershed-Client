@@ -26,6 +26,8 @@ public class ModelRun
     public int Total;
     public int CurrentCapacity = 0;
 
+    public Dictionary<string, string> successfulRuns = new Dictionary<string, string>();
+
 	// Replace with modelrun variable class  ....   ***********************************************
     //public ModelRunManager ModelRunManager;
     // private Dictionary<string, GeoReference> references = new Dictionary<string, GeoReference>();

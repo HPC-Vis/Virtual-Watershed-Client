@@ -343,12 +343,14 @@ public static class ModelRunManager
 
 	public static bool InsertDataRecord(DataRecord record, List<DataRecord> allRecords)
 	{
+        //modelRuns[record.modelRunUUID].successfulRuns.Add(record.id, record.id);
+
         if(modelRuns[record.modelRunUUID].CurrentCapacity == (modelRuns[record.modelRunUUID].Total))
         {
             foreach (DataRecord rec in allRecords)
             {
                 FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                Logger.WriteLine("The model run is now in the cache.");
+                //Logger.WriteLine("The model run is now in the cache.");
             }
         }
         else if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
@@ -356,13 +358,11 @@ public static class ModelRunManager
             foreach (DataRecord rec in allRecords)
             {
                 FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                Logger.WriteLine("The model run is now in the cache.");
+                //Logger.WriteLine("The model run is now in the cache.");
             }
             timeToCache = false;
         }
 
-
-	    //FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
         return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
