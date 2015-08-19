@@ -8,6 +8,7 @@ using System.Timers;
 using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
+using OSGeo.GDAL;
  [TestFixture]
  [Category("Network Tests")]
  internal class NetworkTests
@@ -203,6 +204,23 @@ using System.Collections.Generic;
          DataRecord dr = new DataRecord();
          dr.start = new DateTime(1,1,1);
          Assert.Pass();
+     }
+
+     [Test]
+     public void GDALTEST()
+     {
+         string gdalPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\gdal\bin";
+         Console.WriteLine(gdalPath);
+         string path = Environment.GetEnvironmentVariable("path");
+         Environment.SetEnvironmentVariable("path",path+";"+gdalPath);
+         Gdal.AllRegister();
+         Environment.SetEnvironmentVariable("path", path);
+         Console.WriteLine(Environment.GetEnvironmentVariable("path"));
+         //var t = Gdal.Open("test.tif", Access.GA_Update);
+         var d = Gdal.GetDriverByName("GTiff");
+         Console.WriteLine(d.LongName);
+         var gt = d.Create(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\test.tif", 100, 100, 1, DataType.GDT_CFloat32, null);
+         gt.Dispose();
      }
 
 }

@@ -537,7 +537,7 @@ public static class ModelRunManager
             // Normal Case
             if (modelRuns.ContainsKey(rec.modelRunUUID))
             {
-				Debug.LogError("modelRuns.ContatinsKey(rec.modelRunUUID)");
+				//Debug.LogError("modelRuns.ContatinsKey(rec.modelRunUUID)");
 
                 // Call insert operation
                 //Logger.WriteLine("ADDED");
@@ -548,7 +548,7 @@ public static class ModelRunManager
                     //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
-                Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
+                //Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
                 // Replace with isFull Function
                 //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
                 //{

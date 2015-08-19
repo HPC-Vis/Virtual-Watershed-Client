@@ -143,16 +143,16 @@ Material:
         second: 0
       data:
         first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
           name: _Max
         second: .53725493
       data:
         first:
           name: _Min
         second: .333333343
+      data:
+        first:
+          name: _EmissionScaleUI
+        second: 0
     m_Colors:
       data:
         first:
