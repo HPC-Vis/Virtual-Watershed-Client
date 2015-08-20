@@ -23,6 +23,8 @@ public class DataRecord : IEquatable<DataRecord>
     }
 	public DataRecord Clone()
 	{
+        //DataRecord other = (DataRecord)this.MemberwiseClone();
+        //return other;
 		DataRecord dr = new DataRecord ();
 		dr.name = name;
 		dr.boundingBox = boundingBox;
@@ -46,6 +48,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.Identifier = Identifier;
 		dr.Type = Type;
 		dr.Temporal = Temporal;
+        dr.numbands = numbands;
 		return dr;
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;

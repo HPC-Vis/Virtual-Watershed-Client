@@ -8,6 +8,7 @@ using System.Collections;
 public static class GlobalConfig 
 {
     public static bool loading;
+    public static bool caching;
     public static string Location = "Dry Creek";
     public static string State = "Idaho";
 

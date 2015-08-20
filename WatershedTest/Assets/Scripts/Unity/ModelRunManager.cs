@@ -286,14 +286,10 @@ public static class ModelRunManager
     }
 
     // NOTE: Build a parameter struct (name of struct = ServiceParameters)
-    static public void getAvailable(SystemParameters param, GeoRefMessage Message = null, DataRecordSetter Setter = null)
+    static public void getAvailable(SystemParameters param, DataRecordSetter Setter = null)
     {
-        // Debug.Log(param.query);
         // TODO
-        if (Setter == null)
-            client.RequestRecords(((List<DataRecord> records) => onGetAvailableComplete(records, Message)), param);
-        else
-            client.RequestRecords(((List<DataRecord> records) => onGetAvailableComplete(records, Setter)), param);
+        client.RequestRecords(((List<DataRecord> records) => onGetAvailableComplete(records, Setter)), param);
     }
 
     private static void SetModelSetType(List<DataRecord> Records)
@@ -347,26 +343,33 @@ public static class ModelRunManager
 
 	public static bool InsertDataRecord(DataRecord record, List<DataRecord> allRecords)
 	{
+        //modelRuns[record.modelRunUUID].successfulRuns.Add(record.id, record.id);
         if(modelRuns[record.modelRunUUID].CurrentCapacity == (modelRuns[record.modelRunUUID].Total))
         {
+                   
+            GlobalConfig.caching = true;
             foreach (DataRecord rec in allRecords)
             {
                 FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                Logger.WriteLine("The model run is now in the cache.");
+                //Logger.WriteLine("The model run is now in the cache.");
             }
+            GlobalConfig.caching = false;
         }
         else if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
         {
-            foreach (DataRecord rec in allRecords)
+            // Start Thread
+            new Thread(() =>
             {
-                FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                Logger.WriteLine("The model run is now in the cache.");
-            }
-            timeToCache = false;
+                GlobalConfig.caching = true;
+                foreach (DataRecord rec in allRecords)
+                {
+                    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                    //Logger.WriteLine("The model run is now in the cache.");
+                }
+                GlobalConfig.caching = false;
+            }).Start();
         }
 
-
-	    //FileBasedCache.Insert<ModelRun> (record.modelRunUUID, modelRuns [record.modelRunUUID]);
         return modelRuns[record.modelRunUUID].Insert(record);
 	}
 
@@ -375,22 +378,27 @@ public static class ModelRunManager
 		Logger.WriteLine ("PARSENETCDFRECORDS" + (record[0].WCSCoverages != null).ToString());
 		if (record.Count > 0) 
 		{
+            // Add remove function here
+            modelRuns[record[0].modelRunUUID].Remove(record[0]);
 			if(record[0].WCSCoverages != null)
 			{
-				foreach (var i in record[0].WCSCoverages)
-				{
-					DataRecord dr = record[0].Clone();
-					dr.band_id = 1;
-					dr.Identifier = i.Identifier;
-					dr.variableName = i.Identifier;
-					if(record[0].WCSCoverages.Count() > 1)
-					dr.Temporal = true;
-					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
-					InsertDataRecord(dr, record);
-					
-					// Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
-					client.describeCoverage(CreateNewBands,dr,new SystemParameters());
-				}
+                for (int i = 0; i < record[0].WCSCoverages.Length; i++ )
+                {
+
+                    var dr = record[0].Clone();
+                    dr.band_id = 1;
+                    dr.Identifier = record[0].WCSCoverages[i].Identifier;
+                    dr.variableName = record[0].WCSCoverages[i].Identifier;
+                    if (record[0].WCSCoverages.Count() > 1)
+                        dr.Temporal = true;
+                    Logger.WriteLine("A NEW RECORLDsss: " + record[0].WCSCoverages[i].Identifier);
+                    //InsertDataRecord(dr, record);
+
+                    // Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
+                    client.describeCoverage(CreateNewBands, dr, new SystemParameters());
+
+                    //break;
+                }
 			}
 			// See if layers variable is defined
 			else if (record [0].wmslayers != null) 
@@ -417,47 +425,128 @@ public static class ModelRunManager
                 InsertDataRecord(record[0], record);
 			}
 
+            
+
+
 		}
 	}
+
+    /// <summary>
+    /// Takes in a uint that is a date of the format yyyymmdd and converts it to a DateTime object.
+    /// </summary>
+    /// <param name="udate"></param>
+    /// <returns></returns>
+    static DateTime uintToDateTime(uint udate)
+    {
+        int date = (int)udate;
+        Debug.LogError(date + " " + udate);
+        int month = date / 1000000;
+        int day = date / 10000 % 100;
+        int year = date % 10000;
+        Debug.LogError(year + " " + day + " " + month);
+        return new DateTime(year,month,day);
+    }
+
+    /// <summary>
+    /// Popluating start times for a netcdf record using the fdgc metadata that is in the virtual watershed. This should be moved to the vwclient at some point...
+    /// </summary>
+    /// <param name="records"></param>
+    public static void PopulateStartTimes(List<DataRecord> records)
+    {
+        Logger.WriteLine("POPLULATING NETCDF START TIMES");
+        Debug.LogError("POPLULATING NETCDF START TIMES");
+        SystemParameters sp = new SystemParameters();
+        if (records == null || records.Count == 0)
+            return;
+
+        // Lets set the start times of this single record and then do the ogc services
+        var record = records[0];
+        if (record.metaData != null && record.metaData.idinfo != null && record.metaData.idinfo.timeperd != null)
+        {
+            if (record.metaData.idinfo.timeperd.timeinfo.rngdates != null)
+            {
+                record.start = uintToDateTime(record.metaData.idinfo.timeperd.timeinfo.rngdates.begdate);
+                record.end = uintToDateTime(record.metaData.idinfo.timeperd.timeinfo.rngdates.enddate);
+                UnityEngine.Debug.LogError("A START RECORD TIME: " + record.start);
+            }
+        }
+        else
+        {
+            record.start = DateTime.Today - new TimeSpan(365, 0, 0, 0, 0);
+            record.end = DateTime.Today ;
+        }
+        //Debug.LogError(record.multiLayered); patch is record.multilayered..
+        if (record.services.ContainsKey("wcs") )
+        {
+            sp.service = "wcs";
+            Logger.WriteLine("WCS");
+            client.getCapabilities(parseNetCDFRecords, record, sp);
+        }
+
+        else if (record.services.ContainsKey("wms") )
+        {
+            sp.service = "wms";
+            Logger.WriteLine("WMS");
+            client.getCapabilities(parseNetCDFRecords, record, sp);
+        }
+        else if (record.services.ContainsKey("wfs") )
+        {
+            sp.service = "wfs";
+            Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
+            client.getCapabilities(parseNetCDFRecords, record, sp);
+        }
+        Debug.LogError("DONE WITH START TIMES");
+    }
+
 	public static void CreateNewBands(List<DataRecord> record)
 	{
-		Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString());
+        Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString() + "LIST COUNT: " + record.Count + " " + record[0].Identifier + "HAS TIME: " + record[0].start);
+
+        // The first record contains the total overall period for a model run.. let calculate a average time period
+        var timeperiod = record[0].end - record[0].start;
+        double duration = Math.Round(timeperiod.Value.TotalHours / record[0].numbands);
+        Debug.LogError("DURATION: " + duration);
+        TimeSpan ts = new TimeSpan((int)duration, 0, 0);
+        record[0].end = record[0].start + ts;
 		// Lets create the records for this guy...
 		for(int i =2; i <= record[0].numbands; i++)
 		{
 			DataRecord dr = record[0].Clone();
 			dr.band_id = i;
 			dr.id += dr.band_id.ToString() + dr.variableName;
+            try
+            {
+                var ts2 = new TimeSpan((int)ts.TotalHours * (i - 1), 0, 0);
+                var ts3 = new TimeSpan((int)ts.TotalHours * i, 0, 0);
+                dr.start = record[0].start + ts2;
+                dr.end = record[0].start + ts3;
+                Debug.LogError("START: " + dr.start.HasValue);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(e.StackTrace);
+            }
+            //Debug.LogError("END: " + dr.end);
             Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr, record).ToString());
 		}
 	}
 	// Filter function goes here.
 	static void filter(DataRecord record, List<DataRecord> allRecords)
 	{
-		Logger.WriteLine ("FILTER");
-		SystemParameters sp = new SystemParameters();
-		//Debug.LogError(record.multiLayered); patch is record.multilayered..
-		if (record.services.ContainsKey ("wcs") && record.multiLayered != null) {
-			sp.service = "wcs";
-			Logger.WriteLine ("WCS");
-			client.getCapabilities (parseNetCDFRecords, record, sp);	
-		}
+        Logger.WriteLine("FILTERING");
+        // Add it to its perspective model run
+        record.band_id = 1;
+        //InsertDataRecord(record);
 
-        else if (record.services.ContainsKey("wms") && record.multiLayered != null) 
-		{
-			sp.service = "wms";
-			Logger.WriteLine ("WMS");
-			client.getCapabilities (parseNetCDFRecords, record, sp);
-		}
-        else if (record.services.ContainsKey("wfs") && record.multiLayered != null)
-		{
-			sp.service = "wfs";
-			Logger.WriteLine("WFS CAPABILTIERS FILTER HERE NOW ");
-			client.getCapabilities(parseNetCDFRecords,record,sp);
-		}
+		Logger.WriteLine ("FILTER");
+
+        if (record.services.Keys.Count >= 2 && record.multiLayered != null)
+        {
+            client.GetMetaData(PopulateStartTimes, new List<DataRecord> { record });
+        }
 		else 
 		{
-			Logger.WriteLine ("FILTERING");
 			// Add it to its perspective model run
 			record.band_id = 1;
             InsertDataRecord(record, allRecords);
@@ -551,93 +640,6 @@ public static class ModelRunManager
         // Debug.LogError("RECIEVED DATA OF SIZE: " + Records.Count);
         Counter += Records.Count;
         onGetAvailableComplete(Records, (DataRecordSetter)null);
-    }
-
-    /// <summary>
-    /// This needs to be tested.
-    /// </summary>
-    /// <param name="Records"></param>
-    /// <param name="message"></param>
-    static private void onGetAvailableComplete(List<DataRecord> Records, GeoRefMessage message)
-    {
-		Debug.LogError("OnGetAvailableComplete -GeoRef is being done");
-
-        // Logger.WriteLine(Records.Count.ToString());
-        List<string> RecievedRefs = new List<string>();
-        foreach (DataRecord rec in Records)
-        {
-            // Logger.WriteLine(rec.modelRunUUID);
-            // Logger.WriteLine(rec.start.ToString());
-            // We should play with the other of the if statements...
-            // Normal Case
-            if (modelRuns.ContainsKey(rec.modelRunUUID))
-            {
-                // Call insert operation
-                // Logger.WriteLine("ADDED");
-
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-
-                //modelRuns[rec.modelRunUUID].Insert(rec);
-                //modelRuns[rec.modelRunUUID].CurrentCapacity++;
-                // Replace with isFull Function
-                //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
-                //{
-                //    // Cash it in!!!!
-                //    Debug.Log("IT IS CASH");
-                //    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                //}
-
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-                //THIS SECTION NEEDS TO BE LOOKED OVER!!!!!!!!!!!!!!!!!!!!!
-            }
-            // Cache Case
-            else if (FileBasedCache.Exists(rec.modelRunUUID))
-            {
-                // Handle it
-            }
-            // Normal Case -- create a model run
-            else if (!modelRuns.ContainsKey(rec.modelRunUUID))
-            {
-                // Cache Case -- Check if cache has a georef
-
-                // Normal Case -- Insert it into storedModelRuns
-                // Logger.WriteLine("ADDED");
-                modelRuns.Add(rec.modelRunUUID, new ModelRun(rec.modelname, rec.modelRunUUID, rec.description));
-
-                // Call the insert
-                modelRuns[rec.modelRunUUID].Insert(rec);
-
-                //  Testing Variable
-                if (!RecievedRefs.Contains(rec.modelRunUUID))
-                {
-                    RecievedRefs.Add(rec.modelRunUUID);
-                }
-            }
-        }
-
-        if (message != null)
-        {
-            message(RecievedRefs);
-        }
-        // Logger.WriteLine("CREATED THIS MANY MODEL RUNS: " + modelRuns.Count);
-        foreach (var i in modelRuns)
-        {
-            // Logger.WriteLine(i.Value.VariableCount().ToString());
-            i.Value.DownloadDatasets();
-        }
     }
 
     static public void OnClose()

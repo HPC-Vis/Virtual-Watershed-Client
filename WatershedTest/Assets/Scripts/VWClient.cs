@@ -190,6 +190,7 @@ public class VWClient : Observer
     public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
         // Build a WCS observable
+        Debug.LogError("WCS GET COVERAGE");
         Logger.WriteLine("WCS getCoverage Called");
         var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
         client.GetData(Record, param);
@@ -211,6 +212,19 @@ public class VWClient : Observer
 		client.ModelRunUUID = Record.modelRunUUID;
 		AddObservable(client);
 	}
+
+    public void describeCoverage(DataRecordSetter Setter, ref DataRecord Record, SystemParameters param)
+    {
+        // Build a WCS observable
+        Logger.WriteLine("WCS describeCoverage Called");
+        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath, 2);
+        client.GetData(Record, param);
+        client.Token = GenerateToken("DescribeCoverage");
+        client.callback = Setter;
+        client.Priority = param.Priority;
+        client.ModelRunUUID = Record.modelRunUUID;
+        AddObservable(client);
+    }
 
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
@@ -461,6 +475,8 @@ public class VWClient : Observer
 			ModelRunManager.GetByUUID(ModelRunUUID).SetModelRunTime();
             return;
         }
+
+        
         /*else if(FileBasedCache.Exists(ModelRunUUID)) // Cache Check
         {
             Debug.LogError("WE GOT THE CASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");

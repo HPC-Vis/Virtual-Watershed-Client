@@ -185,6 +185,11 @@ class WCSClient : Observerable
                     }
                     break;
                 }
+                else if (i.name == "version")
+                {
+                    // replace with version
+                    parameters += i.name + "=" + "1.1.2&";
+                }
                 else
                 {
 					if(i.name == "InterpolationType" && param.interpolation != "" )
@@ -247,10 +252,16 @@ class WCSClient : Observerable
         {
             foreach (string j in i.AllowedValues)
             {
-        		if(i.name == "identifiers")
+                if (i.name == "identifiers" || i.name.ToLower().Contains("identifier"))
         		{
-        			parameters += i.name + "=" + records[0].Identifier+"&";
+                    // version wcs 1.1.2 specific
+                    parameters += "identifiers" + "=" + records[0].Identifier + "&";
         		}
+                else if (i.name == "version")
+                {
+                    // replace with version
+                    parameters += i.name + "=" + "1.1.2&";
+                }
         		else
         		{
                 	parameters += i.name + "=" + j + "&";
@@ -259,7 +270,11 @@ class WCSClient : Observerable
             }
         }
 
-        string req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
+        string req;
+        if(!gc.DCP.HTTP.Get.href.Contains('?') )
+        req = gc.DCP.HTTP.Get.href + "?request=DescribeCoverage&" + parameters;
+        else
+            req = gc.DCP.HTTP.Get.href + "request=DescribeCoverage&" + parameters;
          //Logger.WriteLine(req);
 
         // Return
@@ -284,6 +299,7 @@ class WCSClient : Observerable
         //}
         // Return
         // Logger.Log(Token + ": " + req);
+        Debug.LogError("DESCRIBE_COVERAGE: " + req);
         return req;
     }
 }
