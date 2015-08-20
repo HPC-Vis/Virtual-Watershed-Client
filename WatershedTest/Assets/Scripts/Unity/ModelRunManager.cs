@@ -344,23 +344,30 @@ public static class ModelRunManager
 	public static bool InsertDataRecord(DataRecord record, List<DataRecord> allRecords)
 	{
         //modelRuns[record.modelRunUUID].successfulRuns.Add(record.id, record.id);
-
         if(modelRuns[record.modelRunUUID].CurrentCapacity == (modelRuns[record.modelRunUUID].Total))
         {
+                   
+            GlobalConfig.caching = true;
             foreach (DataRecord rec in allRecords)
             {
                 FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
                 //Logger.WriteLine("The model run is now in the cache.");
             }
+            GlobalConfig.caching = false;
         }
         else if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
         {
-            foreach (DataRecord rec in allRecords)
+            // Start Thread
+            new Thread(() =>
             {
-                FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
-                //Logger.WriteLine("The model run is now in the cache.");
-            }
-            timeToCache = false;
+                GlobalConfig.caching = true;
+                foreach (DataRecord rec in allRecords)
+                {
+                    FileBasedCache.Insert<ModelRun>(rec.modelRunUUID, modelRuns[rec.modelRunUUID]);
+                    //Logger.WriteLine("The model run is now in the cache.");
+                }
+                GlobalConfig.caching = false;
+            }).Start();
         }
 
         return modelRuns[record.modelRunUUID].Insert(record);
@@ -512,7 +519,6 @@ public static class ModelRunManager
         }
 		else 
 		{
-			Logger.WriteLine ("FILTERING");
 			// Add it to its perspective model run
 			record.band_id = 1;
             InsertDataRecord(record, allRecords);
