@@ -108,14 +108,6 @@ Material:
         second: 0
       data:
         first:
-          name: _FloatMin
-        second: 0
-      data:
-        first:
-          name: _FloatMax
-        second: 255
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -142,6 +134,14 @@ Material:
         first:
           name: _Mode
         second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: 0
+      data:
+        first:
+          name: _FloatMax
+        second: 255
       data:
         first:
           name: _x1

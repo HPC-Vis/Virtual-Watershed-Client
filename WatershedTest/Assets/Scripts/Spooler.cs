@@ -223,10 +223,12 @@ public class Spooler : MonoBehaviour
 			}
 		}
 
+        // This if statement is used for debugging code
         if(Input.GetKeyDown(KeyCode.L))
         {
             Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
-            trendGraph.SetPosition(50, 50);
+            // trendGraph.SetPosition(50, 50);
+            // trendGraph.PresetData();
         }
     }
 

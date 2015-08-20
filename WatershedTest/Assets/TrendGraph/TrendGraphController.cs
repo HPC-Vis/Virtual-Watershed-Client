@@ -184,29 +184,43 @@ namespace VTL.TrendGraph
                         marker2Row = timeseries[DataIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint2.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
                         marker2Col = timeseries[DataIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint2.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
 
-                        Debug.LogError("The marker location are at points: (" + marker1Row + ", " + marker1Col + ") - (" + marker2Row + ", " + marker2Col + ").");
+                        DataSlice.Clear();
                         BuildSlice();
                         button.SetActive(true);
                     }
                     else
                     {
-                        Debug.LogError("Cleared the DataSlice.");
                         button.SetActive(false);
-                        DataSlice.Clear();
                     }
                 }
             }
-            else
+            else if(button.activeSelf)
             {
-                Debug.LogError("Cleared the DataSlice.");
                 button.SetActive(false);
-                DataSlice.Clear();
             }
         }
 
+        /// <summary>
+        /// This will set the dataIndex to the currently viewed slide
+        /// </summary>
+        /// <param name="index">The index of the slide currently shown.</param>
         public void SetDataIndex(int index)
         {
             DataIndex = index;
+        }
+
+        /// <summary>
+        /// This is used for testing purposes, it will get the same slide and location every time.
+        /// </summary>
+        public void PresetData()
+        {
+            DataIndex = 1545;
+            marker1Row = 61;
+            marker1Col = 33;
+            marker2Row = 46;
+            marker2Col = 43;
+            currentframeToFile();
+            BuildSlice();
         }
 
         /// <summary>
@@ -332,7 +346,6 @@ namespace VTL.TrendGraph
             int sample_rate = 50;
             Vector2 vec = new Vector2(marker2Row - marker1Row, marker2Col - marker1Col);
             float mag = Mathf.Sqrt((vec.x * vec.x) + (vec.y * vec.y));
-            Debug.LogError("The Magnitude: " + mag);
             int x1, y1, x2, y2;
             float x, y;
             
@@ -340,8 +353,8 @@ namespace VTL.TrendGraph
 
             for(int i = 0; i < sample_rate; i++)
             {
-                x = marker1Row + (unit.x * (i / sample_rate) * mag);
-                y = marker1Col + (unit.y * (i / sample_rate) * mag);
+                x = marker1Row + (unit.x * (float)((float)i / (float)sample_rate) * mag);
+                y = marker1Col + (unit.y * (float)((float)i / (float)sample_rate) * mag);
 
                 x1 = (int)Mathf.Floor(x);
                 y1 = (int)Mathf.Floor(y);
@@ -380,7 +393,12 @@ namespace VTL.TrendGraph
         /// <param name="y">Interpol point y</param>
         public float bilinearInterpolation(int x1, int y1, int x2, int y2, float x, float y)
         {
-            return (1 / ((x2 - x1) * (y2 - y1))) * ((timeseries[DataIndex].Data[x1, y1] * (x2 - x) * (y2 - y)) + (timeseries[DataIndex].Data[x2, y1] * (x - x1) * (y2 - y)) + (timeseries[DataIndex].Data[x1, y2] * (x2 - x) * (y - y1)) + (timeseries[DataIndex].Data[x2, y2] * (x - x1) * (y - y1)));
+            // Debug log for testing the data
+            // Debug.LogError("The value x1, y1, x2, y2, x, y, ts(x1,y1), ts(x2,y1), ts(x1,y2), ts(x2,y2): " + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x + ", " + y + ", " + timeseries[DataIndex].Data[x1, y1] + ", " + timeseries[DataIndex].Data[x2, y1] + ", " + timeseries[DataIndex].Data[x1, y2] + ", " + timeseries[DataIndex].Data[x2, y2]);
+            
+            // Run the Interpolation, and return.
+            float value = (1 / ((x2 - x1) * (y2 - y1))) * ((timeseries[DataIndex].Data[x1, y1] * (x2 - x) * (y2 - y)) + (timeseries[DataIndex].Data[x2, y1] * (x - x1) * (y2 - y)) + (timeseries[DataIndex].Data[x1, y2] * (x2 - x) * (y - y1)) + (timeseries[DataIndex].Data[x2, y2] * (x - x1) * (y - y1)));
+            return value;
         }
 
         /// <summary>
@@ -564,6 +582,7 @@ namespace VTL.TrendGraph
             
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
             {
+                file.WriteLine("This file represenets interpolated data that was calculated from a line across the currently shown dataset.");
                 file.WriteLine(variable_name + ": " + unitsLabel);
                 file.WriteLine("Time of Frame: " + timeseries[DataIndex].time);
                 file.WriteLine("UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ").");
@@ -600,6 +619,34 @@ namespace VTL.TrendGraph
                 foreach (var i in timeseries)
                 {
                     file.Write(i.Data[Row, Col] + ", ");
+                }
+            }
+        }
+
+        /// <summary>
+        /// This will send all the data from the current frame to a file
+        /// </summary>
+        public void currentframeToFile()
+        {
+            // Temp patch to the OS dependen Compute Shader
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string pathDownload = pathUser + "/graph.txt";
+#elif UNITY_EDITOR_WIN
+            string pathDownload = pathUser + "\\frameToFile.txt";
+#endif
+            Debug.LogError("The File Path: " + pathDownload);
+
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            {
+                for (int i = 0; i < timeseries[DataIndex].Data.GetLength(1); i++ )
+                {
+                    for (int j = 0; j < timeseries[DataIndex].Data.GetLength(0); j++ )
+                    {
+                        file.Write(timeseries[DataIndex].Data[i, j] + ", ");
+                    }
+                    file.Write("\n");
                 }
             }
         }
