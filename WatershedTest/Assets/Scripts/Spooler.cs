@@ -90,9 +90,6 @@ public class Spooler : MonoBehaviour
         {
             TimeProjector.material = slideProjector;
         }
-
-        trendGraph.row = 50;
-        trendGraph.col = 50;
 	}
 	int count = 10;
 
@@ -163,6 +160,9 @@ public class Spooler : MonoBehaviour
 						BoundingBox = Utilities.bboxSplit(record.bbox);
                     }
 
+                    // Set the bounding box to the trendgraph
+                    trendGraph.SetBoundingBox(BoundingBox);
+
                     tran = new transform();
                     Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
@@ -176,7 +176,7 @@ public class Spooler : MonoBehaviour
                 }
 
                 count--;
-                Debug.LogError("BUILDING BAND NUM: "  + record.band_id);
+                //Debug.LogError("BUILDING BAND NUM: "  + record.band_id);
                 textureBuilder(record);
 
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
@@ -218,20 +218,17 @@ public class Spooler : MonoBehaviour
 				// Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                 trendGraph.SetCoordPoint(WorldPoint);
-                trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
-                trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                trendGraph.Compute();
-                Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
+                trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1),
+                                       Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1));
 			}
 		}
 
+        // This if statement is used for debugging code
         if(Input.GetKeyDown(KeyCode.L))
         {
             Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
-            Debug.LogError("Ran the trend graph test at location 50, 50");
-            trendGraph.row = 50;
-            trendGraph.col = 50;
-            trendGraph.Compute();
+            // trendGraph.SetPosition(50, 50);
+            // trendGraph.PresetData();
         }
     }
 
@@ -363,6 +360,13 @@ public class Spooler : MonoBehaviour
 	{
 		// Does this handle duplicates..
 		int index = Reel.BinarySearch(frame,new FrameEndDateAscending());
+
+        if(Reel.Count >= TOTAL)
+        {
+            Debug.LogError("Why is there more records being added to the Reel?");
+            Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
+        }
+
 		//if index >= 0 there is a duplicate 
 		if(index >= 0)
 		{
@@ -505,6 +509,9 @@ public class Spooler : MonoBehaviour
 		if (Reel.Count > 0)
 		{
 			textureIndex = FindNearestFrame(timeSlider.SimTime);//(int)slider.value;
+
+            // Update the index on the trendgraph
+            trendGraph.SetDataIndex(textureIndex);
 			
 			//Debug.Log("CHANGING");
 			//Debug.Log(textureIndex);

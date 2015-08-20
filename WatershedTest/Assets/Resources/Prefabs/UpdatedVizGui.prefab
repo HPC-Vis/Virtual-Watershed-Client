@@ -16997,12 +16997,22 @@ MonoBehaviour:
   variable_name: 
   valueFormatString: 0.00
   Keep: 1
-  row: 0
-  col: 0
+  Row: 0
+  Col: 0
   easting: 0
   northing: 0
   GraphMaterial: {fileID: 0}
   GraphImage: {fileID: 0}
+  marker1: {fileID: 0}
+  marker2: {fileID: 0}
+  BoundingBox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  DataIndex: 0
+  button: {fileID: 0}
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1

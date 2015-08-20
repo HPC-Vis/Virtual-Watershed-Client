@@ -101,14 +101,6 @@ Material:
         second: 0
       data:
         first:
-          name: _FloatMin
-        second: 10
-      data:
-        first:
-          name: _FloatMax
-        second: 100
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
@@ -137,6 +129,18 @@ Material:
         second: 0
       data:
         first:
+          name: _EmissionScaleUI
+        second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: 10
+      data:
+        first:
+          name: _FloatMax
+        second: 100
+      data:
+        first:
           name: _x1
         second: 1
       data:
@@ -159,10 +163,6 @@ Material:
         first:
           name: _Blend
         second: 1
-      data:
-        first:
-          name: _EmissionScaleUI
-        second: 0
       data:
         first:
           name: _NumLines
