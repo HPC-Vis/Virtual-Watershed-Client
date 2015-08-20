@@ -14044,7 +14044,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 1/1/0001 12:00:00 AM
 --- !u!114 &11430358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16993,18 +16993,26 @@ MonoBehaviour:
   yMax: 100
   yMin: -100
   timebase: 60
-  minTime: 
-  maxTime: 
   unitsLabel: units
   variable_name: 
   valueFormatString: 0.00
   Keep: 1
-  row: 0
-  col: 0
+  Row: 0
+  Col: 0
   easting: 0
   northing: 0
   GraphMaterial: {fileID: 0}
   GraphImage: {fileID: 0}
+  marker1: {fileID: 0}
+  marker2: {fileID: 0}
+  BoundingBox:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 0
+    height: 0
+  DataIndex: 0
+  button: {fileID: 0}
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -25508,7 +25516,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 12/31/9999 11:59:59 PM
 --- !u!114 &11486094
 MonoBehaviour:
   m_ObjectHideFlags: 1

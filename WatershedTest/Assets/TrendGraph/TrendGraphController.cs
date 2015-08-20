@@ -47,8 +47,8 @@ namespace VTL.TrendGraph
         Vector3 origin;
         float w;
         float h;
-        public int row = 0;
-        public int col = 0;
+        public int Row = 0;
+        public int Col = 0;
         RectTransform rectTransform;
         RectTransform lineAnchor;
         Canvas parentCanvas;
@@ -59,6 +59,16 @@ namespace VTL.TrendGraph
         private Texture2D TrendTexture = null;
         public DateTime Begin = DateTime.MaxValue;
         public DateTime End = DateTime.MinValue;
+
+        // Used for the data slicer
+        public GameObject marker1, marker2;
+        Vector3 marker1Position = Vector3.zero, marker2Position = Vector3.zero;
+        int marker1Row = 0, marker1Col = 0, marker2Row = 0, marker2Col = 0;
+        public Rect BoundingBox;
+        public int DataIndex = 0;
+        List<float> DataSlice;
+        Vector3 WorldPoint1, WorldPoint2;
+        public GameObject button;
 
         /// <summary>
         /// Called to update the fields on the trend graph.
@@ -108,10 +118,21 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
+        /// Set the Bounding box to the trend graph for checking
+        /// </summary>
+        /// <param name="bb">The bounding box to store the position.</param>
+        public void SetBoundingBox(Rect bb)
+        {
+            BoundingBox = bb;
+        }
+
+        /// <summary>
         /// Use this for initialization of the trend graph and the locations on the scene.
         /// </summary>
         void Start()
         {
+            button.SetActive(false);
+            DataSlice = new List<float>();
             timeseries = new List<TimeseriesRecord>();
             rectTransform = transform.Find("Graph") as RectTransform;
             lineAnchor = transform.Find("Graph")
@@ -132,6 +153,60 @@ namespace VTL.TrendGraph
 
             // Set image material
             GraphImage.material = GraphMaterial;
+        }
+
+        /// <summary>
+        /// This will handle the slicer of the data in the bounding box.
+        /// </summary>
+        void Update()
+        {
+            // Check if there is active markers
+            if(marker1.activeSelf && marker2.activeSelf)
+            {
+                if(marker1.transform.position != marker1Position || marker2.transform.position != marker2Position)
+                {
+                    // Set the marker positions
+                    marker1Position = new Vector3(marker1.transform.position.x, marker1.transform.position.y, marker1.transform.position.z);
+                    marker2Position = new Vector3(marker2.transform.position.x, marker2.transform.position.y, marker2.transform.position.z);
+
+                    // Place in the check locations
+                    WorldPoint1 = coordsystem.transformToWorld(marker1Position);
+                    Vector2 CheckPoint1 = new Vector2(WorldPoint1.x, WorldPoint1.z);
+                    WorldPoint2 = coordsystem.transformToWorld(marker2Position);
+                    Vector2 CheckPoint2 = new Vector2(WorldPoint2.x, WorldPoint2.z);
+
+                    if (BoundingBox.Contains(CheckPoint1) && BoundingBox.Contains(CheckPoint2))
+                    {
+                        Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, BoundingBox);
+                        Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
+                        marker1Row = timeseries[DataIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint1.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
+                        marker1Col = timeseries[DataIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint1.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
+                        marker2Row = timeseries[DataIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint2.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
+                        marker2Col = timeseries[DataIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint2.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
+
+                        Debug.LogError("The marker location are at points: (" + marker1Row + ", " + marker1Col + ") - (" + marker2Row + ", " + marker2Col + ").");
+                        BuildSlice();
+                        button.SetActive(true);
+                    }
+                    else
+                    {
+                        Debug.LogError("Cleared the DataSlice.");
+                        button.SetActive(false);
+                        DataSlice.Clear();
+                    }
+                }
+            }
+            else
+            {
+                Debug.LogError("Cleared the DataSlice.");
+                button.SetActive(false);
+                DataSlice.Clear();
+            }
+        }
+
+        public void SetDataIndex(int index)
+        {
+            DataIndex = index;
         }
 
         /// <summary>
@@ -250,6 +325,65 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
+        /// takes the two given points and builds a interpolated slice off of it.
+        /// </summary>
+        public void BuildSlice()
+        {
+            int sample_rate = 50;
+            Vector2 vec = new Vector2(marker2Row - marker1Row, marker2Col - marker1Col);
+            float mag = Mathf.Sqrt((vec.x * vec.x) + (vec.y * vec.y));
+            Debug.LogError("The Magnitude: " + mag);
+            int x1, y1, x2, y2;
+            float x, y;
+            
+            Vector2 unit = new Vector2((1 / mag) * vec.x, (1 / mag) * vec.y);
+
+            for(int i = 0; i < sample_rate; i++)
+            {
+                x = marker1Row + (unit.x * (i / sample_rate) * mag);
+                y = marker1Col + (unit.y * (i / sample_rate) * mag);
+
+                x1 = (int)Mathf.Floor(x);
+                y1 = (int)Mathf.Floor(y);
+                x2 = (int)Mathf.Ceil(x);
+                y2 = (int)Mathf.Ceil(y);
+
+                if(x1 == x2)
+                {
+                    x2 += 1;
+                }
+                if(y1 == y2)
+                {
+                    y2 += 1;
+                }
+                DataSlice.Add(bilinearInterpolation(x1, y1, x2, y2, x, y));
+            }
+
+            x = marker1Row + (unit.x * 1 * mag);
+            y = marker1Col + (unit.y * 1 * mag);
+
+            x1 = marker2Row - 1;
+            y1 = marker2Col - 1;
+            x2 = marker2Row;
+            y2 = marker2Col;
+            DataSlice.Add(bilinearInterpolation(x1, y1, x2, y2, x, y));
+        }
+
+        /// <summary>
+        /// Computes a bilinear interoplation off the given initial location, end location, and the point to interpolate on
+        /// </summary>
+        /// <param name="x1">Initial x point</param>
+        /// <param name="y1">Initial y point</param>
+        /// <param name="x2">End x point</param>
+        /// <param name="y2">End y point</param>
+        /// <param name="x">Interpol Point x</param>
+        /// <param name="y">Interpol point y</param>
+        public float bilinearInterpolation(int x1, int y1, int x2, int y2, float x, float y)
+        {
+            return (1 / ((x2 - x1) * (y2 - y1))) * ((timeseries[DataIndex].Data[x1, y1] * (x2 - x) * (y2 - y)) + (timeseries[DataIndex].Data[x2, y1] * (x - x1) * (y2 - y)) + (timeseries[DataIndex].Data[x1, y2] * (x2 - x) * (y - y1)) + (timeseries[DataIndex].Data[x2, y2] * (x - x1) * (y - y1)));
+        }
+
+        /// <summary>
         /// Adds points on the texture that represent a straight line from the initial point
         /// to the ending point.
         /// </summary>
@@ -337,7 +471,7 @@ namespace VTL.TrendGraph
             float normHeight = 0;
             if (record.Data != null)
             {
-                normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
+                normHeight = Mathf.Clamp01((record.Data[Row, Col] - yMin) / (yMax - yMin));
             }
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
             return new Vector2(origin.x + w * normTime,
@@ -378,6 +512,21 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
+        /// This will add the row and col location of the trendgraph, enabling the graph to be built.
+        /// This will also begin to build the data slicer points and compute when done.
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="c"></param>
+        public void SetPosition(int row, int col)
+        {
+            // Set row and col
+            Row = row;
+            Col = col;
+            Compute();
+            Debug.LogError("Trend Graph row: " + Row + " col: " + Col);
+        }
+
+        /// <summary>
         /// Takes the parameters and will build a timeseries record to add to the timeseries.
         /// </summary>
         /// <param name="time">The datetime of the data.</param>
@@ -399,6 +548,34 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
+        /// This will send the data on the slicer to a file
+        /// </summary>
+        public void SlicerToFile()
+        {
+            // Temp patch to the OS dependen Compute Shader
+            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string pathDownload = pathUser + "/graph.txt";
+#elif UNITY_EDITOR_WIN
+            string pathDownload = pathUser + "\\slicer_data.txt";
+#endif
+            Debug.LogError("The File Path: " + pathDownload);
+            
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            {
+                file.WriteLine(variable_name + ": " + unitsLabel);
+                file.WriteLine("Time of Frame: " + timeseries[DataIndex].time);
+                file.WriteLine("UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ").");
+                file.WriteLine("UTM Zone: " + coordsystem.localzone);
+                foreach (var i in DataSlice)
+                {
+                    file.Write(i + ", ");
+                }
+            }
+        }
+
+        /// <summary>
         /// This will take all the data at the selected point on the data set, throughout all datasets of time,
         /// and send to a file on the Desktop named graph.txt.
         /// </summary>
@@ -413,9 +590,7 @@ namespace VTL.TrendGraph
             string pathDownload = pathUser + "\\graph.txt";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
-
-            float[] csv_file = new float[timeseries.Count];
-
+            
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
             {
                 file.WriteLine(variable_name + ": " + unitsLabel);
@@ -424,7 +599,7 @@ namespace VTL.TrendGraph
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
                 foreach (var i in timeseries)
                 {
-                    file.Write(i.Data[row, col] + ", ");
+                    file.Write(i.Data[Row, Col] + ", ");
                 }
             }
         }
