@@ -259,6 +259,14 @@ namespace VTL.TrendGraph
                 }
             }
 
+            // Draw a line that represents the current slide on the graph
+            float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normHeight = Mathf.Clamp01((yMax - yMin) / (yMax - yMin));
+            Vector2 first = new Vector2(origin.x + w * normTime, origin.y + h * (1 - normHeight));
+            normHeight = Mathf.Clamp01((yMin - yMin) / (yMax - yMin));
+            Vector2 second = new Vector2(origin.x + w * normTime, origin.y + h * (1 - normHeight));
+            Drawing.DrawLine(first, second, Color.blue, lineWidth, true);
+
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
             switch (parentCanvas.renderMode)
