@@ -35,7 +35,7 @@ using System.Collections.Generic;
      {
          //df.TestStringDownload("http://vwp-dev.unm.edu/apps/vwp/search/datasets.json?limit=12000");
          WebClient wc = new WebClient();
-         wc.DownloadString("http://vwp-dev.unm.edu/apps/vwp/search/datasets.json?&limit=100");
+         wc.DownloadString("http://vwp-dev.unm.edu/apps/vwp/datasets/05d8bd21-105e-4d0a-8e63-fe4f148cde01/services/ogc/wcs?request=GetCoverage&service=WCS&version=1.1.2&Identifier=downwelling_longwave_flux_in_air&InterpolationType=bilinear&format=application/x-netcdf&store=false&GridBaseCRS=urn:ogc:def:crs:epsg::4326&CRS=EPSG:4326&bbox=-116.142921741559,43.7293760210743,-116.137597499034,43.7327467931015&width=100&height=100&RangeSubset=Timesteps[Timestep[1]");//"http://vwp-dev.unm.edu/apps/vwp/search/datasets.json?&limit=100");
          Assert.Pass();
      }
 

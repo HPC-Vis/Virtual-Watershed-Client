@@ -14044,7 +14044,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 1/1/0001 12:00:00 AM
 --- !u!114 &11430358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -16993,8 +16993,6 @@ MonoBehaviour:
   yMax: 100
   yMin: -100
   timebase: 60
-  minTime: 
-  maxTime: 
   unitsLabel: units
   variable_name: 
   valueFormatString: 0.00
@@ -25508,7 +25506,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 12/31/9999 11:59:59 PM
 --- !u!114 &11486094
 MonoBehaviour:
   m_ObjectHideFlags: 1

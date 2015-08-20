@@ -375,20 +375,23 @@ public static class ModelRunManager
             modelRuns[record[0].modelRunUUID].Remove(record[0]);
 			if(record[0].WCSCoverages != null)
 			{
-				foreach (var i in record[0].WCSCoverages)
-				{
-					DataRecord dr = record[0].Clone();
-					dr.band_id = 1;
-					dr.Identifier = i.Identifier;
-					dr.variableName = i.Identifier;
-					if(record[0].WCSCoverages.Count() > 1)
-					dr.Temporal = true;
-					Logger.WriteLine("A NEW RECORLD: " + i.Identifier);
-					InsertDataRecord(dr, record);
-					
-					// Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
-					client.describeCoverage(CreateNewBands,dr,new SystemParameters());
-				}
+                for (int i = 0; i < record[0].WCSCoverages.Length; i++ )
+                {
+
+                    var dr = record[0].Clone();
+                    dr.band_id = 1;
+                    dr.Identifier = record[0].WCSCoverages[i].Identifier;
+                    dr.variableName = record[0].WCSCoverages[i].Identifier;
+                    if (record[0].WCSCoverages.Count() > 1)
+                        dr.Temporal = true;
+                    Logger.WriteLine("A NEW RECORLDsss: " + record[0].WCSCoverages[i].Identifier);
+                    //InsertDataRecord(dr, record);
+
+                    // Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
+                    client.describeCoverage(CreateNewBands, dr, new SystemParameters());
+
+                    //break;
+                }
 			}
 			// See if layers variable is defined
 			else if (record [0].wmslayers != null) 
@@ -453,13 +456,17 @@ public static class ModelRunManager
         var record = records[0];
         if (record.metaData != null && record.metaData.idinfo != null && record.metaData.idinfo.timeperd != null)
         {
-            if(record.metaData.idinfo.timeperd.timeinfo.rngdates != null)
+            if (record.metaData.idinfo.timeperd.timeinfo.rngdates != null)
             {
-                //record.start = new DateTime();
                 record.start = uintToDateTime(record.metaData.idinfo.timeperd.timeinfo.rngdates.begdate);
                 record.end = uintToDateTime(record.metaData.idinfo.timeperd.timeinfo.rngdates.enddate);
                 UnityEngine.Debug.LogError("A START RECORD TIME: " + record.start);
             }
+        }
+        else
+        {
+            record.start = DateTime.Today - new TimeSpan(365, 0, 0, 0, 0);
+            record.end = DateTime.Today ;
         }
         //Debug.LogError(record.multiLayered); patch is record.multilayered..
         if (record.services.ContainsKey("wcs") )
@@ -486,13 +493,34 @@ public static class ModelRunManager
 
 	public static void CreateNewBands(List<DataRecord> record)
 	{
-		Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString());
+        Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString() + "LIST COUNT: " + record.Count + " " + record[0].Identifier + "HAS TIME: " + record[0].start);
+
+        // The first record contains the total overall period for a model run.. let calculate a average time period
+        var timeperiod = record[0].end - record[0].start;
+        double duration = Math.Round(timeperiod.Value.TotalHours / record[0].numbands);
+        Debug.LogError("DURATION: " + duration);
+        TimeSpan ts = new TimeSpan((int)duration, 0, 0);
+        record[0].end = record[0].start + ts;
 		// Lets create the records for this guy...
 		for(int i =2; i <= record[0].numbands; i++)
 		{
 			DataRecord dr = record[0].Clone();
 			dr.band_id = i;
 			dr.id += dr.band_id.ToString() + dr.variableName;
+            try
+            {
+                var ts2 = new TimeSpan((int)ts.TotalHours * (i - 1), 0, 0);
+                var ts3 = new TimeSpan((int)ts.TotalHours * i, 0, 0);
+                dr.start = record[0].start + ts2;
+                dr.end = record[0].start + ts3;
+                Debug.LogError("START: " + dr.start.HasValue);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError(e.Message);
+                Debug.LogError(e.StackTrace);
+            }
+            //Debug.LogError("END: " + dr.end);
             Logger.WriteLine("SUCCESSFUL ADD?: " + InsertDataRecord(dr, record).ToString());
 		}
 	}

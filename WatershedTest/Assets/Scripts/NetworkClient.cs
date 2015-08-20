@@ -124,8 +124,11 @@ public class NetworkClient : WebClient
         }
         catch(Exception e)
         {
+            if (CurrentDownload.Priority != 1)
+            {
+                DownloadRequests.Enqueue(CurrentDownload);
+            }
             CurrentDownload.Priority = 1;
-            DownloadRequests.Enqueue(CurrentDownload);
             Logger.WriteLine(e.Message + " " + e.StackTrace);
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             netmanager.CallDataError(CurrentDownload.Url);
