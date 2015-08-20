@@ -2,7 +2,7 @@
 using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
-
+using System.Net;
 namespace OGC_Tests
 {
    
@@ -142,6 +142,9 @@ namespace OGC_Tests
         [Datapoint]
         public string randomlink2 = "http://vwp-dev.unm.edu/apps/vwp/datasets/ebce3b6e-85b5-4c63-8388-21dc71e942ee/services/ogc/wcs?SERVICE=wcs&REQUEST=GetCapabilities&VERSION=1.1.2";
 
+        [Datapoint]
+        public string randomlink3 = "http://vwp-dev.unm.edu/apps/vwp/datasets/05d8bd21-105e-4d0a-8e63-fe4f148cde01/services/ogc/wcs?SERVICE=wcs&REQUEST=GetCapabilities&VERSION=1.1.2";
+
         // Not really magic just us testing whether we can take a single link of a random ogc service and see it works
         [Theory, Timeout(120000)]
         [MaxTime(120000)]
@@ -150,6 +153,16 @@ namespace OGC_Tests
             Assert.That(ogc.MagicFunction(url));
         }
 
+
+        [Test]
+        public void XMLPARSE()
+        {
+            WebClient wc = new WebClient();
+            string s = wc.DownloadString("http://vwp-dev.unm.edu/apps/vwp/datasets/0afd433c-846b-475d-9bd2-57193e16b40a/services/ogc/wcs?request=DescribeCoverage&service=WCS&version=1.1.2&identifiers=soil_temperature&");
+            WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser();
+            parser.parseDescribeCoverage(new DataRecord(), s);
+            //Assert.Pass();
+        }
 
 	}
 }

@@ -255,7 +255,7 @@ class WCSClient : Observerable
                 if (i.name == "identifiers" || i.name.ToLower().Contains("identifier"))
         		{
                     // version wcs 1.1.2 specific
-                    parameters += "identifiers" + "=" + j + "&";
+                    parameters += "identifiers" + "=" + records[0].Identifier + "&";
         		}
                 else if (i.name == "version")
                 {
@@ -299,6 +299,7 @@ class WCSClient : Observerable
         //}
         // Return
         // Logger.Log(Token + ": " + req);
+        Debug.LogError("DESCRIBE_COVERAGE: " + req);
         return req;
     }
 }

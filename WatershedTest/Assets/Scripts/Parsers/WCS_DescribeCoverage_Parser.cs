@@ -10,7 +10,7 @@ using UnityEngine;
 /// WCS_DescribeCoverage_Parser
 /// This parser will parse a DescribeCoverage xml from a WCS Request.
 /// </summary>
-class WCS_DescribeCoverage_Parser :Parser
+public class WCS_DescribeCoverage_Parser :Parser
 {
 
     int[] grab_dimensions(string lower, string upper)
@@ -60,7 +60,7 @@ class WCS_DescribeCoverage_Parser :Parser
         if (serial.CanDeserialize(reader))
         {
             testc = (DescribeCoverageWCS.CoverageDescriptions)serial.Deserialize(reader);
-			Logger.WriteLine ("PARSED: " + testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count().ToString());
+			Logger.WriteLine ("PARSED: " + testc.CoverageDescription.Range.Field.Axis.AvailableKeys.Key.Count().ToString() + "IDENTIFIER: " + Record.Identifier);
         }
         else
         {
