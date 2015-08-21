@@ -206,6 +206,11 @@ namespace VTL.TrendGraph
         /// <param name="index">The index of the slide currently shown.</param>
         public void SetDataIndex(int index)
         {
+            if(index != DataIndex)
+            {
+                marker1Position = Vector3.zero;
+                marker2Position = Vector3.zero;
+            }            
             DataIndex = index;
         }
 
@@ -258,6 +263,10 @@ namespace VTL.TrendGraph
                         return;
                 }
             }
+
+            // Draw a line that represents the current slide on the graph
+            float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            Drawing.DrawLine(new Vector2(origin.x + w * normTime, origin.y), new Vector2(origin.x + w * normTime, origin.y + h * 1), Color.blue, lineWidth, true);
 
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
@@ -320,14 +329,10 @@ namespace VTL.TrendGraph
             TrendTexture = new Texture2D(width, height);
 
             // Loop through all the time series
-            Vector2 prev = Record2PixelCoords(timeseries[0]);
-            prev.y = prev.y - (int)origin.y - 1;
-            
+            Vector2 prev = Record2PixelCoords(timeseries[0]);            
             for (int i = 0; i < timeseries.Count; i++)
             {
                 Vector2 next = Record2PixelCoords(timeseries[i]);
-                next.y = next.y - (int)origin.y - 1;
-                next.x = next.x - (int)origin.x;
                 Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
                 prev = next;
             }
@@ -492,8 +497,8 @@ namespace VTL.TrendGraph
                 normHeight = Mathf.Clamp01((record.Data[Row, Col] - yMin) / (yMax - yMin));
             }
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
-            return new Vector2(origin.x + w * normTime,
-                               origin.y + h * (1 - normHeight));
+            return new Vector2(w * normTime,
+                               h * (1 - normHeight) - 1);
         }
 
         /// <summary>
@@ -507,6 +512,7 @@ namespace VTL.TrendGraph
             if (Begin > record.time)
             {
                 Begin = record.time;
+                timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
             }
             if (End < record.time)
             {
