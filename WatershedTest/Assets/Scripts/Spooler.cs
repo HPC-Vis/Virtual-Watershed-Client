@@ -227,7 +227,7 @@ public class Spooler : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.L))
         {
             Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
-            // trendGraph.SetPosition(50, 50);
+            trendGraph.SetPosition(50, 50);
             // trendGraph.PresetData();
         }
     }
