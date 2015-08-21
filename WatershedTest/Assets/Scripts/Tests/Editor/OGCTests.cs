@@ -2,7 +2,8 @@
 using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
-
+using OSGeo.GDAL;
+using System.IO;
 namespace OGC_Tests
 {
    
@@ -150,6 +151,46 @@ namespace OGC_Tests
             Assert.That(ogc.MagicFunction(url));
         }
 
+        [Test]
+        public void WMSTestGDAL()
+        {
+            //System.Console.WriteLine("GDAL DATA ORIG: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
+            Gdal.SetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            Gdal.AllRegister();
+            //System.Environment.SetEnvironmentVariable("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            //System.Console.WriteLine("GDAL DATA: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
+            Gdal.SetConfigOption("gdal_data", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            //string test = Gdal.GetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data");
+            //System.Console.WriteLine("TEST: " + test);
+            //var ds = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?", Access.GA_ReadOnly);
+            //var sds = ds.GetMetadata("SUBDATASETS");
+            
+           // System.Console.WriteLine(sds[0]);
+            //System.Console.WriteLine(sds.Length);
+            var ds2 = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Thick_Creek&SRS=EPSG:4326&BBOX=-120.01,31.17,-102.66,49.13", Access.GA_ReadOnly);
+            var sr = new OSGeo.OSR.SpatialReference("");
+            sr.ImportFromEPSG(4326);
+            System.Console.WriteLine(ds2.RasterCount);
+            var b = ds2.GetRasterBand(1);
+            int[] ints = new int[2*2];
+            b.ReadRaster(0, 0, 100, 100, ints, 2, 2, 0, 0);
+            System.Console.WriteLine(ints[0]);
+        }
+
+        [Test]
+        public void WFSTestGDAL()
+        {
+            
+            Gdal.AllRegister();
+            var ds = Gdal.Open("WFS:http://vwp-dev.unm.edu/apps/vwp/datasets/ce691ff6-da2a-46b9-a7ab-acb8bf94738d/services/ogc/wfs?SERVICE=WFS", Access.GA_ReadOnly);
+        }
+
+        [Test]
+        public void WCSTestGDAL()
+        {
+            Gdal.AllRegister();
+            // XML Code to go here.
+        }
 
 	}
 }
