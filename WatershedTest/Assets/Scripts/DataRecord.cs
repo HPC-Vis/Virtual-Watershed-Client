@@ -31,6 +31,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.variableName = variableName;
 		//dr.data = data;
 		//dr.texture = texture.Clone ();
+        dr.WCSCap = WCSCap;
 		dr.start = start;
 		dr.end = end;
 		dr.description = description;
@@ -213,6 +214,8 @@ public class DataRecord : IEquatable<DataRecord>
     /// 
     /// </summary>
     /// WCS Operations
+    [NonSerializedAttribute]
+    public GetCapabilites.Capabilities WCSCap = null;
 	[NonSerializedAttribute]
     public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
 	[NonSerializedAttribute]

@@ -4,6 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using OSGeo.GDAL;
 using System.IO;
+using System.Xml;
 namespace OGC_Tests
 {
    
@@ -190,6 +191,39 @@ namespace OGC_Tests
         {
             Gdal.AllRegister();
             // XML Code to go here.
+            string xml = @"<WCS_GDAL>
+            <ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wcs?</ServiceURL>
+            <CoverageName>Thick_Creek</CoverageName>
+            </WCS_GDAL>";
+            var t = Gdal.Open(xml, Access.GA_ReadOnly);
+            System.Console.WriteLine(t != null);
+            System.Console.WriteLine(t.RasterCount);
+            
+        }
+
+        [Test]
+        public void XMLTest()
+        {
+            XmlDocument doc = new XmlDocument();
+            var rootNode = doc.CreateElement("WCS_GDAL");
+            doc.AppendChild(rootNode);
+
+            XmlNode userNode = doc.CreateElement("user");
+            XmlAttribute attribute = doc.CreateAttribute("age");
+            attribute.Value = "42";
+            userNode.Attributes.Append(attribute);
+            userNode.InnerText = "John Doe";
+            rootNode.AppendChild(userNode);
+
+
+            //doc.CreateNode("WCS_GDAL","","");
+            using (var stringWriter = new StringWriter())
+            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+            {
+                doc.WriteTo(xmlTextWriter);
+                xmlTextWriter.Flush();
+                System.Console.WriteLine(stringWriter.GetStringBuilder().ToString());
+            }
         }
 
 	}
