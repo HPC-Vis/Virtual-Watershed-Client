@@ -156,26 +156,47 @@ namespace OGC_Tests
         public void WMSTestGDAL()
         {
             //System.Console.WriteLine("GDAL DATA ORIG: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
-            Gdal.SetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+@"\..\..\data\");
             Gdal.AllRegister();
-            //System.Environment.SetEnvironmentVariable("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            System.Environment.SetEnvironmentVariable("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
             //System.Console.WriteLine("GDAL DATA: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
-            Gdal.SetConfigOption("gdal_data", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
-            //string test = Gdal.GetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data");
+            //Gdal.SetConfigOption("gdal_data", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            //string test = Gdal.GetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
             //System.Console.WriteLine("TEST: " + test);
-            //var ds = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?", Access.GA_ReadOnly);
-            //var sds = ds.GetMetadata("SUBDATASETS");
+            /*var ds = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/189c7ae0-de72-4a43-9f1c-9b15a0f9064a/services/ogc/wms?", Access.GA_ReadOnly);
+            var sds = ds.GetMetadata("SUBDATASETS");
+            foreach(var i in sds)
+            {
+                Debug.LogError(i);
+            }*/
+            int count = 0;
+            RasterDataset rd = new RasterDataset("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0afd433c-846b-475d-9bd2-57193e16b40a/services/ogc/wms?");
             
+            if (rd.Open())
+            {
+                System.Console.Write(rd.HasSubDatasets(out count));
+                System.Console.WriteLine(count);
+                var sd = rd.GetSubDatasets();
+                if (sd != null && sd.Count != 0)
+                {
+                    rd = new RasterDataset(sd[1]);
+                    if (rd.Open())
+                    {
+                        System.Console.WriteLine(rd.GetData().Count);
+                    }
+                }
+            }
+           
            // System.Console.WriteLine(sds[0]);
             //System.Console.WriteLine(sds.Length);
-            var ds2 = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Thick_Creek&SRS=EPSG:4326&BBOX=-120.01,31.17,-102.66,49.13", Access.GA_ReadOnly);
-            var sr = new OSGeo.OSR.SpatialReference("");
-            sr.ImportFromEPSG(4326);
-            System.Console.WriteLine(ds2.RasterCount);
-            var b = ds2.GetRasterBand(1);
-            int[] ints = new int[2*2];
-            b.ReadRaster(0, 0, 100, 100, ints, 2, 2, 0, 0);
-            System.Console.WriteLine(ints[0]);
+            //var ds2 = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Thick_Creek&SRS=EPSG:4326&BBOX=-120.01,31.17,-102.66,49.13", Access.GA_ReadOnly);
+            //var sr = new OSGeo.OSR.SpatialReference("");
+           // sr.ImportFromEPSG(4326);
+           // System.Console.WriteLine(ds2.RasterCount);
+           // var b = ds2.GetRasterBand(1);
+          //  int[] ints = new int[2*2];
+           // b.ReadRaster(0, 0, 100, 100, ints, 2, 2, 0, 0);
+          //  System.Console.WriteLine(ints[0]);
         }
 
         [Test]
@@ -199,6 +220,27 @@ namespace OGC_Tests
             System.Console.WriteLine(t != null);
             System.Console.WriteLine(t.RasterCount);
             
+        }
+
+        [Test]
+        public void NetCDFTest()
+        {
+            var nc = Gdal.GetDriverByName("NETCDF");
+            if(nc != null)
+            Debug.LogError(nc.LongName);
+            string file = @"NETCDF:"+'"'+ @"C:\Users\ccarthen\Downloads\twoweek_inputs_with_zlib.nc" + '"';
+            RasterDataset rd = new RasterDataset(file);
+            if(rd.Open())
+            {
+                System.Console.WriteLine("OPENED");
+                var s = rd.GetSubDatasets();
+                rd = new RasterDataset(s[0]);
+                if(rd.Open())
+                {
+                    System.Console.WriteLine("OPENED 2" + s[0]);
+                    System.Console.WriteLine(rd.GetData().Count);
+                }
+            }
         }
 
         [Test]
