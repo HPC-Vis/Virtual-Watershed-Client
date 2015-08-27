@@ -192,7 +192,7 @@ public class VWClient : Observer
         // Build a WCS observable
         
         Logger.WriteLine("WCS getCoverage Called");
-        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath,404);
+        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
         client.GetData(Record, param);
         client.Token = GenerateToken("GetCoverage");
         client.callback = Setter;

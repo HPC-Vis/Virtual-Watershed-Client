@@ -52,7 +52,7 @@ public class WCS_BIL_Producer : DataProducer
             byte[] dataBytes = bilReader.ReadBytes((int)bilFI.Length);
 
             // Save into record
-            Records[0].Data.Add(bilreader.parse(header, dataBytes));
+            Records[0].Data = bilreader.parse(header, dataBytes);
 
             // Close the files
             hdrReader.Dispose();

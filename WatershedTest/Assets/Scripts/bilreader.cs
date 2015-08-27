@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System;
 
 
@@ -15,16 +16,15 @@ using System;
 public class bilreader
 {
     // A simple parser that returns a two dimensional float array of data.
-    public static float[,] parse(string header, byte[] data)
+    public static List<float[,]> parse(string header, byte[] data)
     {
         if(header == "")
         {
             Logger.Log("BILREADER: Error no Header for " + data.Length + " Bytes.");
             return null;
         }
-        // Initialize variables
-        float[,] arr = new float[1, 1];
 
+        List<float[,]> OutData = new List<float[,]>();
         // Parse Header file for stuff
         try
         {
@@ -76,26 +76,28 @@ public class bilreader
             }
 
 
-
-            // data type array that will information
-            arr = new float[nrows, ncols];
-
             float max = float.MinValue;
 
             // Now to convert the array.
-            for (int i = 0; i < nrows; i++)
+            for (int b = 0; b < nbands; b++)
             {
-                for (int j = 0; j < ncols; j++)
+                // Initialize variables
+                float[,] arr = new float[nrows, ncols];
+                for (int i = 0; i < nrows; i++)
                 {
-                    // Endianess
-
-                    // A systematic convertor -- 
-                    arr[i, j] = BitConverter.ToSingle(data, 4 * (i * ncols + ncols - 1 - j));
-                    if (arr[i, j] > max)
+                    for (int j = 0; j < ncols; j++)
                     {
-                        max = arr[i, j];
+                        // Endianess
+
+                        // A systematic convertor -- 
+                        arr[i, j] = BitConverter.ToSingle(data, (b * ncols * nrows * 4) + 4 * (i * ncols + ncols - 1 - j));
+                        if (arr[i, j] > max)
+                        {
+                            max = arr[i, j];
+                        }
                     }
                 }
+                OutData.Add(arr);
             }
         }
         catch (Exception e)
@@ -110,7 +112,7 @@ public class bilreader
         }
 
 
-        return arr;
+        return OutData;
     }
 
     static int nbits;
