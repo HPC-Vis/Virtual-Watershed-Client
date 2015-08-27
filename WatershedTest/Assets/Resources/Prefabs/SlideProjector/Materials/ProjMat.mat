@@ -149,19 +149,19 @@ Material:
       data:
         first:
           name: _x1
-        second: 0
+        second: 1
       data:
         first:
           name: _x2
-        second: 0
+        second: 1
       data:
         first:
           name: _x3
-        second: 0
+        second: 1
       data:
         first:
           name: _x4
-        second: 0
+        second: 1
       data:
         first:
           name: _x5
@@ -169,7 +169,7 @@ Material:
       data:
         first:
           name: _UsePoint
-        second: 0
+        second: 1
       data:
         first:
           name: _MaxX
@@ -190,23 +190,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 1, g: 0, b: 0, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 0, g: 0, b: 1, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 0, g: 1, b: 0, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 1, g: .921568632, b: .0156862754, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: .5, g: .5, b: .5, a: 1}
       data:
         first:
           name: _SegmentData005

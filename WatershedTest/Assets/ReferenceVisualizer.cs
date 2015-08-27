@@ -10,13 +10,12 @@ public class ReferenceVisualizer : MonoBehaviour
     public ListViewManager listViewables;
     public Dictionary<string, GameObject> viewableObjects = new Dictionary<string,GameObject>();
     Queue<DataRecord> queuedRecs = new Queue<DataRecord>();
-    Utilities utils = new Utilities();
     public Material LineMaterial;
 
     // Use this for initialization
     void Start()
     {
-        utils.LineMaterial = LineMaterial;
+
     }
 
     // Update is called once per frame
@@ -152,8 +151,8 @@ public class ReferenceVisualizer : MonoBehaviour
     public void BuildShapes(List<DataRecord> records)
     {
         // Debug.LogError("BUILDING OBJECTS");
-        GameObject go = utils.buildShape(records[0]);
-        utils.rebuildShape(go);
+        GameObject go = Utilities.buildShape(records[0]);
+        Utilities.rebuildShape(go);
         go.name = records[0].name;
         viewableObjects.Add(go.name, go);
         SetViewableFields(go, records[0]);
@@ -162,7 +161,7 @@ public class ReferenceVisualizer : MonoBehaviour
 	public void BuildDOQQ(DataRecord record)
 	{
 		// Debug.LogError("BUILDING OBJECTS");
-		GameObject go = utils.buildProjector(record);
+		GameObject go = Utilities.buildProjector(record);
 		//utils.rebuildShape(go);
 		go.name = record.name;
 		viewableObjects.Add(go.name, go);

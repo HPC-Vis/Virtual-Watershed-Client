@@ -26,6 +26,8 @@ public class ModelRun
     public int Total;
     public int CurrentCapacity = 0;
 
+    public Dictionary<string, string> successfulRuns = new Dictionary<string, string>();
+
 	// Replace with modelrun variable class  ....   ***********************************************
     //public ModelRunManager ModelRunManager;
     // private Dictionary<string, GeoReference> references = new Dictionary<string, GeoReference>();
@@ -215,6 +217,7 @@ public class ModelRun
 
     public void ClearData(string variable)
     {
+        MinMax[variable] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
         foreach (var record in variables[variable].Data)///references[variable])
         {
             record.Data = null;

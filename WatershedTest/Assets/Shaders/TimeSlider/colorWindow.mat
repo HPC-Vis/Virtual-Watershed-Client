@@ -100,6 +100,7 @@ Material:
         second: .5
       data:
         first:
+<<<<<<< HEAD
           name: _Glossiness
         second: .5
       data:
@@ -116,12 +117,18 @@ Material:
         second: 0
       data:
         first:
+=======
+>>>>>>> origin/master
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -144,20 +151,32 @@ Material:
         second: 0
       data:
         first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: 0
+      data:
+        first:
+          name: _FloatMax
+        second: 255
+      data:
+        first:
           name: _x1
-        second: 1
+        second: 51
       data:
         first:
           name: _x2
-        second: 1
+        second: 102
       data:
         first:
           name: _x3
-        second: 1
+        second: 153
       data:
         first:
           name: _x4
-        second: 1
+        second: 204
       data:
         first:
           name: _x5
