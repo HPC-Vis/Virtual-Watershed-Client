@@ -265,6 +265,11 @@ namespace VTL.TrendGraph
             }
 
             // Draw a line that represents the current slide on the graph
+            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
+            if(DataIndex > timeseries.Count)
+            {
+                DataIndex = 0;
+            }
             float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             Drawing.DrawLine(new Vector2(origin.x + w * normTime, origin.y), new Vector2(origin.x + w * normTime, origin.y + h * 1), Color.blue, lineWidth, true);
 
@@ -305,6 +310,7 @@ namespace VTL.TrendGraph
             yMax = 100;
             yMin = 0;
             unitsLabel = "";
+            DataIndex = 0;
             OnValidate();
         }
 
@@ -512,7 +518,6 @@ namespace VTL.TrendGraph
             if (Begin > record.time)
             {
                 Begin = record.time;
-                timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
             }
             if (End < record.time)
             {

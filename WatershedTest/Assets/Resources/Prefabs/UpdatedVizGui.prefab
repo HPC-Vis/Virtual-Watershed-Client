@@ -17949,12 +17949,6 @@ MonoBehaviour:
   colorProjector: {fileID: 0}
   slideProjector: {fileID: 0}
   cursor: {fileID: 0}
-  BoundingBox:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
   downloadTextBox: {fileID: 11416232}
   selectedVariableTextBox: {fileID: 11479612}
 --- !u!114 &11448978

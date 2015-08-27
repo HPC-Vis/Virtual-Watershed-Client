@@ -8,10 +8,7 @@ public class tempColorMapData : MonoBehaviour {
     float[,] data = new float[256, 256];
     public Image temp;
     public Texture2D text;
-
-    //not agaaaaain!
-    Utilities utilities = new Utilities();
-
+    
 	// Use this for initialization
 	void Start () {
         for (int i = 0; i < 256; i++)
@@ -28,7 +25,7 @@ public class tempColorMapData : MonoBehaviour {
         if (Input.GetKeyDown("t"))
         {
             float dummy1, dummy2;
-            text = utilities.BuildDataTexture(data, out dummy1, out dummy2);
+            text = Utilities.BuildDataTexture(data, out dummy1, out dummy2);
             temp.sprite = Sprite.Create(text, new Rect(0, 0, 256, 256), Vector2.zero);
             Debug.Log("Applying sprite");
         }

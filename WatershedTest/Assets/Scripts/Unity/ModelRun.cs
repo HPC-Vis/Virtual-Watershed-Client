@@ -217,6 +217,7 @@ public class ModelRun
 
     public void ClearData(string variable)
     {
+        MinMax[variable] = new SerialVector2(new Vector2(float.MaxValue, float.MinValue));
         foreach (var record in variables[variable].Data)///references[variable])
         {
             record.Data = null;
