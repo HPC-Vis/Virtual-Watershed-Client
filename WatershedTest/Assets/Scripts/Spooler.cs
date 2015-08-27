@@ -99,7 +99,7 @@ public class Spooler : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
+        //Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
 
         // If needed this will set the colors of the data on the terrain in the shader
         if (!WMS && colorPicker.ColorBoxes.Count > 0)
