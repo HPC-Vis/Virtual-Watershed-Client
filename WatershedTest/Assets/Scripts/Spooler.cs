@@ -32,15 +32,10 @@ public class FrameEndDateAscending : IComparer<Frame>
 
 public class Spooler : MonoBehaviour
 {
-	float frameRatio = 0.0f;
-	bool WMS = false;
+    // Public Variables
     static readonly object LOCK;
 	public TrendGraphController trendGraph;
-	string selectedModelRun="";
 	public ModelRunVisualizer visual;
-	Simulator simulator = new Simulator();
-	// This will hold all of the Reel...
-	List<Frame> Reel = new List<Frame>();
 	public Image testImage;
 	public Slider gridSlider;
 	public TimeSlider timeSlider;
@@ -50,16 +45,32 @@ public class Spooler : MonoBehaviour
     private ColorPicker colorPicker;
     private ModelRun modelrun;
     public GameObject cursor;
+    public Text downloadTextBox;
+    public Text selectedVariableTextBox;
     
-	// BoundingBox used for the time series graph...
-	public Rect BoundingBox;
-	
-	public void GenerateTimeSeries()
-	{
-		
-	}
-	
-	int TOTAL = 0;
+    // Local Variables
+    Vector2 NormalizedPoint = Vector2.zero;
+    int TOTAL = 0;
+    Rect BoundingBox;
+    bool WMS = false;
+    List<Frame> Reel = new List<Frame>();
+    Simulator simulator = new Simulator();
+    string selectedModelRun = "";
+    float frameRatio = 0.0f;
+    int count = 10;
+    float point = 0.0f;
+    transform tran;
+    int previ = 0, prevj = 0;
+    string oldSelectedVariable;
+    private int textureIndex = 0;
+    int prevTextureIndex = 0;
+
+	/// <summary>
+	/// Used to determine the order the frames are in.
+	/// </summary>
+	/// <param name="x">The first frame.</param>
+	/// <param name="y">The Second frame.</param>
+	/// <returns></returns>
 	private static int CompareFrames(Frame x, Frame y)
 	{
 		if (x.starttime == y.starttime)
@@ -73,38 +84,23 @@ public class Spooler : MonoBehaviour
 		return 1;
 	}
 	
-	Vector2 NormalizedPoint=Vector2.zero;
-	
-	// Use this for initialization
+	/// <summary>
+	/// Starts the Spooler. Sets the colorPicker to the proper game object.
+	/// </summary>
 	void Start()
 	{
-		//testImage.sprite = Reel[0].Picture;
-		point = 0;
         colorPicker = GameObject.Find("ColorSelector").GetComponent<ColorPicker>();
-        if (swapProjector)
-        {
-            TimeProjector.material = colorProjector;
-            testImage.material = colorWindow;
-        }
-        else
-        {
-            TimeProjector.material = slideProjector;
-        }
-
-        trendGraph.row = 50;
-        trendGraph.col = 50;
 	}
-	int count = 10;
+	
 
-    bool swapProjector = true;
-	float point;
-	public Text downloadTextBox;
-	public Text selectedVariableTextBox;
-    transform tran;
-    // Update is called once per frame
+    /// <summary>
+    /// The update of the spooler. Sets the color of the data for the terrain, 
+    /// adds data to spooler, changes the frames, and gets a user click for trendgraphs.
+    /// </summary>
     void Update()
     {
-        if (swapProjector && colorPicker.ColorBoxes.Count > 0)
+        // If needed this will set the colors of the data on the terrain in the shader
+        if (!WMS && colorPicker.ColorBoxes.Count > 0)
         {
 			// Add the colors to the timeprojector and image
 			for(int i = 0; i < 6; i++)
@@ -121,20 +117,17 @@ public class Spooler : MonoBehaviour
 			}
 
             TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
-
         }
-
-        // Debug.LogError("NEW COUNT: " + Reel.Count);
-        TimeProjector.material.SetVector("_Point", NormalizedPoint);
 
         // Enable the point to be used.
         TimeProjector.material.SetInt("_UsePoint", 1);
+        TimeProjector.material.SetVector("_Point", NormalizedPoint);
         
+        // Called if there is data to be handled
         if (SliderFrames.Count > 0 && count > 0)
         {
 			// Set a dequeue size for multiple dequeus in one update
             int dequeueSize = 5;
-
             if (SliderFrames.Count < dequeueSize)
             {
                 dequeueSize = SliderFrames.Count;
@@ -143,15 +136,14 @@ public class Spooler : MonoBehaviour
             // Run the dequeue dequeueSize times
             for (int i = 0; i < dequeueSize; i++)
             {
-                // Clear time series gra
+                // Get the new data record to add
                 DataRecord record = SliderFrames.Dequeue();
                 
+                // This is called as an initial setup
                 if (Reel.Count == 0)
                 {
-                    // Set projector...
-                    Utilities utilites = new Utilities();
-
-                    utilites.PlaceProjector2(TimeProjector, record);
+                    // Set projector
+                    Utilities.PlaceProjector2(TimeProjector, record);
                     if(record.bbox2 != "" && record.bbox2 != null)
                     {
                         Debug.LogError("We added BBox TWO.");
@@ -162,6 +154,9 @@ public class Spooler : MonoBehaviour
                         Debug.LogError("We added BBox ONE.");
 						BoundingBox = Utilities.bboxSplit(record.bbox);
                     }
+
+                    // Set the bounding box to the trendgraph
+                    trendGraph.SetBoundingBox(BoundingBox);
 
                     tran = new transform();
                     Debug.LogError("Coord System: " + record.projection);
@@ -175,10 +170,11 @@ public class Spooler : MonoBehaviour
                     // Debug.LogError(BoundingBox);
                 }
 
+                // Updates the count, and adds the record to the reel
                 count--;
-                Debug.LogError("BUILDING BAND NUM: "  + record.band_id);
                 textureBuilder(record);
 
+                // Updates the max information across the necessary classes
                 if(record.Max > modelrun.MinMax[oldSelectedVariable].y)
                 {
                     float max = record.Max;
@@ -198,15 +194,19 @@ public class Spooler : MonoBehaviour
                     trendGraph.SetMin((int)min);
                 }
             }
+
+            // Sets the currently downloaded value
             if (downloadTextBox)
             {
                 downloadTextBox.text = "Downloaded: " + ((float)Reel.Count / (float)TOTAL).ToString("P");
             }
 
+            // Updates the time on the time slider view
 			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
 
         }
         
+        // This will get a user click
 		if (Input.GetMouseButtonDown (0) && cursor.GetComponent<mouselistener>().state == cursor.GetComponent<mouselistener>().states[1]) 
 		{
 			// Check if mouse is inside bounding box 
@@ -218,96 +218,88 @@ public class Spooler : MonoBehaviour
 				// Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                 trendGraph.SetCoordPoint(WorldPoint);
-                trendGraph.row = Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
-                trendGraph.col = Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                trendGraph.Compute();
-                Debug.LogError("Trend Graph row: " + trendGraph.row + " col: " + trendGraph.col);
+                trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1),
+                                       Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1));
 			}
 		}
 
+        // This if statement is used for debugging code
         if(Input.GetKeyDown(KeyCode.L))
         {
             Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
-            Debug.LogError("Ran the trend graph test at location 50, 50");
-            trendGraph.row = 50;
-            trendGraph.col = 50;
-            trendGraph.Compute();
+            trendGraph.SetPosition(50, 50);
+            // trendGraph.PresetData();
         }
     }
 
+    /// <summary>
+    /// Takes the currently worked on record and adds it to the spooler.
+    /// </summary>
+    /// <param name="rec">The current record to add.</param>
     public void textureBuilder(DataRecord rec)
     {
-
 		// Caching 
 		if (!FileBasedCache.Exists (rec.id))  
 		{
             //Debug.LogError("INSERTING INTO CACHE " + rec.id);
 			FileBasedCache.Insert<DataRecord>(rec.id,rec);
 		}
-        else
-        {
-            //Debug.LogError("IN CACHE " + rec.id);
-        }
 		
-		// Else update the cache
+		// This is used to check that the record is correct
 		if (rec.modelRunUUID != selectedModelRun) 
 		{
-			// This is not the model run we want because sometime else was selected.
+			// This is not the model run we want because something else was selected.
 			return;
 		}
 		
-		// Frame to pass in
+		// Build the Frame to pass in
 		Frame frame = new Frame();
-		Utilities utilities = new Utilities();
 		
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
-        Debug.LogError(rec.Data.Count);
-		frame.Data = rec.Data[0];
+		frame.Data = rec.Data;
+
+        // Checks for NULL downloaded data
         if(rec.Data == null)
         {
             Debug.LogError("The data at UUID = " + rec.id + " was null.");
             return;
         }
-        trendGraph.Add(rec.start.Value, 1.0f, rec.Data[0]);
-		//Debug.LogError(rec.start + " | " + rec.end);
+
+
+        trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
 		Logger.enable = true;
-		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
 		Texture2D tex = new Texture2D(rec.width, rec.height);
 		if(!WMS)
 	    {
-            tex = utilities.BuildDataTexture(rec.Data[0], out rec.Min, out rec.Max);
-        	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);s
+            tex = Utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
         }
         else
         {
         	tex.LoadImage(rec.texture);
         }
         
-        //utilities.buildGradientContourTexture( frame.Data,new List<Color>{ Color.clear,Color.red,Color.blue,Color.green},new List<float> { 0.01f, 0.5f, 1.0f });
-
+        // This will add a clear color on all the 
 		for(int i = 0; i < tex.width; i++)
 		{
-			
-			tex.SetPixel(i,0,Color.clear);
-			tex.SetPixel(i,tex.height-1,Color.clear);
+			tex.SetPixel(i, 0, Color.clear);
+			tex.SetPixel(i, tex.height-1, Color.clear);
 		}
 		for(int i = 0; i < tex.height; i++)
 		{
-			tex.SetPixel(tex.width-1,i,Color.clear);
-			tex.SetPixel(0,i,Color.clear);
+			tex.SetPixel(tex.width-1, i, Color.clear);
+			tex.SetPixel(0, i, Color.clear);
 		}
 		
 		tex.Apply ();
-        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);//new Texture2D();// Generate Sprite
-		//tex.EncodeToPNG()
-		 //File.WriteAllBytes(Application.dataPath + "/../"+frame.endtime.Year + "" + frame.endtime.Month+".png",tex.EncodeToPNG());
-		// second hand to spooler
+        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
 		Insert(frame);
 		count++;
-		
 	}
 	
+    /// <summary>
+    /// Used for testing. Builds a spool of 10 images.
+    /// </summary>
 	void RandomMovie()
 	{
 		for (int i = 0; i < 10; i++)
@@ -316,6 +308,9 @@ public class Spooler : MonoBehaviour
 		}
 	}
 	
+    /// <summary>
+    /// Insert random image to the frame.
+    /// </summary>
 	public void AddRandomImage()
 	{
 		Texture2D image = new Texture2D(1000, 1000);
@@ -341,29 +336,25 @@ public class Spooler : MonoBehaviour
 		frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), Vector2.zero);
 		frame.starttime = RandomTime;
 		frame.endtime = RandomTime.AddHours(1.0);
-		
-		//Reel.Add(frame);
-		// SortList();
 		Insert(frame);
 	}
 	
-	void SortList()
-	{
-		Reel.Sort(CompareFrames);
-		timeSlider.SetStartTime(Reel[0].starttime);
-		//timeSlider.si
-	}
-	
-	
-	void LoadModelRun()
-	{
-		
-	}
-	
+    /// <summary>
+    /// Inserts the frame into the Reel.
+    /// </summary>
+    /// <param name="frame">The frame to add to the reel.</param>
 	void Insert(Frame frame)
 	{
 		// Does this handle duplicates..
 		int index = Reel.BinarySearch(frame,new FrameEndDateAscending());
+
+        // This is to help pinpoint too many records added to the Reel
+        if(Reel.Count >= TOTAL)
+        {
+            Debug.LogError("Why is there more records being added to the Reel?");
+            Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
+        }
+
 		//if index >= 0 there is a duplicate 
 		if(index >= 0)
 		{
@@ -379,9 +370,11 @@ public class Spooler : MonoBehaviour
 		}
 	}
 	
-	
-	// This can handle WMS Requests
-	
+	/// <summary>
+	/// Takes the data and places it into the Reel if it is WMS.
+	/// </summary>
+	/// <param name="data">The datarecord being handled</param>
+	/// <param name="FromData">Build the image from the data.</param>
 	public void Insert(DataRecord data, bool FromData)
 	{
 		var frame = new Frame();
@@ -389,8 +382,6 @@ public class Spooler : MonoBehaviour
 		if (!FromData)
 		{
 			image.LoadImage(data.texture);
-			
-			
 		}
 		else
 		{
@@ -398,120 +389,107 @@ public class Spooler : MonoBehaviour
 			// Create a sprite
             frame.Picture = Sprite.Create(Texture2D.blackTexture, new Rect(0, 0, 100, 100), new Vector2(0, 0));
 		}
+
 		// Create a sprite
         frame.Picture = Sprite.Create(image, new Rect(0, 0, 100, 100), new Vector2(0, 0));
+
 		// Attached an associate Date Time Object
 		frame.starttime = data.start.Value;
 		frame.endtime = data.end.Value;
-		//Reel.Add(frame);
-		//SortList();
 		Insert(frame);
 	}
-	
+
+	/// <summary>
+	/// The next frame in the reel and updates the window texture.
+	/// </summary>
+	/// <param name="Time">The time on the time slider.</param>
+	/// <returns>Location of the Reel the time is.</returns>
 	int FindNearestFrame(DateTime Time)
 	{
 		Frame temp = new Frame();
 		temp.starttime = Time;
 		int index = Reel.BinarySearch(temp, new FrameEndDateAscending());
-		//Debug.LogError(index);
 		return index < 0 ? ~index-1 : index; 
 	}
 	
-	// This will handle wcs related requests..
+    /// <summary>
+    /// This will handle wcs related requests
+    /// </summary>
+    /// <param name="Records">The list of records to add.</param>
 	void HandDataToSpooler(List<DataRecord> Records)
 	{
-		//Add Caching here.
-        /*if (FileBasedCache.Exists(Records[0].id))
-        {
-            FileBasedCache.Insert<DataRecord>(Records[0].id, Records[0]);
-        }*/
-        
-
-		// Handing to spooler 
-		// first build a color map
 		SliderFrames.Enqueue(Records[0]);
 	}
 	
-	
-	int previ=0,prevj=0;
-    string oldSelectedVariable;
+	/// <summary>
+	/// Gets the selected model run, begins the record download, and updates page data.
+	/// </summary>
     public void LoadSelected()
     {		
 		// Load this 
 		var temp = visual.listView.GetSelectedModelRuns();
 		var seled = visual.listView.GetSelectedRowContent();
 		string variable = seled[0][2].ToString();
-        trendGraph.SetUnit(variable);
 
+        // Set the data of new model run
 		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
 
-		if (selectedModelRun != "") 
+        // Only run if what was selected returned a value
+		if(temp != null)
 		{
-			//ModelRunManager.RemoveRecordData(selectedModelRun);
+            // Handles the clearing of previous data.
+            if (selectedModelRun != "")
+            {
+                Reel.Clear();
+                SliderFrames.Clear();
+                trendGraph.Clear();
+                modelrun.ClearData(oldSelectedVariable);
+            }
 
-			Reel.Clear();
-            SliderFrames.Clear();
-            trendGraph.Clear();
-			// Add some code here to handle the time slider.
-			//timeslider.reset();
-            modelrun = ModelRunManager.GetByUUID(selectedModelRun);
-            modelrun.ClearData(oldSelectedVariable);
-		}
-		if(temp!= null)
-		{
-			
 			// Time to load some things
-			//ModelRunManager.
-			//temp[0]
 			SystemParameters sp = new SystemParameters();
-			
-			// This is not getting passed into WCS UGH! Right now width and height come out to equal 0!!!!!!
-			
 			sp.interpolation = "bilinear";
+            sp.width = 100;
+            sp.height = 100;
 
+            // Get the Model Run
 			var Records = temp[0].FetchVariableData(variable);
 			TOTAL = Records.Count;
 			selectedModelRun = temp[0].ModelRunUUID;
             modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
+            trendGraph.SetUnit(variable);
 			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
 
-            sp.width = 100;
-            sp.height = 100;
-			 
-
+            // Set the download based on the doqq in description
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
-		    	WMS=true;
+		    	WMS = true;
                 TimeProjector.material = slideProjector;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
 			}
 			else
 		    {
-                Debug.LogError("USING WCS");
-		    	WMS=false;
+		    	WMS = false;
                 TimeProjector.material = colorProjector;
                 testImage.material = colorWindow;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
 			}
 		}
-		//visual.listView.GetSelectedModelRuns()[0];
 	}
 	
-	
-	private int textureIndex = 0;
-	int prevTextureIndex = 0;
-	
+	/// <summary>
+	/// Updates the texture on the movie reel.
+	/// </summary>
 	public void ChangeTexture()
 	{
 		if (Reel.Count > 0)
 		{
-			textureIndex = FindNearestFrame(timeSlider.SimTime);//(int)slider.value;
+			textureIndex = FindNearestFrame(timeSlider.SimTime);
+
+            // Update the index on the trendgraph
+            trendGraph.SetDataIndex(textureIndex);
 			
-			//Debug.Log("CHANGING");
-			//Debug.Log(textureIndex);
-			// Debug.Log(timeSlider.SimTime);
-			//Debug.Log(textureIndex);
 			if (textureIndex < 0)
 			{
 				textureIndex = 0;
@@ -531,19 +509,11 @@ public class Spooler : MonoBehaviour
 			}
 			if(previ != i || prevj != j)
 			{
-				// Clear time series graph
-				
 				// set new previ and prevj
 				previ = i;
 				prevj = j;
 			}
-			
-			if(textureIndex != prevTextureIndex)
-			{
-				// Send data to time series graph.
-				// trendGraph.Add(Reel[textureIndex].starttime,Reel[textureIndex].Data[i,j]);
-			}
-			
+						
 			// Set projector image
 			if(textureIndex == Reel.Count - 1 || Reel.Count < 2)
 			{
@@ -563,12 +533,9 @@ public class Spooler : MonoBehaviour
 				
 				// Set future texture
 				TimeProjector.material.SetTexture("_ShadowTex2",Reel[textureIndex+1].Picture.texture);
-
                 testImage.material.SetTexture("_MainTex", Reel[textureIndex].Picture.texture);
                 testImage.material.SetTexture("_MainTex2", Reel[textureIndex + 1].Picture.texture);
 			}
 		}
 	}
-
-    
 }
