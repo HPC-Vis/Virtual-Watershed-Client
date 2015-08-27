@@ -77,7 +77,10 @@ public class bilreader
 
 
             float max = float.MinValue;
-
+            UnityEngine.Debug.LogError(header);
+            UnityEngine.Debug.LogError(data.Length);
+            UnityEngine.Debug.LogError(bandrowbytes);
+            UnityEngine.Debug.LogError(totalrowbytes);
             // Now to convert the array.
             for (int b = 0; b < nbands; b++)
             {
@@ -89,8 +92,8 @@ public class bilreader
                     {
                         // Endianess
 
-                        // A systematic convertor -- 
-                        arr[i, j] = BitConverter.ToSingle(data, (b * ncols * nrows * 4) + 4 * (i * ncols + ncols - 1 - j));
+                        // A systematic convertor -- assuming no bits to skip getting help from http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?TopicName=BIL,_BIP,_and_BSQ_raster_files
+                        arr[i, ncols - 1 - j] = BitConverter.ToSingle(data, b*bandrowbytes + j * 4 + i * totalrowbytes);
                         if (arr[i, j] > max)
                         {
                             max = arr[i, j];

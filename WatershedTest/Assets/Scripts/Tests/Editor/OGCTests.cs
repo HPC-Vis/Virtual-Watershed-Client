@@ -290,6 +290,7 @@ namespace OGC_Tests
                 datatoImage("./out" + counter + ".png", i);
                 counter++;
             }
+            Debug.LogError(header);
         }
 
         [Test]

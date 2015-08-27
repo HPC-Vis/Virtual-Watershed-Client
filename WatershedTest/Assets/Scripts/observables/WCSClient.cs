@@ -231,7 +231,7 @@ class WCSClient : Observerable
         }
 
         // Build Get Coverage String
-		string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height + "&RangeSubset=" + records[0].CoverageDescription.CoverageDescription.Range.Field.Identifier + "[" + records[0].CoverageDescription.CoverageDescription.Range.Field.Axis.identifier + "[" + records[0].band_id + "]]";//+height.ToString();
+        string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height; //+ "&RangeSubset=" + records[0].CoverageDescription.CoverageDescription.Range.Field.Identifier + "[" + records[0].CoverageDescription.CoverageDescription.Range.Field.Axis.identifier + "[" + records[0].band_id + "]]";//+height.ToString();
         Logger.WriteLine("WCS COVERAGE LINK: " + req);
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);

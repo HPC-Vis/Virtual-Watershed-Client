@@ -396,8 +396,8 @@ public static class ModelRunManager
                     //InsertDataRecord(dr, record);
 
                     // Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
-                    client.describeCoverage(CreateNewBands, dr, new SystemParameters());
-
+                    client.describeCoverage(((records) => InsertDataRecord(records[0],record)), dr, new SystemParameters());
+                    // client.describeCoverage(CreateNewBands, dr, new SystemParameters());
                     //break;
                 }
 			}
@@ -499,6 +499,7 @@ public static class ModelRunManager
         Debug.LogError("DONE WITH START TIMES");
     }
 
+    // No Longer Used
 	public static void CreateNewBands(List<DataRecord> record)
 	{
         Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString() + "LIST COUNT: " + record.Count + " " + record[0].Identifier + "HAS TIME: " + record[0].start);

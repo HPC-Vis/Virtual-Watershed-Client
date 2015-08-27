@@ -99,6 +99,8 @@ public class Spooler : MonoBehaviour
     /// </summary>
     void Update()
     {
+        Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
+
         // If needed this will set the colors of the data on the terrain in the shader
         if (!WMS && colorPicker.ColorBoxes.Count > 0)
         {
@@ -251,50 +253,56 @@ public class Spooler : MonoBehaviour
 			// This is not the model run we want because something else was selected.
 			return;
 		}
-		
-		// Build the Frame to pass in
-		Frame frame = new Frame();
-		
-		frame.starttime = rec.start.Value;
-		frame.endtime = rec.end.Value;
-		frame.Data = rec.Data;
-
-        // Checks for NULL downloaded data
-        if(rec.Data == null)
+        var TS = rec.end.Value - rec.start.Value;
+        double totalhours = TS.TotalHours / rec.Data.Count;
+        for (int j = 0; j < rec.Data.Count; j++ )
         {
-            Debug.LogError("The data at UUID = " + rec.id + " was null.");
-            return;
-        }
+            // Build the Frame to pass in
+            Frame frame = new Frame();
+            
+            
+            frame.starttime = rec.start.Value + new TimeSpan((int)Math.Round((double)j*totalhours/(double)rec.Data.Count),0,0);
+            frame.endtime = rec.start.Value + new TimeSpan((int)Math.Round((double)(j+1)*totalhours/(double)rec.Data.Count),0,0);
+            frame.Data = rec.Data[j];
+
+            // Checks for NULL downloaded data
+            if (rec.Data == null)
+            {
+                Debug.LogError("The data at UUID = " + rec.id + " was null.");
+                return;
+            }
 
 
-        trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
-		Logger.enable = true;
-		Texture2D tex = new Texture2D(rec.width, rec.height);
-		if(!WMS)
-	    {
-            tex = Utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
+            trendGraph.Add(rec.start.Value, 1.0f, rec.Data[0]);
+            Logger.enable = true;
+            Texture2D tex = new Texture2D(rec.width, rec.height);
+            if (!WMS)
+            {
+                tex = Utilities.BuildDataTexture(rec.Data[j], out rec.Min, out rec.Max);
+            }
+            else
+            {
+                // We need to change this ..... as this code is unreachable at the moment.
+                tex.LoadImage(rec.texture);
+            }
+
+            // This will add a clear color on all the 
+            for (int i = 0; i < tex.width; i++)
+            {
+                tex.SetPixel(i, 0, Color.clear);
+                tex.SetPixel(i, tex.height - 1, Color.clear);
+            }
+            for (int i = 0; i < tex.height; i++)
+            {
+                tex.SetPixel(tex.width - 1, i, Color.clear);
+                tex.SetPixel(0, i, Color.clear);
+            }
+
+            tex.Apply();
+            frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
+            Insert(frame);
+            count++;
         }
-        else
-        {
-        	tex.LoadImage(rec.texture);
-        }
-        
-        // This will add a clear color on all the 
-		for(int i = 0; i < tex.width; i++)
-		{
-			tex.SetPixel(i, 0, Color.clear);
-			tex.SetPixel(i, tex.height-1, Color.clear);
-		}
-		for(int i = 0; i < tex.height; i++)
-		{
-			tex.SetPixel(tex.width-1, i, Color.clear);
-			tex.SetPixel(0, i, Color.clear);
-		}
-		
-		tex.Apply ();
-        frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
-		Insert(frame);
-		count++;
 	}
 	
     /// <summary>
@@ -418,6 +426,7 @@ public class Spooler : MonoBehaviour
     /// <param name="Records">The list of records to add.</param>
 	void HandDataToSpooler(List<DataRecord> Records)
 	{
+        Debug.LogError("DOWNLOADING THIS NUMBER OF BANDS: " + Records[0].numbands + " " + Records[0].Data.Count);
 		SliderFrames.Enqueue(Records[0]);
 	}
 	
