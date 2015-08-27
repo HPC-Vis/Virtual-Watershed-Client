@@ -8,20 +8,20 @@ using UnityEngine;
 using UnityEngineInternal;
 using System.IO;
 
-public class Utilities
+public static class Utilities
 {
     // the train has left the station
     //public Terrain train;
-    public float[,] trainData;
-    public Texture2D terrainTex;
-    public Texture2D testor;
-    public Material projectorMaterial;
-    public List<Color> Palette;
-    public List<float> Ranges;
-    public bool texture = true; //texture true = contour, false = continous
+    public static float[,] trainData;
+    public static Texture2D terrainTex;
+    public static Texture2D testor;
+    public static Material projectorMaterial;
+    public static List<Color> Palette;
+    public static List<float> Ranges;
+    public static bool texture = true;
 
-    float min, max;
-    Sprite s;
+    static float min, max;
+    public static Sprite s;
 
 	public static Rect bboxSplit(string bbox)
 	{
@@ -53,6 +53,7 @@ public class Utilities
         float maxy = float.Parse(coords[3]);
         return new Rect(minx, maxy, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
     }
+
 	// WCS bbox
 	public static Rect bboxSplit3(string bbox)
 	{
@@ -83,8 +84,8 @@ public class Utilities
 		float maxy = float.Parse(coords[3]);
 		return new Rect(minx, miny, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
 	}
-	
-	public void PlaceProjector(Projector projector, DataRecord record)
+
+    public static void PlaceProjector(Projector projector, DataRecord record)
 	{
 		//projector.name = "SPAWNED PROJECTOR";
 		record.boundingBox = new SerialRect (bboxSplit(record.bbox));
@@ -131,7 +132,7 @@ public class Utilities
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 	}
 
-	public void PlaceProjector2(Projector projector, DataRecord record)
+    public static void PlaceProjector2(Projector projector, DataRecord record)
 	{
         Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
 		// Debug.LogError ("WCS BBOX: " + record.bbox2);
@@ -189,7 +190,7 @@ public class Utilities
 	}
 
 	// Here are some projector building functions that need to be addressed
-	public GameObject buildProjector(DataRecord record,bool type=false)
+    public static GameObject buildProjector(DataRecord record, bool type = false)
 	{
 		// Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);
 		// Debug.LogError ("BOUNDING BOX: " + record.boundingBox.width + " " + record.boundingBox.height);
@@ -291,7 +292,7 @@ public class Utilities
 		else if (record.Data != null) 
 		{
 			PlaceProjector2(pro,record);
-			Texture2D image = buildTextures(normalizeData(record.Data),Color.grey,Color.blue);
+			Texture2D image = Utilities.buildTextures(normalizeData(record.Data),Color.grey,Color.blue);
 			image.wrapMode = TextureWrapMode.Clamp;
 
 			for (int i = 0; i < image.width; i++) 
@@ -321,7 +322,7 @@ public class Utilities
 		return projector;
 	}
 
-	float[,] rotateData(float[,] data)
+	static float[,] rotateData(float[,] data)
 	{
 		int width = data.GetLength (0);
 		int height = data.GetLength (1);
@@ -336,7 +337,7 @@ public class Utilities
 		return Data;
 	}
 
-	public float[,] reflectData(float[,] data)
+    public static float[,] reflectData(float[,] data)
 	{
 		int width = data.GetLength (0);
 		int height = data.GetLength (1);
@@ -351,20 +352,19 @@ public class Utilities
 		return Data;
 	}
 	
-    /// Temporary Gameobject variable
-    GameObject SHARP;
+
     // =========================================
     //         TERRAIN BUILDING FUNCTIONS
     // =========================================
 
-    public GameObject buildTerrain(DataRecord record)
+    public static GameObject buildTerrain(DataRecord record)
     {
         TerrainData terrainData = new TerrainData();
         GameObject terrainGO = Terrain.CreateTerrainGameObject(terrainData);
         Terrain terrain = terrainGO.GetComponent<Terrain>();
         // Debug.Log("Giving data to terrain");
 		record.Data = reflectData (record.Data);
-        findMinMax(record.Data, ref this.min, ref this.max);
+        findMinMax(record.Data, ref Utilities.min, ref Utilities.max);
 
         float[,] normalizedData = trainData = normalizeData(record.Data);
 
@@ -416,41 +416,30 @@ public class Utilities
         Color seventh = new Color(245f / 255f, 184f / 255f, 0f / 255f);
         Color eigth = new Color(255f / 255f, 104f / 255f, 51f / 255f);
         Color ninth = new Color(184f / 255f, 138f / 255f, 0f / 255f);
-        Palette = new List<Color>{ first,second,third, fourth,fifth,sixth,seventh,eigth,ninth,Color.white};
+        Utilities.Palette = new List<Color>{ first,second,third, fourth,fifth,sixth,seventh,eigth,ninth,Color.white};
         Ranges = new List<float> { 0.1f, 0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f, 0.8f, 0.9f };
+
         // Create and set Texture for terrain
-        terrainTex = buildGradientContourTexture(normalizedData, Palette, Ranges);
-        //projectorMaterial.SetTexture("_ShadowTex", terrainTex);
-        //s = Sprite.Create(CreateGradientTexture(Palette, Ranges), new Rect(0, 0, 1, 100), new Vector2(0, 0));
-        //gradSet.sprite = s;
-        testor = CreateGradientTexture(Palette, Ranges);//CreateGradientTexture(Palette, Ranges);
-
-
-        // Debug.Log(" TERRAIN Long Lat : " + record.boundingBox.x + " " + record.boundingBox.y);
-
+        terrainTex = Utilities.buildGradientContourTexture(normalizedData, Utilities.Palette, Utilities.Ranges);
+        testor = Utilities.CreateGradientTexture(Utilities.Palette, Utilities.Ranges);
 
         //makes the terrain ugly - find a fix for this
         Terrain.activeTerrain.heightmapMaximumLOD = 0;
         terrain.basemapDistance = 0;
-        //GameObject.Find("Main Camera").GetComponent<Camera>().transparencySortMode = TransparencySortMode.Perspective;
         Debug.Log(record.Resolution.x + " " + record.Resolution.y);
         Debug.Log(record.boundingBox.x);
-
-        // Rebuild Shapes
-        if (SHARP != null)
-            rebuildShape(SHARP);
 
         return terrainGO;
     }
 
-    public void Rebuild()
+    public static void Rebuild()
     {
  
     }
 
 
     // finds the minimum and maximum values from a heightmap
-    public void findMinMax(float[,] data, ref float min, ref float max)
+    public static void findMinMax(float[,] data, ref float min, ref float max)
     {
     	float min2 = float.MaxValue;
         for (int i = 0; i < data.GetLength(0); i++)
@@ -475,7 +464,7 @@ public class Utilities
         min = min2;
     }
 
-    public float[,] normalizeData(float[,] data)
+    public static float[,] normalizeData(float[,] data)
     {
         // (point - min) / (max-min)
         float max = float.MinValue;
@@ -507,7 +496,7 @@ public class Utilities
     }
 
     // Bilinear Interpolation -- interpolates height and width to the nearest square power of two.
-    float[,] interpolateValues(int dimension, int height, int width, float[,] data)
+    static float[,] interpolateValues(int dimension, int height, int width, float[,] data)
     {
         // Push power of two to one above
         ++dimension;
@@ -548,7 +537,7 @@ public class Utilities
 
     // http://stackoverflow.com/questions/5525122/c-sharp-math-question-smallest-power-of-2-bigger-than-x
     // Finds the clost power of two
-    int nearestPowerOfTwo(int x)
+    static int nearestPowerOfTwo(int x)
     {
         x--; // comment out to always take the next biggest power of two, even if x is already a power of two
         x |= (x >> 1);
@@ -573,7 +562,7 @@ public class Utilities
     /// <param name="high">The color of high terrain</param>
     /// <returns>A texture shall be applied to the terrain calling this function, 
     /// interpolating between the high and low colors dependent upon terrain height</returns>
-    public Texture2D buildTextures(float[,] data, Color high, Color low)
+    public static Texture2D buildTextures(float[,] data, Color high, Color low)
     {
         int width = data.GetLength(0);
         int height = data.GetLength(1);
@@ -598,12 +587,12 @@ public class Utilities
         return heightMapTexture;
     }
 
-    float NormalizeToRange(float Value, float Min, float Max)
+    static float NormalizeToRange(float Value, float Min, float Max)
     {
         return (Value - Min) / (Max - Min);
     }
 
-    public Texture2D CreateGradientTexture(List<Color> Colors, List<float> Ranges)
+    public static Texture2D CreateGradientTexture(List<Color> Colors, List<float> Ranges)
     {
         Texture2D gradTexture = new Texture2D(1, 100);
         Color[] colors = new Color[100];
@@ -639,7 +628,7 @@ public class Utilities
             return gradTexture;
     }
 
-    public Texture2D buildDiscreteContourTexture(float[,] Data, List<Color> Colors, List<float> Ranges)
+    public static Texture2D buildDiscreteContourTexture(float[,] Data, List<Color> Colors, List<float> Ranges)
     {
         int width = Data.GetLength(0);
         int height = Data.GetLength(1);
@@ -690,7 +679,7 @@ public class Utilities
     }
 
 
-    public Texture2D buildGradientContourTexture(float[,] Data, List<Color> Colors, List<float> Ranges)
+    public static Texture2D buildGradientContourTexture(float[,] Data, List<Color> Colors, List<float> Ranges)
     {
         int width = Data.GetLength(0);
         int height = Data.GetLength(1);
@@ -716,14 +705,13 @@ public class Utilities
                             min = Ranges[k - 1];
                         }
                         if(k==0)
-                        colors[i * height + j] = Color.Lerp(Colors[0], Colors[1], NormalizeToRange(Data[i, j], min, max));
+                        colors[i * height + j] = Color.Lerp(Colors[0], Colors[1], Utilities.NormalizeToRange(Data[i, j], min, max));
                         else
-                        colors[i * height + j] = Color.Lerp(Colors[k], Colors[k+1], NormalizeToRange(Data[i, j], min, max));
+                        colors[i * height + j] = Color.Lerp(Colors[k], Colors[k+1], Utilities.NormalizeToRange(Data[i, j], min, max));
                         break;
                     }
                     else if (k == Ranges.Count - 1)
                     {
-                        float max = 1f;
                         float min = Ranges[k];
                         colors[i * height + j] = Colors[k + 1];
                         //colors[i * height + j] = Color.Lerp(Colors[k+1], Color.black, NormalizeToRange(Data[i, j], min, max));
@@ -737,7 +725,7 @@ public class Utilities
         return heightMapContour;
     }
 
-    public void SwapTexture()
+    public static void SwapTexture()
     {
         Debug.Log("SWAPPING TEXTURES");
         if (texture == true)
@@ -758,10 +746,7 @@ public class Utilities
     // =========================================
     //          SHAPE BUILDING FUNCTIONS
     // =========================================
-    public Color[] colors = new[] { Color.red, Color.red, Color.red, Color.red, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
-    int current = 0;
-
-	GameObject addPoint( Vector2 point,transform tr)
+	static GameObject addPoint( Vector2 point,transform tr)
 	{
 		GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
 		
@@ -796,11 +781,10 @@ public class Utilities
 		return cylinder;
 	}
 
-    public Material LineMaterial;
-
-    GameObject addline(List<SerialVector2> Points,transform tr)
+    static int current = 0;
+    static GameObject addline(List<SerialVector2> Points, transform tr)
     {
-		LineMaterial = new Material (Shader.Find ("Transparent/VertexLit with Z"));
+		Material LineMaterial = new Material (Shader.Find ("Transparent/VertexLit with Z"));
         List<Vector2> points = SerialVector2.ToVector2Array(Points.ToArray()).ToList();
         GameObject lineObject = new GameObject();
         LineRenderer line = lineObject.AddComponent<LineRenderer>();
@@ -833,6 +817,7 @@ public class Utilities
         line.material = LineMaterial;//= new Material(Shader.Find("Particles/Additive"));
 
         // Setting colors to some prefined scheme ... We should do this procedurely.
+        Color[] colors = new[] { Color.red, Color.red, Color.red, Color.red, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
         line.SetColors(colors[current % colors.Length], colors[current % colors.Length]);
 
         return lineObject;
@@ -840,7 +825,7 @@ public class Utilities
 
     // The buildShape function builds a bunch of shapes that remain attached to a parent gameobject.
     // This parent gameobject is used to move that shape around.
-    public GameObject buildShape(DataRecord record)
+    public static GameObject buildShape(DataRecord record)
     {
         GameObject parent = new GameObject();
         transform trans = parent.AddComponent<transform>();
@@ -860,21 +845,19 @@ public class Utilities
             if (shape.Count == 1)
             {
                 // Build cylinder
-                addPoint(SerialVector2.ToVector2Array(shape.ToArray())[0], trans).transform.parent = parent.transform;
+                Utilities.addPoint(SerialVector2.ToVector2Array(shape.ToArray())[0], trans).transform.parent = parent.transform;
             }
             else
             {
                 // Lets build some lines.
-                addline(shape,trans).transform.parent = parent.transform;
+                Utilities.addline(shape,trans).transform.parent = parent.transform;
             }
         }
-        current++;
-        SHARP = parent;
         return parent;
     }
 
     // Rebuild Shapes -- This will only take care of the gameobject case.... where we don't have an origin change.
-    public void rebuildShape(GameObject parent)
+    public static void rebuildShape(GameObject parent)
     {
         int childCount = parent.transform.childCount;
         for (int i = 0; i < childCount; i++ )
@@ -882,17 +865,6 @@ public class Utilities
             Vector3 pos =  parent.transform.GetChild(i).position ;
             parent.transform.GetChild(i).position = mouseray.raycastHitFurtherest(new Vector3(pos.x, 0, pos.z), Vector3.up); ;
         }
-            /*var children = new List<GameObject>();
-            foreach (Transform child in parent.transform)
-            {
-                children.Add(child.gameObject);
-            }
-            parent.transform.DetachChildren();
-            children.ForEach(child => Destroy(child));*/
-            
-
-        //Destroy(parent);
-        //buildShape(parent, shapes);
     }
     
     /// <summary>
@@ -900,7 +872,7 @@ public class Utilities
     /// </summary>
     /// <returns>The to color32.</returns>
     /// <param name="f">F.</param>
-    public Color32 floatToColor32(float f)
+    public static Color32 floatToColor32(float f)
     {
     	// Pull bytes out of float
     	var byes = BitConverter.GetBytes(f);
@@ -915,7 +887,7 @@ public class Utilities
     /// </summary>
     /// <returns>The data texture.</returns>
     /// <param name="data">Data.</param>
-    public Texture2D BuildDataTexture(float [,] data, out float min, out float max)
+    public static Texture2D BuildDataTexture(float [,] data, out float min, out float max)
    	{
         min = float.MaxValue;
         max = float.MinValue;
@@ -927,7 +899,7 @@ public class Utilities
    		{
    			for(int j = 0; j < height; j++)
    			{
-   				colorData[(width-i-1)*height+(height-j-1)] = floatToColor32(data[i,j]);
+   				colorData[(width-i-1)*height+(height-j-1)] = Utilities.floatToColor32(data[i,j]);
                 if(data[i,j] > max)
                 {
                     max = data[i,j];

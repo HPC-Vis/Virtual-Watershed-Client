@@ -138,8 +138,7 @@ public class TerrainPopulater : MonoBehaviour
 		float YRes = GlobalConfig.BoundingBox.height / record.Data.GetLength(1);
 		StartupConfiguration.LoadConfig ();
 		// Debug.LogError ("REJOICE");
-			Utilities utilities = new Utilities();
-			record.Data = utilities.reflectData (record.Data);
+			record.Data = Utilities.reflectData (record.Data);
             /*StreamWriter test = new StreamWriter("test.txt");
             
             for(int i = 0; i < record.Data.GetLength(0); i++ )
