@@ -139,8 +139,8 @@ public class DataRecord : IEquatable<DataRecord>
             {
                 if (data == null)
                     return resolution;
-                int Width = data.GetLength(0);
-                int Height = data.GetLength(1);
+                int Width = data[0].GetLength(0);
+                int Height = data[0].GetLength(1);
 
                 // boundingBox is LatLong
                 float xOrigin = boundingBox.x;
@@ -227,6 +227,8 @@ public class DataRecord : IEquatable<DataRecord>
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";
 
+    public string GDALPath = "";
+
     public Dictionary<string, string> services = new Dictionary<string,string>();
 
     // Description of data **/
@@ -297,8 +299,8 @@ public class DataRecord : IEquatable<DataRecord>
 
 
     // Thif for DEM,model runs, and raw float values
-    float[,] data = null;
-    public float[,] Data
+    List<float[,]> data = new List<float[,]>();
+    public List<float[,]> Data
     {
         get
         {

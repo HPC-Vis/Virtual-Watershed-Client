@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using OSGeo.GDAL;
 
 // Gdal class for pulling data out
@@ -41,7 +42,7 @@ public class RasterDataset
             populateSubDatasets(sub);
         }
         numsubdatasets = Subdatasets.Count;
-        return sub != null;
+        return sub != null && sub.Length != 0;
     }
 
     public List<string> GetSubDatasets()
@@ -49,7 +50,7 @@ public class RasterDataset
         if(Subdatasets.Count == 0)
         {
             var sub = dataset.GetMetadata("SUBDATASETS");
-            if (sub != null)
+            if (sub != null && sub.Length != 0 )
             {
                 populateSubDatasets(sub);
             }
@@ -96,12 +97,58 @@ public class RasterDataset
             {
                 for(int j = 0; j < height; j++)
                 {
-                    Data[k, j] = DataF[k * height + j];
+                    Data[k, j] = DataF[(width - 1 - k) * height + j];
                 }
             }
 
             data.Add(Data);
         }
         return data;
+    }
+
+    public static string GetGdalPath(string path)
+    {
+        string extension = Path.GetExtension(path);
+        if(extension.Contains("nc"))
+        {
+            return "NETCDF:" + '"'+path + '"';
+        }
+        else if(extension.Contains("tif"))
+        {
+            return path;
+        }
+        else if(path.ToLower().Contains("wms"))
+        {
+            return "WMS:" + path;
+        }
+        else if(path.ToLower().Contains("wcs"))
+        {
+            return "WCS:" + path;
+        }
+        return path;
+    }
+
+    static string XMLElement(string name, string value)
+    {
+        return "<" + name + ">" + value + "</" + name + ">";
+
+    }
+
+    public static string buildXMLString(DataRecord record)
+    {
+        if (record.WCSOperations == null)
+        {
+            return "";
+        }
+
+        // Grab the identifier of the record
+        string identifer = record.Identifier;
+
+        // Grab the service url of the record
+        string ServiceUrl = record.WCSCap.OperationsMetadata[0].DCP.HTTP.Get.href;
+
+        // produce a xml file.
+        string wcs_xml_string = XMLElement("WCS_GDAL", XMLElement("ServiceURL", ServiceUrl) + "\n" + XMLElement("CoverageName", identifer));
+        return wcs_xml_string;
     }
 }

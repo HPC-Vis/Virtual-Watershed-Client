@@ -147,6 +147,7 @@ public static class ModelRunManager
     static public void Download(List<DataRecord> records, DataRecordSetter SettingTheRecord, string service = "vwc", string operation = "wcs", SystemParameters param = null)
     {
         //Logger.enable = false;
+        Logger.enable = true;
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
 
@@ -199,7 +200,7 @@ public static class ModelRunManager
                             // Lets check if it exists in the cache by uuid
                             //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
                             //Debug.LogError("ID: " + i.id); ;
-                            if (FileBasedCache.Exists(i.id) && i.Data == null)
+                            if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
                             {
                                 //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
                                 i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
@@ -208,7 +209,7 @@ public static class ModelRunManager
                                 SettingTheRecord(new List<DataRecord> { i });
                                 continue;
                             }
-                            else if (i.Data != null)
+                            else if (i.Data.Count !=0)
                             {
                                 //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
                                 SettingTheRecord(new List<DataRecord> { i });

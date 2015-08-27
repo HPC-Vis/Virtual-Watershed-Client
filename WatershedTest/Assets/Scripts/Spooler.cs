@@ -262,20 +262,21 @@ public class Spooler : MonoBehaviour
 		
 		frame.starttime = rec.start.Value;
 		frame.endtime = rec.end.Value;
-		frame.Data = rec.Data;
+        Debug.LogError(rec.Data.Count);
+		frame.Data = rec.Data[0];
         if(rec.Data == null)
         {
             Debug.LogError("The data at UUID = " + rec.id + " was null.");
             return;
         }
-        trendGraph.Add(rec.start.Value, 1.0f, rec.Data);
+        trendGraph.Add(rec.start.Value, 1.0f, rec.Data[0]);
 		//Debug.LogError(rec.start + " | " + rec.end);
 		Logger.enable = true;
 		//frame.Picture = Sprite.Create(new Texture2D(100, 100), new Rect(0, 0, 100, 100), Vector2.zero);
 		Texture2D tex = new Texture2D(rec.width, rec.height);
 		if(!WMS)
 	    {
-            tex = utilities.BuildDataTexture(rec.Data, out rec.Min, out rec.Max);
+            tex = utilities.BuildDataTexture(rec.Data[0], out rec.Min, out rec.Max);
         	//tex = utilities.buildTextures (utilities.normalizeData(rec.Data), Color.grey, Color.green);s
         }
         else
@@ -487,6 +488,7 @@ public class Spooler : MonoBehaviour
 			}
 			else
 		    {
+                Debug.LogError("USING WCS");
 		    	WMS=false;
                 TimeProjector.material = colorProjector;
                 testImage.material = colorWindow;

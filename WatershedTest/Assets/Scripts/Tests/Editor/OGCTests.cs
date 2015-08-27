@@ -212,13 +212,58 @@ namespace OGC_Tests
         {
             Gdal.AllRegister();
             // XML Code to go here.
-            string xml = @"<WCS_GDAL>
-            <ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wcs?</ServiceURL>
-            <CoverageName>Thick_Creek</CoverageName>
-            </WCS_GDAL>";
+            string xml = @"<WCS_GDAL><ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wcs?</ServiceURL><CoverageName>Thick_Creek</CoverageName></WCS_GDAL>";
             var t = Gdal.Open(xml, Access.GA_ReadOnly);
             System.Console.WriteLine(t != null);
             System.Console.WriteLine(t.RasterCount);
+            
+        }
+
+        [Test]
+        public void WCSTest2GDAL()
+        {
+            Gdal.AllRegister();
+            string xml = @"<WCS_GDAL><ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/b5293905-1b2c-48e6-965c-a12e11dfe1c6/services/ogc/wcs?</ServiceURL>
+<CoverageName>DCEsqrExtent_epsg_4326_new</CoverageName></WCS_GDAL>";
+            RasterDataset rd = new RasterDataset(xml);
+
+            rd.Open();
+            var data = rd.GetData()[0];
+            var sw = new System.IO.StreamWriter("./happy.txt");
+            Texture2D ab = new Texture2D(data.GetLength(0), data.GetLength(1));
+            Color[] cs = new Color[data.GetLength(0) * data.GetLength(1)];
+            float max = float.MinValue;
+            float min = float.MaxValue;
+            for(int i = 0; i< data.GetLength(0); i++)
+            {
+                for(int j =0; j < data.GetLength(1); j++)
+                {
+                    sw.Write(data[i, j] + ",");
+                    min = Mathf.Min(min, data[i, j]);
+                    max = Mathf.Max(max, data[i, j]);
+                }
+                sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            }
+
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    float val = (data[i, j] - min) / (max - min);
+                    cs[i * data.GetLength(1)+j] = Color.Lerp(Color.red, Color.blue, val);
+                }
+                sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            }
+            ab.SetPixels(cs);
+            ab.Apply();
+            var bytes = ab.EncodeToJPG();
+       
+            sw.Close();
+            FileStream fs = File.Create("./test3.jpg");
+            
+            fs.Write(bytes,0,bytes.Length);
+            fs.Close();
+            System.Console.WriteLine(Path.GetFullPath("."));
             
         }
 

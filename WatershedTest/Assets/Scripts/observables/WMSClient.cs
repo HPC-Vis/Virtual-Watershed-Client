@@ -74,7 +74,7 @@ class WMSClient : Observerable
         {
             return "COMPLETE";
         }
-
+        Math.Abs(1);
         // Else
         return "";
     }
@@ -91,7 +91,6 @@ class WMSClient : Observerable
 
     public override void CallBack()
     {
-		Logger.WriteLine ("CALLBACKFSDFDSF");
         // Callback
 		if (callback != null) 
 		{
@@ -123,6 +122,15 @@ class WMSClient : Observerable
 
         // Return
         return request;
+    }
+
+    public string GDALGetMap()
+    {
+        new Thread((() => { 
+            factory.Import("GDAL", records, "url://" + records[0].GDALPath);
+            factory.manager.CallDataComplete(records[0].GDALPath);
+        })).Start();
+        return records[0].GDALPath;
     }
 
     private string GetCapabilities()

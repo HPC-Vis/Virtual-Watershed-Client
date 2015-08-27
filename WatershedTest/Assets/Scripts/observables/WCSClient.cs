@@ -13,7 +13,7 @@ using UnityEngine;
 class WCSClient : Observerable
 {
     // Enum
-    private enum Operations { GetCapabilities, DescribeCoverage, GetCoverage, Done, Error };
+    private enum Operations { GetCapabilities, DescribeCoverage, GetCoverage,GDAL, Done, Error };
 
     // Fields
     public string current_url;
@@ -30,6 +30,7 @@ class WCSClient : Observerable
 	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "",int operation = 0)
         : base(Factory,type,OutputPath,OutputName)
     {
+        Debug.LogError("OPERATION: " + operation);
         // Add states
         if(operation == 0)
        	{
@@ -48,6 +49,11 @@ class WCSClient : Observerable
        		StateList.Add(Operations.DescribeCoverage);
        		StateList.Add(Operations.Done);
        	}
+        else
+        {
+            StateList.Add(Operations.GetCapabilities);
+            StateList.Add(Operations.GDAL);
+        }
     }
     
     // Update
@@ -105,10 +111,28 @@ class WCSClient : Observerable
         {
             return "COMPLETE";
         }
+        else if(Operations.GDAL == state)
+        {
+            return GDALGetData();
+        }
 
         // Else
         return "";
     }
+
+    public string GDALGetData()
+    {
+        Debug.LogError("STARTING GDAL");
+        Debug.LogError(RasterDataset.buildXMLString(records[0]));
+        new Thread((() => {
+            
+            factory.Import("GDAL",records,"url://"+RasterDataset.buildXMLString(records[0]));
+            factory.manager.CallDataComplete(RasterDataset.buildXMLString(records[0]));
+        })).Start();
+        Debug.LogError("COMPLETE GDAL DOWNLOAD OF DATA"); 
+        return RasterDataset.buildXMLString(records[0]);
+    }
+
 
     // This guy will call GetCoverage -- This to be used with parameters that may not already exist
     public void GetData(DataRecord Record, SystemParameters param )

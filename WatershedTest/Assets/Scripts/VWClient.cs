@@ -190,9 +190,9 @@ public class VWClient : Observer
     public void getCoverage(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
         // Build a WCS observable
-        Debug.LogError("WCS GET COVERAGE");
+        
         Logger.WriteLine("WCS getCoverage Called");
-        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath);
+        var client = new WCSClient(factory, param.type, param.outputPath, param.outputPath,404);
         client.GetData(Record, param);
         client.Token = GenerateToken("GetCoverage");
         client.callback = Setter;
@@ -216,6 +216,7 @@ public class VWClient : Observer
     //public void getMap(DataRecordSetter Setter, DataRecord record, int Width = 100, int Height = 100, string Format = "image/png", DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "") // Parameters TODO
     public void getMap(DataRecordSetter Setter, DataRecord Record, SystemParameters param)
     {
+        Debug.LogError("GETMAP");
         Logger.WriteLine("WMS getMap Called");
         // Build a WMS observable
         var client = new WMSClient(factory, param.type, param.outputPath, param.outputName);

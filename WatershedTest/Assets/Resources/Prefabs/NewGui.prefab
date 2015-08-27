@@ -9106,6 +9106,7 @@ MonoBehaviour:
     WMSCapabilities: 
     WFSCapabilities: 
     WCSCapabilities: 
+    GDALPath: 
     description: 
     state: 
     location: 
@@ -10495,6 +10496,7 @@ MonoBehaviour:
     WMSCapabilities: 
     WFSCapabilities: 
     WCSCapabilities: 
+    GDALPath: 
     description: 
     state: 
     location: 
