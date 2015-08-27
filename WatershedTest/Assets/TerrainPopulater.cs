@@ -134,11 +134,11 @@ public class TerrainPopulater : MonoBehaviour
 		// Calculate average xres
 		GlobalConfig.BoundingBox = new Rect (lowerLeft.x, upperLeft.y, Mathf.Abs (upperLeft.x - upperRight.x), Mathf.Abs (upperLeft.y - lowerLeft.y));
 
-		float XRes = GlobalConfig.BoundingBox.width / record.Data.GetLength(0);
-		float YRes = GlobalConfig.BoundingBox.height / record.Data.GetLength(1);
+		float XRes = GlobalConfig.BoundingBox.width / record.Data[0].GetLength(0);
+		float YRes = GlobalConfig.BoundingBox.height / record.Data[0].GetLength(1);
 		StartupConfiguration.LoadConfig ();
 		// Debug.LogError ("REJOICE");
-			record.Data = Utilities.reflectData (record.Data);
+			record.Data[0] = Utilities.reflectData (record.Data[0]);
             /*StreamWriter test = new StreamWriter("test.txt");
             
             for(int i = 0; i < record.Data.GetLength(0); i++ )
@@ -149,7 +149,7 @@ public class TerrainPopulater : MonoBehaviour
                 }
             }
             test.Close();*/
-			var GO = ProceduralTerrain.BuildTerrain (record.Data, XRes, YRes, BaseMap);
+			var GO = ProceduralTerrain.BuildTerrain (record.Data[0], XRes, YRes, BaseMap);
 		GO.transform.position = new Vector3 (-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 		//GameObject.Instantiate (GO);
 		// Debug.LogError ("DONE DOWNLOADING");

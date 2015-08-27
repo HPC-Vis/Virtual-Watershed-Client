@@ -2,6 +2,9 @@
 using System.Threading;
 using NUnit.Framework;
 using UnityEngine;
+using OSGeo.GDAL;
+using System.IO;
+using System.Xml;
 using System.Net;
 namespace OGC_Tests
 {
@@ -153,6 +156,239 @@ namespace OGC_Tests
             Assert.That(ogc.MagicFunction(url));
         }
 
+        [Test]
+        public void WMSTestGDAL()
+        {
+            //System.Console.WriteLine("GDAL DATA ORIG: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
+            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+@"\..\..\data\");
+            Gdal.AllRegister();
+            System.Environment.SetEnvironmentVariable("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
+            //System.Console.WriteLine("GDAL DATA: " + System.Environment.GetEnvironmentVariable("GDAL_DATA"));
+            //Gdal.SetConfigOption("gdal_data", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            //string test = Gdal.GetConfigOption("GDAL_DATA", @"C:\Users\ccarthen\Downloads\release-1800-x64-gdal-mapserver-src\gdal\data\");
+            //System.Console.WriteLine("TEST: " + test);
+            /*var ds = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/189c7ae0-de72-4a43-9f1c-9b15a0f9064a/services/ogc/wms?", Access.GA_ReadOnly);
+            var sds = ds.GetMetadata("SUBDATASETS");
+            foreach(var i in sds)
+            {
+                Debug.LogError(i);
+            }*/
+            int count = 0;
+            RasterDataset rd = new RasterDataset("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0afd433c-846b-475d-9bd2-57193e16b40a/services/ogc/wms?");
+            
+            if (rd.Open())
+            {
+                System.Console.Write(rd.HasSubDatasets(out count));
+                System.Console.WriteLine(count);
+                var sd = rd.GetSubDatasets();
+                if (sd != null && sd.Count != 0)
+                {
+                    rd = new RasterDataset(sd[1]);
+                    if (rd.Open())
+                    {
+                        System.Console.WriteLine(rd.GetData().Count);
+                    }
+                }
+            }
+           
+           // System.Console.WriteLine(sds[0]);
+            //System.Console.WriteLine(sds.Length);
+            //var ds2 = Gdal.Open("WMS:http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=Thick_Creek&SRS=EPSG:4326&BBOX=-120.01,31.17,-102.66,49.13", Access.GA_ReadOnly);
+            //var sr = new OSGeo.OSR.SpatialReference("");
+           // sr.ImportFromEPSG(4326);
+           // System.Console.WriteLine(ds2.RasterCount);
+           // var b = ds2.GetRasterBand(1);
+          //  int[] ints = new int[2*2];
+           // b.ReadRaster(0, 0, 100, 100, ints, 2, 2, 0, 0);
+          //  System.Console.WriteLine(ints[0]);
+        }
+
+        [Test]
+        public void WFSTestGDAL()
+        {
+            
+            Gdal.AllRegister();
+            var ds = Gdal.Open("WFS:http://vwp-dev.unm.edu/apps/vwp/datasets/ce691ff6-da2a-46b9-a7ab-acb8bf94738d/services/ogc/wfs?SERVICE=WFS", Access.GA_ReadOnly);
+        }
+
+        [Test]
+        public void WCSTestGDAL()
+        {
+            Gdal.AllRegister();
+            // XML Code to go here.
+            string xml = @"<WCS_GDAL><ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/0e0812b4-2179-4d4e-bbb0-50a19cbafbb6/services/ogc/wcs?</ServiceURL><CoverageName>Thick_Creek</CoverageName></WCS_GDAL>";
+            var t = Gdal.Open(xml, Access.GA_ReadOnly);
+            System.Console.WriteLine(t != null);
+            System.Console.WriteLine(t.RasterCount);
+            
+        }
+
+        void datatoImage(string fname, float[,] data)
+        {
+               
+            Texture2D ab = new Texture2D(data.GetLength(0), data.GetLength(1));
+            Color[] cs = new Color[data.GetLength(0) * data.GetLength(1)];
+            float max = 0;
+            float min = float.MaxValue;
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    if(data[i,j] < 0)
+                    {
+                        data[i, j] = 0;
+                    }
+                    min = Mathf.Min(min, data[i, j]);
+                    max = Mathf.Max(max, data[i, j]);
+                }
+            }
+            System.Console.WriteLine(min + " " + max  + " " + float.MaxValue);
+            for (int i = 0; i < data.GetLength(0); i++)
+            {
+                for (int j = 0; j < data.GetLength(1); j++)
+                {
+                    float val = (data[i, j] - min) / (max - min);
+                    
+                    if(val<.01)
+                    cs[i * data.GetLength(1) + j] = Color.Lerp(Color.red, Color.blue, val);
+                    else if (val < .4)
+                        cs[i * data.GetLength(1) + j] = Color.Lerp(Color.blue, Color.black, val);
+                    else if(val < .6)
+                        cs[i * data.GetLength(1) + j] = Color.Lerp(Color.black, Color.gray, val);
+                    else if (val < .8)
+                        cs[i * data.GetLength(1) + j] = Color.Lerp(Color.gray, Color.green, val);
+                    else if (val < 1)
+                        cs[i * data.GetLength(1) + j] = Color.Lerp(Color.gray, Color.yellow, val);
+                }
+            }
+            ab.SetPixels(cs);
+            ab.Apply();
+            var bytes = ab.EncodeToJPG();
+
+            FileStream fs = File.Create(fname);
+
+            fs.Write(bytes, 0, bytes.Length);
+            fs.Close();
+            System.Console.WriteLine(Path.GetFullPath("."));
+        }
+
+        [Test]
+        public void DownloadAllBandsWithParser()
+        {
+            System.Console.WriteLine("HERERERERE");
+            System.Net.WebClient wc = new System.Net.WebClient();
+            var data = wc.DownloadData("http://vwp-dev.unm.edu/apps/vwp/datasets/5f080b22-1c7d-4121-b7bf-5021e14025a7/services/ogc/wcs?request=GetCoverage&service=WCS&version=1.1.2&Identifier=downwelling_shortwave_flux_in_air&InterpolationType=bilinear&format=image/bil&store=false&GridBaseCRS=urn:ogc:def:crs:epsg::4326&CRS=EPSG:4326&bbox=-116.142921741559,43.7293760210743,-116.137597499034,43.7327467931015&width=100&height=100");
+            mimeparser mp = new mimeparser();
+            System.Console.WriteLine(data.Length);
+            string header = "";
+            byte[] bytes = new byte[1];
+            mp.parseBIL(data, ref header, ref bytes);
+            var d =  bilreader.parse(header, data);
+            int counter = 0;
+            foreach (var i in d)
+            {
+                datatoImage("./out" + counter + ".png", i);
+                counter++;
+            }
+            Debug.LogError(header);
+        }
+
+        [Test]
+        public void WCSTest2GDAL()
+        {
+            Gdal.AllRegister();
+            string xml = @"<WCS_GDAL><ServiceURL>http://vwp-dev.unm.edu/apps/vwp/datasets/5f080b22-1c7d-4121-b7bf-5021e14025a7/services/ogc/wcs?</ServiceURL>
+<CoverageName>downwelling_longwave_flux_in_air</CoverageName><Version>1.1.0</Version><GridBaseCRS>EPSG:4326</GridBaseCRS></WCS_GDAL>";
+            RasterDataset rd = new RasterDataset(xml);
+
+            if (rd.Open())
+                Assert.Pass();
+            else
+                Assert.Fail();
+            //var data = rd.GetData()[0];
+            //var sw = new System.IO.StreamWriter("./happy.txt");
+            //Texture2D ab = new Texture2D(data.GetLength(0), data.GetLength(1));
+            //Color[] cs = new Color[data.GetLength(0) * data.GetLength(1)];
+            //float max = float.MinValue;
+            //float min = float.MaxValue;
+            //for(int i = 0; i< data.GetLength(0); i++)
+            //{
+            //    for(int j =0; j < data.GetLength(1); j++)
+            //    {
+            //        sw.Write(data[i, j] + ",");
+            //        min = Mathf.Min(min, data[i, j]);
+            //        max = Mathf.Max(max, data[i, j]);
+            //    }
+            //    sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            //}
+
+            //for (int i = 0; i < data.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < data.GetLength(1); j++)
+            //    {
+            //        float val = (data[i, j] - min) / (max - min);
+            //        cs[i * data.GetLength(1)+j] = Color.Lerp(Color.red, Color.blue, val);
+            //    }
+            //    sw.WriteLine("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            //}
+            //ab.SetPixels(cs);
+            //ab.Apply();
+            //var bytes = ab.EncodeToJPG();
+       
+            //sw.Close();
+            //FileStream fs = File.Create("./test3.jpg");
+            
+            //fs.Write(bytes,0,bytes.Length);
+            //fs.Close();
+            //System.Console.WriteLine(Path.GetFullPath("."));
+            
+        }
+
+        [Test]
+        public void NetCDFTest()
+        {
+            var nc = Gdal.GetDriverByName("NETCDF");
+            if(nc != null)
+            Debug.LogError(nc.LongName);
+            string file = @"NETCDF:"+'"'+ @"C:\Users\ccarthen\Downloads\twoweek_inputs_with_zlib.nc" + '"';
+            RasterDataset rd = new RasterDataset(file);
+            if(rd.Open())
+            {
+                System.Console.WriteLine("OPENED");
+                var s = rd.GetSubDatasets();
+                rd = new RasterDataset(s[0]);
+                if(rd.Open())
+                {
+                    System.Console.WriteLine("OPENED 2" + s[0]);
+                    System.Console.WriteLine(rd.GetData().Count);
+                }
+            }
+        }
+
+        [Test]
+        public void XMLTest()
+        {
+            XmlDocument doc = new XmlDocument();
+            var rootNode = doc.CreateElement("WCS_GDAL");
+            doc.AppendChild(rootNode);
+
+            XmlNode userNode = doc.CreateElement("user");
+            XmlAttribute attribute = doc.CreateAttribute("age");
+            attribute.Value = "42";
+            userNode.Attributes.Append(attribute);
+            userNode.InnerText = "John Doe";
+            rootNode.AppendChild(userNode);
+
+
+            //doc.CreateNode("WCS_GDAL","","");
+            using (var stringWriter = new StringWriter())
+            using (var xmlTextWriter = XmlWriter.Create(stringWriter))
+            {
+                doc.WriteTo(xmlTextWriter);
+                xmlTextWriter.Flush();
+                System.Console.WriteLine(stringWriter.GetStringBuilder().ToString());
+            }
+        }
 
         [Test]
         public void XMLPARSE()

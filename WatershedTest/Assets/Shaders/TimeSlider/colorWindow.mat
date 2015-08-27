@@ -100,6 +100,25 @@ Material:
         second: .5
       data:
         first:
+<<<<<<< HEAD
+          name: _Glossiness
+        second: .5
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: 0
+      data:
+        first:
+          name: _FloatMax
+        second: 0
+      data:
+        first:
+=======
+>>>>>>> origin/master
           name: _Parallax
         second: .0199999996
       data:

@@ -86,10 +86,8 @@ public class DataFactory
         Products.Add("WCS_DC", new WCS_DescribeCoverage_Producer(manager));
         Products.Add("VW_FGDC", new VW_FGDC_XML_Producer(manager));
         Products.Add("WFS_GML", new WFS_GML_Producer(manager));
-        Products.Add("WCS_1", null);
-        Products.Add("WCS_2", null);
-        Products.Add("WCS_3", null);
         Products.Add("VW_MODEL_RUN", new VW_JSON_MODEL_RUN_Producer(manager));
+        Products.Add("GDAL", new GDALProducer());
     }
 
     /// <summary>

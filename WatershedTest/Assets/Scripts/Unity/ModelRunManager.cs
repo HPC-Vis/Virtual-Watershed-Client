@@ -147,6 +147,7 @@ public static class ModelRunManager
     static public void Download(List<DataRecord> records, DataRecordSetter SettingTheRecord, string service = "vwc", string operation = "wcs", SystemParameters param = null)
     {
         //Logger.enable = false;
+        Logger.enable = true;
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
 
@@ -199,7 +200,7 @@ public static class ModelRunManager
                             // Lets check if it exists in the cache by uuid
                             //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
                             //Debug.LogError("ID: " + i.id); ;
-                            if (FileBasedCache.Exists(i.id) && i.Data == null)
+                            if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
                             {
                                 //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
                                 i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
@@ -208,7 +209,7 @@ public static class ModelRunManager
                                 SettingTheRecord(new List<DataRecord> { i });
                                 continue;
                             }
-                            else if (i.Data != null)
+                            else if (i.Data.Count !=0)
                             {
                                 //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
                                 SettingTheRecord(new List<DataRecord> { i });
@@ -395,8 +396,8 @@ public static class ModelRunManager
                     //InsertDataRecord(dr, record);
 
                     // Run Describe Coverage on these guys to spawn the rest of the records ... Yay Propagations tasks .... harder to debug.
-                    client.describeCoverage(CreateNewBands, dr, new SystemParameters());
-
+                    client.describeCoverage(((records) => InsertDataRecord(records[0],record)), dr, new SystemParameters());
+                    // client.describeCoverage(CreateNewBands, dr, new SystemParameters());
                     //break;
                 }
 			}
@@ -498,6 +499,7 @@ public static class ModelRunManager
         Debug.LogError("DONE WITH START TIMES");
     }
 
+    // No Longer Used
 	public static void CreateNewBands(List<DataRecord> record)
 	{
         Logger.WriteLine("RECORD KING: " + record[0].numbands.ToString() + " " + record[0].band_id.ToString() + "LIST COUNT: " + record.Count + " " + record[0].Identifier + "HAS TIME: " + record[0].start);
@@ -571,7 +573,7 @@ public static class ModelRunManager
             // Normal Case
             if (modelRuns.ContainsKey(rec.modelRunUUID))
             {
-				Debug.LogError("modelRuns.ContatinsKey(rec.modelRunUUID)");
+				//Debug.LogError("modelRuns.ContatinsKey(rec.modelRunUUID)");
 
                 // Call insert operation
                 //Logger.WriteLine("ADDED");
@@ -582,7 +584,7 @@ public static class ModelRunManager
                     //modelRuns[rec.modelRunUUID].Insert(rec);
                 }
                 //Logger.WriteLine(modelRuns[rec.modelRunUUID].Insert(rec).ToString());
-                Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
+                //Debug.LogError(rec.modelRunUUID + " " + modelRuns[rec.modelRunUUID].Total + "OUCHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH!!!!");
                 // Replace with isFull Function
                 //if (modelRuns[rec.modelRunUUID].CurrentCapacity <= modelRuns[rec.modelRunUUID].Total)
                 //{

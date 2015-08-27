@@ -33,6 +33,7 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.variableName = variableName;
 		//dr.data = data;
 		//dr.texture = texture.Clone ();
+        dr.WCSCap = WCSCap;
 		dr.start = start;
 		dr.end = end;
 		dr.description = description;
@@ -141,8 +142,8 @@ public class DataRecord : IEquatable<DataRecord>
             {
                 if (data == null)
                     return resolution;
-                int Width = data.GetLength(0);
-                int Height = data.GetLength(1);
+                int Width = data[0].GetLength(0);
+                int Height = data[0].GetLength(1);
 
                 // boundingBox is LatLong
                 float xOrigin = boundingBox.x;
@@ -216,6 +217,8 @@ public class DataRecord : IEquatable<DataRecord>
     /// 
     /// </summary>
     /// WCS Operations
+    [NonSerializedAttribute]
+    public GetCapabilites.Capabilities WCSCap = null;
 	[NonSerializedAttribute]
     public GetCapabilites.OperationsMetadataOperation[] WCSOperations = null;
 	[NonSerializedAttribute]
@@ -226,6 +229,8 @@ public class DataRecord : IEquatable<DataRecord>
     public string WMSCapabilities = "";
     public string WFSCapabilities = "";
     public string WCSCapabilities = "";
+
+    public string GDALPath = "";
 
     public Dictionary<string, string> services = new Dictionary<string,string>();
 
@@ -297,8 +302,8 @@ public class DataRecord : IEquatable<DataRecord>
 
 
     // Thif for DEM,model runs, and raw float values
-    float[,] data = null;
-    public float[,] Data
+    List<float[,]> data = new List<float[,]>();
+    public List<float[,]> Data
     {
         get
         {

@@ -292,7 +292,7 @@ public static class Utilities
 		else if (record.Data != null) 
 		{
 			PlaceProjector2(pro,record);
-			Texture2D image = Utilities.buildTextures(normalizeData(record.Data),Color.grey,Color.blue);
+			Texture2D image = Utilities.buildTextures(normalizeData(record.Data[0]),Color.grey,Color.blue);
 			image.wrapMode = TextureWrapMode.Clamp;
 
 			for (int i = 0; i < image.width; i++) 
@@ -363,13 +363,13 @@ public static class Utilities
         GameObject terrainGO = Terrain.CreateTerrainGameObject(terrainData);
         Terrain terrain = terrainGO.GetComponent<Terrain>();
         // Debug.Log("Giving data to terrain");
-		record.Data = reflectData (record.Data);
-        findMinMax(record.Data, ref Utilities.min, ref Utilities.max);
+		record.Data[0] = reflectData (record.Data[0]);
+        findMinMax(record.Data[0], ref Utilities.min, ref Utilities.max);
 
-        float[,] normalizedData = trainData = normalizeData(record.Data);
+        float[,] normalizedData = trainData = normalizeData(record.Data[0]);
 
         // Set Terrain Resolution
-        terrainData.heightmapResolution = record.Data.GetLength(0) + 1;
+        terrainData.heightmapResolution = record.Data[0].GetLength(0) + 1;
 
         // Set Terrain Data
         terrainData.SetHeights(0, 0, normalizedData);
@@ -381,7 +381,7 @@ public static class Utilities
 
         //Find Min Max
         float min=float.MaxValue,max=float.MinValue;
-        findMinMax(record.Data,ref  min, ref max);
+        findMinMax(record.Data[0],ref  min, ref max);
 
         Logger.WriteLine("Building terrain with the data: MAX: " + max + " MIN: " + min + " Resolution: " + record.Resolution.x + " " + record.Resolution.y + " Width: " + record.width + " Height: " + record.height);
 

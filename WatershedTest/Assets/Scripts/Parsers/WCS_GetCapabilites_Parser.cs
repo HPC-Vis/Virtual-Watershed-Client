@@ -26,6 +26,7 @@ class WCS_GetCapabilites_Parser : Parser
         if (serial.CanDeserialize(reader))
         {
             capabilities = ((GetCapabilites.Capabilities)serial.Deserialize(reader));
+            Record.WCSCap = capabilities;
             Record.WCSOperations = capabilities.OperationsMetadata;
             Record.WCSCoverages = capabilities.Contents;
             if(Record.Identifier == null)
