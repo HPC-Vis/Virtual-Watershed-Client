@@ -199,7 +199,7 @@ public static class ModelRunManager
                         {
                             // Lets check if it exists in the cache by uuid
                             //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
-                            //Debug.LogError("ID: " + i.id); ;
+                            //Debug.LogError("ID: " + i.id);
                             if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
                             {
                                 //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
@@ -359,6 +359,7 @@ public static class ModelRunManager
         else if (modelRuns[record.modelRunUUID].CurrentCapacity >= (modelRuns[record.modelRunUUID].Total * 0.95) && timeToCache)
         {
             // Start Thread
+            timeToCache = false;
             new Thread(() =>
             {
                 GlobalConfig.caching = true;

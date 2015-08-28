@@ -30,7 +30,7 @@ class WCSClient : Observerable
 	public WCSClient(DataFactory Factory, DownloadType type = DownloadType.Record, string OutputPath = "", string OutputName = "",int operation = 0)
         : base(Factory,type,OutputPath,OutputName)
     {
-        Debug.LogError("OPERATION: " + operation);
+        //Debug.LogError("OPERATION: " + operation);
         // Add states
         if(operation == 0)
        	{
@@ -60,7 +60,7 @@ class WCSClient : Observerable
     public override string Update()
     {
         Logger.Log("WCS Client Token = " + Token);
-
+        Logger.enable = false;
         // Check if there is another state
         if (StateList.Count >= 1)
         {
@@ -113,7 +113,7 @@ class WCSClient : Observerable
         }
         else if(Operations.GDAL == state)
         {
-            return GDALGetData();
+            //return GDALGetData();
         }
 
         // Else
@@ -232,7 +232,7 @@ class WCSClient : Observerable
 
         // Build Get Coverage String
         string req = gc.DCP.HTTP.Get.href + "request=GetCoverage&" + parameters + "CRS=" + "EPSG:4326" + "&bbox=" + records[0].bbox2 + "&width=" + width + "&height=" + height; //+ "&RangeSubset=" + records[0].CoverageDescription.CoverageDescription.Range.Field.Identifier + "[" + records[0].CoverageDescription.CoverageDescription.Range.Field.Axis.identifier + "[" + records[0].band_id + "]]";//+height.ToString();
-        Logger.WriteLine("WCS COVERAGE LINK: " + req);
+        //Logger.WriteLine("WCS COVERAGE LINK: " + req);
         // Import
         factory.Import("WCS_BIL", records, "url://" + req);
 
@@ -245,16 +245,16 @@ class WCSClient : Observerable
         // Check if services contains "wcs"
         if (!records[0].services.ContainsKey("wcs"))
         {
-            Logger.WriteLine("RETURNING" + records[0].name + "NO WCS CAPABILITIES");
+            //Logger.WriteLine("RETURNING" + records[0].name + "NO WCS CAPABILITIES");
             return "";
         }
         string wcs_url = records[0].services["wcs"];
         
         // Import
         factory.Import("WCS_CAP", records, "url://" + wcs_url);
-		Logger.WriteLine("WCS_CAP: " + wcs_url);
+		//Logger.WriteLine("WCS_CAP: " + wcs_url);
         // Return
-        Logger.Log(Token + ": " + wcs_url);
+        //Logger.Log(Token + ": " + wcs_url);
         return wcs_url;
     }
 
@@ -323,7 +323,7 @@ class WCSClient : Observerable
         //}
         // Return
         // Logger.Log(Token + ": " + req);
-        Debug.LogError("DESCRIBE_COVERAGE: " + req);
+        //Debug.LogError("DESCRIBE_COVERAGE: " + req);
         return req;
     }
 }

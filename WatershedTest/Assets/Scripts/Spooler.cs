@@ -148,12 +148,12 @@ public class Spooler : MonoBehaviour
                     Utilities.PlaceProjector2(TimeProjector, record);
                     if(record.bbox2 != "" && record.bbox2 != null)
                     {
-                        Debug.LogError("We added BBox TWO.");
+                        //Debug.LogError("We added BBox TWO.");
                     	BoundingBox = Utilities.bboxSplit(record.bbox2);
                     }
                     else
                     {
-                        Debug.LogError("We added BBox ONE.");
+                        //Debug.LogError("We added BBox ONE.");
 						BoundingBox = Utilities.bboxSplit(record.bbox);
                     }
 
@@ -161,7 +161,7 @@ public class Spooler : MonoBehaviour
                     trendGraph.SetBoundingBox(BoundingBox);
 
                     tran = new transform();
-                    Debug.LogError("Coord System: " + record.projection);
+                    //Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
@@ -240,6 +240,7 @@ public class Spooler : MonoBehaviour
     /// <param name="rec">The current record to add.</param>
     public void textureBuilder(DataRecord rec)
     {
+        //return;
 		// Caching 
 		if (!FileBasedCache.Exists (rec.id))  
 		{
@@ -261,8 +262,8 @@ public class Spooler : MonoBehaviour
             Frame frame = new Frame();
             
             
-            frame.starttime = rec.start.Value + new TimeSpan((int)Math.Round((double)j*totalhours/(double)rec.Data.Count),0,0);
-            frame.endtime = rec.start.Value + new TimeSpan((int)Math.Round((double)(j+1)*totalhours/(double)rec.Data.Count),0,0);
+            frame.starttime = rec.start.Value; //+ new TimeSpan((int)Math.Round((double)j*totalhours/(double)rec.Data.Count),0,0);
+            frame.endtime = rec.end.Value; //+ new TimeSpan((int)Math.Round((double)(j+1)*totalhours/(double)rec.Data.Count),0,0);
             frame.Data = rec.Data[j];
 
             // Checks for NULL downloaded data
@@ -359,8 +360,8 @@ public class Spooler : MonoBehaviour
         // This is to help pinpoint too many records added to the Reel
         if(Reel.Count >= TOTAL)
         {
-            Debug.LogError("Why is there more records being added to the Reel?");
-            Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
+            //Debug.LogError("Why is there more records being added to the Reel?");
+            //Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
         }
 
 		//if index >= 0 there is a duplicate 
@@ -426,7 +427,7 @@ public class Spooler : MonoBehaviour
     /// <param name="Records">The list of records to add.</param>
 	void HandDataToSpooler(List<DataRecord> Records)
 	{
-        Debug.LogError("DOWNLOADING THIS NUMBER OF BANDS: " + Records[0].numbands + " " + Records[0].Data.Count);
+        //Debug.LogError("DOWNLOADING THIS NUMBER OF BANDS: " + Records[0].numbands + " " + Records[0].Data.Count);
 		SliderFrames.Enqueue(Records[0]);
 	}
 	
