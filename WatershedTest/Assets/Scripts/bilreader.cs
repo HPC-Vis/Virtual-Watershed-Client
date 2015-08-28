@@ -18,7 +18,21 @@ public class bilreader
     // A simple parser that returns a two dimensional float array of data.
     public static List<float[,]> parse(string header, byte[] data)
     {
-        if(header == "")
+        int nbits;
+        int nrows = 0;
+        int ncols = 0;
+        int nbands = 0;
+        bool byteorder = false;
+        string layout = "";
+        int bandrowbytes = 0;
+        int totalrowbytes = 0;
+        string pixeltype = "";
+        float ydim = 0;
+        float xdim = 0;
+        float ulxmap = 0;
+        float ulymap = 0;
+
+        if (header == "")
         {
             Logger.Log("BILREADER: Error no Header for " + data.Length + " Bytes.");
             return null;
@@ -77,14 +91,15 @@ public class bilreader
 
 
             float max = float.MinValue;
-            UnityEngine.Debug.LogError(header);
-            UnityEngine.Debug.LogError(data.Length);
-            UnityEngine.Debug.LogError(bandrowbytes);
-            UnityEngine.Debug.LogError(totalrowbytes);
+            //UnityEngine.Debug.LogError(header);
+            //UnityEngine.Debug.LogError(data.Length);
+            //UnityEngine.Debug.LogError(bandrowbytes);
+            //UnityEngine.Debug.LogError(totalrowbytes);
             // Now to convert the array.
             for (int b = 0; b < nbands; b++)
             {
                 // Initialize variables
+                //UnityEngine.Debug.LogError("Yo");
                 float[,] arr = new float[nrows, ncols];
                 for (int i = 0; i < nrows; i++)
                 {
@@ -93,7 +108,7 @@ public class bilreader
                         // Endianess
 
                         // A systematic convertor -- assuming no bits to skip getting help from http://webhelp.esri.com/arcgisdesktop/9.2/index.cfm?TopicName=BIL,_BIP,_and_BSQ_raster_files
-                        arr[i, ncols - 1 - j] = BitConverter.ToSingle(data, b*bandrowbytes + j * 4 + i * totalrowbytes);
+                        arr[i, ncols - 1 - j] = BitConverter.ToSingle(data, b * bandrowbytes + j * 4 + i * totalrowbytes);
                         if (arr[i, j] > max)
                         {
                             max = arr[i, j];
@@ -118,17 +133,5 @@ public class bilreader
         return OutData;
     }
 
-    static int nbits;
-    static int nrows;
-    static int ncols;
-    static int nbands;
-    static bool byteorder;
-    static string layout;
-    static int bandrowbytes;
-    static int totalrowbytes;
-    static string pixeltype;
-    static float ydim;
-    static float xdim;
-    static float ulxmap;
-    static float ulymap;
+
 }
