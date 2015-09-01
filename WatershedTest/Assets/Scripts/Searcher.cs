@@ -60,11 +60,15 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
 	public void Refresh()
 	{
-		if(!Directory.Exists(DirectoryLocation + "Cache"))
-		{
-		   Directory.CreateDirectory(DirectoryLocation + "Cache");
-		}
-		firstPopulation = false;
+        if (listViewManager.isActiveAndEnabled)
+        {
+            if (!Directory.Exists(DirectoryLocation + "Cache"))
+            {
+                Directory.CreateDirectory(DirectoryLocation + "Cache");
+            }
+            firstPopulation = false;
+        }
+		
 	}
 
 	public void ApplyWMSService()
@@ -96,27 +100,26 @@ public class Searcher : MonoBehaviour {
 	{
 		if( Input.GetKey(KeyCode.R) )
 		{
-			Camera.main.backgroundColor = new Color(0,0,0,0);
+			//Camera.main.backgroundColor = new Color(0,0,0,0);
 			Refresh();
 		}
 
-		UpdateTimer += Time.deltaTime;
-		if (!firstPopulation || UpdateTimer > 15)
-		{
-			if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
-			{
-				SystemParameters parameters = null; //new SystemParameters();
-				List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
-				if (Runs.Count > 0)
-				{
-					// Debug.Log("The List has Been Populated");
-					listViewManager.Clear();
-					ApplyToUI(Runs);
-					firstPopulation = true;
-				}
-				UpdateTimer = 0;
-			}
-		}
+        UpdateTimer += Time.deltaTime;
+        if ((!firstPopulation || UpdateTimer > 15) && listViewManager.isActiveAndEnabled)
+        {
+            
+            SystemParameters parameters = null; //new SystemParameters();
+            List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
+            if (Runs.Count > 0)
+            {
+                // Debug.Log("The List has Been Populated");
+                listViewManager.Clear();
+                ApplyToUI(Runs);
+                firstPopulation = true;
+            }
+            listViewManager.Sort("Name");
+            UpdateTimer = 0;
+        }
 	}
 	
     /// <summary>
@@ -152,7 +155,6 @@ public class Searcher : MonoBehaviour {
             {
                 mr.Location = GlobalConfig.Location;
             }
-
             if (mr.Location == GlobalConfig.Location)
             {
                 var StringList = mr.GetVariables();
@@ -161,7 +163,7 @@ public class Searcher : MonoBehaviour {
                 {
                     Variables += s + ", ";
                 }
-
+                mr.Description = mr.Description.Replace('"', ' ');
                 //Debug.LogError("Adding to list: " + mr.ModelName);
                 listViewManager.AddRow(new object[]{mr.ModelName,
 			    mr.Description,

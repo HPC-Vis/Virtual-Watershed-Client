@@ -668,6 +668,11 @@ public static class ModelRunManager
         //client.RemoveJobsByModelRunUUID (ModelRunUUID);
     }
 
+    static public int GetModelRunCount()
+    {
+        return modelRuns.Count;
+    }
+
     static public void InsertModelRun(string uuid, ModelRun mr)
     {
         modelRuns[uuid] = mr;

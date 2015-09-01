@@ -79,6 +79,11 @@ namespace VTL.ListView
                     Destroy(child.gameObject);
         }
 
+        public int getCount()
+        {
+            return rows.Count;
+        }
+
         void Update()
         {
             shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);

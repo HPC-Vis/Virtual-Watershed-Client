@@ -297,15 +297,7 @@ public class ModelRun
                 //}
                 else if(usingOR)
                 {
-                    Debug.LogError(record.modelname);
-                    Debug.LogError(this.ModelName);
-                    Debug.LogError(record.name);
-                    Debug.LogError(param.name);
-                    Debug.LogError(record.Type);
-                    Debug.LogError(param.TYPE);
-                    Debug.LogError(param.type);
-                    Debug.LogError(param.state);
-                    Debug.LogError(record.state);
+
                     // Check record using OR-Query
                     if(record.modelname == this.ModelName || record.name == param.name || record.Type == param.TYPE || 
                         //record.start.ToString() == param.starttime || record.end.ToString() == param.endtime || 
