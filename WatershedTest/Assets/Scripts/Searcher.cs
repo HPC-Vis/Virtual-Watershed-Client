@@ -101,7 +101,7 @@ public class Searcher : MonoBehaviour {
 		}
 
 		UpdateTimer += Time.deltaTime;
-		if (!firstPopulation )//|| UpdateTimer > 25)
+		if (!firstPopulation || UpdateTimer > 15)
 		{
 			if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
 			{
@@ -148,6 +148,11 @@ public class Searcher : MonoBehaviour {
     {
         foreach (var mr in ModelRuns)
         {
+            if (mr.ModelName == "Reference Data")
+            {
+                mr.Location = GlobalConfig.Location;
+            }
+
             if (mr.Location == GlobalConfig.Location)
             {
                 var StringList = mr.GetVariables();
