@@ -42,6 +42,8 @@ public class mouseray : MonoBehaviour
         Pos.y += 50;
         PlayerController.transform.position = Pos;
         csvButton = GameObject.Find("SlicertoCSV");
+        marker1.transform.position = Vector3.zero;
+        marker2.transform.position = Vector3.zero;
         ////change model
         //TheTrailer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         //TheTrailer.name = "THE TRAILER";
@@ -290,7 +292,6 @@ public class mouseray : MonoBehaviour
 
             //print(closestObject.point);
             curpos = raycastHit(Input.mousePosition);//closestObject.point;
-
            
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z))
             {
