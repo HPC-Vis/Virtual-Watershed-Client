@@ -127,16 +127,17 @@ public class Searcher : MonoBehaviour {
     {
 		foreach(var rec in Records)
 		{
-		    Debug.LogError(rec.name);
-		    listViewManager.AddRow(new object[]{rec.name,
+            if (rec.location == GlobalConfig.Location)
+            {
+                //Debug.LogError(rec.name);
+                listViewManager.AddRow(new object[]{rec.name,
 		                                    rec.description,
 		                                    rec.location,
-		                                    rec.modelRunUUID,
 		                                    rec.variableName,
 		                                    rec.start,
-		                                    rec.end},rec);
+		                                    rec.end}, rec);
+            }
 		}
-        
     }
 
 	/// <summary>
@@ -147,21 +148,23 @@ public class Searcher : MonoBehaviour {
     {
         foreach (var mr in ModelRuns)
         {
-            var StringList = mr.GetVariables();
-            string Variables = "";
-            foreach (var s in StringList)
+            if (mr.Location == GlobalConfig.Location)
             {
-                Variables += s + ", ";
+                var StringList = mr.GetVariables();
+                string Variables = "";
+                foreach (var s in StringList)
+                {
+                    Variables += s + ", ";
+                }
+
+                //Debug.LogError("Adding to list: " + mr.ModelName);
+                listViewManager.AddRow(new object[]{mr.ModelName,
+			    mr.Description,
+			    mr.Location,
+			    Variables,
+			    mr.Start == null ? "" : mr.Start.ToString(),
+			    mr.End == null ? "" : mr.End.ToString()}, mr);
             }
-                
-            //Debug.LogError("Adding to list: " + mr.ModelName);
-            listViewManager.AddRow(new object[]{mr.ModelName,
-			mr.Description,
-			mr.Location,
-			mr.ModelRunUUID,
-			Variables,
-			mr.Start == null ? "" : mr.Start.ToString(),
-			mr.End == null ? "" : mr.End.ToString()}, mr);
         }
     }
 
