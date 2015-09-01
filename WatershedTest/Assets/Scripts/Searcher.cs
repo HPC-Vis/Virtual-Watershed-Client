@@ -15,7 +15,6 @@ public class Searcher : MonoBehaviour {
     // Current Menu Contents..
     List<DataRecord> Records = new List<DataRecord>();
     public ListViewManager listViewManager;
-
     bool NewSearch = false;
     int count = 0;
 
@@ -37,6 +36,7 @@ public class Searcher : MonoBehaviour {
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
 		ModelRunManager.SearchForModelRuns(null, this);
+        
 	}
 
 	/// <summary>
