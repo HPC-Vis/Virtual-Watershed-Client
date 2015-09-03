@@ -33,8 +33,8 @@ using System.IO;
          //                                                                              should be chase211.csv
          WebClient wc = new WebClient();
          string ip = "http://134.197.66.18:5000";
-         wc.UploadString(ip+"/visualization/histogramVisInterface", "10//1,2,3,4,5,6,7,8,9,10");
-         //System.Diagnostics.Process.Start("http://192.168.0.204:5000/visualization/CSV/chase211.csv/3DApplicationResults/");
+         wc.UploadString(ip + "/visualization/Histogram/3DVisualizationApplication", "testV//10//3,2,3,4,7,10,8,1.5,2.3,4.4,6,7.6//11,2.2,6.5,4,1.2,2.9,8,1.5,2.3,4.4,6,7.6"); // variablename//numberofbars//arrayoftimesteps must be the same size i.e. 1,2//3,4
+         System.Diagnostics.Process.Start(ip+"/visualization/Histogram/testV/3DApplicationResultsHistogram/");
      }
 
      [Test]
