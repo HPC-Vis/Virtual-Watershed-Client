@@ -38,6 +38,8 @@ public class NetworkClient : WebClient
     /// </summary>
     public void Halt()
     {
+        Logger.WriteLine("HALTING");
+        CurrentDownload = null;
         DownloadRequests.Clear();
     }
 

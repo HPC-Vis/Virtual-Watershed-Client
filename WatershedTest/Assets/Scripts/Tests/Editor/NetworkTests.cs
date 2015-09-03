@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Collections;
 using System.Collections.Generic;
 using OSGeo.GDAL;
+using System.IO;
+
  [TestFixture]
  [Category("Network Tests")]
  internal class NetworkTests
@@ -20,6 +22,54 @@ using OSGeo.GDAL;
          NetworkManager nm = new NetworkManager();
          df = new DataFactory(nm);
      }
+
+     [Test]
+     public void PostBarGraphTest()
+     {
+         //NetworkClient nc = new NetworkClient(nm);
+         //nc.UploadStr("http://192.168.0.204:5000/visualization/CSV/3DVisualizationApplication", content);
+         //Thread.Sleep(5000);
+         //                                                                     Rui:     this is your csv file string first element before //, which is the name of the csv file. e.g. for testChase.csv, this part 
+         //                                                                              should be chase211.csv
+         WebClient wc = new WebClient();
+         string ip = "http://134.197.66.18:5000";
+         wc.UploadString(ip+"/visualization/histogramVisInterface", "10//1,2,3,4,5,6,7,8,9,10");
+         //System.Diagnostics.Process.Start("http://192.168.0.204:5000/visualization/CSV/chase211.csv/3DApplicationResults/");
+     }
+
+     [Test]
+     public void CsvPostTest()
+     {
+         Console.WriteLine("CSV POST TEST");
+         WebClient wc = new WebClient();
+         string filename = "chase211.csv";
+         string ip = "http://134.197.66.18:5000";
+         Console.WriteLine(ip + "/visualization/CSV/3DVisualizationApplication");
+         Console.WriteLine(ip + "/visualization/CSV/" + filename + "/3DApplicationResults/");
+         wc.UploadString(ip + "/visualization/CSV/3DVisualizationApplication", filename+"//aa,bb,cc//2009/07/12,2,3//2009/07/13,5,6//2009/07/14,8,9//2009/07/15,11,12//2009/07/16,14,15");
+         //System.Diagnostics.Process.Start(ip+"/visualization/CSV/" + filename +"/3DApplicationResults/");
+         
+     }
+
+
+     [Test]
+     public void DirectoryTest()
+     {
+         Console.WriteLine("DIR NAME: " + Path.GetDirectoryName(Path.GetFullPath(".")));
+         Console.WriteLine("DIR NAME: " + Path.GetDirectoryName("./tess"));
+         Assert.IsTrue(Path.GetDirectoryName(@".\WatershedTest\") != null);
+         Console.WriteLine("DIRECTORIES");
+         foreach (var i in Directory.GetDirectories("."))
+         {
+             Console.WriteLine(i);
+         }
+         Console.WriteLine("FILES: ");
+         foreach(var i in Directory.GetFiles(".","*.nc"))
+         {
+             Console.WriteLine(i);
+         }
+     }
+
      [Test]
      [Category("Network Speed Tests")]
      public void SpeedTest()

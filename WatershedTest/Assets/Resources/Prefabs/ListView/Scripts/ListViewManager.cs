@@ -84,7 +84,7 @@ namespace VTL.ListView
             return rows.Count;
         }
 
-        void Update()
+        public void Update()
         {
             shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
@@ -344,7 +344,7 @@ namespace VTL.ListView
             foreach (var rowData in listData.Values)
                 if ((bool)rowData[SELECTED])
                     buffer.Add((Guid)rowData[GUID]);
-
+ 
             foreach (Guid guid in buffer)
                 yield return guid;
         }

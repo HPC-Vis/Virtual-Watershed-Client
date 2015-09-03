@@ -350,7 +350,7 @@ namespace OGC_Tests
             var nc = Gdal.GetDriverByName("NETCDF");
             if(nc != null)
             Debug.LogError(nc.LongName);
-            string file = @"NETCDF:"+'"'+ @"C:\Users\ccarthen\Downloads\twoweek_inputs_with_zlib.nc" + '"';
+            string file = @"NETCDF:" + '"' + @"C:\Users\ccarthen\Downloads\oneyear_inputs_with_zlib.nc" + '"';
             RasterDataset rd = new RasterDataset(file);
             if(rd.Open())
             {

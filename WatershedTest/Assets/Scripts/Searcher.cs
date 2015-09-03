@@ -221,6 +221,7 @@ public class Searcher : MonoBehaviour {
     public void OnDestroy()
     {
         nm.Halt();
+        Debug.LogError("ON DESTROY");
     }
 
 	/// <summary>
@@ -389,4 +390,5 @@ public class Searcher : MonoBehaviour {
         return parameters;
 
     }
+
 }
