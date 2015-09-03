@@ -10,10 +10,12 @@ public struct DirectoryStruct
     public string Path;
     public bool IsDirectory;
     public string filename;
+    public string bytes;
+    public string dateModified;
 }
 public class FileBrowse : MonoBehaviour {
 
-    string CurrentDirectory = ".";
+    public string CurrentDirectory = ".";
     string relativepath = ".";
 	// Use this for initialization
 	void Start () {
@@ -38,6 +40,7 @@ public class FileBrowse : MonoBehaviour {
             temp.Path = Path.GetFullPath(i);
             temp.IsDirectory = true;
             temp.filename = i.Replace(CurrentDirectory+@"\","");
+            temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
             Contents.Add(temp);
             
         }
@@ -49,6 +52,18 @@ public class FileBrowse : MonoBehaviour {
             temp.Path = Path.GetFullPath(i);
             temp.IsDirectory = false;
             temp.filename = Path.GetFileName(i);
+            temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
+            float size = (float)new FileInfo(temp.Path).Length / 1024;
+            if (size > 1000)
+            {
+                size /= 1000;
+                temp.bytes = size.ToString("F2") + " MB";
+            }
+            else
+            {
+                temp.bytes = size.ToString("F2") + " KB";
+            }
+
             Contents.Add(temp);
         }
         return Contents;
