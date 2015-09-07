@@ -167,7 +167,7 @@ public static class ModelRunManager
                     foreach (var i in records)
                     {
                         //Debug.LogError(i.name);
-                        if (operation == "wms")
+                        if (operation == "wms" && i.services.Contains("wms"))
                         {
                             // Lets check if it exists in the cache by uuid
                             if (FileBasedCache.Exists(i.id) && i.texture == null)
@@ -195,7 +195,7 @@ public static class ModelRunManager
                         }
 
 
-                        else if (operation == "wcs")
+						else if (operation == "wcs" && i.services.Contains("wcs") )
                         {
                             // Lets check if it exists in the cache by uuid
                             //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
@@ -217,7 +217,7 @@ public static class ModelRunManager
                             }
                             client.getCoverage(SettingTheRecord, i, param);
                         }
-                        else if (operation == "wfs")
+						else if (operation == "wfs" && i.services.Contains("wfs"))
 
                         {
                             // Lets check if it exists in the cache by uuid
@@ -235,6 +235,10 @@ public static class ModelRunManager
                             Debug.LogError("PRIORITY: " + param.Priority);
                             client.getFeatures(SettingTheRecord, i, param);
                         }
+						else if (i.services.Contains("file"))
+						{
+							Debug.LogError("Loading FIle");
+						}
                     }
                 }).Start();
                 // End Thread

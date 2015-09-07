@@ -6,6 +6,9 @@ using OSGeo.GDAL;
 using System.IO;
 using System.Xml;
 using System.Net;
+using ProjNet;
+using ProjNet.CoordinateSystems;
+
 namespace OGC_Tests
 {
    
@@ -271,6 +274,48 @@ namespace OGC_Tests
             fs.Close();
             System.Console.WriteLine(Path.GetFullPath("."));
         }
+
+		[Test]
+		public void ATestForRefs()
+		{
+			Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+@"\..\..\data\");
+			System.Console.WriteLine (Path.GetDirectoryName (System.Reflection.Assembly.GetExecutingAssembly ().Location) + @"\..\..\data\");
+
+
+			System.Console.WriteLine ("APPLES AND SPAHGETTI");
+
+			OSGeo.OSR.SpatialReference test = new OSGeo.OSR.SpatialReference ("");
+
+			test.ImportFromEPSG (4326);
+			string n="";
+			test.ExportToWkt(out n);
+			System.Console.WriteLine ("PROJ4: " + n);
+			var tt = new ProjNet.CoordinateSystems.CoordinateSystemFactory ();
+			//new ProjNet.CoordinateSystems.ProjectedCoordinateSystem ();
+			//var ts = new ProjNet.CoordinateSystems.CoordinateSystem ();
+			//ts.AuthorityCode = 4326;
+
+
+			ProjNet.CoordinateSystems.CoordinateSystemFactory cf = new ProjNet.CoordinateSystems.CoordinateSystemFactory ();
+			var t = cf.CreateFromWkt (n);
+			//var ts = cf.CreateFromWkt ("");
+			//var t2 = new CoordinateSystem ();
+			System.Console.WriteLine (t.WKT);
+			//System.Console.WriteLine (ts.WKT);
+			//var testor = cf.CreateLocalDatum ("epsg:4326", DatumType.HD_Classic);
+			System.Console.WriteLine ("TESTOR: ");
+			//System.Console.WriteLine (ts.WKT);
+		}
+
+		[Test]
+		public void CreateCoordinateTransformation()
+		{
+			var sr1 = new OSGeo.OSR.SpatialReference ("");
+			var sr2 = new OSGeo.OSR.SpatialReference ("");
+			sr1.ImportFromEPSG (4326);
+			sr2.ImportFromEPSG (4326);
+			OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation (sr1, sr2);
+		}
 
         [Test]
         public void DownloadAllBandsWithParser()

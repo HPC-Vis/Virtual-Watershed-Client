@@ -89,7 +89,7 @@ public class LoadFromFile : MonoBehaviour {
                         {
                             DataRecord rec = new DataRecord(str);
                             rec.variableName = str;
-                            rec.Data = rd.GetData();
+                            //rec.Data = rd.GetData();
                             rec.modelRunUUID = mr.ModelRunUUID;
                             rec.id = Guid.NewGuid().ToString();
                             rec.location = GlobalConfig.Location;
@@ -98,6 +98,7 @@ public class LoadFromFile : MonoBehaviour {
                             rec.projection = "epsg:4326";
                             rec.start = DateTime.MinValue;
                             rec.end = DateTime.MaxValue;
+							rec.services["file"] = str;
                             ModelRunManager.InsertDataRecord(rec, new List<DataRecord>() );
                         }
 
