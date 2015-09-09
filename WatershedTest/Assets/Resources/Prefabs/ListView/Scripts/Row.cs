@@ -106,9 +106,10 @@ namespace VTL.ListView
                 return obj.ToString();
         }
 
-        public void OnPointerEnter(BaseEventData d,string data)
+        public void OnPointerEnter(BaseEventData d)
         {
             Debug.LogError("HOVERED OVER ME");
+            // Find the description rowelement.
         }
 
         public void UpdateSelectionAppearance()

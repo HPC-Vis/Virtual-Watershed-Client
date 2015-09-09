@@ -31,9 +31,9 @@ namespace VTL.ListView
             var ev = gameObject.AddComponent<EventTrigger>();
             //ev.triggers.Add()
             EventTrigger.Entry entry = new EventTrigger.Entry();
-            var call = new UnityAction<BaseEventData>(((eventd) => transform.parent
+            var call = new UnityAction<BaseEventData>(transform.parent
                                             .gameObject
-                                            .GetComponent<Row>().OnPointerEnter(eventd, "asdfasdf")));
+                                            .GetComponent<Row>().OnPointerEnter);
             entry.eventID = EventTriggerType.PointerEnter;
             entry.callback.AddListener(call);
             ev.triggers.Add(entry);
