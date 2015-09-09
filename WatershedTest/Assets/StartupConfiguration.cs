@@ -9,7 +9,7 @@ public class StartupConfiguration : MonoBehaviour {
 	// Use this for initialization
 	void Start () 
     {
-
+        OSGeo.GDAL.Gdal.SetConfigOption("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
 	    // Setup global Coordinate System -- Currently hard coded, add ability to set these at runtime 
 		coordsystem.baseCoordSystem = new OSGeo.OSR.SpatialReference ("");//coordsystem.coordRefFactory.CreateFromName("epsg:" + GlobalConfig.GlobalProjection.ToString());
 		coordsystem.baseCoordSystem.ImportFromEPSG (GlobalConfig.GlobalProjection);

@@ -6,6 +6,7 @@ using OSGeo.GDAL;
 using System.IO;
 using System.Xml;
 using System.Net;
+using System.Text.RegularExpressions;
 using ProjNet;
 using ProjNet.CoordinateSystems;
 
@@ -24,6 +25,16 @@ namespace OGC_Tests
             DataFactory df = new DataFactory(nm);
             ogc = new OGCConnector(df,nm);
             nm.Subscribe(ogc);
+            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
+        }
+
+        [Test]
+        public void ProjectionStringTest()
+        {
+            string epsg = "epsg:4326";
+            Assert.True("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value);
+            epsg = "epsg:4326 a";
+            Assert.False("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value);
         }
 
 		[Test]

@@ -256,6 +256,11 @@ public class Spooler : MonoBehaviour
 		}
         var TS = rec.end.Value - rec.start.Value;
         double totalhours = TS.TotalHours / rec.Data.Count;
+        float max, min;
+        if(rec.Data.Count > 1)
+        {
+            TOTAL = rec.Data.Count; // Patch
+        }
         for (int j = 0; j < rec.Data.Count; j++ )
         {
             // Build the Frame to pass in
@@ -277,9 +282,13 @@ public class Spooler : MonoBehaviour
             trendGraph.Add(rec.start.Value, 1.0f, rec.Data[0]);
             Logger.enable = true;
             Texture2D tex = new Texture2D(rec.width, rec.height);
+            
             if (!WMS)
             {
-                tex = Utilities.BuildDataTexture(rec.Data[j], out rec.Min, out rec.Max);
+                tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max);
+                rec.Min = Math.Min(min, rec.Min);
+                rec.Max = Math.Max(max, rec.Max);
+                Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
             }
             else
             {

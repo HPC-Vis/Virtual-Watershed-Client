@@ -75,11 +75,20 @@ public class transform : MonoBehaviour
     public bool createCoordSystem(string epsg)
     {
 		// Get the numeric part of the string
-		var resultString = Regex.Match(epsg, @"\d+").Value;
-		int EPSG = int.Parse (resultString);
-		localCoords = new SpatialReference ("");//coordsystem.coordRefFactory.CreateFromName(epsg);
-		localCoords.ImportFromEPSG (EPSG);
-		localTrans = coordsystem.createUnityTransform (localCoords);//coordsystem.createUnityTransform(localCoords);
+        if ("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
+        {
+            var resultString = Regex.Match(epsg, @"\d+").Value;
+
+            int EPSG = int.Parse(resultString);
+            localCoords = new SpatialReference("");//coordsystem.coordRefFactory.CreateFromName(epsg);
+            localCoords.ImportFromEPSG(EPSG);
+
+        }
+        else
+        {
+            localCoords = new SpatialReference(epsg);
+        }
+        localTrans = coordsystem.createUnityTransform(localCoords);//coordsystem.createUnityTransform(localCoords);
         //Debug.Log(localCoords.Name);
         return true;
     }
@@ -91,7 +100,14 @@ public class transform : MonoBehaviour
         //localTrans.Transform(tempSrc, tempTgt);
 		double[] pointed = new double[]{point.x,point.y};
 		localTrans.TransformPoint (pointed);
-        return coordsystem.transformToUTM((float)pointed[0], (float)pointed[1]);
+        //Debug.LogError(point.x + " " + point.y);
+        string tts2;
+        localCoords.ExportToWkt(out tts2);
+        //Debug.LogError(tts2);
+        string tts;
+        coordsystem.baseCoordSystem.ExportToWkt(out tts);
+        //Debug.LogError(tts);
+        return coordsystem.transformToUTM(point.x, point.y);
     }
 
     public Vector2 translateToGlobalCoordinateSystem(Vector2 point)

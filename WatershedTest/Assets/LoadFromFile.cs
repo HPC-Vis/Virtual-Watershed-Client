@@ -93,9 +93,10 @@ public class LoadFromFile : MonoBehaviour {
                             rec.modelRunUUID = mr.ModelRunUUID;
                             rec.id = Guid.NewGuid().ToString();
                             rec.location = GlobalConfig.Location;
-                            rec.Temporal = (rec.Data.Count > 1);
-                            rec.bbox = "1 2 2 1"; // test bbox for now
-                            rec.projection = "epsg:4326";
+                            rec.Temporal = rd.IsTemporal();//(rec.Data.Count > 1);
+                            
+                            rec.bbox = rd.GetBoundingBox(); 
+                            rec.projection = rd.ReturnProjection();
                             rec.start = DateTime.MinValue;
                             rec.end = DateTime.MaxValue;
 							rec.services["file"] = str;

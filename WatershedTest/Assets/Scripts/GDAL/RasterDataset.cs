@@ -11,7 +11,8 @@ public class RasterDataset
     string File;
     Dataset dataset = null;
     List<string> Subdatasets = new List<string>();
-    int MAX_WIDTH = 1024, MAX_HEIGHT = 1024;
+    // Assuming this for the window size...
+    int MAX_WIDTH = 100, MAX_HEIGHT = 100;
     public RasterDataset(string file)
     {
         File = file;
@@ -77,31 +78,36 @@ public class RasterDataset
         int height = dataset.RasterYSize;
         width = Math.Min(width, MAX_WIDTH);
         height = Math.Min(height, MAX_HEIGHT);
-        float[] DataF = new float[width*height];
+        width = height = Math.Max(width, height);
         Console.WriteLine(width + " " + height);
-        for(int i =0;i < dataset.RasterCount; i++)
+        for (int i = 0; i < dataset.RasterCount; i++)
         {
+            float[] DataF = new float[width * height];
             float[,] Data = new float[width, height];
             var band = dataset.GetRasterBand(i + 1);
             try
             {
-                band.ReadRaster(0, 0, width, height, DataF, width, height, 0, 0);
+                band.ReadRaster(0, 0, band.XSize, band.YSize, DataF, width, height, 0, 0);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 return data;
             }
-
-            for(int k = 0; k < width; k++)
+            Debug.LogError(width + " " + height);
+            
+            for (int k = 0; k < width; k++)
             {
-                for(int j = 0; j < height; j++)
+                for (int j = 0; j < height; j++)
                 {
-                    Data[k, j] = DataF[(width - 1 - k) * height + j];
+                    Data[k, j] = DataF[(k) * height + height-1-j];
                 }
             }
 
+
+
             data.Add(Data);
+
         }
         return data;
     }
@@ -134,6 +140,45 @@ public class RasterDataset
 
     }
 
+
+    /// <summary>
+    /// Returns a bounding box string of the form upperleft x upper y botttomright x bottom y (or l t r b or minx maxy maxx miny or ..
+    /// )
+    /// </summary>
+    /// <returns></returns>
+    public string GetBoundingBox()
+    {
+        double[] geoTransform = new double[6];
+        dataset.GetGeoTransform(geoTransform);
+        double minx = geoTransform[0];
+        double maxy = geoTransform[3];
+        double maxx = minx + geoTransform[1]*dataset.RasterXSize;
+        double miny = maxy - geoTransform[5]*dataset.RasterYSize;
+        Debug.LogError(dataset.GetProjection());
+        Debug.LogError(minx + " " + maxy);
+        OSGeo.OSR.SpatialReference sr1 = new OSGeo.OSR.SpatialReference(dataset.GetProjection());
+        sr1.ImportFromEPSG(26911);
+        OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");
+        sr2.ImportFromEPSG(4326);
+
+        OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation(sr1, sr2);
+        double[] upperleft = new double[] {minx,maxy};
+        double[] lowerright = new double[] {maxx,miny};
+        ct.TransformPoint(lowerright);
+        ct.TransformPoint(upperleft);
+
+        return upperleft[0] + " " + upperleft[1] + " " + lowerright[0] + " " + lowerright[1];
+    }
+
+    public string ReturnProjection()
+    {
+        OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");
+        sr2.ImportFromEPSG(26911);
+        string wktstring = "";
+        sr2.ExportToWkt(out wktstring);
+        return wktstring;//dataset.GetProjection();
+    }
+
     public static string buildXMLString(DataRecord record)
     {
         if (record.WCSOperations == null)
@@ -150,5 +195,10 @@ public class RasterDataset
         // produce a xml file.
         string wcs_xml_string = XMLElement("WCS_GDAL", XMLElement("ServiceURL", ServiceUrl) + "\n" + XMLElement("CoverageName", identifer));
         return wcs_xml_string;
+    }
+
+    public bool IsTemporal()
+    {
+        return dataset.RasterCount > 1;
     }
 }

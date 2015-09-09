@@ -289,7 +289,7 @@ public static class Utilities
 			image.Apply ();
 			pro.material.SetTexture ("_ShadowTex", image);
 		} 
-		else if (record.Data != null) 
+		else if (record.Data.Count > 0) 
 		{
 			PlaceProjector2(pro,record);
 			Texture2D image = Utilities.buildTextures(normalizeData(record.Data[0]),Color.grey,Color.blue);
@@ -900,13 +900,16 @@ public static class Utilities
    			for(int j = 0; j < height; j++)
    			{
    				colorData[(width-i-1)*height+(height-j-1)] = Utilities.floatToColor32(data[i,j]);
+               
                 if(data[i,j] > max)
                 {
                     max = data[i,j];
+                    Debug.LogError(data[i, j]);
                 }
                 if(data[i,j] < min)
                 {
                     min = data[i,j];
+                    Debug.LogError(data[i, j]);
                 }
    			}
    		}
