@@ -10,6 +10,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -103,6 +104,11 @@ namespace VTL.ListView
             }
             else
                 return obj.ToString();
+        }
+
+        public void OnPointerEnter(BaseEventData d,string data)
+        {
+            Debug.LogError("HOVERED OVER ME");
         }
 
         public void UpdateSelectionAppearance()

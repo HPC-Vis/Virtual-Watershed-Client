@@ -3,6 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 using System;
+
+/// <summary>
+/// A GUI Interface class used for loading from a file.
+/// </summary>
 public class LoadFromFile : MonoBehaviour {
 
     public GameObject downloadListView, fileListView;
@@ -21,6 +25,9 @@ public class LoadFromFile : MonoBehaviour {
 	
 	}
 
+    /// <summary>
+    /// Open the file window for selecting files
+    /// </summary>
     public void openFileWindow()
     {
         downloadListView.SetActive(false);
@@ -28,12 +35,18 @@ public class LoadFromFile : MonoBehaviour {
         populateFileWindow();
     }
 
+    /// <summary>
+    /// Open the window for downloading data from the virtual watershed.
+    /// </summary>
     public void openDownloadWindow()
     {
         downloadListView.SetActive(true);
         fileListView.SetActive(false);
     }
     
+    /// <summary>
+    /// Populate data based on what is acquired from the filebrowse class.
+    /// </summary>
     void populateFileWindow()
     {
         var Contents = fileBrowser.GetContents();
@@ -48,6 +61,9 @@ public class LoadFromFile : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Change the directory to the relevant directory.
+    /// </summary>
     public void ChangeDirectory()
     {
         var contents = fileView.GetSelectedRowContent();
@@ -62,25 +78,34 @@ public class LoadFromFile : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Load a selected file which is only netcdfs at the moment.
+    /// </summary>
     public void LoadFile()
     {
         var contents = fileView.GetSelectedRowContent();
         if (contents.Count > 0)
         {
             Debug.LogError("LOADING: " + contents[0][2] ) ;
-            //fileBrowser.SetDirectory((string)contents[0][0]);
 
             if (contents[0][2].ToString().ToLower() == "file")
             {
                 RasterDataset modelData = new RasterDataset(RasterDataset.GetGdalPath(fileBrowser.CurrentDirectory + @"\" + contents[0][0]));
                 if (modelData.Open())
                 {
-                    Debug.LogError("ITS ALIVE");
+                    // 
+                    //Debug.LogError("ITS ALIVE");
+
+                    // Create a new random modelrun.
                     ModelRun mr = new ModelRun(contents[0][0].ToString(), Guid.NewGuid().ToString(), "");
                     mr.Location = GlobalConfig.Location;
                     
                     ModelRunManager.InsertModelRun(mr.ModelRunUUID, mr);
+
+                    // Get any subdatasets associate to this file
                     List<string> subSets = modelData.GetSubDatasets();
+
+                    // Populate datarecords for each subdatasets
                     foreach (String str in subSets)
                     {
                         Debug.LogError("PROCESSING THIS STR: " + str);
@@ -90,6 +115,7 @@ public class LoadFromFile : MonoBehaviour {
                             DataRecord rec = new DataRecord(str);
                             rec.variableName = str;
                             //rec.Data = rd.GetData();
+
                             rec.modelRunUUID = mr.ModelRunUUID;
                             rec.id = Guid.NewGuid().ToString();
                             rec.location = GlobalConfig.Location;
@@ -104,6 +130,8 @@ public class LoadFromFile : MonoBehaviour {
                         }
 
                     }
+
+                    // Adding a modelrun to the startup cache record
                     var startupruns = FileBasedCache.Get<Dictionary<string,ModelRun>>("startup");
                     startupruns.Add(mr.ModelRunUUID, mr);
                     Debug.LogError("ADDED: " + mr.ModelRunUUID);

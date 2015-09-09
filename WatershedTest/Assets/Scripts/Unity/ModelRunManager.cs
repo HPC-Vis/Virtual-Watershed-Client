@@ -240,7 +240,7 @@ public static class ModelRunManager
 						{
 							Debug.LogError("Loading FIle");
                             
-                            if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
+                            /*if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
                             {
                                 //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
                                 i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
@@ -254,13 +254,19 @@ public static class ModelRunManager
                                 //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
                                 SettingTheRecord(new List<DataRecord> { i });
                                 continue;
-                            }
+                            }*/
 
                             RasterDataset rd = new RasterDataset(i.services["file"]);
                             if(rd.Open())
                             {
-                                i.Data = rd.GetData();
-                                SettingTheRecord(new List<DataRecord> { i });
+                                var da = rd.GetData();
+                                for (int j = 0; j < da.Count; j++)
+                                {
+                                    DataRecord ii = i.Clone();
+                                    ii.Data.Add(da[j]);
+                                    ii.band_id = j + 1;
+                                    SettingTheRecord(new List<DataRecord> { ii });
+                                }
                             }
 						}
                     }

@@ -288,7 +288,7 @@ public class Spooler : MonoBehaviour
                 tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max);
                 rec.Min = Math.Min(min, rec.Min);
                 rec.Max = Math.Max(max, rec.Max);
-                Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
+                //Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
             }
             else
             {
