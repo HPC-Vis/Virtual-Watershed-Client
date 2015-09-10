@@ -141,8 +141,10 @@ public class RasterDataset
         List<float[,]> data = new List<float[,]>();
         int width = dataset.RasterXSize;
         int height = dataset.RasterYSize;
-        width = Math.Min(width, MAX_WIDTH);
-        height = Math.Min(height, MAX_HEIGHT);
+        //width = Math.Min(width, MAX_WIDTH);
+        //height = Math.Min(height, MAX_HEIGHT);
+        width = 100;
+        height = 100;
         width = height = Math.Max(width, height);
         Console.WriteLine(width + " " + height);
         for (int i = 0; i < dataset.RasterCount; i++)
