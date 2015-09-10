@@ -1236,6 +1236,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -1313,6 +1314,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -1390,6 +1392,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -1467,6 +1470,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -1655,16 +1659,16 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100026}
-      action: OnSpotted
+      action: 4f6e53706f74746564
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100000}
-      action: OnSignal
+      action: 4f6e5369676e616c
       delay: 0
     - receiver: {fileID: 100022}
-      action: OnSignal
+      action: 4f6e5369676e616c
       delay: 0
 --- !u!1002 &11400009
 EditorExtensionImpl:
@@ -1743,7 +1747,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100000}
-      action: OnFootstep
+      action: 4f6e466f6f7473746570
       delay: 0
   skiddingSounds: 1
   footstepSounds: 1
@@ -1780,7 +1784,11 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   minGlow: .100000001
   maxGlow: .75
-  glowColor: {r: .902173936, g: .174283594, b: .174283594, a: 1}
+  glowColor:
+    r: .902173936
+    g: .174283594
+    b: .174283594
+    a: 1
 --- !u!1002 &11400021
 EditorExtensionImpl:
   serializedVersion: 6
