@@ -2291,6 +2291,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -2368,6 +2369,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 1
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -2445,6 +2447,7 @@ AudioSource:
   m_Pitch: 1
   Loop: 0
   Mute: 0
+  Spatialize: 0
   Priority: 128
   DopplerLevel: 1
   MinDistance: 4
@@ -2577,7 +2580,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 0}
-  glowColor: {r: .326530635, g: .303575516, b: .0331838802, a: 1}
+  glowColor:
+    r: .326530635
+    g: .303575516
+    b: .0331838802
+    a: 1
 --- !u!1002 &11400001
 EditorExtensionImpl:
   serializedVersion: 6
@@ -2722,7 +2729,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100118}
-      action: OnFootstep
+      action: 4f6e466f6f7473746570
       delay: 0
   animationComponent: {fileID: 11100000}
 --- !u!1002 &11400015
@@ -2766,19 +2773,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100020}
-      action: OnStartFire
+      action: 4f6e537461727446697265
       delay: 0
     - receiver: {fileID: 100114}
-      action: OnStartFire
+      action: 4f6e537461727446697265
       delay: 0
   mouseUpSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100020}
-      action: OnStopFire
+      action: 4f6e53746f7046697265
       delay: 0
     - receiver: {fileID: 100114}
-      action: OnStopFire
+      action: 4f6e53746f7046697265
       delay: 0
 --- !u!1002 &11400019
 EditorExtensionImpl:
@@ -2842,19 +2849,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100008}
-      action: OnSignal
+      action: 4f6e5369676e616c
       delay: 0
     - receiver: {fileID: 0}
-      action: OnDamage
+      action: 4f6e44616d616765
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 100118}
-      action: OnSignal
+      action: 4f6e5369676e616c
       delay: .5
     - receiver: {fileID: 100010}
-      action: OnSignal
+      action: 4f6e5369676e616c
       delay: 0
 --- !u!1002 &11400025
 EditorExtensionImpl:

@@ -38,6 +38,8 @@ public class NetworkClient : WebClient
     /// </summary>
     public void Halt()
     {
+        Logger.WriteLine("HALTING");
+        CurrentDownload = null;
         DownloadRequests.Clear();
     }
 
@@ -78,7 +80,14 @@ public class NetworkClient : WebClient
         count++;
         // Call the base function
         base.OnDownloadDataCompleted(args);
-
+        if (args.Error != null)
+        {
+            Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
+            Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
+            netmanager.CallDataError(CurrentDownload.Url);
+            CurrentDownload = null;
+            StartNextDownload();
+        }
         // get current download callback
         try
         {
@@ -120,6 +129,14 @@ public class NetworkClient : WebClient
         count++;
         // Call the base function
         base.OnDownloadStringCompleted(args);
+        if(args.Error != null)
+        {
+            Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
+            Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
+            netmanager.CallDataError(CurrentDownload.Url);
+            CurrentDownload = null;
+            StartNextDownload();
+        }
 
         // get current download callback
         try
@@ -135,6 +152,7 @@ public class NetworkClient : WebClient
             }
             Logger.WriteLine(e.Message + " " + e.StackTrace);
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
+            Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
             netmanager.CallDataError(CurrentDownload.Url);
             CurrentDownload = null;
             StartNextDownload();

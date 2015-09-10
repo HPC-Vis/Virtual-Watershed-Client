@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Proj4Net.Projection;
-using Proj4Net;
+//using Proj4Net;
 using ProjNet;
-
+using OSGeo.OSR;
 /*
 * Class: coordsystem
 * Description: This class is meant to be a coordinate system that keeps world objects in terms of Unity's space.
@@ -18,8 +18,9 @@ public static class coordsystem
     // Assumption 1 meter resolution per 1 unity.
     static public float worldScaleX = 1.0f, worldScaleY = 1.0f, worldScaleZ = 1.0f;
     static Vector2 worldOrigin;
-    public static CoordinateReferenceSystemFactory coordRefFactory = new CoordinateReferenceSystemFactory();
-    public static CoordinateReferenceSystem baseCoordSystem = coordRefFactory.CreateFromName("epsg:4326");
+    //public static CoordinateReferenceSystemFactory coordRefFactory = new CoordinateReferenceSystemFactory();
+    //public static CoordinateReferenceSystem baseCoordSystem = coordRefFactory.CreateFromName("epsg:4326");
+	public static SpatialReference baseCoordSystem = new SpatialReference("");
 
     static Vector2 unityOrigin;
     static float xUnityRes, yUnityRes;
@@ -112,9 +113,10 @@ public static class coordsystem
     {
         return "THIS IS A DUMMY OUTPUT FOR NOW";
     }
-    public static BasicCoordinateTransform createTransform(Proj4Net.CoordinateReferenceSystem reference, Proj4Net.CoordinateReferenceSystem target)
+    public static CoordinateTransformation createTransform(SpatialReference reference, SpatialReference target)
     {
-        return new BasicCoordinateTransform(reference, target);
+		baseCoordSystem.ImportFromEPSG (4326);
+		return new CoordinateTransformation (reference, target);//new BasicCoordinateTransform(reference, target);
     }
     public static int GetZone(double latitude, double longitude)
     {
@@ -177,13 +179,13 @@ public static class coordsystem
 		return new Vector3(worldOrigin.x + world.x * worldScaleX, 0, worldOrigin.y + world.z * worldScaleZ);
 	}
 
-    public static BasicCoordinateTransform createUnityTransform(Proj4Net.CoordinateReferenceSystem source)
+    public static CoordinateTransformation createUnityTransform(SpatialReference source)
     {
         //Debug.Log(baseCoordSystem.Name);
         //Debug.Log(source.Name);
-        ProjNet.CoordinateSystems.CoordinateSystemFactory cf = new ProjNet.CoordinateSystems.CoordinateSystemFactory();
-
-        return new BasicCoordinateTransform(source, baseCoordSystem);
+        //ProjNet.CoordinateSystems.CoordinateSystemFactory cf = new ProjNet.CoordinateSystems.CoordinateSystemFactory();
+		baseCoordSystem.ImportFromEPSG (4326);
+		return new CoordinateTransformation(source,baseCoordSystem);//new BasicCoordinateTransform(source, baseCoordSystem);
     }
 
 

@@ -243,7 +243,7 @@ public class DataRecord : IEquatable<DataRecord>
     public string title;
 
     // Model Variables **/
-    public string modelname;
+    public string modelname="";
     public string modelRunUUID;
     public string variableName;
 

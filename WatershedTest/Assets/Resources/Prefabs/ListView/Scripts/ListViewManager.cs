@@ -79,7 +79,12 @@ namespace VTL.ListView
                     Destroy(child.gameObject);
         }
 
-        void Update()
+        public int getCount()
+        {
+            return rows.Count;
+        }
+
+        public void Update()
         {
             shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
@@ -339,7 +344,7 @@ namespace VTL.ListView
             foreach (var rowData in listData.Values)
                 if ((bool)rowData[SELECTED])
                     buffer.Add((Guid)rowData[GUID]);
-
+ 
             foreach (Guid guid in buffer)
                 yield return guid;
         }

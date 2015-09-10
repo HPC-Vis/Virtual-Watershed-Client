@@ -6,6 +6,10 @@ using OSGeo.GDAL;
 using System.IO;
 using System.Xml;
 using System.Net;
+using System.Text.RegularExpressions;
+using ProjNet;
+using ProjNet.CoordinateSystems;
+
 namespace OGC_Tests
 {
    
@@ -21,6 +25,16 @@ namespace OGC_Tests
             DataFactory df = new DataFactory(nm);
             ogc = new OGCConnector(df,nm);
             nm.Subscribe(ogc);
+            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
+        }
+
+        [Test]
+        public void ProjectionStringTest()
+        {
+            string epsg = "epsg:4326";
+            Assert.True("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value);
+            epsg = "epsg:4326 a";
+            Assert.False("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value);
         }
 
 		[Test]
@@ -272,6 +286,48 @@ namespace OGC_Tests
             System.Console.WriteLine(Path.GetFullPath("."));
         }
 
+		[Test]
+		public void ATestForRefs()
+		{
+			Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)+@"\..\..\data\");
+			System.Console.WriteLine (Path.GetDirectoryName (System.Reflection.Assembly.GetExecutingAssembly ().Location) + @"\..\..\data\");
+
+
+			System.Console.WriteLine ("APPLES AND SPAHGETTI");
+
+			OSGeo.OSR.SpatialReference test = new OSGeo.OSR.SpatialReference ("");
+
+			test.ImportFromEPSG (4326);
+			string n="";
+			test.ExportToWkt(out n);
+			System.Console.WriteLine ("PROJ4: " + n);
+			var tt = new ProjNet.CoordinateSystems.CoordinateSystemFactory ();
+			//new ProjNet.CoordinateSystems.ProjectedCoordinateSystem ();
+			//var ts = new ProjNet.CoordinateSystems.CoordinateSystem ();
+			//ts.AuthorityCode = 4326;
+
+
+			ProjNet.CoordinateSystems.CoordinateSystemFactory cf = new ProjNet.CoordinateSystems.CoordinateSystemFactory ();
+			var t = cf.CreateFromWkt (n);
+			//var ts = cf.CreateFromWkt ("");
+			//var t2 = new CoordinateSystem ();
+			System.Console.WriteLine (t.WKT);
+			//System.Console.WriteLine (ts.WKT);
+			//var testor = cf.CreateLocalDatum ("epsg:4326", DatumType.HD_Classic);
+			System.Console.WriteLine ("TESTOR: ");
+			//System.Console.WriteLine (ts.WKT);
+		}
+
+		[Test]
+		public void CreateCoordinateTransformation()
+		{
+			var sr1 = new OSGeo.OSR.SpatialReference ("");
+			var sr2 = new OSGeo.OSR.SpatialReference ("");
+			sr1.ImportFromEPSG (4326);
+			sr2.ImportFromEPSG (4326);
+			OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation (sr1, sr2);
+		}
+
         [Test]
         public void DownloadAllBandsWithParser()
         {
@@ -347,22 +403,44 @@ namespace OGC_Tests
         [Test]
         public void NetCDFTest()
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             var nc = Gdal.GetDriverByName("NETCDF");
             if(nc != null)
             Debug.LogError(nc.LongName);
-            string file = @"NETCDF:"+'"'+ @"C:\Users\ccarthen\Downloads\twoweek_inputs_with_zlib.nc" + '"';
+            string file = @"NETCDF:" + '"' + @"C:\Users\ccarthen\Downloads\oneyear_inputs_with_zlib.nc" + '"';
             RasterDataset rd = new RasterDataset(file);
             if(rd.Open())
             {
                 System.Console.WriteLine("OPENED");
+                rd.GetMetaData();
                 var s = rd.GetSubDatasets();
-                rd = new RasterDataset(s[0]);
-                if(rd.Open())
+                foreach (var i in s)
                 {
-                    System.Console.WriteLine("OPENED 2" + s[0]);
-                    System.Console.WriteLine(rd.GetData().Count);
+                    rd = new RasterDataset(i);
+                    System.Console.WriteLine(i);
+                    //rd.GetMetaData();
+                    if (rd.Open())
+                    {
+                        sw.Reset();
+                        if (rd.GetRasterCount() >= 1)
+                        {
+                            sw.Start();
+                            System.Console.WriteLine("OPENED 2" + i);
+                            //int a = rd.GetData().Count;
+                            //System.Console.WriteLine(a);
+                            //rd.GetMetaData();
+                            sw.Stop();
+                            System.DateTime dt = new System.DateTime();
+                            System.TimeSpan ts = new System.TimeSpan();
+                            rd.GetTimes(out dt, out ts);
+                            Debug.LogError(dt);
+                            Debug.LogError(ts.TotalHours);
+                            //break;
+                        }
+                    }
                 }
             }
+            System.Console.WriteLine(sw.Elapsed.TotalSeconds);
         }
 
         [Test]

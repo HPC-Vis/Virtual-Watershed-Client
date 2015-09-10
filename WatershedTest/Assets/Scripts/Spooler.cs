@@ -50,7 +50,7 @@ public class Spooler : MonoBehaviour
     
     // Local Variables
     Vector2 NormalizedPoint = Vector2.zero;
-    int TOTAL = 0;
+    public static int TOTAL = 0;
     Rect BoundingBox;
     bool WMS = false;
     List<Frame> Reel = new List<Frame>();
@@ -99,7 +99,7 @@ public class Spooler : MonoBehaviour
     /// </summary>
     void Update()
     {
-        //Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
+        Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
 
         // If needed this will set the colors of the data on the terrain in the shader
         if (!WMS && colorPicker.ColorBoxes.Count > 0)
@@ -150,6 +150,7 @@ public class Spooler : MonoBehaviour
                     {
                         //Debug.LogError("We added BBox TWO.");
                     	BoundingBox = Utilities.bboxSplit(record.bbox2);
+                        
                     }
                     else
                     {
@@ -168,8 +169,8 @@ public class Spooler : MonoBehaviour
                     tran.setOrigin(coordsystem.WorldOrigin);
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
-                    // BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
-                    // Debug.LogError(BoundingBox);
+                     BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+                     Debug.LogError(BoundingBox);
                 }
 
                 // Updates the count, and adds the record to the reel
@@ -256,14 +257,45 @@ public class Spooler : MonoBehaviour
 		}
         var TS = rec.end.Value - rec.start.Value;
         double totalhours = TS.TotalHours / rec.Data.Count;
+        float max, min;
+        if(rec.Data.Count > 1)
+        {
+            TOTAL = rec.Data.Count; // Patch
+        }
+        Debug.LogError("Before " + rec.start.Value + " " + rec.end.Value);
+
+        if (!rec.start.HasValue)
+        {
+            Debug.LogError("no start");
+            rec.start = DateTime.MinValue;
+        }
+        if (!rec.end.HasValue)
+        {
+            Debug.LogError("no end");
+
+            rec.end = DateTime.MaxValue;
+        }
+        Debug.Log("Count " + rec.Data.Count);
+
         for (int j = 0; j < rec.Data.Count; j++ )
         {
             // Build the Frame to pass in
             Frame frame = new Frame();
-            
-            
-            frame.starttime = rec.start.Value; //+ new TimeSpan((int)Math.Round((double)j*totalhours/(double)rec.Data.Count),0,0);
-            frame.endtime = rec.end.Value; //+ new TimeSpan((int)Math.Round((double)(j+1)*totalhours/(double)rec.Data.Count),0,0);
+
+
+            if (rec.Data.Count == 1)
+            {
+                frame.starttime = rec.start.Value; 
+                frame.endtime = rec.end.Value; 
+            }
+            else
+            {
+                frame.starttime = rec.start.Value + new TimeSpan((int)Math.Round((double)j*totalhours),0,0);
+                frame.endtime = rec.end.Value + new TimeSpan((int)Math.Round((double)(j+1)*totalhours),0,0);
+            }
+            Debug.LogError("After " + rec.start.Value + " " + rec.end.Value);
+
+
             frame.Data = rec.Data[j];
 
             // Checks for NULL downloaded data
@@ -277,9 +309,13 @@ public class Spooler : MonoBehaviour
             trendGraph.Add(rec.start.Value, 1.0f, rec.Data[0]);
             Logger.enable = true;
             Texture2D tex = new Texture2D(rec.width, rec.height);
+            
             if (!WMS)
             {
-                tex = Utilities.BuildDataTexture(rec.Data[j], out rec.Min, out rec.Max);
+                tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max);
+                rec.Min = Math.Min(min, rec.Min);
+                rec.Max = Math.Max(max, rec.Max);
+                //Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
             }
             else
             {

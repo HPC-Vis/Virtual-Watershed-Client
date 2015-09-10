@@ -55,7 +55,7 @@ namespace VTL.ListView
                 sortAscending = true;
             else
                 sortAscending = false;
-
+            
             listViewManager.Sort(text, (bool)sortAscending);
         }
 

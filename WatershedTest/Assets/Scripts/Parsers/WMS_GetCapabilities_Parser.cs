@@ -54,6 +54,7 @@ class WMS_GetCapabilities_Parser : Parser
 			{
 				capabilities = ((WMS_CAPABILITIES.WMT_MS_Capabilities)serial.Deserialize(reader));
 				Record.wmslayers = capabilities.Capability.Layer.Layer;
+                Record.Identifier = capabilities.Capability.Layer.Layer[0].Name;
 				Logger.WriteLine(Record.wmslayers.Count().ToString());
 			}
 			catch(Exception e) 
