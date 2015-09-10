@@ -65,10 +65,75 @@ public class RasterDataset
         int count = SubMetadata.Length;
         for (int i = 0; i < count; i += 2)
         {
-            System.Console.WriteLine(i);
+            //System.Console.WriteLine(i);
             Subdatasets.Add(SubMetadata[i].Replace("SUBDATASET_" + ((i / 2)+1) + "_NAME=", ""));
-            System.Console.WriteLine(SubMetadata[i].Replace("SUBDATASET_"+ ((i/2)+1) + "_NAME=",""));
+            //System.Console.WriteLine(SubMetadata[i].Replace("SUBDATASET_"+ ((i/2)+1) + "_NAME=",""));
         }
+    }
+
+    public void GetMetaData()
+    {
+        var lis = dataset.GetMetadataDomainList();
+        Debug.LogError("METADATA");
+        foreach(var i in lis)
+        {
+            Debug.LogError(i);
+            var lis2 = dataset.GetMetadata(i);
+            foreach(var j in lis2)
+            {
+                Debug.LogError("SUBDATA: " + j);
+            }
+        }
+    }
+
+    // A quick dirty parser for netcdf times.. in the metadata
+    public void GetTimes(out DateTime begin, out TimeSpan timespan)
+    {
+        begin = DateTime.MinValue;
+        timespan = TimeSpan.MaxValue;
+        // Get Metadata
+        var md = dataset.GetMetadata("");
+        List<string> strings = new List<string>();
+        foreach (var i in md)
+        {
+            if(i.Contains("time") && i.Contains("standard_name"))
+            {
+                strings.Add(i);
+            }
+        }
+        if (strings.Count > 0)
+        {
+            string time = strings[0].Replace("time#standard_name=", "").Replace(" since ", " ");
+            if (time == "")
+                return;
+
+            //Debug.LogError(time);
+            var timeinfo = time.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            if (timeinfo.Length != 2)
+                return;
+            Debug.LogError(timeinfo[0]);
+            Debug.LogError(timeinfo[1]);
+            TimeSpan ts = new TimeSpan();
+            if (timeinfo[0] == "hours")
+            {
+                ts = new TimeSpan(dataset.RasterCount, 0, 0);
+                timespan = ts;
+                Debug.LogError("HOURS: " + dataset.RasterCount);
+            }
+
+            var times = timeinfo[1].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+            if (times.Length != 3)
+                return;
+            DateTime dt = new DateTime(int.Parse(times[0]), int.Parse(times[1]), int.Parse(times[2]));
+            begin = dt;
+        }
+
+    }
+
+    public int GetRasterCount()
+    {
+        return dataset.RasterCount;
     }
 
     public List<float[,]> GetData()
@@ -109,6 +174,7 @@ public class RasterDataset
             data.Add(Data);
 
         }
+        Console.WriteLine(dataset.RasterCount);
         return data;
     }
 

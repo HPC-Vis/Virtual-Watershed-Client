@@ -403,6 +403,7 @@ namespace OGC_Tests
         [Test]
         public void NetCDFTest()
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
             var nc = Gdal.GetDriverByName("NETCDF");
             if(nc != null)
             Debug.LogError(nc.LongName);
@@ -411,14 +412,35 @@ namespace OGC_Tests
             if(rd.Open())
             {
                 System.Console.WriteLine("OPENED");
+                rd.GetMetaData();
                 var s = rd.GetSubDatasets();
-                rd = new RasterDataset(s[0]);
-                if(rd.Open())
+                foreach (var i in s)
                 {
-                    System.Console.WriteLine("OPENED 2" + s[0]);
-                    System.Console.WriteLine(rd.GetData().Count);
+                    rd = new RasterDataset(i);
+                    System.Console.WriteLine(i);
+                    //rd.GetMetaData();
+                    if (rd.Open())
+                    {
+                        sw.Reset();
+                        if (rd.GetRasterCount() >= 1)
+                        {
+                            sw.Start();
+                            System.Console.WriteLine("OPENED 2" + i);
+                            //int a = rd.GetData().Count;
+                            //System.Console.WriteLine(a);
+                            //rd.GetMetaData();
+                            sw.Stop();
+                            System.DateTime dt = new System.DateTime();
+                            System.TimeSpan ts = new System.TimeSpan();
+                            rd.GetTimes(out dt, out ts);
+                            Debug.LogError(dt);
+                            Debug.LogError(ts.TotalHours);
+                            //break;
+                        }
+                    }
                 }
             }
+            System.Console.WriteLine(sw.Elapsed.TotalSeconds);
         }
 
         [Test]
