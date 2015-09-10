@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.IO;
 using OSGeo.GDAL;
 
@@ -94,40 +95,55 @@ public class RasterDataset
         // Get Metadata
         var md = dataset.GetMetadata("");
         List<string> strings = new List<string>();
+        string substring = "";
+        string matched = "";
         foreach (var i in md)
         {
-            if(i.Contains("time") && i.Contains("standard_name"))
+            Debug.LogError(i);
+            var match = Regex.Match(i, "time#.*=");
+            if (match.Success && i.ToLower().Contains("since"))
             {
-                strings.Add(i);
+                matched = i;
+                substring = match.Value;
+                break;
             }
         }
-        if (strings.Count > 0)
+
+        Debug.LogError("SUBSTRING: " + substring);
+
+
+        string time = matched.Replace(substring, "").Replace(" since ", " ");
+        if (time == "")
+            return;
+
+        //Debug.LogError(time);
+        var timeinfo = time.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (timeinfo.Length != 2)
+            return;
+        Debug.LogError(timeinfo[0]);
+        Debug.LogError(timeinfo[1]);
+        TimeSpan ts = new TimeSpan();
+        if (timeinfo[0].ToLower() == "hours")
         {
-            string time = strings[0].Replace("time#standard_name=", "").Replace(" since ", " ");
-            if (time == "")
-                return;
-
-            //Debug.LogError(time);
-            var timeinfo = time.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if (timeinfo.Length != 2)
-                return;
-            Debug.LogError(timeinfo[0]);
-            Debug.LogError(timeinfo[1]);
-            TimeSpan ts = new TimeSpan();
-            if (timeinfo[0] == "hours")
-            {
-                ts = new TimeSpan(dataset.RasterCount, 0, 0);
-                timespan = ts;
-                Debug.LogError("HOURS: " + dataset.RasterCount);
-            }
-
-            var times = timeinfo[1].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (times.Length != 3)
-                return;
-            DateTime dt = new DateTime(int.Parse(times[0]), int.Parse(times[1]), int.Parse(times[2]));
-            begin = dt;
+            ts = new TimeSpan(dataset.RasterCount, 0, 0);
+            timespan = ts;
+            Debug.LogError("HOURS: " + dataset.RasterCount);
         }
+        else if(timeinfo[0].ToLower() == "days")
+        {
+            ts = new TimeSpan(dataset.RasterCount, 0, 0, 0);
+            timespan = ts;
+            Debug.LogError("DAYS: " + dataset.RasterCount);
+        }
+
+        var times = timeinfo[1].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+
+        if (times.Length != 3)
+            return;
+        times[2] = times[2].Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries)[0];
+        DateTime dt = new DateTime(int.Parse(times[0]), int.Parse(times[1]), int.Parse(times[2]));
+        begin = dt;
+
 
     }
 

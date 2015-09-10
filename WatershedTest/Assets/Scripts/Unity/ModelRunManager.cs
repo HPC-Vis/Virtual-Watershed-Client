@@ -259,13 +259,24 @@ public static class ModelRunManager
                             RasterDataset rd = new RasterDataset(i.services["file"]);
                             if(rd.Open())
                             {
+
                                 var da = rd.GetData();
+
+                                //temporary patch is gross
+                                Spooler.TOTAL = da.Count;
+
                                 for (int j = 0; j < da.Count; j++)
                                 {
-                                    DataRecord ii = i.Clone();
-                                    ii.Data.Add(da[j]);
-                                    ii.band_id = j + 1;
-                                    SettingTheRecord(new List<DataRecord> { ii });
+                                    DataRecord recClone = i.Clone();
+                                    recClone.Data.Add(da[j]);
+                                    recClone.band_id = j + 1;
+
+                                    var TS = i.end.Value - i.start.Value;
+                                    double totalhours = TS.TotalHours / da.Count;
+                                    Debug.LogError(totalhours);
+                                    recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
+                                    recClone.end += new TimeSpan((int)Math.Round((double)(j+1)*totalhours), 0, 0);
+                                    SettingTheRecord(new List<DataRecord> { recClone });
                                 }
                             }
 						}

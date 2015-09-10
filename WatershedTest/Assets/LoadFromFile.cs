@@ -99,6 +99,7 @@ public class LoadFromFile : MonoBehaviour {
                     // Create a new random modelrun.
                     ModelRun mr = new ModelRun(contents[0][0].ToString(), Guid.NewGuid().ToString(), "");
                     mr.Location = GlobalConfig.Location;
+                    mr.isFile = true;
                     
                     ModelRunManager.InsertModelRun(mr.ModelRunUUID, mr);
 
@@ -112,6 +113,9 @@ public class LoadFromFile : MonoBehaviour {
                         RasterDataset rd = new RasterDataset(str);
                         if(rd.Open())
                         {
+
+                            DateTime tempTime = new DateTime();
+                            TimeSpan tempSpan = new TimeSpan();
                             DataRecord rec = new DataRecord(str);
                             rec.variableName = str;
                             //rec.Data = rd.GetData();
@@ -120,11 +124,12 @@ public class LoadFromFile : MonoBehaviour {
                             rec.id = Guid.NewGuid().ToString();
                             rec.location = GlobalConfig.Location;
                             rec.Temporal = rd.IsTemporal();//(rec.Data.Count > 1);
-                            
+                            rec.Type = "DEM";
+                            rd.GetTimes(out tempTime, out tempSpan);
+                            rec.start = tempTime;
+                            rec.end = tempTime + tempSpan;
                             rec.bbox = rd.GetBoundingBox(); 
                             rec.projection = rd.ReturnProjection();
-                            rec.start = DateTime.MinValue;
-                            rec.end = DateTime.MaxValue;
 							rec.services["file"] = str;
                             ModelRunManager.InsertDataRecord(rec, new List<DataRecord>() );
                         }

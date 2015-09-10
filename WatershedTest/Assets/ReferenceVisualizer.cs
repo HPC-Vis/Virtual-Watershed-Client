@@ -24,7 +24,11 @@ public class ReferenceVisualizer : MonoBehaviour
         if (queuedRecs.Count > 0)
         {
 			DataRecord rec = queuedRecs.Dequeue();
-			if(rec.Type.ToLower().Contains("shapfile") || rec.Type.ToLower().Contains("shapefile"))
+            if (!rec.IsTemporal() && !(rec.Type.ToLower().Contains("shapfile") || rec.Type.ToLower().Contains("shapefile") || rec.Type.ToLower().Contains("dem")))
+            {
+                BuildDOQQ(rec);
+            }
+            else if (rec.Type.ToLower().Contains("shapfile") || rec.Type.ToLower().Contains("shapefile"))
 			{
             	BuildShapes(new List<DataRecord> {rec });
 			}
@@ -102,47 +106,55 @@ public class ReferenceVisualizer : MonoBehaviour
         {
             if (!viewableObjects.ContainsKey(i.name))
             {
-                if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
+                if (!i.IsTemporal())
                 {
-					SystemParameters param = new SystemParameters();
-					param.Priority = 100;
+                    SystemParameters param = new SystemParameters();
+                    param.Priority = 100;
+                    param.width = 100;
+                    param.height = 100;
                     // Debug.LogError("DOWNLOADING OBJECTS");
-                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wfs",param: param);
+                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
+                }
+                else if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
+                {
+                    SystemParameters param = new SystemParameters();
+                    param.Priority = 100;
+                    // Debug.LogError("DOWNLOADING OBJECTS");
+                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wfs", param: param);
 
                 }
-				// DEM, DOQQs
-				else if(i.Type.ToLower().Contains("dem") )
-				{
-					SystemParameters param = new SystemParameters();
-					param.Priority = 100;
-					param.width = 100;
-					param.height = 100;
-					// Debug.LogError("DOWNLOADING OBJECTS");
-					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs",param: param);
-				}
-				else if(i.Type.ToLower().Contains("doqq"))
-				{
-					Logger.enable =true;
-					SystemParameters param = new SystemParameters();
-					param.Priority = 100;
+                // DEM, DOQQs
+                else if (i.Type.ToLower().Contains("dem"))
+                {
+                    SystemParameters param = new SystemParameters();
+                    param.Priority = 100;
+                    param.width = 100;
+                    param.height = 100;
+                    // Debug.LogError("DOWNLOADING OBJECTS");
+                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
+                }
+                else if (i.Type.ToLower().Contains("doqq"))
+                {
+                    Logger.enable = true;
+                    SystemParameters param = new SystemParameters();
+                    param.Priority = 100;
 
-					// Param width, height hard codeness
-					param.width = 1024;
-					param.height = 1024;
-					Debug.LogError("DOWNLOADING OBJECTS DOQQ");
-					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms",param: param);
-				}
-
-				else
-				{
-					// We need to do something about this later for now we assume that wcs works
-					SystemParameters param = new SystemParameters();
-					param.Priority = 100;
-					param.width = 100;
-					param.height = 100;
-					// Debug.LogError("DOWNLOADING OBJECTS");
-					ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs",param: param);
-				}
+                    // Param width, height hard codeness
+                    param.width = 1024;
+                    param.height = 1024;
+                    Debug.LogError("DOWNLOADING OBJECTS DOQQ");
+                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms", param: param);
+                }
+                else
+                {
+                    // We need to do something about this later for now we assume that wcs works
+                    SystemParameters param = new SystemParameters();
+                    param.Priority = 100;
+                    param.width = 100;
+                    param.height = 100;
+                    // Debug.LogError("DOWNLOADING OBJECTS");
+                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
+                }
 
             }
         }

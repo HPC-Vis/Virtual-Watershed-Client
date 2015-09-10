@@ -904,12 +904,12 @@ public static class Utilities
                 if(data[i,j] > max)
                 {
                     max = data[i,j];
-                    Debug.LogError(data[i, j]);
+                    //Debug.LogError(data[i, j]);
                 }
                 if(data[i,j] < min)
                 {
                     min = data[i,j];
-                    Debug.LogError(data[i, j]);
+                    //Debug.LogError(data[i, j]);
                 }
    			}
    		}

@@ -129,6 +129,10 @@ Material:
         second: 0
       data:
         first:
+          name: _EmissionScaleUI
+        second: 0
+      data:
+        first:
           name: _FloatMin
         second: 10
       data:
@@ -137,24 +141,20 @@ Material:
         second: 100
       data:
         first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
           name: _x1
-        second: 1.02590001
+        second: 1
       data:
         first:
           name: _x2
-        second: 1.02590001
+        second: 1
       data:
         first:
           name: _x3
-        second: 1.02590001
+        second: 1
       data:
         first:
           name: _x4
-        second: 1.02590001
+        second: 1
       data:
         first:
           name: _x5
@@ -166,7 +166,7 @@ Material:
       data:
         first:
           name: _NumLines
-        second: 7
+        second: 1
     m_Colors:
       data:
         first:

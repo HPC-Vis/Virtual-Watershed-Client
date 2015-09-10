@@ -47,11 +47,15 @@ public class Searcher : MonoBehaviour {
 		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
 		foreach (var i in listViewManager.GetSelectedModelRuns())
 		{
-			// Now to load datasets...
-			ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
+            // Now to load datasets...
 
-			// Pass things to downloaded -- Beware of the change of reference bug!!!
-			downloadManager.AddModelRun(i.ModelRunUUID);
+            if (!i.isFile)
+            {
+                ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
+            }
+
+            // Pass things to downloaded -- Beware of the change of reference bug!!!
+            downloadManager.AddModelRun(i.ModelRunUUID);
 		}
 	}
 

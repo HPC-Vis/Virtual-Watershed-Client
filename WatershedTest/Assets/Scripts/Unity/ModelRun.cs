@@ -20,6 +20,7 @@ public class ModelRun
 	public string ModelRunUUID="";
 	public string Location = "None Specified";
 	public string Description = "None";
+    public bool isFile = false;
 
 	public DateTime? Start = null;
 	public DateTime? End = null;
