@@ -94,7 +94,8 @@ public class LoadFromFile : MonoBehaviour {
 
             if (contents[0][2].ToString().ToLower() == "file")
             {
-                RasterDataset modelData = new RasterDataset(RasterDataset.GetGdalPath(fileBrowser.CurrentDirectory + @"\" + contents[0][0]));
+                string FileName = RasterDataset.GetGdalPath(fileBrowser.CurrentDirectory + @"\" + contents[0][0]);
+                RasterDataset modelData = new RasterDataset(FileName);
                 if (modelData.Open())
                 {
                     // 
@@ -121,7 +122,7 @@ public class LoadFromFile : MonoBehaviour {
                             DateTime tempTime = new DateTime();
                             TimeSpan tempSpan = new TimeSpan();
                             DataRecord rec = new DataRecord(str);
-                            rec.variableName = str;
+                            rec.variableName = str.Contains("NETCDF")?str.Replace(FileName+":",""):str;
                             //rec.Data = rd.GetData();
                             rec.modelname = mr.Name;
                             rec.modelRunUUID = mr.ModelRunUUID;
