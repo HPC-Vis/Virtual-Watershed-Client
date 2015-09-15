@@ -75,15 +75,15 @@ public class RasterDataset
     public void GetMetaData()
     {
         var lis = dataset.GetMetadataDomainList();
-        Debug.LogError("METADATA");
+        //Debug.LogError("METADATA");
         foreach(var i in lis)
         {
-            Debug.LogError(i);
-            var lis2 = dataset.GetMetadata(i);
-            foreach(var j in lis2)
-            {
-                Debug.LogError("SUBDATA: " + j);
-            }
+            //Debug.LogError(i);
+            //var lis2 = dataset.GetMetadata(i);
+            //foreach(var j in lis2)
+            //{
+            //    //Debug.LogError("SUBDATA: " + j);
+            //}
         }
     }
 
@@ -99,7 +99,7 @@ public class RasterDataset
         string matched = "";
         foreach (var i in md)
         {
-            Debug.LogError(i);
+            //Debug.LogError(i);
             var match = Regex.Match(i, "time#.*=");
             if (match.Success && i.ToLower().Contains("since"))
             {
@@ -109,7 +109,7 @@ public class RasterDataset
             }
         }
 
-        Debug.LogError("SUBSTRING: " + substring);
+        //Debug.LogError("SUBSTRING: " + substring);
 
 
         string time = matched.Replace(substring, "").Replace(" since ", " ");
@@ -120,20 +120,20 @@ public class RasterDataset
         var timeinfo = time.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (timeinfo.Length != 2)
             return;
-        Debug.LogError(timeinfo[0]);
-        Debug.LogError(timeinfo[1]);
+        //Debug.LogError(timeinfo[0]);
+        //Debug.LogError(timeinfo[1]);
         TimeSpan ts = new TimeSpan();
         if (timeinfo[0].ToLower() == "hours")
         {
             ts = new TimeSpan(dataset.RasterCount, 0, 0);
             timespan = ts;
-            Debug.LogError("HOURS: " + dataset.RasterCount);
+            //Debug.LogError("HOURS: " + dataset.RasterCount);
         }
         else if(timeinfo[0].ToLower() == "days")
         {
             ts = new TimeSpan(dataset.RasterCount, 0, 0, 0);
             timespan = ts;
-            Debug.LogError("DAYS: " + dataset.RasterCount);
+            //Debug.LogError("DAYS: " + dataset.RasterCount);
         }
 
         var times = timeinfo[1].Split(new char[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
@@ -238,8 +238,8 @@ public class RasterDataset
         double maxy = geoTransform[3];
         double maxx = minx + geoTransform[1]*dataset.RasterXSize;
         double miny = maxy - geoTransform[5]*dataset.RasterYSize;
-        Debug.LogError(dataset.GetProjection());
-        Debug.LogError(minx + " " + maxy);
+        //Debug.LogError(dataset.GetProjection());
+        //Debug.LogError(minx + " " + maxy);
         OSGeo.OSR.SpatialReference sr1 = new OSGeo.OSR.SpatialReference(dataset.GetProjection());
         sr1.ImportFromEPSG(26911);
         OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");
