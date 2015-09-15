@@ -15,7 +15,6 @@ public class Searcher : MonoBehaviour {
     // Current Menu Contents..
     List<DataRecord> Records = new List<DataRecord>();
     public ListViewManager listViewManager;
-
     bool NewSearch = false;
     int count = 0;
 
@@ -50,11 +49,15 @@ public class Searcher : MonoBehaviour {
 		Logger.WriteLine("<color=green>Selected: " + listViewManager.GetSelectedModelRuns().Count + "</color>");
 		foreach (var i in listViewManager.GetSelectedModelRuns())
 		{
-			// Now to load datasets...
-			ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
+            // Now to load datasets...
 
-			// Pass things to downloaded -- Beware of the change of reference bug!!!
-			downloadManager.AddModelRun(i.ModelRunUUID);
+            if (!i.isFile)
+            {
+                ModelRunManager.PopulateModelRunData(i.ModelRunUUID);
+            }
+
+            // Pass things to downloaded -- Beware of the change of reference bug!!!
+            downloadManager.AddModelRun(i.ModelRunUUID);
 		}
 	}
 
@@ -107,7 +110,7 @@ public class Searcher : MonoBehaviour {
 	{
 		if( Input.GetKey(KeyCode.R) )
 		{
-			Camera.main.backgroundColor = new Color(0,0,0,0);
+			//Camera.main.backgroundColor = new Color(0,0,0,0);
 			Refresh();
 		}
 
@@ -154,7 +157,6 @@ public class Searcher : MonoBehaviour {
             {
                 mr.Location = GlobalConfig.Location;
             }
-
             if (mr.Location == GlobalConfig.Location)
             {
                 var StringList = mr.GetVariables();
@@ -163,7 +165,7 @@ public class Searcher : MonoBehaviour {
                 {
                     Variables += s + ", ";
                 }
-
+                mr.Description = mr.Description.Replace('"', ' ');
                 //Debug.LogError("Adding to list: " + mr.ModelName);
                 listViewManager.AddRow(new object[]{mr.ModelName,
 			    mr.Description,
@@ -221,6 +223,7 @@ public class Searcher : MonoBehaviour {
     public void OnDestroy()
     {
         nm.Halt();
+        Debug.LogError("ON DESTROY");
     }
 
 	/// <summary>
@@ -389,4 +392,5 @@ public class Searcher : MonoBehaviour {
         return parameters;
 
     }
+
 }

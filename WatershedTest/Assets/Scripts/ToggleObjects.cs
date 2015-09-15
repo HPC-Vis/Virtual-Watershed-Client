@@ -39,4 +39,20 @@ public class ToggleObjects : MonoBehaviour
             objectsOn = true;
         }*/
     }
+
+    public void toggleOn()
+    {
+        for (int i = 0; i < togglables.Length; i++)
+        {
+            togglables[i].SetActive(true);
+        }
+    }
+
+    public void toggleOff()
+    {
+        for (int i = 0; i < togglables.Length; i++)
+        {
+            togglables[i].SetActive(false);
+        }
+    }
 }

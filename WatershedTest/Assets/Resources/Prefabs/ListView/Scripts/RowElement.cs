@@ -10,6 +10,8 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +28,15 @@ namespace VTL.ListView
                       .AddListener(transform.parent
                                             .gameObject
                                             .GetComponent<Row>().OnSelectionEvent);
+            var ev = gameObject.AddComponent<EventTrigger>();
+            //ev.triggers.Add()
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            var call = new UnityAction<BaseEventData>(transform.parent
+                                            .gameObject
+                                            .GetComponent<Row>().OnPointerEnter);
+            entry.eventID = EventTriggerType.PointerEnter;
+            entry.callback.AddListener(call);
+            ev.triggers.Add(entry);
         }
 
     }

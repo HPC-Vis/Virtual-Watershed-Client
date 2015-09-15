@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
+using System.Text.RegularExpressions;
 using System.Collections;
 using Proj4Net.Projection;
 using Proj4Net;
+
+using OSGeo.OSR;
+
 
 /// <summary>
 /// transform
@@ -27,8 +31,10 @@ public class transform : MonoBehaviour
 
     public Vector2 originalOrigin;
     Vector2 origin;
-    CoordinateReferenceSystem localCoords;
-    BasicCoordinateTransform localTrans;
+    //CoordinateReferenceSystem localCoords;
+    //BasicCoordinateTransform localTrans;
+	SpatialReference localCoords;
+	CoordinateTransformation localTrans;
     float xRes, yRes;
 
 
@@ -54,7 +60,7 @@ public class transform : MonoBehaviour
         origin = transformPoint(origin);
     }
 
-    public CoordinateReferenceSystem LocalCoords
+    public SpatialReference LocalCoords
     {
         get
         {
@@ -68,18 +74,39 @@ public class transform : MonoBehaviour
 
     public bool createCoordSystem(string epsg)
     {
-        localCoords = coordsystem.coordRefFactory.CreateFromName(epsg);
-        localTrans = coordsystem.createUnityTransform(localCoords);
-        Debug.Log(localCoords.Name);
+		// Get the numeric part of the string
+        if ("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
+        {
+            var resultString = Regex.Match(epsg, @"\d+").Value;
+
+            int EPSG = int.Parse(resultString);
+            localCoords = new SpatialReference("");//coordsystem.coordRefFactory.CreateFromName(epsg);
+            localCoords.ImportFromEPSG(EPSG);
+
+        }
+        else
+        {
+            localCoords = new SpatialReference(epsg);
+        }
+        localTrans = coordsystem.createUnityTransform(localCoords);//coordsystem.createUnityTransform(localCoords);
+        //Debug.Log(localCoords.Name);
         return true;
     }
 
     public Vector2 transformPoint(Vector2 point)
     {
-        GeoAPI.Geometries.Coordinate tempSrc = new GeoAPI.Geometries.Coordinate(point.x, point.y);
-        GeoAPI.Geometries.Coordinate tempTgt = new GeoAPI.Geometries.Coordinate();
-        localTrans.Transform(tempSrc, tempTgt);
-
+        //GeoAPI.Geometries.Coordinate tempSrc = new GeoAPI.Geometries.Coordinate(point.x, point.y);
+        //GeoAPI.Geometries.Coordinate tempTgt = new GeoAPI.Geometries.Coordinate();
+        //localTrans.Transform(tempSrc, tempTgt);
+		double[] pointed = new double[]{point.x,point.y};
+		localTrans.TransformPoint (pointed);
+        //Debug.LogError(point.x + " " + point.y);
+        string tts2;
+        localCoords.ExportToWkt(out tts2);
+        //Debug.LogError(tts2);
+        string tts;
+        coordsystem.baseCoordSystem.ExportToWkt(out tts);
+        //Debug.LogError(tts);
         return coordsystem.transformToUTM(point.x, point.y);
     }
 

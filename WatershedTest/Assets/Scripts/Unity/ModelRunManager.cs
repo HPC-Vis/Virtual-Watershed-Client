@@ -174,9 +174,10 @@ public static class ModelRunManager
 
                     foreach (var i in records)
                     {
-                        // Debug.LogError(i.name);
-                        if (operation == "wms")
+                        //Debug.LogError(i.name);
+                        if (operation == "wms" && i.services.ContainsKey("wms"))
                         {
+                            Debug.LogError("WMS");
                             // Lets check if it exists in the cache by uuid
                             if (FileBasedCache.Exists(i.id) && i.texture == null)
                             {
@@ -203,7 +204,7 @@ public static class ModelRunManager
                         }
 
 
-                        else if (operation == "wcs")
+                        else if (operation == "wcs" && i.services.ContainsKey("wcs"))
                         {
                             // Lets check if it exists in the cache by uuid
                             // Debug.LogError( "DATA: + " + (i.Data == null).ToString())
@@ -225,7 +226,7 @@ public static class ModelRunManager
                             }
                             client.getCoverage(SettingTheRecord, i, param);
                         }
-                        else if (operation == "wfs")
+                        else if (operation == "wfs" && i.services.ContainsKey("wfs"))
 
                         {
                             // Lets check if it exists in the cache by uuid
@@ -243,6 +244,50 @@ public static class ModelRunManager
                             Debug.LogError("PRIORITY: " + param.Priority);
                             client.getFeatures(SettingTheRecord, i, param);
                         }
+                        else if (i.services.ContainsKey("file"))
+						{
+							Debug.LogError("Loading FIle");
+                            
+                            /*if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
+                            {
+                                //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
+                                i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
+                                i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
+                                i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }
+                            else if (i.Data.Count != 0)
+                            {
+                                //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
+                                SettingTheRecord(new List<DataRecord> { i });
+                                continue;
+                            }*/
+
+                            RasterDataset rd = new RasterDataset(i.services["file"]);
+                            if(rd.Open())
+                            {
+
+                                var da = rd.GetData();
+
+                                //temporary patch is gross
+                                Spooler.TOTAL = da.Count;
+
+                                for (int j = 0; j < da.Count; j++)
+                                {
+                                    DataRecord recClone = i.Clone();
+                                    recClone.Data.Add(da[j]);
+                                    recClone.band_id = j + 1;
+
+                                    var TS = i.end.Value - i.start.Value;
+                                    double totalhours = TS.TotalHours / da.Count;
+                                    Debug.LogError(totalhours);
+                                    recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
+                                    recClone.end += new TimeSpan((int)Math.Round((double)(j+1)*totalhours), 0, 0);
+                                    SettingTheRecord(new List<DataRecord> { recClone });
+                                }
+                            }
+						}
                     }
                 }).Start();
                 // End Thread
@@ -683,6 +728,11 @@ public static class ModelRunManager
     static public void RemoveRecordData(string ModelRunUUID)
     {
         //client.RemoveJobsByModelRunUUID (ModelRunUUID);
+    }
+
+    static public int GetModelRunCount()
+    {
+        return modelRuns.Count;
     }
 
     static public void InsertModelRun(string uuid, ModelRun mr)
