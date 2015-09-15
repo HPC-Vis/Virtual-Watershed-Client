@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
@@ -10,6 +11,7 @@ using System;
 public class LoadFromFile : MonoBehaviour {
 
     public GameObject downloadListView, fileListView;
+    public Text currentDirectory;
     public FileBrowse fileBrowser;
     public ListViewManager fileView;
 
@@ -17,8 +19,8 @@ public class LoadFromFile : MonoBehaviour {
 	void Start () {
         fileBrowser = GameObject.Find("FileBrowser").GetComponent<FileBrowse>();
         fileView = fileListView.GetComponent<ListViewManager>();
-        
-	}
+        currentDirectory = GameObject.Find("CurrentDirectory").GetComponentInChildren<Text>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -73,6 +75,8 @@ public class LoadFromFile : MonoBehaviour {
             {
                 fileBrowser.SetDirectory((string)contents[0][0]);
                 populateFileWindow();
+                currentDirectory.text = "Current Directory: " + fileBrowser.CurrentDirectory;
+
             }
         }
 
