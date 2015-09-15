@@ -15,10 +15,11 @@ public struct DirectoryStruct
 }
 public class FileBrowse : MonoBehaviour {
 
-    public string CurrentDirectory = Path.GetFullPath(".");
-    string relativepath = ".";
+    public string CurrentDirectory = "";
+
 	// Use this for initialization
 	void Start () {
+        CurrentDirectory = "";
 	}
 	
 	// Update is called once per frame
@@ -28,6 +29,7 @@ public class FileBrowse : MonoBehaviour {
 
     public void SetDirectory(string Directory)
     {
+        //Debug.LogError("CALLED");
         if(CurrentDirectory == "")
         {
             CurrentDirectory = Directory;
@@ -52,6 +54,7 @@ public class FileBrowse : MonoBehaviour {
     public List<DirectoryStruct> GetContents()
     {
 
+        Debug.LogError("CURRENT DIRECTORY: " + CurrentDirectory);
         List<DirectoryStruct> Contents = new List<DirectoryStruct>();
         if (CurrentDirectory != "")
         {
