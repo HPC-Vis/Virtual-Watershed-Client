@@ -123,7 +123,7 @@ public class LoadFromFile : MonoBehaviour {
                             DataRecord rec = new DataRecord(str);
                             rec.variableName = str;
                             //rec.Data = rd.GetData();
-
+                            rec.modelname = mr.Name;
                             rec.modelRunUUID = mr.ModelRunUUID;
                             rec.id = Guid.NewGuid().ToString();
                             rec.location = GlobalConfig.Location;
