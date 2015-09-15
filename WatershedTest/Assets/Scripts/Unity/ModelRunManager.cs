@@ -98,6 +98,11 @@ public static class ModelRunManager
         return modelRuns.Keys.ToList();
     }
 
+    static public int ModelRunCount()
+    {
+        return modelRuns.Count;
+    }
+
     // TODO: Needs to be moved
     /* public void buildObject(string recordname,string buildType="")
     {
@@ -130,11 +135,13 @@ public static class ModelRunManager
         // Create param if one does not exist
         searcher = s;
         if (param == null) { param = new SystemParameters(); }
-		Logger.WriteLine ("Searching for Model Runs");
+        Logger.enable = true;
+        Logger.WriteLine("Searching for Model Runs");
         if (FileBasedCache.Exists("startup"))
         {
             Logger.WriteLine("<color=red>Aquired data from the cache system.</color>");
             modelRuns = FileBasedCache.Get<Dictionary<string, ModelRun>>("startup");
+            Logger.WriteLine("The Size of Model Runs: " + modelRuns.Count);
         }
         client.RequestModelRuns(OnGetModelRuns, param);
         searcher.Refresh();
@@ -148,6 +155,7 @@ public static class ModelRunManager
     {
         //Logger.enable = false;
         Logger.enable = true;
+
         // Create param if one does not exist
         if (param == null) { param = new SystemParameters(); }
 
@@ -166,7 +174,7 @@ public static class ModelRunManager
 
                     foreach (var i in records)
                     {
-                        //Debug.LogError(i.name);
+                        // Debug.LogError(i.name);
                         if (operation == "wms")
                         {
                             // Lets check if it exists in the cache by uuid
@@ -198,11 +206,11 @@ public static class ModelRunManager
                         else if (operation == "wcs")
                         {
                             // Lets check if it exists in the cache by uuid
-                            //Debug.LogError( "DATA: + " + (i.Data == null).ToString())
-                            //Debug.LogError("ID: " + i.id);
+                            // Debug.LogError( "DATA: + " + (i.Data == null).ToString())
+                            // Debug.LogError("ID: " + i.id);
                             if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
                             {
-                                //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
+                                // Debug.LogError("Recieved the cache for UUDI: " + i.id);
                                 i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
                                 i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
                                 i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
@@ -293,6 +301,7 @@ public static class ModelRunManager
         client.RequestRecords(((List<DataRecord> records) => onGetAvailableComplete(records, Setter)), param);
     }
 
+    private static readonly object CacheLock = new object();
     private static void SetModelSetType(List<DataRecord> Records)
     {
 
@@ -312,7 +321,15 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
-        //searcher.Refresh();
+
+        // Cache the records
+        /*
+        lock (CacheLock)
+        {
+            Logger.WriteLine("Adding modelruns to file cache system.");
+            FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
+        }
+         */
     }
 
 
@@ -338,6 +355,7 @@ public static class ModelRunManager
 			sp.offset = 0;
 			client.RequestRecords(SetModelSetType, sp);
 		}
+
         Logger.WriteLine("Adding modelruns to file cache system.");
         FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup", modelRuns);
     }
@@ -347,7 +365,6 @@ public static class ModelRunManager
         //modelRuns[record.modelRunUUID].successfulRuns.Add(record.id, record.id);
         if(modelRuns[record.modelRunUUID].CurrentCapacity == (modelRuns[record.modelRunUUID].Total))
         {
-                   
             GlobalConfig.caching = true;
             foreach (DataRecord rec in allRecords)
             {

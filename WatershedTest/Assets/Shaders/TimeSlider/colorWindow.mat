@@ -38,6 +38,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -78,13 +85,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -100,16 +100,28 @@ Material:
         second: .5
       data:
         first:
+          name: _Glossiness
+        second: .5
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: -255
+      data:
+        first:
+          name: _FloatMax
+        second: 255
+      data:
+        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: .5
       data:
         first:
           name: _BumpScale
@@ -132,32 +144,20 @@ Material:
         second: 0
       data:
         first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _FloatMin
-        second: 0
-      data:
-        first:
-          name: _FloatMax
-        second: 249
-      data:
-        first:
           name: _x1
-        second: 49.7999992
+        second: -153
       data:
         first:
           name: _x2
-        second: 99.5999985
+        second: -51
       data:
         first:
           name: _x3
-        second: 149.399994
+        second: 51
       data:
         first:
           name: _x4
-        second: 199.199997
+        second: 153
       data:
         first:
           name: _x5

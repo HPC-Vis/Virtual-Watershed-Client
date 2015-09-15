@@ -25,6 +25,7 @@ public class Searcher : MonoBehaviour {
     int searchCounter = 0;
 	bool firstPopulation = false;
 	float UpdateTimer;
+    int oldModelRunCount;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../";
 
 	/// <summary>
@@ -37,6 +38,8 @@ public class Searcher : MonoBehaviour {
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
 		ModelRunManager.SearchForModelRuns(null, this);
+        oldModelRunCount = ModelRunManager.ModelRunCount();
+        Refresh();
 	}
 
 	/// <summary>
@@ -64,7 +67,15 @@ public class Searcher : MonoBehaviour {
 		{
 		   Directory.CreateDirectory(DirectoryLocation + "Cache");
 		}
-		firstPopulation = false;
+
+        SystemParameters parameters = null; //new SystemParameters();
+        List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
+        if (Runs.Count > 0)
+        {
+            // Debug.Log("The List has Been Populated");
+            listViewManager.Clear();
+            ApplyToUI(Runs);
+        }
 	}
 
 	public void ApplyWMSService()
@@ -100,21 +111,12 @@ public class Searcher : MonoBehaviour {
 			Refresh();
 		}
 
-		UpdateTimer += Time.deltaTime;
-		if (!firstPopulation || UpdateTimer > 15)
+        if (oldModelRunCount != ModelRunManager.ModelRunCount())
 		{
-			if (listViewManager.GetSelectedModelRuns().Count == 0 || !firstPopulation)
+            oldModelRunCount = ModelRunManager.ModelRunCount();
+            if (listViewManager.GetSelectedModelRuns().Count == 0)
 			{
-				SystemParameters parameters = null; //new SystemParameters();
-				List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
-				if (Runs.Count > 0)
-				{
-					// Debug.Log("The List has Been Populated");
-					listViewManager.Clear();
-					ApplyToUI(Runs);
-					firstPopulation = true;
-				}
-				UpdateTimer = 0;
+                Refresh();
 			}
 		}
 	}

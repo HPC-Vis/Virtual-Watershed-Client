@@ -16454,14 +16454,14 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    Min: 3.40282347e+38
+    Max: -3.40282347e+38
     multiLayered: none
     numbands: 0
     band_id: -1
     Temporal: 0
     isSet: 0
     texture: 
-    Min: 3.40282347e+38
-    Max: -3.40282347e+38
     Type: 
     width: 0
     height: 0
@@ -17952,6 +17952,7 @@ MonoBehaviour:
   cursor: {fileID: 0}
   downloadTextBox: {fileID: 11416232}
   selectedVariableTextBox: {fileID: 11479612}
+  selectedVariableString: 
 --- !u!114 &11448978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -23358,14 +23359,14 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    Min: 3.40282347e+38
+    Max: -3.40282347e+38
     multiLayered: none
     numbands: 0
     band_id: -1
     Temporal: 0
     isSet: 0
     texture: 
-    Min: 3.40282347e+38
-    Max: -3.40282347e+38
     Type: 
     width: 0
     height: 0
@@ -25030,14 +25031,14 @@ MonoBehaviour:
     modelname: 
     modelRunUUID: 
     variableName: 
+    Min: 3.40282347e+38
+    Max: -3.40282347e+38
     multiLayered: none
     numbands: 0
     band_id: -1
     Temporal: 0
     isSet: 0
     texture: 
-    Min: 3.40282347e+38
-    Max: -3.40282347e+38
     Type: 
     width: 0
     height: 0

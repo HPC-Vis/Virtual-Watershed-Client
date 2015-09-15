@@ -33,6 +33,8 @@ public class DataRecord : IEquatable<DataRecord>
 		dr.variableName = variableName;
 		//dr.data = data;
 		//dr.texture = texture.Clone ();
+        dr.Max = Max;
+        dr.Min = Min;
         dr.WCSCap = WCSCap;
 		dr.start = start;
 		dr.end = end;
@@ -247,6 +249,10 @@ public class DataRecord : IEquatable<DataRecord>
     public string modelRunUUID;
     public string variableName;
 
+    // For the min and max of the record
+    public float Min = float.MaxValue;
+    public float Max = float.MinValue;
+
 	// Another patch to make things go faster
 	public string multiLayered = "none";
 	
@@ -270,6 +276,7 @@ public class DataRecord : IEquatable<DataRecord>
      * Metadata fields
      */
     // This will hold any metadata... -- This will include the height and width of the dataset.
+    [NonSerializedAttribute]
     public metadata metaData;
 
     // Unused as of this moment.
@@ -314,10 +321,6 @@ public class DataRecord : IEquatable<DataRecord>
             data = value;
         }
     }
-
-    // For the min and max of the record
-    public float Min = float.MaxValue;
-    public float Max = float.MinValue;
 
     // Data setters for the dataRecord class that are utilized for setting data in these fields.
     public delegate void giveData(object o, System.Type type);
