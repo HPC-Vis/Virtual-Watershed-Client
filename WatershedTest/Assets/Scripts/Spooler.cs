@@ -258,13 +258,13 @@ public class Spooler : MonoBehaviour
     {
         //return;
 		// Caching 
-        
+       /* 
 		if (!FileBasedCache.Exists (rec.id))  
 		{
             //Debug.LogError("INSERTING INTO CACHE " + rec.id);
 			FileBasedCache.Insert<DataRecord>(rec.id,rec);
 		}
-         
+         */
 		
 		// This is used to check that the record is correct
 		if (rec.modelRunUUID != selectedModelRun) 

@@ -259,7 +259,7 @@ public class DataRecord : IEquatable<DataRecord>
     // Temporal Fields for metadata 
     public DateTime? start = null;
     public DateTime? end = null;
-	public int numbands = 0;
+	public int numbands = 1;
 	
 	// A band_id of negative one means it is not part of a series.
 	public int band_id = -1;

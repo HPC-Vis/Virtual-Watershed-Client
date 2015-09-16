@@ -68,8 +68,19 @@ public class ModelRunComparisons : MonoBehaviour {
         // Setup the Records
         var RecordsOne = modelRuns[0].FetchVariableData(selectedRow[0][2].ToString());
         var RecordsTwo = modelRuns[1].FetchVariableData(selectedRow[1][2].ToString());
-        OneTotal = RecordsOne.Count;
-        TwoTotal = RecordsTwo.Count;
+        //OneTotal = RecordsOne.Count;
+        //TwoTotal = RecordsTwo.Count;
+        OneTotal = 0;
+        TwoTotal = 0;
+        foreach (var rec in RecordsOne)
+        {
+            OneTotal += rec.numbands;
+        }
+        foreach (var rec in RecordsTwo)
+        {
+            TwoTotal += rec.numbands;
+        }
+
         sp = new SystemParameters();
         sp.interpolation = "bilinear";
         sp.width = 100;
