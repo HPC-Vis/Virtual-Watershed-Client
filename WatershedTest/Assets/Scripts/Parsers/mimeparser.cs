@@ -101,7 +101,7 @@ public class mimeparser : Parser
 
         // TODO
         // Still have to save the data in the data record
-        record.Data = bilreader.parse(header, byteData);
+        record.Data = bilreader.parse(header, byteData, ref record.Min, ref record.Max);
         record.isSet = true;
 
         return record;

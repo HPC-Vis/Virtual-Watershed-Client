@@ -535,8 +535,7 @@ namespace VTL.TrendGraph
         public void SetUnit(string unit)
         {
             variable_name = unit;
-            VariableReference newVariable = new VariableReference();
-            unitsLabel = newVariable.GetDescription(unit);
+            unitsLabel = VariableReference.GetDescription(unit);
             OnValidate();
         }
 
@@ -587,7 +586,7 @@ namespace VTL.TrendGraph
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
             string pathDownload = pathUser + "/graph.txt";
 #elif UNITY_EDITOR_WIN
-            string pathDownload = pathUser + "\\slicer_data.txt";
+            string pathDownload = pathUser + "\\slicer_data.csv";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
             
@@ -617,7 +616,7 @@ namespace VTL.TrendGraph
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
             string pathDownload = pathUser + "/graph.txt";
 #elif UNITY_EDITOR_WIN
-            string pathDownload = pathUser + "\\graph.txt";
+            string pathDownload = pathUser + "\\graph.csv";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
             

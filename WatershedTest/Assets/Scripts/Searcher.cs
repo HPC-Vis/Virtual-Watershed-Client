@@ -24,6 +24,7 @@ public class Searcher : MonoBehaviour {
     int searchCounter = 0;
 	bool firstPopulation = false;
 	float UpdateTimer;
+    int oldModelRunCount;
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../";
 
 	/// <summary>
@@ -36,7 +37,8 @@ public class Searcher : MonoBehaviour {
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
 		ModelRunManager.SearchForModelRuns(null, this);
-        
+        oldModelRunCount = ModelRunManager.ModelRunCount();
+        Refresh();
 	}
 
 	/// <summary>
@@ -64,15 +66,19 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
 	public void Refresh()
 	{
-        if (listViewManager.isActiveAndEnabled)
+		if(!Directory.Exists(DirectoryLocation + "Cache"))
+		{
+		   Directory.CreateDirectory(DirectoryLocation + "Cache");
+		}
+
+        SystemParameters parameters = null; //new SystemParameters();
+        List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
+        if (Runs.Count > 0)
         {
-            if (!Directory.Exists(DirectoryLocation + "Cache"))
-            {
-                Directory.CreateDirectory(DirectoryLocation + "Cache");
-            }
-            firstPopulation = false;
+            // Debug.Log("The List has Been Populated");
+            listViewManager.Clear();
+            ApplyToUI(Runs);
         }
-		
 	}
 
 	public void ApplyWMSService()
@@ -108,22 +114,14 @@ public class Searcher : MonoBehaviour {
 			Refresh();
 		}
 
-        UpdateTimer += Time.deltaTime;
-        if ((!firstPopulation || UpdateTimer > 15) && listViewManager.isActiveAndEnabled)
-        {
-            
-            SystemParameters parameters = null; //new SystemParameters();
-            List<ModelRun> Runs = ModelRunManager.QueryModelRuns(parameters, true, 15);
-            if (Runs.Count > 0)
-            {
-                // Debug.Log("The List has Been Populated");
-                listViewManager.Clear();
-                ApplyToUI(Runs);
-                firstPopulation = true;
-            }
-            listViewManager.Sort("Name");
-            UpdateTimer = 0;
-        }
+        if (oldModelRunCount != ModelRunManager.ModelRunCount())
+		{
+            oldModelRunCount = ModelRunManager.ModelRunCount();
+            if (listViewManager.GetSelectedModelRuns().Count == 0)
+			{
+                Refresh();
+			}
+		}
 	}
 	
     /// <summary>

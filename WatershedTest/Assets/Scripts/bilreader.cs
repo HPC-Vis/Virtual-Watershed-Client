@@ -16,7 +16,7 @@ using System;
 public class bilreader
 {
     // A simple parser that returns a two dimensional float array of data.
-    public static List<float[,]> parse(string header, byte[] data)
+    public static List<float[,]> parse(string header, byte[] data, ref float min, ref float max)
     {
         int nbits;
         int nrows = 0;
@@ -90,7 +90,8 @@ public class bilreader
             }
 
 
-            float max = float.MinValue;
+            max = float.MinValue;
+            min = float.MaxValue;
             //UnityEngine.Debug.LogError(header);
             //UnityEngine.Debug.LogError(data.Length);
             //UnityEngine.Debug.LogError(bandrowbytes);
@@ -112,6 +113,10 @@ public class bilreader
                         if (arr[i, j] > max)
                         {
                             max = arr[i, j];
+                        }
+                        if (arr[i, j] < min)
+                        {
+                            min = arr[i, j];
                         }
                     }
                 }

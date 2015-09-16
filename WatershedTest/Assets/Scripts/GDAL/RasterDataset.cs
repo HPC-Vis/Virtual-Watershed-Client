@@ -47,6 +47,8 @@ public class RasterDataset
         return sub != null && sub.Length != 0;
     }
 
+
+
     public List<string> GetSubDatasets()
     {
         if(Subdatasets.Count == 0)

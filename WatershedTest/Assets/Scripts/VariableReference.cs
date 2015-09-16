@@ -2,8 +2,9 @@
 using System;
 using System.Collections;
 using System.IO;
+using System.Collections.Generic;
 
-public class VariableReference {
+static class VariableReference {
 
     // The file for loading in the data
 	const string VariableFile = "VariableReferenceData.txt";
@@ -14,17 +15,20 @@ public class VariableReference {
 #endif
 
     // Failed to find file
-    private bool File_Not_Found = false;
+    static private bool File_Not_Found = false;
 
     // File Data in Array
-    private string[] reference_lines;
+    static private string[] reference_lines;
+
+    // Dictionary of values
+    static private Dictionary<string, string> reference;
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="VariableReference"/> class.
 	/// This will open the file, and read in all the data that is inside line by line.
 	/// These lines are added to an array of each line.
 	/// </summary>
-	public VariableReference () {
+	static VariableReference () {
         if (!Directory.Exists(DirectoryLocation))
         {
             File_Not_Found = true;
@@ -38,7 +42,14 @@ public class VariableReference {
             return;
         }
 
-        reference_lines = System.IO.File.ReadAllLines(DirectoryLocation + VariableFile);      
+        reference_lines = System.IO.File.ReadAllLines(DirectoryLocation + VariableFile);
+        reference = new Dictionary<string, string>();
+
+        foreach (var line in reference_lines)
+        {
+            string[] split_data = line.Split('\t');
+            reference.Add(split_data[0], split_data[1]);
+        }
 	}
 
     /// <summary>
@@ -46,19 +57,21 @@ public class VariableReference {
     /// </summary>
     /// <param name="variable">This is a string to specify what the variable name is.</param>
     /// <returns>A string of the description of the sent in variable string.</returns>
-    public string GetDescription(string variable)
+    public static string GetDescription(string variable)
     {
         if (!File_Not_Found)
         {
-            foreach (var line in reference_lines)
+            if(reference.ContainsKey(variable))
             {
-                if (line.StartsWith(variable))
-                {
-                    return line.Substring(variable.Length + 2, line.Length - (variable.Length + 2));
-                }
+                return reference[variable];
             }
         }
         return "No Description Found";
+    }
+
+    public static void AddDescription(string variable, string description)
+    {
+        reference.Add(variable, description);
     }
 	
 }

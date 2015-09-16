@@ -339,7 +339,8 @@ namespace OGC_Tests
             string header = "";
             byte[] bytes = new byte[1];
             mp.parseBIL(data, ref header, ref bytes);
-            var d =  bilreader.parse(header, data);
+            float min = 0, max = 0;
+            var d =  bilreader.parse(header, data, ref min, ref max);
             int counter = 0;
             foreach (var i in d)
             {

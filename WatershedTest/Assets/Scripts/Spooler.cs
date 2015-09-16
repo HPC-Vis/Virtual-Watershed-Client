@@ -47,6 +47,7 @@ public class Spooler : MonoBehaviour
     public GameObject cursor;
     public Text downloadTextBox;
     public Text selectedVariableTextBox;
+    public string selectedVariableString;
     
     // Local Variables
     Vector2 NormalizedPoint = Vector2.zero;
@@ -140,6 +141,8 @@ public class Spooler : MonoBehaviour
             {
                 // Get the new data record to add
                 DataRecord record = SliderFrames.Dequeue();
+                selectedVariableTextBox.text = selectedVariableString;
+                trendGraph.SetUnit(oldSelectedVariable);
                 
                 // This is called as an initial setup
                 if (Reel.Count == 0)
@@ -158,6 +161,17 @@ public class Spooler : MonoBehaviour
 						BoundingBox = Utilities.bboxSplit(record.bbox);
                     }
 
+                    if(!WMS)
+                    {
+                        TimeProjector.material = colorProjector;
+                        testImage.material = colorWindow;
+                    }
+                    else
+                    {
+                        TimeProjector.material = slideProjector;
+                    }
+
+
                     // Set the bounding box to the trendgraph
                     trendGraph.SetBoundingBox(BoundingBox);
 
@@ -169,6 +183,7 @@ public class Spooler : MonoBehaviour
                     tran.setOrigin(coordsystem.WorldOrigin);
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
+
                      BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
                      Debug.LogError(BoundingBox);
                 }
@@ -243,11 +258,13 @@ public class Spooler : MonoBehaviour
     {
         //return;
 		// Caching 
+       /* 
 		if (!FileBasedCache.Exists (rec.id))  
 		{
             //Debug.LogError("INSERTING INTO CACHE " + rec.id);
 			FileBasedCache.Insert<DataRecord>(rec.id,rec);
 		}
+         */
 		
 		// This is used to check that the record is correct
 		if (rec.modelRunUUID != selectedModelRun) 
@@ -461,11 +478,38 @@ public class Spooler : MonoBehaviour
     /// This will handle wcs related requests
     /// </summary>
     /// <param name="Records">The list of records to add.</param>
-	void HandDataToSpooler(List<DataRecord> Records)
+	public void HandDataToSpooler(List<DataRecord> Records)
 	{
         //Debug.LogError("DOWNLOADING THIS NUMBER OF BANDS: " + Records[0].numbands + " " + Records[0].Data.Count);
 		SliderFrames.Enqueue(Records[0]);
 	}
+
+    /// <summary>
+    /// Used by the ModelRunComparison to buyild the Delta and add to spooler.
+    /// </summary>
+    public void SetupForDelta(string seled, string variable, int total, string uuid)
+    {
+        // Handles the clearing of previous data.
+        if (selectedModelRun != "")
+        {
+            Reel.Clear();
+            SliderFrames.Clear();
+            trendGraph.Clear();
+            modelrun.ClearData(oldSelectedVariable);
+        }
+
+        // Set the new model run
+        selectedVariableString = "Current Model Run: " + seled + " Variable: " + variable;
+
+        // Get the Model Run
+        TOTAL = total;
+        selectedModelRun = uuid;
+        modelrun = ModelRunManager.GetByUUID(selectedModelRun);
+        oldSelectedVariable = variable;
+
+        // Set the download based on the doqq in description
+        WMS = false;
+    }
 	
 	/// <summary>
 	/// Gets the selected model run, begins the record download, and updates page data.
@@ -478,7 +522,7 @@ public class Spooler : MonoBehaviour
 		string variable = seled[0][2].ToString();
 
         // Set the data of new model run
-		selectedVariableTextBox.text = "Current Model Run: " + seled[0][0].ToString() + " Variable: "+ variable;
+        selectedVariableString = "Current Model Run: " + seled[0][0].ToString() + " Variable: " + variable;
 
         // Only run if what was selected returned a value
 		if(temp != null)
@@ -504,21 +548,17 @@ public class Spooler : MonoBehaviour
 			selectedModelRun = temp[0].ModelRunUUID;
             modelrun = ModelRunManager.GetByUUID(selectedModelRun);
             oldSelectedVariable = variable;
-            trendGraph.SetUnit(variable);
-			Logger.WriteLine("Load Selected: Null with Number of Records: " + Records.Count);
+			Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
 
             // Set the download based on the doqq in description
 			if(temp[0].Description.ToLower().Contains("doqq"))
 		    {
 		    	WMS = true;
-                TimeProjector.material = slideProjector;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
 			}
 			else
 		    {
 		    	WMS = false;
-                TimeProjector.material = colorProjector;
-                testImage.material = colorWindow;
 				ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
 			}
 		}
