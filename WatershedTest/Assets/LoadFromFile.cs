@@ -105,8 +105,14 @@ public class LoadFromFile : MonoBehaviour {
                     ModelRun mr = new ModelRun(contents[0][0].ToString(), Guid.NewGuid().ToString(), "");
                     mr.Location = GlobalConfig.Location;
                     mr.isFile = true;
-                    
-                    ModelRunManager.InsertModelRun(mr.ModelRunUUID, mr);
+                    if (!ModelRunManager.HasModelRunName(contents[0][0].ToString()))
+                    {
+                        ModelRunManager.InsertModelRun(mr.ModelRunUUID, mr);
+                    }
+                    else
+                    {
+                        return;
+                    }
 
                     // Get any subdatasets associate to this file
                     List<string> subSets = modelData.GetSubDatasets();
