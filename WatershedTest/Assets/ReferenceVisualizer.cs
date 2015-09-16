@@ -104,6 +104,8 @@ public class ReferenceVisualizer : MonoBehaviour
 		 
         foreach (var i in recs)
         {
+            Debug.LogError(i.name + " " + i.Type);
+           
             if (!viewableObjects.ContainsKey(i.name))
             {
                 if (!i.IsTemporal())
@@ -119,7 +121,7 @@ public class ReferenceVisualizer : MonoBehaviour
                 {
                     SystemParameters param = new SystemParameters();
                     param.Priority = 100;
-                    // Debug.LogError("DOWNLOADING OBJECTS");
+                    Debug.LogError("DOWNLOADING OBJECTS SHAPES");
                     ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wfs", param: param);
 
                 }

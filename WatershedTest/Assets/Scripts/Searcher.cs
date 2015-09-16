@@ -117,7 +117,7 @@ public class Searcher : MonoBehaviour {
         if (oldModelRunCount != ModelRunManager.ModelRunCount())
 		{
             oldModelRunCount = ModelRunManager.ModelRunCount();
-            if (listViewManager.GetSelectedModelRuns().Count == 0)
+            if (listViewManager.GetSelectedModelRuns().Count == 0 && listViewManager.isActiveAndEnabled)
 			{
                 Refresh();
 			}

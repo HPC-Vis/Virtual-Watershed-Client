@@ -295,6 +295,19 @@ public static class ModelRunManager
         }
     }
 
+    // Has Model Run Name
+    static public bool HasModelRunName(string name)
+    {
+        foreach(var i in modelRuns)
+        {
+            if(i.Value.Name == name || i.Value.ModelName == name)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // We will return the data records that are specific to the query.
     static public List<DataRecord> Query(SystemParameters parameters = null, bool Or = true, int number = 0)
     {
