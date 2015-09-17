@@ -17611,6 +17611,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  selectedOn: 0
   Name: 
   record:
     id: 
@@ -25411,6 +25412,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  selectedOn: 0
   Name: 
   record:
     id: 
@@ -27341,6 +27343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSelected: 0
+  selectedOn: 0
   Name: 
   record:
     id: 

@@ -239,7 +239,7 @@ public class RasterDataset
         double minx = geoTransform[0];
         double maxy = geoTransform[3];
         double maxx = minx + geoTransform[1]*dataset.RasterXSize;
-        double miny = maxy - geoTransform[5]*dataset.RasterYSize;
+        double miny = maxy + geoTransform[5]*dataset.RasterYSize;
         //Debug.LogError(dataset.GetProjection());
         Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
         OSGeo.OSR.SpatialReference sr1 = new OSGeo.OSR.SpatialReference(dataset.GetProjection());
@@ -250,16 +250,17 @@ public class RasterDataset
         OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation(sr1, sr2);
         double[] upperleft = new double[] {minx,maxy};
         double[] lowerright = new double[] {maxx,miny};
-        ct.TransformPoint(lowerright);
+        Debug.LogError(upperleft[0] + " " + upperleft[1]);
+        ct.TransformPoint(lowerright); 
         ct.TransformPoint(upperleft);
 
-        return upperleft[0] + " " + upperleft[1] + " " + lowerright[0] + " " + lowerright[1];
+        return upperleft[0] + " " + lowerright[1] + " " + lowerright[0] + " " + upperleft[1];
     }
 
     public string ReturnProjection()
     {
         OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");
-        sr2.ImportFromEPSG(26911);
+        sr2.ImportFromEPSG(4326);
         string wktstring = "";
         sr2.ExportToWkt(out wktstring);
         return wktstring;//dataset.GetProjection();

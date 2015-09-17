@@ -100,16 +100,24 @@ Material:
         second: .5
       data:
         first:
-          name: _Parallax
-        second: .0199999996
-      data:
-        first:
           name: _Glossiness
         second: .5
       data:
         first:
           name: _Metallic
         second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: 141.176468
+      data:
+        first:
+          name: _FloatMax
+        second: 500
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
       data:
         first:
           name: _ZWrite
@@ -138,14 +146,6 @@ Material:
         first:
           name: _Blend
         second: 1
-      data:
-        first:
-          name: _FloatMin
-        second: 141.176468
-      data:
-        first:
-          name: _FloatMax
-        second: 500
       data:
         first:
           name: _x1

@@ -56,6 +56,8 @@ namespace VTL.ListView
         const string SELECTED = "__Selected__";
         const string GUID = "__Guid__";
 
+        Guid previousGUID;
+
         GameObject header;
         GameObject listPanel;
         RectTransform listPanelRectTransform;
@@ -197,9 +199,18 @@ namespace VTL.ListView
             }
             else if (listSelection == ListSelection.One)
             {
+                if (rows.ContainsKey(previousGUID))
+                {
+                    rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
+                    if (previousGUID != guid)
+                    {
+                        rows[previousGUID].GetComponent<Row>().selectedOn = false;
+                    }
+                }
                 bool newState = !rows[guid].GetComponent<Row>().isSelected;
                 DeselectAll();
                 SetRowSelection(guid, newState);
+                previousGUID = guid;
             }
             else
             {
@@ -208,6 +219,11 @@ namespace VTL.ListView
 
             if (SelectionChangeEvent != null)
                 SelectionChangeEvent();
+        }
+
+        public bool IsSelectedOn(Guid guid)
+        {
+            return rows[guid].GetComponent<Row>().selectedOn;
         }
 
         public void SelectAll()
@@ -398,6 +414,12 @@ namespace VTL.ListView
             listData[guid].Add(SELECTED, false);
             listData[guid].Add(GUID, guid);
 
+        }
+
+        public object[] GetRowContent(System.Guid GUID)
+        {
+            // A convolude mess
+            return rows[GUID].GetComponent<Row>().GetContents();
         }
 
         public void AddRow(object[] fieldData, ModelRun modelRun)

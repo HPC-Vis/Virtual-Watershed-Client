@@ -14,19 +14,49 @@ public class LoadFromFile : MonoBehaviour {
     public Text currentDirectory;
     public FileBrowse fileBrowser;
     public ListViewManager fileView;
-
+    public DoubleListener dl;
+    public SelectedDatabaseController seDatCon;
+    public DownloadManager downloadManager;
+    ListViewManager other;
 	// Use this for initialization
 	void Start () {
         fileBrowser = GameObject.Find("FileBrowser").GetComponent<FileBrowse>();
         fileView = fileListView.GetComponent<ListViewManager>();
-        currentDirectory = GameObject.Find("CurrentDirectory").GetComponentInChildren<Text>();
+        //currentDirectory = GameObject.Find("CurrentDirectory").GetComponentInChildren<Text>();
+        //fileView.slection
+        // Why gameObject.GetComponent is beyond me.
+        dl = gameObject.GetComponent<DoubleListener>();
+        seDatCon = GameObject.Find("SelectedDatasets_ListView").GetComponent<SelectedDatabaseController>();
+        dl.LVM = fileView;
+        dl.Doubleness = new DoTheDouble(ChangeDirectory2);
+        //dl = new DoubleListener(fileView);
     }
 	
 	// Update is called once per frame
 	void Update () {
-	
+
 	}
 
+
+    public void EmitSelected()
+    {
+        LoadFile();
+    }
+
+    void ChangeDirectory2(System.Guid guid)
+    {
+        var contents = fileView.GetRowContent(guid);
+        if (contents.Length > 0)
+        {
+            if (contents[2].ToString().ToLower() == "directory")
+            {
+                fileBrowser.SetDirectory((string)contents[0]);
+                populateFileWindow();
+                //currentDirectory.text = "Current Directory: " + fileBrowser.CurrentDirectory;
+
+            }
+        }
+    }
     /// <summary>
     /// Open the file window for selecting files
     /// </summary>
@@ -35,6 +65,8 @@ public class LoadFromFile : MonoBehaviour {
         downloadListView.SetActive(false);
         fileListView.SetActive(true);
         populateFileWindow();
+        other = seDatCon.listViewManager;
+        seDatCon.listViewManager = fileView;
     }
 
     /// <summary>
@@ -44,6 +76,7 @@ public class LoadFromFile : MonoBehaviour {
     {
         downloadListView.SetActive(true);
         fileListView.SetActive(false);
+        seDatCon.listViewManager = other;
     }
     
     /// <summary>
@@ -90,7 +123,6 @@ public class LoadFromFile : MonoBehaviour {
         var contents = fileView.GetSelectedRowContent();
         if (contents.Count > 0)
         {
-            Debug.LogError("LOADING: " + contents[0][2] ) ;
 
             if (contents[0][2].ToString().ToLower() == "file")
             {
@@ -111,6 +143,7 @@ public class LoadFromFile : MonoBehaviour {
                     }
                     else
                     {
+                        downloadManager.AddModelRun(ModelRunManager.GetByName(contents[0][0].ToString())[0].Value.ModelRunUUID);
                         return;
                     }
 
@@ -153,6 +186,7 @@ public class LoadFromFile : MonoBehaviour {
                     startupruns.Add(mr.ModelRunUUID, mr);
                     Debug.LogError("ADDED: " + mr.ModelRunUUID);
                     FileBasedCache.Insert<Dictionary<string, ModelRun>>("startup",startupruns);
+                    downloadManager.AddModelRun(mr.ModelRunUUID);
                 }
             }
         }

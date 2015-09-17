@@ -20,6 +20,7 @@ namespace VTL.ListView
     public class Row : MonoBehaviour
     {
         public bool isSelected = false;
+        public bool selectedOn = false;
         public Guid guid;
 
         ListViewManager listViewManager; 

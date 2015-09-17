@@ -434,6 +434,7 @@ namespace OGC_Tests
                             System.DateTime dt = new System.DateTime();
                             System.TimeSpan ts = new System.TimeSpan();
                             rd.GetTimes(out dt, out ts);
+                            Debug.LogError(rd.GetBoundingBox());
                             Debug.LogError(dt);
                             Debug.LogError(ts.TotalHours);
                             //break;
