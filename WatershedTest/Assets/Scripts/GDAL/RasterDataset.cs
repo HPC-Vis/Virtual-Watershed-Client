@@ -241,7 +241,7 @@ public class RasterDataset
         double maxx = minx + geoTransform[1]*dataset.RasterXSize;
         double miny = maxy - geoTransform[5]*dataset.RasterYSize;
         //Debug.LogError(dataset.GetProjection());
-        Debug.LogError("BOUNDING BOX: " + ninx + " " + maxy);
+        Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
         OSGeo.OSR.SpatialReference sr1 = new OSGeo.OSR.SpatialReference(dataset.GetProjection());
         sr1.ImportFromEPSG(26911);
         OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");

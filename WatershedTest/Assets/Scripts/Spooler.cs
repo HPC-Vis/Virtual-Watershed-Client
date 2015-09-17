@@ -100,7 +100,6 @@ public class Spooler : MonoBehaviour
     /// </summary>
     void Update()
     {
-        Debug.LogError("REEL COUNT: " + Reel.Count + " "  +  SliderFrames.Count);
 
         // If needed this will set the colors of the data on the terrain in the shader
         if (!WMS && colorPicker.ColorBoxes.Count > 0)
@@ -171,10 +170,6 @@ public class Spooler : MonoBehaviour
                         TimeProjector.material = slideProjector;
                     }
 
-
-                    // Set the bounding box to the trendgraph
-                    trendGraph.SetBoundingBox(BoundingBox);
-
                     tran = new transform();
                     //Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
@@ -184,10 +179,17 @@ public class Spooler : MonoBehaviour
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
 
+
                     // Here is a patch.
                     if ((point.x > 180 && point.x < -180 && point.y > 180 && point.y < -180 && point2.x > 180 && point2.x < -180 && point2.y > 180 && point2.y < -180))
-                     BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
-                     Debug.LogError(BoundingBox);
+                    {
+                        BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+                    }
+                     
+                    Debug.LogError(BoundingBox);
+
+                    // Set the bounding box to the trendgraph
+                    trendGraph.SetBoundingBox(BoundingBox);
                 }
 
                 // Updates the count, and adds the record to the reel
@@ -281,8 +283,7 @@ public class Spooler : MonoBehaviour
         {
             TOTAL = rec.Data.Count; // Patch
         }
-        Debug.LogError("Before " + rec.start.Value + " " + rec.end.Value);
-
+        
         if (!rec.start.HasValue)
         {
             Debug.LogError("no start");
@@ -312,8 +313,6 @@ public class Spooler : MonoBehaviour
                 frame.starttime = rec.start.Value + new TimeSpan((int)Math.Round((double)j*totalhours),0,0);
                 frame.endtime = rec.end.Value + new TimeSpan((int)Math.Round((double)(j+1)*totalhours),0,0);
             }
-            Debug.LogError("After " + rec.start.Value + " " + rec.end.Value);
-
 
             frame.Data = rec.Data[j];
 
