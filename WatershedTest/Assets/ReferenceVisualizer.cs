@@ -108,16 +108,8 @@ public class ReferenceVisualizer : MonoBehaviour
            
             if (!viewableObjects.ContainsKey(i.name))
             {
-                if (!i.IsTemporal())
-                {
-                    SystemParameters param = new SystemParameters();
-                    param.Priority = 100;
-                    param.width = 100;
-                    param.height = 100;
-                    // Debug.LogError("DOWNLOADING OBJECTS");
-                    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
-                }
-                else if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
+
+                if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
                 {
                     SystemParameters param = new SystemParameters();
                     param.Priority = 100;
@@ -147,16 +139,25 @@ public class ReferenceVisualizer : MonoBehaviour
                     Debug.LogError("DOWNLOADING OBJECTS DOQQ");
                     ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wms", param: param);
                 }
-                else
+                else if (!i.IsTemporal())
                 {
-                    // We need to do something about this later for now we assume that wcs works
                     SystemParameters param = new SystemParameters();
                     param.Priority = 100;
                     param.width = 100;
                     param.height = 100;
-                    // Debug.LogError("DOWNLOADING OBJECTS");
+                     Debug.LogError("DOWNLOADING OBJECTS TEMPORAL");
                     ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
                 }
+                //else
+                //{
+                //    // We need to do something about this later for now we assume that wcs works
+                //    SystemParameters param = new SystemParameters();
+                //    param.Priority = 100;
+                //    param.width = 100;
+                //    param.height = 100;
+                //    // Debug.LogError("DOWNLOADING OBJECTS");
+                //    ModelRunManager.Download(new List<DataRecord> { i }, buildQueue, operation: "wcs", param: param);
+                //}
 
             }
         }

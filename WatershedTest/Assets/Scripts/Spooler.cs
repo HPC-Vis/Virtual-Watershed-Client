@@ -185,7 +185,7 @@ public class Spooler : MonoBehaviour
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
 
                     // Here is a patch.
-                    if (!(point.x > 180 && point.x < -180 && point.y > 180 && point.y < -180 && point2.x > 180 && point2.x < -180 && point2.y > 180 && point2.y < -180))
+                    if ((point.x > 180 && point.x < -180 && point.y > 180 && point.y < -180 && point2.x > 180 && point2.x < -180 && point2.y > 180 && point2.y < -180))
                      BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
                      Debug.LogError(BoundingBox);
                 }

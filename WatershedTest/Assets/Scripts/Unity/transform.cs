@@ -33,7 +33,7 @@ public class transform : MonoBehaviour
     Vector2 origin;
     //CoordinateReferenceSystem localCoords;
     //BasicCoordinateTransform localTrans;
-	SpatialReference localCoords;
+	SpatialReference localCoords= new SpatialReference("");
 	CoordinateTransformation localTrans;
     float xRes, yRes;
 
@@ -74,8 +74,9 @@ public class transform : MonoBehaviour
 
     public bool createCoordSystem(string epsg)
     {
+        Debug.LogError(epsg + ":DDDDDDDDDDD");
 		// Get the numeric part of the string
-        if ("" != Regex.Match(epsg, @"(epsg:[0-9][0-9][0-9][0-9]$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
+        if ("" != Regex.Match(epsg, @"(epsg:[0-9]+$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
         {
             var resultString = Regex.Match(epsg, @"\d+").Value;
 
@@ -101,10 +102,10 @@ public class transform : MonoBehaviour
 		double[] pointed = new double[]{point.x,point.y};
 		localTrans.TransformPoint (pointed);
         //Debug.LogError(point.x + " " + point.y);
-        string tts2;
+        string tts2="";
         localCoords.ExportToWkt(out tts2);
         //Debug.LogError(tts2);
-        string tts;
+        string tts="";
         coordsystem.baseCoordSystem.ExportToWkt(out tts);
         //Debug.LogError(tts);
         return coordsystem.transformToUTM(point.x, point.y);

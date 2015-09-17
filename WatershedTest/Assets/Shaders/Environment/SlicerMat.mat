@@ -116,11 +116,11 @@ Material:
       data:
         first:
           name: _Max
-        second: .784382403
+        second: .79057759
       data:
         first:
           name: _Min
-        second: .235088125
+        second: .105111778
       data:
         first:
           name: _Metallic
@@ -165,8 +165,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .851641297, g: .478353441, b: 0, a: 0}
+        second: {r: .879453421, g: .499755979, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .833136916, g: .493483752, b: 0, a: 0}
+        second: {r: .631527603, g: .499755979, b: 0, a: 0}
