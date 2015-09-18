@@ -162,9 +162,10 @@ public class raySlicer : MonoBehaviour
             else
             {
                 GlobalConfig.TerrainBoundingBox = new Rect(Terrain.activeTerrain.transform.position.x, Terrain.activeTerrain.transform.position.z, GlobalConfig.BoundingBox.width, GlobalConfig.BoundingBox.height);
-                screenMaterial.SetTexture("_MainTex2", TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+                slicerMap = TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain);
+                screenMaterial.SetTexture("_MainTex2", slicerMap);
                 float max = Terrain.activeTerrain.terrainData.size.y;
-                MinMax.SetDataArray(TerrainUtils.GetHeightMapAsTexture(Terrain.activeTerrain));
+                MinMax.SetDataArray(slicerMap);
                 MinMax.SetMax(max);
             }
 
@@ -184,7 +185,7 @@ public class raySlicer : MonoBehaviour
         if (File.Exists(ImageLoc))
         {
             terrainBytes = File.ReadAllBytes(ImageLoc);
-            // Debug.LogError("RETRIEVING slicer map");
+            Debug.LogError("RETRIEVING slicer map");
             slicerMap.LoadImage(terrainBytes);
             GlobalConfig.TerrainBoundingBox = Rects[y];
             GlobalConfig.TerrainBoundingBox.x = Rects[x].x;

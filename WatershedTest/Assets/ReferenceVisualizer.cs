@@ -12,6 +12,8 @@ public class ReferenceVisualizer : MonoBehaviour
     Queue<DataRecord> queuedRecs = new Queue<DataRecord>();
     public Material LineMaterial;
 
+    Queue<KeyValuePair<GameObject,DataRecord>> Objects = new Queue<KeyValuePair<GameObject, DataRecord>>();
+    
     // Use this for initialization
     void Start()
     {
@@ -47,6 +49,12 @@ public class ReferenceVisualizer : MonoBehaviour
 				BuildDOQQ(rec);
 			}
 			// add build projector
+        }
+        if(Objects.Count > 0 && listViewables.isActiveAndEnabled)
+        {
+            listViewables.AddRow(new object[] { Objects.Peek().Key.name }, Objects.Peek().Value);
+            Objects.Dequeue();
+            //Objects.Clear();
         }
     }
 
@@ -92,7 +100,8 @@ public class ReferenceVisualizer : MonoBehaviour
     {
 
         // Debug.LogError("SET FIELDS 3");
-        listViewables.AddRow(new object[]{obj.name},objectRec);
+        Objects.Enqueue(new KeyValuePair<GameObject, DataRecord>(obj, objectRec));
+        //listViewables.AddRow(new object[]{obj.name},objectRec);
         
     }
 

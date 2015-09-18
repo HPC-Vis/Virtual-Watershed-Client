@@ -107,20 +107,16 @@ Material:
         second: .5
       data:
         first:
-          name: _Glossiness
-        second: .5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -143,16 +139,20 @@ Material:
         second: 0
       data:
         first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
           name: _EmissionScaleUI
         second: 0
       data:
         first:
           name: _Max
-        second: .600000024
+        second: .78894484
       data:
         first:
           name: _Min
-        second: .505882382
+        second: .456694871
     m_Colors:
       data:
         first:
@@ -165,8 +165,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .836295128, g: .384008169, b: 0, a: 0}
+        second: {r: .501788795, g: .505422175, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .804750383, g: .389438331, b: 0, a: 0}
+        second: {r: .335052848, g: .432612091, b: 0, a: 0}

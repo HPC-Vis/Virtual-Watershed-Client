@@ -93,20 +93,16 @@ Material:
         second: .5
       data:
         first:
-          name: _Glossiness
-        second: .5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -129,6 +125,10 @@ Material:
         second: 0
       data:
         first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
           name: _EmissionScaleUI
         second: 0
       data:
@@ -138,23 +138,23 @@ Material:
       data:
         first:
           name: _FloatMax
-        second: 454.901947
+        second: 500
       data:
         first:
           name: _x1
-        second: 203.9216
+        second: 212.941193
       data:
         first:
           name: _x2
-        second: 266.666687
+        second: 284.705902
       data:
         first:
           name: _x3
-        second: 329.411713
+        second: 356.470612
       data:
         first:
           name: _x4
-        second: 392.156799
+        second: 428.235291
       data:
         first:
           name: _x5
@@ -175,6 +175,10 @@ Material:
       data:
         first:
           name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _EmissionColorUI
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
@@ -200,7 +204,3 @@ Material:
         first:
           name: _SegmentData005
         second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _EmissionColorUI
-        second: {r: 1, g: 1, b: 1, a: 1}
