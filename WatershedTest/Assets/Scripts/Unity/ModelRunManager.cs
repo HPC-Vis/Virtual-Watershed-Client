@@ -286,7 +286,7 @@ public static class ModelRunManager
                                     double totalhours = TS.TotalHours / da.Count;
                                     Debug.LogError(totalhours);
                                     recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
-                                    recClone.end += new TimeSpan((int)Math.Round((double)(j+1)*totalhours), 0, 0);
+                                    recClone.end = recClone.start + new TimeSpan((int)Math.Round(totalhours), 0, 0);
                                     SettingTheRecord(new List<DataRecord> { recClone });
                                 }
                             }
