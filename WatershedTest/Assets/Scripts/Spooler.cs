@@ -175,13 +175,13 @@ public class Spooler : MonoBehaviour
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
+                    // transfor a lat/long bounding box to UTM
                     tran.setOrigin(coordsystem.WorldOrigin);
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
 
-
                     // Here is a patch.
-                    if (!(point.x > 180 && point.x < -180 && point.y > 180 && point.y < -180 && point2.x > 180 && point2.x < -180 && point2.y > 180 && point2.y < -180))
+                    if ((BoundingBox.x > -180 && BoundingBox.x < 180 && BoundingBox.y < 180 && BoundingBox.y > -180))
                     {
                         BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
                     }
