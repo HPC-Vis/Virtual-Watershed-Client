@@ -70,10 +70,12 @@ public class TerrainPopulater : MonoBehaviour
 		sp.query="DEM";
 		sp.limit = 100;
 		sp.offset = 0;
+        /*
         if(FileBasedCache.Exists(TerrainListStr))
         {
             GetTerrainList(FileBasedCache.Get<List<DataRecord>>(TerrainListStr));
         }
+        */
 		vwc.RequestRecords (GetTerrainList, sp);
 	}
 	
@@ -149,11 +151,20 @@ public class TerrainPopulater : MonoBehaviour
                 }
             }
             test.Close();*/
-			var GO = ProceduralTerrain.BuildTerrain (record.Data[0], XRes, YRes, BaseMap);
+
+            Debug.LogError("The Terrain Name: " + record.location);
+            GlobalConfig.Location = record.location;
+           
+            var GO = ProceduralTerrain.BuildTerrain (record.Data[0], XRes, YRes, BaseMap);
 		GO.transform.position = new Vector3 (-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
-		//GameObject.Instantiate (GO);
-		// Debug.LogError ("DONE DOWNLOADING");
-			to.toggleObjects();
+
+            var heightmap = TerrainUtils.GetHeightMapAsTexture(record.Data[0]);
+            var bytesofBasemap = heightmap.EncodeToPNG();
+            File.WriteAllBytes(raySlicer.ImageLoc, bytesofBasemap);
+
+            //GameObject.Instantiate (GO);
+            // Debug.LogError ("DONE DOWNLOADING");
+            to.toggleObjects();
 		}
 		catch (Exception e)
 		{

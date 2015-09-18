@@ -19,7 +19,7 @@
 Shader "VTL/SlideProjector" { 
 	Properties {
 		_ShadowTex ("Cookie", 2D) = "gray" {}
-		_Opacity ("Opacity", Range(0,1)) = 1
+		_Opacity ("Opacity", Range(0,1)) = .5
 		_MaxX("Max X",Float)=1
 		_MaxY("Max Y",Float)=1
 		_Point("Point for Graphing",Vector)=(0,0,0,0)

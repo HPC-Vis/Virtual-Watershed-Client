@@ -267,6 +267,10 @@ public static class Utilities
 		pro.farClipPlane = 10000;
 		pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
 
+        // Ignoring terrain layer with this created projector!
+        pro.ignoreLayers = (1 << 8);
+
+
 		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
 		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
 		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
@@ -275,6 +279,7 @@ public static class Utilities
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 		pro.material.SetInt ("_UsePoint", 0);
+        pro.material.SetFloat("_Opacity", .678f);
 		if (record.texture != null) {
 			PlaceProjector2(pro,record);
 			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
@@ -311,13 +316,17 @@ public static class Utilities
 			pro.material.SetTexture("_ShadowTex",image);
 		}
 
-		                        // Third what type of data are we visualizing...
-		// Determine if the data is a square or rect
-		// if square add it to the project material
-		//else it is a rectangle....
-		// pad the texture with the approriate bounds
-		// add it to the projector or material
-		
+        // Third what type of data are we visualizing...
+        // Determine if the data is a square or rect
+        // if square add it to the project material
+        //else it is a rectangle....
+        // pad the texture with the approriate bounds
+        // add it to the projector or material
+
+        //var TempCol = projector.GetComponent<Projector>().material.color;
+        //TempCol.a = .5f;
+        //projector.GetComponent<Projector>().material.color = TempCol;
+
 		// Return the object 
 		return projector;
 	}
@@ -778,6 +787,7 @@ public static class Utilities
 			scaler.FirstPersonController = GameObject.Find("First Person Controller");
 
 		}
+        cylinder.layer = LayerMask.NameToLayer("Terrain");
 		return cylinder;
 	}
 
@@ -819,7 +829,7 @@ public static class Utilities
         // Setting colors to some prefined scheme ... We should do this procedurely.
         Color[] colors = new[] { Color.red, Color.red, Color.red, Color.red, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
         line.SetColors(colors[current % colors.Length], colors[current % colors.Length]);
-
+        lineObject.layer = LayerMask.NameToLayer("Terrain");
         return lineObject;
     }
 
