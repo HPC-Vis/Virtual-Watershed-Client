@@ -26,9 +26,10 @@ public class LoadFromFile : MonoBehaviour {
         //fileView.slection
         // Why gameObject.GetComponent is beyond me.
         dl = gameObject.GetComponent<DoubleListener>();
-        seDatCon = GameObject.Find("SelectedDatasets_ListView").GetComponent<SelectedDatabaseController>();
         dl.LVM = fileView;
         dl.Doubleness = new DoTheDouble(ChangeDirectory2);
+        seDatCon = GameObject.Find("SelectedDatasets_ListView").GetComponent<SelectedDatabaseController>();
+
         //dl = new DoubleListener(fileView);
     }
 	
@@ -67,6 +68,7 @@ public class LoadFromFile : MonoBehaviour {
         populateFileWindow();
         other = seDatCon.listViewManager;
         seDatCon.listViewManager = fileView;
+        seDatCon.Clear();
     }
 
     /// <summary>
@@ -77,6 +79,7 @@ public class LoadFromFile : MonoBehaviour {
         downloadListView.SetActive(true);
         fileListView.SetActive(false);
         seDatCon.listViewManager = other;
+        seDatCon.Clear();
     }
     
     /// <summary>

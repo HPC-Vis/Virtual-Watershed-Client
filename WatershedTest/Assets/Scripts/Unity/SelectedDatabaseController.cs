@@ -20,23 +20,42 @@ public class SelectedDatabaseController : MonoBehaviour
     // Update is called once per frame
     public void OnSelectionChange()
     {
-        IEnumerator ienObj = listViewManager.Selected();
-        var inListView = new List<System.Guid>();
-
-        while (ienObj.MoveNext())
+        // out of sync issues.. patch
+        try
         {
-            var guid = (System.Guid)ienObj.Current;
-            inListView.Add(guid);
+            IEnumerator ienObj = listViewManager.Selected();
+            var inListView = new List<System.Guid>();
 
-            if (!thisListViewManager.listData.ContainsKey(guid))
+            while (ienObj.MoveNext())
             {
-                thisListViewManager.AddRow(new object[] { listViewManager.listData[guid]["Name"] }, guid);
+                var guid = (System.Guid)ienObj.Current;
+                inListView.Add(guid);
+
+                if (!thisListViewManager.listData.ContainsKey(guid))
+                {
+                    thisListViewManager.AddRow(new object[] { listViewManager.listData[guid]["Name"] }, guid);
+                }
+
             }
 
-        }
 
-        foreach (var item in thisListViewManager.listData)
-            if (!inListView.Contains(item.Key))
-                thisListViewManager.Remove(item.Key);
+            var listData = thisListViewManager.listData.Keys;
+            List<System.Guid> GUIDS = new List<System.Guid>();
+            foreach (var item in listData)
+                if (!inListView.Contains(item))
+                    GUIDS.Add(item);
+            foreach(var item in GUIDS)
+             thisListViewManager.Remove(item);
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError(e.Message);
+            Debug.LogError(e.StackTrace);
+        }
+    }
+
+    public void Clear()
+    {
+        thisListViewManager.Clear();
     }
 }

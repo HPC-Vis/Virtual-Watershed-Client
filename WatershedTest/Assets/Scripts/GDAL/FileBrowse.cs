@@ -38,8 +38,8 @@ public class FileBrowse : MonoBehaviour {
        
         string PathTo = Path.IsPathRooted(Directory) ? Directory : Path.GetFullPath(CurrentDirectory + @"\" + Directory);
         string Root = Path.GetPathRoot(PathTo);
-        Debug.LogError("PATHTO: " + PathTo);
-        Debug.LogError("ROOT: " + Root);
+        //Debug.LogError("PATHTO: " + PathTo);
+        //Debug.LogError("ROOT: " + Root);
         if(Directory == ".." && CurrentDirectory == Root)
         {
             CurrentDirectory = "";
@@ -54,7 +54,7 @@ public class FileBrowse : MonoBehaviour {
     public List<DirectoryStruct> GetContents()
     {
 
-        Debug.LogError("CURRENT DIRECTORY: " + CurrentDirectory);
+        //Debug.LogError("CURRENT DIRECTORY: " + CurrentDirectory);
         List<DirectoryStruct> Contents = new List<DirectoryStruct>();
         if (CurrentDirectory != "")
         {
@@ -93,7 +93,7 @@ public class FileBrowse : MonoBehaviour {
         }
         else
         {
-            Debug.LogError("DISPLAY DRIVES");
+            //Debug.LogError("DISPLAY DRIVES");
             foreach (var i in Directory.GetLogicalDrives())
             {
                 DirectoryStruct temp = new DirectoryStruct();

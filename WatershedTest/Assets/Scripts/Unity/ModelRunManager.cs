@@ -43,6 +43,9 @@ public static class ModelRunManager
             return Client;
         }
     }
+
+
+
     // Single List<DR> can be stored under a generic model run
     // Dictionary<string, GeoReference> storedGeoRefs = new Dictionary<string, GeoReference>();
     static ModelRun generalModelRun = new ModelRun("general", ""); // Update later?

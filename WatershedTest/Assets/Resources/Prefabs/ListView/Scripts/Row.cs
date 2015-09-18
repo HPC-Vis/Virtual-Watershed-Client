@@ -109,7 +109,7 @@ namespace VTL.ListView
 
         public void OnPointerEnter(BaseEventData d)
         {
-            Debug.LogError("HOVERED OVER ME");
+            //Debug.LogError("HOVERED OVER ME");
             // Find the description rowelement.
         }
 
