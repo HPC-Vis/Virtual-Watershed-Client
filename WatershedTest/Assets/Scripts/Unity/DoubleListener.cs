@@ -28,11 +28,12 @@ public class DoubleListener : MonoBehaviour
         {
             var guid = (System.Guid)Selected.Current;
             GUIDOn.Add(guid);
-            if(GUIDSelected.Contains(guid))
-            {
-                GUIDSelected.Remove(guid);
-            }
+            //if(GUIDSelected.Contains(guid))
+            //{
+            //    GUIDSelected.Remove(guid);
+            //}
         }
+
         foreach(var i in GUIDSelected)
         {
             if (LVM.IsSelectedOn(i))
@@ -43,7 +44,6 @@ public class DoubleListener : MonoBehaviour
                 }
                 doubleDetected = true;
             }
-            //Debug.LogError("WHOA MAN!!!");
         }
 
         GUIDSelected = GUIDOn;
