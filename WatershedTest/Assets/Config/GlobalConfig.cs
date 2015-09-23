@@ -30,4 +30,17 @@ public static class GlobalConfig
     /// </summary>
     public static int GlobalProjection = 26911;
     public static Rect BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
+
+    // Setting localzone for the CoordSystem
+    public static int Zone
+    {
+        get
+        {
+            return coordsystem.localzone;
+        }
+        set
+        {
+            coordsystem.localzone = value;
+        }
+    }
 }
