@@ -1,0 +1,3341 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &100000
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400000}
+  - 114: {fileID: 11400000}
+  m_Layer: 0
+  m_Name: bushes2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &400000
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641989309630354419a8f3f9f92f2f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  preterrain:
+    active: 1
+    foldout: 0
+    index: 0
+    index_old: 0
+    on_row: 0
+    color_terrain:
+      r: 2
+      g: 2
+      b: 2
+      a: 1
+    copy_terrain: 0
+    copy_terrain_settings: 1
+    rtp_script: {fileID: 0}
+    neighbor:
+      left: -1
+      right: -1
+      top: -1
+      bottom: -1
+      top_left: -1
+      top_right: -1
+      bottom_left: -1
+      bottom_right: -1
+      self: 0
+    splat_alpha: []
+    ColorGlobal: {fileID: 0}
+    terrain: {fileID: 0}
+    parent: {fileID: 0}
+    objectParent: {fileID: 0}
+    name: 
+    prearea:
+      active: 1
+      foldout: 0
+      area:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      area_old:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      area_max:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      center: {x: 0, y: 0}
+      image_offset: {x: 0, y: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      rotation_active: 0
+      link_start: 1
+      link_end: 1
+      resolution: 0
+      custom_resolution: 0
+      step: {x: 0, y: 0}
+      step_old: {x: 0, y: 0}
+      conversion_step: {x: 0, y: 0}
+      resolution_mode: 0
+      resolution_mode_text: 
+      resolution_tooltip_text: 
+      tree_resolution: 128
+      object_resolution: 32
+      colormap_resolution: 2048
+      tree_resolution_active: 0
+      object_resolution_active: 0
+    splatPrototypes: []
+    colormap:
+      foldout: 0
+      texture: {fileID: 0}
+      tileSize: {x: 10, y: 10}
+      tileSize_link: 1
+      tileSize_old: {x: 0, y: 0}
+      tileOffset: {x: 0, y: 0}
+      normal_tileSize: {x: 10, y: 10}
+      strength: 1
+      strength_splat: 1
+      normal_texture: {fileID: 0}
+      normalMap: {fileID: 0}
+      height_texture: {fileID: 0}
+      specular_texture: {fileID: 0}
+      import_max_size_list: 0
+    splats_foldout: 0
+    splat_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    treePrototypes: []
+    trees_foldout: 0
+    detailPrototypes: []
+    details_foldout: 0
+    splat: []
+    splat_calc: []
+    splat_layer: []
+    splat_length: 0
+    color: []
+    color_layer: []
+    color_length: 0
+    grass: []
+    heightmap_resolution_list: 0
+    splatmap_resolution_list: 0
+    basemap_resolution_list: 0
+    detailmap_resolution_list: 0
+    detail_resolution_per_patch_list: 0
+    size: {x: 0, y: 0, z: 0}
+    size_xz_link: 1
+    tile_x: 0
+    tile_z: 0
+    tiles: {x: 1, y: 1}
+    rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    data_foldout: 1
+    scale: {x: 0, y: 0, z: 0}
+    maps_foldout: 0
+    settings_foldout: 0
+    resolution_foldout: 0
+    scripts_foldout: 0
+    reset_foldout: 0
+    size_foldout: 0
+    raw_file_index: -1
+    raw_save_file:
+      assigned: 0
+      created: 1
+      file: 
+      filename: 
+      mode: 0
+      length: 0
+      resolution: {x: 0, y: 0}
+      square: 1
+      loaded: 0
+      linked: 1
+      bytes: []
+      product1: 0
+      product2: 0
+    heightmap_resolution: 256
+    splatmap_resolution: 256
+    detail_resolution: 256
+    detail_resolution_per_patch: 8
+    basemap_resolution: 256
+    size_synchronous: 1
+    resolutions_synchronous: 1
+    splat_synchronous: 1
+    tree_synchronous: 1
+    detail_synchronous: 1
+    splatmap_conversion: {x: 0, y: 0}
+    heightmap_conversion: {x: 0, y: 0}
+    detailmap_conversion: {x: 0, y: 0}
+    splat_foldout: 0
+    tree_foldout: 0
+    tree_length: 0
+    detail_foldout: 0
+    detail_scale: 1
+    base_terrain_foldout: 1
+    tree_detail_objects_foldout: 1
+    wind_settings_foldout: 1
+    settings_all_terrain: 1
+    heightmapPixelError: 5
+    heightmapMaximumLOD: 0
+    castShadows: 0
+    basemapDistance: 20000
+    treeDistance: 20000
+    detailObjectDistance: 250
+    detailObjectDensity: 1
+    treeMaximumFullLODCount: 50
+    treeBillboardDistance: 250
+    treeCrossFadeLength: 200
+    draw: 1
+    editor_draw: 1
+    script_terrainDetail: {fileID: 0}
+    settings_runtime: 0
+    settings_editor: 1
+    wavingGrassSpeed: .5
+    wavingGrassAmount: .5
+    wavingGrassStrength: .5
+    wavingGrassTint:
+      r: .698000014
+      g: .600000024
+      b: .5
+      a: 1
+  terrain: {fileID: 0}
+  prelayer:
+    foldout: 0
+    linked: 0
+    remarks:
+      textfield_foldout: 0
+      textfield_length: 1
+      textfield: 
+    interface_display_layergroup: 0
+    interface_display_layer: 0
+    layers_foldout: 0
+    layers_active: 0
+    index: 0
+    level: 0
+    layer: []
+    predescription:
+      description:
+      - foldout: 1
+        text: 
+        remarks:
+          textfield_foldout: 0
+          textfield_length: 1
+          textfield: 
+        edit: 0
+        disable_edit: 0
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        presubfilter:
+          subfilter_text: 4d61736b7320283029
+          foldout: 1
+          subfilters_active: 1
+          subfilters_foldout: 1
+          subfilter_index: 
+        layer_index: 
+        layers_active: 1
+        layers_foldout: 1
+        swap_text: 53
+        swap_select: 0
+        copy_select: 0
+      description_enum:
+      - 
+      description_position: 0
+      layer_index: 0
+      description_index: 0
+    layer_text: 
+    layer_output: 0
+    view_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    menuRect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    view_heightmap_layer: 0
+    view_color_layer: 0
+    view_splat_layer: 0
+    view_tree_layer: 0
+    view_grass_layer: 0
+    view_object_layer: 0
+    view_only_selected: 0
+    x: 0
+    y: 0
+    counter_y: 0
+    count_terrain: 0
+    break_x_value: 0
+    prearea:
+      active: 1
+      foldout: 0
+      area:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      area_old:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      area_max:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      center: {x: 0, y: 0}
+      image_offset: {x: 0, y: 0}
+      rotation: {x: 0, y: 0, z: 0}
+      rotation_active: 0
+      link_start: 1
+      link_end: 1
+      resolution: 0
+      custom_resolution: 0
+      step: {x: 0, y: 0}
+      step_old: {x: 0, y: 0}
+      conversion_step: {x: 0, y: 0}
+      resolution_mode: 0
+      resolution_mode_text: 
+      resolution_tooltip_text: 
+      tree_resolution: 128
+      object_resolution: 32
+      colormap_resolution: 2048
+      tree_resolution_active: 0
+      object_resolution_active: 0
+    area: 0
+    objects_placed: []
+  layer:
+    software_id: 0
+    active: 1
+    foldout: 0
+    color_layer:
+      r: 1.5
+      g: 1.5
+      b: 1.5
+      a: 1
+    output: 1
+    strength: 1
+    positionSeed: 1
+    nonOverlap: 0
+    zoom: 1
+    offset: {x: 0, y: 0}
+    offset_range: {x: 5, y: 5}
+    offset_middle: {x: 0, y: 0}
+    drawn: 0
+    text: 
+    text_placed: 
+    rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    edit: 0
+    disable_edit: 0
+    smooth: 0
+    remarks:
+      textfield_foldout: 0
+      textfield_length: 1
+      textfield: 
+    height_output:
+      value: 0
+      strength: 1
+      perlin_foldout: 0
+    color_output:
+      active: 0
+      foldout: 1
+      strength: 1
+      precolor_range_enum:
+      - 436f6c6f722052616e676530
+      precolor_range:
+      - foldout: 1
+        color_ranges_active: 1
+        color_ranges_foldout: 1
+        palette: 0
+        curve_red:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_green:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_blue:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        interface_display: 1
+        index: 0
+        one_color: 1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        text: 436f6c6f722052616e67653020283129
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        detect_max: 8
+        color_range:
+        - curve_in_memory: 0
+          curve_text: 4375727665
+          menu_rect:
+            x: 0
+            y: 0
+            width: 0
+            height: 0
+          curve:
+            m_Curve:
+            - time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 1
+              tangentMode: 0
+            - time: 1
+              value: 1
+              inSlope: 1
+              outSlope: 0
+              tangentMode: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          default_curve:
+            m_Curve:
+            - time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 1
+              tangentMode: 0
+            - time: 1
+              value: 1
+              inSlope: 1
+              outSlope: 0
+              tangentMode: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          abs: 0
+          type: 0
+          active: 1
+          settings_foldout: 1
+          frequency: 256
+          offset: {x: 0, y: 0}
+          offset_range: {x: 5, y: 5}
+          offset_middle: {x: 0, y: 0}
+          detail: 1
+          detail_strength: 2
+          pivot: {fileID: 0}
+          strength: 1
+          rotation: 0
+          rotation_value: 0
+          color_color_range:
+            r: 2
+            g: 2
+            b: 2
+            a: 1
+          color_start:
+            r: 0
+            g: 0
+            b: 0
+            a: 1
+          color_end:
+            r: 0
+            g: 0
+            b: 0
+            a: 1
+          one_color: 1
+          curve_menu_rect:
+            x: 0
+            y: 0
+            width: 0
+            height: 0
+          invert: 0
+          swap_text: 53
+          swap_select: 0
+          copy_select: 0
+          output: 1
+          select_output: 0
+        color_range_value:
+          value:
+          - 50
+          value_multi:
+          - {x: 0, y: 100}
+          select_value:
+          - .5
+          active:
+          - 1
+          rect:
+          - x: 0
+            y: 0
+            width: 0
+            height: 0
+          text:
+          - 28302e30302d312e303029
+          value_active: 1
+          value_total: 50
+          active_total: 1
+          curve:
+            m_Curve:
+            - time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 1
+              tangentMode: 0
+            - time: 1
+              value: 1
+              inSlope: 1
+              outSlope: 0
+              tangentMode: 0
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          animation_curve_math: {}
+          mode: 0
+      color_text: 436f6c6f72204f7574707574733a
+    splat_output:
+      active: 0
+      foldout: 1
+      color_splat:
+        r: 2
+        g: 2
+        b: 2
+        a: 1
+      strength: 1
+      mix:
+      - .5
+      - .5
+      - .5
+      splat_custom_foldout: 1
+      splat_text: 53706c617473283329
+      terrain_splat_assigned: 0
+      mix_mode: 0
+      rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curves:
+      - curve_in_memory: 0
+        curve_text: 4375727665
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        curve:
+          m_Curve:
+          - time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - time: .25
+            value: 1
+            inSlope: 0
+            outSlope: -5.99999619
+            tangentMode: 0
+          - time: .416666776
+            value: 0
+            inSlope: -5.99999619
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        default_curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        abs: 0
+        type: 0
+        active: 1
+        settings_foldout: 1
+        frequency: 256
+        offset: {x: 0, y: 0}
+        offset_range: {x: 5, y: 5}
+        offset_middle: {x: 0, y: 0}
+        detail: 1
+        detail_strength: 2
+        pivot: {fileID: 0}
+        strength: 1
+        rotation: 0
+        rotation_value: 0
+      - curve_in_memory: 0
+        curve_text: 4375727665
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        curve:
+          m_Curve:
+          - time: .249999911
+            value: 0
+            inSlope: 0
+            outSlope: 5.99999619
+            tangentMode: 0
+          - time: .416666687
+            value: 1
+            inSlope: 5.99999619
+            outSlope: 0
+            tangentMode: 0
+          - time: .583333373
+            value: 1
+            inSlope: 0
+            outSlope: -5.99999714
+            tangentMode: 0
+          - time: .750000119
+            value: 0
+            inSlope: -5.99999714
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        default_curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        abs: 0
+        type: 0
+        active: 1
+        settings_foldout: 1
+        frequency: 256
+        offset: {x: 0, y: 0}
+        offset_range: {x: 5, y: 5}
+        offset_middle: {x: 0, y: 0}
+        detail: 1
+        detail_strength: 2
+        pivot: {fileID: 0}
+        strength: 1
+        rotation: 0
+        rotation_value: 0
+      - curve_in_memory: 0
+        curve_text: 4375727665
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        curve:
+          m_Curve:
+          - time: .583333254
+            value: 0
+            inSlope: 0
+            outSlope: 5.99999714
+            tangentMode: 0
+          - time: .75
+            value: 1
+            inSlope: 5.99999714
+            outSlope: 0
+            tangentMode: 0
+          - time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        default_curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        abs: 0
+        type: 0
+        active: 1
+        settings_foldout: 1
+        frequency: 256
+        offset: {x: 0, y: 0}
+        offset_range: {x: 5, y: 5}
+        offset_middle: {x: 0, y: 0}
+        detail: 1
+        detail_strength: 2
+        pivot: {fileID: 0}
+        strength: 1
+        rotation: 0
+        rotation_value: 0
+      animation_curve_math: {}
+      splat: 000000000100000002000000
+      splat_value:
+        value:
+        - 50
+        - 50
+        - 50
+        value_multi:
+        - {x: 0, y: 100}
+        - {x: 100, y: 100}
+        - {x: 100, y: 100}
+        select_value:
+        - .166666672
+        - .5
+        - .833333373
+        active:
+        - 1
+        - 1
+        - 1
+        rect:
+        - x: 0
+          y: 0
+          width: 0
+          height: 0
+        - x: 0
+          y: 0
+          width: 0
+          height: 0
+        - x: 0
+          y: 0
+          width: 0
+          height: 0
+        text:
+        - 28302e30302d302e333329
+        - 28302e33332d302e363729
+        - 28302e36372d312e303029
+        value_active: 1
+        value_total: 150
+        active_total: 3
+        curve:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 1
+            tangentMode: 0
+          - time: .333333343
+            value: .333333343
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 0
+          - time: .666666687
+            value: .666666687
+            inSlope: 1
+            outSlope: 1
+            tangentMode: 0
+          - time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+      swap_text:
+      - 53
+      - 53
+      - 53
+      splat_custom:
+      - value: []
+        custom: 0
+        foldout: 0
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect2:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect3:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        totalValue: 0
+        changed: 0
+      - value: []
+        custom: 0
+        foldout: 0
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect2:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect3:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        totalValue: 0
+        changed: 0
+      - value: []
+        custom: 0
+        foldout: 0
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect2:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        rect3:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        totalValue: 0
+        changed: 0
+    tree_output:
+      active: 0
+      color_tree:
+        r: 2
+        g: 2
+        b: 2
+        a: 1
+      foldout: 1
+      strength: 1
+      interface_display: 1
+      icon_display: 1
+      trees_active: 1
+      trees_foldout: 1
+      terrain_tree_assigned: 0
+      tree_text: 547265653a
+      scale: 1
+      tree: []
+      tree_value:
+        value: []
+        value_multi: []
+        select_value: []
+        active: []
+        rect: []
+        text: []
+        value_active: 1
+        value_total: 0
+        active_total: 0
+        curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+      placed: 0
+    grass_output:
+      active: 1
+      foldout: 1
+      color_grass:
+        r: 2
+        g: 2
+        b: 2
+        a: 1
+      strength: 1
+      grass_text: 4772617373
+      mix:
+      - .5
+      mix_mode: 0
+      animation_curve_math: {}
+      curves:
+      - curve_in_memory: 0
+        curve_text: 4375727665
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        curve:
+          m_Curve:
+          - time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          - time: 1
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        default_curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        abs: 0
+        type: 0
+        active: 1
+        settings_foldout: 1
+        frequency: 256
+        offset: {x: 0, y: 0}
+        offset_range: {x: 5, y: 5}
+        offset_middle: {x: 0, y: 0}
+        detail: 1
+        detail_strength: 2
+        pivot: {fileID: 0}
+        strength: 1
+        rotation: 0
+        rotation_value: 0
+      grass:
+      - foldout: 0
+        active: 1
+        prototypeindex: 0
+        value: 0
+      grass_value:
+        value:
+        - 50
+        value_multi:
+        - {x: 0, y: 100}
+        select_value:
+        - .5
+        active:
+        - 1
+        rect:
+        - x: 0
+          y: 0
+          width: 0
+          height: 0
+        text:
+        - 28302e30302d312e303029
+        value_active: 1
+        value_total: 50
+        active_total: 1
+        curve:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 1
+            tangentMode: 0
+          - time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+      grass_calc:
+      - 0
+    object_output:
+      foldout: 1
+      color_object:
+        r: 2
+        g: 2
+        b: 2
+        a: 1
+      line_placement:
+        foldout: 0
+        preimage:
+          precolor_range:
+            foldout: 1
+            color_ranges_active: 1
+            color_ranges_foldout: 1
+            palette: 0
+            curve_red:
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+            curve_green:
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+            curve_blue:
+              m_Curve: []
+              m_PreInfinity: 2
+              m_PostInfinity: 2
+            animation_curve_math: {}
+            interface_display: 1
+            index: 0
+            one_color: 0
+            menu_rect:
+              x: 0
+              y: 0
+              width: 0
+              height: 0
+            text: 436f6c6f722052616e67653020283029
+            rect:
+              x: 0
+              y: 0
+              width: 0
+              height: 0
+            detect_max: 8
+            color_range: []
+            color_range_value:
+              value: []
+              value_multi: []
+              select_value: []
+              active: []
+              rect: []
+              text: []
+              value_active: 1
+              value_total: 0
+              active_total: 0
+              curve:
+                m_Curve: []
+                m_PreInfinity: 2
+                m_PostInfinity: 2
+              animation_curve_math: {}
+              mode: 0
+          settings_foldout: 0
+          image_number: 0
+          image:
+          - {fileID: 0}
+          texture: {fileID: 0}
+          tile_offset: 0
+          image_color:
+            r: 1
+            g: 1
+            b: 1
+            a: 1
+          image_curve:
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          splatmap: 0
+          includeAlpha: 1
+          flip_x: 0
+          flip_y: 0
+          clamp: 0
+          list_length: 1
+          list_row: 4
+          image_list_mode: 0
+          image_mode: 0
+          select_mode: 0
+          import_max_size: 0
+          import_max_size_list: 0
+          short_list: 0
+          image_auto_scale: 1
+          conversion_step: {x: 1, y: 1}
+          tile_x: 1
+          tile_y: 1
+          tile_offset_x: 0
+          tile_offset_y: 0
+          rgb: 1
+          rotation: 0
+          rotation_value: 0
+          output: 0
+          output_pos: 0
+          output_alpha: 0
+          edge_blur: 0
+          edge_blur_radius: 1
+          alpha: 0
+          auto_search:
+            path_full: 
+            path: 
+            foldout: 0
+            custom: 0
+            digits: 1
+            format: 256e
+            filename: 74696c65
+            fullname: 
+            name: 
+            extension: 2e706e67
+            start_x: 0
+            start_y: 0
+            start_n: 1
+            count_x: 1
+            count_y: 1
+            display: 0
+            select_index: -1
+            menu_rect:
+              x: 0
+              y: 0
+              width: 0
+              height: 0
+            output_format: 31
+        line_list: []
+        line_list_foldout: 0
+      object_mode: 0
+      icon_display: 1
+      objects_active: 1
+      objects_foldout: 1
+      strength: 1
+      interface_display: 1
+      object_set: 0
+      object_text: 4f626a6563743a
+      scale: 1
+      min_distance_x: 0
+      min_distance_z: 0
+      min_distance_x_rot: 0
+      min_distance_z_rot: 0
+      group_rotation: 0
+      group_rotation_steps: 0
+      group_rotation_step: {x: 0, y: 0, z: 0}
+      objects_placed: []
+      placed: 0
+      objects_placed_rot: []
+      object: []
+      object_value:
+        value: []
+        value_multi: []
+        select_value: []
+        active: []
+        rect: []
+        text: []
+        value_active: 1
+        value_total: 0
+        active_total: 0
+        curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+      search_active: 0
+      search_erase_doubles: 0
+      search_object: {fileID: 0}
+    menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    swap_text: 53
+    swap_select: 0
+    copy_select: 0
+    prefilter:
+      filter_text: 46696c74657220283129
+      foldout: 1
+      filter_index: 
+      filters_active: 1
+      filters_foldout: 1
+    objects_placed: []
+  filter:
+    active: 1
+    foldout: 0
+    curve_foldout: 1
+    color_filter:
+      r: 1.5
+      g: 1.5
+      b: 1.5
+      a: 1
+    strength: 1
+    length: 1
+    linked: 1
+    device: 0
+    type: 0
+    type2: 0
+    change_mode: 0
+    raw:
+      foldout: 1
+      settings_foldout: 0
+      raw_number: 0
+      file_index: ffffffff
+      file_foldout:
+      - 1
+      path: 
+      tile_offset: 0
+      flip_x: 0
+      flip_y: 0
+      flipTotalY: 0
+      flipTotalX: 0
+      clamp: 0
+      list_length: 1
+      list_row: 4
+      display_short_list: 0
+      raw_list_mode: 0
+      raw_mode: 0
+      auto_search:
+        path_full: 
+        path: 
+        foldout: 0
+        custom: 0
+        digits: 1
+        format: 256e
+        filename: 74696c65
+        fullname: 
+        name: 
+        extension: 2e726177
+        start_x: 0
+        start_y: 0
+        start_n: 1
+        count_x: 1
+        count_y: 1
+        display: 0
+        select_index: -1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        output_format: 31
+      raw_auto_scale: 1
+      conversion_step: {x: 1, y: 1}
+      tile_x: 1
+      tile_y: 1
+      tile_link: 0
+      tile_offset_x: 0
+      tile_offset_y: 0
+      rgb: 1
+      rotation: 0
+      rotation_value: 0
+      output: 0
+      output_pos: 0
+    combine: 0
+    last_value_x: []
+    last_value_y: []
+    last_pos_x: 4097
+    smooth_y: 0
+    last_value_declared: 0
+    preimage:
+      precolor_range:
+        foldout: 1
+        color_ranges_active: 1
+        color_ranges_foldout: 1
+        palette: 0
+        curve_red:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_green:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_blue:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        interface_display: 1
+        index: 0
+        one_color: 0
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        text: 436f6c6f722052616e67653020283029
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        detect_max: 8
+        color_range: []
+        color_range_value:
+          value: []
+          value_multi: []
+          select_value: []
+          active: []
+          rect: []
+          text: []
+          value_active: 1
+          value_total: 0
+          active_total: 0
+          curve:
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          animation_curve_math: {}
+          mode: 0
+      settings_foldout: 0
+      image_number: 0
+      image:
+      - {fileID: 0}
+      texture: {fileID: 0}
+      tile_offset: 0
+      image_color:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      image_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      splatmap: 0
+      includeAlpha: 1
+      flip_x: 0
+      flip_y: 0
+      clamp: 0
+      list_length: 1
+      list_row: 4
+      image_list_mode: 0
+      image_mode: 0
+      select_mode: 0
+      import_max_size: 0
+      import_max_size_list: 0
+      short_list: 0
+      image_auto_scale: 1
+      conversion_step: {x: 1, y: 1}
+      tile_x: 1
+      tile_y: 1
+      tile_offset_x: 0
+      tile_offset_y: 0
+      rgb: 1
+      rotation: 0
+      rotation_value: 0
+      output: 0
+      output_pos: 0
+      output_alpha: 0
+      edge_blur: 0
+      edge_blur_radius: 1
+      alpha: 0
+      auto_search:
+        path_full: 
+        path: 
+        foldout: 0
+        custom: 0
+        digits: 1
+        format: 256e
+        filename: 74696c65
+        fullname: 
+        name: 
+        extension: 2e706e67
+        start_x: 0
+        start_y: 0
+        start_n: 1
+        count_x: 1
+        count_y: 1
+        display: 0
+        select_index: -1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        output_format: 31
+    lerp_color_old:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    precurve_x_left:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: -1
+          value: 1
+          inSlope: 0
+          outSlope: -1
+          tangentMode: 0
+        - time: 0
+          value: 0
+          inSlope: -1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: -1
+          value: 1
+          inSlope: 0
+          outSlope: -1
+          tangentMode: 0
+        - time: 0
+          value: 0
+          inSlope: -1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve_x_right:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve_y:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve_z_left:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: -1
+          value: 1
+          inSlope: 0
+          outSlope: -1
+          tangentMode: 0
+        - time: 0
+          value: 0
+          inSlope: -1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: -1
+          value: 1
+          inSlope: 0
+          outSlope: -1
+          tangentMode: 0
+        - time: 0
+          value: 0
+          inSlope: -1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve_z_right:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    curve_x_left_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve_x_right_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve_y_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve_z_left_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve_z_right_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    precurve_list:
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 1
+      active: 0
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    curve_position: 0
+    prerandom_curve:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    output: 0
+    range_start: 0
+    range_end: 0
+    swap_text: 53
+    swap_select: 0
+    copy_select: 0
+    color_output_index: 0
+    splat_range_length: 0
+    splat_range_foldout: 0
+    splat_range: []
+    presubfilter:
+      subfilter_text: 4d61736b7320283029
+      foldout: 1
+      subfilters_active: 1
+      subfilters_foldout: 1
+      subfilter_index: 
+    sub_strength_set: 0
+    preview_texture: {fileID: 0}
+    splatmap: 0
+    splat_index: 0
+    layerMask: 0
+    cast_height: 20
+    ray_length: 20
+    ray_radius: 1
+    ray_direction: {x: 0, y: -1, z: 0}
+    raycast_mode: 0
+  subfilter:
+    active: 1
+    foldout: 0
+    color_subfilter:
+      r: 1.5
+      g: 1.5
+      b: 1.5
+      a: 1
+    linked: 1
+    type: 0
+    output: 0
+    output_max: 1
+    output_count: 0
+    output_count_min: .5
+    strength: 1
+    range_start: 0
+    range_end: 0
+    range_count: 0
+    preimage:
+      precolor_range:
+        foldout: 1
+        color_ranges_active: 1
+        color_ranges_foldout: 1
+        palette: 0
+        curve_red:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_green:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_blue:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        interface_display: 1
+        index: 0
+        one_color: 0
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        text: 436f6c6f722052616e67653020283029
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        detect_max: 8
+        color_range: []
+        color_range_value:
+          value: []
+          value_multi: []
+          select_value: []
+          active: []
+          rect: []
+          text: []
+          value_active: 1
+          value_total: 0
+          active_total: 0
+          curve:
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          animation_curve_math: {}
+          mode: 0
+      settings_foldout: 0
+      image_number: 0
+      image:
+      - {fileID: 0}
+      texture: {fileID: 0}
+      tile_offset: 0
+      image_color:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      image_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      splatmap: 0
+      includeAlpha: 1
+      flip_x: 0
+      flip_y: 0
+      clamp: 0
+      list_length: 1
+      list_row: 4
+      image_list_mode: 0
+      image_mode: 0
+      select_mode: 0
+      import_max_size: 0
+      import_max_size_list: 0
+      short_list: 0
+      image_auto_scale: 1
+      conversion_step: {x: 1, y: 1}
+      tile_x: 1
+      tile_y: 1
+      tile_offset_x: 0
+      tile_offset_y: 0
+      rgb: 1
+      rotation: 0
+      rotation_value: 0
+      output: 0
+      output_pos: 0
+      output_alpha: 0
+      edge_blur: 0
+      edge_blur_radius: 1
+      alpha: 0
+      auto_search:
+        path_full: 
+        path: 
+        foldout: 0
+        custom: 0
+        digits: 1
+        format: 256e
+        filename: 74696c65
+        fullname: 
+        name: 
+        extension: 2e706e67
+        start_x: 0
+        start_y: 0
+        start_n: 1
+        count_x: 1
+        count_y: 1
+        display: 0
+        select_index: -1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        output_format: 31
+    precolor_range:
+      foldout: 1
+      color_ranges_active: 1
+      color_ranges_foldout: 1
+      palette: 0
+      curve_red:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      curve_green:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      curve_blue:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      animation_curve_math: {}
+      interface_display: 1
+      index: 0
+      one_color: 0
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      text: 436f6c6f722052616e67653020283029
+      rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      detect_max: 8
+      color_range: []
+      color_range_value:
+        value: []
+        value_multi: []
+        select_value: []
+        active: []
+        rect: []
+        text: []
+        value_active: 1
+        value_total: 0
+        active_total: 0
+        curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+    precurve_list:
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - time: 1
+          value: 0
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 1
+      active: 0
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    precurve:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    curve_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve_inv: 0
+    curve_position: 0
+    prerandom_curve:
+      curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+    random_curve_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    random_curve_inv: 0
+    swap_text: 53
+    swap_select: 0
+    copy_select: 0
+    from_tree: 0
+    raw:
+      foldout: 1
+      settings_foldout: 0
+      raw_number: 0
+      file_index: ffffffff
+      file_foldout:
+      - 1
+      path: 
+      tile_offset: 0
+      flip_x: 0
+      flip_y: 0
+      flipTotalY: 0
+      flipTotalX: 0
+      clamp: 0
+      list_length: 1
+      list_row: 4
+      display_short_list: 0
+      raw_list_mode: 0
+      raw_mode: 0
+      auto_search:
+        path_full: 
+        path: 
+        foldout: 0
+        custom: 0
+        digits: 1
+        format: 256e
+        filename: 74696c65
+        fullname: 
+        name: 
+        extension: 2e726177
+        start_x: 0
+        start_y: 0
+        start_n: 1
+        count_x: 1
+        count_y: 1
+        display: 0
+        select_index: -1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        output_format: 31
+      raw_auto_scale: 1
+      conversion_step: {x: 1, y: 1}
+      tile_x: 1
+      tile_y: 1
+      tile_link: 0
+      tile_offset_x: 0
+      tile_offset_y: 0
+      rgb: 1
+      rotation: 0
+      rotation_value: 0
+      output: 0
+      output_pos: 0
+    mode: 0
+    smooth: 0
+    smooth_method: 0
+    splatmap: 0
+    splat_index: 0
+    layerMask: 0
+    cast_height: 20
+    ray_length: 20
+    ray_radius: 1
+    ray_direction: {x: 0, y: -1, z: 0}
+    raycast_mode: 0
+  precolor_range:
+    foldout: 1
+    color_ranges_active: 1
+    color_ranges_foldout: 1
+    palette: 0
+    curve_red:
+      m_Curve:
+      - time: 0
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .25
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .75
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    curve_green:
+      m_Curve:
+      - time: 0
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .25
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .75
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    curve_blue:
+      m_Curve:
+      - time: 0
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .25
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .5
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: .75
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      - time: 1
+        value: .75
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    animation_curve_math: {}
+    interface_display: 1
+    index: 0
+    one_color: 1
+    menu_rect:
+      x: 77
+      y: 513
+      width: 97
+      height: 16
+    text: 436f6c6f722052616e67653020283129
+    rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    detect_max: 8
+    color_range:
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+      color_color_range:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      color_start:
+        r: .75
+        g: .75
+        b: .75
+        a: 1
+      color_end:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      one_color: 0
+      curve_menu_rect:
+        x: 396
+        y: 576
+        width: 63
+        height: 18
+      invert: 0
+      swap_text: 53
+      swap_select: 0
+      copy_select: 0
+      output: 1
+      select_output: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+      color_color_range:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      color_start:
+        r: .75
+        g: .75
+        b: .75
+        a: 1
+      color_end:
+        r: 1
+        g: .858208954
+        b: .858208954
+        a: 1
+      one_color: 0
+      curve_menu_rect:
+        x: 396
+        y: 596
+        width: 63
+        height: 18
+      invert: 0
+      swap_text: 53
+      swap_select: 0
+      copy_select: 0
+      output: 1
+      select_output: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+      color_color_range:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      color_start:
+        r: .75
+        g: .75
+        b: .75
+        a: 1
+      color_end:
+        r: 1
+        g: .997077525
+        b: .791044772
+        a: 1
+      one_color: 0
+      curve_menu_rect:
+        x: 396
+        y: 616
+        width: 63
+        height: 18
+      invert: 0
+      swap_text: 53
+      swap_select: 0
+      copy_select: 0
+      output: 1
+      select_output: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+      color_color_range:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      color_start:
+        r: .75
+        g: .75
+        b: .75
+        a: 1
+      color_end:
+        r: 1
+        g: .880283892
+        b: .723880589
+        a: 1
+      one_color: 0
+      curve_menu_rect:
+        x: 396
+        y: 636
+        width: 63
+        height: 18
+      invert: 0
+      swap_text: 53
+      swap_select: 0
+      copy_select: 0
+      output: 1
+      select_output: 0
+    - curve_in_memory: 0
+      curve_text: 4375727665
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      default_curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      abs: 0
+      type: 0
+      active: 1
+      settings_foldout: 1
+      frequency: 256
+      offset: {x: 0, y: 0}
+      offset_range: {x: 5, y: 5}
+      offset_middle: {x: 0, y: 0}
+      detail: 1
+      detail_strength: 2
+      pivot: {fileID: 0}
+      strength: 1
+      rotation: 0
+      rotation_value: 0
+      color_color_range:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      color_start:
+        r: .75
+        g: .75
+        b: .75
+        a: 1
+      color_end:
+        r: .838048577
+        g: .985074639
+        b: .849358261
+        a: 1
+      one_color: 0
+      curve_menu_rect:
+        x: 396
+        y: 656
+        width: 63
+        height: 18
+      invert: 0
+      swap_text: 53
+      swap_select: 0
+      copy_select: 0
+      output: 1
+      select_output: 0
+    color_range_value:
+      value:
+      - 50
+      - 50
+      - 50
+      - 50
+      - 50
+      value_multi:
+      - {x: 0, y: 20}
+      - {x: 20, y: 40}
+      - {x: 40, y: 60}
+      - {x: 60, y: 80}
+      - {x: 80, y: 100}
+      select_value:
+      - 0
+      - 0
+      - 0
+      - 0
+      - 0
+      active:
+      - 1
+      - 1
+      - 1
+      - 1
+      - 1
+      rect:
+      - x: 524
+        y: 576
+        width: 135
+        height: 16
+      - x: 524
+        y: 596
+        width: 135
+        height: 16
+      - x: 524
+        y: 616
+        width: 135
+        height: 16
+      - x: 524
+        y: 636
+        width: 135
+        height: 16
+      - x: 524
+        y: 656
+        width: 135
+        height: 16
+      text:
+      - 28302e30302d302e323029
+      - 28302e32302d302e343029
+      - 28302e34302d302e363029
+      - 28302e36302d302e383029
+      - 28302e38302d312e303029
+      value_active: 1
+      value_total: 250
+      active_total: 5
+      curve:
+        m_Curve:
+        - time: 0
+          value: 0
+          inSlope: 0
+          outSlope: 1
+          tangentMode: 0
+        - time: .200000003
+          value: .200000003
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+        - time: .400000006
+          value: .400000006
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+        - time: .600000024
+          value: .600000024
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+        - time: .800000012
+          value: .800000012
+          inSlope: 1
+          outSlope: 1
+          tangentMode: 0
+        - time: 1
+          value: 1
+          inSlope: 1
+          outSlope: 0
+          tangentMode: 0
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      animation_curve_math: {}
+      mode: 1
+  color_range:
+    curve_in_memory: 0
+    curve_text: 4375727665
+    menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve:
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    default_curve:
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    abs: 0
+    type: 0
+    active: 1
+    settings_foldout: 1
+    frequency: 256
+    offset: {x: 0, y: 0}
+    offset_range: {x: 5, y: 5}
+    offset_middle: {x: 0, y: 0}
+    detail: 1
+    detail_strength: 2
+    pivot: {fileID: 0}
+    strength: 1
+    rotation: 0
+    rotation_value: 0
+    color_color_range:
+      r: 2
+      g: 2
+      b: 2
+      a: 1
+    color_start:
+      r: 0
+      g: 0
+      b: 0
+      a: 1
+    color_end:
+      r: 0
+      g: 0
+      b: 0
+      a: 1
+    one_color: 0
+    curve_menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    invert: 0
+    swap_text: 53
+    swap_select: 0
+    copy_select: 0
+    output: 1
+    select_output: 0
+  tree:
+    foldout: 0
+    interface_display: 0
+    prototypeindex: 0
+    placed: 0
+    swap_text: 
+    swap_select: 0
+    copy_select: 0
+    color_tree:
+      r: 0
+      g: 0
+      b: 0
+      a: 0
+    precolor_range:
+      foldout: 0
+      color_ranges_active: 0
+      color_ranges_foldout: 0
+      palette: 0
+      curve_red:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      curve_green:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      curve_blue:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      animation_curve_math: {}
+      interface_display: 0
+      index: 0
+      one_color: 0
+      menu_rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      text: 
+      rect:
+        x: 0
+        y: 0
+        width: 0
+        height: 0
+      detect_max: 0
+      color_range: []
+      color_range_value:
+        value: []
+        value_multi: []
+        select_value: []
+        active: []
+        rect: []
+        text: []
+        value_active: 1
+        value_total: 0
+        active_total: 0
+        curve:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+    scale_foldout: 0
+    link_start: 0
+    link_end: 0
+    width_start: 0
+    width_end: 0
+    height_start: 0
+    height_end: 0
+    height: 0
+    unlink: 0
+    random_position: 0
+    distance_foldout: 0
+    min_distance: {x: 0, y: 0, z: 0}
+    distance_level: 0
+    distance_mode: 0
+    distance_rotation_mode: 0
+    distance_include_scale: 0
+    distance_include_scale_group: 0
+    data_foldout: 0
+    mesh_length: 0
+    mesh_triangles: 0
+    mesh_combine: 0
+    mesh_size: {x: 0, y: 0, z: 0}
+    objects_placed: []
+    prefilter:
+      filter_text: 46696c74657220283129
+      foldout: 1
+      filter_index: 
+      filters_active: 1
+      filters_foldout: 1
+    raycast: 0
+    layerMask: 0
+    ray_length: 0
+    cast_height: 0
+    ray_radius: 0
+    ray_direction: {x: 0, y: 0, z: 0}
+    raycast_mode: 0
+  object:
+    foldout: 0
+    prefab: 0
+    data_foldout: 0
+    transform_foldout: 0
+    settings_foldout: 0
+    distance_foldout: 0
+    rotation_foldout: 0
+    rotation_map_foldout: 0
+    random_position: 1
+    object1: {fileID: 0}
+    object2: {fileID: 0}
+    name: 
+    equal_density: 1
+    color_object:
+      r: 2
+      g: 2
+      b: 2
+      a: 1
+    parent: {fileID: 0}
+    parent_clear: 1
+    parent_name: 
+    combine: 0
+    combine_total: 1
+    place_max: 1
+    place_maximum: 0
+    place_maximum_total: 0
+    parent_set: 0
+    scale_start: {x: 1, y: 1, z: 1}
+    scale_end: {x: 1, y: 1, z: 1}
+    unlink_y: .25
+    unlink_z: .25
+    unlink_foldout: 0
+    scale_link: 1
+    scale_link_start_y: 1
+    scale_link_end_y: 1
+    scale_link_start_z: 1
+    scale_link_end_z: 1
+    scaleCurve:
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+      - time: 1
+        value: 1
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    rotation_start: {x: 0, y: 0, z: 0}
+    rotation_end: {x: 0, y: 0, z: 0}
+    rotation_link: 0
+    rotation_link_start_y: 0
+    rotation_link_end_y: 0
+    rotation_link_start_z: 0
+    rotation_link_end_z: 0
+    position_start: {x: 0, y: 0, z: 0}
+    position_end: {x: 0, y: 0, z: 0}
+    terrain_height: 1
+    terrain_rotate: 0
+    scale_steps: 0
+    scale_step: {x: 0, y: 0, z: 0}
+    position_steps: 0
+    position_step: {x: 0, y: 0, z: 0}
+    parent_rotation: {x: 0, y: 0, z: 0}
+    look_at_parent: 0
+    rotation_steps: 0
+    rotation_step: {x: 0, y: 0, z: 0}
+    min_distance: {x: 0, y: 0, z: 0}
+    distance_level: 0
+    distance_mode: 0
+    distance_rotation_mode: 0
+    distance_include_scale: 1
+    distance_include_scale_group: 1
+    objects_placed: []
+    placed: 0
+    placed_prelayer: 0
+    mesh_length: 0
+    mesh_triangles: 0
+    mesh_combine: 0
+    mesh_size: {x: 0, y: 0, z: 0}
+    object_material:
+      active: 0
+      foldout: 0
+      material:
+      - {fileID: 0}
+      combine_count: 00000000
+      combine_parent:
+      - {fileID: 0}
+      material_value:
+        value:
+        - 50
+        value_multi:
+        - {x: 0, y: 100}
+        select_value:
+        - .5
+        active:
+        - 1
+        rect:
+        - x: 0
+          y: 0
+          width: 0
+          height: 0
+        text:
+        - 28302e30302d312e303029
+        value_active: 1
+        value_total: 50
+        active_total: 1
+        curve:
+          m_Curve:
+          - time: 0
+            value: 0
+            inSlope: 0
+            outSlope: 1
+            tangentMode: 0
+          - time: 1
+            value: 1
+            inSlope: 1
+            outSlope: 0
+            tangentMode: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        mode: 0
+    combine_parent: {fileID: 0}
+    combine_parent_name: 
+    combine_parent_name_input: 0
+    value: 0
+    prelayer_index: 0
+    prelayer_created: 0
+    swap_text: 53
+    swap_select: 0
+    copy_select: 0
+    preview_texture: {fileID: 0}
+    pivot_center: 0
+    raycast: 0
+    layerMask: 0
+    ray_length: 20
+    cast_height: 20
+    ray_radius: 1
+    ray_direction: {x: 0, y: -1, z: 0}
+    raycast_mode: 0
+    objectStream: 0
+    objectIndex: 0
+    slopeY: 0
+    sphereOverlapRadius: 0
+    sphereOverlapHeight: 0
+  rotation_map:
+    active: 0
+    preimage:
+      precolor_range:
+        foldout: 1
+        color_ranges_active: 1
+        color_ranges_foldout: 1
+        palette: 0
+        curve_red:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_green:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        curve_blue:
+          m_Curve: []
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+        animation_curve_math: {}
+        interface_display: 1
+        index: 0
+        one_color: 0
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        text: 436f6c6f722052616e67653020283029
+        rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        detect_max: 8
+        color_range: []
+        color_range_value:
+          value: []
+          value_multi: []
+          select_value: []
+          active: []
+          rect: []
+          text: []
+          value_active: 1
+          value_total: 0
+          active_total: 0
+          curve:
+            m_Curve: []
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+          animation_curve_math: {}
+          mode: 0
+      settings_foldout: 0
+      image_number: 0
+      image:
+      - {fileID: 0}
+      texture: {fileID: 0}
+      tile_offset: 0
+      image_color:
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      image_curve:
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+      splatmap: 0
+      includeAlpha: 1
+      flip_x: 0
+      flip_y: 0
+      clamp: 0
+      list_length: 1
+      list_row: 4
+      image_list_mode: 0
+      image_mode: 0
+      select_mode: 0
+      import_max_size: 0
+      import_max_size_list: 0
+      short_list: 0
+      image_auto_scale: 1
+      conversion_step: {x: 1, y: 1}
+      tile_x: 1
+      tile_y: 1
+      tile_offset_x: 0
+      tile_offset_y: 0
+      rgb: 1
+      rotation: 0
+      rotation_value: 0
+      output: 0
+      output_pos: 0
+      output_alpha: 0
+      edge_blur: 0
+      edge_blur_radius: 1
+      alpha: 0
+      auto_search:
+        path_full: 
+        path: 
+        foldout: 0
+        custom: 0
+        digits: 1
+        format: 256e
+        filename: 74696c65
+        fullname: 
+        name: 
+        extension: 2e706e67
+        start_x: 0
+        start_y: 0
+        start_n: 1
+        count_x: 1
+        count_y: 1
+        display: 0
+        select_index: -1
+        menu_rect:
+          x: 0
+          y: 0
+          width: 0
+          height: 0
+        output_format: 31
+  animation_curve:
+    curve_in_memory: 0
+    curve_text: 4375727665
+    menu_rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    curve:
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    default_curve:
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    abs: 0
+    type: 0
+    active: 1
+    settings_foldout: 1
+    frequency: 256
+    offset: {x: 0, y: 0}
+    offset_range: {x: 5, y: 5}
+    offset_middle: {x: 0, y: 0}
+    detail: 1
+    detail_strength: 2
+    pivot: {fileID: 0}
+    strength: 1
+    rotation: 0
+    rotation_value: 0
+  splat_custom:
+    value: []
+    custom: 0
+    foldout: 0
+    rect:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    rect2:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    rect3:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    totalValue: 0
+    changed: 0
+  filters: []
+  subfilters: []
+  prelayers: []
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 100000}
+  m_IsPrefabParent: 1
