@@ -17,6 +17,8 @@ public class GlossBakedTextureReplacement : MonoBehaviour {
 	public bool resetGlossMultAndShaping=false;
 	[System.NonSerialized] public Texture2D bakedTexture=null;
 	
+	private Renderer _renderer;
+	
 	public GlossBakedTextureReplacement() {
 		bakedTexture=originalTexture=null;
 	}
@@ -42,8 +44,11 @@ public class GlossBakedTextureReplacement : MonoBehaviour {
 		if (CustomMaterial!=null) {
 			_mat=CustomMaterial;
 		} else {
-			if (!GetComponent<Renderer>()) return;
-			_mat=GetComponent<Renderer>().sharedMaterial;
+			if (!_renderer) {
+				_renderer=GetComponent<Renderer>();
+				if (!_renderer) return;
+			}
+			_mat=_renderer.sharedMaterial;
 		}
 		if (!_mat) return;
 		if (RTPStandAloneShader) {
@@ -101,8 +106,11 @@ public class GlossBakedTextureReplacement : MonoBehaviour {
 		if (CustomMaterial!=null) {
 			_mat=CustomMaterial;
 		} else {
-			if (!GetComponent<Renderer>()) return;
-			_mat=GetComponent<Renderer>().sharedMaterial;
+			if (!_renderer) {
+				_renderer=GetComponent<Renderer>();
+				if (!_renderer) return;
+			}
+			_mat=_renderer.sharedMaterial;
 		}
 		if (!_mat) return;
 

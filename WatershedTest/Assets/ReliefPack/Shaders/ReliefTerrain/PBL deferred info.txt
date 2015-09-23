@@ -1,0 +1,3 @@
+For more info about PBL rendering in legacy deferred take a look at Lux forum thread:
+
+http://forum.unity3d.com/threads/221985-Lux-%96-an-open-source-physically-based-shading-framework/

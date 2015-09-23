@@ -23,6 +23,7 @@ class ExportTerrainRTPtweaked : EditorWindow
    static TerrainData terrain;
    static Vector3 terrainPos;
    static GameObject go;
+   static bool AnchorOffset=true;
  
    int tCount;
    int counter;
@@ -66,6 +67,9 @@ class ExportTerrainRTPtweaked : EditorWindow
 	  		EditorGUILayout.MinMaxSlider(ref loAngle, ref hiAngle, 0, 90);
 		}
 		EditorGUILayout.EndHorizontal ();
+
+		AnchorOffset=EditorGUILayout.Toggle("Anchor Offset", AnchorOffset);
+
 		
  
       if (GUILayout.Button("Export"))
@@ -77,11 +81,11 @@ class ExportTerrainRTPtweaked : EditorWindow
    void Export()
    {
       string fileName = EditorUtility.SaveFilePanel("Export .obj file", "", "Terrain", "obj");
-      int w = terrain.heightmapWidth;
-      int h = terrain.heightmapHeight;
+      int w = terrain.heightmapResolution;
+	  int h = terrain.heightmapResolution;
       Vector3 meshScale = terrain.size;
       int tRes = (int)Mathf.Pow(2, (int)saveResolution );
-      meshScale = new Vector3(meshScale.x / (w - 1) * tRes, meshScale.y, meshScale.z / (h - 1) * tRes);
+      meshScale = new Vector3(meshScale.z / (w - 1) * tRes, meshScale.y, meshScale.x / (h - 1) * tRes);
       Vector2 uvScale = new Vector2(1.0f / (w - 1), 1.0f / (h - 1));
       float[,] tData = terrain.GetHeights(0, 0, w, h);
  
@@ -100,13 +104,16 @@ class ExportTerrainRTPtweaked : EditorWindow
       {
          tPolys = new int[(w - 1) * (h - 1) * 4];
       }
- 
+
+	  terrainPos = new Vector3 (terrainPos.z, terrainPos.y, terrainPos.x);
+
       // Build vertices and UVs
       for (int y = 0; y < h; y++)
       {
          for (int x = 0; x < w; x++)
          {
-            tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, tData[x * tRes, y * tRes], y)) + terrainPos;
+            tVertices[y * w + x] = Vector3.Scale(meshScale, new Vector3(x, tData[x * tRes, y * tRes], y));
+			if (AnchorOffset) tVertices[y * w + x]+=terrainPos;
             tUV[y * w + x] = Vector2.Scale( new Vector2(x * tRes, y * tRes), uvScale);
          }
       }
