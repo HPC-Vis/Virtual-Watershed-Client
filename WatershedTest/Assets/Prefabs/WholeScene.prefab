@@ -3918,8 +3918,6 @@ GameObject:
   - 33: {fileID: 3317940}
   - 23: {fileID: 2364406}
   - 95: {fileID: 9520780}
-  - 114: {fileID: 11413578}
-  - 114: {fileID: 11410192}
   - 114: {fileID: 11424076}
   - 114: {fileID: 11423786}
   m_Layer: 0
@@ -25752,19 +25750,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11410192
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5df40ba8b1944c49807d182b6b60405, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  state: 0
-  states: 0000000001000000
 --- !u!114 &11410198
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -27336,29 +27321,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11413578
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 120336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 987ed6a6dc0b3e44eba382319f4477cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ml: {fileID: 11410192}
-  cursor: {fileID: 120336}
-  marker1: {fileID: 0}
-  marker2: {fileID: 0}
-  markers: []
-  PlayerController: {fileID: 0}
-  cursorObject: {fileID: 120336}
-  csvButton: {fileID: 0}
-  rs: {fileID: 0}
-  slicerPlane: {fileID: 0}
-  mark1highlighted: 0
-  mark2highlighted: 0
 --- !u!114 &11413600
 MonoBehaviour:
   m_ObjectHideFlags: 1
