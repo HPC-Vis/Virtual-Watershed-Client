@@ -649,7 +649,7 @@ public class ReliefTerrainGlobalSettingsHolder {
 		}
 		_4LAYERS_SHADER_USED=_RTP_LODmanagerScript.RTP_4LAYERS_MODE;
 		
-		colorSpaceLinear = ( PlayerSettings.colorSpace==ColorSpace.Linear );
+		colorSpaceLinear = ( UnityEditor.PlayerSettings.colorSpace==ColorSpace.Linear );
 		#endif
 		// switch for SetShaderParam - when use_mat defined we're injecting param into material
 #if !UNITY_3_5

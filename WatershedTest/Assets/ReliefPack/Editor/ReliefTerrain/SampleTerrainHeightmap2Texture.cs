@@ -15,7 +15,7 @@ public class SampleTerrainHeightmap2Texture : EditorWindow
 	[MenuItem("Window/Relief Tools/Prepare Height&Normal Texture for Tessellation")]
 	public static void ShowWindow() {
 		SampleTerrainHeightmap2Texture window=EditorWindow.GetWindow(typeof(SampleTerrainHeightmap2Texture)) as SampleTerrainHeightmap2Texture;
-		window.title="Sample Terrain Heights 2 Texture";
+		window.titleContent.text="Sample Terrain Heights 2 Texture";
 		window.minSize=new Vector2(360,250);
 		window.maxSize=new Vector2(370,250);
 	}

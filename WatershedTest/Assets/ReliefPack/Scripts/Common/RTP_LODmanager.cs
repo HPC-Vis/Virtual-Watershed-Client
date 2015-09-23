@@ -154,8 +154,13 @@ public class RTP_LODmanager : MonoBehaviour {
 	public bool PLATFORM_D3D11=true;
 	public bool PLATFORM_OPENGL=true;
 	public bool PLATFORM_GLES=true;
-	public bool PLATFORM_FLASH=true;
-	
+	public bool PLATFORM_GLES3=true;
+	public bool PLATFORM_METAL=true;
+	public bool PLATFORM_XBOX360=true;
+	public bool PLATFORM_XBOXONE=true;
+	public bool PLATFORM_PS3=true;
+	public bool PLATFORM_PS4=true;
+
 	public bool RTP_4LAYERS_MODE=false;
 	public int numLayers; // uzupelniane przez skrypt RTP
 	public int numLayersProcessedByFarShader=8;

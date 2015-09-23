@@ -13,6 +13,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class ReliefShaders_applyLightForDeferred : MonoBehaviour {
 	public Light lightForSelfShadowing;
+	private Renderer _renderer;
 	
 	void Reset() {
 		if (GetComponent<Light>()) {
@@ -22,14 +23,17 @@ public class ReliefShaders_applyLightForDeferred : MonoBehaviour {
 	
 	void Update () {
 		if (lightForSelfShadowing) {
+			if (_renderer==null) {
+				_renderer=GetComponent<Renderer>();
+			}
 			if (GetComponent<Renderer>()) {
 				if (lightForSelfShadowing.type==LightType.Directional) {
-					for(int i=0; i<GetComponent<Renderer>().sharedMaterials.Length; i++) {
-						GetComponent<Renderer>().sharedMaterials[i].SetVector("_WorldSpaceLightPosCustom", -lightForSelfShadowing.transform.forward);
+					for(int i=0; i<_renderer.sharedMaterials.Length; i++) {
+						_renderer.sharedMaterials[i].SetVector("_WorldSpaceLightPosCustom", -lightForSelfShadowing.transform.forward);
 					}
 				} else {
-					for(int i=0; i<GetComponent<Renderer>().materials.Length; i++) {
-						GetComponent<Renderer>().sharedMaterials[i].SetVector("_WorldSpaceLightPosCustom", new Vector4(lightForSelfShadowing.transform.position.x, lightForSelfShadowing.transform.position.y, lightForSelfShadowing.transform.position.z, 1));
+					for(int i=0; i<_renderer.materials.Length; i++) {
+						_renderer.sharedMaterials[i].SetVector("_WorldSpaceLightPosCustom", new Vector4(lightForSelfShadowing.transform.position.x, lightForSelfShadowing.transform.position.y, lightForSelfShadowing.transform.position.z, 1));
 					}
 				}
 			} else {

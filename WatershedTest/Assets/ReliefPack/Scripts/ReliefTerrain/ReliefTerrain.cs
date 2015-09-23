@@ -207,7 +207,7 @@ public class ReliefTerrain : MonoBehaviour {
 					// no material
 					//
 					terrainComp.basemapDistance=500000;
-					#if UNITY_5_0
+					#if UNITY_5 && !UNITY_5_0
 					terrainComp.materialType=Terrain.MaterialType.Custom;
 					#endif
 					terrainComp.materialTemplate=null;
@@ -229,7 +229,7 @@ public class ReliefTerrain : MonoBehaviour {
 					#endif
 					if (apply_material_if_applicable) {
 						if (terrainComp.materialTemplate==null) {
-							#if UNITY_5_0
+							#if UNITY_5 && !UNITY_5_0
 							terrainComp.materialType=Terrain.MaterialType.Custom;
 							#endif
 							
@@ -454,7 +454,11 @@ public class ReliefTerrain : MonoBehaviour {
 			return;
 		}
 		Type terrainDataType = terrainComp.terrainData.GetType();
+		#if UNITY_5 && !UNITY_5_0_0 && !UNITY_5_0_1
+		PropertyInfo info = terrainDataType.GetProperty("alphamapTextures", BindingFlags.Instance | BindingFlags.Public);
+		#else
 		PropertyInfo info = terrainDataType.GetProperty("alphamapTextures", BindingFlags.Instance | BindingFlags.NonPublic);
+		#endif	
 		if (info!=null) {
 			Texture2D[] alphamapTextures=(Texture2D[])info.GetValue(terrainComp.terrainData, null);
 			if (alphamapTextures.Length>0) controlA=alphamapTextures[0]; else controlA=null;
