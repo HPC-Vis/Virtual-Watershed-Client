@@ -3,6 +3,16 @@ using UnityEditor;
 using System;
 using System.IO;
 
+internal static class SystemAdditions {
+    public static int IndexOfNewLine(this string src, int startingIdx) {
+	    int idx = src.IndexOf("\r\n", startingIdx, StringComparison.Ordinal);
+	    if (idx < 0) {
+			idx = src.IndexOf ("\n", startingIdx, StringComparison.Ordinal);
+		}
+	    return idx;
+    }
+}
+
 [CustomEditor (typeof(RTP_LODmanager))]
 public class RTP_LODmanagerEditor : Editor {
 #if UNITY_EDITOR	
@@ -236,16 +246,29 @@ public class RTP_LODmanagerEditor : Editor {
 			_target.PLATFORM_OPENGL=EditorGUILayout.Toggle(_target.PLATFORM_OPENGL);
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("gles (WebGL / Mobile)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			EditorGUILayout.LabelField("gles (WebGL)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
 			_target.PLATFORM_GLES=EditorGUILayout.Toggle(_target.PLATFORM_GLES);
 		EditorGUILayout.EndHorizontal();
 		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("flash", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
-			_target.PLATFORM_FLASH=EditorGUILayout.Toggle(_target.PLATFORM_FLASH);
+			EditorGUILayout.LabelField("gles3 (hi-end Mobile)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			_target.PLATFORM_GLES3=EditorGUILayout.Toggle(_target.PLATFORM_GLES3);
 		EditorGUILayout.EndHorizontal();
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("metal (hi-end iOS)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			_target.PLATFORM_METAL=EditorGUILayout.Toggle(_target.PLATFORM_METAL);
+		EditorGUILayout.EndHorizontal();
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("xbox360", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			_target.PLATFORM_XBOX360=EditorGUILayout.Toggle(_target.PLATFORM_XBOX360);
+		EditorGUILayout.EndHorizontal();
+		EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("ps3", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			_target.PLATFORM_PS3=EditorGUILayout.Toggle(_target.PLATFORM_PS3);
+		EditorGUILayout.EndHorizontal();
+
 //#if !UNITY_3_5
 		EditorGUILayout.BeginHorizontal();
-			EditorGUILayout.LabelField("d3d11 (PC DX11/XBOX)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
+			EditorGUILayout.LabelField("d3d11 (DX11/XBOXONE/PS4)", GUILayout.MinWidth(190), GUILayout.MaxWidth(190));
 			_target.PLATFORM_D3D11=EditorGUILayout.Toggle(_target.PLATFORM_D3D11);
 		EditorGUILayout.EndHorizontal();
 		if (_target.PLATFORM_D3D11) {
@@ -259,7 +282,10 @@ public class RTP_LODmanagerEditor : Editor {
 						_target.PLATFORM_D3D9=false;
 						_target.PLATFORM_OPENGL=false;
 						_target.PLATFORM_GLES=false;
-						_target.PLATFORM_FLASH=false;
+						_target.PLATFORM_GLES3=false;
+						_target.PLATFORM_METAL=false;
+						_target.PLATFORM_XBOX360=false;
+						_target.PLATFORM_PS3=false;
 						// no trees texture available (uzywam blend_val wiec moglibysmy to ograniczenie naprawic przez wprowadzenie dodatkowej zmiennej w shaderze, ale textury trees i tak NIKT nie uzywa...)
 						_target.RTP_TREESGLOBAL=false;
 					}
@@ -295,6 +321,7 @@ public class RTP_LODmanagerEditor : Editor {
 			_target.RTP_TESSELLATION=false;
 			_target.RTP_ADDSHADOW=false;
 		}
+		_target.PLATFORM_XBOXONE = _target.PLATFORM_PS4 = _target.PLATFORM_D3D11;
 //#endif
 		
 		EditorGUILayout.Space();		
@@ -623,6 +650,11 @@ public class RTP_LODmanagerEditor : Editor {
 			if (_target.RTP_4LAYERS_MODE) {
 				EditorGUILayout.Space();
 				EditorGUILayout.HelpBox("Massive terrain mode takes very simple version of the RTP shader. This lets you use global color and optionaly - global normal, perlin, bumpmaps at close distance (where CLOSE now means - perlin distance !), pixel trees/shadows and very simple close-distance detail colors (grayscale tinted by global colormap).",MessageType.Warning, true);
+				#if UNITY_5
+				if (_target.RTP_SUPER_SIMPLE) {
+					EditorGUILayout.HelpBox("For unknown (U5.0.0f4) reason it works only in deferred mode.",MessageType.Error, true);
+				}
+				#endif
 				EditorGUILayout.BeginHorizontal();
 					EditorGUILayout.LabelField("Massive terrain mode", GUILayout.MinWidth(160), GUILayout.MaxWidth(160));
 					_target.RTP_SUPER_SIMPLE=EditorGUILayout.Toggle(_target.RTP_SUPER_SIMPLE);
@@ -1666,7 +1698,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_begin_idx=idx+5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="///* INIT";
 							_code+=_code_end;
@@ -1679,7 +1711,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_end_idx=idx-5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="//*/ // INIT";
 							_code+=_code_end;
@@ -1700,7 +1732,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_begin_idx=idx+5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="/* INIT";
 							_code+=_code_end;
@@ -1713,7 +1745,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_end_idx=idx-5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="*/ // INIT";
 							_code+=_code_end;
@@ -1727,7 +1759,7 @@ public class RTP_LODmanagerEditor : Editor {
 				}
 				
 				// shadow passes (custom or by addshadow keyword)
-				if (_code.IndexOf("SHADOW PASSES")>0 || shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
+				if (_code.IndexOf("SHADOW PASSES")>0) {// || shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
 					int astar_replace_begin_idx=0;
 					int astar_replace_end_idx=0;
 						if (!_target.RTP_ADDSHADOW) {
@@ -1741,7 +1773,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_begin_idx=idx+5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="///* SHADOW PASSES";
 							_code+=_code_end;
@@ -1754,7 +1786,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_end_idx=idx-5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="//*/ // SHADOW PASSES";
 							_code+=_code_end;
@@ -1775,7 +1807,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_begin_idx=idx+5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="/* SHADOW PASSES";
 							_code+=_code_end;
@@ -1788,7 +1820,7 @@ public class RTP_LODmanagerEditor : Editor {
 						if (idx>0) {
 							astar_replace_end_idx=idx-5;
 							string _code_beg=_code.Substring(0,idx);
-							string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 							_code=_code_beg;
 							_code+="*/ // SHADOW PASSES";
 							_code+=_code_end;
@@ -1799,33 +1831,108 @@ public class RTP_LODmanagerEditor : Editor {
 						}
 						
 					}
-					// addshadow treatment
-					{
-						sidx=0;
-						do {					
-							flag=false;
-							idx=_code.IndexOf("#pragma surface",sidx);
-							if (idx>0) {
-								sidx=idx+5; flag=true;
-								string _code_beg=_code.Substring(0,idx);
-								string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-								string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
-								if (_target.RTP_ADDSHADOW) {
-									if (_code_mid.IndexOf(" addshadow")<0) {
-										_code_mid=_code_mid+" addshadow";
-									}
-								} else {
-									if (_code_mid.IndexOf(" addshadow")>=0) {
-										_code_mid=_code_mid.Replace(" addshadow", "");
-									}
-								}
-								_code=_code_beg+_code_mid+_code_end;
-							}
-						} while (false); //while(flag); // (we need it only for one, first subshader)
-					}
+
+//					// addshadow treatment
+//					{
+//						sidx=0;
+//						do {					
+//							flag=false;
+//							idx=_code.IndexOf("#pragma surface",sidx);
+//							if (idx>0) {
+//								sidx=idx+5; flag=true;
+//								string _code_beg=_code.Substring(0,idx);
+//								string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+//								string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
+//								if (_target.RTP_ADDSHADOW) {
+//									if (_code_mid.IndexOf(" addshadow")<0) {
+//										_code_mid=_code_mid+" addshadow";
+//									}
+//								} else {
+//									if (_code_mid.IndexOf(" addshadow")>=0) {
+//										_code_mid=_code_mid.Replace(" addshadow", "");
+//									}
+//								}
+//								_code=_code_beg+_code_mid+_code_end;
+//							}
+//						} while (false); //while(flag); // (we need it only for one, first subshader)
+//					}
 				}
 
+				// shadow passes (custom - tessellation)
+				if (_code.IndexOf("TESS SHADOW PASS")>0) {
+					int astar_replace_begin_idx=0;
+					int astar_replace_end_idx=0;
+						if (_target.RTP_ADDSHADOW) {
+						//
+						// used
+						//
+						// SHADOW PASSES comment - BEGIN
+						sidx=0;
+						idx=_code.IndexOf("///* TESS SHADOW PASS",sidx);
+						if (idx<0) idx=_code.IndexOf("/* TESS SHADOW PASS",sidx);
+						if (idx>0) {
+							astar_replace_begin_idx=idx+5;
+							string _code_beg=_code.Substring(0,idx);
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
+							_code=_code_beg;
+							_code+="///* TESS SHADOW PASS";
+							_code+=_code_end;
+						}
+						
+						// SHADOW PASSES comment - END
+						sidx=0;
+						idx=_code.IndexOf("//*/ // TESS SHADOW PASS",sidx);
+						if (idx<0) idx=_code.IndexOf("*/ // TESS SHADOW PASS",sidx);
+						if (idx>0) {
+							astar_replace_end_idx=idx-5;
+							string _code_beg=_code.Substring(0,idx);
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
+							_code=_code_beg;
+							_code+="//*/ // TESS SHADOW PASS";
+							_code+=_code_end;
+						}
+						if (astar_replace_begin_idx>0 && astar_replace_end_idx>0) {
+							_code=_code.Substring(0,astar_replace_begin_idx)+_code.Substring(astar_replace_begin_idx,astar_replace_end_idx-astar_replace_begin_idx).Replace("/astar","/*")+_code.Substring(astar_replace_end_idx);
+							_code=_code.Substring(0,astar_replace_begin_idx)+_code.Substring(astar_replace_begin_idx,astar_replace_end_idx-astar_replace_begin_idx).Replace("astar/","*/")+_code.Substring(astar_replace_end_idx);
+						}
+						
+					} else {
+						//
+						// not used
+						//
+						// SHADOW PASSES comment - BEGIN
+						sidx=0;
+						idx=_code.IndexOf("///* TESS SHADOW PASS",sidx);
+						if (idx<0) idx=_code.IndexOf("/* TESS SHADOW PASS",sidx);
+						if (idx>0) {
+							astar_replace_begin_idx=idx+5;
+							string _code_beg=_code.Substring(0,idx);
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
+							_code=_code_beg;
+							_code+="/* TESS SHADOW PASS";
+							_code+=_code_end;
+						}
+						
+						// SHADOW PASSES comment - END
+						sidx=0;
+						idx=_code.IndexOf("//*/ // TESS SHADOW PASS",sidx);
+						if (idx<0) idx=_code.IndexOf("*/ // TESS SHADOW PASS",sidx);
+						if (idx>0) {
+							astar_replace_end_idx=idx-5;
+							string _code_beg=_code.Substring(0,idx);
+							string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
+							_code=_code_beg;
+							_code+="*/ // TESS SHADOW PASS";
+							_code+=_code_end;
+						}
+						if (astar_replace_begin_idx>0 && astar_replace_end_idx>0) {
+							_code=_code.Substring(0,astar_replace_begin_idx)+_code.Substring(astar_replace_begin_idx,astar_replace_end_idx-astar_replace_begin_idx).Replace("/*", "/astar")+_code.Substring(astar_replace_end_idx);
+							_code=_code.Substring(0,astar_replace_begin_idx)+_code.Substring(astar_replace_begin_idx,astar_replace_end_idx-astar_replace_begin_idx).Replace("*/", "astar/")+_code.Substring(astar_replace_end_idx);
+						}
+						
+					}
 
+				} // tess shadow pass
 
 				// render targets
 				sidx=0;
@@ -1835,32 +1942,24 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						_code+="#pragma only_renderers";
 						if (_target.PLATFORM_D3D9) _code+=" d3d9";
 						if (_target.PLATFORM_OPENGL) _code+=" opengl";
 						if (_target.PLATFORM_GLES) _code+=" gles";
-						if (_target.PLATFORM_FLASH) _code+=" flash";
+						if (_target.PLATFORM_GLES3) _code+=" gles3";
+						if (_target.PLATFORM_XBOX360) _code+=" xbox360";
+						if (_target.PLATFORM_METAL) _code+=" metal";
+						if (_target.PLATFORM_PS3) _code+=" ps3";
 //#if !UNITY_3_5
-						if (_target.PLATFORM_D3D11) _code+=" d3d11";
+						if (_target.PLATFORM_D3D11) _code+=" d3d11 xboxone ps4";
 //#endif
 						_code+=_code_end;
 					}
 				} while(flag);
 			}
 
-			// addshadow workaround with triplanar (we can't use WorldNormalVector() together with addshadow pass generated by Unity...)
-			{
-				string WorkaroundStateUnfixed="float3 worldNormalFlat=WorldNormalVector";
-				string WorkaroundStateFixed="float3 worldNormalFlat=float3(0,0,1);//WorldNormalVector";
-				if ( ((!AddPass_flag && _target.RTP_TRIPLANAR_FIRST) || (AddPass_flag && _target.RTP_TRIPLANAR_ADD)) && _target.RTP_TESSELLATION && _target.RTP_TESSELLATION_SAMPLE_TEXTURE && _target.RTP_ADDSHADOW) {
-					_code=_code.Replace(WorkaroundStateUnfixed, WorkaroundStateFixed);
-				} else {
-					_code=_code.Replace(WorkaroundStateFixed, WorkaroundStateUnfixed);
-				}
-			}
-			
 			// snow
 			ChangeShaderDef(ref _code, "RTP_SNOW", AddPass_flag ? _target.RTP_SNOW_ADD : _target.RTP_SNOW_FIRST);
 			
@@ -1877,7 +1976,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					if ((AddPass_flag ? _target.RTP_SNOW_ADD : _target.RTP_SNOW_FIRST) && (AddPass_flag ? _target.RTP_SNW_CHOOSEN_LAYER_COLOR_ADD : _target.RTP_SNW_CHOOSEN_LAYER_COLOR_FIRST)) {
 						_code+="#define RTP_SNW_CHOOSEN_LAYER_COLOR_"+(AddPass_flag ? _target.RTP_SNW_CHOOSEN_LAYER_COLOR_NUM_ADD : _target.RTP_SNW_CHOOSEN_LAYER_COLOR_NUM_FIRST);
@@ -1892,7 +1991,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if ( (_target.RTP_SNOW_FIRST && _target.RTP_SNW_CHOOSEN_LAYER_COLOR_FIRST) || (_target.RTP_SNOW_ADD && _target.RTP_SNW_CHOOSEN_LAYER_COLOR_ADD) ) {
 							_code+="#define RTP_SNW_CHOOSEN_LAYER_COLOR";
@@ -1913,7 +2012,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					if ((AddPass_flag ? _target.RTP_SNOW_ADD : _target.RTP_SNOW_FIRST) && (AddPass_flag ? _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_ADD : _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_FIRST)) {
 						_code+="#define RTP_SNW_CHOOSEN_LAYER_NORM_"+(AddPass_flag ? _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_NUM_ADD : _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_NUM_FIRST);
@@ -1928,7 +2027,7 @@ public class RTP_LODmanagerEditor : Editor {
 						flag=true; sidx=idx+5; // search next
 						// snow layer for objects (geom blend)					
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if ( (_target.RTP_SNOW_FIRST && _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_FIRST) || (_target.RTP_SNOW_ADD && _target.RTP_SNW_CHOOSEN_LAYER_NORMAL_ADD) ) {
 							_code+="#define RTP_SNW_CHOOSEN_LAYER_NORM";
@@ -2026,7 +2125,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (_target.RTP_FOGTYPE==RTPFogType.Exp2) {
 							_code+="#define RTP_FOG_EXP2";
@@ -2160,7 +2259,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					_code+=splat_count_tag;
 					_code+=_code_end;
@@ -2176,8 +2275,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_TESSELLATION) {
 							if (_code_mid.IndexOf(" tessellate:tessEdge")<0) {
 								_code_mid=_code_mid+" tessellate:tessEdge";
@@ -2207,8 +2306,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_NOFORWARDADD) {
 							if (_code_mid.IndexOf(" noforwardadd")<0) {
 								_code_mid=_code_mid+" noforwardadd";
@@ -2232,8 +2331,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 								if (_target.RTP_FULLFORWARDSHADOWS) {
 							if (_code_mid.IndexOf(" fullforwardshadows")<0) {
 								_code_mid=_code_mid+" fullforwardshadows";
@@ -2257,8 +2356,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_NOLIGHTMAP) {
 							if (_code_mid.IndexOf(" nolightmap")<0) {
 								_code_mid=_code_mid+" nolightmap";
@@ -2282,8 +2381,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_NODIRLIGHTMAP) {
 							if (_code_mid.IndexOf(" nodirlightmap")<0) {
 								_code_mid=_code_mid+" nodirlightmap";
@@ -2307,8 +2406,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_NODYNLIGHTMAP) {
 							if (_code_mid.IndexOf(" nodynlightmap")<0) {
 								_code_mid=_code_mid+" nodynlightmap";
@@ -2332,8 +2431,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.RTP_NOAMBIENT) {
 							if (_code_mid.IndexOf(" noambient")<0) {
 								_code_mid=_code_mid+" noambient";
@@ -2358,8 +2457,8 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						sidx=idx+5; flag=true;
 						string _code_beg=_code.Substring(0,idx);
-						string _code_mid=_code.Substring(idx, _code.IndexOf((char)10, idx+1) - idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_mid=_code.Substring(idx, _code.IndexOfNewLine(idx+1) - idx);
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						if (_target.numLayers==8 && addPassPresent) {
 							if (_code_mid.IndexOf(" exclude_path:deferred")<0) {
 										_code_mid=_code_mid+" exclude_path:deferred";
@@ -2391,7 +2490,7 @@ public class RTP_LODmanagerEditor : Editor {
 					occurence++;
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 
 					string add_code="RTP_SIMPLE_SHADING";
@@ -2420,7 +2519,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					if (!AddPass_flag || geom_flag) {
 						if (_target.MAX_LOD_FIRST_PLUS4==RTPLodLevel.SIMPLE) _code+="#define RTP_47SHADING_SIMPLE";
@@ -2449,7 +2548,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						// in non material mode we always hide props to be able using shader global values (that are overwritten by material props)
 						if (!_target.FIX_REFRESHING_ISSUE || !useMaterials) {
@@ -2469,7 +2568,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						// in non material mode we always hide props to be able using shader global values (that are overwritten by material props)
 						if (!_target.FIX_REFRESHING_ISSUE|| !useMaterials) {
@@ -2493,7 +2592,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (!geom_flag) {
 							if (_target.RTP_4LAYERS_MODE) {
@@ -2523,7 +2622,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (!_target.ADDPASS_IN_BLENDBASE) {
 							_code+="/* AddBlend";
@@ -2543,7 +2642,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (!_target.ADDPASS_IN_BLENDBASE) {
 							_code+="*/ // AddBlend";
@@ -2564,7 +2663,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					if (!geom_flag) {
 						bool cond=_target.RTP_4LAYERS_MODE;
@@ -2594,7 +2693,7 @@ public class RTP_LODmanagerEditor : Editor {
 				if (idx>0) {
 					flag=true; sidx=idx+5; // search next
 					string _code_beg=_code.Substring(0,idx);
-					string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+					string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 					_code=_code_beg;
 					if (!geom_flag) {				
 						bool cond=_target.RTP_4LAYERS_MODE;
@@ -2626,7 +2725,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (!addPassPresent) {
 							_code+="/* AddFar";
@@ -2645,7 +2744,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (!addPassPresent) {
 							_code+="*/ // AddFar";
@@ -2664,7 +2763,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (addPassPresentForClassic) {
 							_code+="///* AddPass";
@@ -2683,7 +2782,7 @@ public class RTP_LODmanagerEditor : Editor {
 					if (idx>0) {
 						flag=true; sidx=idx+5; // search next
 						string _code_beg=_code.Substring(0,idx);
-						string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+						string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 						_code=_code_beg;
 						if (addPassPresentForClassic) {
 							_code+="//*/ // AddPass";
@@ -2732,7 +2831,7 @@ public class RTP_LODmanagerEditor : Editor {
 			if (idx>0) {
 				flag=true; sidx=idx+5; // search next
 				string _code_beg=_code.Substring(0,idx);
-				string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+				string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 				_code=_code_beg;
 				if (feature) {
 					_code+="#define "+define_name;
@@ -2758,7 +2857,7 @@ public class RTP_LODmanagerEditor : Editor {
 			if (idx>0) {
 				flag=true; sidx=idx+5; // search next
 				string _code_beg=_code.Substring(0,idx);
-				string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+				string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 				_code=_code_beg;
 				_code+="#define UV_BLEND_ROUTE_LAYER_"+num_src+" UV_BLEND_SRC_"+num_tgt;
 				_code+=_code_end;
@@ -2780,10 +2879,10 @@ public class RTP_LODmanagerEditor : Editor {
 			if (idx>0) {
 				flag=true; sidx=idx+5; // search next
 				string _code_beg=_code.Substring(0,idx);
-				string _code_end=_code.Substring(_code.IndexOf((char)10, idx+1));
+				string _code_end=_code.Substring(_code.IndexOfNewLine(idx+1));
 				_code=_code_beg;
 				_code+="#define UV_BLENDMIX_ROUTE_LAYER_"+num_src+" UV_BLENDMIX_SRC_"+num_tgt;
-				_code+=_code_end;
+				_code+=_code_end; 
 			}
 		} while(flag);
 	}	
@@ -2882,8 +2981,12 @@ public class RTP_LODmanagerEditor : Editor {
 			_target.PLATFORM_D3D9=(_code.IndexOf(" d3d9")>0);
 			_target.PLATFORM_OPENGL=(_code.IndexOf(" opengl")>0);
 			_target.PLATFORM_GLES=(_code.IndexOf(" gles")>0);
-			_target.PLATFORM_FLASH=(_code.IndexOf(" flash")>0);
+			_target.PLATFORM_GLES3=(_code.IndexOf(" gles3")>0);
+			_target.PLATFORM_METAL=(_code.IndexOf(" metal")>0);
+			_target.PLATFORM_XBOX360=(_code.IndexOf(" xbox360")>0);
+			_target.PLATFORM_PS3=(_code.IndexOf(" ps3")>0);
 			_target.PLATFORM_D3D11=(_code.IndexOf(" d3d11")>0);
+			_target.PLATFORM_XBOXONE = _target.PLATFORM_PS4 = _target.PLATFORM_D3D11;
 			if (addpass_flag) {		
 				if (CheckDefine(_code, "//#define RTP_USE_COLOR_ATLAS")) _target.RTP_USE_COLOR_ATLAS_ADD=false;
 				else if (CheckDefine(_code, "#define RTP_USE_COLOR_ATLAS")) _target.RTP_USE_COLOR_ATLAS_ADD=true;

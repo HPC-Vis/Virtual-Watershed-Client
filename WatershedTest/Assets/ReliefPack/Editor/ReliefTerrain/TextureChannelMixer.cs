@@ -23,7 +23,7 @@ public class TextureChannelMixer : EditorWindow
 	[MenuItem("Window/Relief Tools/4 to 1 texture channels mixer (for Terrains)")]
 	public static void ShowWindow() {
 		TextureChannelMixer window=EditorWindow.GetWindow(typeof(TextureChannelMixer)) as TextureChannelMixer;
- 		window.title="Texture mixer";
+		window.titleContent.text="Texture mixer";
 		window.minSize=new Vector2(360,490);
 		window.maxSize=new Vector2(370,492);
 	}

@@ -16,7 +16,7 @@ public class RGBM2RGB : EditorWindow
 	[MenuItem("Window/Relief Tools/RGBM 2 RGB")]
 	public static void ShowWindow() {
 		RGBM2RGB window=EditorWindow.GetWindow(typeof(RGBM2RGB)) as RGBM2RGB;
-		window.title="RGBM 2 RGB converter";
+		window.titleContent.text="RGBM 2 RGB converter";
 		window.minSize=new Vector2(360,250);
 		window.maxSize=new Vector2(370,250);
 		if ((Selection.activeObject is Texture2D) && source_tex==null) {

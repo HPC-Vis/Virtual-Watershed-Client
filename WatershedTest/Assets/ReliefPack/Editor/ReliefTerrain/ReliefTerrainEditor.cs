@@ -348,7 +348,7 @@ public class ReliefTerrainEditor : Editor {
 
 		bool RTP_SUPER_SIMPLE = _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_SUPER_SIMPLE;
 		bool RTP_SS_GRAYSCALE_DETAIL_COLORS_FIRST = _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_SUPER_SIMPLE  && _RTP_LODmanagerScript.RTP_SS_GRAYSCALE_DETAIL_COLORS_FIRST;
-		bool RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD = _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_SUPER_SIMPLE  && _RTP_LODmanagerScript.RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD;
+		bool RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD = _target.numLayers>4 && _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_SUPER_SIMPLE  && _RTP_LODmanagerScript.RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD;
 		bool RTP_USE_PERLIN_FIRST = _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_USE_PERLIN_FIRST;
 		bool RTP_USE_PERLIN_ADD = _RTP_LODmanagerScript && _RTP_LODmanagerScript.RTP_USE_PERLIN_ADD;
 		
@@ -745,7 +745,7 @@ public class ReliefTerrainEditor : Editor {
 									orig_path=AssetDatabase.GetAssetPath(_target.splats[n]);
 									orig_path=orig_path.Substring(0,orig_path.LastIndexOf("/")+1);
 								} else {
-									orig_path=AssetDatabase.GetAssetPath(_target.Substances[n])+"/";
+									orig_path=System.IO.Directory.GetParent(AssetDatabase.GetAssetPath(_target.Substances[n]))+"/";
 								}
 								
 								//
@@ -2163,7 +2163,10 @@ public class ReliefTerrainEditor : Editor {
 						EditorGUI.BeginDisabledGroup( !atlasA_needed );
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Layers 0-3", GUILayout.Width(100));
-						checkChange(ref _target.splat_atlases[0], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[0], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)));
+						Texture2D oRef=_target.splat_atlases[0];
+						if (checkChange(ref _target.splat_atlases[0], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[0], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						if (SaveTexture(ref _target.splat_atlases[0], ref _target.save_path_atlasA, "atlas_texture_layers_0_to_3.png", 100, TextureImporterFormat.AutomaticCompressed, true)) {
 							string path=AssetDatabase.GetAssetPath(_target.splat_atlases[0]);
 							TextureImporter textureImporter = AssetImporter.GetAtPath(path) as TextureImporter;
@@ -2179,7 +2182,10 @@ public class ReliefTerrainEditor : Editor {
 						EditorGUI.BeginDisabledGroup( !atlasB_needed );
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Layers 4-7", GUILayout.Width(100));
-						checkChange(ref _target.splat_atlases[1], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[1], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)));
+						Texture2D oRef=_target.splat_atlases[1];
+						if (checkChange(ref _target.splat_atlases[1], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[1], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						if (SaveTexture(ref _target.splat_atlases[1], ref _target.save_path_atlasB, "atlas_texture_layers_4_to_7.png", 100, TextureImporterFormat.AutomaticCompressed, true)) {
 							_target.splat_atlases[1].wrapMode=TextureWrapMode.Clamp;
 							_target.splat_atlases[1].filterMode=FilterMode.Trilinear;
@@ -2194,7 +2200,10 @@ public class ReliefTerrainEditor : Editor {
 						EditorGUI.BeginDisabledGroup( !atlasC_needed );
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Layers 9-11", GUILayout.Width(100));
-						checkChange(ref _target.splat_atlases[2], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[2], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)));
+						Texture2D oRef=_target.splat_atlases[2];
+						if (checkChange(ref _target.splat_atlases[2], (Texture2D)EditorGUILayout.ObjectField( _target.splat_atlases[2], typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						if (SaveTexture(ref _target.splat_atlases[2], ref _target.save_path_atlasC, "atlas_texture_layers_8_to_11.png", 100, TextureImporterFormat.AutomaticCompressed, true)) {
 							_target.splat_atlases[2].wrapMode=TextureWrapMode.Clamp;
 							_target.splat_atlases[2].filterMode=FilterMode.Trilinear;
@@ -2224,7 +2233,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>0) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Heights 0-3", GUILayout.Width(80));
-						checkChange(ref _target.HeightMap, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.HeightMap;
+						if (checkChange(ref _target.HeightMap, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.HeightMap, ref _target.save_path_HeightMap, "heightmap_layers_0_to_3.png", 80, TextureImporterFormat.AutomaticCompressed, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2232,7 +2244,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>4) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Heights 4-7", GUILayout.Width(80));
-						checkChange(ref _target.HeightMap2, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap2, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.HeightMap2;
+						if (checkChange(ref _target.HeightMap2, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap2, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.HeightMap2, ref _target.save_path_HeightMap2, "heightmap_layers_4_to_7.png", 80, TextureImporterFormat.AutomaticCompressed, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2240,7 +2255,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>8) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Heights 8-12", GUILayout.Width(80));
-						checkChange(ref _target.HeightMap3, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap3, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.HeightMap3;
+						if (checkChange(ref _target.HeightMap3, (Texture2D)EditorGUILayout.ObjectField( _target.HeightMap3, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.HeightMap3, ref _target.save_path_HeightMap3, "heightmap_layers_8_to_11.png", 80, TextureImporterFormat.AutomaticCompressed, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2266,7 +2284,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>0) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Bumps 0+1", GUILayout.Width(80));
-						checkChange(ref _target.Bump01, (Texture2D)EditorGUILayout.ObjectField( _target.Bump01, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.Bump01;
+						if (checkChange(ref _target.Bump01, (Texture2D)EditorGUILayout.ObjectField( _target.Bump01, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.Bump01, ref _target.save_path_Bump01, "bumpmap_layers01.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2274,7 +2295,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>2) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Bumps 2+3", GUILayout.Width(80));
-						checkChange(ref _target.Bump23, (Texture2D)EditorGUILayout.ObjectField( _target.Bump23, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.Bump23;
+						if (checkChange(ref _target.Bump23, (Texture2D)EditorGUILayout.ObjectField( _target.Bump23, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.Bump23, ref _target.save_path_Bump23, "bumpmap_layers23.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2282,7 +2306,10 @@ public class ReliefTerrainEditor : Editor {
 					if (_target.numLayers>4) {
 						EditorGUILayout.BeginVertical();
 						EditorGUILayout.LabelField("Bumps 4+5", GUILayout.Width(80));
-						checkChange(ref _target.Bump45, (Texture2D)EditorGUILayout.ObjectField( _target.Bump45, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+						Texture2D oRef=_target.Bump45;
+						if (checkChange(ref _target.Bump45, (Texture2D)EditorGUILayout.ObjectField( _target.Bump45, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+							DestroyUnusedCombinedTexture(oRef);
+						}
 						SaveTexture(ref _target.Bump45, ref _target.save_path_Bump45, "bumpmap_layers45.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 						EditorGUILayout.EndVertical();
 					}
@@ -2295,7 +2322,10 @@ public class ReliefTerrainEditor : Editor {
 						if (_target.numLayers>6) {							
 							EditorGUILayout.BeginVertical();
 							EditorGUILayout.LabelField("Bumps 6+7", GUILayout.Width(80));
-							checkChange(ref _target.Bump67, (Texture2D)EditorGUILayout.ObjectField( _target.Bump67, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+							Texture2D oRef=_target.Bump67;
+							if (checkChange(ref _target.Bump67, (Texture2D)EditorGUILayout.ObjectField( _target.Bump67, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+								DestroyUnusedCombinedTexture(oRef);
+							}
 							SaveTexture(ref _target.Bump67, ref _target.save_path_Bump67, "bumpmap_layers67.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 							EditorGUILayout.EndVertical();
 						}
@@ -2303,7 +2333,10 @@ public class ReliefTerrainEditor : Editor {
 						if (_target.numLayers>8) {
 							EditorGUILayout.BeginVertical();
 							EditorGUILayout.LabelField("Bumps 8+9", GUILayout.Width(80));
-							checkChange(ref _target.Bump89, (Texture2D)EditorGUILayout.ObjectField( _target.Bump89, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+							Texture2D oRef=_target.Bump89;
+							if (checkChange(ref _target.Bump89, (Texture2D)EditorGUILayout.ObjectField( _target.Bump89, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+								DestroyUnusedCombinedTexture(oRef);
+							}
 							SaveTexture(ref _target.Bump89, ref _target.save_path_Bump89, "bumpmap_layers89.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 							EditorGUILayout.EndVertical();
 						}
@@ -2311,7 +2344,10 @@ public class ReliefTerrainEditor : Editor {
 						if (_target.numLayers>10) {
 							EditorGUILayout.BeginVertical();
 							EditorGUILayout.LabelField("Bumps 10+11", GUILayout.Width(80));
-							checkChange(ref _target.BumpAB, (Texture2D)EditorGUILayout.ObjectField( _target.BumpAB, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)));
+							Texture2D oRef=_target.BumpAB;
+							if (checkChange(ref _target.BumpAB, (Texture2D)EditorGUILayout.ObjectField( _target.BumpAB, typeof(Texture2D), false, GUILayout.Height(80), GUILayout.Width(80)))) {
+								DestroyUnusedCombinedTexture(oRef);
+							}
 							SaveTexture(ref _target.BumpAB, ref _target.save_path_BumpAB, "bumpmap_layersAB.png", 80, TextureImporterFormat.ARGB32, true,true,true);
 							EditorGUILayout.EndVertical();
 						}
@@ -2338,7 +2374,11 @@ public class ReliefTerrainEditor : Editor {
 					//EditorGUILayout.BeginVertical();
 					EditorGUILayout.LabelField("Texture", GUILayout.Width(80));
 					bool sync_tex=false;
-					if (checkChange(ref _targetRT.BumpGlobalCombined, (Texture2D)EditorGUILayout.ObjectField( _targetRT.BumpGlobalCombined, typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)))) sync_tex=true;
+					Texture2D oRef2=_targetRT.BumpGlobalCombined;
+					if (checkChange(ref _targetRT.BumpGlobalCombined, (Texture2D)EditorGUILayout.ObjectField( _targetRT.BumpGlobalCombined, typeof(Texture2D), false, GUILayout.Height(100), GUILayout.Width(100)))) {
+						DestroyUnusedCombinedTexture(oRef2);
+						sync_tex=true;
+					}
 					GUI.color=new Color(0.5f,1,0.5f,1);
 					if (SaveTexture(ref _targetRT.BumpGlobalCombined, ref _targetRT.save_path_BumpGlobalCombined, "perlin_normal_aux.png", 100, TextureImporterFormat.AutomaticCompressed, true,true,true)) sync_tex=true;
 					GUI.color=skin_color;
@@ -2771,7 +2811,10 @@ public class ReliefTerrainEditor : Editor {
 						}
 						GUI.color=c;
 					}
-					
+					if (GUILayout.Button(new GUIContent("Purge scene", ""), GUILayout.Height (40))) {
+						EditorUtility.UnloadUnusedAssetsImmediate();
+					}
+
 					GUILayout.Space(15);							
 					if (GUILayout.Button("Reset main settings numeric params to default")) {
 						#if UNITY_3_5 || UNITY_4_0 || UNITY_4_1 || UNITY_4_2
@@ -3567,13 +3610,19 @@ public class ReliefTerrainEditor : Editor {
 						EditorGUILayout.BeginHorizontal();
 							EditorGUI.BeginDisabledGroup(!RTP_SS_GRAYSCALE_DETAIL_COLORS_FIRST);
 							EditorGUILayout.BeginVertical();
-								checkChange(ref _target.SSColorCombinedA, (Texture2D)EditorGUILayout.ObjectField(_target.SSColorCombinedA, typeof(Texture2D), false, GUILayout.MinHeight(100), GUILayout.MinWidth(100), GUILayout.MaxWidth(100)));
+								Texture2D oRef=_target.SSColorCombinedA;
+								if (checkChange(ref _target.SSColorCombinedA, (Texture2D)EditorGUILayout.ObjectField(_target.SSColorCombinedA, typeof(Texture2D), false, GUILayout.MinHeight(100), GUILayout.MinWidth(100), GUILayout.MaxWidth(100)))) {
+									DestroyUnusedCombinedTexture(oRef);
+								}
 								SaveTexture(ref _target.SSColorCombinedA, ref _target.save_path_SSColorCombinedA, "terrain_detail_grayscale_combined.png", 100, TextureImporterFormat.DXT5, true);
 							EditorGUILayout.EndVertical();
 							EditorGUI.EndDisabledGroup();
 							EditorGUI.BeginDisabledGroup(!RTP_SS_GRAYSCALE_DETAIL_COLORS_ADD);
 							EditorGUILayout.BeginVertical();
-								checkChange(ref _target.SSColorCombinedB, (Texture2D)EditorGUILayout.ObjectField(_target.SSColorCombinedB, typeof(Texture2D), false, GUILayout.MinHeight(100), GUILayout.MinWidth(100), GUILayout.MaxWidth(100)));
+								oRef=_target.SSColorCombinedB;
+								if (checkChange(ref _target.SSColorCombinedB, (Texture2D)EditorGUILayout.ObjectField(_target.SSColorCombinedB, typeof(Texture2D), false, GUILayout.MinHeight(100), GUILayout.MinWidth(100), GUILayout.MaxWidth(100)))) {
+									DestroyUnusedCombinedTexture(oRef);
+								}
 								SaveTexture(ref _target.SSColorCombinedB, ref _target.save_path_SSColorCombinedB, "terrain_detail_grayscale_combined.png", 100, TextureImporterFormat.DXT5, true);
 							EditorGUILayout.EndVertical();
 							EditorGUI.EndDisabledGroup();
@@ -4136,8 +4185,10 @@ public class ReliefTerrainEditor : Editor {
 						ntex=tmp_tex;
 						EditorGUILayout.BeginHorizontal();
 						EditorGUILayout.BeginVertical();
+						Texture2D oRef=ntex;
 						if (checkChange(ref ntex, (Texture2D)EditorGUILayout.ObjectField(_targetRT.TERRAIN_WetMask, typeof(Texture2D), false, GUILayout.MinHeight(140), GUILayout.MinWidth(140), GUILayout.MaxWidth(140)))) {
 							_targetRT.RefreshTextures();
+							DestroyUnusedCombinedTexture(oRef);
 						}
 						if (SaveTexture(ref _targetRT.TERRAIN_WetMask, ref _targetRT.save_path_WetMask, "terrain_wetmask.png", 140, TextureImporterFormat.Alpha8, true)) {
 							_targetRT.globalWaterModifed_flag=false;
@@ -5455,8 +5506,15 @@ public class ReliefTerrainEditor : Editor {
 					textureImporter.mipmapEnabled = mipmapEnabled; 
 					textureImporter.linearTexture=sRGB_flag;					
 					AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
+					if (tex!=null) {
+						if (AssetDatabase.GetAssetPath(tex)=="") {
+							DestroyImmediate (tex);
+							tex=null;
+						}
+					}
 					tex = (Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
 					saved=true;
+					EditorUtility.UnloadUnusedAssetsImmediate();
 				}		
 			}
 			EditorGUI.EndDisabledGroup();
@@ -5687,6 +5745,16 @@ public class ReliefTerrainEditor : Editor {
 			}
 			
 		}		
+
+		private void DestroyUnusedCombinedTexture(Texture2D oRef) {
+			if (oRef!=null) {
+				if (AssetDatabase.GetAssetPath(oRef)=="") {
+					DestroyImmediate(oRef);
+					oRef=null;
+				}
+			}
+		}
+
 		
 		#endif
 	}

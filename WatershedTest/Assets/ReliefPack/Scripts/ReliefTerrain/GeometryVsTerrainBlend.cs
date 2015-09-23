@@ -65,6 +65,8 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 
 	[HideInInspector] public bool isBatched=false;
 	
+	private Renderer _renderer;
+	
 	void Start() {
 		SetupValues();
 	}
@@ -78,16 +80,23 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 //		}
 //	}
 //#endif
+
+	private void GetRenderer() {
+		if (!_renderer) {
+			_renderer=GetComponent<Renderer>();
+		}
+	}
 	
 	public void SetupValues() {
 #if UNITY_EDITOR		
-		if (!GetComponent<Renderer>().sharedMaterial) {
-			GetComponent<Renderer>().sharedMaterial=new Material(Shader.Find("Relief Pack/GeometryBlend_PM"));
-			GetComponent<Renderer>().sharedMaterial.name=gameObject.name+"_GeometryBlend_PM";
+		GetRenderer();
+		if (!_renderer.sharedMaterial) {
+			_renderer.sharedMaterial=new Material(Shader.Find("Relief Pack/GeometryBlend_PM"));
+			_renderer.sharedMaterial.name=gameObject.name+"_GeometryBlend_PM";
 		}
-		if (GetComponent<Renderer>().sharedMaterial.name=="Default-Diffuse") {
-			GetComponent<Renderer>().sharedMaterial=new Material(Shader.Find("Relief Pack/GeometryBlend_PM"));
-			GetComponent<Renderer>().sharedMaterial.name=gameObject.name+"_GeometryBlend_PM";
+		if (_renderer.sharedMaterial.name=="Default-Diffuse") {
+			_renderer.sharedMaterial=new Material(Shader.Find("Relief Pack/GeometryBlend_PM"));
+			_renderer.sharedMaterial.name=gameObject.name+"_GeometryBlend_PM";
 		}
 #endif		
 		if (blendedObject && ((blendedObject.GetComponent(typeof(MeshRenderer))!=null) || (blendedObject.GetComponent(typeof(Terrain))!=null))) {
