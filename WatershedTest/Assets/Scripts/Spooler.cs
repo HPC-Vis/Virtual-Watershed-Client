@@ -205,7 +205,6 @@ public class Spooler : MonoBehaviour
                     testImage.material.SetFloat("_FloatMax", max);
                     colorPicker.SetMax(max);
                     trendGraph.SetMax((int)max);
-                    Debug.LogError("Resetting Max: " + max);
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
                 {
@@ -215,7 +214,6 @@ public class Spooler : MonoBehaviour
                     testImage.material.SetFloat("_FloatMin", min);
                     colorPicker.SetMin(min);
                     trendGraph.SetMin((int)min);
-                    Debug.LogError("Resetting Min: " + min);
                 }
             }
 
@@ -297,7 +295,6 @@ public class Spooler : MonoBehaviour
 
             rec.end = DateTime.MaxValue;
         }
-        Debug.Log("Count " + rec.Data.Count);
 
         for (int j = 0; j < rec.Data.Count; j++ )
         {

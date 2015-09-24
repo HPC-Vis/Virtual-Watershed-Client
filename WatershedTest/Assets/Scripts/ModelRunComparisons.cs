@@ -168,8 +168,6 @@ public class ModelRunComparisons : MonoBehaviour {
     /// </summary>
     public void OnDestroy()
     {
-        OneTotal = 0;
-        TwoTotal = 0;
         if(ProcessThread != null)
         {
             try
@@ -182,6 +180,8 @@ public class ModelRunComparisons : MonoBehaviour {
                 Debug.LogError("Thread Abort Problem: " + a.Message);
             }
         }
+        OneTotal = 0;
+        TwoTotal = 0;
     } 
 
 
@@ -308,8 +308,8 @@ public class ModelRunComparisons : MonoBehaviour {
         // This is to help pinpoint too many records added to the Reel
         if (dataset.Count >= total)
         {
-            Debug.LogError("Why is there more records being added to the Reel?");
-            Debug.LogError("Here is out frame starttime: " + insert.starttime + " and the count is: " + dataset.Count);
+            // Debug.LogError("Why is there more records being added to the Reel?");
+            // Debug.LogError("Here is out frame starttime: " + insert.starttime + " and the count is: " + dataset.Count);
         }
 
         //if index >= 0 there is a duplicate 

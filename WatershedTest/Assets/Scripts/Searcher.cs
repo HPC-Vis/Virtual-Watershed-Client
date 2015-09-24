@@ -222,8 +222,9 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
     public void OnDestroy()
     {
-        nm.Halt();
         Debug.LogError("ON DESTROY");
+        nm.Halt();
+       
     }
 
 	/// <summary>
