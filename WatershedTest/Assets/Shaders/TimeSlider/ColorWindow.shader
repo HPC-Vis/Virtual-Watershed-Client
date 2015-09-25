@@ -86,54 +86,54 @@ int modulo(int num, int den)
 float Color2Float(float4 c)
 {
 	float f;
-	uint fi;
+	int fi;
 					
 	fi = c.r * 256;
-	uint i32 = (fi & 128) / 128;
-	uint i31 = (fi & 64) / 64;
-	uint i30 = (fi & 32) / 32;
-	uint i29 = (fi & 16) / 16;
-	uint i28 = (fi & 8) / 8;
-	uint i27 = (fi & 4) / 4;
-	uint i26 = (fi & 2) / 2;
-	uint i25 = (fi & 1) / 1;
+	int i32 = (fi & 128) / 128;
+	int i31 = (fi & 64) / 64;
+	int i30 = (fi & 32) / 32;
+	int i29 = (fi & 16) / 16;
+	int i28 = (fi & 8) / 8;
+	int i27 = (fi & 4) / 4;
+	int i26 = (fi & 2) / 2;
+	int i25 = (fi & 1) / 1;
 					
 	fi = c.g * 256;
-	uint i24 = (fi & 128) / 128;
-	uint i23 = (fi & 64) / 64;
-	uint i22 = (fi & 32) / 32;
-	uint i21 = (fi & 16) / 16;
-	uint i20 = (fi & 8) / 8;
-	uint i19 = (fi & 4) / 4;
-	uint i18 = (fi & 2) / 2;
-	uint i17 = (fi & 1) / 1;
+	int i24 = (fi & 128) / 128;
+	int i23 = (fi & 64) / 64;
+	int i22 = (fi & 32) / 32;
+	int i21 = (fi & 16) / 16;
+	int i20 = (fi & 8) / 8;
+	int i19 = (fi & 4) / 4;
+	int i18 = (fi & 2) / 2;
+	int i17 = (fi & 1) / 1;
 					
 	fi = c.b * 256;
-	uint i16 = (fi & 128) / 128;
-	uint i15 = (fi & 64) / 64;
-	uint i14 = (fi & 32) / 32;
-	uint i13 = (fi & 16) / 16;
-	uint i12 = (fi & 8) / 8;
-	uint i11 = (fi & 4) / 4;
-	uint i10 = (fi & 2) / 2;
-	uint i09 = (fi & 1) / 1;
+	int i16 = (fi & 128) / 128;
+	int i15 = (fi & 64) / 64;
+	int i14 = (fi & 32) / 32;
+	int i13 = (fi & 16) / 16;
+	int i12 = (fi & 8) / 8;
+	int i11 = (fi & 4) / 4;
+	int i10 = (fi & 2) / 2;
+	int i09 = (fi & 1) / 1;
 					
 	fi = c.a * 256;
-	uint i08 = (fi & 128) / 128;
-	uint i07 = (fi & 64) / 64;
-	uint i06 = (fi & 32) / 32;
-	uint i05 = (fi & 16) / 16;
-	uint i04 = (fi & 8) / 8;
-	uint i03 = (fi & 4) / 4;
-	uint i02 = (fi & 2) / 2;
-	uint i01 = (fi & 1) / 1;
+	int i08 = (fi & 128) / 128;
+	int i07 = (fi & 64) / 64;
+	int i06 = (fi & 32) / 32;
+	int i05 = (fi & 16) / 16;
+	int i04 = (fi & 8) / 8;
+	int i03 = (fi & 4) / 4;
+	int i02 = (fi & 2) / 2;
+	int i01 = (fi & 1) / 1;
 					
 	float _sign = 1.0;
 	if (i32==1)
 	{
 		_sign = -1.0;
 	}
-	float _bias = 127.0;
+
 	float _exponent = i24 + i25*2.0 + i26*4.0 + i27*8.0 + i28*16.0 + i29*32.0 + i30*64.0 + i31*128.0;
 	float _mantisa = 1.0 + (i23/2.0) + (i22/4.0) + (i21/8.0) + (i20/16.0) + (i19/32.0) + (i18/64.0) + (i17/128.0) + (i16/256.0) + (i15/512.0) + (i14/1024.0) + (i13/2048.0) + (i12/4096.0) + (i11/8192.0) + (i10/16384.0) + (i09/32768.0) + (i08/65536.0) + (i07/131072.0) + (i06/262144.0) + (i05/524288.0) + (i04/1048576.0) + (i03/2097152.0) + (i02/4194304.0) + (i01/8388608.0);
 					
@@ -142,7 +142,7 @@ float Color2Float(float4 c)
 		f = 0.0;
 	} else
 	{
-		_exponent = _exponent - _bias;
+		_exponent = _exponent - 127.0;
 		f = _sign * _mantisa * pow(2.0, _exponent);
 	} 
 			
@@ -152,82 +152,82 @@ float Color2Float(float4 c)
 float Color2FloatMod(float4 c)
 {
 	float f;
-	uint fi;
+	int fi;
 
 	fi = c.a * 256;
-	uint i01 = modulo(fi, 2);
+	int i01 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i02 = modulo(fi, 2);
+	int i02 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i03 = modulo(fi, 2);
+	int i03 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i04 = modulo(fi, 2);
+	int i04 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i05 = modulo(fi, 2);
+	int i05 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i06 = modulo(fi, 2);
+	int i06 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i07 = modulo(fi, 2);
+	int i07 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i08 = modulo(fi, 2);
+	int i08 = modulo(fi, 2);
 
 	fi = c.b * 256;
-	uint i09 = modulo(fi, 2);
+	int i09 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i10 = modulo(fi, 2);
+	int i10 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i11 = modulo(fi, 2);
+	int i11 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i12 = modulo(fi, 2);
+	int i12 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i13 = modulo(fi, 2);
+	int i13 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i14 = modulo(fi, 2);
+	int i14 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i15 = modulo(fi, 2);
+	int i15 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i16 = modulo(fi, 2);
+	int i16 = modulo(fi, 2);
 
 	fi = c.g * 256;
-	uint i17 = modulo(fi, 2);
+	int i17 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i18 = modulo(fi, 2);
+	int i18 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i19 = modulo(fi, 2);
+	int i19 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i20 = modulo(fi, 2);
+	int i20 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i21 = modulo(fi, 2);
+	int i21 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i22 = modulo(fi, 2);
+	int i22 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i23 = modulo(fi, 2);
+	int i23 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i24 = modulo(fi, 2);
+	int i24 = modulo(fi, 2);
 
 	fi = c.r * 256;
-	uint i25 = modulo(fi, 2);
+	int i25 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i26 = modulo(fi, 2);
+	int i26 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i27 = modulo(fi, 2);
+	int i27 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i28 = modulo(fi, 2);
+	int i28 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i29 = modulo(fi, 2);
+	int i29 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i30 = modulo(fi, 2);
+	int i30 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i31 = modulo(fi, 2);
+	int i31 = modulo(fi, 2);
 	fi = fi / 2;
-	uint i32 = modulo(fi, 2);
+	int i32 = modulo(fi, 2);
 
 	float _sign = 1.0;
 	if (i32 == 1)
 	{
 		_sign = -1.0;
 	}
-	float _bias = 127.0;
+
 	float _exponent = i24 + i25*2.0 + i26*4.0 + i27*8.0 + i28*16.0 + i29*32.0 + i30*64.0 + i31*128.0;
 	float _mantisa = 1.0 + (i23 / 2.0) + (i22 / 4.0) + (i21 / 8.0) + (i20 / 16.0) + (i19 / 32.0) + (i18 / 64.0) + (i17 / 128.0) + (i16 / 256.0) + (i15 / 512.0) + (i14 / 1024.0) + (i13 / 2048.0) + (i12 / 4096.0) + (i11 / 8192.0) + (i10 / 16384.0) + (i09 / 32768.0) + (i08 / 65536.0) + (i07 / 131072.0) + (i06 / 262144.0) + (i05 / 524288.0) + (i04 / 1048576.0) + (i03 / 2097152.0) + (i02 / 4194304.0) + (i01 / 8388608.0);
 
@@ -237,7 +237,7 @@ float Color2FloatMod(float4 c)
 	}
 	else
 	{
-		_exponent = _exponent - _bias;
+		_exponent = _exponent - 127.0;
 		f = _sign * _mantisa * pow(2.0, _exponent);
 	}
 

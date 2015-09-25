@@ -216,17 +216,19 @@ public class ModelRunComparisons : MonoBehaviour {
             dequeueOne = DataRecordOne.Count;
             for (int i = 0; i < dequeueOne; i++)
             {
-                Debug.LogError("Beginng one removal.");
+                //Debug.LogError("Beginng one removal.");
                 try
                 {
                     DataRecord record = DataRecordOne.Dequeue();
                     BuildFrame(record, modelRuns[0].ModelRunUUID, DataSetOne, OneTotal);
-                    Debug.LogError("DataSetOneAdded.");
+                    //Debug.LogError("DataSetOneAdded.");
                 }
                 catch(System.Exception a)
                 {
                     OneTotal = OneTotal - 1;
                     Debug.LogError("There was an error adding a dataset to DataSetOne");
+                    Debug.LogError("Running the thread. " + DataSetTwo.Count + ", " + DataSetOne.Count);
+                    Debug.LogError("Running loop to this number: " + OneTotal + ", " + TwoTotal);
                 }
             }
 
@@ -234,23 +236,35 @@ public class ModelRunComparisons : MonoBehaviour {
             dequeueTwo = DataRecordTwo.Count;
             for (int i = 0; i < dequeueTwo; i++)
             {
-                Debug.LogError("Beginng two removal.");
+                //Debug.LogError("Beginng two removal.");
                 try
                 {
                     DataRecord record = DataRecordTwo.Dequeue();
                     BuildFrame(record, modelRuns[1].ModelRunUUID, DataSetTwo, TwoTotal);
-                    Debug.LogError("DataSetTwoAdded.");
+                    //Debug.LogError("DataSetTwoAdded.");
                 }
                 catch(System.Exception a)
                 {
                     TwoTotal = TwoTotal - 1;
                     Debug.LogError("There was an error adding a dataset to DataSetTwo");
+                    Debug.LogError("Running the thread. " + DataSetTwo.Count + ", " + DataSetOne.Count);
+                    Debug.LogError("Running loop to this number: " + OneTotal + ", " + TwoTotal);
                 }
             }
         }
 
-        Logger.WriteLine("We have now gotten all the data.");
-        BuildDeltaSet();
+        Debug.LogError("We have now gotten all the data.");
+        try
+        {
+            BuildDeltaSet();
+        }
+        catch (System.Exception a)
+        {
+            Debug.LogError("There was a problem building the Delta Sets.");
+            Debug.LogError(a.Message);
+            Debug.LogError(a.StackTrace);
+        }
+
     }
 
     /// <summary>
@@ -265,7 +279,7 @@ public class ModelRunComparisons : MonoBehaviour {
         // Caching 
         if (!FileBasedCache.Exists(record.id))
         {
-            //Debug.LogError("INSERTING INTO CACHE " + rec.id);
+            // Debug.LogError("INSERTING INTO CACHE " + record.id);
             FileBasedCache.Insert<DataRecord>(record.id, record);
         }
 
@@ -331,6 +345,7 @@ public class ModelRunComparisons : MonoBehaviour {
         // return if there is no data
         if (Math.Min(OneTotal, TwoTotal) == 0)
         {
+            Debug.LogError("The values were 0");
             return;
         }
 

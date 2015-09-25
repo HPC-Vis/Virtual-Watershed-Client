@@ -11,9 +11,9 @@ public class ChangeScene : MonoBehaviour {
     }
 
 
-    public void LoadScene(string scene)
-    {
-        GUI.SetActive(true);
-        //StartCoroutine(loadScene(scene));
-    }
+    //public void LoadScene(string scene)
+    //{
+    //    GUI.SetActive(true);
+    //    //StartCoroutine(loadScene(scene));
+    //}
 }
