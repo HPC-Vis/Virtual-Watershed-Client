@@ -38,15 +38,13 @@ public class ScenePopulator : MonoBehaviour {
     }
 
     public void LoadLehmanCreek() {
-        Debug.LogError("No Load for Lehman Creek found.");
-        /*
+        Debug.LogError("Load Lehman Creek");
         GlobalConfig.Location = "Lehman Creek";
         GlobalConfig.State = "Nevada";
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(731653.41f, 4323359.64f, 741254.90f - 731653.41f, 4323359.64f - 4318741.06f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(2);
-        */
+        Application.LoadLevel(4);
     }
 
     public void LoadJemezCaynon() {

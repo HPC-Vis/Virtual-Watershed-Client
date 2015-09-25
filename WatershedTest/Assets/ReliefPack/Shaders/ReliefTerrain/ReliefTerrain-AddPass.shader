@@ -37,7 +37,7 @@ CGPROGRAM
 	   
 	#pragma target 3.0
 	#pragma glsl
-	#pragma only_renderers d3d9 d3d11 xboxone ps4
+	#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 	#pragma multi_compile RTP_PM_SHADING RTP_SIMPLE_SHADING
 	//#define RTP_PM_SHADING
 	//#define RTP_SIMPLE_SHADING
@@ -82,7 +82,7 @@ CGPROGRAM
 	#pragma surface surf Lambert vertex:vert decal:add
 	#include "UnityCG.cginc"
 	
-	#pragma only_renderers d3d9 d3d11 xboxone ps4
+	#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 	
 /////////////////////////////////////////////////////////////////////
 // RTP specific

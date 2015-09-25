@@ -120,7 +120,7 @@
 
 // global normal map 
 #ifndef TESSELLATION
-#define RTP_NORMALGLOBAL
+//#define RTP_NORMALGLOBAL
 #endif
 
 // global trees/shadow map - used with Terrain Composer / World Composer by Nathaniel Doldersum
