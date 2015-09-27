@@ -271,6 +271,11 @@ public class Spooler : MonoBehaviour
          */
 		
 		// This is used to check that the record is correct
+        if(rec == null)
+        {
+            Debug.LogError("The RUN was invalid");
+            return;
+        }
 		if (rec.modelRunUUID != selectedModelRun) 
 		{
 			// This is not the model run we want because something else was selected.

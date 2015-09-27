@@ -158,15 +158,15 @@ public class MinMaxShader
         // Temp patch to the OS dependen Compute Shader
 		string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		string pathDownload = pathUser + "/slicer_path.txt";
-#elif UNITY_EDITOR_WIN
-		string pathDownload = pathUser + "\\slicer_path.txt";
+		string pathDownload = pathUser + "/slicer_path.csv";
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+		string pathDownload = pathUser + "\\slicer_path.csv";
 #endif
 
             float[] csv_file = new float[sampleRate];
             csvDump.GetData(csv_file);
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(pathDownload))
             {
 
                 Vector2 from = TerrainUtils.TerrainToNormalizedPoint(new Vector3(first.x, 0, first.y+0.1f), GlobalConfig.TerrainBoundingBox);

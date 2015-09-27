@@ -10,8 +10,12 @@ public class ScenePopulator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
-	}
+        // Check to quit the application
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
 
     public void LoadDryCreek() {
         Debug.LogError("Load Dry Creek");
@@ -20,7 +24,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(0);
+        Application.LoadLevel(1);
     }
 
     public void LoadReynoldsCreek() {
@@ -30,7 +34,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(512660.020f, 4778377.741f, 523839.382f - 512660.020f, 4778377.741f - 4767198.380f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(1);
+        Application.LoadLevel(2);
     }
 
     public void LoadLehmanCreek() {
@@ -52,12 +56,12 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(324093.21f, 3987729.00f, 381077.39f - 324093.21f, 3987729.00f - 3935123.25f);
         GlobalConfig.Zone = 13;
-        Application.LoadLevel(2);
+        Application.LoadLevel(3);
     }
 
     public void LoadSelect()
     {
         Debug.LogError("Load Select Page");
-        Application.LoadLevel(3);
+        Application.LoadLevel(0);
     }
 }

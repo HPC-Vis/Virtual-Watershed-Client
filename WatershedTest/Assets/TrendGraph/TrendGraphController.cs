@@ -584,8 +584,8 @@ namespace VTL.TrendGraph
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/graph.txt";
-#elif UNITY_EDITOR_WIN
+            string pathDownload = pathUser + "/slicer_data.csv";
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             string pathDownload = pathUser + "\\slicer_data.csv";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
@@ -614,8 +614,8 @@ namespace VTL.TrendGraph
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/graph.txt";
-#elif UNITY_EDITOR_WIN
+            string pathDownload = pathUser + "/graph.csv";
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
             string pathDownload = pathUser + "\\graph.csv";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
@@ -642,9 +642,9 @@ namespace VTL.TrendGraph
             string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 #if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/graph.txt";
-#elif UNITY_EDITOR_WIN
-            string pathDownload = pathUser + "\\frameToFile.txt";
+            string pathDownload = pathUser + "/frameToFile.csv";
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+            string pathDownload = pathUser + "\\frameToFile.csv";
 #endif
             Debug.LogError("The File Path: " + pathDownload);
 

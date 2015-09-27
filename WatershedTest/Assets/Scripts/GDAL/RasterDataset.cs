@@ -179,7 +179,7 @@ public class RasterDataset
                 Console.WriteLine(e.Message);
                 return data;
             }
-            Debug.LogError(width + " " + height);
+            // Debug.LogError(width + " " + height);
             
             for (int k = 0; k < width; k++)
             {

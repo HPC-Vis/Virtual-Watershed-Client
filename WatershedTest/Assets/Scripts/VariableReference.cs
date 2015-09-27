@@ -21,7 +21,7 @@ static class VariableReference {
     static private string[] reference_lines;
 
     // Dictionary of values
-    static private Dictionary<string, string> reference;
+    static private Dictionary<string, string> reference = new Dictionary<string, string>();
 
 	/// <summary>
 	/// Initializes a new instance of the <see cref="VariableReference"/> class.

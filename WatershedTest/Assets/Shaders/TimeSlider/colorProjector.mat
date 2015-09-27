@@ -138,23 +138,23 @@ Material:
       data:
         first:
           name: _FloatMax
-        second: 255
+        second: .300000012
       data:
         first:
           name: _x1
-        second: 51
+        second: .0599999987
       data:
         first:
           name: _x2
-        second: 102
+        second: .119999997
       data:
         first:
           name: _x3
-        second: 153
+        second: .180000007
       data:
         first:
           name: _x4
-        second: 204
+        second: .239999995
       data:
         first:
           name: _x5
@@ -191,7 +191,7 @@ Material:
       data:
         first:
           name: _SegmentData002
-        second: {r: 0, g: 1, b: 0, a: 1}
+        second: {r: .00989999063, g: .233274981, b: .99000001, a: 1}
       data:
         first:
           name: _SegmentData003
