@@ -190,10 +190,6 @@ Material:
         second: .113876954
       data:
         first:
-          name: _Intensity
-        second: 1
-      data:
-        first:
           name: TERRAIN_RippleScale
         second: 4
       data:
@@ -252,6 +248,10 @@ Material:
         first:
           name: _VerticalTextureGlobalBumpInfluence
         second: 0
+      data:
+        first:
+          name: _Intensity
+        second: 1
       data:
         first:
           name: TERRAIN_LayerReflection
