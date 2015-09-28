@@ -16,7 +16,7 @@ public static class ModelRunManager
 {
     // Fields
     static private VWClient Client;
-    static private Searcher searcher;
+    static bool locationUpdate = false;
 
     // Global loading counter
     static public int Total = 0;
@@ -103,6 +103,12 @@ public static class ModelRunManager
 
     static public int ModelRunCount()
     {
+        if (locationUpdate)
+        {
+            locationUpdate = false;
+            return modelRuns.Count + 1;
+        }
+
         return modelRuns.Count;
     }
 
@@ -133,10 +139,9 @@ public static class ModelRunManager
         }
     } */
 
-    static public void SearchForModelRuns(SystemParameters param = null, Searcher s = null)
+    static public void SearchForModelRuns(SystemParameters param = null)
     {
         // Create param if one does not exist
-        searcher = s;
         if (param == null) { param = new SystemParameters(); }
         Logger.enable = true;
         Logger.WriteLine("Searching for Model Runs");
@@ -147,8 +152,6 @@ public static class ModelRunManager
             Logger.WriteLine("The Size of Model Runs: " + modelRuns.Count);
         }
         client.RequestModelRuns(OnGetModelRuns, param);
-        searcher.Refresh();
-
     }
 
     // NOTE: Populating the data inside a datarecord. Something like building the texture.
@@ -336,10 +339,7 @@ public static class ModelRunManager
         {
         	if(parameters == null)
         	{
-        	Logger.WriteLine("ADDING" +i.Value.Name);
-        		// Add all
         		Runs.Add(i.Value);
-        		//continue;
         	}
             // Find matching model runs
             // This can be optimized by storing additional information in the ModelRun class.
@@ -356,6 +356,7 @@ public static class ModelRunManager
                 }
             }
         }
+
         return Runs;
     }
 
@@ -386,6 +387,8 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
+
+        locationUpdate = true;
 
         // Cache the records
         /*
