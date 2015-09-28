@@ -40,7 +40,8 @@ namespace VTL.ListView
         public List<DataRecord> Variable;
         public List<GameObject> rowElements = new List<GameObject>();
         object[] content;
-
+        RectTransform RowTransform = null;
+        bool once = false;
         public void Initialize(object[] fieldData, Guid guid)
         {
             content = fieldData;
@@ -54,6 +55,9 @@ namespace VTL.ListView
             image = gameObject.GetComponent<Image>();
 
             this.guid = guid;
+
+            // Step 1 of this patch grab the row transform ...
+            RowTransform = gameObject.GetComponent<RectTransform>();
 
             // Build the row elements (cells)
             rowElements = new List<GameObject>();
@@ -79,9 +83,21 @@ namespace VTL.ListView
                     rowElementText.alignment = TextAnchor.MiddleLeft;
                 else
                     rowElementText.alignment = TextAnchor.MiddleRight;
+                
             }
             //image.color = listViewManager.unselectedColor;
             image.color = ColorType; 
+        }
+
+        public void Update()
+        {
+            // Step 2 set the row transform to a scale --- I hate patches like these, but this should be good for a fix.
+            // not on every update
+            if (!once && RowTransform != null)
+            {
+                RowTransform.localScale = Vector3.one;
+                once = true;
+            }
         }
 
         private static string StringifyObject(object obj, string formatString, DataType dataType)

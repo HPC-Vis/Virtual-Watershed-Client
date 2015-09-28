@@ -15,17 +15,17 @@ EditorBuildSettings:
     path: Assets/Scenes/Reynolds Creek.unity
   - enabled: 0
     path: Assets/Scenes/glslscene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SceneSelect.unity
   - enabled: 1
     path: Assets/Scenes/Dry Creek.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ReynoldsCreek.unity
   - enabled: 0
     path: Assets/Scenes/General Terrain Scene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Jemez.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Lehman_4.unity
   - enabled: 0
     path: Assets/Scenes/SceneSelect.unity
