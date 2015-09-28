@@ -165,6 +165,7 @@ public class LoadFromFile : MonoBehaviour {
                             TimeSpan tempSpan = new TimeSpan();
                             DataRecord rec = new DataRecord(str);
                             rec.variableName = str.Contains("NETCDF")?str.Replace(FileName+":",""):str;
+                            rec.name = rec.variableName;
                             //rec.Data = rd.GetData();
                             rec.modelname = mr.Name;
                             rec.modelRunUUID = mr.ModelRunUUID;

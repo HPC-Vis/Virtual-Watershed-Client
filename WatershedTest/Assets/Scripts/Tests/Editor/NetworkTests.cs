@@ -22,6 +22,12 @@ using System.IO;
          NetworkManager nm = new NetworkManager();
          df = new DataFactory(nm);
      }
+    [Test]
+    public void DateTimeTest()
+    {
+        DateTime a = DateTime.MinValue + new TimeSpan(365,0,0,0,0);
+        UnityEngine.Debug.LogError(a);
+    }
 
      [Test]
      public void PostBarGraphTest()

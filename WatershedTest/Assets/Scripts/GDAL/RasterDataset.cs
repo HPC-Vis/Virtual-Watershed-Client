@@ -93,7 +93,7 @@ public class RasterDataset
     public void GetTimes(out DateTime begin, out TimeSpan timespan)
     {
         begin = DateTime.MinValue;
-        timespan = TimeSpan.MaxValue;
+        timespan = new TimeSpan(365, 0, 0, 0, 0);
         // Get Metadata
         var md = dataset.GetMetadata("");
         List<string> strings = new List<string>();
@@ -101,7 +101,7 @@ public class RasterDataset
         string matched = "";
         foreach (var i in md)
         {
-            //Debug.LogError(i);
+            Debug.LogError(i);
             var match = Regex.Match(i, "time#.*=");
             if (match.Success && i.ToLower().Contains("since"))
             {
@@ -111,8 +111,12 @@ public class RasterDataset
             }
         }
 
-        //Debug.LogError("SUBSTRING: " + substring);
-
+        Debug.LogError("SUBSTRING: " + substring + " " + matched);
+        if(matched == "")
+        {
+            Debug.LogError("FAILING");
+            return;
+        }
 
         string time = matched.Replace(substring, "").Replace(" since ", " ");
         if (time == "")
@@ -234,17 +238,39 @@ public class RasterDataset
     /// <returns></returns>
     public string GetBoundingBox()
     {
+        // Get geotransform information
         double[] geoTransform = new double[6];
         dataset.GetGeoTransform(geoTransform);
         double minx = geoTransform[0];
         double maxy = geoTransform[3];
-        double maxx = minx + geoTransform[1]*dataset.RasterXSize;
-        double miny = maxy + geoTransform[5]*dataset.RasterYSize;
-        //Debug.LogError(dataset.GetProjection());
-        Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
+        double maxx = minx + geoTransform[1] * dataset.RasterXSize;
+        double miny = maxy + geoTransform[5] * dataset.RasterYSize;
+
         OSGeo.OSR.SpatialReference sr1 = new OSGeo.OSR.SpatialReference(dataset.GetProjection());
-        sr1.ImportFromEPSG(26911);
         OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");
+
+        // First Case unspecified projection
+        if (dataset.GetProjection() == "")
+        {
+            // Determine original projection
+            if(minx < 180 && minx > - 180 && miny < 180 && miny > -180)
+            {
+                // Lets find the original zone
+                return minx + " " + miny + " " + maxx + " " + maxy;
+            }
+            else
+            {
+                // THERE IS A ISSUE WITH THE DATA __ TELL USER.
+                // for now we assume this as a patch.
+                sr1.ImportFromEPSG(26911);
+            }
+        }
+
+        Debug.LogError(dataset.GetProjection());
+        Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
+        
+        
+       
         sr2.ImportFromEPSG(4326);
 
         OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation(sr1, sr2);
@@ -257,6 +283,8 @@ public class RasterDataset
         return upperleft[0] + " " + lowerright[1] + " " + lowerright[0] + " " + upperleft[1];
     }
 
+
+    // We are hard coding for WGS 84 or commonly known as EPSG:4326
     public string ReturnProjection()
     {
         OSGeo.OSR.SpatialReference sr2 = new OSGeo.OSR.SpatialReference("");

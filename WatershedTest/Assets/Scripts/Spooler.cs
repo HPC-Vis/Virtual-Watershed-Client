@@ -187,6 +187,7 @@ public class Spooler : MonoBehaviour
                     }
                      
                     Debug.LogError(BoundingBox);
+                    Debug.LogError(BoundingBox.width);
 
                     // Set the bounding box to the trendgraph
                     trendGraph.SetBoundingBox(BoundingBox);

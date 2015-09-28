@@ -140,6 +140,10 @@ public class VW_JSON_Parser : Parser
                     if (services["wfs"] != null)
                         current.services["wfs"] = services["wfs"];
                 }
+                if (encoded["results"][records]["downloads"][0]["nc"] != null)
+                {
+                    current.services["nc"] = encoded["results"][records]["downloads"][0]["nc"];
+                }
 
                 // Populate datarecord here.
                 current.projection = "epsg:" + projection.ToString();
