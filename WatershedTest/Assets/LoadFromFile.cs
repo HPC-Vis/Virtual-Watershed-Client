@@ -152,7 +152,29 @@ public class LoadFromFile : MonoBehaviour {
 
                     // Get any subdatasets associate to this file
                     List<string> subSets = modelData.GetSubDatasets();
-
+                    if(subSets.Count == 0)
+                    {
+                        DateTime tempTime = new DateTime();
+                        TimeSpan tempSpan = new TimeSpan();
+                        DataRecord rec = new DataRecord(contents[0][0].ToString());
+                        rec.variableName = contents[0][0].ToString();//str.Contains("NETCDF") ? str.Replace(FileName + ":", "") : str;
+                        rec.name = rec.variableName;
+                        //rec.Data = rd.GetData();
+                        rec.modelname = mr.Name;
+                        rec.modelRunUUID = mr.ModelRunUUID;
+                        rec.id = Guid.NewGuid().ToString();
+                        rec.location = GlobalConfig.Location;
+                        rec.Temporal = modelData.IsTemporal();//(rec.Data.Count > 1);
+                        rec.Type = "DEM";
+                        modelData.GetTimes(out tempTime, out tempSpan);
+                        rec.start = tempTime;
+                        rec.end = tempTime + tempSpan;
+                        rec.bbox = modelData.GetBoundingBox();
+                        rec.projection = modelData.ReturnProjection();
+                        rec.numbands = modelData.GetRasterCount();
+                        rec.services["file"] = contents[0][0].ToString();
+                        ModelRunManager.InsertDataRecord(rec, new List<DataRecord>());
+                    }
                     // Populate datarecords for each subdatasets
                     foreach (String str in subSets)
                     {
