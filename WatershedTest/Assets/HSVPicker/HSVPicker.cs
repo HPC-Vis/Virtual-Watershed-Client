@@ -54,6 +54,7 @@ public class HSVPicker : MonoBehaviour {
         });
         sliderG.onValueChanged.AddListener(newValue =>
         {
+            Debug.LogError("g: " + newValue);
             currentColor.g = newValue;
             if (dontAssignUpdate == false)
             {
@@ -80,19 +81,14 @@ public class HSVPicker : MonoBehaviour {
         hsvImage.texture = HSVUtil.GenerateColorTexture((int)hsvImage.rectTransform.rect.width, (int)hsvImage.rectTransform.rect.height, ((Texture2D)hsvSlider.texture).GetPixelBilinear(0, 1f));
         MoveCursor(cursorX, cursorY);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        //if (Input.GetKeyDown(KeyCode.R))
-        //{
-        //    var color = new Color(45f / 255, 200f / 255, 255f / 255);
-        //    Debug.Log(color);
-        //    AssignColor(color);
 
-       // }
-
-        
-	}
+    // Update is called once per frame
+    void Update()
+    {
+        // var color = new Color(45f / 255, 200f / 255, 255f / 255);
+        // Debug.Log(color);
+        // AssignColor(color);
+    }
 
     public void AssignClearColor()
     {
