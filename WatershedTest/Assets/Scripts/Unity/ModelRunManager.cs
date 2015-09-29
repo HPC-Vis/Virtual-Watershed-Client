@@ -287,7 +287,6 @@ public static class ModelRunManager
 
                                     var TS = i.end.Value - i.start.Value;
                                     double totalhours = TS.TotalHours / da.Count;
-                                    Debug.LogError(totalhours);
                                     recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
                                     recClone.end = recClone.start + new TimeSpan((int)Math.Round(totalhours), 0, 0);
                                     SettingTheRecord(new List<DataRecord> { recClone });

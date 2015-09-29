@@ -30,13 +30,21 @@ public class raySlicer : MonoBehaviour
     public Texture2D slicerMap; //= new Texture2D(100, 100, TextureFormat.ARGB32, false);
     public SpriteRenderer spriteRend;
     public Sprite sliceSprite;
-    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
-    public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
+    //public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
+    
 	public ComputeShader CS;
 	public MinMaxShader MinMax;
 
     public Texture2D clear2d;
     public Texture3D clear3d;
+
+#if UNITY_EDITOR
+    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
+#else
+    public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/Images";
+#endif
+
+    public static string ImageLoc = DirectoryLocation + "/" + GlobalConfig.Location + "terrainMap.png";
 
     // Used for knowing when min and max is to be calculated
     bool calc_min_max = true;

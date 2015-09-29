@@ -160,6 +160,15 @@ namespace VTL.TrendGraph
         /// </summary>
         void Update()
         {
+
+            if(Input.GetKeyDown(KeyCode.X))
+            {
+                Debug.LogError("Current Res: " + Screen.currentResolution);
+                Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);
+                Debug.LogError("Origin: " + origin);
+                Debug.LogError("Width, Height: " + w + ", " + h);
+            }
+
             // Check if there is active markers
             if(marker1.activeSelf && marker2.activeSelf)
             {
@@ -271,8 +280,9 @@ namespace VTL.TrendGraph
                 DataIndex = 0;
             }
             float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
-            Drawing.DrawLine(new Vector2(origin.x + w * normTime, origin.y), new Vector2(origin.x + w * normTime, origin.y + h * 1), Color.yellow, lineWidth, true);
+            Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
 
+            
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
             switch (parentCanvas.renderMode)

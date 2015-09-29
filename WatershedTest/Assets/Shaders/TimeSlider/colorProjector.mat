@@ -93,20 +93,16 @@ Material:
         second: .5
       data:
         first:
-          name: _Blend
-        second: 1
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
-          name: _Glossiness
-        second: .5
-      data:
-        first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -125,10 +121,6 @@ Material:
         second: 0
       data:
         first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
           name: _Mode
         second: 0
       data:
@@ -137,28 +129,36 @@ Material:
         second: 0
       data:
         first:
-          name: _FloatMin
+          name: _EmissionScaleUI
         second: 0
       data:
         first:
+          name: _FloatMin
+        second: 141.176468
+      data:
+        first:
           name: _FloatMax
-        second: 104.540497
+        second: 500
+      data:
+        first:
+          name: _Blend
+        second: 1
       data:
         first:
           name: _x1
-        second: 20.9081001
+        second: 212.941193
       data:
         first:
           name: _x2
-        second: 41.8162003
+        second: 284.705902
       data:
         first:
           name: _x3
-        second: 62.7243004
+        second: 356.470612
       data:
         first:
           name: _x4
-        second: 83.6324005
+        second: 428.235291
       data:
         first:
           name: _x5
