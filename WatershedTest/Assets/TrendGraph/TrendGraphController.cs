@@ -271,7 +271,7 @@ namespace VTL.TrendGraph
                 DataIndex = 0;
             }
             float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
-            Drawing.DrawLine(new Vector2(origin.x + w * normTime, origin.y), new Vector2(origin.x + w * normTime, origin.y + h * 1), Color.blue, lineWidth, true);
+            Drawing.DrawLine(new Vector2(origin.x + w * normTime, origin.y), new Vector2(origin.x + w * normTime, origin.y + h * 1), Color.yellow, lineWidth, true);
 
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
@@ -311,7 +311,7 @@ namespace VTL.TrendGraph
             yMin = 0;
             unitsLabel = "";
             DataIndex = 0;
-            OnValidate();
+            // OnValidate();
         }
 
         /// <summary>
