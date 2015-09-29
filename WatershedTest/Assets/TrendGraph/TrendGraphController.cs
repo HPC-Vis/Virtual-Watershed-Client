@@ -311,7 +311,7 @@ namespace VTL.TrendGraph
             yMin = 0;
             unitsLabel = "";
             DataIndex = 0;
-            OnValidate();
+            // OnValidate();
         }
 
         /// <summary>
