@@ -16,7 +16,7 @@ public static class ModelRunManager
 {
     // Fields
     static private VWClient Client;
-    static private Searcher searcher;
+    static bool locationUpdate = false;
 
     // Global loading counter
     static public int Total = 0;
@@ -103,6 +103,12 @@ public static class ModelRunManager
 
     static public int ModelRunCount()
     {
+        if (locationUpdate)
+        {
+            locationUpdate = false;
+            return modelRuns.Count + 1;
+        }
+
         return modelRuns.Count;
     }
 
@@ -133,10 +139,9 @@ public static class ModelRunManager
         }
     } */
 
-    static public void SearchForModelRuns(SystemParameters param = null, Searcher s = null)
+    static public void SearchForModelRuns(SystemParameters param = null)
     {
         // Create param if one does not exist
-        searcher = s;
         if (param == null) { param = new SystemParameters(); }
         Logger.enable = true;
         Logger.WriteLine("Searching for Model Runs");
@@ -147,8 +152,6 @@ public static class ModelRunManager
             Logger.WriteLine("The Size of Model Runs: " + modelRuns.Count);
         }
         client.RequestModelRuns(OnGetModelRuns, param);
-        searcher.Refresh();
-
     }
 
     // NOTE: Populating the data inside a datarecord. Something like building the texture.
@@ -291,6 +294,10 @@ public static class ModelRunManager
                                 }
                             }
 						}
+                        else if(i.services.ContainsKey("nc"))
+                        {
+                            Debug.LogError("NCNESSS!!!!");
+                        }
                     }
                 }).Start();
                 // End Thread
@@ -332,10 +339,7 @@ public static class ModelRunManager
         {
         	if(parameters == null)
         	{
-        	Logger.WriteLine("ADDING" +i.Value.Name);
-        		// Add all
         		Runs.Add(i.Value);
-        		//continue;
         	}
             // Find matching model runs
             // This can be optimized by storing additional information in the ModelRun class.
@@ -352,6 +356,7 @@ public static class ModelRunManager
                 }
             }
         }
+
         return Runs;
     }
 
@@ -382,6 +387,8 @@ public static class ModelRunManager
 				Logger.WriteLine("FAILURE MODEL RUN DOES NOT EXIST");
             }
         }
+
+        locationUpdate = true;
 
         // Cache the records
         /*
@@ -621,8 +628,100 @@ public static class ModelRunManager
         //InsertDataRecord(record);
 
 		Logger.WriteLine ("FILTER");
+        foreach(var i in record.services.Keys)
+        {
+            Debug.LogError("SERVICES: " + i);
+        }
 
-        if (record.services.Keys.Count >= 2 && record.multiLayered != null)
+        if(record.services.ContainsKey("nc"))
+        {
+            // Add it to its perspective model run
+            record.band_id = 1;
+            Debug.LogError("NETCDF");
+            new Thread(() =>
+            {
+                System.Net.WebClient wc = new System.Net.WebClient();
+                var data = wc.DownloadData(record.services["nc"]);
+                var ls = record.services["nc"].Split(new char[] { '/' },StringSplitOptions.RemoveEmptyEntries);
+                string filename = "./"+ls[ls.Length - 1];
+                Debug.LogError(filename);
+                if (!System.IO.File.Exists(filename))
+                {
+                    var fdesc = System.IO.File.Create(filename);
+                    fdesc.Write(data, 0, data.Length);
+                    fdesc.Close();
+
+                    string FileName = RasterDataset.GetGdalPath(filename);
+                    RasterDataset modelData = new RasterDataset(FileName);
+                    if (modelData.Open())
+                    {
+                        // 
+                        //Debug.LogError("ITS ALIVE");
+
+
+
+                        // Get any subdatasets associate to this file
+                        List<string> subSets = modelData.GetSubDatasets();
+                        if (subSets.Count == 0)
+                        {
+                            DateTime tempTime = new DateTime();
+                            TimeSpan tempSpan = new TimeSpan();
+                            DataRecord rec = new DataRecord(filename.ToString());
+                            rec.variableName = filename;//str.Contains("NETCDF") ? str.Replace(FileName + ":", "") : str;
+                            rec.name = rec.variableName;
+                            //rec.Data = rd.GetData();
+                            rec.modelname = rec.modelname;
+                            rec.modelRunUUID = rec.modelRunUUID;
+                            rec.id = Guid.NewGuid().ToString();
+                            rec.location = GlobalConfig.Location;
+                            rec.Temporal = modelData.IsTemporal();//(rec.Data.Count > 1);
+                            rec.Type = "DEM";
+                            modelData.GetTimes(out tempTime, out tempSpan);
+                            rec.start = tempTime;
+                            rec.end = tempTime + tempSpan;
+                            rec.bbox = modelData.GetBoundingBox();
+                            rec.projection = modelData.ReturnProjection();
+                            rec.numbands = modelData.GetRasterCount();
+                            rec.services["file"] = FileName.ToString();
+                            ModelRunManager.InsertDataRecord(rec, new List<DataRecord>());
+                        }
+
+                        // Populate datarecords for each subdatasets
+                        foreach (String str in subSets)
+                        {
+                            Debug.LogError("PROCESSING THIS STR: " + str);
+                            RasterDataset rd = new RasterDataset(str);
+                            if (rd.Open())
+                            {
+
+                                DateTime tempTime = new DateTime();
+                                TimeSpan tempSpan = new TimeSpan();
+                                DataRecord rec = new DataRecord(str);
+                                rec.variableName = str.Contains("NETCDF") ? str.Replace(FileName + ":", "") : str;
+                                rec.name = rec.variableName;
+                                //rec.Data = rd.GetData();
+                                rec.modelname = record.modelname;
+                                rec.modelRunUUID = record.modelRunUUID;
+                                rec.id = Guid.NewGuid().ToString();
+                                rec.location = GlobalConfig.Location;
+                                rec.Temporal = rd.IsTemporal();//(rec.Data.Count > 1);
+                                rec.Type = "DEM";
+                                rd.GetTimes(out tempTime, out tempSpan);
+                                rec.start = tempTime;
+                                rec.end = tempTime + tempSpan;
+                                rec.bbox = rd.GetBoundingBox();
+                                rec.projection = rd.ReturnProjection();
+                                rec.numbands = rd.GetRasterCount();
+                                rec.services["file"] = str;
+                                ModelRunManager.InsertDataRecord(rec, new List<DataRecord>());
+                            }
+
+                        }
+                    }
+                }
+            }).Start();
+        }
+        else if (record.services.Keys.Count >= 2 && record.multiLayered != null)
         {
             client.GetMetaData(PopulateStartTimes, new List<DataRecord> { record });
         }

@@ -40,7 +40,8 @@ namespace VTL.ListView
         public List<DataRecord> Variable;
         public List<GameObject> rowElements = new List<GameObject>();
         object[] content;
-
+        RectTransform RowTransform = null;
+        bool once = false;
         public void Initialize(object[] fieldData, Guid guid)
         {
             content = fieldData;
@@ -54,6 +55,10 @@ namespace VTL.ListView
             image = gameObject.GetComponent<Image>();
 
             this.guid = guid;
+         
+            // Step 1 of this patch grab the row transform ...
+            RowTransform = gameObject.GetComponent<RectTransform>();
+            RowTransform.localScale = Vector3.one;
 
             // Build the row elements (cells)
             rowElements = new List<GameObject>();
@@ -62,6 +67,7 @@ namespace VTL.ListView
                 // For each cell add a new RowElementPrefab and set the row as its parent
                 rowElements.Add(Instantiate(listViewManager.RowElementPrefab));
                 rowElements[i].transform.SetParent(transform);
+                rowElements[i].transform.localScale = Vector3.one;
 
                 // Set the text
                 Text rowElementText = rowElements[i].GetComponentInChildren<Text>();
@@ -79,6 +85,7 @@ namespace VTL.ListView
                     rowElementText.alignment = TextAnchor.MiddleLeft;
                 else
                     rowElementText.alignment = TextAnchor.MiddleRight;
+                
             }
             //image.color = listViewManager.unselectedColor;
             image.color = ColorType; 

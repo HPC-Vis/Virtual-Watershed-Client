@@ -187,6 +187,7 @@ public class Spooler : MonoBehaviour
                     }
                      
                     Debug.LogError(BoundingBox);
+                    Debug.LogError(BoundingBox.width);
 
                     // Set the bounding box to the trendgraph
                     trendGraph.SetBoundingBox(BoundingBox);
@@ -205,7 +206,6 @@ public class Spooler : MonoBehaviour
                     testImage.material.SetFloat("_FloatMax", max);
                     colorPicker.SetMax(max);
                     trendGraph.SetMax((int)max);
-                    Debug.LogError("Resetting Max: " + max);
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
                 {
@@ -215,7 +215,6 @@ public class Spooler : MonoBehaviour
                     testImage.material.SetFloat("_FloatMin", min);
                     colorPicker.SetMin(min);
                     trendGraph.SetMin((int)min);
-                    Debug.LogError("Resetting Min: " + min);
                 }
             }
 
@@ -273,6 +272,11 @@ public class Spooler : MonoBehaviour
          */
 		
 		// This is used to check that the record is correct
+        if(rec == null)
+        {
+            Debug.LogError("The RUN was invalid");
+            return;
+        }
 		if (rec.modelRunUUID != selectedModelRun) 
 		{
 			// This is not the model run we want because something else was selected.
@@ -297,7 +301,6 @@ public class Spooler : MonoBehaviour
 
             rec.end = DateTime.MaxValue;
         }
-        Debug.Log("Count " + rec.Data.Count);
 
         for (int j = 0; j < rec.Data.Count; j++ )
         {

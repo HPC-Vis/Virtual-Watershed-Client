@@ -49,8 +49,8 @@ public class SelectedDatabaseController : MonoBehaviour
         }
         catch (System.Exception e)
         {
-            Debug.LogError(e.Message);
-            Debug.LogError(e.StackTrace);
+            //Debug.LogError(e.Message);
+            //Debug.LogError(e.StackTrace);
         }
     }
 

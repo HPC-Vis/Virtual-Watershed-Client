@@ -46,7 +46,7 @@
 //#define VERTEX_COLOR_CONTROL
 
 // to compute far color basing only on global colormap
-#define SIMPLE_FAR
+//#define SIMPLE_FAR
 
 // uv blending
 #define RTP_UV_BLEND
@@ -126,7 +126,7 @@
 
 // global normal map 
 #ifndef TESSELLATION
-#define RTP_NORMALGLOBAL
+//#define RTP_NORMALGLOBAL
 #endif
 
 // global trees/shadow map - used with Terrain Composer / World Composer by Nathaniel Doldersum
@@ -173,7 +173,7 @@
 // if defined water won't handle flow nor refractions
 //#define SIMPLE_WATER
 
-#define RTP_CAUSTICS
+//#define RTP_CAUSTICS
 // when we use caustics and vertical texture - with below defined we will store vertical texture and caustics together (RGB - vertical texture, A - caustics) to save texture sampler
 //#define RTP_VERTALPHA_CAUSTICS
 
@@ -396,7 +396,7 @@
 #ifndef _4LAYERS
 	#ifdef RTP_TRIPLANAR
 		#ifndef RTP_USE_COLOR_ATLAS
-			//#define RTP_USE_COLOR_ATLAS
+			#define RTP_USE_COLOR_ATLAS
 		#endif
 	#endif
 #endif

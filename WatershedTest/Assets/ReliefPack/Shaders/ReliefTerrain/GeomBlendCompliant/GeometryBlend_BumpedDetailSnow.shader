@@ -41,7 +41,7 @@ CGPROGRAM
 #pragma surface surf CustomBlinnPhong vertex:vert fullforwardshadows decal:blend
 #pragma target 3.0
 #pragma glsl
-#pragma only_renderers d3d9 d3d11 xboxone ps4
+#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 #pragma multi_compile RTP_PM_SHADING RTP_SIMPLE_SHADING
 
 // remove it (comment if you don't use complemenatry lighting in your scene)
@@ -224,7 +224,7 @@ CGPROGRAM
 #pragma surface surf Lambert vertex:vert decal:blend
 #pragma target 3.0
 #pragma glsl
-#pragma only_renderers d3d9 d3d11 xboxone ps4
+#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 #pragma debug
 #include "UnityCG.cginc"
 

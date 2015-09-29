@@ -138,6 +138,7 @@ public class ColorPicker : MonoBehaviour {
 			//go.activeSelf()
 			go = GameObject.Instantiate(go);
 			go.transform.SetParent(gameObject.transform);
+            go.transform.localScale = Vector3.one;
 			var picker = found.GetComponent<HSVPicker>();
 			var setter = go.GetComponent<ColorSetter>();
 			setter.picker = picker;

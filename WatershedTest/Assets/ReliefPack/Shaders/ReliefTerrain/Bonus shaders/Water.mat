@@ -127,10 +127,6 @@ Material:
         second: .113876954
       data:
         first:
-          name: _Intensity
-        second: 1
-      data:
-        first:
           name: TERRAIN_RippleScale
         second: 1
       data:
@@ -157,6 +153,10 @@ Material:
         first:
           name: _TERRAIN_ExtrudeHeight
         second: .0496153831
+      data:
+        first:
+          name: _Intensity
+        second: 1
       data:
         first:
           name: TERRAIN_LayerReflection

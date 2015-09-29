@@ -458,8 +458,8 @@ SubShader {
 
 	#pragma target 3.0
 	#pragma glsl
-	#pragma only_renderers d3d9 d3d11 xboxone ps4
-	#pragma multi_compile RTP_POM_SHADING_HI RTP_POM_SHADING_MED RTP_POM_SHADING_LO RTP_PM_SHADING RTP_SIMPLE_SHADING
+	#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
+	#pragma multi_compile RTP_PM_SHADING RTP_SIMPLE_SHADING
 	//#define RTP_SIMPLE_SHADING
 
 	// for geom blend (early exit from sur function)
@@ -661,7 +661,7 @@ CGPROGRAM
 	#pragma surface surf Lambert vertex:vert 
 	#include "UnityCG.cginc"
 	
-	#pragma only_renderers d3d9 d3d11 xboxone ps4
+	#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 		
 /////////////////////////////////////////////////////////////////////
 // RTP specific
@@ -814,7 +814,7 @@ CGPROGRAM
 	#pragma surface surf Lambert vertex:vert decal:add
 	#include "UnityCG.cginc"
 	
-	#pragma only_renderers d3d9 d3d11 xboxone ps4
+	#pragma only_renderers d3d9 opengl gles gles3 xbox360 metal ps3 d3d11 xboxone ps4
 		
 /////////////////////////////////////////////////////////////////////
 // RTP specific

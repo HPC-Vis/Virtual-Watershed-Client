@@ -36,7 +36,7 @@ public class Searcher : MonoBehaviour {
 		vwc = new VWClient (new DataFactory (nm), nm);
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
-		ModelRunManager.SearchForModelRuns(null, this);
+		ModelRunManager.SearchForModelRuns(null);
         oldModelRunCount = ModelRunManager.ModelRunCount();
         Refresh();
 	}
@@ -66,9 +66,10 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
 	public void Refresh()
 	{
+        Debug.LogError("The Refresh Called");
 		if(!Directory.Exists(DirectoryLocation + "Cache"))
 		{
-		   Directory.CreateDirectory(DirectoryLocation + "Cache");
+		    Directory.CreateDirectory(DirectoryLocation + "Cache");
 		}
 
         SystemParameters parameters = null; //new SystemParameters();
@@ -151,6 +152,7 @@ public class Searcher : MonoBehaviour {
 	/// <param name="ModelRuns">The model runs to be added.</param>
     void ApplyToUI(List<ModelRun> ModelRuns)
     {
+        Debug.LogError("Apply to UI called");
         foreach (var mr in ModelRuns)
         {
             if (mr.ModelName == "Reference Data")
@@ -167,12 +169,14 @@ public class Searcher : MonoBehaviour {
                 }
                 mr.Description = mr.Description.Replace('"', ' ');
                 //Debug.LogError("Adding to list: " + mr.ModelName);
+
                 listViewManager.AddRow(new object[]{mr.ModelName,
-			    mr.Description,
-			    mr.Location,
-			    Variables,
-			    mr.Start == null ? "" : mr.Start.ToString(),
-			    mr.End == null ? "" : mr.End.ToString()}, mr);
+                mr.Description,
+                mr.Location,
+                Variables,
+                mr.Start == null ? "" : mr.Start.ToString(),
+                mr.End == null ? "" : mr.End.ToString()}, mr);
+
             }
         }
     }
@@ -222,8 +226,9 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
     public void OnDestroy()
     {
-        nm.Halt();
         Debug.LogError("ON DESTROY");
+        nm.Halt();
+       
     }
 
 	/// <summary>
