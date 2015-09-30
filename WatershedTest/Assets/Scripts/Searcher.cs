@@ -66,7 +66,6 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
 	public void Refresh()
 	{
-        Debug.LogError("The Refresh Called");
 		if(!Directory.Exists(DirectoryLocation + "Cache"))
 		{
 		    Directory.CreateDirectory(DirectoryLocation + "Cache");
@@ -152,7 +151,6 @@ public class Searcher : MonoBehaviour {
 	/// <param name="ModelRuns">The model runs to be added.</param>
     void ApplyToUI(List<ModelRun> ModelRuns)
     {
-        Debug.LogError("Apply to UI called");
         foreach (var mr in ModelRuns)
         {
             if (mr.ModelName == "Reference Data")

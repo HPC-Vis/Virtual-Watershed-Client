@@ -54,7 +54,6 @@ public class HSVPicker : MonoBehaviour {
         });
         sliderG.onValueChanged.AddListener(newValue =>
         {
-            Debug.LogError("g: " + newValue);
             currentColor.g = newValue;
             if (dontAssignUpdate == false)
             {

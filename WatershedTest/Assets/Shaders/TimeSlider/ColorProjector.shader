@@ -23,6 +23,8 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+	_MaxX("Max X",Float) = 1
+	_MaxY("Max Y",Float) = 1
 }
 
 Category {
@@ -34,7 +36,7 @@ Category {
 					
 CGPROGRAM
 // Upgrade NOTE: excluded shader from Xbox360, OpenGL ES 2.0 because it uses unsized arrays
-// #pragma target 4.0
+#pragma target 3.0
 #pragma exclude_renderers xbox360 gles
 //#pragma vertex vert_img
 #pragma vertex vert
@@ -59,6 +61,9 @@ uniform float4 _SegmentData003;
 uniform float4 _SegmentData004;
 uniform float4 _SegmentData005;
 
+
+uniform float _MaxX;
+uniform float _MaxY;
 
 
 float Normalize(float Y)
@@ -316,11 +321,16 @@ bool gridClamp(float x)
 
 float4 frag (vertexInput i) : SV_Target
 {
+	i.uv.x = i.uv.x / _MaxX;
+    i.uv.y = i.uv.y / _MaxY;
 	// return float4(1,1,1,0);
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 	float4 col2 = tex2Dproj(_ShadowTex2, UNITY_PROJ_COORD(i.uv));
 
-	
+	if (i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
+	{
+		return float4(0, 0, 0, 1);
+	}
 
 #if SHADER_API_D3D11
 	float Y =  Color2Float(col);
@@ -331,11 +341,6 @@ float4 frag (vertexInput i) : SV_Target
 
 #endif
 
-
-	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
-	{
-		return float4(0,0,0,1);
-	}
 
 	if(gridClamp(i.uv.x))
 	{
@@ -358,9 +363,9 @@ float4 frag (vertexInput i) : SV_Target
 	_Blend = 0.5;
 
 
-	if(Y <= 0.00)
+	if(Y <= 0.00 )
 	{
-	return float4(0,0,0,1);
+	  return float4(0,0,0,1);
 	}
 		
 	float4 colour, colour2;

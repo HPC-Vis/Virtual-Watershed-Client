@@ -97,44 +97,8 @@ Material:
         second: 1
       data:
         first:
-          name: _Parallax
-        second: .0199999996
-      data:
-        first:
-          name: _Glossiness
-        second: .5
-      data:
-        first:
-          name: _ZWrite
+          name: _NumLines
         second: 1
-      data:
-        first:
-          name: _BumpScale
-        second: 1
-      data:
-        first:
-          name: _OcclusionStrength
-        second: 1
-      data:
-        first:
-          name: _DetailNormalMapScale
-        second: 1
-      data:
-        first:
-          name: _UVSec
-        second: 0
-      data:
-        first:
-          name: _EmissionScaleUI
-        second: 0
-      data:
-        first:
-          name: _Mode
-        second: 0
-      data:
-        first:
-          name: _Metallic
-        second: 0
       data:
         first:
           name: _FloatMin
@@ -162,11 +126,55 @@ Material:
       data:
         first:
           name: _x5
+        second: 104.540497
+      data:
+        first:
+          name: _MaxX
         second: 1
       data:
         first:
-          name: _NumLines
+          name: _MaxY
+        second: .527073443
+      data:
+        first:
+          name: _Parallax
+        second: .0199999996
+      data:
+        first:
+          name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
+      data:
+        first:
+          name: _BumpScale
+        second: 1
+      data:
+        first:
+          name: _OcclusionStrength
+        second: 1
+      data:
+        first:
+          name: _DetailNormalMapScale
+        second: 1
+      data:
+        first:
+          name: _UVSec
+        second: 0
+      data:
+        first:
+          name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _EmissionScaleUI
+        second: 0
     m_Colors:
       data:
         first:
@@ -178,29 +186,29 @@ Material:
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
-          name: _EmissionColorUI
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
           name: _SegmentData000
-        second: {r: 1, g: 0, b: 0, a: 1}
+        second: {r: .593693852, g: .29237476, b: .314029574, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0, g: 0, b: 1, a: 1}
+        second: {r: .29237476, g: .512718618, b: .593693852, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 0, g: 1, b: 0, a: 1}
+        second: {r: .0415440351, g: .327216893, b: .0547941327, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 1, g: .921568632, b: .0156862754, a: 1}
+        second: {r: .784881413, g: .764824927, b: .168500513, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: .784881413, g: .454929411, b: .168500513, a: 1}
       data:
         first:
           name: _SegmentData005
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: .531150222, g: .482453972, b: .440181136, a: 1}
+      data:
+        first:
+          name: _EmissionColorUI
+        second: {r: 1, g: 1, b: 1, a: 1}
