@@ -42,7 +42,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.Location = "Lehman Creek";
         GlobalConfig.State = "Nevada";
         GlobalConfig.GlobalProjection = 26911;
-        GlobalConfig.BoundingBox = new Rect(731653.41f, 4323643.51f, 741254.90f - 731653.41f, 4323643.51f - 4318741.06f);
+        GlobalConfig.BoundingBox = new Rect(731653.41f, 4323643.51f, 741254.90f - 731653.41f, 4323643.51f - 4318466.366f); // 4318741.06f
         GlobalConfig.Zone = 11;
         Application.LoadLevel(4);
     }

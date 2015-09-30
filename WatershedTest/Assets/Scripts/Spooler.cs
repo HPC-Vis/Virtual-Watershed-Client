@@ -147,8 +147,10 @@ public class Spooler : MonoBehaviour
                 if (Reel.Count == 0)
                 {
                     // Set projector
-                    Utilities.PlaceProjector2(TimeProjector, record);
-                    if(record.bbox2 != "" && record.bbox2 != null)
+                    Vector2 BoundingScale;
+                    Utilities.PlaceProjector2(TimeProjector, record,out BoundingScale);
+
+                    if (record.bbox2 != "" && record.bbox2 != null)
                     {
                         //Debug.LogError("We added BBox TWO.");
                     	BoundingBox = Utilities.bboxSplit(record.bbox2);
@@ -163,11 +165,15 @@ public class Spooler : MonoBehaviour
                     if(!WMS)
                     {
                         TimeProjector.material = colorProjector;
+                        TimeProjector.material.SetFloat("_MaxX", BoundingScale.x);
+                        TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
                         testImage.material = colorWindow;
                     }
                     else
                     {
                         TimeProjector.material = slideProjector;
+                        TimeProjector.material.SetFloat("_MaxX", BoundingScale.x);
+                        TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
                     }
 
                     tran = new transform();
@@ -241,8 +247,15 @@ public class Spooler : MonoBehaviour
 				// Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
                 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                 trendGraph.SetCoordPoint(WorldPoint);
-                trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1),
-                                       Reel[textureIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1));
+                int x = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
+                int y = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
+                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
+                //Debug.LogError("Values: " + (1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
+                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (1 - y));
+                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
+                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - y));
+                //Debug.LogError("Values: " + (x) + ", " + (y));
+                trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(1) - 1 - y, Reel[textureIndex].Data.GetLength(0) - 1 - x);
 			}
 		}
 

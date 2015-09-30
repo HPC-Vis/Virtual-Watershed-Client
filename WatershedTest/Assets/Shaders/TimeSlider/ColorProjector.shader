@@ -23,6 +23,8 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+	_MaxX("Max X",Float) = 1
+	_MaxY("Max Y",Float) = 1
 }
 
 Category {
@@ -59,6 +61,9 @@ uniform float4 _SegmentData003;
 uniform float4 _SegmentData004;
 uniform float4 _SegmentData005;
 
+
+uniform float _MaxX;
+uniform float _MaxY;
 
 
 float Normalize(float Y)
@@ -316,6 +321,8 @@ bool gridClamp(float x)
 
 float4 frag (vertexInput i) : SV_Target
 {
+	i.uv.x = i.uv.x / _MaxX;
+    i.uv.y = i.uv.y / _MaxY;
 	// return float4(1,1,1,0);
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 	float4 col2 = tex2Dproj(_ShadowTex2, UNITY_PROJ_COORD(i.uv));
@@ -358,7 +365,7 @@ float4 frag (vertexInput i) : SV_Target
 	_Blend = 0.5;
 
 
-	if(Y <= 0.00)
+	if(Y <= 0.00 )
 	{
 	return float4(0,0,0,1);
 	}

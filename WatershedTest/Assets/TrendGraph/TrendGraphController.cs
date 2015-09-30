@@ -167,6 +167,9 @@ namespace VTL.TrendGraph
                 Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);
                 Debug.LogError("Origin: " + origin);
                 Debug.LogError("Width, Height: " + w + ", " + h);
+                Debug.LogError("The Data Value: " + timeseries[DataIndex].Data[Row, Col]);
+                Debug.LogError("Row, Col: " + Row + ", " + Col);
+                currentframeToFile();
             }
 
             // Check if there is active markers

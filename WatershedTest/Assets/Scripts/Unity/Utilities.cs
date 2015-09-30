@@ -132,8 +132,9 @@ public static class Utilities
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
 	}
 
-    public static void PlaceProjector2(Projector projector, DataRecord record)
+    public static void PlaceProjector2(Projector projector, DataRecord record, out Vector2 BoundingScale)
 	{
+        BoundingScale = Vector2.one;
         Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
 		// Debug.LogError ("WCS BBOX: " + record.bbox2);
 		// Debug.LogError ("JSON BBOX: " + record.bbox);
@@ -172,9 +173,11 @@ public static class Utilities
 		
 		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 		pos.y += 3000;
-		pos.x += dim;
-		pos.z += dim;
-		projector.transform.position = pos;
+        pos.x += dim;
+        pos.z += dim;
+        //pos.x += Math.Abs((upperLeft - upperRight).x) / 2.0f;
+        //pos.z += Math.Abs((upperLeft - lowerLeft).y) / 2.0f;
+        projector.transform.position = pos;
 		
 		var pro = projector.GetComponent<Projector> ();
 		pro.farClipPlane = 10000;
@@ -187,6 +190,9 @@ public static class Utilities
 		pro.material = Material.Instantiate (pro.material);
 		pro.material.SetFloat ("_MaxX", boundingAreaX);
 		pro.material.SetFloat ("_MaxY", boundingAreaY);
+
+        BoundingScale.x = boundingAreaX;
+        BoundingScale.y = boundingAreaY;
 	}
 
 	// Here are some projector building functions that need to be addressed
@@ -281,7 +287,8 @@ public static class Utilities
 		pro.material.SetInt ("_UsePoint", 0);
         pro.material.SetFloat("_Opacity", .678f);
 		if (record.texture != null) {
-			PlaceProjector2(pro,record);
+            Vector2 BoundingScale;
+			PlaceProjector2(pro,record,out BoundingScale);
 			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
 			image.wrapMode = TextureWrapMode.Clamp;
 			image.LoadImage (record.texture);
@@ -293,10 +300,13 @@ public static class Utilities
 			}
 			image.Apply ();
 			pro.material.SetTexture ("_ShadowTex", image);
-		} 
+            pro.material.SetFloat("_MaxX", BoundingScale.x);
+            pro.material.SetFloat("_MaxY", BoundingScale.y);
+        } 
 		else if (record.Data.Count > 0) 
 		{
-			PlaceProjector2(pro,record);
+            Vector2 BoundingScale;
+			PlaceProjector2(pro,record,out BoundingScale);
 			Texture2D image = Utilities.buildTextures(normalizeData(record.Data[0]),Color.grey,Color.blue);
 			image.wrapMode = TextureWrapMode.Clamp;
 
@@ -314,7 +324,9 @@ public static class Utilities
 			image.Apply ();
 
 			pro.material.SetTexture("_ShadowTex",image);
-		}
+            pro.material.SetFloat("_MaxX", BoundingScale.x);
+            pro.material.SetFloat("_MaxY", BoundingScale.y);
+        }
 
         // Third what type of data are we visualizing...
         // Determine if the data is a square or rect
