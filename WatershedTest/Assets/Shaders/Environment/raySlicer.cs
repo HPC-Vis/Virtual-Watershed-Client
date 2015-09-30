@@ -380,6 +380,7 @@ public class raySlicer : MonoBehaviour
     {
         if (cursor.GetComponent<mouseray>().marker1.activeSelf == true && cursor.GetComponent<mouseray>().marker2.activeSelf == true)
         {
+            //Debug.LogError(slicerMap != null);
             screenMaterial.SetTexture("_MainTex2", slicerMap);
             screenMaterial.SetTexture("_3DTex", environmentTex);
 
@@ -403,7 +404,7 @@ public class raySlicer : MonoBehaviour
                 // Used to either run cpu minmax or gpu
 			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
 				MinMax.FindMinMaxCPU();
-			#elif UNITY_EDITOR_WIN
+			#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
 				MinMax.FindMinMax();
             #endif
             }

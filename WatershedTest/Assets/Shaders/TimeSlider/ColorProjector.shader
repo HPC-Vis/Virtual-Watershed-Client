@@ -36,7 +36,7 @@ Category {
 					
 CGPROGRAM
 // Upgrade NOTE: excluded shader from Xbox360, OpenGL ES 2.0 because it uses unsized arrays
-// #pragma target 4.0
+#pragma target 3.0
 #pragma exclude_renderers xbox360 gles
 //#pragma vertex vert_img
 #pragma vertex vert
@@ -339,7 +339,7 @@ float4 frag (vertexInput i) : SV_Target
 #endif
 
 
-	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	if(i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
 	{
 		return float4(0,0,0,1);
 	}
