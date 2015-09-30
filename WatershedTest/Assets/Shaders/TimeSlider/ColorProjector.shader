@@ -327,7 +327,10 @@ float4 frag (vertexInput i) : SV_Target
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 	float4 col2 = tex2Dproj(_ShadowTex2, UNITY_PROJ_COORD(i.uv));
 
-	
+	if (i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
+	{
+		return float4(0, 0, 0, 1);
+	}
 
 #if SHADER_API_D3D11
 	float Y =  Color2Float(col);
@@ -338,11 +341,6 @@ float4 frag (vertexInput i) : SV_Target
 
 #endif
 
-
-	if(i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
-	{
-		return float4(0,0,0,1);
-	}
 
 	if(gridClamp(i.uv.x))
 	{
@@ -367,7 +365,7 @@ float4 frag (vertexInput i) : SV_Target
 
 	if(Y <= 0.00 )
 	{
-	return float4(0,0,0,1);
+	  return float4(0,0,0,1);
 	}
 		
 	float4 colour, colour2;

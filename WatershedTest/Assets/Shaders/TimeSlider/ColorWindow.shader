@@ -20,6 +20,8 @@ Properties {
 	_x3 ("Range Limit 3", float) = 0.00000
 	_x4 ("Range Limit 4", float) = 0.00000
 	_x5 ("Range Limit 5", float) = 0.00000
+	_MaxX("Max X",Float) = 1
+	_MaxY("Max Y",Float) = 1
 
 	_Blend("Blend", Range(0,1)) = 1
 
@@ -66,6 +68,8 @@ uniform float4 _SegmentData003;
 uniform float4 _SegmentData004;
 uniform float4 _SegmentData005;
 
+uniform float _MaxX;
+uniform float _MaxY;
 
 
 float Normalize(float Y)
@@ -291,15 +295,17 @@ float4 determineColor(float Y)
 
 float4 frag (v2f_img i) : COLOR
 {
+	i.uv.x = i.uv.x / _MaxX;
+	i.uv.y = i.uv.y / _MaxY;
+
 	float4 col = tex2D(_MainTex, i.uv);
 	float4 col2 = tex2D(_MainTex2, i.uv);
 
-	if(i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
+	if(i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
 	{
 		return float4(0,0,0,1);
 	}
 
-	
 
 #if SHADER_API_D3D11
 	float Y = Color2Float(col);
@@ -311,10 +317,6 @@ float4 frag (v2f_img i) : COLOR
 
 #endif
 
-	if (i.uv.x < 0.1 || i.uv.x > 0.9 || i.uv.y < 0.1 || i.uv.y > 0.9)
-	{
-		return float4(0, 0, 0, 1);
-	}
 
 	Y = Normalize(Y);
 	Y2 = Normalize(Y2);
@@ -329,7 +331,7 @@ float4 frag (v2f_img i) : COLOR
 
 	if(Y <= 0.00)
 	{
-	return float4(0,0,0,1);
+	  return float4(0,0,0,1);
 	}
 		
     float4 colour, colour2;

@@ -907,9 +907,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Update
-
-'
+  m_Text: Update
 --- !u!222 &26984833
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -21692,9 +21690,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Update
-
-'
+  m_Text: Update
 --- !u!222 &521044168
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26530,7 +26526,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1937216340}
   m_HandleRect: {fileID: 1937216339}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -44099,9 +44095,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Load Shapes
-
-'
+  m_Text: Load Shapes
 --- !u!222 &960516845
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -70347,9 +70341,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Load Images
-
-'
+  m_Text: Load Images
 --- !u!222 &1567526849
 CanvasRenderer:
   m_ObjectHideFlags: 0

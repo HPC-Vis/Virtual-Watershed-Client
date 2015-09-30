@@ -112,7 +112,7 @@ public class Spooler : MonoBehaviour
 			}
 
 			// Add the ranges to the timeprojector and image
-			for(int i = 0; i < 5; i++)
+			for(int i = 0; i < 6; i++)
 			{
 				TimeProjector.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
 				testImage.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
@@ -168,6 +168,8 @@ public class Spooler : MonoBehaviour
                         TimeProjector.material.SetFloat("_MaxX", BoundingScale.x);
                         TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
                         testImage.material = colorWindow;
+                        testImage.material.SetFloat("_MaxX", BoundingScale.x);
+                        testImage.material.SetFloat("_MaxY", BoundingScale.y);
                     }
                     else
                     {
@@ -249,12 +251,7 @@ public class Spooler : MonoBehaviour
                 trendGraph.SetCoordPoint(WorldPoint);
                 int x = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
                 int y = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
-                //Debug.LogError("Values: " + (1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
-                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (1 - y));
-                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - 1 - y));
-                //Debug.LogError("Values: " + (Reel[textureIndex].Data.GetLength(0) - 1 - x) + ", " + (Reel[textureIndex].Data.GetLength(1) - y));
-                //Debug.LogError("Values: " + (x) + ", " + (y));
+                
                 trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(1) - 1 - y, Reel[textureIndex].Data.GetLength(0) - 1 - x);
 			}
 		}
