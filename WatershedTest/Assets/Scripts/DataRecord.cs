@@ -35,6 +35,7 @@ public class DataRecord : IEquatable<DataRecord>
 		//dr.texture = texture.Clone ();
         dr.Max = Max;
         dr.Min = Min;
+        dr.Mean = Mean;
         dr.WCSCap = WCSCap;
 		dr.start = start;
 		dr.end = end;
@@ -252,6 +253,7 @@ public class DataRecord : IEquatable<DataRecord>
     // For the min and max of the record
     public float Min = float.MaxValue;
     public float Max = float.MinValue;
+    public float Mean = 0;
 
 	// Another patch to make things go faster
 	public string multiLayered = "none";

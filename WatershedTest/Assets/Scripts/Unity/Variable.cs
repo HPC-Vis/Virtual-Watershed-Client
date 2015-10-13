@@ -9,7 +9,8 @@ public class Variable
     // Members
 
     // Global Min and Max variables for this variable
-    public float Min, Max;
+    public float Min, Max, Mean, meanSum = 0, stdDev;
+    public int frameCount = 0;
     public string Name;
 
     // These variables represent the start and end date range.

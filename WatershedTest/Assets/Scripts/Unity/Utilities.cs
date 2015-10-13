@@ -909,10 +909,12 @@ public static class Utilities
     /// </summary>
     /// <returns>The data texture.</returns>
     /// <param name="data">Data.</param>
-    public static Texture2D BuildDataTexture(float [,] data, out float min, out float max)
+    public static Texture2D BuildDataTexture(float [,] data, out float min, out float max, out float mean)
    	{
         min = float.MaxValue;
         max = float.MinValue;
+        mean = 0;
+        float total = 0;
    		int width = data.GetLength(0);
    		int height = data.GetLength(1);
         Texture2D tex = new Texture2D(width, height, TextureFormat.ARGB32, false);
@@ -922,7 +924,7 @@ public static class Utilities
    			for(int j = 0; j < height; j++)
    			{
    				colorData[(width-i-1)*height+(height-j-1)] = Utilities.floatToColor32(data[i,j]);
-               
+                total += data[i, j];
                 if(data[i,j] > max)
                 {
                     max = data[i,j];
@@ -935,6 +937,10 @@ public static class Utilities
                 }
    			}
    		}
+
+        // calculate mean 
+        mean = total / (height * width);
+        
         tex.wrapMode = TextureWrapMode.Clamp;
         //tex.filterMode = FilterMode.Point;
    		tex.SetPixels32(colorData);

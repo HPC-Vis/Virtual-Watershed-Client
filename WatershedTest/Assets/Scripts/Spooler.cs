@@ -213,6 +213,8 @@ public class Spooler : MonoBehaviour
                     TimeProjector.material.SetFloat("_FloatMax", max);
                     testImage.material.SetFloat("_FloatMax", max);
                     colorPicker.SetMax(max);
+                    colorPicker.Mean = modelrun.GetVariable(oldSelectedVariable).Mean;
+                    colorPicker.frameCount = modelrun.GetVariable(oldSelectedVariable).frameCount;
                     trendGraph.SetMax((int)max);
                 }
                 if(record.Min < modelrun.MinMax[oldSelectedVariable].x)
@@ -222,6 +224,7 @@ public class Spooler : MonoBehaviour
                     TimeProjector.material.SetFloat("_FloatMin", min);
                     testImage.material.SetFloat("_FloatMin", min);
                     colorPicker.SetMin(min);
+                    colorPicker.Mean = modelrun.GetVariable(oldSelectedVariable).Mean;
                     trendGraph.SetMin((int)min);
                 }
             }
@@ -294,7 +297,7 @@ public class Spooler : MonoBehaviour
 		}
         var TS = rec.end.Value - rec.start.Value;
         double totalhours = TS.TotalHours / rec.Data.Count;
-        float max, min;
+        float max, min, mean;
         if(rec.Data.Count > 1)
         {
             TOTAL = rec.Data.Count; // Patch
@@ -345,9 +348,15 @@ public class Spooler : MonoBehaviour
             
             if (!WMS)
             {
-                tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max);
+                tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max, out mean);
                 rec.Min = Math.Min(min, rec.Min);
                 rec.Max = Math.Max(max, rec.Max);
+                rec.Mean = mean;
+                var variable = modelrun.GetVariable(oldSelectedVariable);
+                variable.meanSum += mean;
+                variable.frameCount += 1;
+                variable.Mean = variable.meanSum / variable.frameCount;
+                
                 //Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
             }
             else

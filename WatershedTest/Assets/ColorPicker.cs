@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿#define OLDWAY
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+
 public class ColorPicker : MonoBehaviour {
 
 	public List<GameObject> ColorBoxes = new List<GameObject>();
@@ -15,6 +17,8 @@ public class ColorPicker : MonoBehaviour {
 	int selected = -1;
     bool enabled = false;
     float Min, Max;
+    public float Mean;
+    public int frameCount = 1;
 	
 	// Update is called once per frame
 	void Update () {
@@ -45,9 +49,11 @@ public class ColorPicker : MonoBehaviour {
         slider.value = float.Parse(ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text);
 	}
 
+    //update to a normal distribution instead of a uniform distribution
     public void SetMin(float min)
     {
         Min = min;
+#if OLDWAY
         float increment = (Max - Min) / (ColorBoxes.Count - 1);
         float assignment = Min;
         foreach (var box in ColorBoxes)
@@ -55,12 +61,19 @@ public class ColorPicker : MonoBehaviour {
             box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
             assignment += increment;
         }
+#elif NEWWAY
+        SetRanges();
+
+#endif
+
         slider.minValue = Min;
+
     }
 
     public void SetMax(float max)
     {
         Max = max;
+#if OLDWAY
         float increment = (Max - Min) / (ColorBoxes.Count - 1);
         float assignment = Min;
         foreach (var box in ColorBoxes)
@@ -68,10 +81,27 @@ public class ColorPicker : MonoBehaviour {
             box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
             assignment += increment;
         }
+#elif NEWWAY
+        SetRanges();
+
+#endif
         slider.maxValue = Max;
     }
 	
-	public void setSelectedValue()
+
+    public void SetRanges()
+    {
+        float stdDev = Mean / Mathf.Sqrt(frameCount);
+        ColorBoxes[0].transform.GetChild(0).GetComponent<Text>().text = (Mean - stdDev * 2).ToString();
+        ColorBoxes[1].transform.GetChild(0).GetComponent<Text>().text = (Mean - stdDev * 0.3).ToString();
+        ColorBoxes[2].transform.GetChild(0).GetComponent<Text>().text = (Mean - stdDev * 0.05).ToString();
+        ColorBoxes[3].transform.GetChild(0).GetComponent<Text>().text = (Mean + stdDev * 0.05).ToString();
+        ColorBoxes[4].transform.GetChild(0).GetComponent<Text>().text = (Mean + stdDev * 0.3).ToString();
+        ColorBoxes[5].transform.GetChild(0).GetComponent<Text>().text = (Mean + stdDev * 2).ToString();
+
+    }
+
+    public void setSelectedValue()
 	{
 		if(selected != -1 && selected != (ColorBoxes.Count - 1))
 		{
