@@ -15,7 +15,7 @@ public class ColorPicker : MonoBehaviour {
 
 	bool updateHeight = false;
 	int selected = -1;
-    bool enabled = false;
+    bool started = false;
     float Min, Max;
     public float Mean;
     public int frameCount = 1;
@@ -36,17 +36,34 @@ public class ColorPicker : MonoBehaviour {
 			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(gameObject.GetComponent<RectTransform>().sizeDelta.x,height);
 			updateHeight = false;
 		}
-		if(!enabled)
+		if(!started)
 		{
 			AddColors(6);
-            enabled = true;
+            started = true;
 		}
 	}
 	
 	public void SetSelected(int index)
 	{
 		selected = index;
-        slider.value = float.Parse(ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text);
+        float value_hold = float.Parse(ColorBoxes[selected].transform.GetChild(0).GetComponent<Text>().text);
+
+        if (selected == 0)
+        {
+            slider.minValue = Min;
+            slider.maxValue = float.Parse(ColorBoxes[selected+1].transform.GetChild(0).GetComponent<Text>().text);
+        }
+        else if (selected == 5)
+        {
+            slider.minValue = float.Parse(ColorBoxes[selected - 1].transform.GetChild(0).GetComponent<Text>().text);
+            slider.maxValue = Max;
+        }
+        else
+        {
+            slider.minValue = float.Parse(ColorBoxes[selected - 1].transform.GetChild(0).GetComponent<Text>().text);
+            slider.maxValue = float.Parse(ColorBoxes[selected + 1].transform.GetChild(0).GetComponent<Text>().text);
+        }
+        slider.value = value_hold;
 	}
 
     //update to a normal distribution instead of a uniform distribution
