@@ -218,6 +218,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!114 &923728695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d45a1674f5e2e04485eafef922fac41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: 2132074300}
+  thisPropertyPath: gameObject.renderer
+  compareToType: 0
+  other: {fileID: 1928942700}
+  otherPropertyPath: Camera
+  constantValueGeneric: {fileID: 0}
+  compareType: 0
+--- !u!114 &1845650815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4928c6c2b973874c8d4e6c9a69bb5b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: 2132074300}
+  thisPropertyPath: Transform.position.y
+  compareToType: 0
+  other: {fileID: 112947767}
+  otherPropertyPath: Transform.position.y
+  constantValueGeneric: 0
+  compareTypes: 2
+  floatingPointError: 9.9999997473787516e-05
 --- !u!1 &1928942700
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +441,7 @@ MonoBehaviour:
   repeatEveryFrame: 1
   hasFailed: 0
   checkMethods: 8
-  m_ActionBase: {fileID: 0}
+  m_ActionBase: {fileID: 1845650815}
   checksPerformed: 0
 --- !u!114 &2132074306
 MonoBehaviour:
@@ -437,7 +474,7 @@ MonoBehaviour:
   repeatEveryFrame: 1
   hasFailed: 0
   checkMethods: 4
-  m_ActionBase: {fileID: 0}
+  m_ActionBase: {fileID: 923728695}
   checksPerformed: 0
 --- !u!135 &2132074308
 SphereCollider:

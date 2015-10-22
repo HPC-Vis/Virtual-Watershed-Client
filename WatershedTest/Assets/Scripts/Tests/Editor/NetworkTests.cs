@@ -279,4 +279,34 @@ using System.IO;
          gt.Dispose();
      }
 
+
+    
+    [Test]
+    public void HandleTestFail()
+    {
+        try
+        {
+            Handle h = new Handle(new List<DataRecord>());
+            Assert.Fail();
+        }
+        catch
+        {
+            Assert.Pass();
+        }
+    }
+
+    [Test]
+    public void HandleTestPass()
+    {
+        try
+        {
+            Handle h = new Handle(new List<DataRecord> { new DataRecord()});
+
+        }
+        catch
+        {
+            Assert.Fail();
+        }
+    }
+
 }

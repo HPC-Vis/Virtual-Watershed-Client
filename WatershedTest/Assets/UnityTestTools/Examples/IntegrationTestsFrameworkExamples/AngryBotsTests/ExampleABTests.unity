@@ -192,16 +192,16 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 504364400}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1335197}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: .5
     - receiver: {fileID: 461643261}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!114 &1335203
 MonoBehaviour:
@@ -494,7 +494,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1056186934}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   skiddingSounds: 1
   footstepSounds: 1
@@ -1240,11 +1240,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 0}
-  glowColor:
-    r: .326530635
-    g: .303575516
-    b: .0331838802
-    a: 1
+  glowColor: {r: .326530635, g: .303575516, b: .0331838802, a: 1}
 --- !u!23 &197403987
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2370,11 +2366,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   minGlow: .100000001
   maxGlow: .75
-  glowColor:
-    r: .902173936
-    g: .174283594
-    b: .174283594
-    a: 1
+  glowColor: {r: .902173936, g: .174283594, b: .174283594, a: 1}
 --- !u!23 &387582087
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3115,11 +3107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 0}
-  glowColor:
-    r: .326530635
-    g: .303575516
-    b: .0331838802
-    a: 1
+  glowColor: {r: .326530635, g: .303575516, b: .0331838802, a: 1}
 --- !u!23 &555982531
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3234,7 +3222,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1520552141}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   skiddingSounds: 1
   footstepSounds: 1
@@ -3580,11 +3568,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   minGlow: .100000001
   maxGlow: .75
-  glowColor:
-    r: .902173936
-    g: .174283594
-    b: .174283594
-    a: 1
+  glowColor: {r: .902173936, g: .174283594, b: .174283594, a: 1}
 --- !u!23 &616256046
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3954,6 +3938,25 @@ Transform:
   - {fileID: 265513741}
   m_Father: {fileID: 1437745805}
   m_RootOrder: 0
+--- !u!114 &674555202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4928c6c2b973874c8d4e6c9a69bb5b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: 1335197}
+  thisPropertyPath: Health.health
+  compareToType: 1
+  other: {fileID: 0}
+  otherPropertyPath: 
+  constantValueGeneric: 75
+  compareTypes: 3
+  floatingPointError: 9.9999997473787516e-05
 --- !u!1 &680922319
 GameObject:
   m_ObjectHideFlags: 0
@@ -4143,7 +4146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c3afc1c624179749bcdecf7b0224902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testToRun: []
+  currentTest: {fileID: 0}
 --- !u!4 &698660006
 Transform:
   m_ObjectHideFlags: 0
@@ -4815,7 +4818,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1335197}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   animationComponent: {fileID: 820163106}
 --- !u!111 &820163106
@@ -5307,6 +5310,9 @@ MonoBehaviour:
   expectedExceptionList: 
   succeedWhenExceptionIsThrown: 0
   includedPlatforms: -1
+  platformsToIgnore: []
+  dynamic: 0
+  dynamicTypeName: 
 --- !u!1 &908040894
 GameObject:
   m_ObjectHideFlags: 0
@@ -6205,7 +6211,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1853788222}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   skiddingSounds: 1
   footstepSounds: 1
@@ -6538,16 +6544,16 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 893822399}
-      action: 4f6e53706f74746564
+      action: OnSpotted
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1056186934}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
     - receiver: {fileID: 836927806}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!54 &1056186941
 Rigidbody:
@@ -7277,19 +7283,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1171445076}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
     - receiver: {fileID: 1224157159}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
   mouseUpSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1171445076}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
     - receiver: {fileID: 1224157159}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
 --- !u!114 &1171445083
 MonoBehaviour:
@@ -7355,11 +7361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 0}
-  glowColor:
-    r: .326530635
-    g: .303575516
-    b: .0331838802
-    a: 1
+  glowColor: {r: .326530635, g: .303575516, b: .0331838802, a: 1}
 --- !u!23 &1181858093
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -7602,7 +7604,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1753165379}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   animationComponent: {fileID: 1224157162}
 --- !u!111 &1224157162
@@ -9031,6 +9033,9 @@ MonoBehaviour:
   expectedExceptionList: 
   succeedWhenExceptionIsThrown: 0
   includedPlatforms: -1
+  platformsToIgnore: []
+  dynamic: 0
+  dynamicTypeName: 
 --- !u!1 &1424876363
 GameObject:
   m_ObjectHideFlags: 0
@@ -9329,7 +9334,7 @@ MonoBehaviour:
   repeatEveryFrame: 1
   hasFailed: 0
   checkMethods: 1
-  m_ActionBase: {fileID: 0}
+  m_ActionBase: {fileID: 674555202}
   checksPerformed: 0
 --- !u!1 &1477738577
 GameObject:
@@ -9735,16 +9740,16 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 940848195}
-      action: 4f6e53706f74746564
+      action: OnSpotted
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1520552141}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
     - receiver: {fileID: 30165079}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!54 &1520552148
 Rigidbody:
@@ -10518,19 +10523,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1665085143}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
     - receiver: {fileID: 820163103}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
   mouseUpSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1665085143}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
     - receiver: {fileID: 820163103}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
 --- !u!114 &1665085150
 MonoBehaviour:
@@ -10628,7 +10633,7 @@ MonoBehaviour:
   repeatEveryFrame: 1
   hasFailed: 0
   checkMethods: 1
-  m_ActionBase: {fileID: 0}
+  m_ActionBase: {fileID: 2142962902}
   checksPerformed: 0
 --- !u!1 &1669579696
 GameObject:
@@ -11292,19 +11297,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1142177483}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
     - receiver: {fileID: 0}
-      action: 4f6e44616d616765
+      action: OnDamage
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1753165379}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: .5
     - receiver: {fileID: 1960567865}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!114 &1753165385
 MonoBehaviour:
@@ -11485,7 +11490,7 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 2087340223}
-      action: 4f6e466f6f7473746570
+      action: OnFootstep
       delay: 0
   animationComponent: {fileID: 1757976396}
 --- !u!111 &1757976396
@@ -11989,6 +11994,9 @@ MonoBehaviour:
   expectedExceptionList: 
   succeedWhenExceptionIsThrown: 0
   includedPlatforms: -1
+  platformsToIgnore: []
+  dynamic: 0
+  dynamicTypeName: 
 --- !u!1 &1849251954
 GameObject:
   m_ObjectHideFlags: 0
@@ -12293,16 +12301,16 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 163854076}
-      action: 4f6e53706f74746564
+      action: OnSpotted
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1853788222}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
     - receiver: {fileID: 1727830068}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!114 &1853788228
 MonoBehaviour:
@@ -12576,19 +12584,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1871601282}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
     - receiver: {fileID: 1757976393}
-      action: 4f6e537461727446697265
+      action: OnStartFire
       delay: 0
   mouseUpSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1871601282}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
     - receiver: {fileID: 1757976393}
-      action: 4f6e53746f7046697265
+      action: OnStopFire
       delay: 0
 --- !u!114 &1871601289
 MonoBehaviour:
@@ -13523,11 +13531,7 @@ MonoBehaviour:
   playerTransform: {fileID: 0}
   minGlow: .100000001
   maxGlow: .75
-  glowColor:
-    r: .902173936
-    g: .174283594
-    b: .174283594
-    a: 1
+  glowColor: {r: .902173936, g: .174283594, b: .174283594, a: 1}
 --- !u!23 &2003757835
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -14025,19 +14029,19 @@ MonoBehaviour:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 1123425819}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
     - receiver: {fileID: 0}
-      action: 4f6e44616d616765
+      action: OnDamage
       delay: 0
   dieSignals:
     onlyOnce: 0
     receivers:
     - receiver: {fileID: 2087340223}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: .5
     - receiver: {fileID: 1908441683}
-      action: 4f6e5369676e616c
+      action: OnSignal
       delay: 0
 --- !u!114 &2087340230
 MonoBehaviour:
@@ -14268,3 +14272,20 @@ Transform:
   - {fileID: 1407142483}
   m_Father: {fileID: 512468557}
   m_RootOrder: 0
+--- !u!114 &2142962902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2586c8e41f35d2f4fadde53020bf4207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go: {fileID: 169891707}
+  thisPropertyPath: SpiderAttackMoveController.enabled
+  compareToType: 1
+  other: {fileID: 0}
+  otherPropertyPath: 
+  constantValueGeneric: 0
