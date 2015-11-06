@@ -948,4 +948,33 @@ public static class Utilities
    		return tex;
    	}
 
+    /// <summary>
+    /// Will take in a file name, and return a full file path to the desktop.
+    /// Also will not overwrite any file names that currently exist.
+    /// </summary>
+    /// <param name="filename">The file name to be opened.</param>
+    /// <returns>The full system path to open the file.</returns>
+    public static String GetFilePath(String filename)
+    {
+        string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        string[] filesplit = filename.Split('.');
+
+#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
+            string pathDownload = pathUser + "/";
+#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        string pathDownload = pathUser + "\\";
+#endif
+
+        string bascase = pathDownload;
+        pathDownload = pathDownload + filesplit[0] + "." + filesplit[1];
+        int count = 1;
+        while (File.Exists(pathDownload))
+        {
+            pathDownload = bascase + filesplit[0] + "(" + count + ")" + "." + filesplit[1];
+            count += 1;
+        }
+
+        return pathDownload;
+    }
+
 }
