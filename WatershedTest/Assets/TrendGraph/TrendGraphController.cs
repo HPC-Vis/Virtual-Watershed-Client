@@ -13,6 +13,7 @@ using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace VTL.TrendGraph
 {
@@ -593,14 +594,7 @@ namespace VTL.TrendGraph
         /// </summary>
         public void SlicerToFile()
         {
-            // Temp patch to the OS dependen Compute Shader
-            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/slicer_data.csv";
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            string pathDownload = pathUser + "\\slicer_data.csv";
-#endif
+            String pathDownload = Utilities.GetFilePath("slicer_data.csv");
             Debug.LogError("The File Path: " + pathDownload);
             
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
@@ -623,14 +617,7 @@ namespace VTL.TrendGraph
         /// </summary>
         public void dataToFile()
         {
-            // Temp patch to the OS dependen Compute Shader
-            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/graph.csv";
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            string pathDownload = pathUser + "\\graph.csv";
-#endif
+            String pathDownload = Utilities.GetFilePath("graph.csv");
             Debug.LogError("The File Path: " + pathDownload);
             
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
@@ -651,14 +638,8 @@ namespace VTL.TrendGraph
         /// </summary>
         public void currentframeToFile()
         {
-            // Temp patch to the OS dependen Compute Shader
-            string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            String pathDownload = Utilities.GetFilePath("frameToFile.csv");
 
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-            string pathDownload = pathUser + "/frameToFile.csv";
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-            string pathDownload = pathUser + "\\frameToFile.csv";
-#endif
             Debug.LogError("The File Path: " + pathDownload);
 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))

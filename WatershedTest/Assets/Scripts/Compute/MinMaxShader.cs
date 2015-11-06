@@ -155,14 +155,7 @@ public class MinMaxShader
 	/// </summary>
     public void WriteSlicerToFile()
     {
-        // Temp patch to the OS dependen Compute Shader
-		string pathUser = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX
-		string pathDownload = pathUser + "/slicer_path.csv";
-#elif UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-		string pathDownload = pathUser + "\\slicer_path.csv";
-#endif
-
+            String pathDownload = Utilities.GetFilePath("slicer_path.csv");
             float[] csv_file = new float[sampleRate];
             csvDump.GetData(csv_file);
 
