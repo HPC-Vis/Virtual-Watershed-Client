@@ -38,13 +38,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -81,6 +74,13 @@ Material:
       data:
         first:
           name: _MetallicGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -148,11 +148,11 @@ Material:
       data:
         first:
           name: _Max
-        second: .613725543
+        second: 0
       data:
         first:
           name: _Min
-        second: .480392188
+        second: 0
     m_Colors:
       data:
         first:
@@ -165,8 +165,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .81057179, g: .366647065, b: 0, a: 0}
+        second: {r: .791935205, g: .342995793, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .806160212, g: .375324786, b: 0, a: 0}
+        second: {r: .786277413, g: .335623652, b: 0, a: 0}

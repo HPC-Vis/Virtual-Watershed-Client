@@ -18,14 +18,14 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SceneSelect.unity
   - enabled: 1
-    path: Assets/Scenes/Dry Creek.unity
+    path: Assets/Scenes/DryCreek.unity
   - enabled: 1
     path: Assets/Scenes/ReynoldsCreek.unity
   - enabled: 0
-    path: Assets/Scenes/General Terrain Scene.unity
+    path: Assets/Scenes/TestScenes/General Terrain Scene.unity
   - enabled: 1
     path: Assets/Scenes/Jemez.unity
   - enabled: 1
-    path: Assets/Scenes/Lehman_4.unity
+    path: Assets/Scenes/LehmanCreek.unity
   - enabled: 0
     path: Assets/Scenes/SceneSelect.unity
