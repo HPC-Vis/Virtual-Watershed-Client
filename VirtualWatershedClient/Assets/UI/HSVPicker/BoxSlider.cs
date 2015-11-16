@@ -16,6 +16,16 @@ namespace UnityEngine.UI
 			TopToBottom,
 		}
 		
+        public void LayoutComplete()
+        {
+
+        }
+
+        public void GraphicUpdateComplete()
+        {
+
+        }
+
 		[Serializable]
 		public class BoxSliderEvent : UnityEvent<float, float> { }
 
