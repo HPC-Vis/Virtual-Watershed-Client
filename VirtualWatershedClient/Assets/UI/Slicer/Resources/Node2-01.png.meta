@@ -1,0 +1,286 @@
+fileFormatVersion: 2
+guid: 3e46f894eeaba80488ab55c8406a24e8
+timeCreated: 1431632323
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: Node2-01_0
+    21300002: Node2-01_1
+    21300004: Node2-01_2
+    21300006: Node2-01_3
+    21300008: Node2-01_4
+    21300010: Node2-01_5
+    21300012: Node2-01_6
+    21300014: Node2-01_7
+    21300016: Node2-01_8
+    21300018: Node2-01_9
+    21300020: Node2-01_10
+    21300022: Node2-01_11
+    21300024: Node2-01_12
+    21300026: Node2-01_13
+    21300028: Node2-01_14
+    21300030: Node2-01_15
+    21300032: Node2-01_16
+    21300034: Node2-01_17
+    21300036: Node2-01_18
+    21300038: Node2-01_19
+    21300040: Node2-01_20
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: Node2-01_0
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1765
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_1
+      rect:
+        serializedVersion: 2
+        x: 452
+        y: 1765
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_2
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 1384
+        width: 368
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_3
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 1384
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_4
+      rect:
+        serializedVersion: 2
+        x: 1253
+        y: 1384
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_5
+      rect:
+        serializedVersion: 2
+        x: 1629
+        y: 1384
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_6
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 1004
+        width: 368
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_7
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 1004
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_8
+      rect:
+        serializedVersion: 2
+        x: 853
+        y: 1004
+        width: 368
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_9
+      rect:
+        serializedVersion: 2
+        x: 1253
+        y: 1005
+        width: 367
+        height: 368
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_10
+      rect:
+        serializedVersion: 2
+        x: 1629
+        y: 1002
+        width: 367
+        height: 371
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_11
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 618
+        width: 368
+        height: 369
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_12
+      rect:
+        serializedVersion: 2
+        x: 456
+        y: 620
+        width: 368
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_13
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 618
+        width: 367
+        height: 369
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_14
+      rect:
+        serializedVersion: 2
+        x: 1253
+        y: 620
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_15
+      rect:
+        serializedVersion: 2
+        x: 1629
+        y: 620
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_16
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 233
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_17
+      rect:
+        serializedVersion: 2
+        x: 457
+        y: 233
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_18
+      rect:
+        serializedVersion: 2
+        x: 854
+        y: 233
+        width: 367
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_19
+      rect:
+        serializedVersion: 2
+        x: 1261
+        y: 232
+        width: 366
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Node2-01_20
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 233
+        width: 368
+        height: 367
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
