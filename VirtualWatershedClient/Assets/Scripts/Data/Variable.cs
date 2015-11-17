@@ -18,7 +18,7 @@ public class Variable
     public enum TYPE { Temporal, NonTemporal };
     TYPE type;
     List<DataRecord> Records = new List<DataRecord>();
-
+    
     public List<DataRecord> Data
     {
         get 

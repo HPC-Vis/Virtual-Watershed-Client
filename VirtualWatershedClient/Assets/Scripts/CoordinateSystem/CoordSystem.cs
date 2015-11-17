@@ -4,6 +4,7 @@ using Proj4Net.Projection;
 //using Proj4Net;
 using ProjNet;
 using OSGeo.OSR;
+//using System.Math;
 /*
 * Class: coordsystem
 * Description: This class is meant to be a coordinate system that keeps world objects in terms of Unity's space.
@@ -27,6 +28,45 @@ public static class coordsystem
 
     // For now lets assume everything with respect to our zone :D.
     static public int localzone = 11;
+
+
+    // http://damien.dennehy.me/blog/2011/01/15/haversine-algorithm-in-csharp/
+    /// <summary>
+    /// Radius of the Earth in Kilometers.
+    /// </summary>
+    private const double EARTH_RADIUS_KM = 6371;
+
+    /// <summary>
+    /// Converts an angle to a radian.
+    /// </summary>
+    /// <param name="input">The angle that is to be converted.</param>
+    /// <returns>The angle in radians.</returns>
+    private static double ToRad(double input)
+    {
+        return input * (System.Math.PI / 180);
+    }
+
+    /// <summary>
+    /// Calculates the distance between two geo-points in kilometers using the Haversine algorithm.
+    /// </summary>
+    /// <param name="point1">The first point.</param>
+    /// <param name="point2">The second point.</param>
+    /// <returns>A double indicating the distance between the points in KM.</returns>
+    public static double GetDistanceKM(double Longitude1, double Latitude1, double Longitude2, double Latitude2)
+    {
+        double dLat = ToRad(Latitude2 - Latitude1);
+        double dLon = ToRad(Longitude2 - Longitude1);
+
+        double a = System.Math.Pow(System.Math.Sin(dLat / 2), 2) +
+                   System.Math.Cos(ToRad(Latitude1)) * System.Math.Cos(ToRad(Latitude2)) *
+                   System.Math.Pow(System.Math.Sin(dLon / 2), 2);
+
+        double c = 2 * System.Math.Atan2(System.Math.Sqrt(a), System.Math.Sqrt(1 - a));
+
+        double distance = EARTH_RADIUS_KM * c;
+        return distance;
+    }
+    //
 
     public static Vector2 WorldOrigin
     {
@@ -129,8 +169,10 @@ public static class coordsystem
     {
         // For now we are gonna do everything with respect to the "local zone". I still do not know how to handle across zone datasets.
         int zone = localzone;
-
+        
+        
         //int zone = GetZone(latitude, longitude);
+        zone = GetZone(latitude, longitude);
         //Transform to UTM
         //Debug.LogError("ZONE: " + zone);
         ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory ctfac = new ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory();
@@ -155,6 +197,7 @@ public static class coordsystem
 		ProjNet.CoordinateSystems.ICoordinateSystem wgs84geo = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
 		ProjNet.CoordinateSystems.ICoordinateSystem utm = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WGS84_UTM(zone, latitude > 0);
 		ProjNet.CoordinateSystems.Transformations.ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84geo, utm);
+        
 		double[] pUtm = trans.MathTransform.Transform(new double[] {longitude, latitude });
 		
 		return pUtm;

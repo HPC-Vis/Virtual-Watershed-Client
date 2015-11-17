@@ -71,6 +71,7 @@ namespace OGC_Tests
 			} 
 			else 
 			{
+                System.Console.WriteLine("Not Equal");
 				Assert.AreNotEqual(test[0],test2[0]);
 			}
 		}
@@ -91,13 +92,14 @@ namespace OGC_Tests
 			int refcordzone = coordsystem.GetZone (Latitude1, Longitude1);
 			int othercordzone = coordsystem.GetZone (Latitude2, Longitude2);
 			coordsystem.localzone = refcordzone;
+
 			// Transformed based on local zone
-			var result = coordsystem.transformToUTM (Longitude1, Latitude1);
-			var result2 = coordsystem.transformToUTM (Longitude2, Latitude2);
+			var local = coordsystem.transformToUTM (Longitude1, Latitude1);
+			var local2 = coordsystem.transformToUTM (Longitude2, Latitude2);
 
 			// Not Transformed based on local zone, but the utms actual zone
-			var result3 = coordsystem.transformToUTMDouble (Longitude1, Latitude1);
-			var result4 = coordsystem.transformToUTMDouble (Longitude2, Latitude2);
+			var actual = coordsystem.transformToUTMDouble (Longitude1, Latitude1);
+			var actual2 = coordsystem.transformToUTMDouble (Longitude2, Latitude2);
 
 
 			Assert.AreNotEqual (refcordzone, othercordzone);
@@ -110,24 +112,42 @@ namespace OGC_Tests
 			Debug.LogError (zone2width);
 			Debug.LogError (origin1);
 			Debug.LogError (origin2);
-
+            Debug.LogError("Zone 1: " + refcordzone);
+            Debug.LogError("Zone 2: " + othercordzone);
 			// Longitude1 < Longitude2
 			if (refcordzone < othercordzone) {
-				double offset = origin1 + zone1width - result3 [0];
-				offset += (result4 [0] - (origin2 - zone2width));
-				Assert.AreEqual (result2.x - result.x, offset);
+				double offset = origin1 + zone1width - actual [0];
+				offset += (actual2 [0] - (origin2 - zone2width));
+				Assert.AreEqual (local2.x - local.x, offset);
 			} 
 
 			// Longitude1 > Longitude2
 			else 
 			{
-				double offset = System.Math.Abs(origin1 - zone1width - result3 [0]);
-				offset += System.Math.Abs(result4 [0] - (origin2 + zone2width));
-				Assert.AreEqual (result.x - result2.x, offset);
+                double offset = System.Math.Abs(origin1 - actual[0] - zone1width);
+				offset += System.Math.Abs((origin2 + zone2width) - actual2 [0]);
+				Assert.AreEqual (local.x - local2.x, offset);
+                
 			}
 			//double offset1fromcenterx = zone1width
 
 		}
+
+        [Test]
+        [TestCase(31, 30, 33, 42)]
+        [TestCase(30, 30, 35, 42)]
+        public void HaversineUTMTest(int longitude,int latitude,int longitude2,int latitude2)
+        {
+            // Transformed based on local zone
+            var local = coordsystem.transformToUTM(longitude, latitude);
+            var local2 = coordsystem.transformToUTM(longitude2, latitude2);
+            
+            var distance = coordsystem.GetDistanceKM(longitude, latitude, longitude2, latitude2);
+
+            Debug.LogError(distance);
+            Debug.LogError(Vector2.Distance(local, local2) /1000);
+            Assert.AreEqual(distance, Vector2.Distance(local, local2)/1000);
+        }
 
 
 		double GetUtmZoneOrigin(int Longitude, int Latitude)
@@ -143,8 +163,10 @@ namespace OGC_Tests
 			double origin = GetUtmZoneOrigin (Longitude, Latitude);
 			int Side = GetUTMMerridian (Longitude) + 3;
 			var End = coordsystem.transformToUTMDouble (Side, Latitude);
-			return System.Math.Abs(End [0] - origin);
+			return System.Math.Abs(End [0] - origin) - 40000;
 		}
+
+        // Get the halfway area of the UTM Zone
 		int GetUTMMerridian(int Longitude)
 		{
 			int remainder = Longitude % 6;
