@@ -32087,8 +32087,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5df40ba8b1944c49807d182b6b60405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  states: 0000000001000000
 --- !u!114 &11423934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -61822,7 +61820,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2049284}
-  cursor: {fileID: 120336}
   zoomSpeed: 20
   minZoomFOV: 10
   maxZoomFOV: 60

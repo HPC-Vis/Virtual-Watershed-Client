@@ -161,8 +161,27 @@ namespace VTL.TrendGraph
         /// </summary>
         void Update()
         {
+            // This will get a user click
+            if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.states[1])
+            {
+                // Check if mouse is inside bounding box 
+                Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorPosition);
+                Vector2 CheckPoint = new Vector2(WorldPoint.x, WorldPoint.z);
 
-            if(Input.GetKeyDown(KeyCode.X))
+                if (BoundingBox.Contains(CheckPoint))
+                {
+                    // Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
+                    Vector2 NormalizedPoint = Vector2.zero;
+                    NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
+                    SetCoordPoint(WorldPoint);
+                    int x = (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
+                    int y = (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
+
+                    SetPosition(timeseries[DataIndex].Data.GetLength(1) - 1 - y, timeseries[DataIndex].Data.GetLength(0) - 1 - x);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.X))
             {
                 Debug.LogError("Current Res: " + Screen.currentResolution);
                 Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);

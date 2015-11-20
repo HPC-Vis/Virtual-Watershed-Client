@@ -240,25 +240,6 @@ public class Spooler : MonoBehaviour
 
         }
         
-        // This will get a user click
-		if (Input.GetMouseButtonDown (0) && cursor.GetComponent<mouselistener>().state == cursor.GetComponent<mouselistener>().states[1]) 
-		{
-			// Check if mouse is inside bounding box 
-			Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorWorldPos);
-			Vector2 CheckPoint = new Vector2(WorldPoint.x,WorldPoint.z);
-
-			if( BoundingBox.Contains(CheckPoint) && !WMS)
-			{
-				// Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
-                NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
-                trendGraph.SetCoordPoint(WorldPoint);
-                int x = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(0) * NormalizedPoint.x), (double)Reel[textureIndex].Data.GetLength(0) - 1);
-                int y = (int)Math.Min(Math.Round(Reel[textureIndex].Data.GetLength(1) * NormalizedPoint.y), (double)Reel[textureIndex].Data.GetLength(1) - 1);
-                
-                trendGraph.SetPosition(Reel[textureIndex].Data.GetLength(1) - 1 - y, Reel[textureIndex].Data.GetLength(0) - 1 - x);
-			}
-		}
-
         // This if statement is used for debugging code
         if(Input.GetKeyDown(KeyCode.L))
         {
