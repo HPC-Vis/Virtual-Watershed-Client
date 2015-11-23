@@ -10,7 +10,6 @@ public class Marker : MonoBehaviour {
     public bool marker2Active = false;
     private Vector3 cursorPos, CursorWorldPos;
     public raySlicer rayslice;
-    public SlicerPlane slicerPlane;
     public GameObject csvButton;
     public GameObject PlayerController;
 
@@ -27,7 +26,6 @@ public class Marker : MonoBehaviour {
 
         // Set objects
         Vector3 Pos = mouseray.raycastHitFurtherest(Vector3.zero, Vector3.up, -10000);
-        Debug.LogError("Position: " + Pos);
         Pos.y += 50;
         PlayerController.transform.position = Pos;
         marker1.transform.position = Vector3.zero;
@@ -38,11 +36,13 @@ public class Marker : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        // Get the new cursor positions
         cursorPos = mouseray.raycastHit(Input.mousePosition);
 
-        if (marker1 != null && marker2 != null)
+        // First check if the current state of the mouse is terrain
+        if (mouselistener.state == mouselistener.mouseState.TERRAIN)
         {
-      
+            // See if the markers are selected to move
             if ((curposflat - mark1posflat).magnitude <= 50.0f)
             {
                 if (Input.GetMouseButtonDown(1))
@@ -51,7 +51,7 @@ public class Marker : MonoBehaviour {
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
-                    marker1Active = true;
+                    marker1Active = false;
                 }
             }
 
@@ -63,40 +63,42 @@ public class Marker : MonoBehaviour {
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
-                    marker2Active = true;
+                    marker2Active = false;
                 }
             }
-        }
 
-        if (!marker1.activeSelf || !marker2.activeSelf)
-            slicerPlane.DisableRendering();
+            // Update the markser positions
+            if(marker1Active)
+            {
+                marker1.transform.position = new Vector3(cursorPos.x, cursorPos.y - 10.0f, cursorPos.z);
+            }
+            else if(marker2Active)
+            {
+                marker2.transform.position = new Vector3(cursorPos.x, cursorPos.y - 10.0f, cursorPos.z);
+            }
 
-        // First check if the current state of the mouse is terrain
-        if (mouselistener.state == mouselistener.mouseState.TERRAIN)
-        {
-            activateCursor(true);
 
             // Set Cursor based on check
-
             if (Input.GetMouseButtonDown(0) && !Input.GetKey(KeyCode.Z))
             {
                 // Place Markers
-                if (marker1.transform.position == Vector3.zero)
+                if (!marker1.activeSelf)
                 {
+                    // Activate
                     marker1.SetActive(true);
+                    rayslice.marker1 = true;
+
                     // set first marker position
                     marker1.transform.position = new Vector3(cursorPos.x, cursorPos.y - 10.0f, cursorPos.z);
-                    
                 }
-                else if (marker2.transform.position == Vector3.zero)
+                else if (!marker2.activeSelf)
                 {
+                    // Activate
                     marker2.SetActive(true);
+                    rayslice.marker2 = true;
+
                     // set second marker position
                     marker2.transform.position = new Vector3(cursorPos.x, cursorPos.y - 10.0f, cursorPos.z);
-
-                    //since both markers are set, draw the plane connecting them
-                    slicerPlane.Draw();
-                    setTimeCount(0.0f);
                 }
                 else
                 {
@@ -108,44 +110,33 @@ public class Marker : MonoBehaviour {
 
                     marker1Active = false;
                     marker2Active = false;
+
+                    rayslice.marker1 = false;
+                    rayslice.marker2 = false;
                 }
             }
+
+            // Update the cursor
+            activateCursor(true);
+            cursorPos.y += 1;
+            setCursor(cursorPos);
+            coordsystem.transformToUnity(cursorPos);
         }
 
-        // Update rayslice with the new activation
-        rayslice.marker1 = marker1Active;
-        rayslice.marker2 = marker2Active;
-
-        cursorPos.y += 1;
-        setCursor(cursorPos);
-        coordsystem.transformToUnity(cursorPos);
-
-
+        
         cursorPos.y = -10000;
         ResizeObjects(cursor);
         ResizeUniformObjects(marker1);
         ResizeUniformObjects(marker2);
+        setPoints();
 
-        //ResizeUniformObjects(TheTrailer);
         cursor.transform.Rotate(Vector3.forward, 1);
-
-        timecount += Time.deltaTime;
-
-        if (timecount > 3.0f)
-        {
-            timecount = _modf(timecount, 3.0f);
-        }
     }
 
     float _modf(float k, float bound)
     {
         float r = k / bound;
         return (r - Mathf.Floor(r)) * bound;
-    }
-
-    public void setTimeCount(float count)
-    {
-        timecount = count;
     }
 
     //self explanatory function
