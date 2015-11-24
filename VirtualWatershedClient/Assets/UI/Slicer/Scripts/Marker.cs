@@ -37,7 +37,7 @@ public class Marker : MonoBehaviour {
     void Update()
     {
         // Get the new cursor positions
-        cursorPos = mouseray.raycastHit(Input.mousePosition);
+        cursorPos = mouseray.UpdateCursor();
 
         // First check if the current state of the mouse is terrain
         if (mouselistener.state == mouselistener.mouseState.TERRAIN)

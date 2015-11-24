@@ -177,6 +177,8 @@ public static class Utilities
         pos.z += dim;
         //pos.x += Math.Abs((upperLeft - upperRight).x) / 2.0f;
         //pos.z += Math.Abs((upperLeft - lowerLeft).y) / 2.0f;
+
+        Debug.LogError("Pos: " + pos);
         projector.transform.position = pos;
 		
 		var pro = projector.GetComponent<Projector> ();

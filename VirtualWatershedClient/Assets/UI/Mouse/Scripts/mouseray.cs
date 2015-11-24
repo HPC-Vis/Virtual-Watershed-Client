@@ -9,11 +9,6 @@ public class mouseray : MonoBehaviour
     public static float slicerDistanceScaleFactor = 20; // larger is smaller, smaller is larger
     public static Vector3 CursorPosition;
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-  
     /// <summary>
     /// raycastHit
     /// Description: Casts a ray at a specified screen position and returns the closest intersection.
@@ -107,6 +102,13 @@ public class mouseray : MonoBehaviour
         return closestObject.point;
     }
 
+    public static Vector3 UpdateCursor()
+    {
+        CursorPosition = raycastHit(Input.mousePosition);
+        return CursorPosition;
+    }
+
+
     // This function will rotate a 2D vector.
     Vector2 rotate(Vector2 vec, float radians)
     {
@@ -142,18 +144,4 @@ public class mouseray : MonoBehaviour
 
         return true;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    //MOVE TO DATASELECT CLASS!
-    void getPointInformation()
-    {
-        // Query the data of the dataset class
-        // One function needed in the dataset class
-    }
-
 }

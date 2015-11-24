@@ -162,7 +162,7 @@ namespace VTL.TrendGraph
         void Update()
         {
             // This will get a user click
-            if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.states[1])
+            if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.mouseState.TERRAIN)
             {
                 // Check if mouse is inside bounding box 
                 Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorPosition);
