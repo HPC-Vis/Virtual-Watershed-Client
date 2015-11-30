@@ -141,14 +141,26 @@ namespace OGC_Tests
             // Transformed based on local zone
             var local = coordsystem.transformToUTM(longitude, latitude);
             var local2 = coordsystem.transformToUTM(longitude2, latitude2);
-            
-            var distance = coordsystem.GetDistanceKM(longitude, latitude, longitude2, latitude2);
+
+            var distance = CoordinateUtils.GetDistanceKM(longitude, latitude, longitude2, latitude2);
 
             Debug.LogError(distance);
             Debug.LogError(Vector2.Distance(local, local2) /1000);
             Assert.AreEqual(distance, Vector2.Distance(local, local2)/1000);
         }
 
+        [Test]
+        public void HaversineTest([NUnit.Framework.Range(12, 26, 6)] int longitude, [NUnit.Framework.Range(30, 44, 6)] int latitude, [NUnit.Framework.Range(12, 26, 6)] int longitude2, [NUnit.Framework.Range(30, 44, 6)]int latitude2)
+        {
+            var distance = CoordinateUtils.GetDistanceKM(longitude, latitude, longitude2, latitude2) * 1000;
+            Debug.LogError("++++++++++++++++++++++++++++++++++++++");
+            Debug.LogError("Points of Interest: " + longitude + " " + latitude + " " + longitude2 + " " + latitude2);
+            Debug.LogError("HAVERSINE: " + distance);
+            Debug.LogError("DISTANCE: " + CoordinateUtils.GetXYDistance(longitude, latitude, longitude2, latitude2).magnitude);
+            Debug.LogError("Distance Vector: " + CoordinateUtils.GetXYDistance(longitude, latitude, longitude2, latitude2));
+            Debug.LogError("++++++++++++++++++++++++++++++++++++++");
+            
+        }
 
 		double GetUtmZoneOrigin(int Longitude, int Latitude)
 		{

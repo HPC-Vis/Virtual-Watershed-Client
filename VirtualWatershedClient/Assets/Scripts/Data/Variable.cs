@@ -52,4 +52,9 @@ public class Variable
     {
         Records.Remove(Records.Find((rec) => { return record.id == rec.id && record.Identifier == rec.Identifier;}));
     }
+
+    public void Search(DateTime search)
+    {
+
+    }
 }
