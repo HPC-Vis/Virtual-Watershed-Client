@@ -15,33 +15,32 @@ using OSGeo.OSR;
 public static class coordsystem
 {
     static WorldCoordinateSystem cs;
-    // A Global projection meant to represent unitys overall understanding of the world coordinate system.
-    static Projection globalProjection = new Projection();
-    // Assumption 1 meter resolution per 1 unity.
-    static public float worldScaleX = 1.0f, worldScaleY = 1.0f, worldScaleZ = 1.0f;
-    static Vector2 worldOrigin;
+    
     //public static CoordinateReferenceSystemFactory coordRefFactory = new CoordinateReferenceSystemFactory();
     //public static CoordinateReferenceSystem baseCoordSystem = coordRefFactory.CreateFromName("epsg:4326");
 	public static SpatialReference baseCoordSystem = new SpatialReference("");
-
-    static Vector2 unityOrigin;
-    static float xUnityRes, yUnityRes;
 
     // For now lets assume everything with respect to our zone :D.
     static public int localzone = 11;
 
 
-
+    public static WorldCoordinateSystem CS
+    {
+        set
+        {
+            cs = value;
+        }
+    }
 
     public static Vector2 WorldOrigin
     {
         get
         {
-            return worldOrigin;
+            return cs.WorldOrigin;
         }
         set
         {
-            worldOrigin = value;
+            cs.WorldOrigin = value;
         }
     }
 
@@ -49,11 +48,11 @@ public static class coordsystem
     {
         get
         {
-            return unityOrigin;
+            return cs.UnityOrigin;
         }
         set
         {
-            unityOrigin = value;
+            cs.UnityOrigin = value;
         }
     }
 
@@ -61,11 +60,11 @@ public static class coordsystem
     {
         get
         {
-            return worldScaleX;
+            return cs.worldScaleX;
         }
         set
         {
-            xUnityRes = value;
+            cs.worldScaleX = value;
         }
     }
 
@@ -73,53 +72,24 @@ public static class coordsystem
     {
         get
         {
-            return worldScaleY;
+            return cs.worldScaleY;
         }
         set
         {
-            yUnityRes = value;
+            cs.worldScaleY = value;
         }
-    }
-
-    static void setWorldScaleX(float x)
-    {
-        worldScaleX = x;
-    }
-
-    static void setWorldScaleY(float y)
-    {
-        worldScaleY = y;
-    }
-
-    // xUnityRes and yUnityRes are a world to unity conversion
-    static Vector2 worldToUnity(Vector2 a)
-    {
-        return new Vector2(((a.x - worldOrigin.x) * xUnityRes),
-                           ((worldOrigin.y - a.y) * yUnityRes));
-    }
-
-    // reciprocal gives unity to world conversion
-    static Vector2 unityToWorld(Vector2 a)
-    {
-        return new Vector2(((a.x - unityOrigin.x) / xUnityRes),
-                           ((unityOrigin.y - a.y) / yUnityRes));
-    }
-
-    static void utmToLatLong()
-    {
-
-    }
-
-    static void latlongToUtm()
-    {
-
     }
 
     public static CoordinateTransformation createTransform(SpatialReference reference, SpatialReference target)
     {
-		baseCoordSystem.ImportFromEPSG (4326);
-		return new CoordinateTransformation (reference, target);//new BasicCoordinateTransform(reference, target);
+        return new BasicCoordinateTransform(reference, target);
     }
+
+    public static CreateUnityTransform(SpatialReference target)
+    {
+        return cs.createUnityTransform(target);
+    }
+
     public static int GetZone(double latitude, double longitude)
     {
 
