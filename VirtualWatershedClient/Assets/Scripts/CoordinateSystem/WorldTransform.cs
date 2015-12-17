@@ -13,14 +13,14 @@ using OSGeo.OSR;
 /// It will keep track of its own origin in the world and will be used to translated the georeferenced object based on some user or program selected origin.
 /// 
 /// </summary>
-public class transform : MonoBehaviour
+public class WorldTransform : MonoBehaviour
 {
     Vector2 origin;
     SpatialReference localCoords = new SpatialReference("");
     CoordinateTransformation localTrans;
     float xRes, yRes;
 
-    public transform(string epsg) : base()
+    public WorldTransform(string epsg="EPSG:4326") : base()
     {
         createCoordSystem(epsg);
     }
@@ -102,30 +102,33 @@ public class transform : MonoBehaviour
         return true;
     }
 
+
+    /// <summary>
+    /// transformPoint changes a point from its local earth coordinate system into a Lat Long.
+    /// </summary>
+    /// <param name="point">This must be a earth coordinate point</param>
+    /// <returns></returns>
     public Vector2 transformPoint(Vector2 point)
     {
 		double[] pointed = new double[]{point.x,point.y};
 		localTrans.TransformPoint (pointed);
         string tts2="";
         localCoords.ExportToWkt(out tts2);
-        return coordsystem.transformToUTM(point.x, point.y);
+        return CoordinateUtils.transformToUTM(point.x, point.y);
     }
 
-
+    // This is for translating the attached gameobject to a location.
     public void translateToGlobalCoordinateSystem()
     {
-        // Call transform function
-        Vector2 TransformedPoint = Vector2.zero;
-        Vector3 pos = coordsystem.transformToWorld(Origin);
-        gameObject.transform.position = new Vector3(pos.x,gameObject.transform.position.y,pos.y);//new Vector3((coordsystem.WorldOrigin.x - Origin.x) / coordsystem.worldScaleX, gameObject.transform.position.y, (coordsystem.WorldOrigin.y - Origin.y) / coordsystem.worldScaleZ);
+        Vector3 pos = coordsystem.transformToUnity(Origin);
+        gameObject.transform.position = new Vector3(pos.x,gameObject.transform.position.y,pos.y);
     }
 
+
+    // This is for more than one point -- points should be in 
     public Vector2 translateToGlobalCoordinateSystem(Vector2 point)
     {
-        // This is for more than one point
-        Vector2 TransformedPoint = Vector2.zero;
-
-        return TransformedPoint;//Vector2(-(coordsystem.WorldOrigin.x - point.x), -(coordsystem.WorldOrigin.y - point.y)) / coordsystem.worldScaleX;
+        return coordsystem.transformToUnity(point);
     }
 
 }

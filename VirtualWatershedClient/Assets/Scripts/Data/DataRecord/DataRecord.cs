@@ -157,8 +157,8 @@ public class DataRecord : IEquatable<DataRecord>
                 // Time to set the resolution if possible
 
                 // First convert these coordinates to UTM
-                Vector2 origin = coordsystem.transformToUTM(xOrigin, yOrigin);
-                Vector2 lowerRightCorner = coordsystem.transformToUTM(xOrigin + width, yOrigin - height);
+                Vector2 origin = CoordinateUtils.transformToUTM(xOrigin, yOrigin);
+                Vector2 lowerRightCorner = CoordinateUtils.transformToUTM(xOrigin + width, yOrigin - height);
                 Debug.Log(origin);
                 Debug.Log(lowerRightCorner);
                 // Getting average resolution in meters due to the points being in UTM
@@ -179,8 +179,8 @@ public class DataRecord : IEquatable<DataRecord>
             // Calculating utmBoundingBox
             if (utmBoundingBox.x != 0 && utmBoundingBox.y != 0 && utmBoundingBox.width != 0 && utmBoundingBox.height != 0)
             {
-                Vector2 UpperLeftCorner = coordsystem.transformToUTM(boundingBox.x, boundingBox.y);
-                Vector2 LowerRightCorner = coordsystem.transformToUTM(boundingBox.x + boundingBox.width, boundingBox.y - boundingBox.height);
+                Vector2 UpperLeftCorner = CoordinateUtils.transformToUTM(boundingBox.x, boundingBox.y);
+                Vector2 LowerRightCorner = CoordinateUtils.transformToUTM(boundingBox.x + boundingBox.width, boundingBox.y - boundingBox.height);
                 utmBoundingBox = new SerialRect(new Rect(UpperLeftCorner.x, UpperLeftCorner.y, Math.Abs(UpperLeftCorner.x - LowerRightCorner.x), Math.Abs(UpperLeftCorner.y - LowerRightCorner.y)));
             }
             return utmBoundingBox;

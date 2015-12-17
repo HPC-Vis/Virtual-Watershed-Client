@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using OSGeo.OSR;
-
+using OSGeo.GDAL;
 /// <summary>
 /// WorldCoordinateSystem 
 /// Author: Chase Carthen
@@ -25,6 +25,10 @@ public abstract class WorldCoordinateSystem
     
     public WorldCoordinateSystem()
     {
+        //Debug.LogError(OSGeo.GDAL.Gdal.GetConfigOption("GDAL_DATA", ""));
+        OSGeo.GDAL.Gdal.SetConfigOption("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data");
+        //Debug.LogError(OSGeo.GDAL.Gdal.GetConfigOption("GDAL_DATA", ""));
+        baseCoordSystem = new SpatialReference("");
         worldOrigin = unityOrigin = Vector2.zero;
 
         // By Default we are in EPSG:4326
@@ -60,10 +64,6 @@ public abstract class WorldCoordinateSystem
     public abstract Vector2 TranslateToUnity(Vector2 World);
     public abstract Vector2 TranslateToWorld(Vector2 Unity);
 
-
-    // Tranformation Based Functions -- We will leave this to the coordinate system class to be implemented
-    // For converting between utm and lat long use CoordinateUtils
-    public abstract Vector2 Transform(Vector2 LatLong);
 
     /// <summary>
     /// createUnityTransform generates a tranformation to be used for tranforming from one coordinates system to another.

@@ -60,7 +60,7 @@ public class Spooler : MonoBehaviour
     float frameRatio = 0.0f;
     int count = 10;
     float point = 0.0f;
-    transform tran;
+    WorldTransform tran;
     int previ = 0, prevj = 0;
     string oldSelectedVariable;
     private int textureIndex = 0;
@@ -148,8 +148,8 @@ public class Spooler : MonoBehaviour
                 {
                     // Set projector
                     Vector2 BoundingScale;
-                    Utilities.PlaceProjector2(TimeProjector, record,out BoundingScale);
 
+                    TimeProjector.GetComponent<ProjectorObject>().PlaceProjector(record, out BoundingScale);
                     if (record.bbox2 != "" && record.bbox2 != null)
                     {
                         //Debug.LogError("We added BBox TWO.");
@@ -178,13 +178,13 @@ public class Spooler : MonoBehaviour
                         TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
                     }
 
-                    tran = new transform();
+                    tran = new WorldTransform(record.projection);
                     //Debug.LogError("Coord System: " + record.projection);
                     tran.createCoordSystem(record.projection); // Create a coordinate transform
                     //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
                     // transfor a lat/long bounding box to UTM
-                    tran.setOrigin(coordsystem.WorldOrigin);
+                    //tran.Origin = coordsystem.WorldOrigin;
                     Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
                     Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
 

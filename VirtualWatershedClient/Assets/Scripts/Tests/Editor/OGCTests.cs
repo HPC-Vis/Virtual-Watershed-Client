@@ -47,8 +47,8 @@ namespace OGC_Tests
 		[Test, TestCaseSource("VectorCases")]
         public void UTMTransformationTest(Vector2 testvec,Vector2 Result)
         {
-			var testvec2 = coordsystem.transformToUTM (testvec.x, testvec.y);
-			double[] a = coordsystem.transformToUTMDouble (testvec.x, testvec.y);
+			var testvec2 = CoordinateUtils.transformToUTM (testvec.x, testvec.y);
+			double[] a = CoordinateUtils.transformToUTMDouble (testvec.x, testvec.y);
 			Assert.AreEqual (Result.x, a [0], 1);
 			Assert.AreEqual (Result.y, a [1], 1);
         }
@@ -63,8 +63,8 @@ namespace OGC_Tests
 		[Test]
 		public void UTMZoneOriginAndBoundaryTest( [NUnit.Framework.Range(-180,180,36)] int bound, [NUnit.Framework.Range(-90,90,30)] float long1, [NUnit.Framework.Range(-90,90,30)]float long2)
 		{
-			var test = coordsystem.transformToUTMDouble(bound, long1);
-			var test2 = coordsystem.transformToUTMDouble (bound, long2);
+			var test = CoordinateUtils.transformToUTMDouble(bound, long1);
+			var test2 = CoordinateUtils.transformToUTMDouble (bound, long2);
 			if (bound % 6 == 3 || Mathf.Abs(long1) == Mathf.Abs(long2)) 
 			{
 				Assert.AreEqual (test [0], test2 [0],1.0);
@@ -89,17 +89,17 @@ namespace OGC_Tests
 		{
 			Assert.AreEqual (Latitude1, Latitude2);
 
-			int refcordzone = coordsystem.GetZone (Latitude1, Longitude1);
-			int othercordzone = coordsystem.GetZone (Latitude2, Longitude2);
+			int refcordzone = CoordinateUtils.GetZone (Latitude1, Longitude1);
+			int othercordzone = CoordinateUtils.GetZone (Latitude2, Longitude2);
 			coordsystem.localzone = refcordzone;
 
 			// Transformed based on local zone
-			var local = coordsystem.transformToUTM (Longitude1, Latitude1);
-			var local2 = coordsystem.transformToUTM (Longitude2, Latitude2);
+			var local = CoordinateUtils.transformToUTM (Longitude1, Latitude1);
+			var local2 = CoordinateUtils.transformToUTM (Longitude2, Latitude2);
 
 			// Not Transformed based on local zone, but the utms actual zone
-			var actual = coordsystem.transformToUTMDouble (Longitude1, Latitude1);
-			var actual2 = coordsystem.transformToUTMDouble (Longitude2, Latitude2);
+			var actual = CoordinateUtils.transformToUTMDouble (Longitude1, Latitude1);
+			var actual2 = CoordinateUtils.transformToUTMDouble (Longitude2, Latitude2);
 
 
 			Assert.AreNotEqual (refcordzone, othercordzone);
@@ -139,8 +139,8 @@ namespace OGC_Tests
         public void HaversineUTMTest(int longitude,int latitude,int longitude2,int latitude2)
         {
             // Transformed based on local zone
-            var local = coordsystem.transformToUTM(longitude, latitude);
-            var local2 = coordsystem.transformToUTM(longitude2, latitude2);
+            var local = CoordinateUtils.transformToUTM(longitude, latitude);
+            var local2 = CoordinateUtils.transformToUTM(longitude2, latitude2);
 
             var distance = CoordinateUtils.GetDistanceKM(longitude, latitude, longitude2, latitude2);
 
@@ -166,7 +166,7 @@ namespace OGC_Tests
 		{
 			Longitude = GetUTMMerridian (Longitude);
 			//Debug.LogError ("UTM MERRIDIAN: " + Longitude);
-			var Out2 = coordsystem.transformToUTMDouble(Longitude,Latitude);
+			var Out2 = CoordinateUtils.transformToUTMDouble(Longitude,Latitude);
 			return Out2[0];
 		}
 
@@ -174,7 +174,7 @@ namespace OGC_Tests
 		{
 			double origin = GetUtmZoneOrigin (Longitude, Latitude);
 			int Side = GetUTMMerridian (Longitude) + 3;
-			var End = coordsystem.transformToUTMDouble (Side, Latitude);
+			var End = CoordinateUtils.transformToUTMDouble (Side, Latitude);
 			return System.Math.Abs(End [0] - origin) - 40000;
 		}
 

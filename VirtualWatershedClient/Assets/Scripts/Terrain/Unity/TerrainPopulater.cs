@@ -113,7 +113,7 @@ public class TerrainPopulater : MonoBehaviour
 
 		//record.boundingBox = new SerialRect (Utilities.bboxSplit2(record.bbox));
 		record.boundingBox = new SerialRect (Utilities.bboxSplit3(record.bbox2));
-		transform tran = new global::transform ();
+        WorldTransform tran = new WorldTransform(record.projection);
 
 		// EPSG code
 		// Debug.LogError (record.projection);

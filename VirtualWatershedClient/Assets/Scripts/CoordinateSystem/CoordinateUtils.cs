@@ -45,7 +45,7 @@ public static class CoordinateUtils
     {
         Longitude = GetUTMMerridian(Longitude);
         //Debug.LogError ("UTM MERRIDIAN: " + Longitude);
-        var Out2 = coordsystem.transformToUTMDouble(Longitude, Latitude);
+        var Out2 = CoordinateUtils.transformToUTMDouble(Longitude, Latitude);
         return Out2[0];
     }
 
@@ -53,7 +53,7 @@ public static class CoordinateUtils
     {
         double origin = GetUtmZoneOrigin(Longitude, Latitude);
         int Side = GetUTMMerridian(Longitude) + 3;
-        var End = coordsystem.transformToUTMDouble(Side, Latitude);
+        var End = CoordinateUtils.transformToUTMDouble(Side, Latitude);
         return System.Math.Abs(End[0] - origin);
     }
 
@@ -78,23 +78,23 @@ public static class CoordinateUtils
     /// <returns></returns>
     public static Vector2 GetXYDistance(float Longitude1,float Latitude1,float Longitude2,float Latitude2)
     {
-        int refcordzone = coordsystem.GetZone(Latitude1, Longitude1);
-        int othercordzone = coordsystem.GetZone(Latitude2, Longitude2);
+        int refcordzone = CoordinateUtils.GetZone(Latitude1, Longitude1);
+        int othercordzone = CoordinateUtils.GetZone(Latitude2, Longitude2);
         Debug.LogError("Ref coord zone: " + refcordzone);
         Debug.LogError("other coord zone: " + othercordzone);
         Vector2 DirectionVector = new Vector2(Longitude1, Latitude1) - new Vector2(Longitude2, Latitude2);
         DirectionVector.Normalize();
 
         // One of the two places
-        var Start1 = coordsystem.transformToUTM(Longitude1, Latitude1);
-        var Start2 = coordsystem.transformToUTM(Longitude2, Latitude2);
+        var Start1 = CoordinateUtils.transformToUTM(Longitude1, Latitude1);
+        var Start2 = CoordinateUtils.transformToUTM(Longitude2, Latitude2);
         double offsetx = 0;
         float offsety = 0;
 
         if(refcordzone > othercordzone)
         {
             var movedstart =  Longitude1 - 6;
-            var newstart = coordsystem.transformToUTM(movedstart,Latitude1);
+            var newstart = CoordinateUtils.transformToUTM(movedstart,Latitude1);
             Debug.LogError("A: " + GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1));
             Debug.LogError("B: " + GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2));
             offsetx += 2*GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1) - Mathf.Abs(Start1.x);
@@ -111,7 +111,7 @@ public static class CoordinateUtils
         else if(refcordzone < othercordzone)
         {
             var movedstart = Longitude1 + 6;
-            var newstart = coordsystem.transformToUTM(movedstart, Latitude1);
+            var newstart = CoordinateUtils.transformToUTM(movedstart, Latitude1);
             offsety = Mathf.Abs(Start2.y - newstart.y);
             Debug.LogError("A: " + GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1));
             Debug.LogError("B: " + GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2));
@@ -128,16 +128,26 @@ public static class CoordinateUtils
 
     public static int GetZone(double latitude, double longitude)
     {
-
-
         return (int)(Mathf.Floor(((float)longitude + 180.0f) / 6) + 1);
     }
 
-    public static Vector2 transformToUTM(float longitude, float latitude,ref int zone)
+    public static Vector2 transformToUTM(float longitude, float latitude)
     {
         //int zone = GetZone(latitude, longitude);
-        zone = GetZone(latitude, longitude);
+        int zone = GetZone(latitude, longitude);
 
+        //Transform to UTM
+        ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory ctfac = new ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory();
+        ProjNet.CoordinateSystems.ICoordinateSystem wgs84geo = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
+        ProjNet.CoordinateSystems.ICoordinateSystem utm = ProjNet.CoordinateSystems.ProjectedCoordinateSystem.WGS84_UTM(zone, latitude > 0);
+        ProjNet.CoordinateSystems.Transformations.ICoordinateTransformation trans = ctfac.CreateFromCoordinateSystems(wgs84geo, utm);
+        double[] pUtm = trans.MathTransform.Transform(new double[] { longitude, latitude });
+
+        return new Vector2((float)pUtm[0], (float)pUtm[1]);
+    }
+
+    public static Vector2 transformToUTMWithZone(float longitude, float latitude,int zone)
+    {
         //Transform to UTM
         ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory ctfac = new ProjNet.CoordinateSystems.Transformations.CoordinateTransformationFactory();
         ProjNet.CoordinateSystems.ICoordinateSystem wgs84geo = ProjNet.CoordinateSystems.GeographicCoordinateSystem.WGS84;
