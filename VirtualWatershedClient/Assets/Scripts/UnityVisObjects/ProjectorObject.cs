@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class ProjectorObject : MonoBehaviour {
 
@@ -14,32 +15,33 @@ public class ProjectorObject : MonoBehaviour {
 	}
 
 
-    public void PlaceProjector(Projector projector, DataRecord record, out Vector2 BoundingScale)
+    public void PlaceProjector(DataRecord record, out Vector2 BoundingScale)
     {
+		Projector projector = gameObject.GetComponent<Projector> ();
         BoundingScale = Vector2.one;
         Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
         // Debug.LogError ("WCS BBOX: " + record.bbox2);
         // Debug.LogError ("JSON BBOX: " + record.bbox);
         //projector.name = "SPAWNED PROJECTOR";
-        if (record.bbox2 == "" || record.bbox2 == null || (Math.Abs(bboxSplit(record.bbox2).x) > 180 && Math.Abs(bboxSplit(record.bbox2).y) > 180))
+		if (record.bbox2 == "" || record.bbox2 == null || (Math.Abs(Utilities.bboxSplit(record.bbox2).x) > 180 && Math.Abs(Utilities.bboxSplit(record.bbox2).y) > 180))
         {
-            record.boundingBox = new SerialRect(bboxSplit(record.bbox));
+			record.boundingBox = new SerialRect(Utilities.bboxSplit(record.bbox));
         }
         else
         {
-            record.boundingBox = new SerialRect(bboxSplit(record.bbox2));
+			record.boundingBox = new SerialRect(Utilities.bboxSplit(record.bbox2));
         }
 
-        projector.gameObject.GetComponent<transform>();
-        if (projector.gameObject.GetComponent<transform>() != null)
+        projector.gameObject.GetComponent<WorldTransform>();
+        if (projector.gameObject.GetComponent<WorldTransform>() != null)
         {
-            Component.Destroy(projector.gameObject.GetComponent<transform>());
+            Component.Destroy(projector.gameObject.GetComponent<WorldTransform>());
         }
-        var tran = projector.gameObject.AddComponent<transform>();
-        tran.createCoordSystem(record.projection); // Create a coordinate transform
-        //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+        var tran = projector.gameObject.AddComponent<WorldTransform>();
+        tran.createCoordSystem(record.projection); // Create a coordinate worldTransform
+        //Debug.Log("coordsystem.worldTransformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
-        tran.setOrigin(coordsystem.WorldOrigin);
+        //tran.setOrigin(coordsystem.WorldOrigin);
 
         Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
         Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y)));
@@ -89,11 +91,11 @@ public class ProjectorObject : MonoBehaviour {
         // Second Place the projector
         // Time to place this guy somewhere
         // Set Gameobject Transform
-        var tran = projector.AddComponent<transform>();
+        var tran = projector.AddComponent<WorldTransform>();
         tran.createCoordSystem(record.projection); // Create a coordinate transform
         // Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
-        tran.setOrigin(coordsystem.WorldOrigin);
+        //tran.setOrigin(coordsystem.WorldOrigin);
 
         //Vector2 origin = tran.transformPoint(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
 
@@ -163,7 +165,7 @@ public class ProjectorObject : MonoBehaviour {
         if (record.texture != null)
         {
             Vector2 BoundingScale;
-            PlaceProjector2(pro, record, out BoundingScale);
+            PlaceProjector(pro, record, out BoundingScale);
             Texture2D image = new Texture2D(1024, 1024, TextureFormat.ARGB32, false);
             image.wrapMode = TextureWrapMode.Clamp;
             image.LoadImage(record.texture);
@@ -182,8 +184,8 @@ public class ProjectorObject : MonoBehaviour {
         else if (record.Data.Count > 0)
         {
             Vector2 BoundingScale;
-            PlaceProjector2(pro, record, out BoundingScale);
-            Texture2D image = Utilities.buildTextures(normalizeData(record.Data[0]), Color.grey, Color.blue);
+            PlaceProjector(pro, record, out BoundingScale);
+			Texture2D image = Utilities.buildTextures(Utilities.normalizeData(record.Data[0]), Color.grey, Color.blue);
             image.wrapMode = TextureWrapMode.Clamp;
 
             for (int i = 0; i < image.width; i++)
