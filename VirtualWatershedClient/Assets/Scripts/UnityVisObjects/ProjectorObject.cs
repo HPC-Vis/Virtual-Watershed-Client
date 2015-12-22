@@ -165,7 +165,7 @@ public class ProjectorObject : MonoBehaviour {
         if (record.texture != null)
         {
             Vector2 BoundingScale;
-            PlaceProjector(pro, record, out BoundingScale);
+            PlaceProjector(record, out BoundingScale);
             Texture2D image = new Texture2D(1024, 1024, TextureFormat.ARGB32, false);
             image.wrapMode = TextureWrapMode.Clamp;
             image.LoadImage(record.texture);
@@ -184,7 +184,7 @@ public class ProjectorObject : MonoBehaviour {
         else if (record.Data.Count > 0)
         {
             Vector2 BoundingScale;
-            PlaceProjector(pro, record, out BoundingScale);
+            PlaceProjector(record, out BoundingScale);
 			Texture2D image = Utilities.buildTextures(Utilities.normalizeData(record.Data[0]), Color.grey, Color.blue);
             image.wrapMode = TextureWrapMode.Clamp;
 
