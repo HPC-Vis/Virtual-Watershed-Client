@@ -22,6 +22,13 @@ public class WorldTransform : MonoBehaviour
 
     public WorldTransform(string epsg="EPSG:4326") : base()
     {
+
+        if (epsg == "" || epsg == null)
+        {
+            epsg = "EPSG:4326";
+            throw new System.Exception("Empty type or null specified!");
+        }
+
         createCoordSystem(epsg);
     }
 
@@ -82,6 +89,7 @@ public class WorldTransform : MonoBehaviour
     /// <returns></returns>
     public bool createCoordSystem(string epsg)
     {
+        Debug.LogError("EPSG VALUE: " + epsg);
 		// Get the numeric part of the string
         if ("" != Regex.Match(epsg, @"(epsg:[0-9]+$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
         {
@@ -110,25 +118,39 @@ public class WorldTransform : MonoBehaviour
     /// <returns></returns>
     public Vector2 transformPoint(Vector2 point)
     {
+        
+        
 		double[] pointed = new double[]{point.x,point.y};
+        Debug.LogError("BEFORE TRANFORM");
+        Debug.LogError(point);
 		localTrans.TransformPoint (pointed);
-        string tts2="";
-        localCoords.ExportToWkt(out tts2);
-        return CoordinateUtils.transformToUTM(point.x, point.y);
+
+        Debug.LogError("AFTER TRANFORM");
+        Debug.LogError(new Vector2((float)pointed[0], (float)pointed[1]));
+        //string tts2="";
+        //localCoords.ExportToWkt(out tts2);
+
+        // transform 
+        return coordsystem.transformToUnity(new Vector2((float)pointed[0],(float)pointed[1]));//CoordinateUtils.transformToUTM(point.x, point.y);
     }
 
     // This is for translating the attached gameobject to a location.
     public void translateToGlobalCoordinateSystem()
     {
-        Vector3 pos = coordsystem.transformToUnity(Origin);
-        gameObject.transform.position = new Vector3(pos.x,gameObject.transform.position.y,pos.y);
+        gameObject.transform.position = translateToGlobalCoordinateSystem(origin);
     }
 
 
     // This is for more than one point -- points should be in 
     public Vector2 translateToGlobalCoordinateSystem(Vector2 point)
     {
-        return coordsystem.transformToUnity(point);
+		double[] pointed = new double[]{point.x,point.y};
+		localTrans.TransformPoint (pointed);
+        //string tts2="";
+        //localCoords.ExportToWkt(out tts2);
+
+        // transform 
+        return coordsystem.transformToUnity(new Vector2((float)pointed[0],(float)pointed[1]));//CoordinateUtils.transformToUTM(point.x, point.y);
     }
 
 }

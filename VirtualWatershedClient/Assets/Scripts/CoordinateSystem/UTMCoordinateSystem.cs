@@ -37,33 +37,7 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     public override Vector2 TranslateToUnity(Vector2 WorldCoord)
     {
         Debug.LogError(WorldCoord);
-        Debug.LogError(WorldOrigin);
-        Debug.LogError("HERE NOW YALL");
-        Vector2 latlongorigin = Vector2.zero;
-        if (CoordinateUtils.GetZone(WorldCoord.y, WorldCoord.x) != LocalZone)
-        {
-            // Now we need to calculate the haversine distance for x and y
-            // calc y distance
-            double ydist = 1000.0 * CoordinateUtils.GetDistanceKM(latlongorigin.x, WorldCoord.y, latlongorigin.x, latlongorigin.y);
-
-            // calc x distance
-            double xdist = 1000.0 * CoordinateUtils.GetDistanceKM(WorldCoord.x, latlongorigin.y, latlongorigin.x, latlongorigin.y);
-
-            if(WorldCoord.x < latlongorigin.x)
-            {
-                xdist *= -1;
-            }
-            if (WorldCoord.y < latlongorigin.y)
-            {
-                ydist *= -1;
-            }
-            // Convert to utm
-            return new Vector2((float)xdist,(float)ydist);//new Vector2(-(WorldOrigin.x - WorldCoord.x), -(WorldOrigin.y - WorldCoord.y));
-        }
-        else
-        {
-            WorldCoord = CoordinateUtils.transformToUTM(WorldCoord.x, WorldCoord.y);
-        }
+        WorldCoord = CoordinateUtils.transformToUTM(WorldCoord.x, WorldCoord.y);
         return new Vector2(-(WorldOrigin.x - WorldCoord.x), -(WorldOrigin.y - WorldCoord.y));
     }
 

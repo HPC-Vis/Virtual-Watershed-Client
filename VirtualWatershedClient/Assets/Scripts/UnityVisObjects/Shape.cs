@@ -23,11 +23,13 @@ public class Shape : MonoBehaviour {
 	GameObject addPoint( Vector2 point,WorldTransform tr)
 	{
 		GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-		
+
+        Debug.LogError("POINT: " + point);
+
 		//determine world position of the point
 		point = tr.transformPoint(point);
 		
-		point = tr.translateToGlobalCoordinateSystem(point);
+		//point = tr.translateToGlobalCoordinateSystem(point);
 		
 		// determine position and size of cylinder using point information
 		cylinder.transform.position = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
@@ -101,11 +103,12 @@ public class Shape : MonoBehaviour {
 	// This parent gameobject is used to move that shape around.
 	public void buildShape(DataRecord record)
 	{
+        Debug.LogError("BUILD SHAPE: ");
 		GameObject parent = this.gameObject;
 		WorldTransform trans = parent.AddComponent<WorldTransform>();
 		
 		// Set Gameobject Transform
-		trans.createCoordSystem("epsg:" + GlobalConfig.GlobalProjection.ToString()); // Create a coordinate transform
+		trans.createCoordSystem(record.projection); // Create a coordinate transform
 		
 		//Vector2 origin = trans.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
 		
