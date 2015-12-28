@@ -18,10 +18,10 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     /// Vector2 worldOrigin;
     /// </summary>
 
-    public UTMCoordinateSystem()
+    public UTMCoordinateSystem(int zone=11)
         : base()
     {
-
+        LocalZone = zone;
     }
 
     // Supporting the local zone of Nevada!
@@ -53,4 +53,8 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
         return new Vector3(UnityOrigin.x + UnityCoord.x, UnityOrigin.y + UnityCoord.y);
     }
 
+    public override void UpdateInternalOrigin()
+    {
+        InternalOrigin = CoordinateUtils.transformToUTM(WorldOrigin.x, WorldOrigin.y);
+    }
 }

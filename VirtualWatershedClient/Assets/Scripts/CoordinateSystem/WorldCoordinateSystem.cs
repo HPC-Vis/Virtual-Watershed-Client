@@ -44,6 +44,7 @@ public abstract class WorldCoordinateSystem
         set
         {
             worldOrigin = value;
+            UpdateInternalOrigin();
         }
     }
 
@@ -59,11 +60,12 @@ public abstract class WorldCoordinateSystem
         }
     }
 
-
+    public Vector2 InternalOrigin;
     // Our world translation functions --- When using these functions we will assume there are no conversions to be made.
     public abstract Vector2 TranslateToUnity(Vector2 World);
     public abstract Vector2 TranslateToWorld(Vector2 Unity);
-
+    // This function must be called everytime the origin changes. -- This keeps a origin in the coordinate systems preference -- like utm
+    public abstract void UpdateInternalOrigin();
 
     /// <summary>
     /// createUnityTransform generates a tranformation to be used for tranforming from one coordinates system to another.
