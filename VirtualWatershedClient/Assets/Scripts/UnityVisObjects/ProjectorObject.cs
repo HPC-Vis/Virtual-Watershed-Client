@@ -85,7 +85,7 @@ public class ProjectorObject : MonoBehaviour {
     {
 
         // First Create a projector
-        GameObject projector = GameObject.Instantiate(Resources.Load("SlideProjector/Prefabs/SlideProjector", typeof(GameObject))) as GameObject;
+        GameObject projector = this.gameObject;
         projector.name = "SPAWNED PROJECTOR";
 
         // Second Place the projector

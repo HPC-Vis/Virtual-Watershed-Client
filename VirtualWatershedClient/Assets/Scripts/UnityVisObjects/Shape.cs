@@ -99,9 +99,9 @@ public class Shape : MonoBehaviour {
 	
 	// The buildShape function builds a bunch of shapes that remain attached to a parent gameobject.
 	// This parent gameobject is used to move that shape around.
-	public GameObject buildShape(DataRecord record)
+	public void buildShape(DataRecord record)
 	{
-		GameObject parent = new GameObject();
+		GameObject parent = this.gameObject;
 		WorldTransform trans = parent.AddComponent<WorldTransform>();
 		
 		// Set Gameobject Transform
@@ -127,7 +127,6 @@ public class Shape : MonoBehaviour {
 				addline(shape,trans).transform.parent = parent.transform;
 			}
 		}
-		return parent;
 	}
 	
 	// Rebuild Shapes -- This will only take care of the gameobject case.... where we don't have an origin change.
