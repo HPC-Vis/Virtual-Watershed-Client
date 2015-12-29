@@ -197,7 +197,62 @@ public static class Utilities
         BoundingScale.y = boundingAreaY;
 	}
 
-	// Here are some projector building functions that need to be addressed
+    public static void PlaceProjector2(Projector projector, Rect boundingBox, string projection, out Vector2 BoundingScale)
+    {
+        BoundingScale = Vector2.one;
+        Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
+
+        projector.gameObject.GetComponent<transform>();
+        if (projector.gameObject.GetComponent<transform>() != null)
+        {
+            Component.Destroy(projector.gameObject.GetComponent<transform>());
+        }
+        var tran = projector.gameObject.AddComponent<transform>();
+        tran.createCoordSystem(projection); // Create a coordinate transform
+                                                   //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+
+        tran.setOrigin(coordsystem.WorldOrigin);
+
+        Vector2 point = tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y));
+        Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y)));
+        Vector2 upperRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y)));
+        Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y - boundingBox.height))); ;
+        Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y - boundingBox.height)));
+
+        point = upperLeft;
+        Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
+        pos.y += 10;
+
+        point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y)));
+        float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+
+        pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
+        pos.y += 3000;
+        pos.x += dim;
+        pos.z += dim;
+        //pos.x += Math.Abs((upperLeft - upperRight).x) / 2.0f;
+        //pos.z += Math.Abs((upperLeft - lowerLeft).y) / 2.0f;
+
+        Debug.LogError("Pos: " + pos);
+        projector.transform.position = pos;
+
+        var pro = projector.GetComponent<Projector>();
+        pro.farClipPlane = 10000;
+        pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+
+        float boundingAreaX = Mathf.Abs((upperLeft.x - upperRight.x) / (2.0f * pro.orthographicSize));
+        float boundingAreaY = Mathf.Abs((upperLeft.y - lowerLeft.y) / (2.0f * pro.orthographicSize));
+        // Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
+        // Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
+        pro.material = Material.Instantiate(pro.material);
+        pro.material.SetFloat("_MaxX", boundingAreaX);
+        pro.material.SetFloat("_MaxY", boundingAreaY);
+
+        BoundingScale.x = boundingAreaX;
+        BoundingScale.y = boundingAreaY;
+    }
+
+    // Here are some projector building functions that need to be addressed
     public static GameObject buildProjector(DataRecord record, bool type = false)
 	{
 		// Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);

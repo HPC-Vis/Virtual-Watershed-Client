@@ -44,10 +44,9 @@ public class Spooler : MonoBehaviour
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
     private ModelRun modelrun;
-    public GameObject cursor;
     public Text downloadTextBox;
     public Text selectedVariableTextBox;
-    public string selectedVariableString;
+    string selectedVariableString;
     
     // Local Variables
     Vector2 NormalizedPoint = Vector2.zero;
@@ -143,6 +142,7 @@ public class Spooler : MonoBehaviour
                 selectedVariableTextBox.text = selectedVariableString;
                 trendGraph.SetUnit(oldSelectedVariable);
                 
+                /*
                 // This is called as an initial setup
                 if (Reel.Count == 0)
                 {
@@ -200,6 +200,7 @@ public class Spooler : MonoBehaviour
                     // Set the bounding box to the trendgraph
                     trendGraph.SetBoundingBox(BoundingBox);
                 }
+                */
 
                 // Updates the count, and adds the record to the reel
                 count--;
@@ -236,17 +237,53 @@ public class Spooler : MonoBehaviour
             }
 
             // Updates the time on the time slider view
-			timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
+            timeSlider.SetTimeDuration(Reel[0].starttime, Reel[Reel.Count - 1].endtime, Math.Min((float)(Reel[Reel.Count - 1].endtime-Reel[0].starttime).TotalHours,30*24));
 
         }
-        
-        // This if statement is used for debugging code
-        if(Input.GetKeyDown(KeyCode.L))
+ 
+    }
+
+    /// <summary>
+    /// This is used to replace the update of new data. This will set the projector, and shader data.
+    /// </summary>
+    /// <param name="BoundingBox">New bounding box.</param>
+    /// <param name="projection">Projection code.</param>
+    /// <param name="wms">Yes/No if is a WMS type.</param>
+    public void UpdateData(Rect BoundingBox, string projection, bool wms, string variable, string uuid)
+    {
+        // Set projector
+        Vector2 BoundingScale;
+        Utilities.PlaceProjector2(TimeProjector, BoundingBox, projection, out BoundingScale);
+        WMS = wms;
+
+        if (!WMS)
         {
-            Debug.LogError("The count / total: " + Reel.Count + " / " + TOTAL);
-            trendGraph.SetPosition(50, 50);
-            // trendGraph.PresetData();
+            TimeProjector.material = colorProjector;
+            TimeProjector.material.SetFloat("_MaxX", BoundingScale.x);
+            TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
+            testImage.material = colorWindow;
+            testImage.material.SetFloat("_MaxX", BoundingScale.x);
+            testImage.material.SetFloat("_MaxY", BoundingScale.y);
         }
+        else
+        {
+            TimeProjector.material = slideProjector;
+            TimeProjector.material.SetFloat("_MaxX", BoundingScale.x);
+            TimeProjector.material.SetFloat("_MaxY", BoundingScale.y);
+        }
+
+        Debug.LogError(BoundingBox);
+        Debug.LogError(BoundingBox.width);
+
+        // Set variable
+        selectedVariableString = "Variable: " + variable;
+        oldSelectedVariable = variable;
+        selectedModelRun = uuid;
+        modelrun = ModelRunManager.GetByUUID(selectedModelRun);
+
+        // Set the bounding box to the trendgraph
+        trendGraph.Clear();
+        trendGraph.SetBoundingBox(BoundingBox);
     }
 
     /// <summary>
@@ -273,7 +310,8 @@ public class Spooler : MonoBehaviour
         }
 		if (rec.modelRunUUID != selectedModelRun) 
 		{
-			// This is not the model run we want because something else was selected.
+            // This is not the model run we want because something else was selected.
+            Debug.LogError("Ran This ITem");
 			return;
 		}
         var TS = rec.end.Value - rec.start.Value;
@@ -531,7 +569,7 @@ public class Spooler : MonoBehaviour
         selectedVariableString = "Current Model Run: " + seled[0][0].ToString() + " Variable: " + variable;
 
         // Only run if what was selected returned a value
-		if(temp != null)
+        if (temp != null)
 		{
             // Handles the clearing of previous data.
             if (selectedModelRun != "")
