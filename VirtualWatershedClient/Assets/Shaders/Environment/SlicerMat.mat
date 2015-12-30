@@ -148,11 +148,11 @@ Material:
       data:
         first:
           name: _Max
-        second: .350385249
+        second: .543999374
       data:
         first:
           name: _Min
-        second: .217845455
+        second: .190356314
     m_Colors:
       data:
         first:
@@ -165,8 +165,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .473635316, g: .694748878, b: 0, a: 0}
+        second: {r: .477948397, g: .604284763, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .517795265, g: .679466903, b: 0, a: 0}
+        second: {r: .4985663, g: .479747653, b: 0, a: 0}

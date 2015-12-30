@@ -2,12 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
+
+public struct Frame
+{
+    public Sprite Picture;
+    public DateTime starttime;
+    public DateTime endtime;
+    public float[,] Data;
+};
+
+
+public class FrameEndDateAscending : IComparer<Frame>
+{
+    public int Compare(Frame first, Frame second)
+    {
+        if (first.starttime > second.starttime) { return 1; }
+        else if (first.starttime == second.starttime) { return 0; }
+        else { return -1; }
+    }
+}
 
 
 public class ActiveData : MonoBehaviour {
     // Variables
     public static Dictionary<String, ModelRun> Active = new Dictionary<String, ModelRun>();
     public ModelRunVisualizer temporalList;
+    public Text DownloadTextbox;
 
     // List of objects subscribing to the active data
     public Spooler spool;
@@ -15,11 +36,15 @@ public class ActiveData : MonoBehaviour {
     // Locals
     private bool WMS;
     private bool init = false;
-    private static int TOTAL;
+    public static int TOTAL = 0;
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
     private Rect BoundingBox;
     private string Projection;
     private string variable;
+    private float Max;
+    private float Min;
+    private static List<Frame> CurrentData = new List<Frame>();
+
 
     void Update()
     {
@@ -46,27 +71,10 @@ public class ActiveData : MonoBehaviour {
                 BoundingBox = Utilities.bboxSplit(record.bbox);
             }
 
-            transform tran = new transform();
-            //Debug.LogError("Coord System: " + record.projection);
-            tran.createCoordSystem(record.projection); // Create a coordinate transform
-            //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
-
-            // transfor a lat/long bounding box to UTM
-            tran.setOrigin(coordsystem.WorldOrigin);
-            Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
-            Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
-
-            // Here is a patch.
-            if ((BoundingBox.x > -180 && BoundingBox.x < 180 && BoundingBox.y < 180 && BoundingBox.y > -180))
-            {
-                BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
-            }
-
-
             // Push the new information to the subscribers
             ModelRun mr;
             Active.TryGetValue(variable, out mr);
-            spool.UpdateData(BoundingBox, Projection, WMS, variable, mr.ModelRunUUID);
+            spool.UpdateData(BoundingBox, Projection, WMS, variable, Active[variable].ModelRunUUID);
 
             init = false;
         }
@@ -84,8 +92,173 @@ public class ActiveData : MonoBehaviour {
             // Run the dequeue dequeueSize times
             for (int i = 0; i < dequeueSize; i++)
             {
-                spool.SliderFrames.Enqueue(SliderFrames.Dequeue());
+                DataRecord record = SliderFrames.Dequeue();
+                spool.SliderFrames.Enqueue(record);
+                textureBuilder(record);
+
+                // Updates the min/max information across the necessary classes
+                if (record.Max > Active[variable].MinMax[variable].y)
+                {
+                    Max = record.Max;
+                    Active[variable].MinMax[variable] = new SerialVector2(new Vector2(Active[variable].MinMax[variable].x, Max));
+                    spool.UpdateMinMax(Min, Max);
+                }
+                if (record.Min < Active[variable].MinMax[variable].x)
+                {
+                    Min = record.Min;
+                    Active[variable].MinMax[variable] = new SerialVector2(new Vector2(Min, Active[variable].MinMax[variable].y));
+                    spool.UpdateMinMax(Min, Max);
+                }
             }
+
+            DownloadTextbox.text = "Downloaded: " + ((float)CurrentData.Count / (float)TOTAL).ToString("P");
+            spool.UpdateTimeDuration(CurrentData[0].starttime, CurrentData[CurrentData.Count - 1].endtime);
+        }
+    }
+
+    /// <summary>
+    /// Takes the currently worked on record and adds it to the spooler.
+    /// </summary>
+    /// <param name="rec">The current record to add.</param>
+    public void textureBuilder(DataRecord rec)
+    {
+        //return;
+        // Caching 
+        /* 
+         if (!FileBasedCache.Exists (rec.id))  
+         {
+             //Debug.LogError("INSERTING INTO CACHE " + rec.id);
+             FileBasedCache.Insert<DataRecord>(rec.id,rec);
+         }
+          */
+
+        // This is used to check that the record is correct
+        if (rec == null)
+        {
+            Debug.LogError("The RUN was invalid");
+            return;
+        }
+        if (rec.modelRunUUID != Active[variable].ModelRunUUID)
+        {
+            // This is not the model run we want because something else was selected.
+            Debug.LogError("Ran This ITem");
+            return;
+        }
+        var TS = rec.end.Value - rec.start.Value;
+        double totalhours = TS.TotalHours / rec.Data.Count;
+        float max, min, mean;
+        if (rec.Data.Count > 1)
+        {
+            TOTAL = rec.Data.Count; // Patch
+        }
+
+        if (!rec.start.HasValue)
+        {
+            Debug.LogError("no start");
+            rec.start = DateTime.MinValue;
+        }
+        if (!rec.end.HasValue)
+        {
+            Debug.LogError("no end");
+
+            rec.end = DateTime.MaxValue;
+        }
+
+        for (int j = 0; j < rec.Data.Count; j++)
+        {
+            // Build the Frame to pass in
+            Frame frame = new Frame();
+
+
+            if (rec.Data.Count == 1)
+            {
+                frame.starttime = rec.start.Value;
+                frame.endtime = rec.end.Value;
+            }
+            else
+            {
+                frame.starttime = rec.start.Value + new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
+                frame.endtime = rec.end.Value + new TimeSpan((int)Math.Round((double)(j + 1) * totalhours), 0, 0);
+            }
+
+            frame.Data = rec.Data[j];
+
+            // Checks for NULL downloaded data
+            if (rec.Data == null)
+            {
+                Debug.LogError("The data at UUID = " + rec.id + " was null.");
+                return;
+            }
+
+
+            Logger.enable = true;
+            Texture2D tex = new Texture2D(rec.width, rec.height);
+
+            if (!WMS)
+            {
+                tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max, out mean);
+                rec.Min = Math.Min(min, rec.Min);
+                rec.Max = Math.Max(max, rec.Max);
+                rec.Mean = mean;
+                var vari = Active[variable].GetVariable(variable);
+                vari.meanSum += mean;
+                vari.frameCount += 1;
+                vari.Mean = vari.meanSum / vari.frameCount;
+
+                //Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
+            }
+            else
+            {
+                // We need to change this ..... as this code is unreachable at the moment.
+                tex.LoadImage(rec.texture);
+            }
+
+            // This will add a clear color on all the 
+            for (int i = 0; i < tex.width; i++)
+            {
+                tex.SetPixel(i, 0, Color.clear);
+                tex.SetPixel(i, tex.height - 1, Color.clear);
+            }
+            for (int i = 0; i < tex.height; i++)
+            {
+                tex.SetPixel(tex.width - 1, i, Color.clear);
+                tex.SetPixel(0, i, Color.clear);
+            }
+
+            tex.Apply();
+            frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
+            Insert(frame);
+        }
+    }
+
+    /// <summary>
+    /// Inserts the frame into the Reel.
+    /// </summary>
+    /// <param name="frame">The frame to add to the reel.</param>
+    void Insert(Frame frame)
+    {
+        // Does this handle duplicates..
+        int index = CurrentData.BinarySearch(frame, new FrameEndDateAscending());
+
+        // This is to help pinpoint too many records added to the Reel
+        if (CurrentData.Count >= TOTAL)
+        {
+            //Debug.LogError("Why is there more records being added to the Reel?");
+            //Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
+        }
+
+        //if index >= 0 there is a duplicate 
+        if (index >= 0)
+        {
+            //handle the duplicate!
+            //throw new Exception("Duplicate Handling not implemented!!!!!");
+            TOTAL--;
+        }
+        else
+        {
+            // new item
+            // Debug.LogError("INSERTTING FRAMME " + ~index);
+            CurrentData.Insert(~index, frame);
         }
     }
 
@@ -102,6 +275,29 @@ public class ActiveData : MonoBehaviour {
             numerator += (float)(variable.Data.Count);
         }
         return numerator / denominator;
+    }
+
+    /// <summary>
+    /// The next frame in the reel and updates the window texture.
+    /// </summary>
+    /// <param name="Time">The time on the time slider.</param>
+    /// <returns>Location of the Reel the time is.</returns>
+    public static int FindNearestFrame(DateTime Time)
+    {
+        Frame temp = new Frame();
+        temp.starttime = Time;
+        int index = CurrentData.BinarySearch(temp, new FrameEndDateAscending());
+        return index < 0 ? ~index - 1 : index;
+    }
+
+    public static int GetCount()
+    {
+        return CurrentData.Count;
+    }
+
+    public static Frame GetFrameAt(int index)
+    {
+        return CurrentData[index];
     }
 
     /// <summary>
@@ -141,7 +337,6 @@ public class ActiveData : MonoBehaviour {
             // Get the Model Run
             var Records = temp[0].FetchVariableData(variable);
             TOTAL = Records.Count;
-            Spooler.TOTAL = TOTAL;
             ModelRun modelrun = ModelRunManager.GetByUUID(temp[0].ModelRunUUID);
             init = true;
             Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
@@ -162,4 +357,18 @@ public class ActiveData : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// Used by the ModelRunComparison to buyild the Delta and add to spooler.
+    /// </summary>
+    public void SetupForDelta(string seled, string vari, int total, string uuid)
+    {
+        // Get the Model Run
+        TOTAL = total;
+        variable = vari;
+
+        // Set the download based on the doqq in description
+        WMS = false;
+    }
+
 }

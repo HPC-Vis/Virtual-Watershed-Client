@@ -280,7 +280,7 @@ public static class ModelRunManager
             variable.TotalRecords = da.Count;
 
             //temporary patch is gross
-            Spooler.TOTAL = da.Count;
+            ActiveData.TOTAL = da.Count;
 
             for (int j = 0; j < da.Count; j++)
             {
