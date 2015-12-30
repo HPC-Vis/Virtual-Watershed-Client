@@ -65,7 +65,8 @@ namespace CoordinateSystemTests
             float angle = Vector2.Angle(heading, Vector2.up);
             if (heading.y < 0)
             {
-                angle += 180.0f;
+                Debug.LogError("HERE");
+                angle = -angle;
             }
             angle *= Mathf.Deg2Rad;
             Debug.LogError(angle);
@@ -74,10 +75,19 @@ namespace CoordinateSystemTests
             Debug.LogError(angle);
             lat1 *= Mathf.Deg2Rad;
             long1 *= Mathf.Deg2Rad;
-            double latitude = Mathf.Asin(Mathf.Sin(lat1) * Mathf.Cos(haverdistance) + Mathf.Cos(lat1) * Mathf.Sin(haverdistance) * Mathf.Cos(angle));
-            var dlon = Mathf.Atan2( Mathf.Sin(angle) * Mathf.Sin(haverdistance) * Mathf.Cos(lat1), Mathf.Cos(haverdistance) - Mathf.Sin(lat1) * Mathf.Sin((float)latitude));
-            double longitude = (long1 - dlon + Mathf.PI) % (2.0f * Mathf.PI) - Mathf.PI;
-            Debug.LogError(longitude*Mathf.Rad2Deg + " " + latitude*Mathf.Rad2Deg);
+            float R = 6378.1f;
+            lat2 = Mathf.Asin( Mathf.Sin(lat1)*Mathf.Cos(haverdistance/R) +
+            Mathf.Cos(lat1)*Mathf.Sin(haverdistance/R)*Mathf.Cos(angle));
+
+             long2 = long1 + Mathf.Atan2(Mathf.Sin(angle)*Mathf.Sin(haverdistance/R)*Mathf.Cos(lat1),
+             Mathf.Cos(haverdistance/R)-Mathf.Sin(lat1)*Mathf.Sin(lat2));
+
+             lat2 = Mathf.Rad2Deg * lat2;
+             long2 = Mathf.Rad2Deg * long2;
+
+             Debug.LogError(long2 + " " + lat2);
+            
+            
         }
 
         [Test]
