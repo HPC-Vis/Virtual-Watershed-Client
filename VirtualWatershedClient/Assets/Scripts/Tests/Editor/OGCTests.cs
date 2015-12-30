@@ -20,12 +20,12 @@ namespace OGC_Tests
         OGCConnector ogc;
         public OGCTests()
         {
-            Debug.LogError("AFASD");
-            NetworkManager nm = new NetworkManager();
-            DataFactory df = new DataFactory(nm);
-            ogc = new OGCConnector(df,nm);
-            nm.Subscribe(ogc);
-            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
+            //Debug.LogError("AFASD");
+            //NetworkManager nm = new NetworkManager();
+            //DataFactory df = new DataFactory(nm);
+            //ogc = new OGCConnector(df,nm);
+            //nm.Subscribe(ogc);
+            //Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
         }
 
         [Test]

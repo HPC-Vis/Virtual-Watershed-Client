@@ -42,11 +42,11 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: .477611959, g: .477611959, b: .477611959, a: .325490206}
+        second: {r: 0.47761196, g: 0.47761196, b: 0.47761196, a: 0.3254902}
       data:
         first:
           name: _EmisColor
-        second: {r: 1, g: .410447776, b: .410447776, a: 0}
+        second: {r: 1, g: 0.41044778, b: 0.41044778, a: 0}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

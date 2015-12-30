@@ -31,11 +31,11 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: .549019635}
+        second: {r: 1, g: 1, b: 1, a: 0.54901963}
       data:
         first:
           name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: .501960814}
+        second: {r: 1, g: 1, b: 1, a: 0.5019608}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6
