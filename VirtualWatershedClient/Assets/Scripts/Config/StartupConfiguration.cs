@@ -3,7 +3,7 @@ using System.Collections;
 using Proj4Net.Projection;
 using Proj4Net;
 using ProjNet;
-
+using OSGeo.OSR;
 public class StartupConfiguration : MonoBehaviour {
 
 	// Use this for initialization
@@ -12,11 +12,7 @@ public class StartupConfiguration : MonoBehaviour {
         
         //OSGeo.GDAL.Gdal.SetConfigOption("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
         Debug.LogError(OSGeo.GDAL.Gdal.GetConfigOption("GDAL_DATA",""));
-	    // Setup global Coordinate System -- Currently hard coded, add ability to set these at runtime 
-		//coordsystem.baseCoordSystem = new OSGeo.OSR.SpatialReference ("");//coordsystem.coordRefFactory.CreateFromName("epsg:" + GlobalConfig.GlobalProjection.ToString());
-		//coordsystem.baseCoordSystem.ImportFromEPSG (GlobalConfig.GlobalProjection);
-        coordsystem.WorldOrigin = new Vector2(GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height/2.0f);
-        Logger.Log("Got the bounding box size of: " + GlobalConfig.BoundingBox.width + " " + GlobalConfig.BoundingBox.height);
+        LoadConfig();
 	}
 	
 	// Update is called once per frame
@@ -31,8 +27,16 @@ public class StartupConfiguration : MonoBehaviour {
 	    //coordsystem.UnityOrigin
 		//coordsystem.baseCoordSystem = new OSGeo.OSR.SpatialReference ("");//coordsystem.coordRefFactory.CreateFromName("epsg:" + GlobalConfig.GlobalProjection.ToString());
 		//coordsystem.baseCoordSystem.ImportFromEPSG (GlobalConfig.GlobalProjection);
-		coordsystem.WorldOrigin = new Vector2(GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height/2.0f);
-		Logger.Log ("Loaded Bounding Box: " + GlobalConfig.BoundingBox.center.x + " " + GlobalConfig.BoundingBox.center.y);
+
+        // Convert global config points to lat long
+        SpatialReference sr = new SpatialReference("");
+        sr.ImportFromEPSG(GlobalConfig.GlobalProjection);
+        var transform = coordsystem.createUnityTransform(sr);
+
+        // Set origin to configs transformed center
+        double[] bboxcenter = { GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height / 2.0f };
+        transform.TransformPoint(bboxcenter);
+        coordsystem.WorldOrigin = new Vector2((float)bboxcenter[0], (float)bboxcenter[1]);//new Vector2(GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height/2.0f);
 	}
 
 }

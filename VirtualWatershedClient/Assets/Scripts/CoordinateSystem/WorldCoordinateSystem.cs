@@ -20,6 +20,7 @@ public abstract class WorldCoordinateSystem
 
     public static SpatialReference baseCoordSystem = new SpatialReference("");
 
+    public bool NorthHemisphere;
 
 
     
@@ -45,6 +46,8 @@ public abstract class WorldCoordinateSystem
         {
             worldOrigin = value;
             UpdateInternalOrigin();
+            //Debug.LogError("NEW WORLD ORIGIN: " + worldOrigin);
+            //Debug.LogError("Interal Origin: " + InternalOrigin);
         }
     }
 

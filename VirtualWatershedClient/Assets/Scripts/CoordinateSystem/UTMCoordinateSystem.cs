@@ -17,7 +17,7 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     /// Vector2 unityOrigin;
     /// Vector2 worldOrigin;
     /// </summary>
-
+    public bool NorthHemisphere;
     public UTMCoordinateSystem(int zone=11)
         : base()
     {
@@ -37,8 +37,30 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     public override Vector2 TranslateToUnity(Vector2 WorldCoord)
     {
         Debug.LogError(WorldCoord);
-        WorldCoord = CoordinateUtils.transformToUTM(WorldCoord.x, WorldCoord.y);
-        return new Vector2(-(WorldOrigin.x - WorldCoord.x), -(WorldOrigin.y - WorldCoord.y));
+        int WorldCoordZone = CoordinateUtils.GetZone(WorldCoord.y,WorldCoord.x);
+        Debug.LogError("World Coord Zone: " + WorldCoordZone);
+        Debug.LogError("Local Zone: " + LocalZone);
+        Vector2 TransformedCoord = CoordinateUtils.transformToUTM(WorldCoord.x, WorldCoord.y);
+        // This criterion is choosen based on http://geokov.com/education/utm.aspx --- In polar regions there is a large amount of distortion
+        // This makes sense with UTM.
+        if(WorldCoord.y > 84 || WorldCoord.y < -80 || WorldCoordZone != LocalZone)
+        {
+            Debug.LogError("Using Haversine");
+
+            // Time to do some haversine magic -- to get the distance between the two points
+            float distance = (float)CoordinateUtils.GetDistanceKM(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y)*1000.0f; // convert to meters
+
+            // Now lets compute the Unity Point -- by getting a direction vector and multiplying the distance to it.
+            return (WorldCoord - WorldOrigin).normalized * distance;
+        }
+        // If these two points are not in the same hemisphere
+        else if (NorthHemisphere != (WorldCoord.y > 0) )
+        {
+            TransformedCoord.y = TransformedCoord.y - 10000000;// false northing for south hemisphere -- we are assuming the equator to be 0,0.
+        }
+        
+
+        return new Vector2(-(InternalOrigin.x - TransformedCoord.x), -(InternalOrigin.y - TransformedCoord.y));
     }
 
     /// <summary>
@@ -55,6 +77,8 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
 
     public override void UpdateInternalOrigin()
     {
+        // Detecting if the point is in the north hemisphere.
+        NorthHemisphere = WorldOrigin.y > 0;
         InternalOrigin = CoordinateUtils.transformToUTM(WorldOrigin.x, WorldOrigin.y);
     }
 }

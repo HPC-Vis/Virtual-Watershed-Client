@@ -67,65 +67,6 @@ public static class CoordinateUtils
 
     const int ZONE_ORIGIN = 500000;
 
-    /// <summary>
-    /// This only works for when you are in one hemisphere north or south but not both
-    /// </summary>
-    /// <param name="Longitude1"></param>
-    /// <param name="Latitude1"></param>
-    /// <param name="Longitude2"></param>
-    /// <param name="Latitude2"></param>
-    ///  THIS DOES NOT WORK!!!!
-    /// <returns></returns>
-    public static Vector2 GetXYDistance(float Longitude1,float Latitude1,float Longitude2,float Latitude2)
-    {
-        int refcordzone = CoordinateUtils.GetZone(Latitude1, Longitude1);
-        int othercordzone = CoordinateUtils.GetZone(Latitude2, Longitude2);
-        Debug.LogError("Ref coord zone: " + refcordzone);
-        Debug.LogError("other coord zone: " + othercordzone);
-        Vector2 DirectionVector = new Vector2(Longitude1, Latitude1) - new Vector2(Longitude2, Latitude2);
-        DirectionVector.Normalize();
-
-        // One of the two places
-        var Start1 = CoordinateUtils.transformToUTM(Longitude1, Latitude1);
-        var Start2 = CoordinateUtils.transformToUTM(Longitude2, Latitude2);
-        double offsetx = 0;
-        float offsety = 0;
-
-        if(refcordzone > othercordzone)
-        {
-            var movedstart =  Longitude1 - 6;
-            var newstart = CoordinateUtils.transformToUTM(movedstart,Latitude1);
-            Debug.LogError("A: " + GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1));
-            Debug.LogError("B: " + GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2));
-            offsetx += 2*GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1) - Mathf.Abs(Start1.x);
-            offsetx += 2*GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2) - Mathf.Abs(Start2.x + ZONE_ORIGIN);
-            if(Mathf.Abs(refcordzone -othercordzone) > 1)
-            {
-                int zone = Mathf.Abs(refcordzone - othercordzone) - 1;
-                offsetx += zone * 2 * GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2);
-            }
-            offsety = Mathf.Abs(Start2.y - newstart.y);
-
-
-        }
-        else if(refcordzone < othercordzone)
-        {
-            var movedstart = Longitude1 + 6;
-            var newstart = CoordinateUtils.transformToUTM(movedstart, Latitude1);
-            offsety = Mathf.Abs(Start2.y - newstart.y);
-            Debug.LogError("A: " + GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1));
-            Debug.LogError("B: " + GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2));
-            offsetx += 2*GetUtmZoneHalfWidth((int)Longitude1, (int)Latitude1) - Mathf.Abs(Start1.x + ZONE_ORIGIN);
-            offsetx += 2*GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2) - Mathf.Abs(Start2.x);
-            if (Mathf.Abs(refcordzone - othercordzone) > 1)
-            {
-                int zone = Mathf.Abs(refcordzone - othercordzone) - 1;
-                offsetx += zone * 2 * GetUtmZoneHalfWidth((int)Longitude2, (int)Latitude2);
-            }
-        }
-        return new Vector2((float)offsetx, (float)offsety);
-    }
-
     public static int GetZone(double latitude, double longitude)
     {
         return (int)(Mathf.Floor(((float)longitude + 180.0f) / 6) + 1);

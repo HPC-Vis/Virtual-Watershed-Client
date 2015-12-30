@@ -60,21 +60,21 @@ namespace OGC_Tests
 			new object[] {new Vector2(-119.8152367f+2,39.5436008f-2), new Vector2(427982.5f,4155490.8f)}
 		};
 
-		[Test]
-		public void UTMZoneOriginAndBoundaryTest( [NUnit.Framework.Range(-180,180,36)] int bound, [NUnit.Framework.Range(-90,90,30)] float long1, [NUnit.Framework.Range(-90,90,30)]float long2)
-		{
-			var test = CoordinateUtils.transformToUTMDouble(bound, long1);
-			var test2 = CoordinateUtils.transformToUTMDouble (bound, long2);
-			if (bound % 6 == 3 || Mathf.Abs(long1) == Mathf.Abs(long2)) 
-			{
-				Assert.AreEqual (test [0], test2 [0],1.0);
-			} 
-			else 
-			{
-                System.Console.WriteLine("Not Equal");
-				Assert.AreNotEqual(test[0],test2[0]);
-			}
-		}
+        //[Test]
+        //public void UTMZoneOriginAndBoundaryTest( [NUnit.Framework.Range(-180,180,36)] int bound, [NUnit.Framework.Range(-90,90,30)] float long1, [NUnit.Framework.Range(-90,90,30)]float long2)
+        //{
+        //    var test = CoordinateUtils.transformToUTMDouble(bound, long1);
+        //    var test2 = CoordinateUtils.transformToUTMDouble (bound, long2);
+        //    if (bound % 6 == 3 || Mathf.Abs(long1) == Mathf.Abs(long2)) 
+        //    {
+        //        Assert.AreEqual (test [0], test2 [0],1.0);
+        //    } 
+        //    else 
+        //    {
+        //        System.Console.WriteLine("Not Equal");
+        //        Assert.AreNotEqual(test[0],test2[0]);
+        //    }
+        //}
 
 		// This test compares two methods of getting the distance between two points across zones
 		// first being reprojecting the two points into the same zone
@@ -149,18 +149,6 @@ namespace OGC_Tests
             Assert.AreEqual(distance, Vector2.Distance(local, local2)/1000);
         }
 
-        [Test]
-        public void HaversineTest([NUnit.Framework.Range(12, 26, 6)] int longitude, [NUnit.Framework.Range(30, 44, 6)] int latitude, [NUnit.Framework.Range(12, 26, 6)] int longitude2, [NUnit.Framework.Range(30, 44, 6)]int latitude2)
-        {
-            var distance = CoordinateUtils.GetDistanceKM(longitude, latitude, longitude2, latitude2) * 1000;
-            Debug.LogError("++++++++++++++++++++++++++++++++++++++");
-            Debug.LogError("Points of Interest: " + longitude + " " + latitude + " " + longitude2 + " " + latitude2);
-            Debug.LogError("HAVERSINE: " + distance);
-            Debug.LogError("DISTANCE: " + CoordinateUtils.GetXYDistance(longitude, latitude, longitude2, latitude2).magnitude);
-            Debug.LogError("Distance Vector: " + CoordinateUtils.GetXYDistance(longitude, latitude, longitude2, latitude2));
-            Debug.LogError("++++++++++++++++++++++++++++++++++++++");
-            
-        }
 
 		double GetUtmZoneOrigin(int Longitude, int Latitude)
 		{
