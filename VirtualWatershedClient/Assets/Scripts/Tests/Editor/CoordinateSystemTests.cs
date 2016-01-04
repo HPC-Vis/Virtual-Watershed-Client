@@ -9,6 +9,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using ProjNet;
 using ProjNet.CoordinateSystems;
+using Gavaghan.Geodesy;
 
 namespace CoordinateSystemTests
 {
@@ -50,7 +51,27 @@ namespace CoordinateSystemTests
             Assert.AreEqual(Vector2.Distance(CS.UnityOrigin, UnityPoint), (float)haverdistance, 500);
         }
 
+        // Testing two coordinates that span across two zones.
+        [Test]
+        [TestCase(33, 40, 33, -40)]
+        [TestCase(33, 1, 33, -1)]
+        [TestCase(33, 1, 33, 2)]
+        [TestCase(33, 1, 33, 1.2f)]
+        public void VincentyCoordinateTest(float long1, float latitude, float long2, float latitude2)
+        {
 
+            var CS = new UTMCoordinateSystem(CoordinateUtils.GetZone(latitude, long1));
+
+            CS.WorldOrigin = new Vector2(long1, latitude);
+
+            double distance = CoordinateUtils.VincentyDistanceKM(long1, latitude, long2, latitude2) * 1000.0;
+
+            var UnityPoint = CS.TranslateToUnity(new Vector2(long2, latitude2));
+            Debug.LogError(Vector2.Distance(CS.UnityOrigin, UnityPoint) + " " + distance);
+            Assert.AreEqual(Vector2.Distance(CS.UnityOrigin, UnityPoint), (float)distance);
+        }
+
+        // http://stackoverflow.com/questions/3225803/calculate-endpoint-given-distance-bearing-starting-point
         [Test]
         [TestCase(33, 40, 33, -40)]
         [TestCase(33, 1, 33, -1)]
@@ -65,30 +86,54 @@ namespace CoordinateSystemTests
             float angle = Vector2.Angle(heading, Vector2.up);
             if (heading.y < 0)
             {
-                Debug.LogError("HERE");
+                //Debug.LogError("HERE");
                 angle = -angle;
             }
-            angle *= Mathf.Deg2Rad;
-            Debug.LogError(angle);
-            float haverdistance = (float)CoordinateUtils.GetDistanceKM(long1, lat1, long2, lat2);
-            Debug.LogError(haverdistance);
-            Debug.LogError(angle);
-            lat1 *= Mathf.Deg2Rad;
-            long1 *= Mathf.Deg2Rad;
-            float R = 6378.1f;
-            lat2 = Mathf.Asin( Mathf.Sin(lat1)*Mathf.Cos(haverdistance/R) +
-            Mathf.Cos(lat1)*Mathf.Sin(haverdistance/R)*Mathf.Cos(angle));
+            //angle *= Mathf.Deg2Rad;
+            //Debug.LogError(angle);
+            float haverdistance = (float)CoordinateUtils.GetDistanceKM(long1, lat1, long2, lat2) * 1000.0f;
+            //Debug.LogError(haverdistance);
+            //Debug.LogError(angle);
+            Debug.LogError(CoordinateUtils.CalculateProjectedPointHaversine(one, angle, haverdistance));
 
-             long2 = long1 + Mathf.Atan2(Mathf.Sin(angle)*Mathf.Sin(haverdistance/R)*Mathf.Cos(lat1),
-             Mathf.Cos(haverdistance/R)-Mathf.Sin(lat1)*Mathf.Sin(lat2));
-
-             lat2 = Mathf.Rad2Deg * lat2;
-             long2 = Mathf.Rad2Deg * long2;
-
-             Debug.LogError(long2 + " " + lat2);
+             //Debug.LogError(long2 + " " + lat2);
             
             
         }
+
+        [Test]
+        [TestCase(33, 40, 33, -40)]
+        [TestCase(33, 1, 33, -1)]
+        [TestCase(33, 1, 33, 6)]
+        [TestCase(33, 1, 33, 1.2f)]
+        public void TrueCourseTest2(float long1, float lat1, float long2, float lat2)
+        {
+            // Calaculate bearing
+            Vector2 one = new Vector2(long1, lat1);
+            Vector2 two = new Vector2(long2, lat2);
+            Vector2 heading = two - one;
+            heading.Normalize();
+            float angle = Vector2.Angle(heading, Vector2.up);
+            if (heading.y < 0)
+            {
+                //Debug.LogError("HERE");
+                angle = -angle;
+            }
+
+            // Using haverdistance for calculation           
+            float haverdistance = (float)CoordinateUtils.GetDistanceKM(long1, lat1, long2, lat2)*1000.0f;
+
+            float distance = (float)CoordinateUtils.VincentyDistanceKM(long1, lat1, long2, lat2) * 1000.0f;
+
+            Debug.LogError(CoordinateUtils.CalculateProjectedPointVincenty(one, angle, haverdistance));
+            Debug.LogError(CoordinateUtils.CalculateProjectedPointVincenty(one, angle, distance));
+            Debug.LogError(distance);
+            Debug.LogError(haverdistance);
+        }
+
+
+        // Incorporate a speed test.
+        
 
         [Test]
         [TestCase(0, 0, 0, 1)]

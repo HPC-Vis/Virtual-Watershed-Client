@@ -36,6 +36,7 @@ public class StartupConfiguration : MonoBehaviour {
         // Set origin to configs transformed center
         double[] bboxcenter = { GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height / 2.0f };
         transform.TransformPoint(bboxcenter);
+        
         coordsystem.WorldOrigin = new Vector2((float)bboxcenter[0], (float)bboxcenter[1]);//new Vector2(GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height/2.0f);
 	}
 

@@ -1,8 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using Gavaghan.Geodesy;
 public static class CoordinateUtils
 {
+
+
+    static GeodeticCalculator geoCalc = new GeodeticCalculator();
+
+    // select a reference elllipsoid
+    static Gavaghan.Geodesy.Ellipsoid reference = Gavaghan.Geodesy.Ellipsoid.WGS84;
+
     // http://damien.dennehy.me/blog/2011/01/15/haversine-algorithm-in-csharp/
     /// <summary>
     /// Radius of the Earth in Kilometers.
@@ -114,4 +121,94 @@ public static class CoordinateUtils
     }
 
 
+    // Based on this reference http://stackoverflow.com/questions/7222382/get-lat-long-given-current-point-distance-and-bearing
+    // Can be derived from haversine.
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="LongLat">Must be in degrees. </param>
+    /// <param name="angle">Must be in degrees. </param>
+    /// <param name="distance">Must be in meters.</param>
+    /// <returns></returns>
+    public static Vector2 CalculateProjectedPointHaversine(Vector2 LongLat, float angle,float distance)
+    {
+        float lat1 = LongLat.y;
+        float long1 = LongLat.x;
+        float lat2, long2;
+        angle *= Mathf.Deg2Rad;
+        lat1 *= Mathf.Deg2Rad;
+        long1 *= Mathf.Deg2Rad;
+        float R = 6378.1f*1000; // Earth Radius in meters
+        lat2 = Mathf.Asin(Mathf.Sin(lat1) * Mathf.Cos(distance / R) +
+        Mathf.Cos(lat1) * Mathf.Sin(distance / R) * Mathf.Cos(angle));
+
+        long2 = long1 + Mathf.Atan2(Mathf.Sin(angle) * Mathf.Sin(distance / R) * Mathf.Cos(lat1),
+        Mathf.Cos(distance / R) - Mathf.Sin(lat1) * Mathf.Sin(lat2));
+
+        lat2 = Mathf.Rad2Deg * lat2;
+        long2 = Mathf.Rad2Deg * long2;
+        return new Vector2(long2,lat2);
+    }
+
+    // Using Gavaghan's library -- 
+    public static Vector2 CalculateProjectedPointVincenty(Vector2 LongLat, float bearing, float distance)
+    {
+
+        float lat1 = LongLat.y;
+        float long1 = LongLat.x;
+
+        // set Lincoln Memorial coordinates
+        GlobalCoordinates PointOne;
+        PointOne = new GlobalCoordinates(
+            new Angle(lat1), new Angle(long1)
+        );
+
+        // set the direction and distance
+        Angle startBearing = new Angle(bearing);
+
+        // find the destination
+        Angle endBearing;
+        GlobalCoordinates dest = geoCalc.CalculateEndingGlobalCoordinates(reference, PointOne, startBearing, distance, out endBearing);
+
+        return new Vector2((float)dest.Longitude.Degrees,(float)dest.Latitude.Degrees);
+    }
+
+
+    public static float CalculateBearing(float Longitude1, float Latitude1, float Longitude2, float Latitude2)
+    {
+        // Calaculate bearing
+        Vector2 one = new Vector2(Longitude1, Latitude1);
+        Vector2 two = new Vector2(Longitude2, Latitude2);
+        Vector2 heading = two - one;
+        heading.Normalize();
+        float angle = Vector2.Angle(heading, Vector2.up);
+        if (heading.y < 0)
+        {
+            angle = -angle;
+        }
+        return angle;
+    }
+
+
+    // Using Gavaghan's library --
+    public static double VincentyDistanceKM(double Longitude1, double Latitude1, double Longitude2, double Latitude2)
+    {
+
+        // set Lincoln Memorial coordinates
+        GlobalCoordinates pointOne;
+        pointOne = new GlobalCoordinates(
+            new Angle(Latitude1), new Angle(Longitude1)
+        );
+
+        // set Eiffel Tower coordinates
+        GlobalCoordinates pointTwo;
+        pointTwo = new GlobalCoordinates(
+            new Angle(Latitude2), new Angle(Longitude2)
+        );
+
+        // calculate the geodetic curve
+        GeodeticCurve geoCurve = geoCalc.CalculateGeodeticCurve(reference, pointOne, pointTwo);
+        double ellipseKilometers = geoCurve.EllipsoidalDistance / 1000.0;
+        return ellipseKilometers;
+    }
 }
