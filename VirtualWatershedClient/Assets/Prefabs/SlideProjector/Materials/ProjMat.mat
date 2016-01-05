@@ -141,7 +141,7 @@ Material:
       data:
         first:
           name: _FloatMax
-        second: 9.96920997e+36
+        second: 0
       data:
         first:
           name: _Opacity

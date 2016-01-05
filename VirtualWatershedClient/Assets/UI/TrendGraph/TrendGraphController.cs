@@ -17,18 +17,6 @@ using System.IO;
 
 namespace VTL.TrendGraph
 {
-    public struct TimeseriesRecord
-    {
-        public DateTime time;
-        public float value;
-        public float[,] Data;
-        public TimeseriesRecord(DateTime time, float value, float[,] data)
-        {
-            this.time = time;
-            this.value = value;
-            this.Data = data;
-        }
-    }
 
     public class TrendGraphController : MonoBehaviour
     {
@@ -43,7 +31,6 @@ namespace VTL.TrendGraph
         public string valueFormatString = "D3";
         private DateTime lastDraw;
         public bool Keep = true;
-        List<TimeseriesRecord> timeseries;
         Text valueText;
         Vector3 origin;
         float w;
@@ -97,6 +84,29 @@ namespace VTL.TrendGraph
                      .text = unitsLabel;
         }
 
+        public void UpdateData(Rect BoundingBox, string projection, string variable)
+        {
+            // Set the bounding box to the trendgraph
+            transform tran = new transform();
+            //Debug.LogError("Coord System: " + record.projection);
+            tran.createCoordSystem(projection); // Create a coordinate transform
+                                                //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
+
+            // transfor a lat/long bounding box to UTM
+            tran.setOrigin(coordsystem.WorldOrigin);
+            Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
+            Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
+
+            if ((BoundingBox.x > -180 && BoundingBox.x < 180 && BoundingBox.y < 180 && BoundingBox.y > -180))
+            {
+                BoundingBox = new Rect(point.x, point.y, Math.Abs(point.x - point2.x), Math.Abs(point.y - point2.y));
+            }
+
+            Clear();
+            SetBoundingBox(BoundingBox);
+            SetUnit(variable);
+        }
+
         /// <summary>
         /// This sets the min value of the data. This is for the X axis.
         /// </summary>
@@ -134,7 +144,6 @@ namespace VTL.TrendGraph
         {
             button.SetActive(false);
             DataSlice = new List<float>();
-            timeseries = new List<TimeseriesRecord>();
             rectTransform = transform.Find("Graph") as RectTransform;
             lineAnchor = transform.Find("Graph")
                                   .Find("LineAnchor") as RectTransform;
@@ -174,10 +183,10 @@ namespace VTL.TrendGraph
                     Vector2 NormalizedPoint = Vector2.zero;
                     NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                     SetCoordPoint(WorldPoint);
-                    int x = (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
-                    int y = (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
+                    int x = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
+                    int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
 
-                    SetPosition(timeseries[DataIndex].Data.GetLength(1) - 1 - y, timeseries[DataIndex].Data.GetLength(0) - 1 - x);
+                    SetPosition(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - x);
                 }
             }
 
@@ -187,7 +196,7 @@ namespace VTL.TrendGraph
                 Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);
                 Debug.LogError("Origin: " + origin);
                 Debug.LogError("Width, Height: " + w + ", " + h);
-                Debug.LogError("The Data Value: " + timeseries[DataIndex].Data[Row, Col]);
+                Debug.LogError("The Data Value: " + ActiveData.GetFrameAt(DataIndex)[0].Data[Row, Col]);
                 Debug.LogError("Row, Col: " + Row + ", " + Col);
                 currentframeToFile();
             }
@@ -211,10 +220,10 @@ namespace VTL.TrendGraph
                     {
                         Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, BoundingBox);
                         Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
-                        marker1Row = timeseries[DataIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint1.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
-                        marker1Col = timeseries[DataIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint1.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
-                        marker2Row = timeseries[DataIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(0) * NormalizedPoint2.x), (double)timeseries[DataIndex].Data.GetLength(0) - 1);
-                        marker2Col = timeseries[DataIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(timeseries[DataIndex].Data.GetLength(1) * NormalizedPoint2.y), (double)timeseries[DataIndex].Data.GetLength(1) - 1);
+                        marker1Row = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint1.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
+                        marker1Col = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint1.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
+                        marker2Row = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint2.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
+                        marker2Col = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint2.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
 
                         DataSlice.Clear();
                         BuildSlice();
@@ -265,44 +274,18 @@ namespace VTL.TrendGraph
         /// </summary>
         void OnGUI()
         {
-            if (timeseries.Count < 1)
+            if (ActiveData.GetCount() < 1)
             {
                 return;
             }
            
-            // cull old records
-            if (!Keep)
-            {
-                var elapsed = (float)(lastDraw - timeseries[0].time).TotalSeconds;
-                while (elapsed > timebase && elapsed > 0)
-                {
-                    timeseries.RemoveAt(0);
-                    if (timeseries.Count == 0)
-                        return;
-                    elapsed = (float)(lastDraw - timeseries[0].time).TotalSeconds;
-                }
-
-                // cull future records
-                // e.g. SimTimeControl, user scrubbing backwards
-                int m = timeseries.Count - 1;
-                if (m == -1)
-                    return;
-                while (timeseries[m].time > (DateTime)lastDraw)
-                {
-                    timeseries.RemoveAt(m);
-                    m = timeseries.Count - 1;
-                    if (m == -1)
-                        return;
-                }
-            }
-
             // Draw a line that represents the current slide on the graph
-            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
-            if(DataIndex > timeseries.Count)
+            ActiveData.Sort();
+            if(DataIndex > ActiveData.GetCount())
             {
                 DataIndex = 0;
             }
-            float normTime = (float)(timeseries[DataIndex].time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normTime = (float)(ActiveData.GetFrameAt(DataIndex)[0].starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
 
             
@@ -333,11 +316,10 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
-        /// Will clear the currently loaded timeseries.
+        /// Will clear the currently saved information.
         /// </summary>
         public void Clear()
         {
-            timeseries.Clear();
             Begin = DateTime.MaxValue;
             End = DateTime.MinValue;
             yMax = 100;
@@ -358,7 +340,7 @@ namespace VTL.TrendGraph
             int height = (int)h;
 
             // Sort the time series
-            timeseries.Sort((s1, s2) => s1.time.CompareTo(s2.time));
+            ActiveData.Sort();
 
             // Build the new texture
             if (TrendTexture != null)
@@ -368,10 +350,10 @@ namespace VTL.TrendGraph
             TrendTexture = new Texture2D(width, height);
 
             // Loop through all the time series
-            Vector2 prev = Record2PixelCoords(timeseries[0]);            
-            for (int i = 0; i < timeseries.Count; i++)
+            Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt(0)[0]);            
+            for (int i = 0; i < ActiveData.GetCount(); i++)
             {
-                Vector2 next = Record2PixelCoords(timeseries[i]);
+                Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt(i)[0]);
                 Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
                 prev = next;
             }
@@ -438,10 +420,10 @@ namespace VTL.TrendGraph
         public float bilinearInterpolation(int x1, int y1, int x2, int y2, float x, float y)
         {
             // Debug log for testing the data
-            // Debug.LogError("The value x1, y1, x2, y2, x, y, ts(x1,y1), ts(x2,y1), ts(x1,y2), ts(x2,y2): " + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x + ", " + y + ", " + timeseries[DataIndex].Data[x1, y1] + ", " + timeseries[DataIndex].Data[x2, y1] + ", " + timeseries[DataIndex].Data[x1, y2] + ", " + timeseries[DataIndex].Data[x2, y2]);
-            
+            // Debug.LogError("The value x1, y1, x2, y2, x, y, ts(x1,y1), ts(x2,y1), ts(x1,y2), ts(x2,y2): " + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x + ", " + y + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y2] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y2]);
+
             // Run the Interpolation, and return.
-            float value = (1 / ((x2 - x1) * (y2 - y1))) * ((timeseries[DataIndex].Data[x1, y1] * (x2 - x) * (y2 - y)) + (timeseries[DataIndex].Data[x2, y1] * (x - x1) * (y2 - y)) + (timeseries[DataIndex].Data[x1, y2] * (x2 - x) * (y - y1)) + (timeseries[DataIndex].Data[x2, y2] * (x - x1) * (y - y1)));
+            float value = (1 / ((x2 - x1) * (y2 - y1))) * ((ActiveData.GetFrameAt(DataIndex)[0].Data[x1, y1] * (x2 - x) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x2, y1] * (x - x1) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x1, y2] * (x2 - x) * (y - y1)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x2, y2] * (x - x1) * (y - y1)));
             return value;
         }
 
@@ -524,12 +506,12 @@ namespace VTL.TrendGraph
         /// </summary>
         /// <returns>The location of the pixel on the screen.</returns>
         /// <param name="record">The current record that is to be made a pixel.</param>
-        Vector2 Record2PixelCoords(TimeseriesRecord record)
+        Vector2 Record2PixelCoords(Frame record)
         {
             //float s = (float)(lastDraw - record.time).TotalSeconds;
             //float s = (float)(lastDraw - record.time).TotalSeconds;
             //float normTime = Mathf.Clamp01(1 - s / timebase);
-            float normTime = (float)(record.time - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normTime = (float)(record.starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             float normHeight = 0;
             if (record.Data != null)
             {
@@ -538,27 +520,6 @@ namespace VTL.TrendGraph
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
             return new Vector2(w * normTime,
                                h * (1 - normHeight) - 1);
-        }
-
-        /// <summary>
-        /// Takes the record passed in and will set it to the timeseries record.
-        /// This will also take the time range and update if necessary.
-        /// </summary>
-        /// <param name="record">The TimeseriesRecord to add to the list of other records.</param>
-        public void Add(TimeseriesRecord record)
-        {
-            timeseries.Add(record);
-            if (Begin > record.time)
-            {
-                Begin = record.time;
-            }
-            if (End < record.time)
-            {
-                End = record.time;
-            }
-            lastDraw = record.time;
-            valueText.text = record.value.ToString(valueFormatString);
-            OnValidate();
         }
 
         /// <summary>
@@ -588,17 +549,6 @@ namespace VTL.TrendGraph
         }
 
         /// <summary>
-        /// Takes the parameters and will build a timeseries record to add to the timeseries.
-        /// </summary>
-        /// <param name="time">The datetime of the data.</param>
-        /// <param name="value">This is a float that is currently not used in the record.</param>
-        /// <param name="data">A 2D array of the raw data.</param>
-        public void Add(DateTime time, float value, float[,] data)
-        {
-            Add(new TimeseriesRecord(time, value, data));
-        }
-
-        /// <summary>
         /// This will set the easting and northing of the selected location.
         /// </summary>
         /// <param name="point">This is the point with a set value of x and z that represent easting and northing respectibly.</param>
@@ -606,6 +556,13 @@ namespace VTL.TrendGraph
         {
             easting = point.x;
             northing = point.z;
+        }
+
+        public void UpdateTimeDuration(DateTime start, DateTime end)
+        {
+            Begin = start;
+            End = end;
+            OnValidate();
         }
 
         /// <summary>
@@ -620,7 +577,7 @@ namespace VTL.TrendGraph
             {
                 file.WriteLine("This file represenets interpolated data that was calculated from a line across the currently shown dataset.");
                 file.WriteLine(variable_name + ": " + unitsLabel);
-                file.WriteLine("Time of Frame: " + timeseries[DataIndex].time);
+                file.WriteLine("Time of Frame: " + ActiveData.GetFrameAt(DataIndex)[0].starttime);
                 file.WriteLine("UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ").");
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
                 foreach (var i in DataSlice)
@@ -639,15 +596,15 @@ namespace VTL.TrendGraph
             String pathDownload = Utilities.GetFilePath("graph.csv");
             Debug.LogError("The File Path: " + pathDownload);
             
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            using (StreamWriter file = new StreamWriter(@pathDownload))
             {
                 file.WriteLine(variable_name + ": " + unitsLabel);
                 file.WriteLine("Time Frame: " + Begin.ToString() + " to " + End.ToString());
                 file.WriteLine("UTM: (" + easting + ", " + northing + ")");
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
-                foreach (var i in timeseries)
+                for(int i = 0; i < ActiveData.GetCount(); i++)
                 {
-                    file.Write(i.Data[Row, Col] + ", ");
+                    file.Write(ActiveData.GetFrameAt(i)[0].Data[Row, Col] + ", ");
                 }
             }
         }
@@ -661,13 +618,13 @@ namespace VTL.TrendGraph
 
             Debug.LogError("The File Path: " + pathDownload);
 
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+            using (StreamWriter file = new StreamWriter(@pathDownload))
             {
-                for (int i = 0; i < timeseries[DataIndex].Data.GetLength(1); i++ )
+                for (int i = 0; i < ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1); i++ )
                 {
-                    for (int j = 0; j < timeseries[DataIndex].Data.GetLength(0); j++ )
+                    for (int j = 0; j < ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0); j++ )
                     {
-                        file.Write(timeseries[DataIndex].Data[i, j] + ", ");
+                        file.Write(ActiveData.GetFrameAt(DataIndex)[0].Data[i, j] + ", ");
                     }
                     file.Write("\n");
                 }

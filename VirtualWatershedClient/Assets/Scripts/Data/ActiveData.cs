@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
+using VTL.TrendGraph;
 
 public struct Frame
 {
@@ -29,31 +30,33 @@ public class ActiveData : MonoBehaviour {
     public static Dictionary<String, ModelRun> Active = new Dictionary<String, ModelRun>();
     public ModelRunVisualizer temporalList;
     public Text DownloadTextbox;
+    public static int TOTAL = 0;
 
     // List of objects subscribing to the active data
     public Spooler spool;
+    public TrendGraphController trendGraph;
 
     // Locals
     private bool WMS;
     private bool init = false;
-    public static int TOTAL = 0;
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
     private Rect BoundingBox;
     private string Projection;
-    private string variable;
     private float Max;
     private float Min;
-    private static List<Frame> CurrentData = new List<Frame>();
-
-
+    private static Dictionary<String, List<Frame>> CurrentData = new Dictionary<String, List<Frame>>();
+    private static int CurrentIndex;
+    
     void Update()
     {
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {
             Debug.LogError("The count / total: " + " / " + TOTAL);
+            Sort();
         }
 
+        // Initilize the necessary data
         if (init && SliderFrames.Count > 1)
         {
             DataRecord record = SliderFrames.Peek();
@@ -72,9 +75,8 @@ public class ActiveData : MonoBehaviour {
             }
 
             // Push the new information to the subscribers
-            ModelRun mr;
-            Active.TryGetValue(variable, out mr);
-            spool.UpdateData(BoundingBox, Projection, WMS, variable, Active[variable].ModelRunUUID);
+            spool.UpdateData(BoundingBox, Projection, WMS, record.variableName, Active[record.variableName].ModelRunUUID);
+            trendGraph.UpdateData(BoundingBox, Projection, record.variableName);
 
             init = false;
         }
@@ -90,30 +92,42 @@ public class ActiveData : MonoBehaviour {
             }
 
             // Run the dequeue dequeueSize times
+            int runningTotal = 0;
             for (int i = 0; i < dequeueSize; i++)
             {
                 DataRecord record = SliderFrames.Dequeue();
-                spool.SliderFrames.Enqueue(record);
                 textureBuilder(record);
 
                 // Updates the min/max information across the necessary classes
-                if (record.Max > Active[variable].MinMax[variable].y)
+                if (record.Max > Active[record.variableName].MinMax[record.variableName].y)
                 {
                     Max = record.Max;
-                    Active[variable].MinMax[variable] = new SerialVector2(new Vector2(Active[variable].MinMax[variable].x, Max));
+                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].MinMax[record.variableName].x, Max));
                     spool.UpdateMinMax(Min, Max);
+                    trendGraph.SetMax((int)Max);
                 }
-                if (record.Min < Active[variable].MinMax[variable].x)
+                if (record.Min < Active[record.variableName].MinMax[record.variableName].x)
                 {
                     Min = record.Min;
-                    Active[variable].MinMax[variable] = new SerialVector2(new Vector2(Min, Active[variable].MinMax[variable].y));
+                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Min, Active[record.variableName].MinMax[record.variableName].y));
                     spool.UpdateMinMax(Min, Max);
+                    trendGraph.SetMin((int)Min);
                 }
+
+                runningTotal = 0;
+                foreach (var data in CurrentData)
+                {
+                    runningTotal += data.Value.Count;
+                }
+                spool.UpdateTimeDuration(CurrentData[record.variableName][0].starttime, CurrentData[record.variableName][runningTotal - 1].endtime);
+                trendGraph.UpdateTimeDuration(CurrentData[record.variableName][0].starttime, CurrentData[record.variableName][runningTotal - 1].endtime);
             }
 
-            DownloadTextbox.text = "Downloaded: " + ((float)CurrentData.Count / (float)TOTAL).ToString("P");
-            spool.UpdateTimeDuration(CurrentData[0].starttime, CurrentData[CurrentData.Count - 1].endtime);
+            DownloadTextbox.text = "Downloaded: " + ((float)runningTotal / (float)TOTAL).ToString("P");
         }
+        
+        // Updates across objects
+        trendGraph.SetDataIndex(CurrentIndex);
     }
 
     /// <summary>
@@ -138,7 +152,8 @@ public class ActiveData : MonoBehaviour {
             Debug.LogError("The RUN was invalid");
             return;
         }
-        if (rec.modelRunUUID != Active[variable].ModelRunUUID)
+        
+        if (rec.modelRunUUID != Active[rec.variableName].ModelRunUUID)
         {
             // This is not the model run we want because something else was selected.
             Debug.LogError("Ran This ITem");
@@ -200,7 +215,7 @@ public class ActiveData : MonoBehaviour {
                 rec.Min = Math.Min(min, rec.Min);
                 rec.Max = Math.Max(max, rec.Max);
                 rec.Mean = mean;
-                var vari = Active[variable].GetVariable(variable);
+                var vari = Active[rec.variableName].GetVariable(rec.variableName);
                 vari.meanSum += mean;
                 vari.frameCount += 1;
                 vari.Mean = vari.meanSum / vari.frameCount;
@@ -227,7 +242,7 @@ public class ActiveData : MonoBehaviour {
 
             tex.Apply();
             frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
-            Insert(frame);
+            Insert(frame, rec.variableName);
         }
     }
 
@@ -235,17 +250,17 @@ public class ActiveData : MonoBehaviour {
     /// Inserts the frame into the Reel.
     /// </summary>
     /// <param name="frame">The frame to add to the reel.</param>
-    void Insert(Frame frame)
+    void Insert(Frame frame, String variableName)
     {
         // Does this handle duplicates..
-        int index = CurrentData.BinarySearch(frame, new FrameEndDateAscending());
+        int index = CurrentData[variableName].BinarySearch(frame, new FrameEndDateAscending());
 
         // This is to help pinpoint too many records added to the Reel
-        if (CurrentData.Count >= TOTAL)
-        {
+        //if (CurrentData.Count >= TOTAL)
+        //{
             //Debug.LogError("Why is there more records being added to the Reel?");
             //Debug.LogError("Here is out frame starttime: " + frame.starttime + " and the count is: " + count);
-        }
+        //}
 
         //if index >= 0 there is a duplicate 
         if (index >= 0)
@@ -258,7 +273,7 @@ public class ActiveData : MonoBehaviour {
         {
             // new item
             // Debug.LogError("INSERTTING FRAMME " + ~index);
-            CurrentData.Insert(~index, frame);
+            CurrentData[variableName].Insert(~index, frame);
         }
     }
 
@@ -270,9 +285,9 @@ public class ActiveData : MonoBehaviour {
 
         foreach (KeyValuePair<string, ModelRun> model in Active)
         {
-            Variable variable = model.Value.GetVariable(model.Key);
-            denominator += (float)(variable.TotalRecords);
-            numerator += (float)(variable.Data.Count);
+            Variable vari = model.Value.GetVariable(model.Key);
+            denominator += (float)(vari.TotalRecords);
+            numerator += (float)(vari.Data.Count);
         }
         return numerator / denominator;
     }
@@ -282,22 +297,69 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     /// <param name="Time">The time on the time slider.</param>
     /// <returns>Location of the Reel the time is.</returns>
-    public static int FindNearestFrame(DateTime Time)
+    public static int FindNearestFrame(DateTime Time, int location)
     {
         Frame temp = new Frame();
         temp.starttime = Time;
-        int index = CurrentData.BinarySearch(temp, new FrameEndDateAscending());
-        return index < 0 ? ~index - 1 : index;
+
+        int runningTotal = 0;
+        foreach (var data in CurrentData)
+        {
+            runningTotal = data.Value.Count;
+        }
+
+        int index = 0;
+        foreach (var data in CurrentData)
+        {
+            int current = data.Value.BinarySearch(temp, new FrameEndDateAscending());
+            if (index != current)
+            {
+                //Debug.LogError("There was an incorrect index match: " + index + " with " + current);                
+            }
+            index = current;
+        }
+
+        int returnValue = index < 0 ? ~index - 1 : index;
+        if (returnValue < 0)
+        {
+            returnValue = 0;
+        }
+        else if (returnValue >= runningTotal)
+        {
+            returnValue = runningTotal - 1;
+        }
+
+        CurrentIndex = returnValue;
+
+        return returnValue;
     }
 
-    public static int GetCount()
+    public static int GetCount(int location)
     {
-        return CurrentData.Count;
+        int runningTotal = 0;
+        foreach (var data in CurrentData)
+        {
+            runningTotal += data.Value.Count;
+        }
+        return runningTotal;
     }
 
-    public static Frame GetFrameAt(int index)
+    public static List<Frame> GetFrameAt(int index)
     {
-        return CurrentData[index];
+        List<Frame> returnvalue = new List<Frame>();
+        foreach (var data in CurrentData)
+        {
+            returnvalue.Add(CurrentData[data.Key][index]);
+        }
+        return returnvalue;
+    }
+
+    public static void Sort()
+    {
+        foreach(var data in CurrentData)
+        {
+            CurrentData[data.Key].Sort((s1, s2) => s1.starttime.CompareTo(s2.starttime));
+        }        
     }
 
     /// <summary>
@@ -318,7 +380,7 @@ public class ActiveData : MonoBehaviour {
         // Load this 
         var temp = temporalList.listView.GetSelectedModelRuns();
         var seled = temporalList.listView.GetSelectedRowContent();
-        variable = seled[0][2].ToString();
+        string variable = seled[0][2].ToString();
 
         // Set the data of new model run
         // TODO
@@ -343,6 +405,7 @@ public class ActiveData : MonoBehaviour {
 
             // Set the active data
             Active.Add(variable, modelrun);
+            CurrentData.Add(variable, new List<Frame>());
 
             // Set the download based on the doqq in description
             if (temp[0].Description.ToLower().Contains("doqq"))
@@ -357,18 +420,4 @@ public class ActiveData : MonoBehaviour {
             }
         }
     }
-
-    /// <summary>
-    /// Used by the ModelRunComparison to buyild the Delta and add to spooler.
-    /// </summary>
-    public void SetupForDelta(string seled, string vari, int total, string uuid)
-    {
-        // Get the Model Run
-        TOTAL = total;
-        variable = vari;
-
-        // Set the download based on the doqq in description
-        WMS = false;
-    }
-
 }
