@@ -31,6 +31,7 @@ public class ActiveData : MonoBehaviour {
     public ModelRunVisualizer temporalList;
     public Text DownloadTextbox;
     public static int TOTAL = 0;
+    public static int GRAND_TOTAL = 0;
 
     // List of objects subscribing to the active data
     public Spooler spool;
@@ -44,15 +45,18 @@ public class ActiveData : MonoBehaviour {
     private string Projection;
     private float Max;
     private float Min;
+    private DateTime Start;
+    private DateTime End;
     private static Dictionary<String, List<Frame>> CurrentData = new Dictionary<String, List<Frame>>();
     private static int CurrentIndex;
+
     
     void Update()
     {
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.LogError("The count / total: " + " / " + TOTAL);
+            Debug.LogError("The count / total: " + GRAND_TOTAL + " / " + TOTAL);
             Sort();
         }
 
@@ -66,7 +70,6 @@ public class ActiveData : MonoBehaviour {
             {
                 //Debug.LogError("We added BBox TWO.");
                 BoundingBox = Utilities.bboxSplit(record.bbox2);
-
             }
             else
             {
@@ -77,6 +80,10 @@ public class ActiveData : MonoBehaviour {
             // Push the new information to the subscribers
             spool.UpdateData(BoundingBox, Projection, WMS, record.variableName, Active[record.variableName].ModelRunUUID);
             trendGraph.UpdateData(BoundingBox, Projection, record.variableName);
+
+            // Initilize the Time
+            Start = record.start.Value;
+            End = record.end.Value;
 
             init = false;
         }
@@ -92,7 +99,6 @@ public class ActiveData : MonoBehaviour {
             }
 
             // Run the dequeue dequeueSize times
-            int runningTotal = 0;
             for (int i = 0; i < dequeueSize; i++)
             {
                 DataRecord record = SliderFrames.Dequeue();
@@ -100,30 +106,42 @@ public class ActiveData : MonoBehaviour {
 
                 // Updates the min/max information across the necessary classes
                 if (record.Max > Active[record.variableName].MinMax[record.variableName].y)
-                {
-                    Max = record.Max;
-                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].MinMax[record.variableName].x, Max));
-                    spool.UpdateMinMax(Min, Max);
-                    trendGraph.SetMax((int)Max);
+                {                    
+                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].MinMax[record.variableName].x, record.Max));
+                    if(Max < record.Max)
+                    {
+                        Max = record.Max;
+                        spool.UpdateMinMax(Min, Max);
+                        trendGraph.SetMax((int)Max);
+                    }                    
                 }
                 if (record.Min < Active[record.variableName].MinMax[record.variableName].x)
-                {
-                    Min = record.Min;
-                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Min, Active[record.variableName].MinMax[record.variableName].y));
-                    spool.UpdateMinMax(Min, Max);
-                    trendGraph.SetMin((int)Min);
+                {                    
+                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(record.Min, Active[record.variableName].MinMax[record.variableName].y));
+                    if(Min > record.Min)
+                    {
+                        Min = record.Min;
+                        spool.UpdateMinMax(Min, Max);
+                        trendGraph.SetMin((int)Min);
+                    }
                 }
 
-                runningTotal = 0;
-                foreach (var data in CurrentData)
+
+                if(Start > CurrentData[record.variableName][0].starttime || End < CurrentData[record.variableName][CurrentData[record.variableName].Count - 1].endtime)
                 {
-                    runningTotal += data.Value.Count;
-                }
-                spool.UpdateTimeDuration(CurrentData[record.variableName][0].starttime, CurrentData[record.variableName][runningTotal - 1].endtime);
-                trendGraph.UpdateTimeDuration(CurrentData[record.variableName][0].starttime, CurrentData[record.variableName][runningTotal - 1].endtime);
+                    Start = CurrentData[record.variableName][0].starttime;
+                    End = CurrentData[record.variableName][CurrentData[record.variableName].Count - 1].endtime;
+                    spool.UpdateTimeDuration(Start, End);
+                    trendGraph.UpdateTimeDuration(Start, End);
+                }                
             }
 
-            DownloadTextbox.text = "Downloaded: " + ((float)runningTotal / (float)TOTAL).ToString("P");
+            int runningTotal = 0;
+            foreach (var data in CurrentData)
+            {
+                runningTotal += data.Value.Count;
+            }
+            DownloadTextbox.text = "Downloaded: " + ((float)runningTotal / (float)GRAND_TOTAL).ToString("P");
         }
         
         // Updates across objects
@@ -164,7 +182,9 @@ public class ActiveData : MonoBehaviour {
         float max, min, mean;
         if (rec.Data.Count > 1)
         {
+            GRAND_TOTAL -= TOTAL;
             TOTAL = rec.Data.Count; // Patch
+            GRAND_TOTAL += TOTAL;
         }
 
         if (!rec.start.HasValue)
@@ -268,6 +288,7 @@ public class ActiveData : MonoBehaviour {
             //handle the duplicate!
             //throw new Exception("Duplicate Handling not implemented!!!!!");
             TOTAL--;
+            GRAND_TOTAL--;
         }
         else
         {
@@ -297,7 +318,7 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     /// <param name="Time">The time on the time slider.</param>
     /// <returns>Location of the Reel the time is.</returns>
-    public static int FindNearestFrame(DateTime Time, int location)
+    public static int FindNearestFrame(DateTime Time)
     {
         Frame temp = new Frame();
         temp.starttime = Time;
@@ -334,12 +355,12 @@ public class ActiveData : MonoBehaviour {
         return returnValue;
     }
 
-    public static int GetCount(int location)
+    public static List<int> GetCount()
     {
-        int runningTotal = 0;
+        List<int> runningTotal = new List<int>();
         foreach (var data in CurrentData)
         {
-            runningTotal += data.Value.Count;
+            runningTotal.Add(data.Value.Count);
         }
         return runningTotal;
     }
@@ -349,7 +370,14 @@ public class ActiveData : MonoBehaviour {
         List<Frame> returnvalue = new List<Frame>();
         foreach (var data in CurrentData)
         {
-            returnvalue.Add(CurrentData[data.Key][index]);
+            if(CurrentData[data.Key].Count <= index)
+            {
+                returnvalue.Add(CurrentData[data.Key][CurrentData[data.Key].Count - 1]);
+            }
+            else
+            {
+                returnvalue.Add(CurrentData[data.Key][index]);
+            }            
         }
         return returnvalue;
     }
@@ -399,12 +427,21 @@ public class ActiveData : MonoBehaviour {
             // Get the Model Run
             var Records = temp[0].FetchVariableData(variable);
             TOTAL = Records.Count;
-            ModelRun modelrun = ModelRunManager.GetByUUID(temp[0].ModelRunUUID);
+            GRAND_TOTAL += TOTAL;
             init = true;
             Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
 
+            // Check if there is a need to clear -- if greater than 2
+            if(CurrentData.Count > 1)
+            {
+                Active.Clear();
+                CurrentData.Clear();
+                spool.Clear();
+                trendGraph.Clear();
+            }
+
             // Set the active data
-            Active.Add(variable, modelrun);
+            Active.Add(variable, ModelRunManager.GetByUUID(temp[0].ModelRunUUID));
             CurrentData.Add(variable, new List<Frame>());
 
             // Set the download based on the doqq in description

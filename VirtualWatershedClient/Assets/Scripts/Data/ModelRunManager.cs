@@ -280,7 +280,9 @@ public static class ModelRunManager
             variable.TotalRecords = da.Count;
 
             //temporary patch is gross
+            ActiveData.GRAND_TOTAL -= ActiveData.TOTAL;
             ActiveData.TOTAL = da.Count;
+            ActiveData.GRAND_TOTAL += ActiveData.TOTAL;
 
             for (int j = 0; j < da.Count; j++)
             {

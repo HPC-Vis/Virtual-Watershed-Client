@@ -48,6 +48,8 @@ namespace VTL.TrendGraph
         public DateTime Begin = DateTime.MaxValue;
         public DateTime End = DateTime.MinValue;
 
+        int DataSelectIndex = 0;
+
         // Used for the data slicer
         public GameObject marker1, marker2;
         Vector3 marker1Position = Vector3.zero, marker2Position = Vector3.zero;
@@ -183,11 +185,23 @@ namespace VTL.TrendGraph
                     Vector2 NormalizedPoint = Vector2.zero;
                     NormalizedPoint = TerrainUtils.NormalizePointToTerrain(WorldPoint, BoundingBox);
                     SetCoordPoint(WorldPoint);
-                    int x = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
-                    int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
+                    int x = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) * NormalizedPoint.x), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1);
+                    int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1);
 
-                    SetPosition(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - x);
+                    SetPosition(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1 - x);
                 }
+            }
+
+            // temp swap 
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                Debug.LogError("Trend Graph Controller");
+                DataSelectIndex++;
+                if (DataSelectIndex >= ActiveData.GetCount().Count)
+                {
+                    DataSelectIndex = 0;
+                }
+                Compute();
             }
 
             if (Input.GetKeyDown(KeyCode.X))
@@ -196,7 +210,7 @@ namespace VTL.TrendGraph
                 Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);
                 Debug.LogError("Origin: " + origin);
                 Debug.LogError("Width, Height: " + w + ", " + h);
-                Debug.LogError("The Data Value: " + ActiveData.GetFrameAt(DataIndex)[0].Data[Row, Col]);
+                Debug.LogError("The Data Value: " + ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[Row, Col]);
                 Debug.LogError("Row, Col: " + Row + ", " + Col);
                 currentframeToFile();
             }
@@ -220,10 +234,10 @@ namespace VTL.TrendGraph
                     {
                         Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, BoundingBox);
                         Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
-                        marker1Row = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint1.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
-                        marker1Col = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint1.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
-                        marker2Row = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) * NormalizedPoint2.x), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0) - 1);
-                        marker2Col = ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) * NormalizedPoint2.y), (double)ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1) - 1);
+                        marker1Row = ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) * NormalizedPoint1.x), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1);
+                        marker1Col = ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) * NormalizedPoint1.y), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1);
+                        marker2Row = ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) * NormalizedPoint2.x), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0) - 1);
+                        marker2Col = ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) * NormalizedPoint2.y), (double)ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1) - 1);
 
                         DataSlice.Clear();
                         BuildSlice();
@@ -274,18 +288,22 @@ namespace VTL.TrendGraph
         /// </summary>
         void OnGUI()
         {
-            if (ActiveData.GetCount() < 1)
+            if (ActiveData.GetCount().Count < 1)
+            {
+                return;
+            }
+            if (ActiveData.GetCount()[DataSelectIndex] < 1)
             {
                 return;
             }
            
             // Draw a line that represents the current slide on the graph
             ActiveData.Sort();
-            if(DataIndex > ActiveData.GetCount())
+            if(DataIndex > ActiveData.GetCount()[DataSelectIndex])
             {
                 DataIndex = 0;
             }
-            float normTime = (float)(ActiveData.GetFrameAt(DataIndex)[0].starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normTime = (float)(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
 
             
@@ -326,7 +344,7 @@ namespace VTL.TrendGraph
             yMin = 0;
             unitsLabel = "";
             DataIndex = 0;
-            // OnValidate();
+            OnValidate();
         }
 
         /// <summary>
@@ -335,6 +353,11 @@ namespace VTL.TrendGraph
         /// </summary>
         public void Compute()
         {
+            if (ActiveData.GetCount().Count <= DataSelectIndex)
+            {
+                return;
+            }
+
             // Set the width and height to integers
             int width = (int)w;
             int height = (int)h;
@@ -350,10 +373,10 @@ namespace VTL.TrendGraph
             TrendTexture = new Texture2D(width, height);
 
             // Loop through all the time series
-            Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt(0)[0]);            
-            for (int i = 0; i < ActiveData.GetCount(); i++)
+            Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt(0)[DataSelectIndex]);            
+            for (int i = 0; i < ActiveData.GetCount()[DataSelectIndex]; i++)
             {
-                Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt(i)[0]);
+                Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt(i)[DataSelectIndex]);
                 Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, Color.blue);
                 prev = next;
             }
@@ -423,7 +446,7 @@ namespace VTL.TrendGraph
             // Debug.LogError("The value x1, y1, x2, y2, x, y, ts(x1,y1), ts(x2,y1), ts(x1,y2), ts(x2,y2): " + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x + ", " + y + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y2] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y2]);
 
             // Run the Interpolation, and return.
-            float value = (1 / ((x2 - x1) * (y2 - y1))) * ((ActiveData.GetFrameAt(DataIndex)[0].Data[x1, y1] * (x2 - x) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x2, y1] * (x - x1) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x1, y2] * (x2 - x) * (y - y1)) + (ActiveData.GetFrameAt(DataIndex)[0].Data[x2, y2] * (x - x1) * (y - y1)));
+            float value = (1 / ((x2 - x1) * (y2 - y1))) * ((ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[x1, y1] * (x2 - x) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[x2, y1] * (x - x1) * (y2 - y)) + (ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[x1, y2] * (x2 - x) * (y - y1)) + (ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[x2, y2] * (x - x1) * (y - y1)));
             return value;
         }
 
@@ -577,7 +600,7 @@ namespace VTL.TrendGraph
             {
                 file.WriteLine("This file represenets interpolated data that was calculated from a line across the currently shown dataset.");
                 file.WriteLine(variable_name + ": " + unitsLabel);
-                file.WriteLine("Time of Frame: " + ActiveData.GetFrameAt(DataIndex)[0].starttime);
+                file.WriteLine("Time of Frame: " + ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].starttime);
                 file.WriteLine("UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ").");
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
                 foreach (var i in DataSlice)
@@ -602,9 +625,9 @@ namespace VTL.TrendGraph
                 file.WriteLine("Time Frame: " + Begin.ToString() + " to " + End.ToString());
                 file.WriteLine("UTM: (" + easting + ", " + northing + ")");
                 file.WriteLine("UTM Zone: " + coordsystem.localzone);
-                for(int i = 0; i < ActiveData.GetCount(); i++)
+                for(int i = 0; i < ActiveData.GetCount()[DataSelectIndex]; i++)
                 {
-                    file.Write(ActiveData.GetFrameAt(i)[0].Data[Row, Col] + ", ");
+                    file.Write(ActiveData.GetFrameAt(i)[DataSelectIndex].Data[Row, Col] + ", ");
                 }
             }
         }
@@ -620,11 +643,11 @@ namespace VTL.TrendGraph
 
             using (StreamWriter file = new StreamWriter(@pathDownload))
             {
-                for (int i = 0; i < ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(1); i++ )
+                for (int i = 0; i < ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(1); i++ )
                 {
-                    for (int j = 0; j < ActiveData.GetFrameAt(DataIndex)[0].Data.GetLength(0); j++ )
+                    for (int j = 0; j < ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data.GetLength(0); j++ )
                     {
-                        file.Write(ActiveData.GetFrameAt(DataIndex)[0].Data[i, j] + ", ");
+                        file.Write(ActiveData.GetFrameAt(DataIndex)[DataSelectIndex].Data[i, j] + ", ");
                     }
                     file.Write("\n");
                 }

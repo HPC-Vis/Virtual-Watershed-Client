@@ -16,8 +16,9 @@ public class Spooler : MonoBehaviour
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
     public Text selectedVariableTextBox;
-    
+
     // Local Variables
+    private DateTime lastUpdateTime;
     Vector2 NormalizedPoint = Vector2.zero;
     bool WMS = false;
     string oldSelectedVariable;
@@ -62,12 +63,19 @@ public class Spooler : MonoBehaviour
         TimeProjector.material.SetInt("_UsePoint", 1);
         TimeProjector.material.SetVector("_Point", NormalizedPoint);
 
+        // Check last update time
+        if(lastUpdateTime != timeSlider.SimTime)
+        {
+            ChangeTexture();
+        }
 
         // temp swap 
         if(Input.GetKeyDown(KeyCode.M))
         {
+            Debug.LogError("Spooler: " + timeSlider.SimTime);
+
             DataSelectIndex++;
-            if(DataSelectIndex > 1)
+            if (DataSelectIndex >= ActiveData.GetCount().Count)
             {
                 DataSelectIndex = 0;
             }
@@ -127,21 +135,39 @@ public class Spooler : MonoBehaviour
         timeSlider.SetTimeDuration(start, end, Math.Min((float)(end - start).TotalHours, 30 * 24));
     }
 
+    public void Clear()
+    {
+        colorPicker.SetMin(0);
+        colorPicker.SetMax(1);
+    }
     
     /// <summary>
     /// Updates the texture on the movie reel.
     /// </summary>
     public void ChangeTexture()
     {
-        int currentcount = ActiveData.GetCount();
+        // Set the new time for update
+        lastUpdateTime = timeSlider.SimTime;
+
+        if (ActiveData.GetCount().Count <= DataSelectIndex)
+        {
+            return;
+        }
+        int currentcount = ActiveData.GetCount()[DataSelectIndex];
         int textureIndex = ActiveData.FindNearestFrame(timeSlider.SimTime);
         testImage.sprite = ActiveData.GetFrameAt(textureIndex)[DataSelectIndex].Picture;
 
+        // Do nothing if there is no data
+        if(currentcount < 1)
+        {
+            return;
+        }
+
         // Set projector image
-        if (textureIndex == currentcount - 1 || currentcount < 2)
+        if (textureIndex == currentcount - 1 || currentcount == 1)
         {
             // Set both textures to last reel texture
-            Frame setframe = ActiveData.GetFrameAt(currentcount)[DataSelectIndex];
+            Frame setframe = ActiveData.GetFrameAt(currentcount-1)[DataSelectIndex];
             TimeProjector.material.SetTexture("_ShadowTex", setframe.Picture.texture);
             TimeProjector.material.SetTexture("_ShadowTex2", setframe.Picture.texture);
 
