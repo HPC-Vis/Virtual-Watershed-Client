@@ -15,7 +15,7 @@ using OSGeo.OSR;
 */
 public static class coordsystem
 {
-    static WorldCoordinateSystem cs = new HaversineCoordinateSystem();
+    static WorldCoordinateSystem cs = new UTMCoordinateSystem();
     
     //public static CoordinateReferenceSystemFactory coordRefFactory = new CoordinateReferenceSystemFactory();
     //public static CoordinateReferenceSystem baseCoordSystem = coordRefFactory.CreateFromName("epsg:4326");

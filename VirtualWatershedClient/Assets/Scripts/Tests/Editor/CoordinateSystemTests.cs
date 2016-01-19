@@ -156,5 +156,36 @@ namespace CoordinateSystemTests
             angle *= Mathf.Deg2Rad;
             Debug.LogError(angle);
         }
+
+        [TestCase(30, 40, 37, 41)]
+        public void UTMTest(float Long1, float Lat1, float Long2, float Lat2)
+        {
+            Vector2 a = new Vector2(Long1, Lat1);
+            Vector2 b = new Vector2(Long2, Lat2);
+
+            Vector2 direction = (b-a).normalized;
+
+            if (a.x == 0)
+            {
+                // Horizontal line
+            }
+            else
+            {
+                float slope = a.y / a.x;
+
+                float projectedLat = slope * (36-b.x) + b.y;
+                Debug.LogError(projectedLat);
+
+                float distance = Vector2.Distance(CoordinateUtils.transformToUTMWithZone(36, projectedLat, CoordinateUtils.GetZone(a.y, a.x)), CoordinateUtils.transformToUTM(a.x, a.y));
+                distance += Vector2.Distance( CoordinateUtils.transformToUTM(b.x, b.y),CoordinateUtils.transformToUTM(36,projectedLat)) ;
+
+
+                Debug.LogError(CoordinateUtils.GetDistanceKM(Long1, Lat1, Long2, Lat2) * 1000);
+                Debug.LogError(distance);
+            }
+            
+            // Get Distance
+            //float distance = a
+        }
     }
 }
