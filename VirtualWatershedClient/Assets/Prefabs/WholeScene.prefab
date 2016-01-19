@@ -16505,6 +16505,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 451812}
   - 119: {fileID: 11985610}
+  - 114: {fileID: 11421970}
   m_Layer: 0
   m_Name: SlideProjector
   m_TagString: Projector
@@ -31174,6 +31175,17 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11421970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 186096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c3fd6612a0d3fa4c808a6a0391add1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11422012
 MonoBehaviour:
   m_ObjectHideFlags: 1

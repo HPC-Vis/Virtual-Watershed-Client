@@ -477,7 +477,7 @@ SubShader {
 
 	ENDCG
 
-/* AddFar
+///* AddFar
 Fog { Mode Off }
 ZWrite Off
 CGPROGRAM
@@ -503,7 +503,7 @@ CGPROGRAM
 	#include "RTP_AddBase.cginc"
 
 ENDCG  	
-*/ // AddFar
+//*/ // AddFar
 
 // (used with tessellation)		
 /* TESS SHADOW PASS
@@ -832,7 +832,7 @@ void surf (Input IN, inout SurfaceOutput o) {
 }
 ENDCG  
 
-/* AddPass
+///* AddPass
 ZTest LEqual
 //Offset -1,-1
 CGPROGRAM
@@ -975,7 +975,7 @@ void surf (Input IN, inout SurfaceOutput o) {
 	//o.Specular = dot(_Spec4567, splat_control);
 }
 ENDCG  
-*/ // AddPass
+//*/ // AddPass
 
 }
 // EOF CLASSIC shading

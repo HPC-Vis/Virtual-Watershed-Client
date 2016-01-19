@@ -20,12 +20,12 @@ namespace OGC_Tests
         OGCConnector ogc;
         public OGCTests()
         {
-            Debug.LogError("AFASD");
-            NetworkManager nm = new NetworkManager();
-            DataFactory df = new DataFactory(nm);
-            ogc = new OGCConnector(df,nm);
-            nm.Subscribe(ogc);
-            Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
+            //Debug.LogError("AFASD");
+            //NetworkManager nm = new NetworkManager();
+            //DataFactory df = new DataFactory(nm);
+            //ogc = new OGCConnector(df,nm);
+            //nm.Subscribe(ogc);
+            //Gdal.SetConfigOption("GDAL_DATA", Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
         }
 
         [Test]
@@ -47,8 +47,8 @@ namespace OGC_Tests
 		[Test, TestCaseSource("VectorCases")]
         public void UTMTransformationTest(Vector2 testvec,Vector2 Result)
         {
-			var testvec2 = coordsystem.transformToUTM (testvec.x, testvec.y);
-			double[] a = coordsystem.transformToUTMDouble (testvec.x, testvec.y);
+			var testvec2 = CoordinateUtils.transformToUTM (testvec.x, testvec.y);
+			double[] a = CoordinateUtils.transformToUTMDouble (testvec.x, testvec.y);
 			Assert.AreEqual (Result.x, a [0], 1);
 			Assert.AreEqual (Result.y, a [1], 1);
         }
@@ -60,20 +60,21 @@ namespace OGC_Tests
 			new object[] {new Vector2(-119.8152367f+2,39.5436008f-2), new Vector2(427982.5f,4155490.8f)}
 		};
 
-		[Test]
-		public void UTMZoneOriginAndBoundaryTest( [NUnit.Framework.Range(-180,180,36)] int bound, [NUnit.Framework.Range(-90,90,30)] float long1, [NUnit.Framework.Range(-90,90,30)]float long2)
-		{
-			var test = coordsystem.transformToUTMDouble(bound, long1);
-			var test2 = coordsystem.transformToUTMDouble (bound, long2);
-			if (bound % 6 == 3 || Mathf.Abs(long1) == Mathf.Abs(long2)) 
-			{
-				Assert.AreEqual (test [0], test2 [0],1.0);
-			} 
-			else 
-			{
-				Assert.AreNotEqual(test[0],test2[0]);
-			}
-		}
+        //[Test]
+        //public void UTMZoneOriginAndBoundaryTest( [NUnit.Framework.Range(-180,180,36)] int bound, [NUnit.Framework.Range(-90,90,30)] float long1, [NUnit.Framework.Range(-90,90,30)]float long2)
+        //{
+        //    var test = CoordinateUtils.transformToUTMDouble(bound, long1);
+        //    var test2 = CoordinateUtils.transformToUTMDouble (bound, long2);
+        //    if (bound % 6 == 3 || Mathf.Abs(long1) == Mathf.Abs(long2)) 
+        //    {
+        //        Assert.AreEqual (test [0], test2 [0],1.0);
+        //    } 
+        //    else 
+        //    {
+        //        System.Console.WriteLine("Not Equal");
+        //        Assert.AreNotEqual(test[0],test2[0]);
+        //    }
+        //}
 
 		// This test compares two methods of getting the distance between two points across zones
 		// first being reprojecting the two points into the same zone
@@ -88,16 +89,17 @@ namespace OGC_Tests
 		{
 			Assert.AreEqual (Latitude1, Latitude2);
 
-			int refcordzone = coordsystem.GetZone (Latitude1, Longitude1);
-			int othercordzone = coordsystem.GetZone (Latitude2, Longitude2);
+			int refcordzone = CoordinateUtils.GetZone (Latitude1, Longitude1);
+			int othercordzone = CoordinateUtils.GetZone (Latitude2, Longitude2);
 			coordsystem.localzone = refcordzone;
+
 			// Transformed based on local zone
-			var result = coordsystem.transformToUTM (Longitude1, Latitude1);
-			var result2 = coordsystem.transformToUTM (Longitude2, Latitude2);
+			var local = CoordinateUtils.transformToUTM (Longitude1, Latitude1);
+			var local2 = CoordinateUtils.transformToUTM (Longitude2, Latitude2);
 
 			// Not Transformed based on local zone, but the utms actual zone
-			var result3 = coordsystem.transformToUTMDouble (Longitude1, Latitude1);
-			var result4 = coordsystem.transformToUTMDouble (Longitude2, Latitude2);
+			var actual = CoordinateUtils.transformToUTMDouble (Longitude1, Latitude1);
+			var actual2 = CoordinateUtils.transformToUTMDouble (Longitude2, Latitude2);
 
 
 			Assert.AreNotEqual (refcordzone, othercordzone);
@@ -110,31 +112,49 @@ namespace OGC_Tests
 			Debug.LogError (zone2width);
 			Debug.LogError (origin1);
 			Debug.LogError (origin2);
-
+            Debug.LogError("Zone 1: " + refcordzone);
+            Debug.LogError("Zone 2: " + othercordzone);
 			// Longitude1 < Longitude2
 			if (refcordzone < othercordzone) {
-				double offset = origin1 + zone1width - result3 [0];
-				offset += (result4 [0] - (origin2 - zone2width));
-				Assert.AreEqual (result2.x - result.x, offset);
+				double offset = origin1 + zone1width - actual [0];
+				offset += (actual2 [0] - (origin2 - zone2width));
+				Assert.AreEqual (local2.x - local.x, offset);
 			} 
 
 			// Longitude1 > Longitude2
 			else 
 			{
-				double offset = System.Math.Abs(origin1 - zone1width - result3 [0]);
-				offset += System.Math.Abs(result4 [0] - (origin2 + zone2width));
-				Assert.AreEqual (result.x - result2.x, offset);
+                double offset = System.Math.Abs(origin1 - actual[0] - zone1width);
+				offset += System.Math.Abs((origin2 + zone2width) - actual2 [0]);
+				Assert.AreEqual (local.x - local2.x, offset);
+                
 			}
 			//double offset1fromcenterx = zone1width
 
 		}
+
+        [Test]
+        [TestCase(31, 30, 33, 42)]
+        [TestCase(30, 30, 35, 42)]
+        public void HaversineUTMTest(int longitude,int latitude,int longitude2,int latitude2)
+        {
+            // Transformed based on local zone
+            var local = CoordinateUtils.transformToUTM(longitude, latitude);
+            var local2 = CoordinateUtils.transformToUTM(longitude2, latitude2);
+
+            var distance = CoordinateUtils.GetDistanceKM(longitude, latitude, longitude2, latitude2);
+
+            Debug.LogError(distance);
+            Debug.LogError(Vector2.Distance(local, local2) /1000);
+            Assert.AreEqual(distance, Vector2.Distance(local, local2)/1000);
+        }
 
 
 		double GetUtmZoneOrigin(int Longitude, int Latitude)
 		{
 			Longitude = GetUTMMerridian (Longitude);
 			//Debug.LogError ("UTM MERRIDIAN: " + Longitude);
-			var Out2 = coordsystem.transformToUTMDouble(Longitude,Latitude);
+			var Out2 = CoordinateUtils.transformToUTMDouble(Longitude,Latitude);
 			return Out2[0];
 		}
 
@@ -142,9 +162,11 @@ namespace OGC_Tests
 		{
 			double origin = GetUtmZoneOrigin (Longitude, Latitude);
 			int Side = GetUTMMerridian (Longitude) + 3;
-			var End = coordsystem.transformToUTMDouble (Side, Latitude);
-			return System.Math.Abs(End [0] - origin);
+			var End = CoordinateUtils.transformToUTMDouble (Side, Latitude);
+			return System.Math.Abs(End [0] - origin) - 40000;
 		}
+
+        // Get the halfway area of the UTM Zone
 		int GetUTMMerridian(int Longitude)
 		{
 			int remainder = Longitude % 6;

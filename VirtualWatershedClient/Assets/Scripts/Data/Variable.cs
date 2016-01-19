@@ -18,7 +18,7 @@ public class Variable
     public enum TYPE { Temporal, NonTemporal };
     TYPE type;
     List<DataRecord> Records = new List<DataRecord>();
-
+    
     public List<DataRecord> Data
     {
         get 
@@ -51,5 +51,10 @@ public class Variable
     public void Remove(DataRecord record)
     {
         Records.Remove(Records.Find((rec) => { return record.id == rec.id && record.Identifier == rec.Identifier;}));
+    }
+
+    public void Search(DateTime search)
+    {
+
     }
 }

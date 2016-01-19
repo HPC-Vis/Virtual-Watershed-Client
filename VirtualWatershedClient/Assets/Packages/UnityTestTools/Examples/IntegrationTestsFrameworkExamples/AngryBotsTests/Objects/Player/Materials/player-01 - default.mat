@@ -68,7 +68,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: 47.8373146
+        second: 47.837315
       data:
         first:
           name: _SelfIllumStrength
@@ -76,7 +76,7 @@ Material:
       data:
         first:
           name: _RoomReflectionAmount
-        second: 2.92537308
+        second: 2.925373
       data:
         first:
           name: _EmissionLM
@@ -84,20 +84,20 @@ Material:
       data:
         first:
           name: _SelfIllumination
-        second: 1.71641791
+        second: 1.7164179
       data:
         first:
           name: _NonLightmapColorMod
-        second: .432835817
+        second: 0.43283582
     m_Colors:
       data:
         first:
           name: _LightDir
-        second: {r: -.204236522, g: -.551798105, b: -.808582962, a: 0}
+        second: {r: -0.20423652, g: -0.5517981, b: -0.80858296, a: 0}
       data:
         first:
           name: _LightColor
-        second: {r: .433046639, g: .623868525, b: .626233518, a: 1}
+        second: {r: 0.43304664, g: 0.6238685, b: 0.6262335, a: 1}
       data:
         first:
           name: _Color
@@ -105,15 +105,15 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: .999898911, g: 1, b: .999841869, a: 1}
+        second: {r: 0.9998989, g: 1, b: 0.99984187, a: 1}
       data:
         first:
           name: _TintColor
-        second: {r: .999903023, g: 1, b: .999830008, a: 1}
+        second: {r: 0.999903, g: 1, b: 0.99983, a: 1}
       data:
         first:
           name: _SpecularColor
-        second: {r: .800000012, g: .800000012, b: .800000012, a: .800000012}
+        second: {r: 0.8, g: 0.8, b: 0.8, a: 0.8}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

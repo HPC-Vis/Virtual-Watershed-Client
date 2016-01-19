@@ -632,7 +632,7 @@ public static class ModelRunManager
             Debug.LogError("SERVICES: " + i);
         }
 
-        if(record.services.ContainsKey("nc"))
+        if(false && record.services.ContainsKey("nc"))
         {
             // Add it to its perspective model run
             record.band_id = 1;
@@ -722,6 +722,7 @@ public static class ModelRunManager
         }
         else if (record.services.Keys.Count >= 2 && record.multiLayered != null)
         {
+            Debug.LogError("HERE WE GO YALLL");
             client.GetMetaData(PopulateStartTimes, new List<DataRecord> { record });
         }
 		else 

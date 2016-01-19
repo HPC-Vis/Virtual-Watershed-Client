@@ -85,261 +85,14 @@ public static class Utilities
 		return new Rect(minx, miny, Math.Abs(minx - maxx), Math.Abs(miny - maxy));
 	}
 
-    public static void PlaceProjector(Projector projector, DataRecord record)
-	{
-		//projector.name = "SPAWNED PROJECTOR";
-		record.boundingBox = new SerialRect (bboxSplit(record.bbox));
-
-        projector.gameObject.GetComponent<transform> ();
-		if (projector.gameObject.GetComponent<transform>() != null) {
-			Component.Destroy(projector.gameObject.GetComponent<transform>());
-		}
-		var tran = projector.gameObject.AddComponent<transform>();
-		tran.createCoordSystem(record.projection); // Create a coordinate transform
-		//Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
-		
-		tran.setOrigin(coordsystem.WorldOrigin);
-
-		Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
-		Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		Vector2 upperRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y)));
-		Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y-record.boundingBox.height)));;
-		Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y-record.boundingBox.height)));
-		
-		point = upperLeft;
-		Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 10;
-
-		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-
-        pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 3000;
-		pos.x += dim;
-		pos.z += dim;
-		projector.transform.position = pos;
-		
-		var pro = projector.GetComponent<Projector> ();
-		pro.farClipPlane = 10000;
-		pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-
-		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
-		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
-		pro.material = Material.Instantiate (pro.material);
-		pro.material.SetFloat ("_MaxX", boundingAreaX);
-		pro.material.SetFloat ("_MaxY", boundingAreaY);
-	}
-
-    public static void PlaceProjector2(Projector projector, DataRecord record, out Vector2 BoundingScale)
-	{
-        BoundingScale = Vector2.one;
-        Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
-		// Debug.LogError ("WCS BBOX: " + record.bbox2);
-		// Debug.LogError ("JSON BBOX: " + record.bbox);
-		//projector.name = "SPAWNED PROJECTOR";
-		if( record.bbox2 == "" || record.bbox2 == null || (Math.Abs(bboxSplit(record.bbox2).x) > 180  && Math.Abs(bboxSplit(record.bbox2).y) > 180) )
-	    {
-	    	record.boundingBox = new SerialRect (bboxSplit(record.bbox));
-	    }
-	    else
-	    {
-			record.boundingBox = new SerialRect (bboxSplit(record.bbox2));
-	    }
-		
-		projector.gameObject.GetComponent<transform> ();
-		if (projector.gameObject.GetComponent<transform>() != null) {
-			Component.Destroy(projector.gameObject.GetComponent<transform>());
-		}
-		var tran = projector.gameObject.AddComponent<transform>();
-		tran.createCoordSystem(record.projection); // Create a coordinate transform
-		//Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
-		
-		tran.setOrigin(coordsystem.WorldOrigin);
-		
-		Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
-		Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		Vector2 upperRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y)));
-		Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y-record.boundingBox.height)));;
-		Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y-record.boundingBox.height)));
-		
-		point = upperLeft;
-		Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 10;
-		
-		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-		
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 3000;
-        pos.x += dim;
-        pos.z += dim;
-        //pos.x += Math.Abs((upperLeft - upperRight).x) / 2.0f;
-        //pos.z += Math.Abs((upperLeft - lowerLeft).y) / 2.0f;
-        projector.transform.position = pos;
-		
-		var pro = projector.GetComponent<Projector> ();
-		pro.farClipPlane = 10000;
-		pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-		
-		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
-		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
-		pro.material = Material.Instantiate (pro.material);
-		pro.material.SetFloat ("_MaxX", boundingAreaX);
-		pro.material.SetFloat ("_MaxY", boundingAreaY);
-
-        BoundingScale.x = boundingAreaX;
-        BoundingScale.y = boundingAreaY;
-	}
-
 	// Here are some projector building functions that need to be addressed
     public static GameObject buildProjector(DataRecord record, bool type = false)
 	{
-		// Debug.LogError ("PROJECTOR: " + record.boundingBox.x + " " + record.boundingBox.y);
-		// Debug.LogError ("BOUNDING BOX: " + record.boundingBox.width + " " + record.boundingBox.height);
-		// GameObject GO;
-		// GameObject GO2;
-		// GameObject GO3;
-		// GameObject GO4;
-		// First Create a projector
-		GameObject projector = GameObject.Instantiate(Resources.Load("SlideProjector/Prefabs/SlideProjector",typeof(GameObject))) as GameObject;
-		projector.name = "SPAWNED PROJECTOR";
-		// Debug.LogError (projector.name);
-		// GO = GameObject.CreatePrimitive(PrimitiveType.Sphere);//Resources.Load("SlideProjector/Prefabs/SlideProjector") as GameObject;
-		// GO2 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		// GO3 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		// GO4 = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-		// Second Place the projector
-		// Time to place this guy somewhere
-		// Set Gameobject Transform
-		var tran = projector.AddComponent<transform>();
-		tran.createCoordSystem(record.projection); // Create a coordinate transform
-		// Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
-		
-		tran.setOrigin(coordsystem.WorldOrigin);
-		
-		//Vector2 origin = tran.transformPoint(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
-		
-		// tran.setOrigin(origin);
-		
-		
-		Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
-		Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		Vector2 upperRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y)));
-		Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x+record.boundingBox.width,record.boundingBox.y-record.boundingBox.height)));;
-		Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y-record.boundingBox.height)));
-		
-		point = upperLeft;
-		Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 10;
-
-
-		// GO.transform.position = pos;
-		// GO.transform.localScale = new Vector3 (100, 100, 100);
-
-		point = upperRight;
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-
-		// GO2.transform.position = pos;
-		// GO2.transform.localScale = new Vector3 (100, 100, 100);
-
-		point = lowerRight;
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-
-		// GO3.transform.position = pos;
-		// GO3.transform.localScale = new Vector3 (100, 100, 100);
-
-		point = lowerLeft;
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-
-		// GO4.transform.position = pos;
-		// GO4.transform.localScale = new Vector3 (100, 100, 100);
-
-
-		// Projector placement code
-		point = tran.translateToGlobalCoordinateSystem(tran.transformPoint(new Vector2(record.boundingBox.x,record.boundingBox.y)));
-		float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-
-		pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		pos.y += 3000;
-		pos.x += dim;
-		pos.z -= dim;
-		projector.transform.position = pos;
-	
-		var pro = projector.GetComponent<Projector> ();
-		pro.farClipPlane = 10000;
-		pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f,Math.Abs((upperLeft-lowerLeft).y)/2.0f);
-
-        // Ignoring terrain layer with this created projector!
-        pro.ignoreLayers = (1 << 8);
-
-
-		float boundingAreaX = Mathf.Abs ((upperLeft.x - upperRight.x) / (2.0f*pro.orthographicSize));
-		float boundingAreaY = Mathf.Abs ((upperLeft.y - lowerLeft.y) / (2.0f*pro.orthographicSize));
-		// Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
-		// Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
-		pro.material = Material.Instantiate (pro.material);
-		pro.material.SetFloat ("_MaxX", boundingAreaX);
-		pro.material.SetFloat ("_MaxY", boundingAreaY);
-		pro.material.SetInt ("_UsePoint", 0);
-        pro.material.SetFloat("_Opacity", .678f);
-		if (record.texture != null) {
-            Vector2 BoundingScale;
-			PlaceProjector2(pro,record,out BoundingScale);
-			Texture2D image = new Texture2D (1024, 1024, TextureFormat.ARGB32, false);
-			image.wrapMode = TextureWrapMode.Clamp;
-			image.LoadImage (record.texture);
-			for (int i = 0; i < image.width; i++) {
-				image.SetPixel (0, i, Color.clear);
-				image.SetPixel (i, 0, Color.clear);
-				image.SetPixel (image.width - 1, i, Color.clear);
-				image.SetPixel (i, image.height - 1, Color.clear);
-			}
-			image.Apply ();
-			pro.material.SetTexture ("_ShadowTex", image);
-            pro.material.SetFloat("_MaxX", BoundingScale.x);
-            pro.material.SetFloat("_MaxY", BoundingScale.y);
-        } 
-		else if (record.Data.Count > 0) 
-		{
-            Vector2 BoundingScale;
-			PlaceProjector2(pro,record,out BoundingScale);
-			Texture2D image = Utilities.buildTextures(normalizeData(record.Data[0]),Color.grey,Color.blue);
-			image.wrapMode = TextureWrapMode.Clamp;
-
-			for (int i = 0; i < image.width; i++) 
-			{
-				image.SetPixel (i, 0, Color.clear);
-				image.SetPixel (i, image.height - 1, Color.clear);
-			}
-
-			for(int i =0; i <image.height;i++)
-			{
-				image.SetPixel (0, i, Color.clear);
-				image.SetPixel (image.width - 1, i, Color.clear);
-			}
-			image.Apply ();
-
-			pro.material.SetTexture("_ShadowTex",image);
-            pro.material.SetFloat("_MaxX", BoundingScale.x);
-            pro.material.SetFloat("_MaxY", BoundingScale.y);
-        }
-
-        // Third what type of data are we visualizing...
-        // Determine if the data is a square or rect
-        // if square add it to the project material
-        //else it is a rectangle....
-        // pad the texture with the approriate bounds
-        // add it to the projector or material
-
-        //var TempCol = projector.GetComponent<Projector>().material.color;
-        //TempCol.a = .5f;
-        //projector.GetComponent<Projector>().material.color = TempCol;
-
-		// Return the object 
+        // First Create a projector
+        GameObject projector = GameObject.Instantiate(Resources.Load("UI/SlideProjector/Prefabs/SlideProjector", typeof(GameObject))) as GameObject;
+        projector.name = "SPAWNED PROJECTOR";
+        var proj = projector.AddComponent<ProjectorObject>();
+        proj.buildProjector(record, type);
 		return projector;
 	}
 
@@ -410,18 +163,18 @@ public static class Utilities
         terrainData.SetHeights(0, 0, normalizedData);
 
         // Resolution is the total height and total width
-		terrainData.size = new Vector3(Mathf.Abs(record.Resolution.x  / coordsystem.worldScaleZ), (max - min) / coordsystem.worldScaleY, Mathf.Abs(record.Resolution.y/ coordsystem.worldScaleX));
+		terrainData.size = new Vector3(Mathf.Abs(record.Resolution.x  ), (max - min), Mathf.Abs(record.Resolution.y));
         
         terrain.basemapDistance = 0;
 
         // Set Gameobject Transform
-        var tran = terrain.gameObject.AddComponent<transform>();
+        var tran = terrain.gameObject.AddComponent<WorldTransform>();
         tran.createCoordSystem(record.projection); // Create a coordinate transform
         // Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
         Vector2 origin = tran.transformPoint(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
 
-        tran.setOrigin(coordsystem.WorldOrigin);
+        //tran.setOrigin(coordsystem.WorldOrigin);
 
         // Set world origin
         //coordsystem.WorldOrigin = origin;
@@ -453,10 +206,6 @@ public static class Utilities
         return terrainGO;
     }
 
-    public static void Rebuild()
-    {
- 
-    }
 
 
     // finds the minimum and maximum values from a heightmap
@@ -767,114 +516,15 @@ public static class Utilities
     // =========================================
     //          SHAPE BUILDING FUNCTIONS
     // =========================================
-	static GameObject addPoint( Vector2 point,transform tr)
-	{
-		GameObject cylinder = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-		
-		//determine world position of the point
-		point = tr.transformPoint(point);
-		
-		point = tr.translateToGlobalCoordinateSystem(point);
-		
-		// determine position and size of cylinder using point information
-		cylinder.transform.position = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-		
-		// set coloring variables of the cylinder
-		cylinder.AddComponent<Light>();
-		cylinder.GetComponent<Light>().range = 50.0f;
-		cylinder.GetComponent<Light>().intensity = 100;
-		Debug.LogError(-1*(GlobalConfig.TerrainBoundingBox.width/2));
-		if (!GlobalConfig.TerrainBoundingBox.Contains(cylinder.transform.position) || (cylinder.transform.position.z < (-1*(GlobalConfig.TerrainBoundingBox.width/2))))
-		{
-			cylinder.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
-			cylinder.GetComponent<Light>().color = Color.clear;
-			cylinder.GetComponent<Renderer>().material.color = Color.clear;
-		}
-		else
-		{
-			cylinder.transform.localScale = new Vector3(.75f, 5.0f, .75f);
-			cylinder.GetComponent<Light>().color = Color.red;
-			cylinder.GetComponent<Renderer>().material.color = Color.red;
-			var scaler = cylinder.AddComponent<Scaler>();
-			scaler.FirstPersonController = GameObject.Find("First Person Controller");
-
-		}
-        cylinder.layer = LayerMask.NameToLayer("Terrain");
-		return cylinder;
-	}
-
-    static int current = 0;
-    static GameObject addline(List<SerialVector2> Points, transform tr)
-    {
-		Material LineMaterial = new Material (Shader.Find ("Transparent/VertexLit with Z"));
-        List<Vector2> points = SerialVector2.ToVector2Array(Points.ToArray()).ToList();
-        GameObject lineObject = new GameObject();
-        LineRenderer line = lineObject.AddComponent<LineRenderer>();
-
-        line.SetWidth(30, 30);
-        line.SetVertexCount(points.Count);
-        for (int index = 0; index < points.Count; index++)
-        {
-            Vector2 point = tr.transformPoint(points[index]);
-
-            // For now we use the zone hack.... assuming everything is in the same zone..
-            // Same zone hack ----- 
-            /*int zone = coordsystem.GetZone(points[index].y, points[index].x);
-
-            if (zone != coordsystem.localzone)
-            {
-                // Thanks to https://www.maptools.com/tutorials/utm/details
-                pnt.x += (zone - coordsystem.localzone) * 674000f;
-            }*/
-
-            point = tr.translateToGlobalCoordinateSystem(point);
-            Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
-            pos.y += 2;
-			if (GlobalConfig.TerrainBoundingBox.Contains(pos) && (pos.z > (-1*(GlobalConfig.TerrainBoundingBox.width/2))))
-			{
-            line.SetPosition(index, pos);
-			}
-        }
-
-        line.material = LineMaterial;//= new Material(Shader.Find("Particles/Additive"));
-
-        // Setting colors to some prefined scheme ... We should do this procedurely.
-        Color[] colors = new[] { Color.red, Color.red, Color.red, Color.red, new Color(.5f, .5f, .1f, 1f), Color.cyan, Color.magenta };
-        line.SetColors(colors[current % colors.Length], colors[current % colors.Length]);
-        lineObject.layer = LayerMask.NameToLayer("Terrain");
-        return lineObject;
-    }
 
     // The buildShape function builds a bunch of shapes that remain attached to a parent gameobject.
     // This parent gameobject is used to move that shape around.
     public static GameObject buildShape(DataRecord record)
     {
         GameObject parent = new GameObject();
-        transform trans = parent.AddComponent<transform>();
+		var shape = parent.AddComponent<Shape> ();
+		shape.buildShape (record);
 
-        // Set Gameobject Transform
-        trans.createCoordSystem("epsg:" + GlobalConfig.GlobalProjection.ToString()); // Create a coordinate transform
-        
-        //Vector2 origin = trans.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
-
-        // Set world origin
-        //coordsystem.WorldOrigin = origin;
-        Debug.Log("BOUNDING BOX: " + record.boundingBox.x + " " + record.boundingBox.y);
-        trans.setOrigin(coordsystem.WorldOrigin);
-
-        foreach (var shape in record.Lines)
-        {
-            if (shape.Count == 1)
-            {
-                // Build cylinder
-                Utilities.addPoint(SerialVector2.ToVector2Array(shape.ToArray())[0], trans).transform.parent = parent.transform;
-            }
-            else
-            {
-                // Lets build some lines.
-                Utilities.addline(shape,trans).transform.parent = parent.transform;
-            }
-        }
         return parent;
     }
 
