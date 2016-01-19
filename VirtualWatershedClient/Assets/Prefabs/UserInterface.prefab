@@ -22924,6 +22924,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -27618,6 +27619,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -29990,6 +29992,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -32327,6 +32330,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -33477,6 +33481,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -46722,6 +46727,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ColorBoxes: []
   slider: {fileID: 11488504}
+  Mean: 0
+  frameCount: 1
 --- !u!114 &11449962
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -65355,6 +65362,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
@@ -71197,6 +71205,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1

@@ -2734,6 +2734,7 @@ MonoBehaviour:
     variableName: 
     Min: 3.40282347e+38
     Max: -3.40282347e+38
+    Mean: 0
     multiLayered: none
     numbands: 0
     band_id: -1
