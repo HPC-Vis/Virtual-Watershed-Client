@@ -11,7 +11,56 @@ public struct Frame
     public DateTime starttime;
     public DateTime endtime;
     public float[,] Data;
+
+    public Frame(bool init = false)
+    {
+        Picture = null;
+        starttime = DateTime.MinValue;
+        endtime = DateTime.MinValue;
+        if(init)
+        {
+            Data = new float[100, 100];
+            for (int i = 0; i < 100; i++)
+            {
+                for (int j = 0; j < 100; j++)
+                {
+                    Data[i, j] = 0.0f;
+                }
+            }
+        }
+        else
+        {
+            Data = null;
+        }        
+    }
 };
+
+public class DataLoad
+{
+    public bool WMS;
+    public ModelRun modelrun;
+    public List<Frame> frames;
+    public Rect BoundingBox;
+    public string Projection;
+    public int total;
+    public bool active;
+
+    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a)
+    {
+        WMS = wms;
+        modelrun = mr;
+        frames = fr;
+        BoundingBox = new Rect();
+        Projection = null;
+        total = t;
+        active = a;
+    }
+
+    public void Toggle()
+    {
+        active = !active;
+    }
+}
 
 
 public class FrameEndDateAscending : IComparer<Frame>
@@ -27,10 +76,9 @@ public class FrameEndDateAscending : IComparer<Frame>
 
 public class ActiveData : MonoBehaviour {
     // Variables
-    public static Dictionary<String, ModelRun> Active = new Dictionary<String, ModelRun>();
+    public static Dictionary<String, DataLoad> Active = new Dictionary<String, DataLoad>();
     public ModelRunVisualizer temporalList;
     public Text DownloadTextbox;
-    public static int TOTAL = 0;
     public static int GRAND_TOTAL = 0;
 
     // List of objects subscribing to the active data
@@ -38,16 +86,11 @@ public class ActiveData : MonoBehaviour {
     public TrendGraphController trendGraph;
 
     // Locals
-    private bool WMS;
-    private bool init = false;
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
-    private Rect BoundingBox;
-    private string Projection;
-    private float Max;
-    private float Min;
-    private DateTime Start;
-    private DateTime End;
-    private static Dictionary<String, List<Frame>> CurrentData = new Dictionary<String, List<Frame>>();
+    private float Max = float.MinValue;
+    private float Min = float.MaxValue;
+    private DateTime Start = DateTime.MaxValue;
+    private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
     
@@ -56,36 +99,33 @@ public class ActiveData : MonoBehaviour {
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {
-            Debug.LogError("The count / total: " + GRAND_TOTAL + " / " + TOTAL);
-            Sort();
-        }
-
-        // Initilize the necessary data
-        if (init && SliderFrames.Count > 1)
-        {
-            DataRecord record = SliderFrames.Peek();
-            Projection = record.projection;
-
-            if (record.bbox2 != "" && record.bbox2 != null)
+            if (Active.Count > 1)
             {
-                //Debug.LogError("We added BBox TWO.");
-                BoundingBox = Utilities.bboxSplit(record.bbox2);
+                List<String> tracker = new List<String>();
+                foreach (var value in Active)
+                {
+                    tracker.Add(value.Key);
+                }
+                if(Active[tracker[0]].active && Active[tracker[1]].active)
+                {
+                    Active[tracker[1]].Toggle();
+                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0], Active[tracker[0]].modelrun.ModelRunUUID);
+                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0]);
+                }
+                else if(Active[tracker[0]].active)
+                {
+                    Active[tracker[0]].Toggle();
+                    Active[tracker[1]].Toggle();
+                    spool.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, Active[tracker[1]].WMS, tracker[1], Active[tracker[1]].modelrun.ModelRunUUID);
+                    trendGraph.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, tracker[1]);
+                }
+                else if (Active[tracker[1]].active)
+                {
+                    Active[tracker[0]].Toggle();
+                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0] + "\n" + tracker[1], Active[tracker[0]].modelrun.ModelRunUUID);
+                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0] + "\n" + tracker[1]);
+                }
             }
-            else
-            {
-                //Debug.LogError("We added BBox ONE.");
-                BoundingBox = Utilities.bboxSplit(record.bbox);
-            }
-
-            // Push the new information to the subscribers
-            spool.UpdateData(BoundingBox, Projection, WMS, record.variableName, Active[record.variableName].ModelRunUUID);
-            trendGraph.UpdateData(BoundingBox, Projection, record.variableName);
-
-            // Initilize the Time
-            Start = record.start.Value;
-            End = record.end.Value;
-
-            init = false;
         }
 
         // Temp Patch
@@ -102,44 +142,75 @@ public class ActiveData : MonoBehaviour {
             for (int i = 0; i < dequeueSize; i++)
             {
                 DataRecord record = SliderFrames.Dequeue();
-                textureBuilder(record);
 
-                // Updates the min/max information across the necessary classes
-                if (record.Max > Active[record.variableName].MinMax[record.variableName].y)
-                {                    
-                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].MinMax[record.variableName].x, record.Max));
-                    if(Max < record.Max)
-                    {
-                        Max = record.Max;
-                        spool.UpdateMinMax(Min, Max);
-                        trendGraph.SetMax((int)Max);
-                    }                    
+                if (record == null)
+                {
+                    Debug.LogError("Null: " + record);
                 }
-                if (record.Min < Active[record.variableName].MinMax[record.variableName].x)
-                {                    
-                    Active[record.variableName].MinMax[record.variableName] = new SerialVector2(new Vector2(record.Min, Active[record.variableName].MinMax[record.variableName].y));
-                    if(Min > record.Min)
+                else
+                {
+                    // Initilize the necessary data
+                    if (Active[record.variableName].frames.Count == 0)
                     {
-                        Min = record.Min;
-                        spool.UpdateMinMax(Min, Max);
-                        trendGraph.SetMin((int)Min);
+                        DataLoad temp = Active[record.variableName];
+                        temp.Projection = record.projection;
+
+                        if (record.bbox2 != "" && record.bbox2 != null)
+                        {                        
+                            temp.BoundingBox = Utilities.bboxSplit(record.bbox2);
+                        }
+                        else
+                        {
+                            temp.BoundingBox = Utilities.bboxSplit(record.bbox);                        
+                        }
+
+                        Active[record.variableName] = temp;
+
+                        // Push the new information to the subscribers
+                        spool.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, Active[record.variableName].WMS, record.variableName, Active[record.variableName].modelrun.ModelRunUUID);
+                        trendGraph.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, record.variableName);
+                    }
+
+                    // Build the texture
+                    textureBuilder(record);
+
+                    // Updates the min/max information across the necessary classes
+                    if (record.Max > Active[record.variableName].modelrun.MinMax[record.variableName].y)
+                    {                    
+                        Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].modelrun.MinMax[record.variableName].x, record.Max));
+                        if(Max < record.Max)
+                        {
+                            Max = record.Max;
+                            spool.UpdateMinMax(Min, Max);
+                            trendGraph.SetMax((int)Max);
+                        }                    
+                    }
+                    if (record.Min < Active[record.variableName].modelrun.MinMax[record.variableName].x)
+                    {                    
+                        Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(record.Min, Active[record.variableName].modelrun.MinMax[record.variableName].y));
+                        if(Min > record.Min)
+                        {
+                            Min = record.Min;
+                            spool.UpdateMinMax(Min, Max);
+                            trendGraph.SetMin((int)Min);
+                        }
+                    }
+
+
+                    if(Start > Active[record.variableName].frames[0].starttime || End < Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime)
+                    {
+                        Start = Active[record.variableName].frames[0].starttime;
+                        End = Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime;
+                        spool.UpdateTimeDuration(Start, End);
+                        trendGraph.UpdateTimeDuration(Start, End);
                     }
                 }
-
-
-                if(Start > CurrentData[record.variableName][0].starttime || End < CurrentData[record.variableName][CurrentData[record.variableName].Count - 1].endtime)
-                {
-                    Start = CurrentData[record.variableName][0].starttime;
-                    End = CurrentData[record.variableName][CurrentData[record.variableName].Count - 1].endtime;
-                    spool.UpdateTimeDuration(Start, End);
-                    trendGraph.UpdateTimeDuration(Start, End);
-                }                
             }
 
             int runningTotal = 0;
-            foreach (var data in CurrentData)
+            foreach (var data in Active)
             {
-                runningTotal += data.Value.Count;
+                runningTotal += data.Value.frames.Count;
             }
             DownloadTextbox.text = "Downloaded: " + ((float)runningTotal / (float)GRAND_TOTAL).ToString("P");
         }
@@ -152,7 +223,7 @@ public class ActiveData : MonoBehaviour {
     /// Takes the currently worked on record and adds it to the spooler.
     /// </summary>
     /// <param name="rec">The current record to add.</param>
-    public void textureBuilder(DataRecord rec)
+    private void textureBuilder(DataRecord rec)
     {
         //return;
         // Caching 
@@ -171,7 +242,7 @@ public class ActiveData : MonoBehaviour {
             return;
         }
         
-        if (rec.modelRunUUID != Active[rec.variableName].ModelRunUUID)
+        if (rec.modelRunUUID != Active[rec.variableName].modelrun.ModelRunUUID)
         {
             // This is not the model run we want because something else was selected.
             Debug.LogError("Ran This ITem");
@@ -182,9 +253,7 @@ public class ActiveData : MonoBehaviour {
         float max, min, mean;
         if (rec.Data.Count > 1)
         {
-            GRAND_TOTAL -= TOTAL;
-            TOTAL = rec.Data.Count; // Patch
-            GRAND_TOTAL += TOTAL;
+            UpdateTotal(rec.variableName, rec.Data.Count);
         }
 
         if (!rec.start.HasValue)
@@ -195,7 +264,6 @@ public class ActiveData : MonoBehaviour {
         if (!rec.end.HasValue)
         {
             Debug.LogError("no end");
-
             rec.end = DateTime.MaxValue;
         }
 
@@ -229,13 +297,13 @@ public class ActiveData : MonoBehaviour {
             Logger.enable = true;
             Texture2D tex = new Texture2D(rec.width, rec.height);
 
-            if (!WMS)
+            if (!Active[rec.variableName].WMS)
             {
                 tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max, out mean);
                 rec.Min = Math.Min(min, rec.Min);
                 rec.Max = Math.Max(max, rec.Max);
                 rec.Mean = mean;
-                var vari = Active[rec.variableName].GetVariable(rec.variableName);
+                var vari = Active[rec.variableName].modelrun.GetVariable(rec.variableName);
                 vari.meanSum += mean;
                 vari.frameCount += 1;
                 vari.Mean = vari.meanSum / vari.frameCount;
@@ -270,10 +338,10 @@ public class ActiveData : MonoBehaviour {
     /// Inserts the frame into the Reel.
     /// </summary>
     /// <param name="frame">The frame to add to the reel.</param>
-    void Insert(Frame frame, String variableName)
+    private void Insert(Frame frame, String variableName)
     {
         // Does this handle duplicates..
-        int index = CurrentData[variableName].BinarySearch(frame, new FrameEndDateAscending());
+        int index = Active[variableName].frames.BinarySearch(frame, new FrameEndDateAscending());
 
         // This is to help pinpoint too many records added to the Reel
         //if (CurrentData.Count >= TOTAL)
@@ -286,16 +354,23 @@ public class ActiveData : MonoBehaviour {
         if (index >= 0)
         {
             //handle the duplicate!
-            //throw new Exception("Duplicate Handling not implemented!!!!!");
-            TOTAL--;
-            GRAND_TOTAL--;
+            UpdateTotal(variableName, Active[variableName].total - 1);
         }
         else
         {
             // new item
             // Debug.LogError("INSERTTING FRAMME " + ~index);
-            CurrentData[variableName].Insert(~index, frame);
+            Active[variableName].frames.Insert(~index, frame);
         }
+    }
+
+    public static void UpdateTotal(String location, int value)
+    {
+        DataLoad temp = Active[location];
+        GRAND_TOTAL -= temp.total;
+        temp.total = value;
+        GRAND_TOTAL += temp.total;
+        Active[location] = temp;
     }
 
 
@@ -304,9 +379,9 @@ public class ActiveData : MonoBehaviour {
         float numerator = 0.0f;
         float denominator = 0.0f;
 
-        foreach (KeyValuePair<string, ModelRun> model in Active)
+        foreach (KeyValuePair<string, DataLoad> model in Active)
         {
-            Variable vari = model.Value.GetVariable(model.Key);
+            Variable vari = model.Value.modelrun.GetVariable(model.Key);
             denominator += (float)(vari.TotalRecords);
             numerator += (float)(vari.Data.Count);
         }
@@ -324,15 +399,15 @@ public class ActiveData : MonoBehaviour {
         temp.starttime = Time;
 
         int runningTotal = 0;
-        foreach (var data in CurrentData)
+        foreach (var data in Active)
         {
-            runningTotal = data.Value.Count;
+            runningTotal = data.Value.frames.Count;
         }
 
         int index = 0;
-        foreach (var data in CurrentData)
+        foreach (var data in Active)
         {
-            int current = data.Value.BinarySearch(temp, new FrameEndDateAscending());
+            int current = data.Value.frames.BinarySearch(temp, new FrameEndDateAscending());
             if (index != current)
             {
                 //Debug.LogError("There was an incorrect index match: " + index + " with " + current);                
@@ -355,38 +430,57 @@ public class ActiveData : MonoBehaviour {
         return returnValue;
     }
 
-    public static List<int> GetCount()
+    public static List<String> GetCurrentAvtive()
     {
-        List<int> runningTotal = new List<int>();
-        foreach (var data in CurrentData)
+        List<String> returnval = new List<string>();
+        foreach(var item in Active)
         {
-            runningTotal.Add(data.Value.Count);
+            if(item.Value.active)
+            {
+                returnval.Add(item.Key);
+            }
         }
-        return runningTotal;
+        return returnval;
     }
 
-    public static List<Frame> GetFrameAt(int index)
+    public static Rect GetBoundingBox(String variable)
     {
-        List<Frame> returnvalue = new List<Frame>();
-        foreach (var data in CurrentData)
+        return Active[variable].BoundingBox;
+    }
+
+    public static int GetCount(String variable)
+    {
+        return Active[variable].frames.Count;
+    }
+
+    public static Frame GetFrameAt(String variable, int index)
+    {
+        Frame returnvalue;
+
+        if(Active[variable].frames.Count <= index)
         {
-            if(CurrentData[data.Key].Count <= index)
+            if(Active[variable].frames.Count <= 0)
             {
-                returnvalue.Add(CurrentData[data.Key][CurrentData[data.Key].Count - 1]);
+                returnvalue = new Frame(true);
             }
             else
             {
-                returnvalue.Add(CurrentData[data.Key][index]);
-            }            
+                returnvalue = Active[variable].frames[Active[variable].frames.Count - 1];
+            }                
         }
+        else
+        {
+            returnvalue = Active[variable].frames[index];
+        }            
+        
         return returnvalue;
     }
 
     public static void Sort()
     {
-        foreach(var data in CurrentData)
+        foreach(var data in Active)
         {
-            CurrentData[data.Key].Sort((s1, s2) => s1.starttime.CompareTo(s2.starttime));
+            Active[data.Key].frames.Sort((s1, s2) => s1.starttime.CompareTo(s2.starttime));
         }        
     }
 
@@ -408,15 +502,15 @@ public class ActiveData : MonoBehaviour {
         // Load this 
         var temp = temporalList.listView.GetSelectedModelRuns();
         var seled = temporalList.listView.GetSelectedRowContent();
-        string variable = seled[0][2].ToString();
-
-        // Set the data of new model run
-        // TODO
-        // selectedVariableString = "Current Model Run: " + seled[0][0].ToString() + " Variable: " + variable;
-        Debug.LogError("Current Model Run: " + seled[0][0].ToString() + " Variable: " + variable);
+        
+        int maxindex = temp.Count;
+        if(temp.Count > 2)
+        {
+            maxindex = 2;
+        }
 
         // Only run if what was selected returned a value
-        if (temp != null)
+        for(int index = 0; index < maxindex; index++)
         {
             // Time to load some things
             SystemParameters sp = new SystemParameters();
@@ -425,34 +519,34 @@ public class ActiveData : MonoBehaviour {
             sp.height = 100;
 
             // Get the Model Run
-            var Records = temp[0].FetchVariableData(variable);
-            TOTAL = Records.Count;
-            GRAND_TOTAL += TOTAL;
-            init = true;
+            string variable = seled[index][2].ToString();
+            var Records = temp[index].FetchVariableData(variable);
+            GRAND_TOTAL += Records.Count;
             Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
 
             // Check if there is a need to clear -- if greater than 2
-            if(CurrentData.Count > 1)
+            if(Active.Count > 1)
             {
+                // Initilize the Time
+                Start = DateTime.MaxValue;
+                End = DateTime.MinValue;
+                Max = float.MinValue;
+                Min = float.MaxValue;
                 Active.Clear();
-                CurrentData.Clear();
                 spool.Clear();
                 trendGraph.Clear();
+                GRAND_TOTAL = 0;
             }
 
-            // Set the active data
-            Active.Add(variable, ModelRunManager.GetByUUID(temp[0].ModelRunUUID));
-            CurrentData.Add(variable, new List<Frame>());
-
             // Set the download based on the doqq in description
-            if (temp[0].Description.ToLower().Contains("doqq"))
+            if (temp[index].Description.ToLower().Contains("doqq"))
             {
-                WMS = true;
+                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
             }
             else
             {
-                WMS = false;
+                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
             }
         }

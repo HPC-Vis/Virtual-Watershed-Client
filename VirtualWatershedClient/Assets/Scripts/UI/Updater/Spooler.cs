@@ -22,7 +22,6 @@ public class Spooler : MonoBehaviour
     Vector2 NormalizedPoint = Vector2.zero;
     bool WMS = false;
     string oldSelectedVariable;
-    int DataSelectIndex = 0;
 
 	
 	/// <summary>
@@ -68,18 +67,6 @@ public class Spooler : MonoBehaviour
         {
             ChangeTexture();
         }
-
-        // temp swap 
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            Debug.LogError("Spooler: " + timeSlider.SimTime);
-
-            DataSelectIndex++;
-            if (DataSelectIndex >= ActiveData.GetCount().Count)
-            {
-                DataSelectIndex = 0;
-            }
-        }
     }
 
     /// <summary>
@@ -113,6 +100,7 @@ public class Spooler : MonoBehaviour
 
         // Update title
         selectedVariableTextBox.text = "Variable: " + variable + ": " + VariableReference.GetDescription(variable);
+        ChangeTexture();
     }
 
     public void UpdateMinMax(float min, float max)
@@ -149,13 +137,14 @@ public class Spooler : MonoBehaviour
         // Set the new time for update
         lastUpdateTime = timeSlider.SimTime;
 
-        if (ActiveData.GetCount().Count <= DataSelectIndex)
+        List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+        if(tempFrameRef.Count < 1)
         {
             return;
         }
-        int currentcount = ActiveData.GetCount()[DataSelectIndex];
+        int currentcount = ActiveData.GetCount(tempFrameRef[0]);
         int textureIndex = ActiveData.FindNearestFrame(timeSlider.SimTime);
-        testImage.sprite = ActiveData.GetFrameAt(textureIndex)[DataSelectIndex].Picture;
+        testImage.sprite = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture;
 
         // Do nothing if there is no data
         if(currentcount < 1)
@@ -167,7 +156,7 @@ public class Spooler : MonoBehaviour
         if (textureIndex == currentcount - 1 || currentcount == 1)
         {
             // Set both textures to last reel texture
-            Frame setframe = ActiveData.GetFrameAt(currentcount-1)[DataSelectIndex];
+            Frame setframe = ActiveData.GetFrameAt(tempFrameRef[0], currentcount - 1);
             TimeProjector.material.SetTexture("_ShadowTex", setframe.Picture.texture);
             TimeProjector.material.SetTexture("_ShadowTex2", setframe.Picture.texture);
 
@@ -177,12 +166,12 @@ public class Spooler : MonoBehaviour
         else
         {
             // Set current texture
-            testImage.material.SetTexture("_MainTex", ActiveData.GetFrameAt(textureIndex)[DataSelectIndex].Picture.texture);
-            TimeProjector.material.SetTexture("_ShadowTex", ActiveData.GetFrameAt(textureIndex)[DataSelectIndex].Picture.texture);
+            testImage.material.SetTexture("_MainTex", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture.texture);
+            TimeProjector.material.SetTexture("_ShadowTex", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture.texture);
 
             // Set future texture
-            TimeProjector.material.SetTexture("_ShadowTex2", ActiveData.GetFrameAt(textureIndex + 1)[DataSelectIndex].Picture.texture);
-            testImage.material.SetTexture("_MainTex2", ActiveData.GetFrameAt(textureIndex + 1)[DataSelectIndex].Picture.texture);
+            TimeProjector.material.SetTexture("_ShadowTex2", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1).Picture.texture);
+            testImage.material.SetTexture("_MainTex2", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1).Picture.texture);
         }
     }
 }

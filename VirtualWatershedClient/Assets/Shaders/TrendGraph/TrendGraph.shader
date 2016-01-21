@@ -25,9 +25,9 @@
 			{
 				float4 col = tex2D(_MainTex, float2(i.uv.x, 1.0-i.uv.y));
 				
-				if (col.r < 0.1 && col.g < 0.1 && col.b > 0.9)
+				if (col.r > 0.1 || col.g > 0.1 || col.b > 0.1)
 				{
-					return float4(1.0, 1.0, 1.0, 0.0); 
+					return float4(col.r, col.g, col.b, 0.0);
 				}
 				else
 				{
