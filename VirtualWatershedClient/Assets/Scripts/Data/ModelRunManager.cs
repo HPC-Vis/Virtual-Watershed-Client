@@ -267,8 +267,6 @@ public static class ModelRunManager
 
     public static void DownloadFile(DataRecord clone, DataRecordSetter SettingTheRecord)
     {
-        Debug.LogError("Loading File");
-
         ModelRun modelrun = ModelRunManager.GetByUUID(clone.modelRunUUID);
         Variable variable = modelrun.GetVariable(clone.variableName);
         variable.Remove(clone);
@@ -284,7 +282,6 @@ public static class ModelRunManager
 
             for (int j = 0; j < da.Count; j++)
             {
-                Debug.LogError("Running tTHis");
                 DataRecord recClone = clone.Clone();
                 recClone.Data.Add(da[j]);
                 recClone.band_id = j + 1;

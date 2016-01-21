@@ -10,16 +10,11 @@ using UnityTest.IntegrationTests;
 namespace UnityTest
 {
     public static partial class Batch
-	{
-		const string k_ResultFilePathParam = "-resultFilePath=";
+    {
         private const string k_TestScenesParam = "-testscenes=";
         private const string k_OtherBuildScenesParam = "-includeBuildScenes=";
         const string k_TargetPlatformParam = "-targetPlatform=";
         const string k_ResultFileDirParam = "-resultsFileDirectory=";
-
-        public static int returnCodeTestsOk = 0;
-        public static int returnCodeTestsFailed = 2;
-        public static int returnCodeRunError = 3;
 
         public static void RunIntegrationTests()
         {
@@ -106,18 +101,6 @@ namespace UnityTest
             NetworkResultsReceiver.StartReceiver(config);
 
             EditorApplication.isPlaying = true;
-        }
-
-        private static string GetParameterArgument(string parameterName)
-        {
-            foreach (var arg in Environment.GetCommandLineArgs())
-            {
-                if (arg.ToLower().StartsWith(parameterName.ToLower()))
-                {
-                    return arg.Substring(parameterName.Length);
-                }
-            }
-            return null;
         }
 
         static void CheckActiveBuildTarget()

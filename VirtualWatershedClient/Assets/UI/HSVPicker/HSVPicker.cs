@@ -126,7 +126,6 @@ public class HSVPicker : MonoBehaviour {
 
 	public void PlaceCursor(float posX, float posY) 
 	{
-		Debug.LogError("PLACE CURSOR");
 		MoveCursor(posX, posY);
 	}
 

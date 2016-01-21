@@ -77,13 +77,7 @@ namespace UnityTest
                 int length = 0;
                 Transfer (ref length);
                 var bytes = new byte[length];
-                int remain = length;
-                int index = 0;
-                do {
-                    int bytesRead = _stream.Read(bytes, index, remain);
-                    remain -= bytesRead;
-                    index += bytesRead;
-                } while (remain > 0);
+                _stream.Read(bytes, 0, length);
                 val = Encoding.BigEndianUnicode.GetString(bytes);
             }
         }

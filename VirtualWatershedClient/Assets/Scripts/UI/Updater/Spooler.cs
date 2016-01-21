@@ -79,7 +79,7 @@ public class Spooler : MonoBehaviour
     {
         // Set projector
         Vector2 BoundingScale;
-        Utilities.PlaceProjector2(TimeProjector, BoundingBox, projection, out BoundingScale);
+        TimeProjector.GetComponent<ProjectorObject>().PlaceProjector(BoundingBox, projection, out BoundingScale);
         WMS = wms;
 
         if (!WMS)
