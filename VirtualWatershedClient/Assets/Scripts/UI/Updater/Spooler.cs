@@ -35,7 +35,7 @@ public class Spooler : MonoBehaviour
     // Public Variables
     static readonly object LOCK;
 	public TrendGraphController trendGraph;
-	public ModelRunVisualizer visual;
+	public ModelRunLoader visual;
 	public Image testImage;
 	public Slider gridSlider;
 	public TimeSlider timeSlider;

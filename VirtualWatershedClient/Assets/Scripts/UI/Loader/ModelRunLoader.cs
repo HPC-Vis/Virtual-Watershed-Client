@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 
-public class ModelRunVisualizer : MonoBehaviour {
+public class ModelRunLoader : MonoBehaviour {
     
     public DownloadManager downloadManager;
     public ListViewManager listView;

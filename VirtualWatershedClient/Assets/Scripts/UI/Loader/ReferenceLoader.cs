@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 
-public class ReferenceVisualizer : MonoBehaviour 
+public class ReferenceLoader : MonoBehaviour 
 {
     public DownloadManager downloadManager;
     public ListViewManager listView;
