@@ -26,7 +26,7 @@ Material:
       data:
         first:
           name: _InvFade
-        second: .00999999978
+        second: 0.01
     m_Colors:
       data:
         first:
@@ -35,7 +35,7 @@ Material:
       data:
         first:
           name: _TintColor
-        second: {r: .955223858, g: .955223858, b: .955223858, a: .592156887}
+        second: {r: 0.95522386, g: 0.95522386, b: 0.95522386, a: 0.5921569}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

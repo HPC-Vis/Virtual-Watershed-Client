@@ -33,28 +33,28 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .078125
+        second: 0.078125
       data:
         first:
           name: _InvFade
-        second: 2.60509443
+        second: 2.6050944
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: 1, g: .981065094, b: .961538434, a: 1}
+        second: {r: 1, g: 0.9810651, b: 0.96153843, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
       data:
         first:
           name: _TintColor
-        second: {r: 1, g: 1, b: 1, a: .752941191}
+        second: {r: 1, g: 1, b: 1, a: 0.7529412}
       data:
         first:
           name: _EmisColor
-        second: {r: .200000003, g: .200000003, b: .200000003, a: 0}
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 0}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

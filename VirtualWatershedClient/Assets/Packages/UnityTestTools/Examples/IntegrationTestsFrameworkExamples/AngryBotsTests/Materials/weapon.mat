@@ -61,7 +61,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .0929011106
+        second: 0.09290111
       data:
         first:
           name: _SelfIllumStrength
@@ -82,7 +82,7 @@ Material:
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
       data:
         first:
           name: _TintColor

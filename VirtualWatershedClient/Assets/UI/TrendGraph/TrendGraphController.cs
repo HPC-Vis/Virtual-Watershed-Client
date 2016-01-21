@@ -87,13 +87,13 @@ namespace VTL.TrendGraph
         public void UpdateData(Rect BoundingBox, string projection, string variable)
         {
             // Set the bounding box to the trendgraph
-            transform tran = new transform();
+            WorldTransform tran = new WorldTransform(projection);
             //Debug.LogError("Coord System: " + record.projection);
             tran.createCoordSystem(projection); // Create a coordinate transform
                                                 //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
             // transfor a lat/long bounding box to UTM
-            tran.setOrigin(coordsystem.WorldOrigin);
+            //tran.setOrigin(coordsystem.WorldOrigin);
             Vector2 point = tran.transformPoint(new Vector2(BoundingBox.x, BoundingBox.y));
             Vector2 point2 = tran.transformPoint(new Vector2(BoundingBox.x + BoundingBox.width, BoundingBox.y - BoundingBox.height));
 

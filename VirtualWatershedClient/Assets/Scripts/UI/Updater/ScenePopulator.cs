@@ -5,7 +5,8 @@ public class ScenePopulator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+        OSGeo.GDAL.Gdal.SetConfigOption("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data");
+        System.Environment.SetEnvironmentVariable("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
 	}
 	
 	// Update is called once per frame

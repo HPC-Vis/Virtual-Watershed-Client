@@ -61,7 +61,7 @@ Material:
       data:
         first:
           name: _Shininess
-        second: .078125
+        second: 0.078125
       data:
         first:
           name: _SelfIllumStrength
@@ -74,15 +74,15 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .588, g: .588, b: .588, a: 1}
+        second: {r: 0.588, g: 0.588, b: 0.588, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
       data:
         first:
           name: _TintColor
-        second: {r: .760637403, g: .760756969, b: .760593951, a: 1}
+        second: {r: 0.7606374, g: 0.76075697, b: 0.76059395, a: 1}
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

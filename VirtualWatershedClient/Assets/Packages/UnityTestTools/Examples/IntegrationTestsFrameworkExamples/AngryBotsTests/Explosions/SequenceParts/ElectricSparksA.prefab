@@ -28,7 +28,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.81155872, y: 0, z: -.0763078928}
+  m_LocalPosition: {x: 7.8115587, y: 0, z: -0.07630789}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -78,10 +78,10 @@ EllipsoidParticleEmitter:
   serializedVersion: 2
   m_Enabled: 1
   m_Emit: 1
-  minSize: .600000024
-  maxSize: .899999976
-  minEnergy: .300000012
-  maxEnergy: .400000006
+  minSize: 0.6
+  maxSize: 0.9
+  minEnergy: 0.3
+  maxEnergy: 0.4
   minEmission: 5
   maxEmission: 10
   worldVelocity: {x: 0, y: 0, z: 0}
@@ -94,7 +94,7 @@ EllipsoidParticleEmitter:
   rndRotation: 0
   Simulate in Worldspace?: 1
   m_OneShot: 1
-  m_Ellipsoid: {x: .800000012, y: 0, z: .800000012}
+  m_Ellipsoid: {x: 0.8, y: 0, z: 0.8}
   m_MinEmitterRange: 0
 --- !u!1002 &1500001
 EditorExtensionImpl:
@@ -117,8 +117,10 @@ ParticleRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_AutoUVMaxDistance: .5
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
@@ -128,7 +130,7 @@ ParticleRenderer:
   m_StretchParticles: 4
   m_LengthScale: 2
   m_VelocityScale: 0
-  m_MaxParticleSize: .75
+  m_MaxParticleSize: 0.75
   UV Animation:
     x Tile: 2
     y Tile: 2
