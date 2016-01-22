@@ -212,6 +212,7 @@ public class NetworkManager
             clients[i].Halt();
             clients[i].CancelAsync();
         }
+        ModelRunManager.sessionData.Clear();
     }
 
     /// <summary>
@@ -225,5 +226,6 @@ public class NetworkManager
         {
             clients[i].Dispose();
         }
+        
     }
 }

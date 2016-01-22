@@ -24,6 +24,8 @@ public static class ModelRunManager
 
     static bool timeToCache = true;
 
+    static public SessionData sessionData = new SessionData();
+
     /// <summary>
     ///  Make sure to set the client or OUCH!
     /// </summary>

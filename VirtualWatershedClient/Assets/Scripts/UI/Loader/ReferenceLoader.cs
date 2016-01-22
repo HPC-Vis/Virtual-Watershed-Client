@@ -180,6 +180,8 @@ public class ReferenceLoader : MonoBehaviour
         go.name = records[0].name;
         viewableObjects.Add(go.name, go);
         SetViewableFields(go, records[0]);
+        ModelRunManager.sessionData.InsertSessionData(records[0]);
+        ModelRunManager.sessionData.updateGameObject(records[0].name, go);
     }
 
 	public void BuildDOQQ(DataRecord record)
@@ -190,6 +192,9 @@ public class ReferenceLoader : MonoBehaviour
 		go.name = record.name;
 		viewableObjects.Add(go.name, go);
 		SetViewableFields(go, record);
+        ModelRunManager.sessionData.InsertSessionData(record);
+        ModelRunManager.sessionData.updateGameObject(record.name, go);
+
 	}
 
     void buildQueue(List<DataRecord> recs)
