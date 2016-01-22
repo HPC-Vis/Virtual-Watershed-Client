@@ -27,6 +27,8 @@ public class Variable
         }
     }
 
+    public int TotalRecords = 0;
+
     public Variable(string name="name",TYPE typef=TYPE.NonTemporal)
     {
         Name = name;

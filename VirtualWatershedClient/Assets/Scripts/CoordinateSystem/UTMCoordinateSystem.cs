@@ -36,17 +36,12 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     /// <returns></returns>
     public override Vector2 TranslateToUnity(Vector2 WorldCoord)
     {
-        Debug.LogError(WorldCoord);
         int WorldCoordZone = CoordinateUtils.GetZone(WorldCoord.y,WorldCoord.x);
-        Debug.LogError("World Coord Zone: " + WorldCoordZone);
-        Debug.LogError("Local Zone: " + LocalZone);
         Vector2 TransformedCoord = CoordinateUtils.transformToUTM(WorldCoord.x, WorldCoord.y);
         // This criterion is choosen based on http://geokov.com/education/utm.aspx --- In polar regions there is a large amount of distortion
         // This makes sense with UTM.
         if(WorldCoord.y > 84 || WorldCoord.y < -80 || WorldCoordZone != LocalZone)
         {
-            Debug.LogError("Using Haversine");
-
             // Time to do some haversine magic -- to get the distance between the two points
             float distance = (float)CoordinateUtils.GetDistanceKM(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y)*1000.0f; // convert to meters
 

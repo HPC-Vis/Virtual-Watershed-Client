@@ -202,8 +202,6 @@ namespace VTL.ListView
                 if (rows.ContainsKey(previousGUID))
                 {
                     rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
-                    Debug.LogError(rows[guid].GetComponent<Row>().selectedOn);
-                    Debug.LogError(guid.ToString());
                     if (previousGUID != guid)
                     {
                         rows[previousGUID].GetComponent<Row>().selectedOn = false;

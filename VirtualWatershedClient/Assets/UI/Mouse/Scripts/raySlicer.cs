@@ -20,7 +20,6 @@ public class raySlicer : MonoBehaviour
     public float min;
     public float max;
     public string units = "m";
-    public GameObject cursor;
 
     public float displayMin = 1.0f;
     public float displayMax = 1.0f;
@@ -37,6 +36,9 @@ public class raySlicer : MonoBehaviour
 
     public Texture2D clear2d;
     public Texture3D clear3d;
+
+    // Used to track the state of the markers
+    public bool marker1, marker2;
 
 #if UNITY_EDITOR
     public static string DirectoryLocation = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/../../Images";
@@ -378,7 +380,7 @@ public class raySlicer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (cursor.GetComponent<mouseray>().marker1.activeSelf == true && cursor.GetComponent<mouseray>().marker2.activeSelf == true)
+        if (marker1 && marker2)
         {
             //Debug.LogError(slicerMap != null);
             screenMaterial.SetTexture("_MainTex2", slicerMap);
@@ -399,7 +401,7 @@ public class raySlicer : MonoBehaviour
             MinMax.SetSecondPoint(sv);
 
             // Do a minmax update only when marker is down once, or marker is in movement
-            if (cursor.GetComponent<mouseray>().mark1highlighted || cursor.GetComponent<mouseray>().mark2highlighted || calc_min_max)
+            if (marker1 || marker2 || calc_min_max)
             {
                 // Used to either run cpu minmax or gpu
 			#if UNITY_EDITOR_OSX || UNITY_STANDALONE_OSX

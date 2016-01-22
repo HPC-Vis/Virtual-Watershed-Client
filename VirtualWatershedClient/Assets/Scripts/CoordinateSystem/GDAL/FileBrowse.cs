@@ -71,7 +71,6 @@ public class FileBrowse : MonoBehaviour {
 
             foreach (var i in Directory.GetFiles(CurrentDirectory, "*.nc"))
             {
-                Debug.LogError(i);
                 DirectoryStruct temp = new DirectoryStruct();
                 temp.Path = Path.GetFullPath(i);
                 temp.IsDirectory = false;
@@ -97,7 +96,6 @@ public class FileBrowse : MonoBehaviour {
             foreach (var i in Directory.GetLogicalDrives())
             {
                 DirectoryStruct temp = new DirectoryStruct();
-                Debug.LogError(i);
                 temp.IsDirectory = true;
                 temp.Path = i;
                 temp.filename = i;
