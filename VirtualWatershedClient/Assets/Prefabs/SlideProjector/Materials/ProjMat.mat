@@ -100,16 +100,28 @@ Material:
         second: .5
       data:
         first:
+          name: _Glossiness
+        second: .5
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _FloatMin
+        second: -12.9206352
+      data:
+        first:
+          name: _FloatMax
+        second: 0
+      data:
+        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: .5
       data:
         first:
           name: _BumpScale
@@ -130,22 +142,6 @@ Material:
         first:
           name: _Mode
         second: 0
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _FloatMin
-        second: -12.9206352
-      data:
-        first:
-          name: _FloatMax
-        second: 0
-      data:
-        first:
-          name: _Opacity
-        second: 1
       data:
         first:
           name: _x1
@@ -173,6 +169,10 @@ Material:
       data:
         first:
           name: _MaxY
+        second: 1
+      data:
+        first:
+          name: _Opacity
         second: 1
       data:
         first:

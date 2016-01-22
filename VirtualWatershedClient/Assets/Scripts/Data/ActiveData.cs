@@ -499,6 +499,7 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     public void LoadSelected()
     {
+        Debug.LogError("Active Data Load Called");
         // Load this 
         var temp = temporalList.listView.GetSelectedModelRuns();
         var seled = temporalList.listView.GetSelectedRowContent();
