@@ -98,7 +98,6 @@ public class WorldTransform : MonoBehaviour
             int EPSG = int.Parse(resultString);
             localCoords = new SpatialReference("");
             localCoords.ImportFromEPSG(EPSG);
-
         }
         else
         {

@@ -22,6 +22,7 @@ public class Spooler : MonoBehaviour
     Vector2 NormalizedPoint = Vector2.zero;
     bool WMS = false;
     string oldSelectedVariable;
+    private FilterMode filtermode = FilterMode.Bilinear;
 
 	
 	/// <summary>
@@ -66,6 +67,19 @@ public class Spooler : MonoBehaviour
         if(lastUpdateTime != timeSlider.SimTime)
         {
             ChangeTexture();
+        }
+
+        // Change the filter mode
+        if(Input.GetKeyDown(KeyCode.C))
+        {
+            if(filtermode == FilterMode.Bilinear)
+            {
+                filtermode = FilterMode.Point;
+            }
+            else
+            {
+                filtermode = FilterMode.Bilinear;
+            }
         }
     }
 
@@ -151,12 +165,13 @@ public class Spooler : MonoBehaviour
         {
             return;
         }
-
+        
         // Set projector image
         if (textureIndex == currentcount - 1 || currentcount == 1)
         {
             // Set both textures to last reel texture
             Frame setframe = ActiveData.GetFrameAt(tempFrameRef[0], currentcount - 1);
+            setframe.Picture.texture.filterMode = filtermode;
             TimeProjector.material.SetTexture("_ShadowTex", setframe.Picture.texture);
             TimeProjector.material.SetTexture("_ShadowTex2", setframe.Picture.texture);
 
@@ -166,12 +181,16 @@ public class Spooler : MonoBehaviour
         else
         {
             // Set current texture
-            testImage.material.SetTexture("_MainTex", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture.texture);
-            TimeProjector.material.SetTexture("_ShadowTex", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture.texture);
+            Frame setFrame = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex);
+            setFrame.Picture.texture.filterMode = filtermode;
+            testImage.material.SetTexture("_MainTex", setFrame.Picture.texture);
+            TimeProjector.material.SetTexture("_ShadowTex", setFrame.Picture.texture);
 
             // Set future texture
-            TimeProjector.material.SetTexture("_ShadowTex2", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1).Picture.texture);
-            testImage.material.SetTexture("_MainTex2", ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1).Picture.texture);
+            setFrame = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1);
+            setFrame.Picture.texture.filterMode = filtermode;
+            TimeProjector.material.SetTexture("_ShadowTex2", setFrame.Picture.texture);
+            testImage.material.SetTexture("_MainTex2", setFrame.Picture.texture);
         }
     }
 }
