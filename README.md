@@ -1,12 +1,10 @@
 # Virtual Watershed Client
-
-**Dependencies**
-* [Unity](https://unity3d.com/): Build environment
-
-**About the Virtual Watershed Client**
-
+=======
 The Virtual Watershed Client (VWC), is being developed as part of the Western Consortium for Watershed Analysis, Visualization, and Exploration (WC-WAVE). WC-WAVE is a tri-state consortium composed of researchers and students in Idaho, Nevada, and New Mexico. Its overall aim is to study the localized impact of climate change on high-mountain catchments. The WC-WAVE project is comprised of three components: Watershed Science, Visualization and Data Cyberinfrastructure (CI), and Workforce Develop-
 ment. Participants in these three components are collaborating to better understand interactions between precipitation, snow-pack, groundwater flow, and other watershed properties within mountain catchments.
+**Dependencies**
+-----
+[Unity](https://unity3d.com/): Build environment
 
 **Features**
 -----
