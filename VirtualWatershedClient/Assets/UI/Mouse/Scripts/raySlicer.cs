@@ -195,7 +195,6 @@ public class raySlicer : MonoBehaviour
         if (File.Exists(ImageLoc))
         {
             terrainBytes = File.ReadAllBytes(ImageLoc);
-            Debug.LogError("RETRIEVING slicer map");
             slicerMap.LoadImage(terrainBytes);
             GlobalConfig.TerrainBoundingBox = Rects[y];
             GlobalConfig.TerrainBoundingBox.x = Rects[x].x;
