@@ -3,23 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 
-public class DataObject
-{
-    public DataObject()
-    {
-
-    }
-    public DataRecord record;
-    public Vector3 position;
-    public GameObject gameobject;
-}
-
 public class SessionData
 {
     ListViewManager listview;
 
     // Store everything by variable or model run name your choice
-    public Dictionary<string, DataObject> SessionObjects = new Dictionary<string,DataObject>();
+    public Dictionary<string, WorldObject> SessionObjects = new Dictionary<string,WorldObject>();
 
     public SessionData()
     {
@@ -28,34 +17,14 @@ public class SessionData
 
     public int NumberOfObjects()
     {
-        Debug.LogError(SessionObjects.Count);
         return SessionObjects.Count;
     }
 
-    public void InsertSessionData(DataRecord dr)
+    public void InsertSessionData(WorldObject worldObject)
     {
-        DataObject Do = new DataObject();
-
-        Do.record = dr;
-        if (!SessionObjects.ContainsKey(dr.name))
+        if (!SessionObjects.ContainsKey(worldObject.record.name))
         {
-            SessionObjects[dr.name] = Do;
-        }
-    }
-
-    public void updatePosition(string name,Vector3 position)
-    {
-        if (SessionObjects.ContainsKey(name))
-        {
-            SessionObjects[name].position = new Vector3();
-        }
-    }
-
-    public void updateGameObject(string name,GameObject gameobject)
-    {
-        if (SessionObjects.ContainsKey(name))
-        {
-            SessionObjects[name].gameobject = gameobject;
+            SessionObjects[worldObject.record.name] = worldObject;
         }
     }
 
@@ -63,4 +32,11 @@ public class SessionData
     {
         SessionObjects.Clear();
     }
+
+
+    public WorldObject GetSessionObject(string name)
+    {
+        return SessionObjects[name];
+    }
+
 }

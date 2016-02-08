@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngineInternal;
 using System.IO;
 
-public class Shape : MonoBehaviour {
+public class Shape : WorldObject {
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,27 @@ public class Shape : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public override void saveData()
+    {
+
+    }
+
+    public override void moveObject()
+    {
+
+    }
+
+    public override void alterData()
+    {
+
+    }
+
+    public override void getData()
+    {
+
+    }
+
 	int current=0;
 	GameObject addPoint( Vector2 point,WorldTransform tr)
 	{

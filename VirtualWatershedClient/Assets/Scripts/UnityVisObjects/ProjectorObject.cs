@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class ProjectorObject : MonoBehaviour {
+public class ProjectorObject : WorldObject {
 
 	// Use this for initialization
 	void Start () {
@@ -14,15 +14,31 @@ public class ProjectorObject : MonoBehaviour {
 	
 	}
 
+    public override void saveData()
+    {
+
+    }
+
+    public override void moveObject()
+    {
+
+    }
+
+    public override void alterData()
+    {
+
+    }
+
+    public override void getData()
+    {
+
+    }
 
     public void PlaceProjector(DataRecord record, out Vector2 BoundingScale)
     {
 		Projector projector = gameObject.GetComponent<Projector> ();
         BoundingScale = Vector2.one;
         Debug.LogError("<size=16>We Are Still In A Temp Patch</size>");
-        // Debug.LogError ("WCS BBOX: " + record.bbox2);
-        // Debug.LogError ("JSON BBOX: " + record.bbox);
-        //projector.name = "SPAWNED PROJECTOR";
 		if (record.bbox2 == "" || record.bbox2 == null || (Math.Abs(Utilities.bboxSplit(record.bbox2).x) > 180 && Math.Abs(Utilities.bboxSplit(record.bbox2).y) > 180))
         {
 			record.boundingBox = new SerialRect(Utilities.bboxSplit(record.bbox));
@@ -31,6 +47,13 @@ public class ProjectorObject : MonoBehaviour {
         {
 			record.boundingBox = new SerialRect(Utilities.bboxSplit(record.bbox2));
         }
+        PlaceProjector(record.boundingBox, record.projection, out BoundingScale);
+    }
+
+    public void PlaceProjector(Rect boundingBox, String projection, out Vector2 BoundingScale)
+    {
+        Projector projector = gameObject.GetComponent<Projector>();
+        BoundingScale = Vector2.one;
 
         projector.gameObject.GetComponent<WorldTransform>();
         if (projector.gameObject.GetComponent<WorldTransform>() != null)
@@ -38,22 +61,22 @@ public class ProjectorObject : MonoBehaviour {
             Component.Destroy(projector.gameObject.GetComponent<WorldTransform>());
         }
         var tran = projector.gameObject.AddComponent<WorldTransform>();
-        tran.createCoordSystem(record.projection); // Create a coordinate worldTransform
+        tran.createCoordSystem(projection); // Create a coordinate worldTransform
         //Debug.Log("coordsystem.worldTransformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
         //tran.setOrigin(coordsystem.WorldOrigin);
 
-        Vector2 point = new Vector2(record.boundingBox.x, record.boundingBox.y);
-        Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
-        Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
-        Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height)); ;
-        Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
+        Vector2 point = tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y));
+        Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y));
+        Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y));
+        Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y - boundingBox.height)); ;
+        Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y - boundingBox.height));
 
         point = upperLeft;
         Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
         pos.y += 10;
+        point = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y));
 
-        point = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
         float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
 
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
@@ -102,7 +125,8 @@ public class ProjectorObject : MonoBehaviour {
         // tran.setOrigin(origin);
 
 
-        Vector2 point = new Vector2(record.boundingBox.x, record.boundingBox.y);
+        Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
+
         Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
         Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
         Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height)); ;

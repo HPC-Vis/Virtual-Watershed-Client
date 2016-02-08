@@ -32208,8 +32208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5df40ba8b1944c49807d182b6b60405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: 0
-  states: 0000000001000000
 --- !u!114 &11423934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -59415,8 +59413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f023ee02ba70394418e5642619cbb6b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trendGraph: {fileID: 11415204}
-  visual: {fileID: 11425882}
   testImage: {fileID: 11411484}
   gridSlider: {fileID: 11494150}
   timeSlider: {fileID: 11438000}
@@ -59424,10 +59420,7 @@ MonoBehaviour:
   colorWindow: {fileID: 2100000, guid: bbd80dc56c6998645bbcd5e53c6e0eea, type: 2}
   colorProjector: {fileID: 2100000, guid: 95fe5de3d2b265e488a85821f9cd070e, type: 2}
   slideProjector: {fileID: 2100000, guid: 9c93ff4681dc5f34fb0573fdb973aef3, type: 2}
-  cursor: {fileID: 120336}
-  downloadTextBox: {fileID: 11462394}
   selectedVariableTextBox: {fileID: 11489192}
-  selectedVariableString: 
 --- !u!114 &11482074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -62105,7 +62098,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 2049284}
-  cursor: {fileID: 120336}
   zoomSpeed: 20
   minZoomFOV: 10
   maxZoomFOV: 60

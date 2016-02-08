@@ -174,6 +174,10 @@ public static class ModelRunManager
             {
                 client.GetMetaData(SettingTheRecord, records);
             }
+            else if (records.Count == 1 && records[0].services.ContainsKey("file"))
+            {
+                new Thread(() => DownloadFile(records[0].Clone(), SettingTheRecord)).Start();
+            }
             else
             {
                 // Start Thread
@@ -251,50 +255,7 @@ public static class ModelRunManager
                             }
                             Debug.LogError("PRIORITY: " + param.Priority);
                             client.getFeatures(SettingTheRecord, i, param);
-                        }
-                        else if (i.services.ContainsKey("file"))
-						{
-							Debug.LogError("Loading FIle");
-                            
-                            /*if (FileBasedCache.Exists(i.id) && i.Data.Count == 0)
-                            {
-                                //Debug.LogError("EXISTS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!: " + i.id);
-                                i.Data = FileBasedCache.Get<DataRecord>(i.id).Data;
-                                i.bbox2 = FileBasedCache.Get<DataRecord>(i.id).bbox2;
-                                i.bbox = FileBasedCache.Get<DataRecord>(i.id).bbox;
-                                SettingTheRecord(new List<DataRecord> { i });
-                                continue;
-                            }
-                            else if (i.Data.Count != 0)
-                            {
-                                //Debug.LogError("IN CACHE: " + FileBasedCache.Exists(i.id) + " Data: " + i.Data.GetLength(0) + " ID: " + i.id);
-                                SettingTheRecord(new List<DataRecord> { i });
-                                continue;
-                            }*/
-
-                            RasterDataset rd = new RasterDataset(i.services["file"]);
-                            if(rd.Open())
-                            {
-
-                                var da = rd.GetData();
-
-                                //temporary patch is gross
-                                Spooler.TOTAL = da.Count;
-
-                                for (int j = 0; j < da.Count; j++)
-                                {
-                                    DataRecord recClone = i.Clone();
-                                    recClone.Data.Add(da[j]);
-                                    recClone.band_id = j + 1;
-
-                                    var TS = i.end.Value - i.start.Value;
-                                    double totalhours = TS.TotalHours / da.Count;
-                                    recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
-                                    recClone.end = recClone.start + new TimeSpan((int)Math.Round(totalhours), 0, 0);
-                                    SettingTheRecord(new List<DataRecord> { recClone });
-                                }
-                            }
-						}
+                        }                        
                         else if(i.services.ContainsKey("nc"))
                         {
                             Debug.LogError("NCNESSS!!!!");
@@ -302,6 +263,38 @@ public static class ModelRunManager
                     }
                 }).Start();
                 // End Thread
+            }
+        }
+    }
+
+    public static void DownloadFile(DataRecord clone, DataRecordSetter SettingTheRecord)
+    {
+        ModelRun modelrun = ModelRunManager.GetByUUID(clone.modelRunUUID);
+        Variable variable = modelrun.GetVariable(clone.variableName);
+        variable.Remove(clone);
+
+        RasterDataset rd = new RasterDataset(clone.services["file"]);
+        if (rd.Open())
+        {
+            var da = rd.GetData();
+            variable.TotalRecords = da.Count;
+
+            //temporary patch is gross
+            ActiveData.UpdateTotal(clone.variableName, da.Count);
+
+            for (int j = 0; j < da.Count; j++)
+            {
+                DataRecord recClone = clone.Clone();
+                recClone.Data.Add(da[j]);
+                recClone.band_id = j + 1;
+
+                var TS = clone.end.Value - clone.start.Value;
+                double totalhours = TS.TotalHours / da.Count;
+                recClone.start += new TimeSpan((int)Math.Round((double)j * totalhours), 0, 0);
+                recClone.end = recClone.start + new TimeSpan((int)Math.Round(totalhours), 0, 0);
+
+                variable.Insert(recClone);
+                SettingTheRecord(new List<DataRecord> { recClone });
             }
         }
     }

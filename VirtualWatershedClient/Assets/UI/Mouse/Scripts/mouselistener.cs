@@ -7,14 +7,14 @@ using System.Collections.Generic;
 public class mouselistener : MonoBehaviour {
 
 	public enum mouseState{OS=0,TERRAIN=1};
-	public mouseState state;
-	public mouseState[] states;
+	public static mouseState state;
+	public static mouseState[] states;
 	public Vector2 mousePos
 	{
 	   get{return Input.mousePosition;}
 	}
 	
-	public mouseState State
+	public static mouseState State
 	{
 	   get{return state;}
 	   set{state = value;}

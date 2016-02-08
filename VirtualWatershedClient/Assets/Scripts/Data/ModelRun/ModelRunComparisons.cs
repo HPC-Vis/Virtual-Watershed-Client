@@ -355,7 +355,7 @@ public class ModelRunComparisons : MonoBehaviour {
         deltarun.Location = GlobalConfig.Location;
         ModelRunManager.InsertModelRun(modelRuns[1].ModelRunUUID + modelRuns[0].ModelRunUUID, deltarun);
         VariableReference.AddDescription("Delta_" + selectedRow[0][2].ToString() + "_" + selectedRow[1][2].ToString(), "Delta " + selectedRow[0][2].ToString() + " minus " + selectedRow[1][2].ToString());
-        spool.SetupForDelta("Delta " + selectedRow[0][2].ToString() + " minus " + selectedRow[1][2].ToString(), "Delta_" + selectedRow[0][2].ToString() + "_" + selectedRow[1][2].ToString(), Math.Min(OneTotal, TwoTotal), modelRuns[1].ModelRunUUID + modelRuns[0].ModelRunUUID);
+        //spool.SetupForDelta("Delta " + selectedRow[0][2].ToString() + " minus " + selectedRow[1][2].ToString(), "Delta_" + selectedRow[0][2].ToString() + "_" + selectedRow[1][2].ToString(), Math.Min(OneTotal, TwoTotal), modelRuns[1].ModelRunUUID + modelRuns[0].ModelRunUUID);
         float NoData = float.MaxValue;
         float NoDataAssignment = Math.Min(OneMin, TwoMin) - Math.Max(OneMax, TwoMax);
         Debug.LogError("The values: " + OneMax + ", " + OneMin + ", " + TwoMax + ", " + TwoMin);
@@ -427,7 +427,7 @@ public class ModelRunComparisons : MonoBehaviour {
                 Debug.LogError("Adding Data to the Spooler.");
             
                 DeltaRecords.Insert(0, insert);
-                spool.HandDataToSpooler(DeltaRecords);
+                // spool.HandDataToSpooler(DeltaRecords);
             }
             catch (System.Exception a)
             {

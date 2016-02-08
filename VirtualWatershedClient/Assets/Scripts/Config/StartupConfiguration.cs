@@ -11,7 +11,6 @@ public class StartupConfiguration : MonoBehaviour {
     {
         
         //OSGeo.GDAL.Gdal.SetConfigOption("GDAL_DATA", System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + @"\..\..\data\");
-        Debug.LogError(OSGeo.GDAL.Gdal.GetConfigOption("GDAL_DATA",""));
         LoadConfig();
 	}
 	

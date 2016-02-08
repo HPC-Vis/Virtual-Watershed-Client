@@ -36,7 +36,15 @@ public class SlicerPlane : MonoBehaviour
 
     void Update()
     {
-        Draw();
+        // Check if this should be drawn or not
+        if(marker1.activeSelf && marker2.activeSelf)
+        {
+            Draw();
+        }
+        else
+        {
+            DisableRendering();
+        }
     }
 
     public void DisableRendering()
