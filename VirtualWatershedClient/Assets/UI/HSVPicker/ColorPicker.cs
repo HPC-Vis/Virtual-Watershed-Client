@@ -51,6 +51,7 @@ public class ColorPicker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        
 		if(updateHeight)
 		{
 			float height=0;
@@ -130,9 +131,17 @@ public class ColorPicker : MonoBehaviour {
         }
 #elif NEWWAY
         SetRanges();
-
 #endif
         slider.maxValue = Max;
+    }
+
+
+    public void ChangeColorPalette(int index)
+    {
+        for(int i = 0; i < ColorBoxes.Count; i++)
+        {
+            ColorBoxes[i].GetComponent<Image>().color = DefinedColors[index, i];
+        }
     }
 	
 
@@ -209,12 +218,12 @@ public class ColorPicker : MonoBehaviour {
 			go = GameObject.Instantiate(go);
 			go.transform.SetParent(gameObject.transform);
             go.transform.localScale = Vector3.one;
-			var picker = found.GetComponent<HSVPicker>();
+			//var picker = found.GetComponent<HSVPicker>();
 			var setter = go.GetComponent<ColorSetter>();
-			setter.picker = picker;
+			//setter.picker = picker;
             if(6 > i)
             {
-                go.GetComponent<Image>().color = DefinedColors[3,i];
+                go.GetComponent<Image>().color = DefinedColors[0,i];
             }
             else
             {
@@ -226,6 +235,8 @@ public class ColorPicker : MonoBehaviour {
 		
 		gameObject.transform.GetChild(0).SetAsLastSibling();
 		updateHeight = true;
-	}
+
+
+    }
 	
 }
