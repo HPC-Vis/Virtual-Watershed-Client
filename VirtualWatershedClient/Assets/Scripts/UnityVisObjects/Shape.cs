@@ -20,14 +20,19 @@ public class Shape : WorldObject {
 	
 	}
 
-    public override void saveData()
+    public override bool saveData(string filename, string format = "")
     {
-
+        return false;
     }
 
-    public override void moveObject()
+    public override bool moveObject(GameObject gameobject, Vector3 displacement)
     {
+        return false;
+    }
 
+    public override bool changeProjection(string projectionString)
+    {
+        return false;
     }
 
     public override void alterData()
@@ -38,6 +43,11 @@ public class Shape : WorldObject {
     public override void getData()
     {
 
+    }
+
+    public override SessionObjectStructure saveSessionData()
+    {
+        return new SessionObjectStructure();
     }
 
 	int current=0;
