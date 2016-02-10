@@ -198,10 +198,16 @@ namespace VTL.TrendGraph
             // This will get a user click
             if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.mouseState.TERRAIN)
             {
+                
                 // Check if mouse is inside bounding box 
                 Vector3 WorldPoint = coordsystem.transformToWorld(mouseray.CursorPosition);
                 Vector2 CheckPoint = new Vector2(WorldPoint.x, WorldPoint.z);
 
+                Debug.LogError("Click Down Event: " + BoundingBox.Contains(CheckPoint));
+                Debug.LogError(BoundingBox);
+                Debug.LogError(mouseray.CursorPosition);
+                Debug.LogError(WorldPoint);
+                Debug.LogError(CheckPoint);
                 if (BoundingBox.Contains(CheckPoint))
                 {
                     // Debug.LogError("CONTAINS " + CheckPoint + " Width: " + BoundingBox.width + " Height: " +  BoundingBox.height);
