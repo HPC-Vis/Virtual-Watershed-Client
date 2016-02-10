@@ -101,9 +101,20 @@ public static class coordsystem
         return cs.TranslateToUnity(world);
     }
 
-	public static Vector2 transformToWorld(Vector2 world)
+    public static Vector3 transformToUnity(Vector3 world)
+    {
+        Vector2 temp = cs.TranslateToUnity(new Vector2(world.x, world.z));
+        return new Vector3(temp.x, 0.0f, temp.y);
+    }
+
+    public static Vector2 transformToWorld(Vector2 world)
 	{
         return  cs.TranslateToWorld(world);
 	}
-    
+
+    public static Vector3 transformToWorld(Vector3 world)
+    {
+        Vector2 temp = cs.TranslateToWorld(new Vector2(world.x, world.z));
+        return new Vector3(temp.x, 0.0f, temp.y);
+    }
 }

@@ -104,11 +104,11 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.5
+        second: .5
       data:
         first:
           name: _Parallax
-        second: 0.02
+        second: .0199999996
       data:
         first:
           name: _ZWrite
@@ -116,7 +116,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.5
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -148,11 +148,11 @@ Material:
       data:
         first:
           name: _Max
-        second: 0.5258106
+        second: .607843161
       data:
         first:
           name: _Min
-        second: 0.32146183
+        second: .466666698
     m_Colors:
       data:
         first:
@@ -165,8 +165,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: 0.4943352, g: 0.42462438, b: 0, a: 0}
+        second: {r: .818664372, g: .341396958, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: 0.48051983, g: 0.45387003, b: 0, a: 0}
+        second: {r: .835211039, g: .369444281, b: 0, a: 0}

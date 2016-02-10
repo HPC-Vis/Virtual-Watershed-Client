@@ -100,28 +100,16 @@ Material:
         second: .5
       data:
         first:
-          name: _Glossiness
-        second: .5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _FloatMin
-        second: -12.9206352
-      data:
-        first:
-          name: _FloatMax
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: .0199999996
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -141,6 +129,22 @@ Material:
       data:
         first:
           name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _Opacity
+        second: 1
+      data:
+        first:
+          name: _FloatMin
+        second: -12.9206352
+      data:
+        first:
+          name: _FloatMax
         second: 0
       data:
         first:
@@ -172,10 +176,6 @@ Material:
         second: 1
       data:
         first:
-          name: _Opacity
-        second: 1
-      data:
-        first:
           name: _UsePoint
         second: 1
     m_Colors:
@@ -190,23 +190,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 1, g: 0, b: 0, a: 1}
+        second: {r: .360784322, g: .223529413, b: .247058824, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0, g: 0, b: 1, a: 1}
+        second: {r: .556862772, g: .603921592, b: .650980413, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 0, g: 1, b: 0, a: 1}
+        second: {r: .75686276, g: .886274517, b: .952941179, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 1, g: .921568632, b: .0156862754, a: 1}
+        second: {r: .886274517, g: .945098042, b: .815686285, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: .168627456, g: .239215687, b: .294117659, a: 1}
       data:
         first:
           name: _SegmentData005

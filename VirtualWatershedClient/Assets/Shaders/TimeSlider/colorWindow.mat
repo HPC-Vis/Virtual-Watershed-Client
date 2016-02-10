@@ -141,23 +141,23 @@ Material:
       data:
         first:
           name: _FloatMax
-        second: 105.699997
+        second: 104.540497
       data:
         first:
           name: _x1
-        second: 21.1399994
+        second: 26.1351204
       data:
         first:
           name: _x2
-        second: 42.2799988
+        second: 52.8134308
       data:
         first:
           name: _x3
-        second: 63.4199982
+        second: 78.4053726
       data:
         first:
           name: _x4
-        second: 84.5599976
+        second: 104.540497
       data:
         first:
           name: _x5
@@ -186,23 +186,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 1, g: 0, b: 0, a: 1}
+        second: {r: .937254906, g: .984313726, b: .80392158, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0, g: 0, b: 1, a: 1}
+        second: {r: .862745106, g: .905882359, b: .741176486, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 0, g: 1, b: 0, a: 1}
+        second: {r: .333333343, g: .31764707, b: .321568638, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 1, g: .921568632, b: .0156862754, a: 1}
+        second: {r: .180392161, g: .149019614, b: .200000003, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: .619607866, g: .160784319, b: .23137255, a: 1}
       data:
         first:
           name: _SegmentData005

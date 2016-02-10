@@ -8,10 +8,38 @@ public class ColorPicker : MonoBehaviour {
 
 	public List<GameObject> ColorBoxes = new List<GameObject>();
 	public Slider slider;
+
+    private Color[,] DefinedColors;
 	// Use this for initialization
 	void Start () {
-        //AddColors(5);
-	}
+        DefinedColors = new Color[4,5];
+
+        DefinedColors[0,0] = new Color32(239, 251, 205, 255);
+        DefinedColors[0,1] = new Color32(220, 231, 189, 255);
+        DefinedColors[0,2] = new Color32(85, 81, 82, 255);
+        DefinedColors[0,3] = new Color32(46, 38, 51, 255);
+        DefinedColors[0,4] = new Color32(158, 41, 59, 255);
+
+        DefinedColors[1, 0] = new Color32(1, 91, 100, 255);
+        DefinedColors[1, 1] = new Color32(255, 249, 213, 255);
+        DefinedColors[1, 2] = new Color32(255, 207, 71, 255);
+        DefinedColors[1, 3] = new Color32(226, 155, 47, 255);
+        DefinedColors[1, 4] = new Color32(196, 72, 46, 255);
+
+        DefinedColors[2, 0] = new Color32(238, 81, 74, 255);
+        DefinedColors[2, 1] = new Color32(146, 51, 47, 255);
+        DefinedColors[2, 2] = new Color32(138, 227, 225, 255);
+        DefinedColors[2, 3] = new Color32(87, 190, 187, 255);
+        DefinedColors[2, 4] = new Color32(255, 255, 255, 255);
+
+        DefinedColors[3, 0] = new Color32(92, 57, 63, 255);
+        DefinedColors[3, 1] = new Color32(142, 154, 166, 255);
+        DefinedColors[3, 2] = new Color32(193, 226, 243, 255);
+        DefinedColors[3, 3] = new Color32(226, 241, 208, 255);
+        DefinedColors[3, 4] = new Color32(43, 61, 75, 255);
+
+        AddColors(5);
+    }
 
 	bool updateHeight = false;
 	int selected = -1;
@@ -23,6 +51,7 @@ public class ColorPicker : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        
 		if(updateHeight)
 		{
 			float height=0;
@@ -36,11 +65,13 @@ public class ColorPicker : MonoBehaviour {
 			gameObject.GetComponent<RectTransform>().sizeDelta = new Vector2(gameObject.GetComponent<RectTransform>().sizeDelta.x,height);
 			updateHeight = false;
 		}
+        /*
 		if(!started)
 		{
-			AddColors(6);
+			AddColors(5);
             started = true;
 		}
+        */
 	}
 	
 	public void SetSelected(int index)
@@ -100,9 +131,17 @@ public class ColorPicker : MonoBehaviour {
         }
 #elif NEWWAY
         SetRanges();
-
 #endif
         slider.maxValue = Max;
+    }
+
+
+    public void ChangeColorPalette(int index)
+    {
+        for(int i = 0; i < ColorBoxes.Count; i++)
+        {
+            ColorBoxes[i].GetComponent<Image>().color = DefinedColors[index, i];
+        }
     }
 	
 
@@ -171,13 +210,6 @@ public class ColorPicker : MonoBehaviour {
 			// Create a color picker here	
 		}
 
-        Color[] setValues = new Color[6];
-        setValues[0] = Color.red;
-        setValues[1] = Color.blue;
-        setValues[2] = Color.green;
-        setValues[3] = Color.yellow;
-        setValues[4] = Color.gray;
-        setValues[5] = Color.black;
 		// spawn prefabs and attach them as children to this gameobject.
 		for(int i =0; i < numColors; i++)
 		{
@@ -186,12 +218,12 @@ public class ColorPicker : MonoBehaviour {
 			go = GameObject.Instantiate(go);
 			go.transform.SetParent(gameObject.transform);
             go.transform.localScale = Vector3.one;
-			var picker = found.GetComponent<HSVPicker>();
+			//var picker = found.GetComponent<HSVPicker>();
 			var setter = go.GetComponent<ColorSetter>();
-			setter.picker = picker;
+			//setter.picker = picker;
             if(6 > i)
             {
-                go.GetComponent<Image>().color =setValues[i];
+                go.GetComponent<Image>().color = DefinedColors[0,i];
             }
             else
             {
@@ -203,6 +235,8 @@ public class ColorPicker : MonoBehaviour {
 		
 		gameObject.transform.GetChild(0).SetAsLastSibling();
 		updateHeight = true;
-	}
+
+
+    }
 	
 }
