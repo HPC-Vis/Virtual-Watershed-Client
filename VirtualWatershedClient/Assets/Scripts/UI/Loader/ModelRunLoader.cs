@@ -14,7 +14,11 @@ public class ModelRunLoader : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if(Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.LogError("HERE");
+            ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+        }
 	}
 
     void OnEnable()

@@ -47,7 +47,10 @@ public class Shape : WorldObject {
 
     public override SessionObjectStructure saveSessionData()
     {
-        return new SessionObjectStructure();
+        SessionObjectStructure structure = new SessionObjectStructure();
+        structure.Name = record.name;
+        structure.GameObjectPosition = gameObject.transform.position;
+        return structure;
     }
 
 	int current=0;

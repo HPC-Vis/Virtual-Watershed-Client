@@ -19,7 +19,8 @@ public class SessionDataStructure
 {
     public string Location;
     public SerialVector3 PlayerPosition;
-
+    public SerialVector3 PlayerRotation;
+    public float PlayerAngle;
     public Dictionary<string,SessionObjectStructure> GameObjects;
 }
 
@@ -29,9 +30,56 @@ public class SessionDataStructure
 public class SessionData
 {
     ListViewManager listview;
+    private GameObject Go;
+    GameObject PlayerController
+    {
+        get
+        {
+            if (!Go)
+            {
+                Go = GameObject.Find("/UIContainer/PlayerController/ControlScripts");
+            }
+            return Go;
+        }
+    }
+    public Vector3 PlayerPosition
+    {
+        get
+        {
+            return PlayerController.transform.position;
+        }
+    }
 
-    public Vector3 PlayerPosition;
-    public string Location;
+    public Vector3 PlayerRotation
+    {
+        get
+        {
+            Vector3 rot;
+            float angle;
+            PlayerController.transform.rotation.ToAngleAxis(out angle, out rot);
+            return rot;
+        }
+    }
+
+
+    public float PlayerAngle
+    {
+        get
+        {
+            Vector3 rot;
+            float angle;
+            Go.transform.rotation.ToAngleAxis(out angle, out rot);
+            return angle;
+        }
+    }
+    public string Location
+    {
+        get
+        {
+            return GlobalConfig.Location;
+        }
+        
+    }
 
     // json specification -- that may be turned into a schema later.
     // {
@@ -60,15 +108,20 @@ public class SessionData
     {
         SessionDataStructure dataStructure = new SessionDataStructure();
         dataStructure.PlayerPosition = PlayerPosition;
+        dataStructure.PlayerRotation = PlayerRotation;
+        dataStructure.PlayerAngle = PlayerAngle;
         dataStructure.Location = Location;
+        dataStructure.GameObjects = new Dictionary<string, SessionObjectStructure>();
         foreach (var pair in SessionObjects)
         {
+            Debug.LogError(pair.Key);
+            Debug.LogError(pair.Value != null);
              dataStructure.GameObjects[pair.Key] = pair.Value.saveSessionData();
         }
         string jsonstring = Newtonsoft.Json.JsonConvert.SerializeObject(dataStructure);
 
         // Save the file out
-        String pathDownload = Utilities.GetFilePath(filename);
+        String pathDownload = filename;
         using (StreamWriter file = new StreamWriter(@pathDownload))
         {
             file.Write(jsonstring);
@@ -84,6 +137,7 @@ public class SessionData
     {
         if (!SessionObjects.ContainsKey(worldObject.record.name))
         {
+            Debug.LogError("===================================== INSERT");
             SessionObjects[worldObject.record.name] = worldObject;
         }
     }
