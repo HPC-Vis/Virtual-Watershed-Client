@@ -43,14 +43,14 @@ public class Spooler : MonoBehaviour
         if (!WMS && colorPicker.ColorBoxes.Count > 0)
         {
 			// Add the colors to the timeprojector and image
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < colorPicker.ColorBoxes.Count; i++)
 			{
 				TimeProjector.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
 				testImage.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
 			}
 
 			// Add the ranges to the timeprojector and image
-			for(int i = 0; i < 6; i++)
+			for(int i = 0; i < colorPicker.ColorBoxes.Count; i++)
 			{
 				TimeProjector.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
 				testImage.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));

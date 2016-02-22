@@ -26,7 +26,7 @@ public class ColorSetter : MonoBehaviour {
 	
 	void SetColorImage()
 	{
-		
+		/*
 		if(picker == null)
 	 	{
 			picker = GameObject.Find("Picker").GetComponent<HSVPicker>();
@@ -36,7 +36,7 @@ public class ColorSetter : MonoBehaviour {
 			}
 		}
 		picker.colorImage = image;
-		
+		*/
 		gameObject.transform.parent.GetComponent<ColorPicker>().SetSelected(gameObject.transform.GetSiblingIndex());
 	}
 }
