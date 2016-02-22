@@ -128,6 +128,16 @@ public class SessionData
         }
     }
 
+    public void LoadSessionData(string filename)
+    {
+        //Newtonsoft.Json.JsonConvert.DeserializeObject<SessionObjectStructure>();
+        // set the session data class
+
+        // load objects?
+
+        //
+    }
+
     public int NumberOfObjects()
     {
         return SessionObjects.Count;
