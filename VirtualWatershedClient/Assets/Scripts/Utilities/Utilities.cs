@@ -92,10 +92,7 @@ public static class Utilities
         GameObject projector = GameObject.Instantiate(Resources.Load("UI/SlideProjector/Prefabs/SlideProjector", typeof(GameObject))) as GameObject;
         projector.name = "SPAWNED PROJECTOR";
         var proj = projector.AddComponent<ProjectorObject>();
-        proj.record = record;
         proj.buildProjector(record, type);
-        ModelRunManager.sessionData.InsertSessionData(proj);
-
 		return projector;
 	}
 
@@ -527,9 +524,6 @@ public static class Utilities
         GameObject parent = new GameObject();
 		var shape = parent.AddComponent<Shape> ();
 		shape.buildShape (record);
-        shape.record = record;
-        ModelRunManager.sessionData.InsertSessionData(shape);
-        
 
         return parent;
     }
@@ -632,26 +626,5 @@ public static class Utilities
 
         return pathDownload;
     }
-
-
-    public static bool DataRecordGridToCsv(string filename, float[,] Data, string[,] headers=null)
-    {
-        String pathDownload = Utilities.GetFilePath(filename);
-        using (StreamWriter file = new StreamWriter(@pathDownload))
-        {
-            for (int i = 0; i < Data.GetLength(1); i++)
-            {
-                for (int j = 0; j < Data.GetLength(0); j++)
-                {
-                    file.Write(Data[i, j] + ", ");
-                }
-                file.Write("\n");
-            }
-        }
-
-        return true;
-    }
-
-    
 
 }

@@ -8,7 +8,7 @@ using System.Threading;
 
 public class ModelRunComparisons : MonoBehaviour {
 
-    public ModelRunLoader table;
+    public ModelRunVisualizer table;
     public Spooler spool;
     public GameObject compareButton;
     public List<Frame> DataSetOne, DataSetTwo;

@@ -9,7 +9,6 @@ public class Spooler : MonoBehaviour
 {
     // Public Variables
     static readonly object LOCK;
-
 	public Image testImage;
 	public Slider gridSlider;
 	public TimeSlider timeSlider;

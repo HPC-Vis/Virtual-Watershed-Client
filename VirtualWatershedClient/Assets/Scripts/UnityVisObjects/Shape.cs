@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngineInternal;
 using System.IO;
 
-public class Shape : WorldObject {
+public class Shape : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -19,40 +19,6 @@ public class Shape : WorldObject {
 	void Update () {
 	
 	}
-
-    public override bool saveData(string filename, string format = "")
-    {
-        return false;
-    }
-
-    public override bool moveObject(GameObject gameobject, Vector3 displacement)
-    {
-        return false;
-    }
-
-    public override bool changeProjection(string projectionString)
-    {
-        return false;
-    }
-
-    public override void alterData()
-    {
-
-    }
-
-    public override void getData()
-    {
-
-    }
-
-    public override SessionObjectStructure saveSessionData()
-    {
-        SessionObjectStructure structure = new SessionObjectStructure();
-        structure.Name = record.name;
-        structure.GameObjectPosition = gameObject.transform.position;
-        return structure;
-    }
-
 	int current=0;
 	GameObject addPoint( Vector2 point,WorldTransform tr)
 	{

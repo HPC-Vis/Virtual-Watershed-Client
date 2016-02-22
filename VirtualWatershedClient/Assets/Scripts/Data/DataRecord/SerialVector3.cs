@@ -24,7 +24,6 @@ public struct SerialVector3
         new UnityEngine.Vector3();
         temp.x = rhs.x;
         temp.y = rhs.y;
-        temp.z = rhs.z;
         return temp;
     }
 
@@ -34,7 +33,6 @@ public struct SerialVector3
         new SerialVector3();
         temp.x = rhs.x;
         temp.y = rhs.y;
-        temp.z = rhs.z;
         return temp;
     }
 

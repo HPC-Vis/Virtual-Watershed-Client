@@ -668,9 +668,7 @@ namespace VTL.TrendGraph
             List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
             foreach (var name in tempFrameRef)
             {
-                
                 String pathDownload = Utilities.GetFilePath(name + "_frameToFile.csv");
-                Utilities.DataRecordGridToCsv(pathDownload, ActiveData.GetFrameAt(name, DataIndex).Data, null);
                 using (StreamWriter file = new StreamWriter(@pathDownload))
                 {
                     for (int i = 0; i < ActiveData.GetFrameAt(name, DataIndex).Data.GetLength(1); i++)
