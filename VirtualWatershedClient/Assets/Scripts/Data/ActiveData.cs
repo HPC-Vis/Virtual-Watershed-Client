@@ -77,7 +77,7 @@ public class FrameEndDateAscending : IComparer<Frame>
 public class ActiveData : MonoBehaviour {
     // Variables
     public static Dictionary<String, DataLoad> Active = new Dictionary<String, DataLoad>();
-    public ModelRunVisualizer temporalList;
+    public ModelRunLoader temporalList;
     public Text DownloadTextbox;
     public static int GRAND_TOTAL = 0;
 
