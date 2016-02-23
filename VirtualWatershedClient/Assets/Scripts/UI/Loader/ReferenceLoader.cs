@@ -105,12 +105,12 @@ public class ReferenceLoader : MonoBehaviour
         
     }
 
-    public void DownlaodObjects()
+    public void DownloadObjects()
     {
     	Logger.enable = true;
         List<DataRecord> recs = new List<DataRecord>();
         recs = listView.GetSelected();
-		 
+        Debug.LogError("downlaoding");
         foreach (var i in recs)
         {
             Debug.LogError(i.name + " " + i.Type);

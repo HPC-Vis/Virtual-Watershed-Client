@@ -39,6 +39,7 @@ public class Shape : MonoBehaviour {
 		cylinder.GetComponent<Light>().range = 50.0f;
 		cylinder.GetComponent<Light>().intensity = 100;
 		Debug.LogError(-1*(GlobalConfig.TerrainBoundingBox.width/2));
+        Debug.LogError(GlobalConfig.TerrainBoundingBox.x + " | " + GlobalConfig.TerrainBoundingBox.y + " | " + GlobalConfig.TerrainBoundingBox.height);
 		if (!GlobalConfig.TerrainBoundingBox.Contains(cylinder.transform.position) || (cylinder.transform.position.z < (-1*(GlobalConfig.TerrainBoundingBox.width/2))))
 		{
 			cylinder.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
@@ -51,7 +52,7 @@ public class Shape : MonoBehaviour {
 			cylinder.GetComponent<Light>().color = Color.red;
 			cylinder.GetComponent<Renderer>().material.color = Color.red;
 			var scaler = cylinder.AddComponent<Scaler>();
-			scaler.FirstPersonController = GameObject.Find("First Person Controller");
+			scaler.FirstPersonController = GameObject.Find("ControlScripts");
 			
 		}
 		cylinder.layer = LayerMask.NameToLayer("Terrain");
