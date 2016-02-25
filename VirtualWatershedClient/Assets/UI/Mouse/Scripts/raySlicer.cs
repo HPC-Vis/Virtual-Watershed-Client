@@ -267,6 +267,9 @@ public class raySlicer : MonoBehaviour
                 }
 
             }
+            Debug.LogError("BUGGYNESS HERE NOW YALLL");
+            Debug.LogError(GlobalConfig.TerrainBoundingBox.x);
+            Debug.LogError(GlobalConfig.TerrainBoundingBox.y);
             Debug.LogError("WRITING slicer map");
             slicerMap = TerrainUtils.GetHeightMapAsTexture(heights);
             screenMaterial.SetTexture("_MainTex2", slicerMap);
