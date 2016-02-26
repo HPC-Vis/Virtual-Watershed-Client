@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using VTL.ListView;
 using SimpleJson;
+using UnityEngine.UI;
 
 [Serializable]
 public class SessionObjectStructure
@@ -162,5 +163,28 @@ public class SessionData
     {
         return SessionObjects[name];
     }
+
+    public void setProjection(Text newProj)
+    {
+        if (newProj.text.Contains("4326"))
+        {
+            //set projection for the current object
+        }
+        else if (newProj.text.Contains("26911"))
+        {
+            //set projection for the current object
+
+        }
+        else if (newProj.text.Contains("26912"))
+        {
+            //set projection for the current object
+
+        }
+        else if (newProj.text.Contains("26913"))
+        {
+            //set projection for the current object
+        }
+    }
+        
 
 }
