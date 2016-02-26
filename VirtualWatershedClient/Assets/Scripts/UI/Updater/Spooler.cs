@@ -69,18 +69,7 @@ public class Spooler : MonoBehaviour
             ChangeTexture();
         }
 
-        // Change the filter mode
-        if(Input.GetKeyDown(KeyCode.C))
-        {
-            if(filtermode == FilterMode.Bilinear)
-            {
-                filtermode = FilterMode.Point;
-            }
-            else
-            {
-                filtermode = FilterMode.Bilinear;
-            }
-        }
+       
     }
 
     /// <summary>
@@ -192,5 +181,19 @@ public class Spooler : MonoBehaviour
             TimeProjector.material.SetTexture("_ShadowTex2", setFrame.Picture.texture);
             testImage.material.SetTexture("_MainTex2", setFrame.Picture.texture);
         }
+    }
+
+    // Change the filter mode
+    public void interpolationMode(Text input)
+    {
+        if (input.text == "Point")
+        {
+            filtermode = FilterMode.Point;
+        }
+        else if(input.text == "Bilinnear")
+        {
+            filtermode = FilterMode.Bilinear;
+        }
+
     }
 }

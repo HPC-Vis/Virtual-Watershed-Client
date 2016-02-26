@@ -45,13 +45,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _ParallaxMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _3DTex
         second:
           m_Texture: {fileID: 0}
@@ -85,13 +78,6 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _3DTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -116,19 +102,15 @@ Material:
       data:
         first:
           name: _Max
-        second: 0.54536504
+        second: 0.39019608
       data:
         first:
           name: _Min
-        second: 0.21036853
+        second: 0.24117649
       data:
         first:
           name: _ZWrite
         second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: .5
       data:
         first:
           name: _BumpScale
@@ -157,14 +139,6 @@ Material:
         first:
           name: _Metallic
         second: 0
-      data:
-        first:
-          name: _Max
-        second: .607843161
-      data:
-        first:
-          name: _Min
-        second: .466666698
     m_Colors:
       data:
         first:
@@ -177,8 +151,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: 0.3476265, g: 0.23598795, b: 0, a: 0}
+        second: {r: 0.6478043, g: 0.0907409, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: 0.70896655, g: 0.4147937, b: 0, a: 0}
+        second: {r: 0.6309867, g: 0.103977546, b: 0, a: 0}
