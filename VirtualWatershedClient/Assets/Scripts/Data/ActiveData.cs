@@ -99,6 +99,7 @@ public class ActiveData : MonoBehaviour {
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {
+            Debug.LogError("L Button  Pressed");
             if (Active.Count > 1)
             {
                 List<String> tracker = new List<String>();
@@ -491,6 +492,7 @@ public class ActiveData : MonoBehaviour {
     public void HandDataToSpooler(List<DataRecord> Records)
     {
         // Set the record
+        Debug.LogError("Running");
         SliderFrames.Enqueue(Records[0]);
     }
 
@@ -511,7 +513,7 @@ public class ActiveData : MonoBehaviour {
         }
 
         // Only run if what was selected returned a value
-        for(int index = 0; index < maxindex; index++)
+        for (int index = 0; index < maxindex; index++)
         {
             // Time to load some things
             SystemParameters sp = new SystemParameters();
@@ -526,7 +528,7 @@ public class ActiveData : MonoBehaviour {
             Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
 
             // Check if there is a need to clear -- if greater than 2
-            if(Active.Count > 1)
+            if (Active.Count > 1)
             {
                 // Initilize the Time
                 Start = DateTime.MaxValue;

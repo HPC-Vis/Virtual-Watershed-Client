@@ -97,11 +97,11 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -109,7 +109,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -136,12 +136,8 @@ Material:
         second: 0
       data:
         first:
-          name: _Opacity
-        second: 1
-      data:
-        first:
           name: _FloatMin
-        second: -12.9206352
+        second: -12.920635
       data:
         first:
           name: _FloatMax
@@ -176,6 +172,10 @@ Material:
         second: 1
       data:
         first:
+          name: _Opacity
+        second: 1
+      data:
+        first:
           name: _UsePoint
         second: 1
     m_Colors:
@@ -190,23 +190,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: .360784322, g: .223529413, b: .247058824, a: 1}
+        second: {r: 0.9372549, g: 0.9843137, b: 0.8039216, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: .556862772, g: .603921592, b: .650980413, a: 1}
+        second: {r: 0.8627451, g: 0.90588236, b: 0.7411765, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: .75686276, g: .886274517, b: .952941179, a: 1}
+        second: {r: 0.33333334, g: 0.31764707, b: 0.32156864, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: .886274517, g: .945098042, b: .815686285, a: 1}
+        second: {r: 0.18039216, g: 0.14901961, b: 0.2, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: .168627456, g: .239215687, b: .294117659, a: 1}
+        second: {r: 0.61960787, g: 0.16078432, b: 0.23137255, a: 1}
       data:
         first:
           name: _SegmentData005
