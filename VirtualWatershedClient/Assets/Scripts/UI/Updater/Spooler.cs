@@ -15,6 +15,8 @@ public class Spooler : MonoBehaviour
 	public Projector TimeProjector;
     public Material colorWindow, colorProjector, slideProjector;
     private ColorPicker colorPicker;
+    private GameObject colorbarObj;
+    private Image colorbar;
     public Text selectedVariableTextBox;
 
     // Local Variables
@@ -31,7 +33,10 @@ public class Spooler : MonoBehaviour
 	void Start()
 	{
         colorPicker = GameObject.Find("ColorSelector").GetComponent<ColorPicker>();
-	}
+        colorbarObj = GameObject.Find("Colorbar");
+        colorbar = colorbarObj.transform.GetChild(0).GetComponent<Image>();
+        UpdateMinMax(0.0f, 5.0f);
+    }
 	
 
     /// <summary>
@@ -47,14 +52,16 @@ public class Spooler : MonoBehaviour
 			{
 				TimeProjector.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
 				testImage.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
-			}
+                colorbar.material.SetColor("_SegmentData00" + i.ToString(), colorPicker.ColorBoxes[i].GetComponent<Image>().color);
+            }
 
 			// Add the ranges to the timeprojector and image
 			for(int i = 0; i < colorPicker.ColorBoxes.Count; i++)
 			{
-				TimeProjector.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
-				testImage.material.SetFloat("_x" + i.ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
-			}
+				TimeProjector.material.SetFloat("_x" + (i + 1).ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
+				testImage.material.SetFloat("_x" + (i + 1).ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
+                colorbar.material.SetFloat("_x" + (i + 1).ToString(), (float.Parse(colorPicker.ColorBoxes[i].transform.GetChild(0).GetComponent<Text>().text)));
+            }
 
             TimeProjector.material.SetInt("_NumLines", (int)gridSlider.value);
         }
@@ -111,13 +118,17 @@ public class Spooler : MonoBehaviour
         // Updates the max information across the necessary classes
         TimeProjector.material.SetFloat("_FloatMax", max);
         testImage.material.SetFloat("_FloatMax", max);
+        colorbar.material.SetFloat("_FloatMax", max);
         colorPicker.SetMax(max);
+        colorbarObj.transform.GetChild(1).GetComponent<Text>().text = max.ToString();
         //colorPicker.Mean = modelrun.GetVariable(oldSelectedVariable).Mean;
         //colorPicker.frameCount = modelrun.GetVariable(oldSelectedVariable).frameCount;
         
         TimeProjector.material.SetFloat("_FloatMin", min);
         testImage.material.SetFloat("_FloatMin", min);
+        colorbar.material.SetFloat("_FloatMin", min);
         colorPicker.SetMin(min);
+        colorbarObj.transform.GetChild(2).GetComponent<Text>().text = min.ToString();
         //colorPicker.Mean = modelrun.GetVariable(oldSelectedVariable).Mean;
     }
 

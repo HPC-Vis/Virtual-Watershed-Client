@@ -142,23 +142,23 @@ Material:
       data:
         first:
           name: _x1
-        second: 230.8824
+        second: 212.9412
       data:
         first:
           name: _x2
-        second: 320.5883
+        second: 284.7059
       data:
         first:
           name: _x3
-        second: 410.2941
+        second: 351.9961
       data:
         first:
           name: _x4
-        second: 500
+        second: 428.2353
       data:
         first:
           name: _x5
-        second: 105.7
+        second: 500
       data:
         first:
           name: _Blend
@@ -191,23 +191,23 @@ Material:
       data:
         first:
           name: _SegmentData000
-        second: {r: 0.36078432, g: 0.22352941, b: 0.24705882, a: 1}
+        second: {r: 0.9372549, g: 0.9843137, b: 0.8039216, a: 1}
       data:
         first:
           name: _SegmentData001
-        second: {r: 0.5568628, g: 0.6039216, b: 0.6509804, a: 1}
+        second: {r: 0.8627451, g: 0.90588236, b: 0.7411765, a: 1}
       data:
         first:
           name: _SegmentData002
-        second: {r: 0.75686276, g: 0.8862745, b: 0.9529412, a: 1}
+        second: {r: 0.33333334, g: 0.31764707, b: 0.32156864, a: 1}
       data:
         first:
           name: _SegmentData003
-        second: {r: 0.8862745, g: 0.94509804, b: 0.8156863, a: 1}
+        second: {r: 0.18039216, g: 0.14901961, b: 0.2, a: 1}
       data:
         first:
           name: _SegmentData004
-        second: {r: 0.16862746, g: 0.23921569, b: 0.29411766, a: 1}
+        second: {r: 0.61960787, g: 0.16078432, b: 0.23137255, a: 1}
       data:
         first:
           name: _SegmentData005
