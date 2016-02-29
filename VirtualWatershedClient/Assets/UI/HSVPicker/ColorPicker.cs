@@ -97,6 +97,11 @@ public class ColorPicker : MonoBehaviour {
         slider.value = value_hold;
 	}
 
+    public void ChangeColorPalette(Dropdown drop)
+    {
+        ChangeColorPalette(drop.value);
+    }
+
     //update to a normal distribution instead of a uniform distribution
     public void SetMin(float min)
     {
@@ -105,11 +110,9 @@ public class ColorPicker : MonoBehaviour {
         SetRanges_OLD();
 #elif NEWWAY
         SetRanges();
-
 #endif
 
         slider.minValue = Min;
-
     }
 
     public void SetMax(float max)
