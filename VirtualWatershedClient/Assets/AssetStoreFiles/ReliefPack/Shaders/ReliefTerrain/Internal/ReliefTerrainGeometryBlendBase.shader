@@ -618,7 +618,7 @@ void surf (Input IN, inout SurfaceOutput o) {
 }
 ENDCG  
 
-///* AddPass
+/* AddPass
 ZTest LEqual
 CGPROGRAM
 	#pragma surface surf Lambert vertex:vert decal:add
@@ -736,7 +736,7 @@ void surf (Input IN, inout SurfaceOutput o) {
 	o.Albedo = col;
 }
 ENDCG  
-//*/ // AddPass
+*/ // AddPass
 
 }
 // EOF CLASSIC shading
