@@ -31,8 +31,8 @@ public class SessionDataStructure
 public class SessionData
 {
     ListViewManager listview;
-    private GameObject Go;
-    GameObject PlayerController
+    private GameObject Go = null;
+    public GameObject PlayerController
     {
         get
         {
@@ -40,6 +40,8 @@ public class SessionData
             {
                 Go = GameObject.Find("/UIContainer/PlayerController/ControlScripts");
             }
+            Debug.LogError(Go);
+            Debug.Break();
             return Go;
         }
     }

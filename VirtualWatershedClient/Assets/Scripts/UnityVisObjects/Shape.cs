@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngineInternal;
 using System.IO;
 
-public class Shape : MonoBehaviour {
+public class Shape : WorldObject {
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +19,40 @@ public class Shape : MonoBehaviour {
 	void Update () {
 	
 	}
+
+    public override bool saveData(string filename, string format = "")
+    {
+        return false;
+    }
+
+    public override bool moveObject(GameObject gameobject, Vector3 displacement)
+    {
+        return false;
+    }
+
+    public override bool changeProjection(string projectionString)
+    {
+        return false;
+    }
+
+    public override void alterData()
+    {
+
+    }
+
+    public override void getData()
+    {
+
+    }
+
+    public override SessionObjectStructure saveSessionData()
+    {
+        SessionObjectStructure structure = new SessionObjectStructure();
+        structure.Name = record.name;
+        structure.GameObjectPosition = gameObject.transform.position;
+        return structure;
+    }
+
 	int current=0;
 	GameObject addPoint( Vector2 point,WorldTransform tr)
 	{
@@ -39,7 +73,6 @@ public class Shape : MonoBehaviour {
 		cylinder.GetComponent<Light>().range = 50.0f;
 		cylinder.GetComponent<Light>().intensity = 100;
 		Debug.LogError(-1*(GlobalConfig.TerrainBoundingBox.width/2));
-        Debug.LogError(GlobalConfig.TerrainBoundingBox.x + " | " + GlobalConfig.TerrainBoundingBox.y + " | " + GlobalConfig.TerrainBoundingBox.height);
 		if (!GlobalConfig.TerrainBoundingBox.Contains(cylinder.transform.position) || (cylinder.transform.position.z < (-1*(GlobalConfig.TerrainBoundingBox.width/2))))
 		{
 			cylinder.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
@@ -52,7 +85,7 @@ public class Shape : MonoBehaviour {
 			cylinder.GetComponent<Light>().color = Color.red;
 			cylinder.GetComponent<Renderer>().material.color = Color.red;
 			var scaler = cylinder.AddComponent<Scaler>();
-			scaler.FirstPersonController = GameObject.Find("ControlScripts");
+			scaler.FirstPersonController = GameObject.Find("First Person Controller");
 			
 		}
 		cylinder.layer = LayerMask.NameToLayer("Terrain");

@@ -17,7 +17,7 @@ public class ModelRunLoader : MonoBehaviour {
 	    if(Input.GetKeyDown(KeyCode.P))
         {
             Debug.LogError("HERE");
-            //ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+            ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
         }
 	}
 

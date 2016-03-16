@@ -37,6 +37,7 @@ public class Searcher : MonoBehaviour {
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
 		ModelRunManager.SearchForModelRuns(null);
+        //Debug.LogError(ModelRunManager.sessionData.PlayerController);
         oldModelRunCount = ModelRunManager.ModelRunCount();
         Refresh();
 	}

@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
@@ -106,17 +105,12 @@ public class ReferenceLoader : MonoBehaviour
         
     }
 
-    public void DownloadObjects()
+    public void DownlaodObjects()
     {
     	Logger.enable = true;
         List<DataRecord> recs = new List<DataRecord>();
         recs = listView.GetSelected();
-        Debug.LogError("downlaoding");
-
-        // create option data list for adding to viewables dropdown
-        List<Dropdown.OptionData> shapeList = new List<Dropdown.OptionData>();
-        GameObject viewables = GameObject.Find("Viewable dropdown");
-
+		 
         foreach (var i in recs)
         {
             Debug.LogError(i.name + " " + i.Type);
@@ -124,17 +118,8 @@ public class ReferenceLoader : MonoBehaviour
             if (!viewableObjects.ContainsKey(i.name))
             {
 
-                //Dropdown object to add to viewables list
-                Dropdown.OptionData shape = new Dropdown.OptionData();
-
-                // set the data for the one element to be added
-                shape.text = i.name;
-                shapeList.Add(shape);
-
                 if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
                 {
-                    
-
                     SystemParameters param = new SystemParameters();
                     param.Priority = 100;
                     Debug.LogError("DOWNLOADING OBJECTS SHAPES");
@@ -185,7 +170,6 @@ public class ReferenceLoader : MonoBehaviour
 
             }
         }
-        viewables.GetComponentInChildren<Dropdown>().AddOptions(shapeList);
     }
 
     public void BuildShapes(List<DataRecord> records)

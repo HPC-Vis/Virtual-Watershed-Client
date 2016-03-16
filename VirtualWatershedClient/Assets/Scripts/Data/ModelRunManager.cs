@@ -18,6 +18,8 @@ public static class ModelRunManager
     static private VWClient Client;
     static bool locationUpdate = false;
 
+    static public SessionData sessionData = new SessionData();
+
     // Global loading counter
     static public int Total = 0;
     static public int Counter = 0;
