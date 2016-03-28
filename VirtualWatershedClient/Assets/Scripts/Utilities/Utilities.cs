@@ -89,7 +89,7 @@ public static class Utilities
     public static GameObject buildProjector(DataRecord record, bool type = false)
 	{
         // First Create a projector
-        GameObject projector = GameObject.Instantiate(Resources.Load("UI/SlideProjector/Prefabs/SlideProjector", typeof(GameObject))) as GameObject;
+        GameObject projector = GameObject.Instantiate(Resources.Load("Prefabs/SlideProjector/SlideProjector", typeof(GameObject))) as GameObject;
         projector.name = "SPAWNED PROJECTOR";
         var proj = projector.AddComponent<ProjectorObject>();
         proj.record = record;

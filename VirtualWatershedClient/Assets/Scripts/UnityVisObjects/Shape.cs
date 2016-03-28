@@ -12,7 +12,7 @@ public class Shape : WorldObject {
 
 	// Use this for initialization
 	void Start () {
-	
+        IsRaster = false;
 	}
 	
 	// Update is called once per frame

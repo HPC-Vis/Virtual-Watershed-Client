@@ -11,8 +11,12 @@ using UnityEngine.UI;
 public class SessionObjectStructure
 {
     public string Name;
-    public string DataLocation;
+    public string Projection;
+    public string DataSource; // a link back to the data record -- in the cache
+    public string OriginalSource; // a link back the to the original data
     public SerialVector3 GameObjectPosition;
+    public DateTime Modified;
+    public DateTime Created;
 }
 
 [Serializable]
@@ -40,8 +44,8 @@ public class SessionData
             {
                 Go = GameObject.Find("/UIContainer/PlayerController/ControlScripts");
             }
-            Debug.LogError(Go);
-            Debug.Break();
+            //Debug.LogError(Go);
+            //Debug.Break();
             return Go;
         }
     }

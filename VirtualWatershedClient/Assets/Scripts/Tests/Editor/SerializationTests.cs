@@ -17,7 +17,7 @@ internal class SerializationTests
         SessionDataStructure test = new SessionDataStructure();
         test.GameObjects = new Dictionary<string, SessionObjectStructure>();
         test.GameObjects.Add("putty", new SessionObjectStructure());
-        test.GameObjects["putty"].DataLocation = "wonder land";
+        //test.GameObjects["putty"].DataLocation = "wonder land";
         test.GameObjects["putty"].Name = "apples and sphagetti";
         test.Location = "abc";
         string a = JsonConvert.SerializeObject(test);

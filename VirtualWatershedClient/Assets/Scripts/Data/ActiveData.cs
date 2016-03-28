@@ -93,9 +93,15 @@ public class ActiveData : MonoBehaviour {
     private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
-    
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.LogError("HERE");
+            ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+        }
+
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {

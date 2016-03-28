@@ -6,7 +6,7 @@ public class ProjectorObject : WorldObject {
 
 	// Use this for initialization
 	void Start () {
-	
+        IsRaster = true;
 	}
 	
 	// Update is called once per frame

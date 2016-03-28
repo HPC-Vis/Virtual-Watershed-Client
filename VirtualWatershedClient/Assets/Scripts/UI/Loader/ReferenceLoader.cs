@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
@@ -8,6 +9,7 @@ public class ReferenceLoader : MonoBehaviour
     public DownloadManager downloadManager;
     public ListViewManager listView;
     public ListViewManager listViewables;
+    public Dropdown Options;
     public Dictionary<string, GameObject> viewableObjects = new Dictionary<string,GameObject>();
     Queue<DataRecord> queuedRecs = new Queue<DataRecord>();
     public Material LineMaterial;

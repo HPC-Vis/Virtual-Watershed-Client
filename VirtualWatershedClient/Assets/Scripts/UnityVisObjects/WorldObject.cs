@@ -11,6 +11,8 @@ public abstract class WorldObject : MonoBehaviour
 
     public DataRecord record;
 
+    public bool IsRaster;
+
     public abstract bool saveData(string filename, string format="");
 
     public abstract bool moveObject(GameObject gameobject, Vector3 displacement);
