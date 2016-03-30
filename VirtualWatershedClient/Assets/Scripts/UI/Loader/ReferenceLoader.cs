@@ -104,7 +104,7 @@ public class ReferenceLoader : MonoBehaviour
         // Debug.LogError("SET FIELDS 3");
         Objects.Enqueue(new KeyValuePair<GameObject, DataRecord>(obj, objectRec));
         //listViewables.AddRow(new object[]{obj.name},objectRec);
-        
+        Options.options.Add(new Dropdown.OptionData(objectRec.name));
     }
 
     public void DownlaodObjects()

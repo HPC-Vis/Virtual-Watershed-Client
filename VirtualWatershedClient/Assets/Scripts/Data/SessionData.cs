@@ -12,8 +12,7 @@ public class SessionObjectStructure
 {
     public string Name;
     public string Projection;
-    public string DataSource; // a link back to the data record -- in the cache
-    public string OriginalSource; // a link back the to the original data
+    public Dictionary<string, string> Sources;
     public SerialVector3 GameObjectPosition;
     public DateTime Modified;
     public DateTime Created;

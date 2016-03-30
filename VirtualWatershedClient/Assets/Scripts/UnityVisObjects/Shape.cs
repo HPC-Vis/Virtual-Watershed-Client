@@ -50,6 +50,10 @@ public class Shape : WorldObject {
         SessionObjectStructure structure = new SessionObjectStructure();
         structure.Name = record.name;
         structure.GameObjectPosition = gameObject.transform.position;
+        structure.Projection = record.projection;
+        structure.Sources = record.services;
+        //structure.Modified =
+        //structure.Created = record.s Need to acquire created data for datarecord. --- In the json from the virtual watershed 
         return structure;
     }
 
