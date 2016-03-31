@@ -19,7 +19,8 @@ public class ReferenceLoader : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        Debug.LogError("REFERENCE LOADER");
+        Options = GameObject.Find("Viewable dropdown/Arrow").GetComponent<Dropdown>();
     }
 
     // Update is called once per frame
@@ -103,8 +104,11 @@ public class ReferenceLoader : MonoBehaviour
 
         // Debug.LogError("SET FIELDS 3");
         Objects.Enqueue(new KeyValuePair<GameObject, DataRecord>(obj, objectRec));
+        Debug.LogError("ADDING OBJECT REC: " + objectRec.name);
+        Debug.LogError("ADDING OBJ: " + obj.name);
         //listViewables.AddRow(new object[]{obj.name},objectRec);
         Options.options.Add(new Dropdown.OptionData(objectRec.name));
+        //Options.value = Options.options.Count;
     }
 
     public void DownlaodObjects()
