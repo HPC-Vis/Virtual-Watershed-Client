@@ -29,7 +29,10 @@ public class temporalDataToggle : MonoBehaviour {
 	public void toggleNonTemporal()
 	{
 		temporal.SetActive (false);
-		nontemporal.SetActive (!nontemporal.activeSelf);
+        if (!nontemporal.activeSelf)
+        {
+            nontemporal.SetActive(!nontemporal.activeSelf);
+        }
 
 		temporalButton.image.color = new Color(temp.r, temp.g, temp.b, 50);
 		nontemporalButton.image.color = new Color(nonTemp.r, nonTemp.g, nonTemp.b, 255);
@@ -38,7 +41,10 @@ public class temporalDataToggle : MonoBehaviour {
 	public void toggleTemporal()
 	{
 		nontemporal.SetActive (false);
-		temporal.SetActive (!temporal.activeSelf);
+        if (!temporal.activeSelf)
+        {
+            temporal.SetActive(!temporal.activeSelf);
+        }
 
 		temporalButton.image.color = new Color(temp.r, temp.g, temp.b, 255);
 		nontemporalButton.image.color = new Color(nonTemp.r, nonTemp.g, nonTemp.b, 50);

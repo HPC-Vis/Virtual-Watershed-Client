@@ -7,7 +7,7 @@ using System.Collections.Generic;
 public class mouselistener : MonoBehaviour {
 
 	public enum mouseState{OS=0,TERRAIN=1};
-	public static mouseState state;
+	public static mouseState state = mouseState.OS;
 	public static mouseState[] states;
 	public Vector2 mousePos
 	{
@@ -22,7 +22,7 @@ public class mouselistener : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		state = mouseState.TERRAIN;
+		state = mouseState.OS;
 		var temp = new ArrayList(Enum.GetValues(typeof(mouseState)));
 		states  = new mouseState[temp.Count];
 		foreach (var i in temp)

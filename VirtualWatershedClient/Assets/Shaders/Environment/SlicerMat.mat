@@ -45,20 +45,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _OcclusionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _EmissionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _DetailMask
         second:
           m_Texture: {fileID: 0}
@@ -104,11 +90,11 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -116,7 +102,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -148,11 +134,11 @@ Material:
       data:
         first:
           name: _Max
-        second: .607843161
+        second: 0.7882353
       data:
         first:
           name: _Min
-        second: .466666698
+        second: 0.0352941
     m_Colors:
       data:
         first:
@@ -165,8 +151,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: .818664372, g: .341396958, b: 0, a: 0}
+        second: {r: 0.031527624, g: 0.10207265, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: .835211039, g: .369444281, b: 0, a: 0}
+        second: {r: 0.5990769, g: 0.7446609, b: 0, a: 0}

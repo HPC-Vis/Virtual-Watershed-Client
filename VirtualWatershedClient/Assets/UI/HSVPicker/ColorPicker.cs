@@ -97,38 +97,29 @@ public class ColorPicker : MonoBehaviour {
         slider.value = value_hold;
 	}
 
+    public void ChangeColorPalette(Dropdown drop)
+    {
+        ChangeColorPalette(drop.value);
+    }
+
     //update to a normal distribution instead of a uniform distribution
     public void SetMin(float min)
     {
         Min = min;
 #if OLDWAY
-        float increment = (Max - Min) / (ColorBoxes.Count - 1);
-        float assignment = Min;
-        foreach (var box in ColorBoxes)
-        {
-            box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
-            assignment += increment;
-        }
+        SetRanges_OLD();
 #elif NEWWAY
         SetRanges();
-
 #endif
 
         slider.minValue = Min;
-
     }
 
     public void SetMax(float max)
     {
         Max = max;
 #if OLDWAY
-        float increment = (Max - Min) / (ColorBoxes.Count - 1);
-        float assignment = Min;
-        foreach (var box in ColorBoxes)
-        {
-            box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
-            assignment += increment;
-        }
+        SetRanges_OLD();
 #elif NEWWAY
         SetRanges();
 #endif
@@ -144,6 +135,16 @@ public class ColorPicker : MonoBehaviour {
         }
     }
 	
+    public void SetRanges_OLD()
+    {
+        float increment = (Max - Min) / (ColorBoxes.Count);
+        float assignment = Min + increment;
+        foreach (var box in ColorBoxes)
+        {
+            box.transform.GetChild(0).GetComponent<Text>().text = assignment.ToString();
+            assignment += increment;
+        }
+    }
 
     public void SetRanges()
     {

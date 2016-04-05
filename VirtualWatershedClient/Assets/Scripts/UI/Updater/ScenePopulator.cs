@@ -25,7 +25,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(1);
+        Application.LoadLevel(5);
     }
 
     public void LoadReynoldsCreek() {

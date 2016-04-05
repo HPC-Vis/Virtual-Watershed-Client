@@ -5,12 +5,13 @@ public class Scaler : MonoBehaviour {
 
     GameObject currentController;
     public GameObject FirstPersonController;
+    float dist_thresh = 150.0f;
 
     float OriginalHeight;
 	// Use this for initialization
 	void Start () {
         OriginalHeight = gameObject.transform.position.y;
-        FirstPersonController = GameObject.Find("ControlScripts");
+        //FirstPersonController = GameObject.Find("ControlScripts");
 
 	}
 	
@@ -26,31 +27,29 @@ public class Scaler : MonoBehaviour {
         float yThresh, xzThresh;
 
 
-
         currentController = FirstPersonController;
 
         distance = (gameObject.transform.position - currentController.transform.position).magnitude;
-
-        if (distance / 150 < 30.14)
+        if (distance / dist_thresh < 3.14f)
         {
-            yThresh = 30.14f;
+            yThresh = 3.14f;
         }
         else
         {
-            yThresh = distance / 10;
+            yThresh = distance / dist_thresh;
         }
 
-        if (distance / 150 < 5.14)
+        if (distance / dist_thresh < 1.14)
         {
-            xzThresh = 5.14f;
+            xzThresh = 1.14f;
         }
         else
         {
-            xzThresh = distance / 75;
+            xzThresh = distance / dist_thresh;
         }
 
         //OriginalHeight
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x, OriginalHeight + (yThresh), gameObject.transform.position.z);
+        //gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
         gameObject.transform.localScale = new Vector3(xzThresh, yThresh, xzThresh);
     }
 }

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 
-public class ModelRunVisualizer : MonoBehaviour {
+public class ModelRunLoader : MonoBehaviour {
     
     public DownloadManager downloadManager;
     public ListViewManager listView;
@@ -14,7 +14,11 @@ public class ModelRunVisualizer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if(Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.LogError("HERE");
+            //ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+        }
 	}
 
     void OnEnable()

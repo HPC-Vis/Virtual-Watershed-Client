@@ -142,7 +142,7 @@ namespace VTL.TrendGraph
         /// </summary>
         void Start()
         {
-            button.SetActive(false);
+            // button.SetActive(false);
             DataSlice = new List<float>();
             rectTransform = transform.Find("Graph") as RectTransform;
             lineAnchor = transform.Find("Graph")
@@ -260,18 +260,18 @@ namespace VTL.TrendGraph
 
                         DataSlice.Clear();
                         BuildSlice();
-                        button.SetActive(true);
+                        //button.SetActive(true);
                     }
                     else
                     {
-                        button.SetActive(false);
+                        //button.SetActive(false);
                     }
                 }
             }
-            else if(button.activeSelf)
-            {
-                button.SetActive(false);
-            }
+            //else if(button.activeSelf)
+            //{
+            //    button.SetActive(false);
+            //}
         }
 
         /// <summary>
