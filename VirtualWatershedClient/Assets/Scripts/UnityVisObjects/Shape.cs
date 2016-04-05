@@ -25,9 +25,11 @@ public class Shape : WorldObject {
         return false;
     }
 
-    public override bool moveObject(GameObject gameobject, Vector3 displacement)
+    public override bool moveObject(Vector3 displacement)
     {
-        return false;
+        Offset = displacement;
+        gameObject.transform.position += displacement;
+        return true;
     }
 
     public override bool changeProjection(string projectionString)
@@ -50,6 +52,7 @@ public class Shape : WorldObject {
         SessionObjectStructure structure = new SessionObjectStructure();
         structure.Name = record.name;
         structure.GameObjectPosition = gameObject.transform.position;
+        structure.GameObjectOffset += Offset;
         structure.Projection = record.projection;
         structure.Sources = record.services;
         //structure.Modified =

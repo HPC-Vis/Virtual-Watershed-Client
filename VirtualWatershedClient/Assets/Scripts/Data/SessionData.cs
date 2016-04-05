@@ -14,6 +14,7 @@ public class SessionObjectStructure
     public string Projection;
     public Dictionary<string, string> Sources;
     public SerialVector3 GameObjectPosition;
+    public SerialVector3 GameObjectOffset;
     public DateTime Modified;
     public DateTime Created;
 }
@@ -23,6 +24,7 @@ public class SessionDataStructure
 {
     public string Location;
     public SerialVector3 PlayerPosition;
+    
     public SerialVector3 PlayerRotation;
     public float PlayerAngle;
     public Dictionary<string,SessionObjectStructure> GameObjects;
@@ -166,7 +168,21 @@ public class SessionData
 
     public WorldObject GetSessionObject(string name)
     {
-        return SessionObjects[name];
+        if(SessionObjects.ContainsKey(name))
+        {
+            return SessionObjects[name];
+        }
+        
+        return null;
+    }
+
+    public void MoveObject(string name, Vector3 Offset)
+    {
+       var Object =  GetSessionObject(name);
+        if(Object != null)
+        {
+            Object.moveObject(Offset);
+        }
     }
 
     public void setProjection(Text newProj)

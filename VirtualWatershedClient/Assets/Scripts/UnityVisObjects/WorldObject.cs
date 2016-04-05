@@ -8,14 +8,14 @@ using System.Collections;
 /// </summary>
 public abstract class WorldObject : MonoBehaviour
 {
-
+    public Vector3 Offset;
     public DataRecord record;
 
     public bool IsRaster;
 
     public abstract bool saveData(string filename, string format="");
 
-    public abstract bool moveObject(GameObject gameobject, Vector3 displacement);
+    public abstract bool moveObject(Vector3 displacement);
 
     public abstract bool changeProjection(string projectionString);
 
