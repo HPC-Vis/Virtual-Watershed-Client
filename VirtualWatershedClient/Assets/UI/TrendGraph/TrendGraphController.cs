@@ -14,6 +14,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using VTL.ListView;
 
 namespace VTL.TrendGraph
 {
@@ -47,6 +48,7 @@ namespace VTL.TrendGraph
         private Texture2D TrendTexture = null;
         public DateTime Begin = DateTime.MaxValue;
         public DateTime End = DateTime.MinValue;
+        private List<String> FrameReference = new List<String>();
 
         // Used for the data slicer
         public GameObject marker1, marker2;
@@ -57,6 +59,9 @@ namespace VTL.TrendGraph
         List<float> DataSlice;
         Vector3 WorldPoint1, WorldPoint2;
         public GameObject button;
+
+        // The selected graph points
+        public ListViewManager selectedList;
 
         /// <summary>
         /// Called to update the fields on the trend graph.
@@ -188,6 +193,10 @@ namespace VTL.TrendGraph
             TrendTexture.wrapMode = TextureWrapMode.Clamp;
             TrendTexture.Apply();
             GraphImage.sprite = Sprite.Create(TrendTexture, new Rect(0, 0, width, height), new Vector2(0, 0));
+
+
+            // Temp to test the list view
+            selectedList.AddRow(new object[]{ Color.blue, "Test", "VariableName" });
         }
 
         /// <summary>
@@ -195,6 +204,7 @@ namespace VTL.TrendGraph
         /// </summary>
         void Update()
         {
+            FrameReference = ActiveData.GetCurrentAvtive();
             // This will get a user click
             if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.mouseState.TERRAIN)
             {
@@ -307,23 +317,23 @@ namespace VTL.TrendGraph
         /// </summary>
         void OnGUI()
         {
-            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-            if(tempFrameRef.Count < 1)
+            
+            if(FrameReference.Count < 1)
             {
                 return;
             }
-            if (ActiveData.GetCount(tempFrameRef[0]) < 1)
+            if (ActiveData.GetCount(FrameReference[0]) < 1)
             {
                 return;
             }
            
             // Draw a line that represents the current slide on the graph
             ActiveData.Sort();
-            if(DataIndex > ActiveData.GetCount(tempFrameRef[0]))
+            if(DataIndex > ActiveData.GetCount(FrameReference[0]))
             {
                 DataIndex = 0;
             }
-            float normTime = (float)(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normTime = (float)(ActiveData.GetFrameAt(FrameReference[0], DataIndex).starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
 
             

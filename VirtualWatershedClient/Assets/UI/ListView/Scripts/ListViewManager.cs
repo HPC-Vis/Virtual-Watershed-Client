@@ -148,7 +148,20 @@ namespace VTL.ListView
 
             rows.Add(guid, Instantiate(RowPrefab));
             rows[guid].transform.SetParent(listPanel.transform);
-            rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            if (rows[guid].GetComponent<Row>() != null)
+            {
+                rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            }
+            else if (rows[guid].GetComponent<TrendGraphRow>() != null)
+            {
+                rows[guid].GetComponent<TrendGraphRow>().Initialize(fieldData, guid);
+            }
+            else
+            {
+                Debug.LogError("Problem loading the proper component.");
+                // rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            }
+ 
             SetListPanelHeight();
 
             listData.Add(guid, new Dictionary<string, object>());

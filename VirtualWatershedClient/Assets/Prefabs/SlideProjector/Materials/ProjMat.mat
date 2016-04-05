@@ -45,20 +45,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _OcclusionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _EmissionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _DetailMask
         second:
           m_Texture: {fileID: 0}
@@ -80,13 +66,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _ShadowTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _MainTex2
         second:
           m_Texture: {fileID: 0}
@@ -95,6 +74,27 @@ Material:
       data:
         first:
           name: _3DTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _OcclusionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -112,34 +112,6 @@ Material:
         first:
           name: _Cutoff
         second: 0.5
-      data:
-        first:
-          name: _FloatMin
-        second: 0
-      data:
-        first:
-          name: _FloatMax
-        second: 5
-      data:
-        first:
-          name: _x1
-        second: 1
-      data:
-        first:
-          name: _x2
-        second: 2
-      data:
-        first:
-          name: _x3
-        second: 3
-      data:
-        first:
-          name: _x4
-        second: 4
-      data:
-        first:
-          name: _x5
-        second: 5
       data:
         first:
           name: _Parallax
@@ -178,6 +150,50 @@ Material:
         second: 0
       data:
         first:
+          name: _Max
+        second: -1
+      data:
+        first:
+          name: _Min
+        second: -1
+      data:
+        first:
+          name: _Opacity
+        second: 1
+      data:
+        first:
+          name: _FloatMin
+        second: 0
+      data:
+        first:
+          name: _FloatMax
+        second: 5
+      data:
+        first:
+          name: _x1
+        second: 1
+      data:
+        first:
+          name: _x2
+        second: 2
+      data:
+        first:
+          name: _x3
+        second: 3
+      data:
+        first:
+          name: _x4
+        second: 4
+      data:
+        first:
+          name: _x5
+        second: 5
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
           name: _MaxX
         second: 1
       data:
@@ -186,28 +202,12 @@ Material:
         second: 1
       data:
         first:
-          name: _Opacity
+          name: _NumLines
         second: 1
       data:
         first:
           name: _UsePoint
         second: 1
-      data:
-        first:
-          name: _Blend
-        second: 1
-      data:
-        first:
-          name: _NumLines
-        second: 10
-      data:
-        first:
-          name: _Max
-        second: -1
-      data:
-        first:
-          name: _Min
-        second: -1
     m_Colors:
       data:
         first:
@@ -216,6 +216,14 @@ Material:
       data:
         first:
           name: _Color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point1
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _Point2
         second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
@@ -245,11 +253,3 @@ Material:
         first:
           name: _Point
         second: {r: 0, g: 0, b: 0, a: 0}
-      data:
-        first:
-          name: _Point1
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _Point2
-        second: {r: 1, g: 1, b: 1, a: 1}
