@@ -15686,6 +15686,7 @@ GameObject:
   - 124: {fileID: 12496718}
   - 92: {fileID: 9232048}
   - 81: {fileID: 8149062}
+  - 114: {fileID: 11486266}
   m_Layer: 5
   m_Name: Camera
   m_TagString: Untagged
@@ -21465,6 +21466,7 @@ GameObject:
   - 224: {fileID: 22498628}
   - 222: {fileID: 22228600}
   - 114: {fileID: 11442280}
+  - 114: {fileID: 11487240}
   m_Layer: 5
   m_Name: TerrainImage
   m_TagString: Untagged
@@ -26190,6 +26192,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &192320
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 430264}
+  - 33: {fileID: 3338254}
+  - 23: {fileID: 2335282}
+  m_Layer: 9
+  m_Name: MapMarker
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &192362
 GameObject:
   m_ObjectHideFlags: 1
@@ -28529,6 +28548,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 485966}
   m_RootOrder: 0
+--- !u!4 &430264
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192320}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 30, z: 0}
+  m_LocalScale: {x: 200, y: 0.5, z: 200}
+  m_Children: []
+  m_Father: {fileID: 490282}
+  m_RootOrder: 0
 --- !u!4 &430448
 Transform:
   m_ObjectHideFlags: 1
@@ -28706,7 +28737,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 490282}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &448224
 Transform:
   m_ObjectHideFlags: 1
@@ -29086,8 +29117,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156260}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -2048, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 22430428}
@@ -29169,6 +29200,7 @@ Transform:
   m_LocalPosition: {x: -906.4455, y: 251.42062, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 430264}
   - {fileID: 447792}
   m_Father: {fileID: 478548}
   m_RootOrder: 2
@@ -29299,7 +29331,7 @@ Camera:
   m_GameObject: {fileID: 156260}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -29308,10 +29340,10 @@ Camera:
     width: 0.145
     height: 0.245
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 2100
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
@@ -29349,7 +29381,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294966783
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -29500,6 +29532,32 @@ MeshRenderer:
   m_ReceiveShadows: 1
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 1
+  m_ReflectionProbeUsage: 1
+  m_ProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!23 &2335282
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192320}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_Materials:
+  - {fileID: 2100000, guid: fb3a852357fba2347b7de0ef02ba7726, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -29900,6 +29958,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 120336}
   m_Mesh: {fileID: 4300000, guid: 29a1e7efbb9679e47bf3bb05ed0095a3, type: 3}
+--- !u!33 &3338254
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192320}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3357336
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -41176,7 +41241,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22400406}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999996
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -61158,6 +61223,10 @@ MonoBehaviour:
   - {fileID: 120336}
   - {fileID: 125636}
   - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 134936}
 --- !u!114 &11445082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91524,6 +91593,20 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
+--- !u!114 &11486266
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 156260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8adfd72c700511141a5ad4481a928f4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniMap: {fileID: 2016592}
+  player: {fileID: 121570}
+  playerMarker: {fileID: 192320}
 --- !u!114 &11486426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -92341,6 +92424,18 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11487240
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 175106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 622feca0b505d6849b0252c12feb5062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 0}
 --- !u!114 &11487252
 MonoBehaviour:
   m_ObjectHideFlags: 1

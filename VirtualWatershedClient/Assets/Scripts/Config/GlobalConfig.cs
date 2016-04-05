@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 
 /// <summary>
@@ -11,6 +12,7 @@ public static class GlobalConfig
     public static bool caching;
     public static string Location = "Dry Creek";
     public static string State = "Idaho";
+    public static Sprite terrainImage;
 
     // Terrain Position
     public static Vector3 TerrainStartPosition = Vector3.zero;
