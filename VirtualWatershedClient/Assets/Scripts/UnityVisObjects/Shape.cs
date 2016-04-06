@@ -79,10 +79,10 @@ public class Shape : WorldObject {
 		cylinder.AddComponent<Light>();
 		cylinder.GetComponent<Light>().range = 50.0f;
 		cylinder.GetComponent<Light>().intensity = 100;
-		Debug.LogError(-1*(GlobalConfig.TerrainBoundingBox.width/2));
-		if (!GlobalConfig.TerrainBoundingBox.Contains(cylinder.transform.position) || (cylinder.transform.position.z < (-1*(GlobalConfig.TerrainBoundingBox.width/2))))
+		Debug.LogError("TERRAIN BOUNDING BOX: " + GlobalConfig.TerrainBoundingBox);
+		if (!GlobalConfig.TerrainBoundingBox.Contains(cylinder.transform.position) )
 		{
-			cylinder.transform.localScale = new Vector3(0.0f, 0.0f, 0.0f);
+			cylinder.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
 			cylinder.GetComponent<Light>().color = Color.clear;
 			cylinder.GetComponent<Renderer>().material.color = Color.clear;
 		}
@@ -91,8 +91,8 @@ public class Shape : WorldObject {
 			cylinder.transform.localScale = new Vector3(.75f, 5.0f, .75f);
 			cylinder.GetComponent<Light>().color = Color.red;
 			cylinder.GetComponent<Renderer>().material.color = Color.red;
-			var scaler = cylinder.AddComponent<Scaler>();
-			scaler.FirstPersonController = GameObject.Find("First Person Controller");
+			//var scaler = cylinder.AddComponent<Scaler>();
+			//scaler.FirstPersonController = GameObject.Find("First Person Controller");
 			
 		}
 		cylinder.layer = LayerMask.NameToLayer("Terrain");

@@ -227,6 +227,8 @@ public class Searcher : MonoBehaviour {
     {
         Debug.LogError("ON DESTROY");
         nm.Halt();
+        ModelRunManager.sessionData.Clear();
+        ModelRunManager.OnClose();
        
     }
 

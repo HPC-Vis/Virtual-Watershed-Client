@@ -822,6 +822,7 @@ public static class ModelRunManager
         // Save things to cache
         //FileBasedCache.Insert<Dictionary<string, GeoReference>>(cacheRestoreEntry, storedGeoRefs);
         // or should we clear the cache!!!!!
+        modelRuns.Clear();
     }
 
     static public void PopulateModelRunData(string ModelRunUUID)
