@@ -22,6 +22,6 @@ public class fastTravel : MonoBehaviour {
             }
 
         }
-        playerMarker.transform.position = player.transform.position + new Vector3(0, 30, 0);
+        playerMarker.transform.position = new Vector3(player.transform.position.x, 500, player.transform.position.z);
 	}
 }

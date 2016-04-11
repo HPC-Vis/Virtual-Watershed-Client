@@ -64868,6 +64868,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   guit: {fileID: 2800000, guid: d3978ecd3cbd3304e9ae519151a83c16, type: 3}
   screenMaterial: {fileID: 2100000, guid: bc2c1ddfd7e9bcf4e8962e5880e00a68, type: 2}
+  markerListView: {fileID: 0}
   marginHorizontal: 15
   marginVertical: 11
   min: 0
@@ -111566,6 +111567,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -111584,6 +111586,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
