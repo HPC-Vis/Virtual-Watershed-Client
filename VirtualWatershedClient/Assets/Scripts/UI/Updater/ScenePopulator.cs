@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class ScenePopulator : MonoBehaviour {
 
@@ -25,7 +26,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(5);
+        SceneManager.LoadScene(5);
     }
 
     public void LoadReynoldsCreek() {
@@ -35,7 +36,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(512660.020f, 4778377.741f, 523839.382f - 512660.020f, 4778377.741f - 4767198.380f);
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(2);
+        SceneManager.LoadScene(2);
     }
 
     public void LoadLehmanCreek() {
@@ -45,7 +46,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(731653.41f, 4323643.51f, 741254.90f - 731653.41f, 4323643.51f - 4318466.366f); // 4318741.06f
         GlobalConfig.Zone = 11;
-        Application.LoadLevel(4);
+        SceneManager.LoadScene(4);
     }
 
     public void LoadJemezCaynon() {
@@ -55,12 +56,12 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(324093.21f, 3987729.00f, 381077.39f - 324093.21f, 3987729.00f - 3935123.25f);
         GlobalConfig.Zone = 13;
-        Application.LoadLevel(3);
+        SceneManager.LoadScene(3);
     }
 
     public void LoadSelect()
     {
         Debug.LogError("Load Select Page");
-        Application.LoadLevel(0);
+        SceneManager.LoadScene(0);
     }
 }

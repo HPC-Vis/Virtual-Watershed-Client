@@ -23,6 +23,8 @@ public class TrendGraphRow : MonoBehaviour {
     public Image key;
     public string Name;
     public string Variable;
+    private int Row;
+    private int Col;
 
     public List<GameObject> rowElements = new List<GameObject>();
     object[] content;
@@ -69,7 +71,7 @@ public class TrendGraphRow : MonoBehaviour {
 
 
         // Build the row elements (cells)
-        for (int i = 1; i < fieldData.Length; i++)
+        for (int i = 1; i < fieldData.Length - 2; i++)
         {
             // For each cell add a new RowElementPrefab and set the row as its parent
             rowElements.Add(Instantiate(listViewManager.RowElementPrefab));
@@ -94,7 +96,11 @@ public class TrendGraphRow : MonoBehaviour {
                 rowElementText.alignment = TextAnchor.MiddleRight;
 
         }
-        
+
+        Name = (string)fieldData[1];
+        Variable = (string)fieldData[2];
+        Row = (int)fieldData[3];
+        Col = (int)fieldData[4];
 
         //image.color = listViewManager.unselectedColor;
         image.color = ColorType;

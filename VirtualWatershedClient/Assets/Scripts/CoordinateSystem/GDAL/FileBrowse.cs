@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 public struct DirectoryStruct
 {
@@ -27,26 +28,34 @@ public class FileBrowse : MonoBehaviour {
 	
 	}
 
-    public void SetDirectory(string Directory)
+    public void SetDirectory(string directory)
     {
         //Debug.LogError("CALLED");
         if(CurrentDirectory == "")
         {
-            CurrentDirectory = Directory;
+            CurrentDirectory = directory;
             return;
         }
        
-        string PathTo = Path.IsPathRooted(Directory) ? Directory : Path.GetFullPath(CurrentDirectory + @"\" + Directory);
+        string PathTo = Path.IsPathRooted(directory) ? directory : Path.GetFullPath(CurrentDirectory + @"\" + directory);
         string Root = Path.GetPathRoot(PathTo);
         //Debug.LogError("PATHTO: " + PathTo);
         //Debug.LogError("ROOT: " + Root);
-        if(Directory == ".." && CurrentDirectory == Root)
+        if(directory == ".." && CurrentDirectory == Root)
         {
             CurrentDirectory = "";
         }
         else
         {
-            CurrentDirectory = PathTo;
+            try
+            {
+                Directory.GetDirectories(PathTo);
+                CurrentDirectory = PathTo;
+            }
+            catch(Exception e)
+            {
+                Debug.LogError("The Directory selected is not allowed");
+            }
         }
         
     }
@@ -59,14 +68,21 @@ public class FileBrowse : MonoBehaviour {
         if (CurrentDirectory != "")
         {
             foreach (var i in Directory.GetDirectories(CurrentDirectory))
-            {
-                DirectoryStruct temp = new DirectoryStruct();
-                temp.Path = Path.GetFullPath(i);
-                temp.IsDirectory = true;
-                temp.filename = i.Replace(CurrentDirectory + @"\", "");
-                temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
-                Contents.Add(temp);
-
+            {                
+                try
+                {
+                    DirectoryStruct temp = new DirectoryStruct();
+                    Directory.GetDirectories(Path.GetFullPath(i));
+                    temp.Path = Path.GetFullPath(i);
+                    temp.IsDirectory = true;
+                    temp.filename = i.Replace(CurrentDirectory + @"\", "");
+                    temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
+                    Contents.Add(temp);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Disregard not loadable directory.");
+                }
             }
 
             foreach (var i in Directory.GetFiles(CurrentDirectory, "*.nc"))
