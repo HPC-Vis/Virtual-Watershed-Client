@@ -65,6 +65,13 @@
 		// This works! 
 		float4 frag (v2f IN) : COLOR
 		{
+			//we want the first marker to be to the right of the second
+			if (_Point1.x < _Point2.x) {
+				float2 temp = _Point2;
+				_Point2 = _Point1;
+				_Point1 = temp;
+			}
+
 			// parsing the 3D texture
 			float4 e = tex3D(_3DTex, IN.uv);
 						
