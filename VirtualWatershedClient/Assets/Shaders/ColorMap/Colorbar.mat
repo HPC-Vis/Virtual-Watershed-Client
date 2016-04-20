@@ -157,16 +157,16 @@ Material:
         second: 5
       data:
         first:
+          name: _Blend
+        second: 0.772
+      data:
+        first:
           name: _MaxX
         second: 10
       data:
         first:
           name: _MaxY
         second: 10
-      data:
-        first:
-          name: _Blend
-        second: 0.772
       data:
         first:
           name: _NumLines

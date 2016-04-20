@@ -26,6 +26,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
         GlobalConfig.Zone = 11;
+        GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/DryCreekSelect");
         SceneManager.LoadScene(5);
     }
 
@@ -36,6 +37,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(512660.020f, 4778377.741f, 523839.382f - 512660.020f, 4778377.741f - 4767198.380f);
         GlobalConfig.Zone = 11;
+        GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/ReynoldCreekSelect");
         SceneManager.LoadScene(2);
     }
 
@@ -46,6 +48,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(731653.41f, 4323643.51f, 741254.90f - 731653.41f, 4323643.51f - 4318466.366f); // 4318741.06f
         GlobalConfig.Zone = 11;
+        GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/LehmanCreekSelect");
         SceneManager.LoadScene(4);
     }
 
@@ -56,6 +59,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.GlobalProjection = 26911;
         GlobalConfig.BoundingBox = new Rect(324093.21f, 3987729.00f, 381077.39f - 324093.21f, 3987729.00f - 3935123.25f);
         GlobalConfig.Zone = 13;
+        GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/JemezSelect");
         SceneManager.LoadScene(3);
     }
 

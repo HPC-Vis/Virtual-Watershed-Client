@@ -5,6 +5,7 @@ public class fastTravel : MonoBehaviour {
 
     public Camera miniMap;
     public GameObject player;
+    public GameObject playerMarker;
 
     private Ray ray;
     private RaycastHit hit;
@@ -19,7 +20,8 @@ public class fastTravel : MonoBehaviour {
                 Debug.Log("Clicked on Minimap");
                 player.transform.position = hit.point+new Vector3(0,10,0);
             }
+
         }
-        
+        playerMarker.transform.position = new Vector3(player.transform.position.x, 500, player.transform.position.z);
 	}
 }
