@@ -15,6 +15,7 @@ public class raySlicer : MonoBehaviour
     public Texture2D guit;
     public Material screenMaterial;
     public ListViewManager markerListView;
+    public GameObject player;
     
     bool display_soil_visualizer;
     RenderTexture test;
@@ -402,6 +403,14 @@ public class raySlicer : MonoBehaviour
             // get 2 point vects
             Vector2 fv = firstPoint;
             Vector2 sv = secondPoint;
+            Vector3 camRight = Camera.main.transform.right;
+            if (camRight.x < 0)
+            {
+                Vector2 temp = sv;
+                sv = fv;
+                fv = temp; 
+            }
+
             MinMax.SetFirstPoint(fv);
             MinMax.SetSecondPoint(sv);
 
@@ -432,11 +441,11 @@ public class raySlicer : MonoBehaviour
 
             //create new row in the marker list
             //name should be based upon left and right positions so that only unique placements are stored
-            markerListView.AddRow(new object[] {
-                "test name", 
-                firstPoint.ToString(),
-                secondPoint.ToString()
-            });
+            //markerListView.AddRow(new object[] {
+            //    "test name", 
+            //    firstPoint.ToString(),
+            //    secondPoint.ToString()
+            //});
         }
         else
         {
