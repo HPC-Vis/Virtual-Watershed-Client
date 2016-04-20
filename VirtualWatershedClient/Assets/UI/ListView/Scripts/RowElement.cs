@@ -23,17 +23,30 @@ namespace VTL.ListView
         void Start()
         {
             // Need to push click event to the parent Row component
+            UnityAction listener;
+            UnityAction<BaseEventData> call;
+            if(transform.parent.gameObject.GetComponent<Row>() != null)
+            {
+                listener = transform.parent.gameObject.GetComponent<Row>().OnSelectionEvent;
+                call = transform.parent.gameObject.GetComponent<Row>().OnPointerEnter;
+            }
+            else if(transform.parent.gameObject.GetComponent<TrendGraphRow>() != null)
+            {
+                listener = transform.parent.gameObject.GetComponent<TrendGraphRow>().OnSelectionEvent;
+                call = transform.parent.gameObject.GetComponent<TrendGraphRow>().OnPointerEnter;
+            }
+            else
+            {
+                listener = null;
+                call = null;
+                Debug.LogError("Problem loading the proper component.");
+            }
             gameObject.GetComponent<Button>()
                       .onClick
-                      .AddListener(transform.parent
-                                            .gameObject
-                                            .GetComponent<Row>().OnSelectionEvent);
+                      .AddListener(listener);
             var ev = gameObject.AddComponent<EventTrigger>();
             //ev.triggers.Add()
             EventTrigger.Entry entry = new EventTrigger.Entry();
-            var call = new UnityAction<BaseEventData>(transform.parent
-                                            .gameObject
-                                            .GetComponent<Row>().OnPointerEnter);
             entry.eventID = EventTriggerType.PointerEnter;
             entry.callback.AddListener(call);
             ev.triggers.Add(entry);

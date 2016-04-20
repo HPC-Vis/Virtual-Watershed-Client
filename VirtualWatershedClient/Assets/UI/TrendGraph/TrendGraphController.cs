@@ -14,10 +14,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using VTL.ListView;
 
 namespace VTL.TrendGraph
 {
-
     public class TrendGraphController : MonoBehaviour
     {
         public Color lineColor = Color.white;
@@ -47,6 +47,7 @@ namespace VTL.TrendGraph
         private Texture2D TrendTexture = null;
         public DateTime Begin = DateTime.MaxValue;
         public DateTime End = DateTime.MinValue;
+        private List<String> FrameReference = new List<String>();
 
         // Used for the data slicer
         public GameObject marker1, marker2;
@@ -58,6 +59,8 @@ namespace VTL.TrendGraph
         Vector3 WorldPoint1, WorldPoint2;
         public GameObject button;
 
+        public TrendGraphListView selectedList;
+        
         /// <summary>
         /// Called to update the fields on the trend graph.
         /// </summary>
@@ -195,6 +198,7 @@ namespace VTL.TrendGraph
         /// </summary>
         void Update()
         {
+            FrameReference = ActiveData.GetCurrentAvtive();
             // This will get a user click
             if (Input.GetMouseButtonDown(0) && mouselistener.state == mouselistener.mouseState.TERRAIN)
             {
@@ -214,6 +218,8 @@ namespace VTL.TrendGraph
                     int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1);
 
                     SetPosition(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x);
+
+                    selectedList.AddRow(new object[] {"Lat: " + WorldPoint.z.ToString("#,##0") + "  Long: " + WorldPoint.x.ToString("#,##0"), tempFrameRef[0], ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x });
                 }
             }
 
@@ -307,23 +313,23 @@ namespace VTL.TrendGraph
         /// </summary>
         void OnGUI()
         {
-            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-            if(tempFrameRef.Count < 1)
+            
+            if(FrameReference.Count < 1)
             {
                 return;
             }
-            if (ActiveData.GetCount(tempFrameRef[0]) < 1)
+            if (ActiveData.GetCount(FrameReference[0]) < 1)
             {
                 return;
             }
            
             // Draw a line that represents the current slide on the graph
             ActiveData.Sort();
-            if(DataIndex > ActiveData.GetCount(tempFrameRef[0]))
+            if(DataIndex > ActiveData.GetCount(FrameReference[0]))
             {
                 DataIndex = 0;
             }
-            float normTime = (float)(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
+            float normTime = (float)(ActiveData.GetFrameAt(FrameReference[0], DataIndex).starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
             Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
 
             
@@ -394,15 +400,15 @@ namespace VTL.TrendGraph
             }
 
             // Loop through all the time series
-            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-            for(int j = 0; j < tempFrameRef.Count; j++)
+            List<object[]> tempFrameRef = new List<object[]>();//selectedList.GetSelectedRowContent(); // ActiveData.GetCurrentAvtive();
+            for (int j = 0; j < tempFrameRef.Count; j++)
             {
-                Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt(tempFrameRef[j], 0));
-                for (int i = 0; i < ActiveData.GetCount(tempFrameRef[j]); i++)
+                Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], 0));
+                for (int i = 0; i < ActiveData.GetCount((string)tempFrameRef[j][2]); i++)
                 {
-                    Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt(tempFrameRef[j], i));
-                    Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, j == 0 ? Color.blue : Color.green);
-                    prev = next;
+                    Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], i));
+                    Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, (Color)tempFrameRef[j][0]);
+                    prev = next; 
                 }
             }
 

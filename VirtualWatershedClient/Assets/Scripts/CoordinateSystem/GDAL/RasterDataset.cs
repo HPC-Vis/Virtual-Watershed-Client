@@ -25,11 +25,16 @@ public class RasterDataset
         try 
         {
             dataset = Gdal.Open(File, Access.GA_ReadOnly);
+            if(dataset == null)
+            {
+                Debug.LogError("Problem opening the GDAL dataset.");
+                return false;
+            }
             return true;
         }
         catch(Exception e)
         {
-            Debug.LogError(e.Message);
+            Debug.LogError("Problem opening the GDAL dataset: " + e.Message);
         }
         return false;
     }
@@ -46,9 +51,7 @@ public class RasterDataset
         numsubdatasets = Subdatasets.Count;
         return sub != null && sub.Length != 0;
     }
-
-
-
+    
     public List<string> GetSubDatasets()
     {
         if(Subdatasets.Count == 0)

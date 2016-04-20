@@ -47,13 +47,11 @@ public class VW_JSON_Parser : Parser
         var encoded = SimpleJSON.JSONNode.Parse(encodedString);
         if (encoded == null)
         {
-            UnityEngine.Debug.LogError("FAILED TO PARSE");
             return;
         }
         DataRecord current;
         if (encoded["results"].Count > 0)
         {
-            UnityEngine.Debug.LogError("PARSING THE JSON");
             // iterating through results
             for (int records = 0; records < encoded["results"].Count; records++)
             {
@@ -159,11 +157,6 @@ public class VW_JSON_Parser : Parser
             }
 
         }
-        else
-        {
-            UnityEngine.Debug.LogError("FAILED TO PARSE");
-        }
-
     }
 
 

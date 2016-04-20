@@ -54,7 +54,6 @@ public class LoadFromFile : MonoBehaviour {
                 fileBrowser.SetDirectory((string)contents[0]);
                 populateFileWindow();
                 //currentDirectory.text = "Current Directory: " + fileBrowser.CurrentDirectory;
-
             }
         }
     }
