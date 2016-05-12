@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: b7978b29c0dedc842bbe5a884d39244c
+=======
+guid: 371b049036d408f44a9e477d4db0fbf7
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
 timeCreated: 1428691344
 licenseType: Free
 TextureImporter:
@@ -17,7 +21,11 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
+<<<<<<< HEAD
     heightScale: .25
+=======
+    heightScale: 0.25
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -37,11 +45,19 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+<<<<<<< HEAD
+=======
+  allowsAlphaSplitting: 0
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
+<<<<<<< HEAD
   spritePivot: {x: .5, y: .5}
+=======
+  spritePivot: {x: 0.5, y: 0.5}
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   spriteBorder: {x: 3, y: 3, z: 3, w: 3}
   spritePixelsToUnits: 72
   alphaIsTransparency: 1
@@ -49,6 +65,10 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites: []
+<<<<<<< HEAD
+=======
+    outline: []
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   spritePackingTag: 
   userData: 
   assetBundleName: 

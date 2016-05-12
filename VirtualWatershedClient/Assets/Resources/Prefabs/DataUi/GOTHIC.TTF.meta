@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: e67d0e1287966324491e7b6e6914f15d
+=======
+guid: 650ebf34ea88bdb4b81e5a63292b4385
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
 timeCreated: 1428681912
 licenseType: Free
 TrueTypeFontImporter:
@@ -11,6 +15,10 @@ TrueTypeFontImporter:
   includeFontData: 1
   use2xBehaviour: 0
   fontNames: []
+<<<<<<< HEAD
+=======
+  fallbackFontReferences: []
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   customCharacters: 
   fontRenderingMode: 0
   userData: 

@@ -75458,7 +75458,10 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+<<<<<<< HEAD
   m_SortingBucketNormalizedSize: 0
+=======
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
@@ -75477,7 +75480,10 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+<<<<<<< HEAD
   m_SortingBucketNormalizedSize: 0
+=======
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

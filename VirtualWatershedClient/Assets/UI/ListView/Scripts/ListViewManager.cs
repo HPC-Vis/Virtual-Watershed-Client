@@ -143,12 +143,25 @@ namespace VTL.ListView
 
         public void AddRow(object[] fieldData, Guid guid)
         {
-            if (fieldData.Length != headerElementInfo.Count)
+            if (fieldData.Length < headerElementInfo.Count)
                 throw new System.Exception("fieldData does not match the size of the table!");
 
             rows.Add(guid, Instantiate(RowPrefab));
             rows[guid].transform.SetParent(listPanel.transform);
-            rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            if (rows[guid].GetComponent<Row>() != null)
+            {
+                rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            }
+            else if (rows[guid].GetComponent<TrendGraphRow>() != null)
+            {
+                rows[guid].GetComponent<TrendGraphRow>().Initialize(fieldData, guid);
+            }
+            else
+            {
+                Debug.LogError("Problem loading the proper component.");
+                // rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+            }
+ 
             SetListPanelHeight();
 
             listData.Add(guid, new Dictionary<string, object>());
@@ -195,19 +208,61 @@ namespace VTL.ListView
                     }
                 }
                 else
-                    SetRowSelection(guid, !rows[guid].GetComponent<Row>().isSelected);
+                {
+                    if (rows[guid].GetComponent<Row> () != null)
+                    {
+                        SetRowSelection(guid, !rows[guid].GetComponent<Row>().isSelected);
+                    }
+                    else if(rows[guid].GetComponent<TrendGraphRow>() != null)
+                    {
+                        SetRowSelection(guid, !rows[guid].GetComponent<TrendGraphRow>().isSelected);
+                    }
+                    else
+                    {
+                        Debug.LogError("Problem loading the proper component.");
+                    }
+                }
+                    
             }
             else if (listSelection == ListSelection.One)
             {
                 if (rows.ContainsKey(previousGUID))
-                {
-                    rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
-                    if (previousGUID != guid)
+                {      
+                    if(RowPrefab.GetComponent("Row") != null)
                     {
-                        rows[previousGUID].GetComponent<Row>().selectedOn = false;
+                        rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
+                        if (previousGUID != guid)
+                        {
+                            rows[previousGUID].GetComponent<Row>().selectedOn = false;
+                        }
+                    }
+                    else if(RowPrefab.GetComponent("TrendGraphRow") != null)
+                    {
+                        rows[guid].GetComponent<TrendGraphRow>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<TrendGraphRow>().selectedOn;
+                        if (previousGUID != guid)
+                        {
+                            rows[previousGUID].GetComponent<TrendGraphRow>().selectedOn = false;
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Problem loading the proper component.");
                     }
                 }
-                bool newState = !rows[guid].GetComponent<Row>().isSelected;
+                bool newState = false;
+                if (RowPrefab.GetComponent("Row") != null)
+                {
+                    newState = !rows[guid].GetComponent<Row>().isSelected;
+                }
+                else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+                {
+                    newState = !rows[guid].GetComponent<TrendGraphRow>().isSelected;
+                }
+                else
+                {
+                    Debug.LogError("Problem loading the proper component.");
+                }
+                
                 DeselectAll();
                 SetRowSelection(guid, newState);
                 previousGUID = guid;
@@ -223,7 +278,19 @@ namespace VTL.ListView
 
         public bool IsSelectedOn(Guid guid)
         {
-            return rows[guid].GetComponent<Row>().selectedOn;
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                return rows[guid].GetComponent<Row>().selectedOn;
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                return rows[guid].GetComponent<TrendGraphRow>().selectedOn;
+            }
+            else
+            {
+                Debug.LogError("Problem loading the proper component.");
+                return false;
+            }            
         }
 
         public void SelectAll()
@@ -246,10 +313,23 @@ namespace VTL.ListView
         public void SetRowSelection(Guid guid, bool selectedState)
         {
             listData[guid][SELECTED] = selectedState;
-
-            Row row = rows[guid].GetComponent<Row>();
-            row.isSelected = selectedState;
-            row.UpdateSelectionAppearance();
+         
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                Row row = rows[guid].GetComponent<Row>();
+                row.isSelected = selectedState;
+                row.UpdateSelectionAppearance();
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                TrendGraphRow row = rows[guid].GetComponent<TrendGraphRow>();
+                row.isSelected = selectedState;
+                row.UpdateSelectionAppearance();
+            }
+            else
+            {
+                Debug.LogError("Problem loading the proper component.");
+            }            
         }
 
         public void Sort(string key)
@@ -467,11 +547,27 @@ namespace VTL.ListView
             List<object[]> objects = new List<object[]>();
             foreach (var item in rows)
             {
-                var ROW = item.Value.GetComponent<Row>();
-                //var Objected = listData[item.Key];
-                if (ROW.isSelected)
+                if (RowPrefab.GetComponent("Row") != null)
                 {
-                    objects.Add(ROW.GetContents());
+                    var ROW = item.Value.GetComponent<Row>();
+                    //var Objected = listData[item.Key];
+                    if (ROW.isSelected)
+                    {
+                        objects.Add(ROW.GetContents());
+                    }
+                }
+                else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+                {
+                    var ROW = item.Value.GetComponent<TrendGraphRow>();
+                    //var Objected = listData[item.Key];
+                    if (ROW.isSelected)
+                    {
+                        objects.Add(ROW.GetContents());
+                    }
+                }
+                else
+                {
+                    Debug.LogError("Problem loading the proper component.");
                 }
             }
             return objects;

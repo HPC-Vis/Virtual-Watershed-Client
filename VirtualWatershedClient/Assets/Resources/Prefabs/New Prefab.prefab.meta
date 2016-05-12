@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: c90a0f6eff4f9e8419ab8e4dc9cb8a7e
+<<<<<<< HEAD:VirtualWatershedClient/Assets/Prefabs/New Prefab.prefab.meta
+guid: 4549023074638b74c88b33dab8d1c75c
+=======
+guid: 2c57252f6646b7b4ea064f4739c219f7
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe:VirtualWatershedClient/Assets/Resources/Prefabs/New Prefab.prefab.meta
 timeCreated: 1443560710
 licenseType: Free
 NativeFormatImporter:

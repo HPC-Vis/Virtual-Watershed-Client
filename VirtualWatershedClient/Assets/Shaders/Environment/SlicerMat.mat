@@ -134,11 +134,19 @@ Material:
       data:
         first:
           name: _Max
+<<<<<<< HEAD
         second: 0.4392157
       data:
         first:
           name: _Min
         second: 0.2509804
+=======
+        second: 0.6450981
+      data:
+        first:
+          name: _Min
+        second: 0.22941177
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe
     m_Colors:
       data:
         first:
@@ -151,8 +159,16 @@ Material:
       data:
         first:
           name: _Point1
+<<<<<<< HEAD
         second: {r: 0.38753754, g: 0.3115746, b: 0, a: 0}
       data:
         first:
           name: _Point2
         second: {r: 0.44712436, g: 0.3467759, b: 0, a: 0}
+=======
+        second: {r: 0.3340708, g: 0.47757205, b: 0, a: 0}
+      data:
+        first:
+          name: _Point2
+        second: {r: 0.40351582, g: 0.37813672, b: 0, a: 0}
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 903f09276622d1d4ba4e49701e45e442
+guid: 518b9ab1fe701d14db31640a87a5d9e8
 timeCreated: 1428526137
 licenseType: Free
 TextureImporter:
@@ -17,7 +17,7 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: .25
+    heightScale: 0.25
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
@@ -37,18 +37,25 @@ TextureImporter:
   lightmap: 0
   rGBM: 0
   compressionQuality: 50
+  allowsAlphaSplitting: 0
   spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
-  spritePivot: {x: .5, y: .5}
+  spritePivot: {x: 0.5, y: 0.5}
+<<<<<<< HEAD:VirtualWatershedClient/Assets/Terrain/WatershedImages/ReynoldCreekSelect.png.meta
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+=======
   spriteBorder: {x: 4, y: 4, z: 4, w: 4}
   spritePixelsToUnits: 72
+>>>>>>> fb7a410cf614dec8c2cbaeba20ea48eca378dbfe:VirtualWatershedClient/Assets/Resources/Prefabs/DataUi/DataUi03-01.png.meta
   alphaIsTransparency: 1
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
     sprites: []
+    outline: []
   spritePackingTag: 
   userData: 
   assetBundleName: 
