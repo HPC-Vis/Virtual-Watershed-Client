@@ -20,7 +20,7 @@ public class ScenePopulator : MonoBehaviour {
     }
 
     public void LoadDryCreek() {
-        Debug.LogError("Load Dry Creek");
+        Debug.Log("Load Dry Creek");
         GlobalConfig.Location = "Dry Creek";
         GlobalConfig.State = "Idaho";
         GlobalConfig.GlobalProjection = 26911;
@@ -31,7 +31,7 @@ public class ScenePopulator : MonoBehaviour {
     }
 
     public void LoadReynoldsCreek() {
-        Debug.LogError("Load Reynolds Creek");
+        Debug.Log("Load Reynolds Creek");
         GlobalConfig.Location = "Reynolds Creek";
         GlobalConfig.State = "Idaho";
         GlobalConfig.GlobalProjection = 26911;
@@ -42,7 +42,7 @@ public class ScenePopulator : MonoBehaviour {
     }
 
     public void LoadLehmanCreek() {
-        Debug.LogError("Load Lehman Creek");
+        Debug.Log("Load Lehman Creek");
         GlobalConfig.Location = "Lehman Creek";
         GlobalConfig.State = "Nevada";
         GlobalConfig.GlobalProjection = 26911;
@@ -53,10 +53,10 @@ public class ScenePopulator : MonoBehaviour {
     }
 
     public void LoadJemezCaynon() {
-        Debug.LogError("Load Jemez Caynon");
+        Debug.Log("Load Jemez Caynon");
         GlobalConfig.Location = "Jemez Caldera";
         GlobalConfig.State = "New Mexico";
-        GlobalConfig.GlobalProjection = 26911;
+        GlobalConfig.GlobalProjection = 26913;
         GlobalConfig.BoundingBox = new Rect(324093.21f, 3987729.00f, 381077.39f - 324093.21f, 3987729.00f - 3935123.25f);
         GlobalConfig.Zone = 13;
         GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/JemezSelect");
@@ -65,7 +65,7 @@ public class ScenePopulator : MonoBehaviour {
 
     public void LoadSelect()
     {
-        Debug.LogError("Load Select Page");
+        Debug.Log("Load Select Page");
         SceneManager.LoadScene(0);
     }
 }

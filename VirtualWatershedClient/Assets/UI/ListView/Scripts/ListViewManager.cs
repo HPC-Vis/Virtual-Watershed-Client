@@ -36,6 +36,10 @@ namespace VTL.ListView
         public delegate void SelectionChangeAction();
         public static event SelectionChangeAction SelectionChangeEvent;
 
+        // For use with the trend graph
+        public delegate void TrendgraphSelectionChangeAction(Guid guid);
+        public static event TrendgraphSelectionChangeAction TrendgraphSelectionChangeEvent;
+
         public List<HeaderElementInfo> headerElementInfo = new List<HeaderElementInfo>();
 
         public float rowHeight = 26f;
@@ -166,21 +170,21 @@ namespace VTL.ListView
 
             listData.Add(guid, new Dictionary<string, object>());
 
-            for (int i = 0; i < fieldData.Length; i++)
+            for (int i = 0; i < headerElementInfo.Count; i++)
+            {
                 listData[guid].Add(headerElementInfo[i].text, fieldData[i]);
+            }                
 
             listData[guid].Add(SELECTED, false);
             listData[guid].Add(GUID, guid);
         }
 
-        public void AddRow(object[] fieldData)
+        public Guid AddRow(object[] fieldData)
         {
             Guid guid = Guid.NewGuid();
             AddRow(fieldData, guid);
+            return guid;
         }
-
-
-
 
         public void OnSelectionEvent(Guid guid, int index)
         {
@@ -272,8 +276,25 @@ namespace VTL.ListView
                 return;
             }
 
-            if (SelectionChangeEvent != null)
-                SelectionChangeEvent();
+
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                if (SelectionChangeEvent != null)
+                {
+                    SelectionChangeEvent();
+                }
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                if (TrendgraphSelectionChangeEvent != null)
+                {
+                    TrendgraphSelectionChangeEvent(guid);
+                }
+            }
+            else
+            {
+                Debug.LogError("Problem loading the proper component.");
+            }
         }
 
         public bool IsSelectedOn(Guid guid)
@@ -390,13 +411,56 @@ namespace VTL.ListView
             return listPanel.transform.GetChild(index).GetComponent<Row>().guid;
         }
 
+        public Guid GetGuidAtSelectedIndex(int index)
+        {
+            int indexCount = 0;
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                foreach (var item in rows)
+                {
+                    var ROW = item.Value.GetComponent<Row>();
+                    if (ROW.isSelected)
+                    {
+                        if(indexCount == index)
+                        {
+                            return ROW.guid;
+                        }
+                        indexCount++;
+                    }
+                }
+                throw new ArgumentNullException("No index selected of that value.");
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                foreach (var item in rows)
+                {
+                    var ROW = item.Value.GetComponent<TrendGraphRow>();
+                    if (ROW.isSelected)
+                    {
+                        if (indexCount == index)
+                        {
+                            return ROW.guid;
+                        }
+                        indexCount++;
+                    }
+                }
+                throw new ArgumentNullException("No index selected of that value.");
+            }
+            else
+            {
+                throw new ArgumentNullException("Problem loading the proper component.");
+            }            
+        }
+
         public void UpdateRow(Guid guid, object[] fieldData)
         {
-            if (fieldData.Length != headerElementInfo.Count)
+            if (fieldData.Length < headerElementInfo.Count)
                 throw new System.Exception("fieldData does not match the size of the table!");
 
             for (int i = 0; i < fieldData.Length; i++)
+            {
                 listData[guid][headerElementInfo[i].text] = fieldData[i];
+            }               
 
             bool selected = (bool)listData[guid][SELECTED];
             rows[guid].GetComponent<Row>().SetFields(fieldData, guid, selected);
@@ -426,7 +490,19 @@ namespace VTL.ListView
             listData[guid][key] = data;
 
             bool selected = (bool)listData[guid][SELECTED];
-            rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
+
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                rows[guid].GetComponent<TrendGraphRow>().SetFields(listData[guid], guid, selected);
+            }
+            else
+            {
+                throw new ArgumentNullException("Problem loading the proper component.");
+            }            
         }
 
         public void UpdateRowField(int index, string key, object data)
@@ -498,8 +574,18 @@ namespace VTL.ListView
 
         public object[] GetRowContent(System.Guid GUID)
         {
-            // A convolude mess
-            return rows[GUID].GetComponent<Row>().GetContents();
+            if (RowPrefab.GetComponent("Row") != null)
+            {
+                return rows[GUID].GetComponent<Row>().GetContents();
+            }
+            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            {
+                return rows[GUID].GetComponent<TrendGraphRow>().GetContents();
+            }
+            else
+            {
+                throw new Exception("Problem loading the proper component.");
+            }
         }
 
         public void AddRow(object[] fieldData, ModelRun modelRun)
@@ -571,6 +657,20 @@ namespace VTL.ListView
                 }
             }
             return objects;
+        }
+
+        public List<TrendGraphRow> GetSelectedTrendGraphRows()
+        {
+            List<TrendGraphRow> sel = new List<TrendGraphRow>();
+            foreach (var item in rows)
+            {
+                TrendGraphRow ROW = item.Value.GetComponent<TrendGraphRow>();
+                if (ROW.isSelected)
+                {
+                    sel.Add(ROW);
+                }
+            }
+            return sel;
         }
 
         public List<ModelRun> GetSelectedModelRuns()

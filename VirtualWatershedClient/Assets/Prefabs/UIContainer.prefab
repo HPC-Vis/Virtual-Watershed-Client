@@ -18725,7 +18725,7 @@ GameObject:
   - 95: {fileID: 9586440}
   - 114: {fileID: 11468792}
   - 114: {fileID: 11499266}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19103,6 +19103,7 @@ GameObject:
   - 114: {fileID: 11496780}
   - 114: {fileID: 11468810}
   - 114: {fileID: 11483404}
+  - 114: {fileID: 11488352}
   m_Layer: 5
   m_Name: TrendGraph
   m_TagString: Untagged
@@ -33900,9 +33901,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198777fd580014c9061debd5c7f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Start Date
-  dataType: 5
-  preferredWidth: 100
+  text: Column
+  dataType: 2
+  preferredWidth: 1
 --- !u!114 &11404778
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -34573,8 +34574,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198777fd580014c9061debd5c7f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Row
-  dataType: 2
+  text: Variable
+  dataType: 0
   preferredWidth: 100
 --- !u!114 &11405728
 MonoBehaviour:
@@ -40272,7 +40273,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 100
+  m_PreferredWidth: 1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -48043,9 +48044,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16198777fd580014c9061debd5c7f714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: Col
+  text: Row
   dataType: 2
-  preferredWidth: 100
+  preferredWidth: 1
 --- !u!114 &11424448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60016,7 +60017,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11435928}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11488352}
+        m_MethodName: Remove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11440868
@@ -65894,7 +65906,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Start Date
+  m_Text: Column
 --- !u!114 &11448910
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80688,7 +80700,7 @@ MonoBehaviour:
     height: 0
   DataIndex: 0
   button: {fileID: 0}
-  selectedList: {fileID: 0}
+  selectedList: {fileID: 11488352}
 --- !u!114 &11468880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -82637,7 +82649,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Row
+  m_Text: Variable
 --- !u!114 &11471728
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -92338,7 +92350,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Col
+  m_Text: Row
 --- !u!114 &11484800
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -94830,6 +94842,19 @@ MonoBehaviour:
   text: Location
   dataType: 0
   preferredWidth: 90
+--- !u!114 &11488352
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a5d687a1bc27a4491d4bc21fe80cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectedList: {fileID: 11470154}
+  trendgraph: {fileID: 11468810}
 --- !u!114 &11488380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95299,7 +95324,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 100
+  m_PreferredWidth: 1
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -101788,7 +101813,7 @@ Projector:
   m_Material: {fileID: 2100000, guid: 66960dd9e8089d34aa9c0433437fbf65, type: 2}
   m_IgnoreLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32
 --- !u!120 &12025864
 LineRenderer:
   m_ObjectHideFlags: 1

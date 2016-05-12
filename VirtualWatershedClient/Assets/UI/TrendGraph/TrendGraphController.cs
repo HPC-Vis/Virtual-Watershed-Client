@@ -217,9 +217,9 @@ namespace VTL.TrendGraph
                     int x = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) * NormalizedPoint.x), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1);
                     int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1);
 
-                    SetPosition(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x);
-
-                    selectedList.AddRow(new object[] {"Lat: " + WorldPoint.z.ToString("#,##0") + "  Long: " + WorldPoint.x.ToString("#,##0"), tempFrameRef[0], ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x });
+                    // Set the row then redraw
+                    selectedList.AddRow(new object[] { WorldPoint.z.ToString("#,##0") + "  Long: " + WorldPoint.x.ToString("#,##0"), tempFrameRef[0], ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x });
+                    SetPosition(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x);                                        
                 }
             }
 
@@ -400,13 +400,13 @@ namespace VTL.TrendGraph
             }
 
             // Loop through all the time series
-            List<object[]> tempFrameRef = new List<object[]>();//selectedList.GetSelectedRowContent(); // ActiveData.GetCurrentAvtive();
+            List<object[]> tempFrameRef = selectedList.GetSelectedRowContent(); // ActiveData.GetCurrentAvtive();
             for (int j = 0; j < tempFrameRef.Count; j++)
             {
-                Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], 0));
+                Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], 0), (int)tempFrameRef[j][3], (int)tempFrameRef[j][4]);
                 for (int i = 0; i < ActiveData.GetCount((string)tempFrameRef[j][2]); i++)
                 {
-                    Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], i));
+                    Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], i), (int)tempFrameRef[j][3], (int)tempFrameRef[j][4]);
                     Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, (Color)tempFrameRef[j][0]);
                     prev = next; 
                 }
@@ -561,7 +561,7 @@ namespace VTL.TrendGraph
         /// </summary>
         /// <returns>The location of the pixel on the screen.</returns>
         /// <param name="record">The current record that is to be made a pixel.</param>
-        Vector2 Record2PixelCoords(Frame record)
+        Vector2 Record2PixelCoords(Frame record, int row, int col)
         {
             //float s = (float)(lastDraw - record.time).TotalSeconds;
             //float s = (float)(lastDraw - record.time).TotalSeconds;
@@ -570,7 +570,7 @@ namespace VTL.TrendGraph
             float normHeight = 0;
             if (record.Data != null)
             {
-                normHeight = Mathf.Clamp01((record.Data[Row, Col] - yMin) / (yMax - yMin));
+                normHeight = Mathf.Clamp01((record.Data[row, col] - yMin) / (yMax - yMin));
             }
             //float normHeight = Mathf.Clamp01((record.value - yMin) / (yMax - yMin));
             return new Vector2(w * normTime,
@@ -600,7 +600,7 @@ namespace VTL.TrendGraph
             Row = row;
             Col = col;
             Compute();
-            Debug.LogError("Trend Graph row: " + Row + " col: " + Col);
+            Debug.Log("Trend Graph row: " + row + " col: " + col);
         }
 
         /// <summary>

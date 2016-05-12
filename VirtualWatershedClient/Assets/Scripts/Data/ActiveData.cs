@@ -492,7 +492,6 @@ public class ActiveData : MonoBehaviour {
     public void HandDataToSpooler(List<DataRecord> Records)
     {
         // Set the record
-        Debug.LogError("Running");
         SliderFrames.Enqueue(Records[0]);
     }
 
@@ -501,7 +500,7 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     public void LoadSelected()
     {
-        Debug.LogError("Active Data Load Called");
+        Debug.Log("Active Data Load Called");
         // Load this 
         var temp = temporalList.listView.GetSelectedModelRuns();
         var seled = temporalList.listView.GetSelectedRowContent();

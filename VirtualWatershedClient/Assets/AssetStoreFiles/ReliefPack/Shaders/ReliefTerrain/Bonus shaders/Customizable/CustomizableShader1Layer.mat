@@ -1,0 +1,763 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: CustomizableShader1Layer
+  m_Shader: {fileID: 4800000, guid: 604b0ed2c61524f4e8d6faa662d11801, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 5
+  m_CustomRenderQueue: 2000
+  stringTagMap: {}
+  m_SavedProperties:
+    serializedVersion: 2
+    m_TexEnvs:
+      data:
+        first:
+          name: _MainTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 4874bc6fe33a3094582dcd43c235615e, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 96fdae319ce9b4e4ea779e8f742949b5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 2800000, guid: 677556af4fd8f564ca5ba4dff30ab10a, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ColorMapGlobal
+        second:
+          m_Texture: {fileID: 2800000, guid: 480af2a3990a0ba4dad5a53d79f76264, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMapGlobal
+        second:
+          m_Texture: {fileID: 2800000, guid: 290d7c2deedd33f44803b2e9b422cf9d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _VerticalTexture
+        second:
+          m_Texture: {fileID: 2800000, guid: e43e5115570674c4f82c48f2f532a90c, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: TERRAIN_RippleMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 87b672e098a28584d82865fa6f149b44, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HeightMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 85628394a296ba346a07cf33c869c0dd, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: TERRAIN_FlowingMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 8238403a96f1dc7438313114f1ce4eed, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _BumpMap2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _HeightMap2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: TERRAIN_CausticsTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 95bfa2a30f0bd77428f3a66c9e2eb64f, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _FlowMap
+        second:
+          m_Texture: {fileID: 2800000, guid: f56925d41483d174a8669b885cfb32d2, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SparkleMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 58d91b9c15e76ee489eb634baedb9497, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SparkleMapSnowUI
+        second:
+          m_Texture: {fileID: 2800000, guid: 58d91b9c15e76ee489eb634baedb9497, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SparkleMapUI
+        second:
+          m_Texture: {fileID: 2800000, guid: 58d91b9c15e76ee489eb634baedb9497, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+    m_Floats:
+      data:
+        first:
+          name: _BumpMapGlobalScale
+        second: 0.1
+      data:
+        first:
+          name: _GlobalColorMapSaturation
+        second: 0.6730769
+      data:
+        first:
+          name: _GlobalColorMapSaturationFar
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapBrightness
+        second: 0.8
+      data:
+        first:
+          name: _GlobalColorMapBrightnessFar
+        second: 1
+      data:
+        first:
+          name: _GlobalColorMapNearMIP
+        second: 0.8
+      data:
+        first:
+          name: _GlobalColorMapDistortByPerlin
+        second: 0.005
+      data:
+        first:
+          name: TERRAIN_CausticsAnimSpeed
+        second: 2
+      data:
+        first:
+          name: TERRAIN_CausticsTilingScale
+        second: 2
+      data:
+        first:
+          name: TERRAIN_RippleScale
+        second: 4
+      data:
+        first:
+          name: TERRAIN_FlowScale
+        second: 0.5
+      data:
+        first:
+          name: TERRAIN_FlowSpeed
+        second: 0.5
+      data:
+        first:
+          name: TERRAIN_FlowCycleScale
+        second: 1
+      data:
+        first:
+          name: TERRAIN_FlowMipOffset
+        second: 0
+      data:
+        first:
+          name: TERRAIN_DropletsSpeed
+        second: 15
+      data:
+        first:
+          name: TERRAIN_WetDarkening
+        second: 0.5
+      data:
+        first:
+          name: TERRAIN_WetDropletsStrength
+        second: 0.1
+      data:
+        first:
+          name: TERRAIN_mipoffset_flowSpeed
+        second: 0.6
+      data:
+        first:
+          name: _TERRAIN_distance_start
+        second: 0
+      data:
+        first:
+          name: _TERRAIN_distance_transition
+        second: 20
+      data:
+        first:
+          name: _TERRAIN_distance_start_bumpglobal
+        second: 0
+      data:
+        first:
+          name: _TERRAIN_distance_transition_bumpglobal
+        second: 50
+      data:
+        first:
+          name: rtp_perlin_start_val
+        second: 1
+      data:
+        first:
+          name: _VerticalTextureTiling
+        second: 2
+      data:
+        first:
+          name: _VerticalTextureGlobalBumpInfluence
+        second: 0.3
+      data:
+        first:
+          name: rtp_snow_strength
+        second: 0.76
+      data:
+        first:
+          name: rtp_global_color_brightness_to_snow
+        second: 0
+      data:
+        first:
+          name: rtp_snow_slope_factor
+        second: 1.65
+      data:
+        first:
+          name: rtp_snow_edge_definition
+        second: 3
+      data:
+        first:
+          name: rtp_snow_height_treshold
+        second: -100
+      data:
+        first:
+          name: rtp_snow_height_transition
+        second: 10
+      data:
+        first:
+          name: rtp_snow_gloss
+        second: 0.3075
+      data:
+        first:
+          name: rtp_snow_diff_fresnel
+        second: 1
+      data:
+        first:
+          name: TERRAIN_CausticsWaterLevel
+        second: 16.52
+      data:
+        first:
+          name: TERRAIN_CausticsWaterLevelByAngle
+        second: 4
+      data:
+        first:
+          name: TERRAIN_CausticsWaterDeepFadeLength
+        second: 54.269234
+      data:
+        first:
+          name: TERRAIN_CausticsWaterShallowFadeLength
+        second: 2.1423078
+      data:
+        first:
+          name: TERRAIN_GlobalWetness
+        second: 1
+      data:
+        first:
+          name: TERRAIN_RainIntensity
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WaterLevelSlopeDamp
+        second: 0.1
+      data:
+        first:
+          name: TERRAIN_WaterLevel
+        second: 1.291
+      data:
+        first:
+          name: TERRAIN_WaterEdge
+        second: 1.55
+      data:
+        first:
+          name: TERRAIN_Refraction
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WetRefraction
+        second: 0
+      data:
+        first:
+          name: TERRAIN_Flow
+        second: 0.543
+      data:
+        first:
+          name: TERRAIN_WetGloss
+        second: 0.1
+      data:
+        first:
+          name: TERRAIN_WaterSpecularity
+        second: 0.2
+      data:
+        first:
+          name: TERRAIN_WaterGloss
+        second: 0.865
+      data:
+        first:
+          name: TERRAIN_WetSpecularity
+        second: 0.1
+      data:
+        first:
+          name: _ExtrudeHeight
+        second: 0.0551
+      data:
+        first:
+          name: TERRAIN_FlowSpeedMap
+        second: 0
+      data:
+        first:
+          name: rtp_snow_metallic
+        second: 0
+      data:
+        first:
+          name: block_features
+        second: 1
+      data:
+        first:
+          name: RTP_UV_BLEND
+        second: 0
+      data:
+        first:
+          name: RTP_HEIGHTBLEND_AO
+        second: 0
+      data:
+        first:
+          name: RTP_GLITTER
+        second: 1
+      data:
+        first:
+          name: RTP_EMISSION
+        second: 0
+      data:
+        first:
+          name: block_main
+        second: 1
+      data:
+        first:
+          name: dummy_tiling
+        second: 0
+      data:
+        first:
+          name: dummy_misc
+        second: 0
+      data:
+        first:
+          name: _occlusionStrength
+        second: 1
+      data:
+        first:
+          name: block_layerprops
+        second: 1
+      data:
+        first:
+          name: active_layer
+        second: 1
+      data:
+        first:
+          name: dummy_layerPBR
+        second: 0
+      data:
+        first:
+          name: dummy_layerCorr
+        second: 0
+      data:
+        first:
+          name: dummy_layerEmission
+        second: 0
+      data:
+        first:
+          name: dummy_layerUVBlend
+        second: 0
+      data:
+        first:
+          name: block_perlin
+        second: 0
+      data:
+        first:
+          name: dummy_perlin
+        second: 0
+      data:
+        first:
+          name: rtp_snow_Frost
+        second: 0.5
+      data:
+        first:
+          name: rtp_snow_MicroTiling
+        second: 2
+      data:
+        first:
+          name: rtp_snow_BumpMicro
+        second: 0.1
+      data:
+        first:
+          name: rtp_snow_occlusionStrength
+        second: 0.504
+      data:
+        first:
+          name: rtp_snow_TranslucencyDeferredLightIndex
+        second: 0
+      data:
+        first:
+          name: block_glitter
+        second: 1
+      data:
+        first:
+          name: dummy_glitter
+        second: 0
+      data:
+        first:
+          name: _GlitterTiling
+        second: 0.8
+      data:
+        first:
+          name: _GlitterDensity
+        second: 0.05
+      data:
+        first:
+          name: _GlitterFilter
+        second: 0.5
+      data:
+        first:
+          name: _GlitterColorization
+        second: 0.6
+      data:
+        first:
+          name: dummy_end
+        second: 0
+      data:
+        first:
+          name: COLOR_MAP
+        second: 0
+      data:
+        first:
+          name: RTP_SNOW
+        second: 1
+      data:
+        first:
+          name: RTP_VERTICAL_TEXTURE
+        second: 0
+      data:
+        first:
+          name: RTP_CAUSTICS
+        second: 0
+      data:
+        first:
+          name: dummy_globaltextiling
+        second: 0
+      data:
+        first:
+          name: block_globalcolormap
+        second: 0
+      data:
+        first:
+          name: dummy_globalcolormap
+        second: 0
+      data:
+        first:
+          name: block_wetness
+        second: 0
+      data:
+        first:
+          name: dummy_wetness
+        second: 0
+      data:
+        first:
+          name: block_rain
+        second: 0
+      data:
+        first:
+          name: dummy_rain
+        second: 0
+      data:
+        first:
+          name: block_snow
+        second: 1
+      data:
+        first:
+          name: dummy_snow
+        second: 0
+      data:
+        first:
+          name: block_vert_tex
+        second: 0
+      data:
+        first:
+          name: dummy_vert_tex
+        second: 0
+      data:
+        first:
+          name: block_caustics
+        second: 0
+      data:
+        first:
+          name: dummy_caustics
+        second: 0
+      data:
+        first:
+          name: RTP_WETNESS
+        second: 0
+      data:
+        first:
+          name: RTP_WET_RIPPLE_TEXTURE
+        second: 0
+      data:
+        first:
+          name: dummy_features4
+        second: 0
+      data:
+        first:
+          name: dummy_features5
+        second: 0
+      data:
+        first:
+          name: RTP_FUILD_EMISSION_WRAP
+        second: 0
+      data:
+        first:
+          name: SIMPLE_WATER
+        second: 0
+      data:
+        first:
+          name: dummy_features6
+        second: 0
+      data:
+        first:
+          name: GLOBAL_PERLIN
+        second: 0
+      data:
+        first:
+          name: FLOWMAP
+        second: 0
+      data:
+        first:
+          name: VERTICAL_TEXTURE
+        second: 0
+      data:
+        first:
+          name: _Metalness0
+        second: 0
+      data:
+        first:
+          name: _GlossMin0
+        second: 0
+      data:
+        first:
+          name: _GlossMax0
+        second: 1
+      data:
+        first:
+          name: _FarSpecCorrection0
+        second: -0.099
+      data:
+        first:
+          name: RTP_DiffFresnel0
+        second: 1
+      data:
+        first:
+          name: _Metalness1
+        second: 0
+      data:
+        first:
+          name: _GlossMin1
+        second: 0
+      data:
+        first:
+          name: _GlossMax1
+        second: 1
+      data:
+        first:
+          name: _FarSpecCorrection1
+        second: 0
+      data:
+        first:
+          name: RTP_DiffFresnel1
+        second: 0
+      data:
+        first:
+          name: _LayerSaturation0
+        second: 0.991
+      data:
+        first:
+          name: _LayerSaturation1
+        second: 1
+      data:
+        first:
+          name: _MixBlend0
+        second: 0.5
+      data:
+        first:
+          name: _MixScale0
+        second: 0.14
+      data:
+        first:
+          name: _MixSaturation0
+        second: 1.296
+      data:
+        first:
+          name: _MixBrightness0
+        second: 3.5
+      data:
+        first:
+          name: _MixReplace0
+        second: 0
+      data:
+        first:
+          name: _MixBlend1
+        second: 0.5
+      data:
+        first:
+          name: _MixScale1
+        second: 0.125
+      data:
+        first:
+          name: _MixSaturation1
+        second: 1
+      data:
+        first:
+          name: _MixBrightness1
+        second: 2
+      data:
+        first:
+          name: _MixReplace1
+        second: 0.25
+      data:
+        first:
+          name: _LayerEmission0
+        second: 0
+      data:
+        first:
+          name: _LayerEmission1
+        second: 0
+      data:
+        first:
+          name: _BumpMapGlobalStrength0
+        second: 1.144
+      data:
+        first:
+          name: _BumpMapGlobalStrength1
+        second: 0.3
+      data:
+        first:
+          name: dummy_flowmap
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WaterEmission
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WaterMetallic
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WetFlow
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WaterGlossDamper
+        second: 0.09
+      data:
+        first:
+          name: _VerticalTextureStrength0
+        second: 1
+      data:
+        first:
+          name: _VerticalTextureStrength1
+        second: 0.5
+      data:
+        first:
+          name: _GlitterStrength0
+        second: 0
+      data:
+        first:
+          name: _GlitterStrength1
+        second: 1
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWaterStrength
+        second: 0
+      data:
+        first:
+          name: TERRAIN_WaterIBL_SpecWetStrength
+        second: 1
+    m_Colors:
+      data:
+        first:
+          name: _GlobalColorMapBlendValues
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: TERRAIN_CausticsColor
+        second: {r: 0.35865447, g: 0.5155181, b: 0.5223881, a: 0}
+      data:
+        first:
+          name: rtp_snow_color
+        second: {r: 0.8844615, g: 0.9002841, b: 0.9044118, a: 1}
+      data:
+        first:
+          name: rtp_snow_strength_per_layer0123
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: TERRAIN_WaterColor
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _TERRAIN_PosSize
+        second: {r: -26.12004, g: -34.622456, b: 50.929276, a: 67.357086}
+      data:
+        first:
+          name: _TERRAIN_Tiling
+        second: {r: 4, g: 4, b: 0, a: 0}
+      data:
+        first:
+          name: _LayerEmissionColor0
+        second: {r: 1, g: 1, b: 1, a: 0}
+      data:
+        first:
+          name: _LayerEmissionColor1
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 0}
+      data:
+        first:
+          name: _GlitterColor
+        second: {r: 0, g: 0, b: 0, a: 0}
+      data:
+        first:
+          name: _SnowGlitterColor
+        second: {r: 1, g: 1, b: 1, a: 0.044}
+      data:
+        first:
+          name: _LayerColor0
+        second: {r: 0.6544118, g: 0.6544118, b: 0.6544118, a: 1}
+      data:
+        first:
+          name: _LayerColor1
+        second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
