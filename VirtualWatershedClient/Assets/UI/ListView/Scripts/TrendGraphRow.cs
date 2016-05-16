@@ -60,7 +60,7 @@ public class TrendGraphRow : MonoBehaviour {
         rowElements[0].transform.SetParent(transform);
         rowElements[0].transform.localScale = Vector3.one;
 
-        // Set the text
+        // Set the color
         Image rowElementImage = rowElements[0].GetComponentInChildren<Image>();
         rowElementImage.color = (Color)fieldData[0];
 
@@ -99,6 +99,8 @@ public class TrendGraphRow : MonoBehaviour {
 
         Name = (string)fieldData[1];
         Variable = (string)fieldData[2];
+
+        // Additional pieces not shown in header
         Row = (int)fieldData[3];
         Col = (int)fieldData[4];
 
@@ -154,24 +156,17 @@ public class TrendGraphRow : MonoBehaviour {
         isSelected = selected;
         UpdateSelectionAppearance();
 
-        for (int i = 0; i < listViewManager.headerElementInfo.Count; i++)
-            rowElements[i].GetComponentInChildren<Text>().text =
-                StringifyObject(fieldData[i],
-                                listViewManager.headerElementInfo[i].formatString,
-                                listViewManager.headerElementInfo[i].dataType);
+        SetValues(fieldData);
     }
 
     public void SetFields(Dictionary<string, object> rowData, Guid guid, bool selected)
     {
-        this.guid = guid;
-        isSelected = selected;
-        UpdateSelectionAppearance();
-
+        object[] values = new object[listViewManager.headerElementInfo.Count];
         for (int i = 0; i < listViewManager.headerElementInfo.Count; i++)
-            rowElements[i].GetComponentInChildren<Text>().text =
-                StringifyObject(rowData[listViewManager.headerElementInfo[i].text],
-                                listViewManager.headerElementInfo[i].formatString,
-                                listViewManager.headerElementInfo[i].dataType);
+        {
+            values[i] = rowData[listViewManager.headerElementInfo[i].text];
+        }
+        SetFields(values, guid, selected);
     }
 
     public void OnSelectionEvent()
@@ -182,5 +177,28 @@ public class TrendGraphRow : MonoBehaviour {
     public object[] GetContents()
     {
         return content;
+    }
+
+    private void SetValues(object [] fieldData)
+    {
+        // Set the color
+        Image rowElementImage = rowElements[0].GetComponentInChildren<Image>();
+        rowElementImage.color = (Color)fieldData[0];
+        content[0] = (Color)fieldData[0];
+
+        // Build the row elements (cells)
+        for (int i = 1; i < fieldData.Length - 2; i++)
+        {
+            // Set the text
+            Text rowElementText = rowElements[i].GetComponentInChildren<Text>();
+            rowElementText.text =
+                StringifyObject(fieldData[i],
+                                listViewManager.headerElementInfo[i].formatString,
+                                listViewManager.headerElementInfo[i].dataType);
+            content[i] = fieldData[i];
+        }
+
+        Name = (string)fieldData[1];
+        Variable = (string)fieldData[2];
     }
 }

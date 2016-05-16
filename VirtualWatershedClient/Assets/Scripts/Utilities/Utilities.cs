@@ -565,10 +565,12 @@ public static class Utilities
     /// </summary>
     /// <returns>The data texture.</returns>
     /// <param name="data">Data.</param>
-    public static Texture2D BuildDataTexture(float [,] data, out float min, out float max, out float mean)
+    public static Texture2D BuildDataTexture(float [,] data, out ValueContainer minimum, out ValueContainer maximum, out float mean)
    	{
-        min = float.MaxValue;
-        max = float.MinValue;
+        float min = float.MaxValue;
+        float max = float.MinValue;
+        minimum = new ValueContainer(min, new Vector2(0,0));
+        maximum = new ValueContainer(max, new Vector2(0,0));
         mean = 0;
         float total = 0;
    		int width = data.GetLength(0);
@@ -584,11 +586,13 @@ public static class Utilities
                 if(data[i,j] > max)
                 {
                     max = data[i,j];
+                    maximum = new ValueContainer(max, new Vector2(i, j));
                     //Debug.LogError(data[i, j]);
                 }
                 if(data[i,j] < min)
                 {
                     min = data[i,j];
+                    minimum = new ValueContainer(min, new Vector2(i, j));
                     //Debug.LogError(data[i, j]);
                 }
    			}

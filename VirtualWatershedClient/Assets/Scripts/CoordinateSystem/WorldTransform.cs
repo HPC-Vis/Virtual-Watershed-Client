@@ -89,7 +89,7 @@ public class WorldTransform : MonoBehaviour
     /// <returns></returns>
     public bool createCoordSystem(string epsg)
     {
-        Debug.LogError("EPSG VALUE: " + epsg);
+        Logger.WriteLine("EPSG VALUE: " + epsg);
 		// Get the numeric part of the string
         if ("" != Regex.Match(epsg, @"(epsg:[0-9]+$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
         {
@@ -120,12 +120,10 @@ public class WorldTransform : MonoBehaviour
         
         
 		double[] pointed = new double[]{point.x,point.y};
-        Debug.LogError("BEFORE TRANFORM");
-        Debug.LogError(point);
+        Logger.WriteLine("BEFORE TRANFORM: " + point);
 		localTrans.TransformPoint (pointed);
 
-        Debug.LogError("AFTER TRANFORM");
-        Debug.LogError(new Vector2((float)pointed[0], (float)pointed[1]));
+        Logger.WriteLine("AFTER TRANFORM: " + new Vector2((float)pointed[0], (float)pointed[1]));
         //string tts2="";
         //localCoords.ExportToWkt(out tts2);
 
