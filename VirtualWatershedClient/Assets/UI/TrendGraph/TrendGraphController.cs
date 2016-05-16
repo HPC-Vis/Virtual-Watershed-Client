@@ -222,23 +222,7 @@ namespace VTL.TrendGraph
                     SetPosition(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x);                                        
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                Debug.LogError("Current Res: " + Screen.currentResolution);
-                Debug.LogError("Scale factor: " + parentCanvas.scaleFactor);
-                Debug.LogError("Origin: " + origin);
-                Debug.LogError("Width, Height: " + w + ", " + h);
-                Debug.LogError("Row, Col: " + Row + ", " + Col);
-                List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-                foreach(var value in tempFrameRef)
-                {
-                    Debug.LogError("The Data Value " + value + ": " + ActiveData.GetFrameAt(value, DataIndex).Data[Row, Col]);
-                }
-                
-                currentframeToFile();
-            }
-
+            
             // Check if there is active markers
             if(marker1.activeSelf && marker2.activeSelf)
             {
@@ -304,7 +288,6 @@ namespace VTL.TrendGraph
             marker1Col = 33;
             marker2Row = 46;
             marker2Col = 43;
-            currentframeToFile();
             BuildSlice();
         }
 
@@ -404,7 +387,7 @@ namespace VTL.TrendGraph
             for (int j = 0; j < tempFrameRef.Count; j++)
             {
                 Vector2 prev = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], 0), (int)tempFrameRef[j][3], (int)tempFrameRef[j][4]);
-                for (int i = 0; i < ActiveData.GetCount((string)tempFrameRef[j][2]); i++)
+                for (int i = 1; i < ActiveData.GetCount((string)tempFrameRef[j][2]); i++)
                 {
                     Vector2 next = Record2PixelCoords(ActiveData.GetFrameAt((string)tempFrameRef[j][2], i), (int)tempFrameRef[j][3], (int)tempFrameRef[j][4]);
                     Line(TrendTexture, (int)prev.x, (int)prev.y, (int)next.x, (int)next.y, (Color)tempFrameRef[j][0]);
@@ -649,45 +632,22 @@ namespace VTL.TrendGraph
         /// </summary>
         public void dataToFile()
         {
-            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-            foreach(var name in tempFrameRef)
+            List<object[]> tempFrameRef = selectedList.GetSelectedRowContent(); // ActiveData.GetCurrentAvtive();
+            for (int j = 0; j < tempFrameRef.Count; j++)
             {
-                String pathDownload = Utilities.GetFilePath(name + "_graph.csv");
+                String pathDownload = Utilities.GetFilePath((string)tempFrameRef[j][2] + "_" + tempFrameRef[j][3] + "_" + tempFrameRef[j][4] + "_graph.csv");
                 using (StreamWriter file = new StreamWriter(@pathDownload))
-                {
-                    file.WriteLine(variable_name + ": " + unitsLabel);
+                {                 
+                    file.WriteLine((string)tempFrameRef[j][2] + ": " + VariableReference.GetDescription((string)tempFrameRef[j][2]));
                     file.WriteLine("Time Frame: " + Begin.ToString() + " to " + End.ToString());
-                    file.WriteLine("UTM: (" + easting + ", " + northing + ")");
+                    file.WriteLine((string)tempFrameRef[j][1]);
                     file.WriteLine("UTM Zone: " + coordsystem.localzone);
-                    for (int i = 0; i < ActiveData.GetCount(name); i++)
+                    for (int i = 0; i < ActiveData.GetCount((string)tempFrameRef[j][2]); i++)
                     {
-                        file.Write(ActiveData.GetFrameAt(name, i).Data[Row, Col] + ", ");
+                        file.Write(ActiveData.GetFrameAt(name, i).Data[(int)tempFrameRef[j][3] , (int)tempFrameRef[j][4]] + ", ");
                     }
                 }
             }
-        }
-
-        /// <summary>
-        /// This will send all the data from the current frame to a file
-        /// </summary>
-        public void currentframeToFile()
-        {
-            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
-            foreach (var name in tempFrameRef)
-            {
-                String pathDownload = Utilities.GetFilePath(name + "_frameToFile.csv");
-                using (StreamWriter file = new StreamWriter(@pathDownload))
-                {
-                    for (int i = 0; i < ActiveData.GetFrameAt(name, DataIndex).Data.GetLength(1); i++)
-                    {
-                        for (int j = 0; j < ActiveData.GetFrameAt(name, DataIndex).Data.GetLength(0); j++)
-                        {
-                            file.Write(ActiveData.GetFrameAt(name, DataIndex).Data[i, j] + ", ");
-                        }
-                        file.Write("\n");
-                    }
-                }
-            }
-        }
+        }        
     }
 }

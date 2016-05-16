@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine.UI;
 using VTL.TrendGraph;
+using System.IO;
 
 public struct Frame
 {
@@ -11,12 +12,14 @@ public struct Frame
     public DateTime starttime;
     public DateTime endtime;
     public float[,] Data;
+    public DataRecord record;
 
-    public Frame(bool init = false)
+    public Frame(DataRecord rec, bool init = false)
     {
         Picture = null;
         starttime = DateTime.MinValue;
         endtime = DateTime.MinValue;
+        record = rec;
         if(init)
         {
             Data = new float[100, 100];
@@ -80,6 +83,8 @@ public class ActiveData : MonoBehaviour {
     public ModelRunLoader temporalList;
     public Text DownloadTextbox;
     public static int GRAND_TOTAL = 0;
+    public InputField minField;
+    public InputField maxField;
 
     // List of objects subscribing to the active data
     public Spooler spool;
@@ -87,13 +92,36 @@ public class ActiveData : MonoBehaviour {
 
     // Locals
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
-    private float Max = float.MinValue;
-    private float Min = float.MaxValue;
+    private float Max
+    {
+        get
+        {
+            return Max;
+        }
+        set
+        {
+            Max = value;
+            maxField.text = Max.ToString();
+        }
+    }    
+
+    private float Min
+    {
+        get
+        {
+            return Min;
+        }
+        set
+        {
+            Min = value;
+            minField.text = Min.ToString();
+        }
+    }
+
     private DateTime Start = DateTime.MaxValue;
     private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
-    
     void Update()
     {
         // This if statement is used for debugging code
@@ -251,7 +279,8 @@ public class ActiveData : MonoBehaviour {
         }
         var TS = rec.end.Value - rec.start.Value;
         double totalhours = TS.TotalHours / rec.Data.Count;
-        float max, min, mean;
+        float mean;
+        ValueContainer max, min;
         if (rec.Data.Count > 1)
         {
             UpdateTotal(rec.variableName, rec.Data.Count);
@@ -271,7 +300,7 @@ public class ActiveData : MonoBehaviour {
         for (int j = 0; j < rec.Data.Count; j++)
         {
             // Build the Frame to pass in
-            Frame frame = new Frame();
+            Frame frame = new Frame(rec);
 
 
             if (rec.Data.Count == 1)
@@ -301,8 +330,8 @@ public class ActiveData : MonoBehaviour {
             if (!Active[rec.variableName].WMS)
             {
                 tex = Utilities.BuildDataTexture(rec.Data[j], out min, out max, out mean);
-                rec.Min = Math.Min(min, rec.Min);
-                rec.Max = Math.Max(max, rec.Max);
+                rec.MinContainer = min;
+                rec.MaxContainer = max;
                 rec.Mean = mean;
                 var vari = Active[rec.variableName].modelrun.GetVariable(rec.variableName);
                 vari.meanSum += mean;
@@ -462,7 +491,7 @@ public class ActiveData : MonoBehaviour {
         {
             if(Active[variable].frames.Count <= 0)
             {
-                returnvalue = new Frame(true);
+                returnvalue = new Frame(null, true);
             }
             else
             {
@@ -550,6 +579,29 @@ public class ActiveData : MonoBehaviour {
             {
                 Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
+            }
+        }
+    }
+
+    /// <summary>
+    /// This will send all the data from the current frame to a file
+    /// </summary>
+    public void currentframeToFile()
+    {
+        List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+        foreach (var name in tempFrameRef)
+        {
+            String pathDownload = Utilities.GetFilePath(name + "_frameToFile.csv");
+            using (StreamWriter file = new StreamWriter(@pathDownload))
+            {
+                for (int i = 0; i < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(1); i++)
+                {
+                    for (int j = 0; j < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0); j++)
+                    {
+                        file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[i, j] + ", ");
+                    }
+                    file.Write("\n");
+                }
             }
         }
     }

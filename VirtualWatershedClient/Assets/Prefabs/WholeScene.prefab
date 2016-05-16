@@ -48114,6 +48114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   temporalList: {fileID: 11464538}
   DownloadTextbox: {fileID: 11462394}
+  minField: {fileID: 0}
+  maxField: {fileID: 0}
   spool: {fileID: 11482050}
   trendGraph: {fileID: 11415204}
 --- !u!114 &11426258
