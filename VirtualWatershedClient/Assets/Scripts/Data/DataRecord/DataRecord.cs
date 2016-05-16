@@ -3,6 +3,23 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
+/// <summary>
+/// A class to contain a Min of Max and store the location.
+/// This is for ease of lookup.
+/// </summary>
+public class ValueContainer
+{
+    // Data
+    public float value;
+    public Vector2 location;
+
+    public ValueContainer(float newValue, Vector2 newLocation)
+    {
+        value = newValue;
+        location = newLocation;
+    }
+}
+
 /** 
  * @author Chase Carthen
  * @brief This is the dataRecord class meant to hold any information downloaded from the virutal watershed.
@@ -57,6 +74,12 @@ public class DataRecord : IEquatable<DataRecord>
 	}
 	public WMS_CAPABILITIES.WMT_MS_CapabilitiesCapabilityLayerLayer[] wmslayers = null;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns></returns>
     public static bool operator ==(DataRecord a, DataRecord b)
     {
         // If both are null, or both are same instance, return true.
@@ -253,6 +276,35 @@ public class DataRecord : IEquatable<DataRecord>
     // For the min and max of the record
     public float Min = float.MaxValue;
     public float Max = float.MinValue;
+    //public ValueContainer MinContainer = new ValueContainer(float.MaxValue, Vector2.zero);
+    //public ValueContainer MaxContainer = new ValueContainer(float.MinValue, Vector2.zero);
+
+    public ValueContainer MinContainer
+    {
+        get
+        {
+            return MinContainer;
+        }
+        set
+        {
+            MinContainer = value;
+            Min = value.value;
+        }
+    }
+    public ValueContainer MaxContainer
+    {
+        get
+        {
+            return MaxContainer;
+        }
+        set
+        {
+            MaxContainer = value;
+            Max = value.value;
+        }
+    }
+
+
     public float Mean = 0;
 
 	// Another patch to make things go faster

@@ -81,7 +81,7 @@ public class FileBrowse : MonoBehaviour {
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Disregard not loadable directory.");
+                    Debug.Log("Disregard not loadable directory.");
                 }
             }
 

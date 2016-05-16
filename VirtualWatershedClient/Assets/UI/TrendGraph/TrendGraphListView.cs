@@ -3,6 +3,7 @@ using System.Collections;
 using VTL.ListView;
 using System;
 using System.Collections.Generic;
+using VTL.TrendGraph;
 
 public class TrendGraphListView : MonoBehaviour {
 
@@ -21,6 +22,7 @@ public class TrendGraphListView : MonoBehaviour {
     // The selected graph points
     public ListViewManager selectedList;
     public Queue<GraphColor> colors = new Queue<GraphColor>();
+    public TrendGraphController trendgraph;
 
     // Use this for initialization
     void Start () {
@@ -28,6 +30,9 @@ public class TrendGraphListView : MonoBehaviour {
         colors.Enqueue(new GraphColor(Color.blue));
         colors.Enqueue(new GraphColor(Color.green));
         colors.Enqueue(new GraphColor(Color.white));
+
+        // Set the selection event
+        ListViewManager.TrendgraphSelectionChangeEvent += SelectionEvent;
     }
 	
 	// Update is called once per frame
@@ -37,14 +42,67 @@ public class TrendGraphListView : MonoBehaviour {
 
     internal void AddRow(object[] v)
     {
-        GraphColor temp = colors.Dequeue();
-        object[] newObj = { temp.color, v[0], v[1], v[2], v[3] };
-        
-        selectedList.AddRow(newObj);
+        List<TrendGraphRow> selected = selectedList.GetSelectedTrendGraphRows();
+        if(selected.Count == 3)
+        {
+            selectedList.SetRowSelection(selected[0].guid, !selected[0].isSelected);            
+            selectedList.UpdateRowField(selected[0].guid, " ", Color.clear);
+        }
+
+        object[] newObj = { colors.Dequeue().color, v[0], v[1], v[2], v[3] };
+        colors.Enqueue(new GraphColor((Color)newObj[0]));
+
+        Guid id = selectedList.AddRow(newObj);
+        selectedList.SetRowSelection(id, true);
     }
 
     internal List<object[]> GetSelectedRowContent()
     {
-        throw new NotImplementedException();
+        return selectedList.GetSelectedRowContent(); 
+    }
+
+    public void SelectionEvent(Guid guid)
+    {
+        Color currentRowColor = (Color)selectedList.GetRowContent(guid)[0];
+        if (currentRowColor != Color.clear)
+        {            
+            int colorSize = colors.Count;
+            colors.Enqueue(new GraphColor(currentRowColor));
+            for(int i = 0; i < colorSize; i++)
+            {
+                Color temp = colors.Dequeue().color;
+                if(temp != currentRowColor)
+                {
+                    colors.Enqueue(new GraphColor(temp));
+                }                
+            }
+            selectedList.UpdateRowField(guid, " ", Color.clear);
+        }
+        else
+        {
+            List<TrendGraphRow> selected = selectedList.GetSelectedTrendGraphRows();
+
+            if (selected.Count > 3)
+            {
+                int index = 0;
+                while ((Color)selected[index].GetContents()[0] != colors.Peek().color)
+                {
+                    index++;
+                }
+                selectedList.SetRowSelection(selected[index].guid, !selected[index].isSelected);
+                selectedList.UpdateRowField(selected[index].guid, " ", Color.clear);
+            }
+
+            Color newcolor = colors.Dequeue().color;
+            selectedList.UpdateRowField(guid, " ", newcolor);
+            colors.Enqueue(new GraphColor(newcolor));
+        }
+        trendgraph.Compute();
+    }
+
+    public void Remove()
+    {
+        selectedList.RemoveSelected();
+        trendgraph.Compute();
     }
 }

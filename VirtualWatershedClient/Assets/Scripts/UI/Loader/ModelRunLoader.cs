@@ -36,7 +36,7 @@ public class ModelRunLoader : MonoBehaviour {
             var MR = ModelRunManager.GetByUUID(i);
             Logger.WriteLine("<color=green>Adding Model Run Variables: " + MR.GetVariables().Count + ".</color>");
             List<string> variables = MR.GetVariables();
-			Debug.LogError("VARIABLES COUNT: " + variables.Count);
+            Logger.WriteLine("VARIABLES COUNT: " + variables.Count);
 			
             foreach (var variable in variables)
             {
