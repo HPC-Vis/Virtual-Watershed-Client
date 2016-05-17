@@ -22,28 +22,23 @@ public class ToggleObjects : MonoBehaviour
         {
             togglables[i].SetActive(!togglables[i].activeSelf);
         }
-        /*if (objectsOn)
+
+        objectsOn = !objectsOn;
+    }
+
+    public void ToggleToState(bool stateToggle)
+    {
+        if(stateToggle != objectsOn)
         {
-            for (int i = 0; i < togglables.Length; i++)
-            {
-                togglables[i].SetActive(false);
-            }
-            objectsOn = false;
+            toggleObjects();
         }
-        else
-        {
-            for (int i = 0; i < togglables.Length; i++)
-            {
-                togglables[i].SetActive(true);
-            }
-            objectsOn = true;
-        }*/
     }
 
     public void toggleOn()
     {
         for (int i = 0; i < togglables.Length; i++)
         {
+            if(!togglables[i].activeSelf)
             togglables[i].SetActive(true);
         }
     }
@@ -52,6 +47,7 @@ public class ToggleObjects : MonoBehaviour
     {
         for (int i = 0; i < togglables.Length; i++)
         {
+            if(togglables[i].activeSelf)
             togglables[i].SetActive(false);
         }
     }

@@ -124,8 +124,15 @@ public class ActiveData : MonoBehaviour {
     private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
+
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            Debug.LogError("HERE");
+            ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+        }
+
         // This if statement is used for debugging code
         if (Input.GetKeyDown(KeyCode.L))
         {
@@ -570,7 +577,7 @@ public class ActiveData : MonoBehaviour {
                 trendGraph.Clear();
                 GRAND_TOTAL = 0;
             }
-
+            Debug.LogError("DOWNLOADING");
             // Set the download based on the doqq in description
             if (temp[index].Description.ToLower().Contains("doqq"))
             {

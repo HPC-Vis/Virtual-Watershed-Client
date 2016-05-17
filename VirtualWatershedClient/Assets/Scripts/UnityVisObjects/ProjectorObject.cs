@@ -2,11 +2,11 @@
 using System.Collections;
 using System;
 
-public class ProjectorObject : MonoBehaviour {
+public class ProjectorObject : WorldObject {
 
 	// Use this for initialization
 	void Start () {
-	
+        IsRaster = true;
 	}
 	
 	// Update is called once per frame
@@ -14,6 +14,45 @@ public class ProjectorObject : MonoBehaviour {
 	
 	}
 
+    public override bool saveData(string filename, string format = "")
+    {
+        return false;
+    }
+
+    public override bool moveObject(Vector3 displacement)
+    {
+        Offset = displacement;
+        gameObject.transform.position += displacement;
+        return true;
+    }
+
+    public override bool changeProjection(string projectionString)
+    {
+        return false;
+    }
+
+    public override void alterData()
+    {
+
+    }
+
+    public override void getData()
+    {
+
+    }
+
+    public override SessionObjectStructure saveSessionData()
+    {
+        SessionObjectStructure structure = new SessionObjectStructure();
+        structure.Name = record.name;
+        structure.GameObjectPosition = gameObject.transform.position;
+        structure.GameObjectOffset += Offset;
+        structure.Projection = record.projection;
+        structure.Sources = record.services;
+        //structure.Modified =
+        //structure.Created = record.s Need to acquire created data for datarecord. --- In the json from the virtual watershed 
+        return structure;
+    }
 
     public void PlaceProjector(DataRecord record, out Vector2 BoundingScale)
     {
@@ -56,8 +95,8 @@ public class ProjectorObject : MonoBehaviour {
         point = upperLeft;
         Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
         pos.y += 10;
-
         point = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y));
+
         float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
 
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
@@ -101,12 +140,13 @@ public class ProjectorObject : MonoBehaviour {
 
         //tran.setOrigin(coordsystem.WorldOrigin);
 
-        //Vector2 origin = tran.transformPoint(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
+        //Vector2 origin = new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
 
         // tran.setOrigin(origin);
 
 
         Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
+
         Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
         Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
         Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height)); ;

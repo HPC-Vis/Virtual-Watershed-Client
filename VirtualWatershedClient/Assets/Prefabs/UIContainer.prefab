@@ -49405,6 +49405,7 @@ MonoBehaviour:
   downloadManager: {fileID: 11445930}
   listView: {fileID: 11469806}
   listViewables: {fileID: 11424976}
+  Options: {fileID: 0}
   LineMaterial: {fileID: 2100000, guid: b9562b1971eea954e9a14c88d725e4ee, type: 2}
 --- !u!114 &11426724
 MonoBehaviour:
@@ -94865,7 +94866,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedList: {fileID: 11470154}
-  trendgraph: {fileID: 11468810}
+  trendgraph: {fileID: 0}
 --- !u!114 &11488380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97223,6 +97224,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86d6f748fab44cb41b292a94c61f4bd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Offset: {x: 0, y: 0, z: 0}
+  record:
+    id: 
+    name: 
+    bbox: 
+    bbox2: 
+    projection: 
+    model_set_type: 
+    boundingBox:
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    WMSCapabilities: 
+    WFSCapabilities: 
+    WCSCapabilities: 
+    GDALPath: 
+    description: 
+    state: 
+    location: 
+    title: 
+    modelname: 
+    modelRunUUID: 
+    variableName: 
+    Min: 3.4028235e+38
+    Max: -3.4028235e+38
+    Mean: 0
+    multiLayered: none
+    numbands: 1
+    band_id: -1
+    Temporal: 0
+    isSet: 0
+    texture: 
+    Type: 
+    width: 0
+    height: 0
+    xBound: 0
+    yBound: 0
+    xwidth: 0
+    yheight: 0
+    Identifier: 
+    Layer: 
+  IsRaster: 0
 --- !u!114 &11492472
 MonoBehaviour:
   m_ObjectHideFlags: 1

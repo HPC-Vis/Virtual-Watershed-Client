@@ -2,14 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
+using UnityEngine.UI;
 
 public class ModelRunLoader : MonoBehaviour {
     
     public DownloadManager downloadManager;
     public ListViewManager listView;
+    public Dropdown Options;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 	}
 	
 	// Update is called once per frame
@@ -17,7 +19,7 @@ public class ModelRunLoader : MonoBehaviour {
 	    if(Input.GetKeyDown(KeyCode.P))
         {
             Debug.LogError("HERE");
-            //ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
+            ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
         }
 	}
 
@@ -49,6 +51,7 @@ public class ModelRunLoader : MonoBehaviour {
 					}
 
                 	listView.AddRow(new object[] { MR.ModelName, MR.ModelRunUUID, variable, desription},MR);
+                    
 				}
             }
             

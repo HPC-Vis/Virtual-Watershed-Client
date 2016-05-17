@@ -18,6 +18,8 @@ public static class ModelRunManager
     static private VWClient Client;
     static bool locationUpdate = false;
 
+    static public SessionData sessionData = new SessionData();
+
     // Global loading counter
     static public int Total = 0;
     static public int Counter = 0;
@@ -174,6 +176,7 @@ public static class ModelRunManager
             }
             else if (records.Count == 1 && records[0].services.ContainsKey("file"))
             {
+                Debug.LogError("FILE OPERATION");
                 new Thread(() => DownloadFile(records[0].Clone(), SettingTheRecord)).Start();
             }
             else
@@ -820,6 +823,7 @@ public static class ModelRunManager
         // Save things to cache
         //FileBasedCache.Insert<Dictionary<string, GeoReference>>(cacheRestoreEntry, storedGeoRefs);
         // or should we clear the cache!!!!!
+        modelRuns.Clear();
     }
 
     static public void PopulateModelRunData(string ModelRunUUID)

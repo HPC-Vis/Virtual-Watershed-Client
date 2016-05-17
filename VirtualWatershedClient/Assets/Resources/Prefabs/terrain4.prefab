@@ -116,7 +116,7 @@ MonoBehaviour:
   presetHolders: []
   globalSettingsHolder:
     useTerrainMaterial: 1
-    numTiles: 4
+    numTiles: 0
     numLayers: 4
     gloss_baked:
     - {fileID: 0}
@@ -162,8 +162,8 @@ MonoBehaviour:
     _RTP_LODmanagerScript: {fileID: 0}
     super_simple_active: 0
     RTP_MIP_BIAS: 0
-    _SpecColor: {r: .784313738, g: .784313738, b: .784313738, a: 1}
-    RTP_DeferredAddPassSpec: .5
+    _SpecColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    RTP_DeferredAddPassSpec: 0.5
     MasterLayerBrightness: 1
     MasterLayerSaturation: 1
     EmissionRefractFiltering: 4
@@ -181,32 +181,32 @@ MonoBehaviour:
     SSColorCombinedA: {fileID: 0}
     SSColorCombinedB: {fileID: 0}
     VerticalTexture: {fileID: 0}
-    BumpMapGlobalScale: .100000001
-    GlobalColorMapBlendValues: {x: .200000003, y: .400000006, z: .5}
+    BumpMapGlobalScale: 0.1
+    GlobalColorMapBlendValues: {x: 0.2, y: 0.4, z: 0.5}
     _GlobalColorMapNearMIP: 0
     GlobalColorMapSaturation: 1
     GlobalColorMapSaturationFar: 1
-    GlobalColorMapDistortByPerlin: .00499999989
+    GlobalColorMapDistortByPerlin: 0.005
     GlobalColorMapBrightness: 1
     GlobalColorMapBrightnessFar: 1
-    _FarNormalDamp: .200000003
+    _FarNormalDamp: 0.2
     blendMultiplier: 1
-    terrainTileSize: {x: 0, y: 0, z: 0}
+    terrainTileSize: {x: 2048, y: 1170, z: 2048}
     HeightMap: {fileID: 0}
     ReliefTransform: {x: 400, y: 400, z: 0, w: 0}
     DIST_STEPS: 20
     WAVELENGTH: 2
     ReliefBorderBlend: 6
-    ExtrudeHeight: .075000003
+    ExtrudeHeight: 0.075
     LightmapShading: 0
     RTP_AOsharpness: 1.5
-    RTP_AOamp: .100000001
+    RTP_AOamp: 0.1
     colorSpaceLinear: 0
     SHADOW_STEPS: 20
     WAVELENGTH_SHADOWS: 2
-    SelfShadowStrength: .800000012
+    SelfShadowStrength: 0.8
     ShadowSmoothing: 1
-    ShadowSoftnessFade: .800000012
+    ShadowSoftnessFade: 0.8
     distance_start: 5
     distance_transition: 30
     distance_start_bumpglobal: 30
@@ -219,14 +219,14 @@ MonoBehaviour:
     _TessYOffset: 0
     trees_shadow_distance_start: 50
     trees_shadow_distance_transition: 10
-    trees_shadow_value: .5
+    trees_shadow_value: 0.5
     trees_pixel_distance_start: 500
     trees_pixel_distance_transition: 10
     trees_pixel_blend_val: 2
     global_normalMap_multiplier: 1
     global_normalMap_farUsage: 0
     _AmbientEmissiveMultiplier: 1
-    _AmbientEmissiveRelief: .5
+    _AmbientEmissiveRelief: 0.5
     HeightMap2: {fileID: 0}
     HeightMap3: {fileID: 0}
     rtp_mipoffset_globalnorm: 0
@@ -236,19 +236,19 @@ MonoBehaviour:
     TERRAIN_ReflectionMap: {fileID: 0}
     TERRAIN_ReflectionMap_channel: 0
     TERRAIN_ReflColorA: {r: 1, g: 1, b: 1, a: 1}
-    TERRAIN_ReflColorB: {r: .392156869, g: .470588237, b: .509803951, a: 1}
-    TERRAIN_ReflColorC: {r: .156862751, g: .188235298, b: .235294119, a: 1}
-    TERRAIN_ReflColorCenter: .5
-    TERRAIN_ReflGlossAttenuation: .5
-    TERRAIN_ReflectionRotSpeed: .300000012
+    TERRAIN_ReflColorB: {r: 0.39215687, g: 0.47058824, b: 0.50980395, a: 1}
+    TERRAIN_ReflColorC: {r: 0.15686275, g: 0.1882353, b: 0.23529412, a: 1}
+    TERRAIN_ReflColorCenter: 0.5
+    TERRAIN_ReflGlossAttenuation: 0.5
+    TERRAIN_ReflectionRotSpeed: 0.3
     TERRAIN_GlobalWetness: 1
     TERRAIN_RippleMap: {fileID: 0}
     TERRAIN_RippleScale: 4
     TERRAIN_FlowScale: 1
-    TERRAIN_FlowSpeed: .5
+    TERRAIN_FlowSpeed: 0.5
     TERRAIN_FlowCycleScale: 1
     TERRAIN_FlowMipOffset: 0
-    TERRAIN_WetDarkening: .5
+    TERRAIN_WetDarkening: 0.5
     TERRAIN_WetDropletsStrength: 0
     TERRAIN_WetHeight_Treshold: -200
     TERRAIN_WetHeight_Transition: 5
@@ -264,15 +264,15 @@ MonoBehaviour:
     TERRAIN_CausticsWaterShallowFadeLength: 30
     TERRAIN_CausticsTilingScale: 1
     TERRAIN_CausticsTex: {fileID: 0}
-    rtp_customAmbientCorrection: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+    rtp_customAmbientCorrection: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     _CubemapDiff: {fileID: 0}
-    TERRAIN_IBL_DiffAO_Damp: .25
+    TERRAIN_IBL_DiffAO_Damp: 0.25
     _CubemapSpec: {fileID: 0}
-    TERRAIN_IBLRefl_SpecAO_Damp: .5
-    RTP_LightDefVector: {x: .0500000007, y: .5, z: .5, w: 25}
-    RTP_ReflexLightDiffuseColor: {r: .792156875, g: .941176474, b: 1, a: .200000003}
-    RTP_ReflexLightDiffuseColor2: {r: .792156875, g: .941176474, b: 1, a: .200000003}
-    RTP_ReflexLightSpecColor: {r: .941176474, g: .960784316, b: 1, a: .150000006}
+    TERRAIN_IBLRefl_SpecAO_Damp: 0.5
+    RTP_LightDefVector: {x: 0.05, y: 0.5, z: 0.5, w: 25}
+    RTP_ReflexLightDiffuseColor: {r: 0.7921569, g: 0.9411765, b: 1, a: 0.2}
+    RTP_ReflexLightDiffuseColor2: {r: 0.7921569, g: 0.9411765, b: 1, a: 0.2}
+    RTP_ReflexLightSpecColor: {r: 0.9411765, g: 0.9607843, b: 1, a: 0.15}
     Bumps:
     - {fileID: 0}
     - {fileID: 0}
@@ -318,10 +318,10 @@ MonoBehaviour:
     - 0
     - 0
     MixScale:
-    - .200000003
-    - .200000003
-    - .200000003
-    - .200000003
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
     - 0
     - 0
     - 0
@@ -331,10 +331,10 @@ MonoBehaviour:
     - 0
     - 0
     MixBlend:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -344,10 +344,10 @@ MonoBehaviour:
     - 0
     - 0
     MixSaturation:
-    - .300000012
-    - .300000012
-    - .300000012
-    - .300000012
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.3
     - 0
     - 0
     - 0
@@ -357,10 +357,10 @@ MonoBehaviour:
     - 0
     - 0
     RTP_gloss2mask:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -383,10 +383,10 @@ MonoBehaviour:
     - 0
     - 0
     RTP_gloss_shaping:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -435,10 +435,10 @@ MonoBehaviour:
     - 0
     - 0
     RTP_IBL_bump_smoothness:
-    - .699999988
-    - .699999988
-    - .699999988
-    - .699999988
+    - 0.7
+    - 0.7
+    - 0.7
+    - 0.7
     - 0
     - 0
     - 0
@@ -448,10 +448,10 @@ MonoBehaviour:
     - 0
     - 0
     RTP_IBL_DiffuseStrength:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -461,10 +461,10 @@ MonoBehaviour:
     - 0
     - 0
     RTP_IBL_SpecStrength:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -838,10 +838,10 @@ MonoBehaviour:
     - 0
     - 0
     _BumpMapGlobalStrength:
-    - .300000012
-    - .300000012
-    - .300000012
-    - .5
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.5
     - 0
     - 0
     - 0
@@ -864,10 +864,10 @@ MonoBehaviour:
     - 0
     - 0
     VerticalTextureStrength:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -923,10 +923,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterLevel:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -936,10 +936,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterLevelSlopeDamp:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -962,10 +962,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterSpecularity:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -975,10 +975,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterGloss:
-    - .100000001
-    - .100000001
-    - .100000001
-    - .100000001
+    - 0.1
+    - 0.1
+    - 0.1
+    - 0.1
     - 0
     - 0
     - 0
@@ -1001,10 +1001,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterOpacity:
-    - .300000012
-    - .300000012
-    - .300000012
-    - .300000012
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.3
     - 0
     - 0
     - 0
@@ -1014,10 +1014,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_Refraction:
-    - .00999999978
-    - .00999999978
-    - .00999999978
-    - .00999999978
+    - 0.01
+    - 0.01
+    - 0.01
+    - 0.01
     - 0
     - 0
     - 0
@@ -1027,10 +1027,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WetRefraction:
-    - .200000003
-    - .200000003
-    - .200000003
-    - .200000003
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
     - 0
     - 0
     - 0
@@ -1040,10 +1040,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_Flow:
-    - .300000012
-    - .300000012
-    - .300000012
-    - .300000012
+    - 0.3
+    - 0.3
+    - 0.3
+    - 0.3
     - 0
     - 0
     - 0
@@ -1053,10 +1053,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WetFlow:
-    - .0500000007
-    - .0500000007
-    - .0500000007
-    - .0500000007
+    - 0.05
+    - 0.05
+    - 0.05
+    - 0.05
     - 0
     - 0
     - 0
@@ -1066,10 +1066,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WetSpecularity:
-    - .200000003
-    - .200000003
-    - .200000003
-    - .200000003
+    - 0.2
+    - 0.2
+    - 0.2
+    - 0.2
     - 0
     - 0
     - 0
@@ -1079,10 +1079,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WetGloss:
-    - .0500000007
-    - .0500000007
-    - .0500000007
-    - .0500000007
+    - 0.05
+    - 0.05
+    - 0.05
+    - 0.05
     - 0
     - 0
     - 0
@@ -1092,10 +1092,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterColor:
-    - {r: .899999976, g: .899999976, b: 1, a: .5}
-    - {r: .899999976, g: .899999976, b: 1, a: .5}
-    - {r: .899999976, g: .899999976, b: 1, a: .5}
-    - {r: .899999976, g: .899999976, b: 1, a: .5}
+    - {r: 0.9, g: 0.9, b: 1, a: 0.5}
+    - {r: 0.9, g: 0.9, b: 1, a: 0.5}
+    - {r: 0.9, g: 0.9, b: 1, a: 0.5}
+    - {r: 0.9, g: 0.9, b: 1, a: 0.5}
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -1105,10 +1105,10 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
     TERRAIN_WaterIBL_SpecWetStrength:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -1118,10 +1118,10 @@ MonoBehaviour:
     - 0
     - 0
     TERRAIN_WaterIBL_SpecWaterStrength:
-    - .5
-    - .5
-    - .5
-    - .5
+    - 0.5
+    - 0.5
+    - 0.5
+    - 0.5
     - 0
     - 0
     - 0
@@ -1144,21 +1144,21 @@ MonoBehaviour:
     - 0
     - 0
     _snow_strength: 1
-    _global_color_brightness_to_snow: .5
+    _global_color_brightness_to_snow: 0.5
     _snow_slope_factor: 2
     _snow_edge_definition: 5
     _snow_height_treshold: -200
     _snow_height_transition: 1
     _snow_color: {r: 1, g: 1, b: 1, a: 1}
-    _snow_specular: .5
-    _snow_gloss: .699999988
-    _snow_reflectivness: .699999988
+    _snow_specular: 0.5
+    _snow_gloss: 0.7
+    _snow_reflectivness: 0.7
     _snow_deep_factor: 1.5
-    _snow_fresnel: .5
-    _snow_diff_fresnel: .5
-    _snow_IBL_DiffuseStrength: .5
-    _snow_IBL_SpecStrength: .5
-    _4LAYERS_SHADER_USED: 1
+    _snow_fresnel: 0.5
+    _snow_diff_fresnel: 0.5
+    _snow_IBL_DiffuseStrength: 0.5
+    _snow_IBL_SpecStrength: 0.5
+    _4LAYERS_SHADER_USED: 0
     flat_dir_ref: 1
     flip_dir_ref: 1
     direction_object: {fileID: 0}
@@ -1189,10 +1189,10 @@ MonoBehaviour:
     show_settings: 1
     undo_flag: 0
     paint_flag: 0
-    paint_size: .5
+    paint_size: 0.5
     paint_smoothness: 0
     paint_opacity: 1
-    paintColor: {r: .5, g: .300000012, b: 0, a: 0}
+    paintColor: {r: 0.5, g: 0.3, b: 0, a: 0}
     preserveBrightness: 1
     paint_alpha_flag: 0
     paint_wetmask: 1
@@ -1274,7 +1274,7 @@ Terrain:
   m_DetailObjectDistance: 250
   m_DetailObjectDensity: 1
   m_HeightmapPixelError: 5
-  m_SplatMapDistance: 35
+  m_SplatMapDistance: 500000
   m_HeightmapMaximumLOD: 0
   m_CastShadows: 0
   m_DrawHeightmap: 1
@@ -1284,7 +1284,7 @@ Terrain:
   m_LegacySpecular:
     serializedVersion: 2
     rgba: 4286545791
-  m_LegacyShininess: .078125
+  m_LegacyShininess: 0.078125
   m_MaterialTemplate: {fileID: 0}
   m_BakeLightProbesForTrees: 1
   m_ScaleInLightmap: 1

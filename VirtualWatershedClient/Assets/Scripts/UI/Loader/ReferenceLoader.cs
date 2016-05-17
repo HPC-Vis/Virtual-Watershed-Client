@@ -9,6 +9,7 @@ public class ReferenceLoader : MonoBehaviour
     public DownloadManager downloadManager;
     public ListViewManager listView;
     public ListViewManager listViewables;
+    public Dropdown Options;
     public Dictionary<string, GameObject> viewableObjects = new Dictionary<string,GameObject>();
     Queue<DataRecord> queuedRecs = new Queue<DataRecord>();
     public Material LineMaterial;
@@ -18,7 +19,8 @@ public class ReferenceLoader : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
+        Debug.LogError("REFERENCE LOADER");
+        Options = GameObject.Find("Viewable dropdown/Arrow").GetComponent<Dropdown>();
     }
 
     // Update is called once per frame
@@ -102,21 +104,19 @@ public class ReferenceLoader : MonoBehaviour
 
         // Debug.LogError("SET FIELDS 3");
         Objects.Enqueue(new KeyValuePair<GameObject, DataRecord>(obj, objectRec));
+        Debug.LogError("ADDING OBJECT REC: " + objectRec.name);
+        Debug.LogError("ADDING OBJ: " + obj.name);
         //listViewables.AddRow(new object[]{obj.name},objectRec);
-        
+        Options.options.Add(new Dropdown.OptionData(objectRec.name));
+        //Options.value = Options.options.Count;
     }
 
-    public void DownloadObjects()
+    public void DownlaodObjects()
     {
     	Logger.enable = true;
         List<DataRecord> recs = new List<DataRecord>();
         recs = listView.GetSelected();
-        Debug.LogError("downlaoding");
-
-        // create option data list for adding to viewables dropdown
-        List<Dropdown.OptionData> shapeList = new List<Dropdown.OptionData>();
-        GameObject viewables = GameObject.Find("Viewable dropdown");
-
+		 
         foreach (var i in recs)
         {
             Debug.LogError(i.name + " " + i.Type);
@@ -124,17 +124,8 @@ public class ReferenceLoader : MonoBehaviour
             if (!viewableObjects.ContainsKey(i.name))
             {
 
-                //Dropdown object to add to viewables list
-                Dropdown.OptionData shape = new Dropdown.OptionData();
-
-                // set the data for the one element to be added
-                shape.text = i.name;
-                shapeList.Add(shape);
-
                 if (i.Type.ToLower().Contains("shapfile") || i.Type.ToLower().Contains("shapefile"))
                 {
-                    
-
                     SystemParameters param = new SystemParameters();
                     param.Priority = 100;
                     Debug.LogError("DOWNLOADING OBJECTS SHAPES");
@@ -185,7 +176,6 @@ public class ReferenceLoader : MonoBehaviour
 
             }
         }
-        viewables.GetComponentInChildren<Dropdown>().AddOptions(shapeList);
     }
 
     public void BuildShapes(List<DataRecord> records)

@@ -10096,6 +10096,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   downloadManager: {fileID: 0}
   listView: {fileID: 11485962}
+  Options: {fileID: 0}
 --- !u!114 &11408060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18327,6 +18328,7 @@ MonoBehaviour:
     height: 0
   DataIndex: 0
   button: {fileID: 0}
+  selectedList: {fileID: 0}
 --- !u!114 &11445788
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -34185,6 +34187,7 @@ Canvas:
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0

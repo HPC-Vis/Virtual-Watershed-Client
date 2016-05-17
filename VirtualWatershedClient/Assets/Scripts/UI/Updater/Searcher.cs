@@ -37,6 +37,7 @@ public class Searcher : MonoBehaviour {
 		nm.Subscribe (vwc);
 		ModelRunManager.client = vwc;
 		ModelRunManager.SearchForModelRuns(null);
+        //Debug.LogError(ModelRunManager.sessionData.PlayerController);
         oldModelRunCount = ModelRunManager.ModelRunCount();
         Refresh();
 	}
@@ -224,7 +225,10 @@ public class Searcher : MonoBehaviour {
 	/// </summary>
     public void OnDestroy()
     {
-        nm.Halt();       
+        //Debug.LogError("ON DESTROY");
+        nm.Halt();
+        ModelRunManager.sessionData.Clear();
+        ModelRunManager.OnClose();
     }
 
 	/// <summary>

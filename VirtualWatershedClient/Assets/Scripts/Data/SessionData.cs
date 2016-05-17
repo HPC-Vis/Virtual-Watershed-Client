@@ -11,8 +11,12 @@ using UnityEngine.UI;
 public class SessionObjectStructure
 {
     public string Name;
-    public string DataLocation;
+    public string Projection;
+    public Dictionary<string, string> Sources;
     public SerialVector3 GameObjectPosition;
+    public SerialVector3 GameObjectOffset;
+    public DateTime Modified;
+    public DateTime Created;
 }
 
 [Serializable]
@@ -20,6 +24,7 @@ public class SessionDataStructure
 {
     public string Location;
     public SerialVector3 PlayerPosition;
+    
     public SerialVector3 PlayerRotation;
     public float PlayerAngle;
     public Dictionary<string,SessionObjectStructure> GameObjects;
@@ -31,8 +36,8 @@ public class SessionDataStructure
 public class SessionData
 {
     ListViewManager listview;
-    private GameObject Go;
-    GameObject PlayerController
+    private GameObject Go = null;
+    public GameObject PlayerController
     {
         get
         {
@@ -40,6 +45,8 @@ public class SessionData
             {
                 Go = GameObject.Find("/UIContainer/PlayerController/ControlScripts");
             }
+            //Debug.LogError(Go);
+            //Debug.Break();
             return Go;
         }
     }
@@ -161,7 +168,21 @@ public class SessionData
 
     public WorldObject GetSessionObject(string name)
     {
-        return SessionObjects[name];
+        if(SessionObjects.ContainsKey(name))
+        {
+            return SessionObjects[name];
+        }
+        
+        return null;
+    }
+
+    public void MoveObject(string name, Vector3 Offset)
+    {
+       var Object =  GetSessionObject(name);
+        if(Object != null)
+        {
+            Object.moveObject(Offset);
+        }
     }
 
     public void setProjection(Text newProj)
