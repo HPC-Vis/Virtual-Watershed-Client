@@ -278,28 +278,30 @@ public class DataRecord : IEquatable<DataRecord>
     public float Max = float.MinValue;
     //public ValueContainer MinContainer = new ValueContainer(float.MaxValue, Vector2.zero);
     //public ValueContainer MaxContainer = new ValueContainer(float.MinValue, Vector2.zero);
-
+    public ValueContainer _MinContainer;
     public ValueContainer MinContainer
     {
         get
         {
-            return MinContainer;
+            return _MinContainer;
         }
         set
         {
-            MinContainer = value;
+            _MinContainer = value;
             Min = value.value;
         }
     }
+
+    public ValueContainer _MaxContainer;
     public ValueContainer MaxContainer
     {
         get
         {
-            return MaxContainer;
+            return _MaxContainer;
         }
         set
         {
-            MaxContainer = value;
+            _MaxContainer = value;
             Max = value.value;
         }
     }

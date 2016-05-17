@@ -92,29 +92,31 @@ public class ActiveData : MonoBehaviour {
 
     // Locals
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
+    private float _Max;
     private float Max
     {
         get
         {
-            return Max;
+            return _Max;
         }
         set
         {
-            Max = value;
-            maxField.text = Max.ToString();
+            _Max = value;
+            maxField.text = value.ToString();
         }
-    }    
+    }
 
+    private float _Min;
     private float Min
     {
         get
         {
-            return Min;
+            return _Min;
         }
         set
         {
-            Min = value;
-            minField.text = Min.ToString();
+            _Min = value;
+            minField.text = value.ToString();
         }
     }
 
