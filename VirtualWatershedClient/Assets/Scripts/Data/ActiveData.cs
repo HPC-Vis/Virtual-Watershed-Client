@@ -575,7 +575,7 @@ public class ActiveData : MonoBehaviour {
                 trendGraph.Clear();
                 GRAND_TOTAL = 0;
             }
-
+            Debug.LogError("DOWNLOADING");
             // Set the download based on the doqq in description
             if (temp[index].Description.ToLower().Contains("doqq"))
             {
