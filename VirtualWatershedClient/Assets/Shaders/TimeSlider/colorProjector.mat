@@ -134,7 +134,7 @@ Material:
       data:
         first:
           name: _FloatMin
-        second: 141.17647
+        second: 0
       data:
         first:
           name: _FloatMax
@@ -142,19 +142,19 @@ Material:
       data:
         first:
           name: _x1
-        second: 203.5294
+        second: 90.58823
       data:
         first:
           name: _x2
-        second: 265.8824
+        second: 181.1765
       data:
         first:
           name: _x3
-        second: 328.2353
+        second: 271.7647
       data:
         first:
           name: _x4
-        second: 390.5882
+        second: 362.3529
       data:
         first:
           name: _x5
