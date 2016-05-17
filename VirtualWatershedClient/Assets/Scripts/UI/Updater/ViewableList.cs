@@ -20,8 +20,10 @@ public class ViewableList : MonoBehaviour {
     void Update() {
         if (ApplyToggle )
         {
-            IsRaster.toggleObjects();
+            IsRaster.ToggleToState(IsRasterState);
+            //IsRaster.toggleObjects();
             ApplyToggle = false;
+            
         }
 
 
@@ -80,19 +82,22 @@ public class ViewableList : MonoBehaviour {
     }
     public void SetViewableData(int Option)
     {
+        Debug.LogError(Option);
         if(Option == 0 || ViewableDropDown.options[Option].text == "")
         {
             return;
         }
-        if (ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster && !IsRasterState)
-        {
-            ApplyToggle = true;
-            IsRasterState = true;
-        }
-        else if (IsRasterState)
+        IsRasterState = !ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster;
+        ApplyToggle = true;
+        /*if (ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster && !IsRasterState)
         {
             ApplyToggle = true;
             IsRasterState = false;
         }
+        else if (IsRasterState)
+        {
+            ApplyToggle = true;
+            IsRasterState = true;
+        }*/
     }
 }
