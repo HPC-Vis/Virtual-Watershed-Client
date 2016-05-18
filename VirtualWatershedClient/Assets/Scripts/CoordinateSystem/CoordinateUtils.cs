@@ -211,4 +211,13 @@ public static class CoordinateUtils
         double ellipseKilometers = geoCurve.EllipsoidalDistance / 1000.0;
         return ellipseKilometers;
     }
+
+    public static Vector2 TransformPoint(OSGeo.OSR.CoordinateTransformation tran, Vector2 Point)
+    {
+        double[] Out = new double[2];
+        Out[0] = (float)Point.x;
+        Out[1] = (float)Point.y;
+        tran.TransformPoint(Out);
+        return new Vector2((float)Out[0], (float)Out[1]);
+    }
 }

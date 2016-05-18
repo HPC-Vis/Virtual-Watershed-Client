@@ -102,11 +102,11 @@ Material:
       data:
         first:
           name: _Max
-        second: 0.517647
+        second: 0.8057679
       data:
         first:
           name: _Min
-        second: 0.3764706
+        second: 0.6415198
       data:
         first:
           name: _Parallax
@@ -151,8 +151,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: 0.49876046, g: 0.5006219, b: 0, a: 0}
+        second: {r: 0.32871318, g: 0.9102333, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: 0.49950913, g: 0.50027233, b: 0, a: 0}
+        second: {r: 0.4255265, g: 0.67139184, b: 0, a: 0}
