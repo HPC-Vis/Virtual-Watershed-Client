@@ -126,7 +126,7 @@ public class ProjectorObject : WorldObject {
     // Here are some projector building functions that need to be addressed
     public GameObject buildProjector(DataRecord record, bool type = false)
     {
-
+        Debug.Break();
         // First Create a projector
         GameObject projector = this.gameObject;
         projector.name = "SPAWNED PROJECTOR";

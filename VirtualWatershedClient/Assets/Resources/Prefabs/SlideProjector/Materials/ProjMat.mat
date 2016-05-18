@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: ProjMat
-  m_Shader: {fileID: 4800000, guid: 776b16dfd5612b444ba4211471c8f542, type: 3}
+  m_Shader: {fileID: 4800000, guid: 83197f36033f46447b4e3f171872f5d4, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -169,6 +169,14 @@ Material:
       data:
         first:
           name: _MaxY
+        second: 1
+      data:
+        first:
+          name: _Blend
+        second: 1
+      data:
+        first:
+          name: _NumLines
         second: 1
       data:
         first:
