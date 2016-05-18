@@ -1,6 +1,7 @@
 ﻿Shader "Custom/TrendGraph" {
 	Properties {
 		_MainTex ("Texture", 2D) = "white" {}
+		Time ("Time", float) = 0.0
 	}
 	Category {
 	SubShader {
@@ -20,10 +21,16 @@
 			#include "UnityCG.cginc"
 
 			uniform sampler2D _MainTex;
+			uniform float Time;
 
 			float4 frag (v2f_img i) : COLOR
 			{
 				float4 col = tex2D(_MainTex, float2(i.uv.x, 1.0-i.uv.y));
+
+				if (i.uv.x + 0.0027 > Time && i.uv.x - 0.0027 < Time)
+				{
+					return float4(1.0, 1.0, 0.0, 0.0);
+				}
 				
 				if (col.r > 0.1 || col.g > 0.1 || col.b > 0.1)
 				{

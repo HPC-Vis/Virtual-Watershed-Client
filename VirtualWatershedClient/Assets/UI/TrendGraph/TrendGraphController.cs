@@ -258,10 +258,9 @@ namespace VTL.TrendGraph
                     }
                 }
             }
-            //else if(button.activeSelf)
-            //{
-            //    button.SetActive(false);
-            //}
+
+            // Run the old OnGUI function
+            RunRecalculationCheck();
         }
 
         /// <summary>
@@ -294,9 +293,8 @@ namespace VTL.TrendGraph
         /// <summary>
         /// This wll ensure that the sizing of the trend graph is correct, and if not there will be a recomputation
         /// </summary>
-        void OnGUI()
-        {
-            
+        void RunRecalculationCheck()
+        {            
             if(FrameReference.Count < 1)
             {
                 return;
@@ -313,8 +311,8 @@ namespace VTL.TrendGraph
                 DataIndex = 0;
             }
             float normTime = (float)(ActiveData.GetFrameAt(FrameReference[0], DataIndex).starttime - Begin).TotalSeconds / (float)(End - Begin).TotalSeconds;
-            Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
-
+            // Drawing.DrawLine(new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y), new Vector2(origin.x + w * normTime * parentCanvas.scaleFactor, origin.y + h * 1 * parentCanvas.scaleFactor), Color.yellow, lineWidth, true);
+            GraphImage.material.SetFloat("Time", normTime);
             
             // Need to check the origin and the width and height every draw
             // just in case the panel has been resized
@@ -339,7 +337,6 @@ namespace VTL.TrendGraph
                 h = new_h;
                 Compute();
             }
-
         }
 
         /// <summary>

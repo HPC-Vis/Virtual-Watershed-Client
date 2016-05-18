@@ -7,6 +7,7 @@ using UnityEngine;
 /// A class to contain a Min of Max and store the location.
 /// This is for ease of lookup.
 /// </summary>
+[Serializable]
 public class ValueContainer
 {
     // Data

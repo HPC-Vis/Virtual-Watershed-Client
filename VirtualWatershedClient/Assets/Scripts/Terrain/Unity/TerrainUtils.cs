@@ -10,7 +10,7 @@ public static class TerrainUtils
     /// <param name="WorldPoint"></param>
     /// <param name="terrain"></param>
     /// <returns></returns>
-    static public Vector2 NormalizePointToTerrain(Vector3 WorldPoint,Terrain terrain)
+    static public Vector2 NormalizePointToTerrain(Vector3 WorldPoint, Terrain terrain)
     {
         Vector3 Origin = terrain.gameObject.transform.position;
         Vector3 Point = WorldPoint - Origin;

@@ -605,7 +605,7 @@ public class ActiveData : MonoBehaviour {
             {
                 for (int i = 0; i < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(1); i++)
                 {
-                    for (int j = 0; j < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0); j++)
+                    for (int j = ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0) - 1; j >= 0 ; j--)
                     {
                         file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[i, j] + ", ");
                     }
