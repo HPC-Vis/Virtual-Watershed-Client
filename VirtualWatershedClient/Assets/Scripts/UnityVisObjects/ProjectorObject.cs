@@ -3,6 +3,9 @@ using System.Collections;
 using System;
 
 public class ProjectorObject : WorldObject {
+    // projectors are placed based on the center...
+
+
 
 	// Use this for initialization
 	void Start () {
@@ -88,37 +91,56 @@ public class ProjectorObject : WorldObject {
 
         Vector2 point = tran.transformPoint(new Vector2(boundingBox.x, boundingBox.y));
         Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y));
-        Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y));
+        //Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y));
         Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width, boundingBox.y - boundingBox.height)); ;
-        Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y - boundingBox.height));
+        //Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y - boundingBox.height));
 
         point = upperLeft;
         Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
         pos.y += 10;
-        point = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x, boundingBox.y));
+        point = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width/2.0f, boundingBox.y + boundingBox.height/2.0f));
 
-        float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+        Debug.LogError("POINT: " + point.x + " " + point.y);
+
+        float dim = Math.Max(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
+        float dim2 = Math.Min(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
+        float offset = dim - dim2;
 
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
         pos.y += 3000;
-        pos.x += dim;
-        pos.z += dim;
-        //pos.x += Math.Abs((upperLeft - upperRight).x) / 2.0f;
-        //pos.z += Math.Abs((upperLeft - lowerLeft).y) / 2.0f;
+
+        if (Math.Abs((upperLeft - lowerRight).x) / 2.0f > Math.Abs((upperLeft - lowerRight).y) / 2.0f)
+        {
+            pos.z += offset;
+        }
+        else
+        {
+            pos.x += offset;
+        }
+        Debug.LogError("OFFSET: " + offset);
+        //pos.x += dim;
+        //pos.z += dim;
+        //pos.x += Math.Abs((upperLeft - lowerRight).x) / 2.0f;
+        //pos.z += Math.Abs((upperLeft - lowerRight).y) / 2.0f;
         projector.transform.position = pos;
 
         var pro = projector.GetComponent<Projector>();
         pro.farClipPlane = 10000;
-        pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+        pro.orthographicSize = Math.Max(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
 
-        float boundingAreaX = Mathf.Abs((upperLeft.x - upperRight.x) / (2.0f * pro.orthographicSize));
-        float boundingAreaY = Mathf.Abs((upperLeft.y - lowerLeft.y) / (2.0f * pro.orthographicSize));
+        float boundingAreaX = Mathf.Abs((upperLeft.x - lowerRight.x) / (2.0f * pro.orthographicSize));
+        float boundingAreaY = Mathf.Abs((upperLeft.y - lowerRight.y) / (2.0f * pro.orthographicSize));
         // Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
         // Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + (upperLeft.y - lowerLeft.y));
         pro.material = Material.Instantiate(pro.material);
         pro.material.SetFloat("_MaxX", boundingAreaX);
         pro.material.SetFloat("_MaxY", boundingAreaY);
-
+        Debug.LogError("BOUNDING AREA X: " + boundingAreaX);
+        Debug.LogError("BOUNDING AREA Y: " + boundingAreaY);
+        Debug.LogError("ORTHOGRAPHIC SIZE X: " + pro.orthographicSize*2 * boundingAreaX);
+        Debug.LogError("ORTHOGRAPHIC SIZE Y: " + pro.orthographicSize * 2 * boundingAreaY);
+        Debug.LogError("BOUNDINGBOX HEIGHT: " + GlobalConfig.BoundingBox.height);
+        Debug.LogError("BOUNDINGBOX WIDTH: " + GlobalConfig.BoundingBox.width);
         BoundingScale.x = boundingAreaX;
         BoundingScale.y = boundingAreaY;
     }
@@ -126,7 +148,6 @@ public class ProjectorObject : WorldObject {
     // Here are some projector building functions that need to be addressed
     public GameObject buildProjector(DataRecord record, bool type = false)
     {
-        Debug.Break();
         // First Create a projector
         GameObject projector = this.gameObject;
         projector.name = "SPAWNED PROJECTOR";
@@ -148,9 +169,9 @@ public class ProjectorObject : WorldObject {
         Vector2 point = tran.transformPoint(new Vector2(record.boundingBox.x, record.boundingBox.y));
 
         Vector2 upperLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
-        Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
+        //Vector2 upperRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
         Vector2 lowerRight = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height)); ;
-        Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
+        //Vector2 lowerLeft = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
 
         point = upperLeft;
         Vector3 pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
@@ -160,7 +181,7 @@ public class ProjectorObject : WorldObject {
         // GO.transform.position = pos;
         // GO.transform.localScale = new Vector3 (100, 100, 100);
 
-        point = upperRight;
+        point = new Vector2(lowerRight.x, upperLeft.y); // upperRight;
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 
         // GO2.transform.position = pos;
@@ -172,7 +193,7 @@ public class ProjectorObject : WorldObject {
         // GO3.transform.position = pos;
         // GO3.transform.localScale = new Vector3 (100, 100, 100);
 
-        point = lowerLeft;
+        point = new Vector2(upperLeft.x, lowerRight.y);//lowerLeft;
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
 
         // GO4.transform.position = pos;
@@ -181,7 +202,7 @@ public class ProjectorObject : WorldObject {
 
         // Projector placement code
         point = tran.translateToGlobalCoordinateSystem(new Vector2(record.boundingBox.x, record.boundingBox.y));
-        float dim = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+        float dim = Math.Max(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
 
         pos = mouseray.raycastHitFurtherest(new Vector3(point.x, 0, point.y), Vector3.up);
         pos.y += 3000;
@@ -191,14 +212,14 @@ public class ProjectorObject : WorldObject {
 
         var pro = projector.GetComponent<Projector>();
         pro.farClipPlane = 10000;
-        pro.orthographicSize = Math.Max(Math.Abs((upperLeft - upperRight).x) / 2.0f, Math.Abs((upperLeft - lowerLeft).y) / 2.0f);
+        pro.orthographicSize = Math.Max(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
 
         // Ignoring terrain layer with this created projector!
         pro.ignoreLayers = (1 << 8);
 
 
-        float boundingAreaX = Mathf.Abs((upperLeft.x - upperRight.x) / (2.0f * pro.orthographicSize));
-        float boundingAreaY = Mathf.Abs((upperLeft.y - lowerLeft.y) / (2.0f * pro.orthographicSize));
+        float boundingAreaX = Mathf.Abs((upperLeft.x - lowerRight.x) / (2.0f * pro.orthographicSize));
+        float boundingAreaY = Mathf.Abs((upperLeft.y - lowerRight.y) / (2.0f * pro.orthographicSize));
         // Debug.LogError ("MAX X: " + boundingAreaX + " MAX Y: " + boundingAreaY);
         // Debug.LogError ("MAX X: " + (upperLeft.x - upperRight.x) + " MAX Y: " + boundingAreaY);
         pro.material = Material.Instantiate(pro.material);

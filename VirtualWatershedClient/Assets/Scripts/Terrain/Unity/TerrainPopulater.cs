@@ -28,7 +28,7 @@ public class TerrainPopulater : MonoBehaviour
             }
         }
         //return;
-        /*if ( !FileBasedCache.Exists(TerrainListStr))
+        if ( !FileBasedCache.Exists(TerrainListStr))
         {
             FileBasedCache.Insert<List<DataRecord>>(TerrainListStr, Terrains);
         }
@@ -44,7 +44,7 @@ public class TerrainPopulater : MonoBehaviour
                 }
             }
             FileBasedCache.Insert<List<DataRecord>>(TerrainListStr, Terrains);
-        }*/
+        }
     }
 
     public ToggleObjects to;
@@ -119,13 +119,25 @@ public class TerrainPopulater : MonoBehaviour
         }
 
         record.boundingBox = new SerialRect(Utilities.bboxSplit3(record.bbox2));
+        Debug.LogError("BOUNDING BOX OF RECORD: " + new Rect(record.boundingBox));
+        Debug.LogError("BOUNDING BOX: " + record.bbox2);
+        //Debug.LogError(record.boundingBox);
         //WorldTransform tran = new WorldTransform(record.projection);
+
+        Rect abc = record.boundingBox;
+        int zone = CoordinateUtils.GetZone(abc.center.y, abc.center.x);
 
         // EPSG code
         string EPSG = record.projection.Replace("epsg:", "");
         GlobalConfig.GlobalProjection = int.Parse(EPSG);
-        GlobalConfig.GlobalProjection = 26900 + CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x);
-        GlobalConfig.Zone = CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x);
+        GlobalConfig.GlobalProjection = 26900 + zone;
+
+        GlobalConfig.Zone = zone;//CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x);
+
+
+
+        Debug.LogError("ZONE: " + GlobalConfig.Zone);
+        Debug.LogError("Zones : " + zone);
 
         //Debug.LogError("PROJECTION: " + GlobalConfig.GlobalProjection);
 
@@ -143,15 +155,17 @@ public class TerrainPopulater : MonoBehaviour
         {
             Vector2 point = CoordinateUtils.TransformPoint(tran,new Vector2(record.boundingBox.x, record.boundingBox.y));
             Vector2 upperLeft = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x, record.boundingBox.y));
-            Vector2 upperRight = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
+            //Vector2 upperRight = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y));
+            // float Distance = (float)CoordinateUtils.SimponsRule(record.boundingBox.x, record.boundingBox.y, record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height, CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x));
+            //Vector2 lowerRight = upperLeft + new Vector2(record.boundingBox.width,-record.boundingBox.height).normalized *Distance;
             Vector2 lowerRight = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height)); ;
-            Vector2 lowerLeft = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
+            //Vector2 lowerLeft = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
 
             // Calculate average xres
             Debug.LogError("UPPPER LEFT: " + upperLeft);
-            Debug.LogError("UPPER RIGHT: " + upperRight);
-            GlobalConfig.BoundingBox = new Rect(lowerLeft.x, upperLeft.y, Mathf.Abs(upperLeft.x - upperRight.x), Mathf.Abs(upperLeft.y - lowerLeft.y));
-
+            //Debug.LogError("UPPER RIGHT: " + upperRight);
+            GlobalConfig.BoundingBox = new Rect(upperLeft.x, upperLeft.y, Mathf.Abs(upperLeft.x - lowerRight.x), Mathf.Abs(upperLeft.y - lowerRight.y));
+            //GlobalConfig.BoundingBox = new Rect(upperLeft.x, upperLeft.y, CoordinateUtils.SimpleRuleXDist(record.boundingBox.x, record.boundingBox.y, record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height, CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x)), Mathf.Abs(upperLeft.y - lowerRight.y));
             float XRes = GlobalConfig.BoundingBox.width / record.Data[0].GetLength(0);
             float YRes = GlobalConfig.BoundingBox.height / record.Data[0].GetLength(1);
             //StartupConfiguration.LoadConfig();

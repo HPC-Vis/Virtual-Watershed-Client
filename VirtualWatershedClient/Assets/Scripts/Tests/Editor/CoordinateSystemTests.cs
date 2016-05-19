@@ -187,5 +187,46 @@ namespace CoordinateSystemTests
             // Get Distance
             //float distance = a
         }
+        float ScaleFactor(float value)
+        {
+            Debug.LogError( "SCALE: " + Mathf.Cos((value - 500000) / 6378000));
+            return .9996f / Mathf.Cos( (value-500000) / 6378000); 
+        }
+
+        float SimponsRule(float Long1, float Lat1, float Long2, float Lat2, int zone)
+        {
+            var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+            var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+            double XDist6 = (point2.x - point1.x) / 6;
+            float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+            float ydist = point2.y - point1.y;
+            float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+            return Dist2;
+        }
+
+        [TestCase(35, 40, 37, 41)]
+        public void DistanceTest(double Long1, double Lat1, double Long2, double Lat2)
+        {
+            double Dist = CoordinateUtils.GetDistanceKM(Long1, Lat1, Long2, Lat2) * 1000.0;
+            double Dist3 = CoordinateUtils.VincentyDistanceKM(Long1, Lat1, Long2, Lat2) * 1000.0;
+            int zone = CoordinateUtils.GetZone(Lat1, Long1);
+            int zone2 = CoordinateUtils.GetZone(Lat2, Long2);
+            Debug.LogError(zone - zone2);
+            var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+            var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+
+            double XDist6 = (point2.x - point1.x) / 6;
+            float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+            float ydist = point2.y - point1.y;
+            float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+            Debug.ClearDeveloperConsole();
+            Debug.LogError(Dist);
+            Debug.LogError(Dist2);
+            Debug.LogError(Dist3);
+            Debug.LogError(Dist - Dist2);
+            Debug.LogError(Dist2 - Dist3);
+            Debug.LogError(Vector2.Distance(point1, point2));
+
+        }
     }
 }

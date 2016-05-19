@@ -637,6 +637,18 @@ public static class Utilities
         return pathDownload;
     }
 
+    public static bool SaveTif(string filename, DataRecord record)
+    {
+        if(record.Data == null || record.Data.Count > 0)
+        {
+            return false;
+        }
+
+        string path = Utilities.GetFilePath(filename);
+
+        OSGeo.GDAL.Gdal.GetDriverByName("GTIF").Create(path + filename + ".tif", record.Data[0].GetLength(0), record.Data[0].GetLength(1), record.Data.Count, OSGeo.GDAL.DataType.GDT_CFloat32, null);
+        return true;
+    }
 
     public static bool DataRecordGridToCsv(string filename, float[,] Data, string[,] headers=null)
     {

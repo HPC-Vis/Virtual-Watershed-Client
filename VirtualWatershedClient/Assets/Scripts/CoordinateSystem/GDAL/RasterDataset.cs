@@ -319,4 +319,6 @@ public class RasterDataset
     {
         return dataset.RasterCount > 1;
     }
+
+    
 }

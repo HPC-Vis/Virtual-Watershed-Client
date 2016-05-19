@@ -93,16 +93,16 @@
 	float4 frag(vertexInput i) : SV_Target
 	{
 		i.uv.x = i.uv.x / _MaxX;
-		i.uv.y = i.uv.y / _MaxY;
+	    i.uv.y = i.uv.y / _MaxY;
 
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 
 	if (i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
 	{
-		return float4(0, 0, 0, 1);
+		return float4(1, 0, 0, 1);
 	}
 
-	return col;
+	return float4(col.xyz,.5);
 
 	}
 		ENDCG
