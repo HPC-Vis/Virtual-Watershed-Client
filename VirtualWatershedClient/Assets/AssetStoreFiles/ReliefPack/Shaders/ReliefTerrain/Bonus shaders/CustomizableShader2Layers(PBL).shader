@@ -730,8 +730,8 @@ struct RTPSurfaceOutput {
 	half3 SpecColor;
 };
 
-	#include "Assets/ReliefPack/Shaders/CustomLighting.cginc"
-	#include "Assets/ReliefPack/Shaders/ConfigurableCore.cginc"
+	#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLighting.cginc"
+	#include "Assets/AssetStoreFiles/ReliefPack/Shaders/ConfigurableCore.cginc"
 	ENDCG
       
     } 

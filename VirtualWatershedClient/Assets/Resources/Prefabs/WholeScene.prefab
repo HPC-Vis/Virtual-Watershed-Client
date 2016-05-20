@@ -23893,6 +23893,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0
@@ -42115,6 +42121,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0
@@ -51154,6 +51166,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0
@@ -59423,6 +59441,8 @@ MonoBehaviour:
   colorProjector: {fileID: 2100000, guid: 95fe5de3d2b265e488a85821f9cd070e, type: 2}
   slideProjector: {fileID: 2100000, guid: 9c93ff4681dc5f34fb0573fdb973aef3, type: 2}
   selectedVariableTextBox: {fileID: 11489192}
+  minPin: {fileID: 0}
+  maxPin: {fileID: 0}
 --- !u!114 &11482074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60602,6 +60622,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0
@@ -60867,6 +60893,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0
@@ -66039,6 +66071,12 @@ MonoBehaviour:
     variableName: 
     Min: 3.4028235e+38
     Max: -3.4028235e+38
+    _MinContainer:
+      value: 0
+      location: {x: 0, y: 0}
+    _MaxContainer:
+      value: 0
+      location: {x: 0, y: 0}
     Mean: 0
     multiLayered: none
     numbands: 0

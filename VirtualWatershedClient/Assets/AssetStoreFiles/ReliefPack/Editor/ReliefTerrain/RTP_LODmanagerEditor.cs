@@ -1546,29 +1546,29 @@ public class RTP_LODmanagerEditor : Editor {
 	public void RefreshFeatures() {
 		force_rebuild=false;
 		#if UNITY_5
-		UseU5Deferred("Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainBlendBaseCutout.shader");
+		UseU5Deferred("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainBlendBaseCutout.shader");
 		#endif
-		bool base_changed=RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/RTP_Base.cginc", false, false, false);
-		bool add_changed=RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/RTP_AddBase.cginc", false, true, false);
+		bool base_changed=RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/RTP_Base.cginc", false, false, false);
+		bool add_changed=RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/RTP_AddBase.cginc", false, true, false);
 		mainshaders_flag=true;
 		force_rebuild=base_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", true, false, false);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", true, false, false);
 		#if !UNITY_3_5
 		force_rebuild=base_changed || add_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", true, false, false);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", true, false, false);
 		#endif
 		force_rebuild=add_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", true, true, false);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", true, true, false);
 		force_rebuild=base_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader", true, false, true, true);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader", true, false, true, true);
 		force_rebuild=base_changed || add_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader", true, false, false, true);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader", true, false, false, true);
 		force_rebuild=base_changed || add_changed;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader", true, false, true, true);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader", true, false, true, true);
 		mainshaders_flag=false;
 		force_rebuild=false;
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/GeomBlendCompliant/GeometryBlend_BumpedDetailSnow.shader", true, false, false);
-		RebuildFeaturesInFile("Assets/ReliefPack/Shaders/ReliefTerrain/GeomBlendCompliant/GeometryBlend_POMDetailSnow.shader", true, false, false);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/GeomBlendCompliant/GeometryBlend_BumpedDetailSnow.shader", true, false, false);
+		RebuildFeaturesInFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/GeomBlendCompliant/GeometryBlend_POMDetailSnow.shader", true, false, false);
 		AssetDatabase.Refresh();
 	}
 
@@ -1620,13 +1620,13 @@ public class RTP_LODmanagerEditor : Editor {
 			if (rt) {
 				if (rt.globalSettingsHolder.useTerrainMaterial || _forceMaterials) {
 					useMaterials=true;
-					if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
+					if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
 						_code=_code.Replace("Hidden/TerrainEngine/Splatmap/Lightmap-FirstPass", "Relief Pack/ReliefTerrain-FirstPass");
 #if UNITY_5
 						// naming convention in U5
 						_code=_code.Replace("Nature/Terrain/Diffuse", "Relief Pack/ReliefTerrain-FirstPass");
 #endif
-					} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
+					} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
 						_code=_code.Replace("Hidden/TerrainEngine/Splatmap/Lightmap-AddPass", "Relief Pack/ReliefTerrain-AddPass");
 #if UNITY_5
 						// naming convention in U5
@@ -1640,7 +1640,7 @@ public class RTP_LODmanagerEditor : Editor {
 					for(int i=0; i<terrainComps.Length; i++) {
 						terrainComps[i].basemapDistance=500000;
 					}
-					if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
+					if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
 #if UNITY_5
 						// naming convention in U5
 						_code=_code.Replace("Relief Pack/ReliefTerrain-FirstPass", "Nature/Terrain/Diffuse");
@@ -1648,7 +1648,7 @@ public class RTP_LODmanagerEditor : Editor {
 #else
 						_code=_code.Replace("Relief Pack/ReliefTerrain-FirstPass", "Hidden/TerrainEngine/Splatmap/Lightmap-FirstPass");
 #endif
-					} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
+					} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
 #if UNITY_5
 						// naming convention in U5
 						_code=_code.Replace("Relief Pack/ReliefTerrain-AddPass", "Hidden/TerrainEngine/Splatmap/Diffuse-AddPass");
@@ -1664,22 +1664,22 @@ public class RTP_LODmanagerEditor : Editor {
 				//shader usage
 				bool usage_check=false;
 				bool used=false;
-				if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
+				if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_FirstPass;
-				} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
+				} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_AddPass || _target.SHADER_USAGE_AddPassGeom;
-				} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
+				} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_TerrainFarOnly;
-				} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader") {
+				} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_BlendBase;
-				} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
+				} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_Terrain2Geometry;
-				} else if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader") {
+				} else if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader") {
 					usage_check=true;
 					used=_target.SHADER_USAGE_Terrain2GeometryBlendBase;
 				}
@@ -1759,7 +1759,7 @@ public class RTP_LODmanagerEditor : Editor {
 				}
 				
 				// shadow passes (custom or by addshadow keyword)
-				if (_code.IndexOf("SHADOW PASSES")>0) {// || shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
+				if (_code.IndexOf("SHADOW PASSES")>0) {// || shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader") {
 					int astar_replace_begin_idx=0;
 					int astar_replace_end_idx=0;
 						if (!_target.RTP_ADDSHADOW) {
@@ -2539,7 +2539,7 @@ public class RTP_LODmanagerEditor : Editor {
 			}
 
 			if (!_forceMaterials) {
-			if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader" || shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
+			if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader" || shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
 				// refreshing fix treatment - comment BEGIN
 				sidx=0;
 				{		
@@ -2715,7 +2715,7 @@ public class RTP_LODmanagerEditor : Editor {
 			} while(flag);		
 			
 			// FarOnly - AddPass treatment
-			if (shader_path=="Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
+			if (shader_path=="Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader") {
 				
 				sidx=0;
 				do {				
@@ -2890,26 +2890,26 @@ public class RTP_LODmanagerEditor : Editor {
 	private void SyncFeatures() {
 		RTP_LODmanager _target=(RTP_LODmanager)target;
 		CheckAddPassPresent();
-		SyncFeaturesFromFile("Assets/ReliefPack/Shaders/ReliefTerrain/RTP_Base.cginc", false, false);
-		SyncFeaturesFromFile("Assets/ReliefPack/Shaders/ReliefTerrain/RTP_AddBase.cginc", false, true);
-		SyncFeaturesFromFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", true, false);
-		SyncFeaturesFromFile("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", true, true);
+		SyncFeaturesFromFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/RTP_Base.cginc", false, false);
+		SyncFeaturesFromFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/RTP_AddBase.cginc", false, true);
+		SyncFeaturesFromFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", true, false);
+		SyncFeaturesFromFile("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", true, true);
 		
 		// shader usage
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.SHADER_USAGE_FirstPass);
-		SyncRefreshingFix("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.FIX_REFRESHING_ISSUE);
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", ref _target.SHADER_USAGE_AddPass);
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", ref _target.SHADER_USAGE_TerrainFarOnly);
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader", ref _target.SHADER_USAGE_BlendBase);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.SHADER_USAGE_FirstPass);
+		SyncRefreshingFix("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.FIX_REFRESHING_ISSUE);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-AddPass.shader", ref _target.SHADER_USAGE_AddPass);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", ref _target.SHADER_USAGE_TerrainFarOnly);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrainGeometryBlendBase.shader", ref _target.SHADER_USAGE_BlendBase);
 		
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader", ref _target.SHADER_USAGE_Terrain2Geometry);
-		SyncUsage("Assets/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader", ref _target.SHADER_USAGE_Terrain2GeometryBlendBase);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain2Geometry.shader", ref _target.SHADER_USAGE_Terrain2Geometry);
+		SyncUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/Internal/ReliefTerrain2GeometryBlendBase.shader", ref _target.SHADER_USAGE_Terrain2GeometryBlendBase);
 
 		// addshadow part usage
-		SyncShadowUsage("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.RTP_ADDSHADOW);
+		SyncShadowUsage("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FirstPass.shader", ref _target.RTP_ADDSHADOW);
 
 		// check how many layers FarOnly shader actually processes
-		SyncFarOnlyNumLayersProcessed("Assets/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", _target);
+		SyncFarOnlyNumLayersProcessed("Assets/AssetStoreFiles/ReliefPack/Shaders/ReliefTerrain/ReliefTerrain-FarOnly.shader", _target);
 	}
 
 	private void SyncFarOnlyNumLayersProcessed(string shader_path, RTP_LODmanager _target) {

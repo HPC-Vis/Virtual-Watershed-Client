@@ -153,48 +153,60 @@ public class Spooler : MonoBehaviour
         // Set the new time for update
         lastUpdateTime = timeSlider.SimTime;
 
+        // Check the active data
         List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
         if(tempFrameRef.Count < 1)
         {
             return;
         }
-        int currentcount = ActiveData.GetCount(tempFrameRef[0]);
-        int textureIndex = ActiveData.FindNearestFrame(timeSlider.SimTime);
-        testImage.sprite = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex).Picture;
+
+        // Call the texture update
+        AddTextureIndex(tempFrameRef[0], "_MainTex", "_FloatMin", "_FloatMax");
+        if(tempFrameRef.Count > 1)
+        {
+            Debug.LogError("There are two active");
+            TimeProjector.material.SetInt("_Compare", 1);
+            AddTextureIndex(tempFrameRef[1], "_MainTex2", "_FloatMin2", "_FloatMax2");
+        }
+        else
+        {
+            TimeProjector.material.SetInt("_Compare", 0);
+        }
+    }
+
+    private void AddTextureIndex(string variable, string textureName, string minName, string maxName)
+    {
+        int currentcount = ActiveData.GetCount(variable);
+        int textureIndex = ActiveData.FindNearestFrame(variable, lastUpdateTime);
+        testImage.sprite = ActiveData.GetFrameAt(variable, textureIndex).Picture;
+
+        // Get the min and max for the shader
+        Vector2 MinMax = ActiveData.GetMinMax(variable);
 
         // Do nothing if there is no data
-        if(currentcount < 1)
+        if (currentcount < 1)
         {
             return;
         }
-        
+
         // Set projector image
         if (textureIndex == currentcount - 1 || currentcount == 1)
         {
             // Set both textures to last reel texture
-            Frame setframe = ActiveData.GetFrameAt(tempFrameRef[0], currentcount - 1);
-            PlacePins(setframe, ActiveData.GetBoundingBox(tempFrameRef[0]));
+            Frame setframe = ActiveData.GetFrameAt(variable, currentcount - 1);
+            PlacePins(setframe, ActiveData.GetBoundingBox(variable));
             setframe.Picture.texture.filterMode = filtermode;
-            TimeProjector.material.SetTexture("_ShadowTex", setframe.Picture.texture);
-            TimeProjector.material.SetTexture("_ShadowTex2", setframe.Picture.texture);
-
-            testImage.material.SetTexture("_MainTex", setframe.Picture.texture);
-            testImage.material.SetTexture("_MainTex2", setframe.Picture.texture);
+            TimeProjector.material.SetTexture(textureName, setframe.Picture.texture);
+            testImage.material.SetTexture(textureName, setframe.Picture.texture);
         }
         else
         {
             // Set current texture
-            Frame setFrame = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex);
-            PlacePins(setFrame, ActiveData.GetBoundingBox(tempFrameRef[0]));
+            Frame setFrame = ActiveData.GetFrameAt(variable, textureIndex);
+            PlacePins(setFrame, ActiveData.GetBoundingBox(variable));
             setFrame.Picture.texture.filterMode = filtermode;
-            testImage.material.SetTexture("_MainTex", setFrame.Picture.texture);
-            TimeProjector.material.SetTexture("_ShadowTex", setFrame.Picture.texture);
-
-            // Set future texture
-            setFrame = ActiveData.GetFrameAt(tempFrameRef[0], textureIndex + 1);
-            setFrame.Picture.texture.filterMode = filtermode;
-            TimeProjector.material.SetTexture("_ShadowTex2", setFrame.Picture.texture);
-            testImage.material.SetTexture("_MainTex2", setFrame.Picture.texture);
+            testImage.material.SetTexture(textureName, setFrame.Picture.texture);
+            TimeProjector.material.SetTexture(textureName, setFrame.Picture.texture);
         }
     }
 
@@ -204,15 +216,17 @@ public class Spooler : MonoBehaviour
     /// <param name="frame">The frame to refrence for min/max placement.</param>
     private void PlacePins(Frame frame, Rect bb)
     {
+        // Debug.LogError("Max: " + frame.record._MaxContainer.location + " " + frame.record._MaxContainer.value);
+        // Debug.LogError("Min: " + frame.record._MinContainer.location + " " + frame.record._MinContainer.value);
+
         // Normalize between 100
-        Vector3 maxLoc = new Vector3((1.0f - frame.record._MaxContainer.location.y/100.0f), 0.0f, frame.record._MaxContainer.location.x/100.0f);
-        Vector2 latLongMax = new Vector2(bb.x + maxLoc.x * bb.width, bb.y + (1 - maxLoc.z) * bb.height);
+        Vector2 maxLoc = new Vector2((1.0f - ((frame.record._MaxContainer.location.y) / 100.0f)), (1.0f - ((frame.record._MaxContainer.location.x + 3) / 100.0f)));
+        Vector2 latLongMax = new Vector2(bb.x + maxLoc.x * bb.width, bb.y + (maxLoc.y) * bb.height);
         Vector2 normalMax = coordsystem.transformToUnity(latLongMax);
         maxPin.transform.position = mouseray.raycastHitFurtherest(new Vector3(normalMax.x, -100, normalMax.y), new Vector3(0, 1, 0));
 
-
-        Vector3 minLoc = new Vector3((1.0f - frame.record._MinContainer.location.y) / 100.0f, 0.0f, frame.record._MinContainer.location.x / 100.0f);
-        Vector2 latLongMin = new Vector2(bb.x + minLoc.x * bb.width, bb.y + (1 - minLoc.z) * bb.height);
+        Vector2 minLoc = new Vector2((1.0f - ((frame.record._MinContainer.location.y) / 100.0f)), (1.0f - ((frame.record._MinContainer.location.x + 3) / 100.0f)));
+        Vector2 latLongMin = new Vector2(bb.x + minLoc.x * bb.width, bb.y + (minLoc.y) * bb.height);
         Vector2 normalMin = coordsystem.transformToUnity(latLongMin);
         minPin.transform.position = mouseray.raycastHitFurtherest(new Vector3(normalMin.x, -100, normalMin.y), new Vector3(0, 1, 0));
     }

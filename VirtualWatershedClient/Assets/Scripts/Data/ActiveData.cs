@@ -47,8 +47,12 @@ public class DataLoad
     public string Projection;
     public int total;
     public bool active;
+    public float Min;
+    public float Max;
+    public DateTime Start;
+    public DateTime End;
 
-    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a)
+    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a, float min, float max, DateTime minDate, DateTime maxDate)
     {
         WMS = wms;
         modelrun = mr;
@@ -57,6 +61,10 @@ public class DataLoad
         Projection = null;
         total = t;
         active = a;
+        Min = min;
+        Max = max;
+        Start = minDate;
+        End = maxDate;
     }
 
     public void Toggle()
@@ -92,36 +100,6 @@ public class ActiveData : MonoBehaviour {
 
     // Locals
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
-    private float _Max;
-    private float Max
-    {
-        get
-        {
-            return _Max;
-        }
-        set
-        {
-            _Max = value;
-            maxField.text = value.ToString();
-        }
-    }
-
-    private float _Min;
-    private float Min
-    {
-        get
-        {
-            return _Min;
-        }
-        set
-        {
-            _Min = value;
-            minField.text = value.ToString();
-        }
-    }
-
-    private DateTime Start = DateTime.MaxValue;
-    private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
 
@@ -147,21 +125,55 @@ public class ActiveData : MonoBehaviour {
                 if(Active[tracker[0]].active && Active[tracker[1]].active)
                 {
                     Active[tracker[1]].Toggle();
+
+                    // Update the subscribers
                     spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0], Active[tracker[0]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0]);
+                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0]);                    
+                    spool.UpdateMinMax(Active[tracker[0]].Min, Active[tracker[0]].Max);
+                    trendGraph.SetMin((int)Active[tracker[0]].Min);                    
+                    trendGraph.SetMax((int)Active[tracker[0]].Max);
+
+                    // fix the text
+                    minField.text = ((int)Active[tracker[0]].Min).ToString();
+                    maxField.text = ((int)Active[tracker[0]].Max).ToString();
                 }
                 else if(Active[tracker[0]].active)
                 {
                     Active[tracker[0]].Toggle();
                     Active[tracker[1]].Toggle();
+
+                    // Update the subscribers
                     spool.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, Active[tracker[1]].WMS, tracker[1], Active[tracker[1]].modelrun.ModelRunUUID);
                     trendGraph.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, tracker[1]);
+                    spool.UpdateMinMax(Active[tracker[1]].Min, Active[tracker[1]].Max);
+                    trendGraph.SetMin((int)Active[tracker[1]].Min);
+                    trendGraph.SetMax((int)Active[tracker[1]].Max);
+
+                    // fix the text
+                    minField.text = ((int)Active[tracker[1]].Min).ToString();
+                    maxField.text = ((int)Active[tracker[1]].Max).ToString();
                 }
                 else if (Active[tracker[1]].active)
                 {
                     Active[tracker[0]].Toggle();
+
+                    // Update the subscribers
                     spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0] + "\n" + tracker[1], Active[tracker[0]].modelrun.ModelRunUUID);
                     trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0] + "\n" + tracker[1]);
+
+                    // Calculate new min/max
+                    List<string> tempRef = GetCurrentAvtive();
+                    float min = Active[tempRef[0]].Min - Active[tempRef[1]].Max;
+                    float max = Active[tempRef[0]].Max - Active[tempRef[1]].Min;
+
+                    // Update the min/max
+                    spool.UpdateMinMax(min, max);
+                    trendGraph.SetMin((int)min);
+                    trendGraph.SetMax((int)max);
+
+                    // fix the text
+                    minField.text = ((int)min).ToString();
+                    maxField.text = ((int)max).ToString();
                 }
             }
         }
@@ -214,34 +226,49 @@ public class ActiveData : MonoBehaviour {
 
                     // Updates the min/max information across the necessary classes
                     if (record.Max > Active[record.variableName].modelrun.MinMax[record.variableName].y)
-                    {                    
+                    {
                         Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].modelrun.MinMax[record.variableName].x, record.Max));
-                        if(Max < record.Max)
+                        if (Active[record.variableName].Max < record.Max)
                         {
-                            Max = record.Max;
-                            spool.UpdateMinMax(Min, Max);
-                            trendGraph.SetMax((int)Max);
-                        }                    
+                            Active[record.variableName].Max = record.Max;
+                            // Only run these update is the record is on the active stack
+                            if (Active[record.variableName].active)
+                            {
+                                maxField.text = ((int)record.Max).ToString();
+                                spool.UpdateMinMax(Active[record.variableName].Min, Active[record.variableName].Max);
+                                trendGraph.SetMax((int)Active[record.variableName].Max);
+                            }
+                        }
                     }
                     if (record.Min < Active[record.variableName].modelrun.MinMax[record.variableName].x)
-                    {                    
+                    {
                         Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(record.Min, Active[record.variableName].modelrun.MinMax[record.variableName].y));
-                        if(Min > record.Min)
+                        if (Active[record.variableName].Min > record.Min)
                         {
-                            Min = record.Min;
-                            spool.UpdateMinMax(Min, Max);
-                            trendGraph.SetMin((int)Min);
+                            Active[record.variableName].Min = record.Min;
+                            // Only run these update is the record is on the active stack
+                            if (Active[record.variableName].active)
+                            {
+                                minField.text = ((int)record.Min).ToString();
+                                spool.UpdateMinMax(Active[record.variableName].Min, Active[record.variableName].Max);
+                                trendGraph.SetMin((int)Active[record.variableName].Min);
+                            }
                         }
                     }
 
-
-                    if(Start > Active[record.variableName].frames[0].starttime || End < Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime)
+                    // Update the time
+                    if (Active[record.variableName].Start > Active[record.variableName].frames[0].starttime || Active[record.variableName].End < Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime)
                     {
-                        Start = Active[record.variableName].frames[0].starttime;
-                        End = Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime;
-                        spool.UpdateTimeDuration(Start, End);
-                        trendGraph.UpdateTimeDuration(Start, End);
+                        Active[record.variableName].Start = Active[record.variableName].frames[0].starttime;
+                        Active[record.variableName].End = Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime;
+                        // Only run these update is the record is on the active stack
+                        if (Active[record.variableName].active)
+                        {
+                            spool.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
+                            trendGraph.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
+                        }
                     }
+           
                 }
             }
 
@@ -432,27 +459,15 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     /// <param name="Time">The time on the time slider.</param>
     /// <returns>Location of the Reel the time is.</returns>
-    public static int FindNearestFrame(DateTime Time)
+    public static int FindNearestFrame(string variable, DateTime Time)
     {
         Frame temp = new Frame();
         temp.starttime = Time;
 
-        int runningTotal = 0;
-        foreach (var data in Active)
-        {
-            runningTotal = data.Value.frames.Count;
-        }
-
         int index = 0;
-        foreach (var data in Active)
-        {
-            int current = data.Value.frames.BinarySearch(temp, new FrameEndDateAscending());
-            if (index != current)
-            {
-                //Debug.LogError("There was an incorrect index match: " + index + " with " + current);                
-            }
-            index = current;
-        }
+        int runningTotal = runningTotal = Active[variable].frames.Count;
+        int current = Active[variable].frames.BinarySearch(temp, new FrameEndDateAscending());
+        index = current;
 
         int returnValue = index < 0 ? ~index - 1 : index;
         if (returnValue < 0)
@@ -467,6 +482,11 @@ public class ActiveData : MonoBehaviour {
         CurrentIndex = returnValue;
 
         return returnValue;
+    }
+
+    public static Vector2 GetMinMax(string variable)
+    {
+        return new Vector2(Active[variable].Min, Active[variable].Max);
     }
 
     public static List<String> GetCurrentAvtive()
@@ -505,7 +525,7 @@ public class ActiveData : MonoBehaviour {
             else
             {
                 returnvalue = Active[variable].frames[Active[variable].frames.Count - 1];
-            }                
+            }
         }
         else
         {
@@ -568,25 +588,21 @@ public class ActiveData : MonoBehaviour {
             if (Active.Count > 1)
             {
                 // Initilize the Time
-                Start = DateTime.MaxValue;
-                End = DateTime.MinValue;
-                Max = float.MinValue;
-                Min = float.MaxValue;
                 Active.Clear();
                 spool.Clear();
                 trendGraph.Clear();
                 GRAND_TOTAL = 0;
             }
-            Debug.LogError("DOWNLOADING");
+            
             // Set the download based on the doqq in description
             if (temp[index].Description.ToLower().Contains("doqq"))
             {
-                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
+                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, float.MaxValue, float.MinValue, DateTime.MaxValue, DateTime.MinValue));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
             }
             else
             {
-                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
+                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, float.MaxValue, float.MinValue, DateTime.MaxValue, DateTime.MinValue));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
             }
         }

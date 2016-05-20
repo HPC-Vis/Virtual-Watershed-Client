@@ -45,7 +45,7 @@ struct Input {
 };
 
 // Custom&reflexLighting
-#include "Assets/ReliefPack/Shaders/CustomLightingLegacy.cginc"
+#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLightingLegacy.cginc"
 	
 void surf (Input IN, inout SurfaceOutput o) {
 	float4 tex = tex2D(_MainTex, IN.uv_MainTex.xy);
