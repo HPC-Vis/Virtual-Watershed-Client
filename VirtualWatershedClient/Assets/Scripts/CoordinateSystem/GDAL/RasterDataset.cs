@@ -171,7 +171,7 @@ public class RasterDataset
         width = 100;
         height = 100;
         width = height = Math.Max(width, height);
-        Console.WriteLine(width + " " + height);
+        Debug.LogError(width + " " + height);
         for (int i = 0; i < dataset.RasterCount; i++)
         {
             float[] DataF = new float[width * height];
@@ -183,7 +183,7 @@ public class RasterDataset
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.LogError(e.Message);
                 return data;
             }
             // Debug.LogError(width + " " + height);
@@ -201,7 +201,7 @@ public class RasterDataset
             data.Add(Data);
 
         }
-        Console.WriteLine(dataset.RasterCount);
+        Debug.LogError(dataset.RasterCount);
         return data;
     }
 

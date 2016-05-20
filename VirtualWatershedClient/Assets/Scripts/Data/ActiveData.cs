@@ -405,11 +405,14 @@ public class ActiveData : MonoBehaviour {
 
     public static void UpdateTotal(String location, int value)
     {
-        DataLoad temp = Active[location];
-        GRAND_TOTAL -= temp.total;
-        temp.total = value;
-        GRAND_TOTAL += temp.total;
-        Active[location] = temp;
+        if (Active.ContainsKey(location))
+        {
+            DataLoad temp = Active[location];
+            GRAND_TOTAL -= temp.total;
+            temp.total = value;
+            GRAND_TOTAL += temp.total;
+            Active[location] = temp;
+        }
     }
 
 

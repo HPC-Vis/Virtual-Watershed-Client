@@ -54,6 +54,7 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
             //return (WorldCoord - WorldOrigin).normalized * distance;
             TransformedCoord = CoordinateUtils.transformToUTMWithZone(WorldCoord.x, WorldCoord.y, LocalZone);
             Debug.LogError(TransformedCoord);
+            Debug.LogError(WorldCoord);
         }
         // If these two points are not in the same hemisphere
         else if (NorthHemisphere != (WorldCoord.y > 0) )
