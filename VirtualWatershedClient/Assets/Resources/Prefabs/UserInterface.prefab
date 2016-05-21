@@ -34809,8 +34809,6 @@ MonoBehaviour:
   variable_name: 
   valueFormatString: 0.00
   Keep: 1
-  Row: 0
-  Col: 0
   easting: 0
   northing: 0
   GraphMaterial: {fileID: 2100000, guid: 5a775563bdca74c5bbc1e0d8ab67d1dc, type: 2}
@@ -57846,12 +57844,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testImage: {fileID: 11465534}
+  testImage2: {fileID: 0}
   gridSlider: {fileID: 11435164}
   timeSlider: {fileID: 11415726}
   TimeProjector: {fileID: 0}
   colorWindow: {fileID: 2100000, guid: bbd80dc56c6998645bbcd5e53c6e0eea, type: 2}
   colorProjector: {fileID: 2100000, guid: 95fe5de3d2b265e488a85821f9cd070e, type: 2}
   slideProjector: {fileID: 2100000, guid: 9c93ff4681dc5f34fb0573fdb973aef3, type: 2}
+  colorWindow2: {fileID: 0}
   selectedVariableTextBox: {fileID: 11406192}
   minPin: {fileID: 0}
   maxPin: {fileID: 0}
@@ -65413,6 +65413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TerrainList: {fileID: 11453664}
+  Terrains: {fileID: 0}
   to: {fileID: 11409256}
   BaseMap: {fileID: 2800000, guid: d5cd325de1035cc4ead8b6eb573bd5b5, type: 3}
 --- !u!114 &11484248

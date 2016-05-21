@@ -23,6 +23,8 @@ Properties{
 		_x5("Range Limit 5", float) = 0.00000
 		_MaxX("Max X", float) = 1
 		_MaxY("Max Y", float) = 1
+
+		_Transpose("Transpose Image", int) = 0
 	}
 
 		Category{
@@ -65,11 +67,21 @@ Properties{
 		uniform float _MaxX;
 		uniform float _MaxY;
 
+		uniform int _Transpose;
+
 		float4 frag(v2f_img i) : COLOR
 		{
 			// Check bounding
 			i.uv.x = i.uv.x / _MaxX;
 			i.uv.y = i.uv.y / _MaxY;
+
+			if (_Transpose == 1)
+			{
+				float temp = i.uv.x;
+				i.uv.x = i.uv.y;
+				i.uv.y = temp;
+			}
+
 			if (i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
 			{
 				return float4(0,0,0,1);

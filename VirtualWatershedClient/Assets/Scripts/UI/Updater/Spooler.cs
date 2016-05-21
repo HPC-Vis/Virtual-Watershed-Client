@@ -28,6 +28,7 @@ public class Spooler : MonoBehaviour
     bool WMS = false;
     string oldSelectedVariable;
     private FilterMode filtermode = FilterMode.Bilinear;
+    private bool transpose;
 
 	
 	/// <summary>
@@ -196,6 +197,29 @@ public class Spooler : MonoBehaviour
     {
         colorPicker.SetMin(0);
         colorPicker.SetMax(1);
+    }
+
+    public void Transpose()
+    {
+        if(transpose)
+        {
+            TimeProjector.material.SetInt("_Transpose", 1);
+            testImage.material.SetInt("_Transpose", 1);
+            if (testImage2.gameObject.activeSelf)
+            {
+                testImage2.material.SetInt("_Transpose", 1);
+            }
+        }
+        else
+        {
+            TimeProjector.material.SetInt("_Transpose", 0);
+            testImage.material.SetInt("_Transpose", 0);
+            if (testImage2.gameObject.activeSelf)
+            {
+                testImage2.material.SetInt("_Transpose", 0);
+            }
+        }
+        transpose = !transpose;
     }
     
     /// <summary>

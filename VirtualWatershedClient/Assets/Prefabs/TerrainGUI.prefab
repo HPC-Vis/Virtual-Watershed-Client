@@ -22708,12 +22708,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testImage: {fileID: 11442244}
+  testImage2: {fileID: 0}
   gridSlider: {fileID: 11499510}
   timeSlider: {fileID: 11459056}
   TimeProjector: {fileID: 0}
   colorWindow: {fileID: 2100000, guid: bbd80dc56c6998645bbcd5e53c6e0eea, type: 2}
   colorProjector: {fileID: 2100000, guid: 95fe5de3d2b265e488a85821f9cd070e, type: 2}
   slideProjector: {fileID: 2100000, guid: 9c93ff4681dc5f34fb0573fdb973aef3, type: 2}
+  colorWindow2: {fileID: 0}
   selectedVariableTextBox: {fileID: 11401564}
   minPin: {fileID: 0}
   maxPin: {fileID: 0}
@@ -33938,6 +33940,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   temporalList: {fileID: 11451846}
+  Options: {fileID: 0}
   DownloadTextbox: {fileID: 11413406}
   minField: {fileID: 0}
   maxField: {fileID: 0}
@@ -48871,8 +48874,6 @@ MonoBehaviour:
   variable_name: 
   valueFormatString: 0.00
   Keep: 1
-  Row: 0
-  Col: 0
   easting: 0
   northing: 0
   GraphMaterial: {fileID: 2100000, guid: 5a775563bdca74c5bbc1e0d8ab67d1dc, type: 2}
@@ -68452,6 +68453,8 @@ MonoBehaviour:
   miniMap: {fileID: 2040474}
   player: {fileID: 0}
   playerMarker: {fileID: 0}
+  Elevation: {fileID: 0}
+  Northsouth: {fileID: 0}
 --- !u!114 &11499752
 MonoBehaviour:
   m_ObjectHideFlags: 1
