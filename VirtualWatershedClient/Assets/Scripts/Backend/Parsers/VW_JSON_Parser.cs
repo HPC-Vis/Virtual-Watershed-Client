@@ -96,8 +96,9 @@ public class VW_JSON_Parser : Parser
 
                 current.modelname = encoded["results"][records]["categories"][0]["modelname"].ToString().Replace('"', ' ').Trim();
 
-                current.Temporal = !current.modelname.ToLower().Contains("reference");
+                current.Temporal = !current.modelname.ToLower().Contains("reference") || !current.modelname.ToLower().Contains("Capstone");
                 Logger.WriteLine("TEMPORAL: " + current.Temporal.ToString());
+                //UnityEngine.Debug.LogError("TEMPORAL: " +  current.modelname + "____" + current.Temporal);
 
                 current.state = encoded["results"][records]["categories"][0]["state"].ToString().Replace('"', ' ').Trim();
 
@@ -150,7 +151,8 @@ public class VW_JSON_Parser : Parser
                 current.id = id;
                 current.name = name;
                 current.variableName = encoded["results"][records]["model_vars"].ToString().Replace('"', ' ').Trim();
-                current.Temporal = current.IsTemporal() || current.variableName.ToLower().Contains("animation");
+                current.Temporal = (current.IsTemporal() || current.variableName.ToLower().Contains("animation") ) && encoded["results"][records]["model_set"].ToString().Replace('"', ' ').Trim() != "reference";
+                
                 current.description = description;
                 // Logger.WriteLine(name);
 

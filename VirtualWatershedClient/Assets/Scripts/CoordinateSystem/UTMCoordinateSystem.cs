@@ -42,11 +42,17 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
         // This makes sense with UTM.
         if(WorldCoord.y > 84 || WorldCoord.y < -80 || WorldCoordZone != LocalZone)
         {
-            // Time to do some haversine magic -- to get the distance between the two points
-            float distance = (float)CoordinateUtils.GetDistanceKM(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y)*1000.0f; // convert to meters
+            //Debug.Break();
+            // Time to do some haversine magic -- to get the distance between the two pointsf
+            //float distance = CoordinateUtils.SimponsRule(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y,WorldCoordZone);
+            //float distance = (float)CoordinateUtils.VincentyDistanceKM(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y)*1000.0f; // convert to meters
 
             // Now lets compute the Unity Point -- by getting a direction vector and multiplying the distance to it.
-            return (WorldCoord - WorldOrigin).normalized * distance;
+
+            
+            //return (WorldCoord - WorldOrigin).normalized * distance;
+            TransformedCoord = CoordinateUtils.transformToUTMWithZone(WorldCoord.x, WorldCoord.y, LocalZone);
+
         }
         // If these two points are not in the same hemisphere
         else if (NorthHemisphere != (WorldCoord.y > 0) )

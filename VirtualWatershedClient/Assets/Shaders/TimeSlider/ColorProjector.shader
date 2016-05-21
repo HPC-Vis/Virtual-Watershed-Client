@@ -323,6 +323,9 @@ float4 frag (vertexInput i) : SV_Target
 {
 	i.uv.x = i.uv.x / _MaxX;
     i.uv.y = i.uv.y / _MaxY;
+	//float temp = i.uv.x;
+	//i.uv.x = i.uv.y;
+	//i.uv.y = temp;
 	// return float4(1,1,1,0);
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 	float4 col2 = tex2Dproj(_ShadowTex2, UNITY_PROJ_COORD(i.uv));

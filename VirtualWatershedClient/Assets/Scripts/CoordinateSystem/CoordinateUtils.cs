@@ -14,7 +14,7 @@ public static class CoordinateUtils
     /// <summary>
     /// Radius of the Earth in Kilometers.
     /// </summary>
-    private const double EARTH_RADIUS_KM = 6371;
+    private const double EARTH_RADIUS_KM = 6378;
 
     /// <summary>
     /// Converts an angle to a radian.
@@ -210,5 +210,42 @@ public static class CoordinateUtils
         GeodeticCurve geoCurve = geoCalc.CalculateGeodeticCurve(reference, pointOne, pointTwo);
         double ellipseKilometers = geoCurve.EllipsoidalDistance / 1000.0;
         return ellipseKilometers;
+    }
+
+    public static Vector2 TransformPoint(OSGeo.OSR.CoordinateTransformation tran, Vector2 Point)
+    {
+        double[] Out = new double[2];
+        Out[0] = (float)Point.x;
+        Out[1] = (float)Point.y;
+        tran.TransformPoint(Out);
+        return new Vector2((float)Out[0], (float)Out[1]);
+    }
+
+    static float ScaleFactor(float value)
+    {
+        Debug.LogError("SCALE: " + Mathf.Cos((value - 500000) / 6378000));
+        return .9996f / Mathf.Cos((value - 500000) / 6378000);
+    }
+
+    public static  float SimponsRule(float Long1, float Lat1, float Long2, float Lat2, int zone)
+    {
+        var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+        var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+        double XDist6 = ( Mathf.Abs(point2.x - point1.x)) / 6;
+        float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+        float ydist = Mathf.Abs(point2.y - point1.y);
+        float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+        return Dist2;
+    }
+
+    public static float SimpleRuleXDist(float Long1, float Lat1, float Long2, float Lat2, int zone)
+    {
+        var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+        var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+        double XDist6 = (Mathf.Abs(point2.x - point1.x)) / 6;
+        float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+        float ydist = Mathf.Abs(point2.y - point1.y);
+        float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+        return simpson;
     }
 }
