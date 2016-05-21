@@ -24,7 +24,7 @@ public class Scaler : MonoBehaviour {
     {
         GameObject currentController;
         float distance;
-        float yThresh, xzThresh;
+        float yThresh, xThresh, zThresh;
 
 
         currentController = FirstPersonController;
@@ -32,7 +32,7 @@ public class Scaler : MonoBehaviour {
         distance = (gameObject.transform.position - currentController.transform.position).magnitude;
         if (distance / dist_thresh < 3.14f)
         {
-            yThresh = 3.14f;
+            yThresh = 1.0f;
         }
         else
         {
@@ -41,15 +41,24 @@ public class Scaler : MonoBehaviour {
 
         if (distance / dist_thresh < 1.14)
         {
-            xzThresh = 1.14f;
+            xThresh = 5.0f;
         }
         else
         {
-            xzThresh = distance / dist_thresh;
+            xThresh = distance / dist_thresh;
+        }
+
+        if (distance / dist_thresh < 1.14)
+        {
+            zThresh = 20.0f;
+        }
+        else
+        {
+            zThresh = distance / dist_thresh;
         }
 
         //OriginalHeight
         //gameObject.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-        gameObject.transform.localScale = new Vector3(xzThresh, yThresh, xzThresh);
+        gameObject.transform.localScale = new Vector3(xThresh, yThresh, zThresh);
     }
 }

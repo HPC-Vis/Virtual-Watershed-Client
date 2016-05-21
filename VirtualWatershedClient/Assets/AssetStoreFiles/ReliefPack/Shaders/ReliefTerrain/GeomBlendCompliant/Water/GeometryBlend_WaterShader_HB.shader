@@ -181,7 +181,7 @@ Shader "Relief Pack/GeometryBlend_WaterShader_HB" {
 	float4 _MainTex_ST;	 
  	
 	// Custom&reflexLighting
-	#include "Assets/ReliefPack/Shaders/CustomLightingLegacy.cginc"
+	#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLightingLegacy.cginc"
     
 	inline float2 GetRipple(float2 UV, float Intensity)
 	{

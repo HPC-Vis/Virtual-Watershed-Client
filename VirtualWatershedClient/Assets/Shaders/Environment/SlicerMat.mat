@@ -38,20 +38,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _3DTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -78,6 +64,20 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _3DTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -93,28 +93,16 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Glossiness
-        second: 0.5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _Max
-        second: 0.6490196
-      data:
-        first:
-          name: _Min
-        second: 0.53137255
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -137,8 +125,20 @@ Material:
         second: 0
       data:
         first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
           name: _EmissionScaleUI
         second: 0
+      data:
+        first:
+          name: _Max
+        second: 0.6529412
+      data:
+        first:
+          name: _Min
+        second: 0.47254905
     m_Colors:
       data:
         first:
@@ -151,8 +151,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: 0.20639998, g: 0.761887, b: 0, a: 0}
+        second: {r: 0.8159386, g: 0.3673659, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: 0.21703736, g: 0.67077714, b: 0, a: 0}
+        second: {r: 0.8109385, g: 0.41798547, b: 0, a: 0}

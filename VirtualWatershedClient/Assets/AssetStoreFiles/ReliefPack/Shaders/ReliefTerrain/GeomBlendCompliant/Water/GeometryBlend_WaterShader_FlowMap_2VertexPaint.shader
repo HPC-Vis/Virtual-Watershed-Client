@@ -202,7 +202,7 @@ Shader "Relief Pack/GeometryBlend_WaterShader_FlowMap_2VertexPaint" {
 	sampler2D _TERRAIN_Control;
 	
 	// Custom&reflexLighting
-	#include "Assets/ReliefPack/Shaders/CustomLightingLegacy.cginc"
+	#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLightingLegacy.cginc"
 	      
 	inline float2 GetRipple(float2 UV, float Intensity)
 	{

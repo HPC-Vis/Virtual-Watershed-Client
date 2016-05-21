@@ -47,8 +47,13 @@ public class DataLoad
     public string Projection;
     public int total;
     public bool active;
+    public float Min;
+    public float Max;
+    public DateTime Start;
+    public DateTime End;
+    public string[] variable;
 
-    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a)
+    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a, string[] var)
     {
         WMS = wms;
         modelrun = mr;
@@ -57,6 +62,15 @@ public class DataLoad
         Projection = null;
         total = t;
         active = a;
+        Min = float.MaxValue;
+        Max = float.MinValue;
+        Start = DateTime.MaxValue;
+        End = DateTime.MinValue;
+        variable = new string[var.Length];
+        for(int i = 0; i < variable.Length; i++)
+        {
+            variable[i] = String.Copy(var[i]);
+        }
     }
 
     public void Toggle()
@@ -81,10 +95,12 @@ public class ActiveData : MonoBehaviour {
     // Variables
     public static Dictionary<String, DataLoad> Active = new Dictionary<String, DataLoad>();
     public ModelRunLoader temporalList;
+    public Dropdown Options;
     public Text DownloadTextbox;
     public static int GRAND_TOTAL = 0;
     public InputField minField;
     public InputField maxField;
+    public static bool Updated = false;
 
     // List of objects subscribing to the active data
     public Spooler spool;
@@ -92,36 +108,6 @@ public class ActiveData : MonoBehaviour {
 
     // Locals
     private Queue<DataRecord> SliderFrames = new Queue<DataRecord>();
-    private float _Max;
-    private float Max
-    {
-        get
-        {
-            return _Max;
-        }
-        set
-        {
-            _Max = value;
-            maxField.text = value.ToString();
-        }
-    }
-
-    private float _Min;
-    private float Min
-    {
-        get
-        {
-            return _Min;
-        }
-        set
-        {
-            _Min = value;
-            minField.text = value.ToString();
-        }
-    }
-
-    private DateTime Start = DateTime.MaxValue;
-    private DateTime End = DateTime.MinValue;
     private static int CurrentIndex;
 
 
@@ -137,39 +123,6 @@ public class ActiveData : MonoBehaviour {
         {
             Debug.LogError("HERE");
             ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
-        }
-
-        // This if statement is used for debugging code
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.LogError("L Button  Pressed");
-            if (Active.Count > 1)
-            {
-                List<String> tracker = new List<String>();
-                foreach (var value in Active)
-                {
-                    tracker.Add(value.Key);
-                }
-                if(Active[tracker[0]].active && Active[tracker[1]].active)
-                {
-                    Active[tracker[1]].Toggle();
-                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0], Active[tracker[0]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0]);
-                }
-                else if(Active[tracker[0]].active)
-                {
-                    Active[tracker[0]].Toggle();
-                    Active[tracker[1]].Toggle();
-                    spool.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, Active[tracker[1]].WMS, tracker[1], Active[tracker[1]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, tracker[1]);
-                }
-                else if (Active[tracker[1]].active)
-                {
-                    Active[tracker[0]].Toggle();
-                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0] + "\n" + tracker[1], Active[tracker[0]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0] + "\n" + tracker[1]);
-                }
-            }
         }
 
         // Temp Patch
@@ -211,8 +164,11 @@ public class ActiveData : MonoBehaviour {
                         Active[record.variableName] = temp;
 
                         // Push the new information to the subscribers
-                        spool.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, Active[record.variableName].WMS, record.variableName, Active[record.variableName].modelrun.ModelRunUUID);
-                        trendGraph.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, record.variableName);
+                        if (Active[record.variableName].active)
+                        {
+                            spool.UpdateData(record.variableName);
+                            trendGraph.UpdateData(record.variableName);
+                        }                        
                     }
 
                     // Build the texture
@@ -220,34 +176,48 @@ public class ActiveData : MonoBehaviour {
 
                     // Updates the min/max information across the necessary classes
                     if (record.Max > Active[record.variableName].modelrun.MinMax[record.variableName].y)
-                    {                    
+                    {
                         Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(Active[record.variableName].modelrun.MinMax[record.variableName].x, record.Max));
-                        if(Max < record.Max)
+                        if (Active[record.variableName].Max < record.Max)
                         {
-                            Max = record.Max;
-                            spool.UpdateMinMax(Min, Max);
-                            trendGraph.SetMax((int)Max);
-                        }                    
+                            Active[record.variableName].Max = record.Max;
+                            // Only run these update is the record is on the active stack
+                            if (Active[record.variableName].active)
+                            {
+                                maxField.text = ((int)record.Max).ToString();
+                                spool.UpdateMinMax();
+                                trendGraph.UpdateMinMax();
+                            }
+                        }
                     }
                     if (record.Min < Active[record.variableName].modelrun.MinMax[record.variableName].x)
-                    {                    
+                    {
                         Active[record.variableName].modelrun.MinMax[record.variableName] = new SerialVector2(new Vector2(record.Min, Active[record.variableName].modelrun.MinMax[record.variableName].y));
-                        if(Min > record.Min)
+                        if (Active[record.variableName].Min > record.Min)
                         {
-                            Min = record.Min;
-                            spool.UpdateMinMax(Min, Max);
-                            trendGraph.SetMin((int)Min);
+                            Active[record.variableName].Min = record.Min;
+                            // Only run these update is the record is on the active stack
+                            if (Active[record.variableName].active)
+                            {
+                                minField.text = ((int)record.Min).ToString();
+                                spool.UpdateMinMax();
+                                trendGraph.UpdateMinMax();
+                            }
                         }
                     }
 
-
-                    if(Start > Active[record.variableName].frames[0].starttime || End < Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime)
+                    // Update the time
+                    if (Active[record.variableName].Start > Active[record.variableName].frames[0].starttime || Active[record.variableName].End < Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime)
                     {
-                        Start = Active[record.variableName].frames[0].starttime;
-                        End = Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime;
-                        spool.UpdateTimeDuration(Start, End);
-                        trendGraph.UpdateTimeDuration(Start, End);
-                    }
+                        Active[record.variableName].Start = Active[record.variableName].frames[0].starttime;
+                        Active[record.variableName].End = Active[record.variableName].frames[Active[record.variableName].frames.Count - 1].endtime;
+                        // Only run these update is the record is on the active stack
+                        if (Active[record.variableName].active)
+                        {
+                            spool.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
+                            trendGraph.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
+                        }
+                    }           
                 }
             }
 
@@ -261,7 +231,72 @@ public class ActiveData : MonoBehaviour {
         
         // Updates across objects
         trendGraph.SetDataIndex(CurrentIndex);
+
+        if(Updated)
+        {
+            Updated = false;
+            foreach(var item in Active)
+            {
+                if(item.Value.active)
+                {
+                    spool.UpdateData(item.Key);
+                    spool.UpdateMinMax();
+                    trendGraph.UpdateData(item.Key);
+                    trendGraph.UpdateMinMax();
+                }                
+            }
+
+            List<string> tempRef = GetCurrentAvtive();
+            float min, max;
+            if (tempRef.Count > 1)
+            {
+                min = Active[tempRef[0]].Min - Active[tempRef[1]].Max;
+                max = Active[tempRef[0]].Max - Active[tempRef[1]].Min;               
+            }
+            else
+            {
+                min = Active[tempRef[0]].Min;
+                max = Active[tempRef[0]].Max;
+            }
+            
+            // fix the text
+            minField.text = ((int)min).ToString();
+            maxField.text = ((int)max).ToString();
+        }
     }
+
+
+    public static void ChangeActive(string name)
+    {
+        char[] splitval = { ':' };
+        string[] variable = name.Split(splitval);
+        
+        // Toggle off any active
+        foreach(var item in Active)
+        {
+            if(item.Value.active)
+            {
+                item.Value.Toggle();
+            }
+        }
+
+        // Make variable[0] active
+        try
+        {
+            Active[variable[0]].Toggle();            
+        }
+        catch (Exception e)
+        {
+            Dictionary<string, DataLoad>.Enumerator enumerator = Active.GetEnumerator();
+            enumerator.MoveNext();
+            enumerator.Current.Value.Toggle();
+            throw new ArgumentException("The value does not exist in the Active set: " + variable[0] + " " + e.Message);
+        }
+
+        // Ensure there is an update
+        ActiveData.Updated = true;
+    }
+
 
     /// <summary>
     /// Takes the currently worked on record and adds it to the spooler.
@@ -441,27 +476,15 @@ public class ActiveData : MonoBehaviour {
     /// </summary>
     /// <param name="Time">The time on the time slider.</param>
     /// <returns>Location of the Reel the time is.</returns>
-    public static int FindNearestFrame(DateTime Time)
+    public static int FindNearestFrame(string variable, DateTime Time)
     {
         Frame temp = new Frame();
         temp.starttime = Time;
 
-        int runningTotal = 0;
-        foreach (var data in Active)
-        {
-            runningTotal = data.Value.frames.Count;
-        }
-
         int index = 0;
-        foreach (var data in Active)
-        {
-            int current = data.Value.frames.BinarySearch(temp, new FrameEndDateAscending());
-            if (index != current)
-            {
-                //Debug.LogError("There was an incorrect index match: " + index + " with " + current);                
-            }
-            index = current;
-        }
+        int runningTotal = runningTotal = Active[variable].frames.Count;
+        int current = Active[variable].frames.BinarySearch(temp, new FrameEndDateAscending());
+        index = current;
 
         int returnValue = index < 0 ? ~index - 1 : index;
         if (returnValue < 0)
@@ -478,6 +501,11 @@ public class ActiveData : MonoBehaviour {
         return returnValue;
     }
 
+    public static Vector2 GetMinMax(string variable)
+    {
+        return new Vector2(Active[variable].Min, Active[variable].Max);
+    }
+
     public static List<String> GetCurrentAvtive()
     {
         List<String> returnval = new List<string>();
@@ -485,15 +513,28 @@ public class ActiveData : MonoBehaviour {
         {
             if(item.Value.active)
             {
-                returnval.Add(item.Key);
+                foreach(string val in item.Value.variable)
+                {
+                    returnval.Add(val);
+                }                
             }
         }
         return returnval;
     }
 
     public static Rect GetBoundingBox(String variable)
-    {
+    {       
         return Active[variable].BoundingBox;
+    }
+
+    public static string GetProjection(String variable)
+    {
+        return Active[variable].Projection;
+    }
+
+    public static bool GetWMS(String variable)
+    {
+        return Active[variable].WMS;
     }
 
     public static int GetCount(String variable)
@@ -514,7 +555,7 @@ public class ActiveData : MonoBehaviour {
             else
             {
                 returnvalue = Active[variable].frames[Active[variable].frames.Count - 1];
-            }                
+            }
         }
         else
         {
@@ -567,35 +608,48 @@ public class ActiveData : MonoBehaviour {
             sp.width = 100;
             sp.height = 100;
 
+            // Check if there is a need to clear -- if greater than 2
+            if (Active.Count > 1)
+            {
+                // Initilize the Time
+                Active.Clear();
+                spool.Clear();
+                trendGraph.Clear();
+                GRAND_TOTAL = 0;
+            }
+
             // Get the Model Run
             string variable = seled[index][2].ToString();
             var Records = temp[index].FetchVariableData(variable);
             GRAND_TOTAL += Records.Count;
             Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
 
-            // Check if there is a need to clear -- if greater than 2
-            if (Active.Count > 1)
+            // Add the new loaded to the list
+            Options.options.Add(new Dropdown.OptionData(variable + ": " + VariableReference.GetDescription(variable)));
+            
+            // Check if there are now two loaded, if so add to list
+            if(Active.Count == 1)
             {
-                // Initilize the Time
-                Start = DateTime.MaxValue;
-                End = DateTime.MinValue;
-                Max = float.MinValue;
-                Min = float.MaxValue;
-                Active.Clear();
-                spool.Clear();
-                trendGraph.Clear();
-                GRAND_TOTAL = 0;
+                Dictionary<string, DataLoad>.Enumerator e = Active.GetEnumerator();
+                e.MoveNext();
+                string secondVar = e.Current.Key;
+                Options.options.Add(new Dropdown.OptionData(variable + "_" + secondVar + ": " + "Delta " + variable + " - " + secondVar));
+                Options.options.Add(new Dropdown.OptionData(secondVar + "_" + variable + ": " + "Delta " + secondVar + " - " + variable));
+                Active.Add(variable + "_" + secondVar, new DataLoad(true, null, new List<Frame>(), Records.Count, false, new string[] { variable, secondVar }));
+                Active.Add(secondVar + "_" + variable, new DataLoad(true, null, new List<Frame>(), Records.Count, false, new string[] { secondVar, variable }));
+                VariableReference.AddDescription(variable + "_" + secondVar, "Delta " + variable + " - " + secondVar);
+                VariableReference.AddDescription(secondVar + "_" + variable, "Delta " + secondVar + " - " + variable);
             }
-            Debug.LogError("DOWNLOADING");
+
             // Set the download based on the doqq in description
             if (temp[index].Description.ToLower().Contains("doqq"))
             {
-                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
+                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, new string[]{variable}));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
             }
             else
             {
-                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, index == 0));
+                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, new string[] { variable }));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
             }
         }
@@ -614,7 +668,7 @@ public class ActiveData : MonoBehaviour {
             {
                 for (int i = 0; i < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(1); i++)
                 {
-                    for (int j = 0; j < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0); j++)
+                    for (int j = ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0) - 1; j >= 0 ; j--)
                     {
                         file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[i, j] + ", ");
                     }

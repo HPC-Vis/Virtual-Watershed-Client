@@ -861,7 +861,7 @@ void customFog (Input IN, RTPSurfaceOutput o, inout fixed4 color) {
 	#endif
 }
 
-#include "Assets/ReliefPack/Shaders/CustomLighting.cginc"
+#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLighting.cginc"
 
 inline float3 myObjSpaceLightDir( in float4 v )
 {

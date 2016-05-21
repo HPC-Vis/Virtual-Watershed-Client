@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class Marker : MonoBehaviour {
 
-    public GameObject marker1, marker2, cursor;
+    public GameObject marker1, marker2, cursor, minPin, maxPin;
     public bool marker1Active = false;
     public bool marker2Active = false;
     private Vector3 cursorPos, CursorWorldPos;
@@ -22,6 +22,8 @@ public class Marker : MonoBehaviour {
         mouseray.IgnoredObjects.Add(marker1);
         mouseray.IgnoredObjects.Add(marker2);
         mouseray.IgnoredObjects.Add(cursor);
+        mouseray.IgnoredObjects.Add(minPin);
+        mouseray.IgnoredObjects.Add(maxPin);
         mouseray.IgnoredObjects.Add(PlayerController);
 
         // Set objects
@@ -128,6 +130,8 @@ public class Marker : MonoBehaviour {
         ResizeObjects(cursor);
         ResizeUniformObjects(marker1);
         ResizeUniformObjects(marker2);
+        ResizeUniformObjects(minPin);
+        ResizeUniformObjects(maxPin);
         setPoints();
 
         cursor.transform.Rotate(Vector3.forward, 1);

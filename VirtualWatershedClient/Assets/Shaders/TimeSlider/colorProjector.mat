@@ -10,7 +10,7 @@ Material:
   m_Shader: {fileID: 4800000, guid: fd8d0ec793757c645afb5d7794f5350e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 3000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -45,6 +45,20 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _OcclusionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _DetailMask
         second:
           m_Texture: {fileID: 0}
@@ -66,14 +80,21 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _OcclusionMap
+          name: _ShadowTex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _EmissionMap
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex2
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -93,20 +114,16 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Glossiness
-        second: 0.5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
         first:
           name: _ZWrite
         second: 1
+      data:
+        first:
+          name: _Glossiness
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -129,36 +146,40 @@ Material:
         second: 0
       data:
         first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
           name: _EmissionScaleUI
         second: 0
       data:
         first:
           name: _FloatMin
-        second: -12.920635
+        second: 71.28899
       data:
         first:
           name: _FloatMax
-        second: 9.96921e+36
+        second: 1605.397
       data:
         first:
           name: _x1
-        second: 1.993842e+36
+        second: 378.1106
       data:
         first:
           name: _x2
-        second: 3.987684e+36
+        second: 684.9322
       data:
         first:
           name: _x3
-        second: 5.981526e+36
+        second: 991.7538
       data:
         first:
           name: _x4
-        second: 7.975368e+36
+        second: 1298.575
       data:
         first:
           name: _x5
-        second: 9.96921e+36
+        second: 1605.397
       data:
         first:
           name: _MaxX
@@ -166,7 +187,7 @@ Material:
       data:
         first:
           name: _MaxY
-        second: 0.8685177
+        second: 0.8873072
       data:
         first:
           name: _Blend
@@ -175,6 +196,18 @@ Material:
         first:
           name: _NumLines
         second: 1
+      data:
+        first:
+          name: _Compare
+        second: 0
+      data:
+        first:
+          name: _FloatMin2
+        second: 15
+      data:
+        first:
+          name: _FloatMax2
+        second: 100
     m_Colors:
       data:
         first:

@@ -176,7 +176,6 @@ public static class ModelRunManager
             }
             else if (records.Count == 1 && records[0].services.ContainsKey("file"))
             {
-                Debug.LogError("FILE OPERATION");
                 new Thread(() => DownloadFile(records[0].Clone(), SettingTheRecord)).Start();
             }
             else

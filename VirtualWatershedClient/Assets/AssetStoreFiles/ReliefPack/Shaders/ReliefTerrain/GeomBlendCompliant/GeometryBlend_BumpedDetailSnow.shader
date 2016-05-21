@@ -107,7 +107,7 @@ struct Input {
 };
 
 // Custom&reflexLighting
-#include "Assets/ReliefPack/Shaders/CustomLightingLegacy.cginc"
+#include "Assets/AssetStoreFiles/ReliefPack/Shaders/CustomLightingLegacy.cginc"
 	
 void vert (inout appdata_full v, out Input o) {
     #if defined(SHADER_API_D3D11) || defined(SHADER_API_D3D11_9X) || defined(UNITY_PI)
