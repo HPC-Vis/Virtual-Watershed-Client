@@ -48,13 +48,11 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
             //float distance = (float)CoordinateUtils.VincentyDistanceKM(WorldOrigin.x, WorldOrigin.y, WorldCoord.x, WorldCoord.y)*1000.0f; // convert to meters
 
             // Now lets compute the Unity Point -- by getting a direction vector and multiplying the distance to it.
-            Debug.LogError("ZONING: " + LocalZone);
-            Debug.LogError(InternalOrigin);
+
             
             //return (WorldCoord - WorldOrigin).normalized * distance;
             TransformedCoord = CoordinateUtils.transformToUTMWithZone(WorldCoord.x, WorldCoord.y, LocalZone);
-            Debug.LogError(TransformedCoord);
-            Debug.LogError(WorldCoord);
+
         }
         // If these two points are not in the same hemisphere
         else if (NorthHemisphere != (WorldCoord.y > 0) )

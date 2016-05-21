@@ -228,5 +228,23 @@ namespace CoordinateSystemTests
             Debug.LogError(Vector2.Distance(point1, point2));
 
         }
+
+        [TestCase("test.tif")]
+        public void SaveTifTest(string filename)
+        {
+            DataRecord test = new DataRecord();
+            test.projection = "epsg:4326";
+            test.boundingBox = new Rect(33, 33, 10, 10);
+            var data = new float[100, 100];
+            for(int i = 0; i < 100; i++)
+            {
+                for(int j =0; j < 100; j++)
+                {
+                    data[i, j] = i + j;
+                }
+            }
+            test.Data.Add(data);
+            Utilities.SaveTif(filename, test);
+        }
     }
 }

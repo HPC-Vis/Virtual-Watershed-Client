@@ -7,6 +7,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngineInternal;
 using System.IO;
+using System.Text.RegularExpressions;
 
 public static class Utilities
 {
@@ -639,14 +640,59 @@ public static class Utilities
 
     public static bool SaveTif(string filename, DataRecord record)
     {
-        if(record.Data == null || record.Data.Count > 0)
+        if(record.Data == null || record.Data.Count == 0)
         {
             return false;
         }
 
         string path = Utilities.GetFilePath(filename);
+        Debug.LogError("PATH: " + path);
+        double[] geotransform = new double[6];
+        geotransform[0] = record.boundingBox.x; // origin x
+        geotransform[3] = record.boundingBox.y + record.boundingBox.height; // origin y
+        geotransform[1] = record.boundingBox.width / record.Data[0].GetLength(0); // pixel width
+        geotransform[5] = -record.boundingBox.height / record.Data[0].GetLength(1); // pixel height
+        OSGeo.GDAL.Gdal.AllRegister();
+        var ds = OSGeo.GDAL.Gdal.GetDriverByName("GTiff").Create(path, record.Data[0].GetLength(0), record.Data[0].GetLength(1), record.Data.Count, OSGeo.GDAL.DataType.GDT_Float32, null);
+        ds.SetGeoTransform(geotransform);
 
-        OSGeo.GDAL.Gdal.GetDriverByName("GTIF").Create(path + filename + ".tif", record.Data[0].GetLength(0), record.Data[0].GetLength(1), record.Data.Count, OSGeo.GDAL.DataType.GDT_CFloat32, null);
+        OSGeo.OSR.SpatialReference sr = new OSGeo.OSR.SpatialReference("");
+        var resultString = Regex.Match(record.projection, @"\d+").Value;
+
+        int EPSG = int.Parse(resultString);        
+        sr.ImportFromEPSG(4326);
+
+        string projstring="";
+        sr.ExportToWkt(out projstring);
+        ds.SetProjection(projstring);
+
+        int width = record.Data[0].GetLength(0);
+        int height = record.Data[0].GetLength(1);
+
+        
+        for (int i = 0; i < record.Data.Count; i++)
+        {
+            //ds.AddBand(OSGeo.GDAL.DataType.GDT_Float32, null);
+            var band = ds.GetRasterBand(i + 1);
+            var data = new float[record.Data[i].GetLength(0) * record.Data[i].GetLength(1)];
+            ///var Clone = reflectData(record.Data[i]);
+            for (int j = 0; j < record.Data[i].GetLength(0); j++)
+            {
+                for(int k = 0; k < record.Data[i].GetLength(1); k++)
+                {
+                    
+                    data[j * record.Data[i].GetLength(1) + k] = record.Data[i][j, record.Data[i].GetLength(1) - (k + 1)];
+                    //Debug.LogError(record.Data[i][j, k]);
+                }
+            }
+            
+            band.WriteRaster(0, 0, record.Data[i].GetLength(0), record.Data[i].GetLength(1), data, record.Data[i].GetLength(0), record.Data[i].GetLength(1), 0, 0);
+        }
+        Debug.LogError(record.Data[0].GetLength(0));
+        Debug.LogError(record.Data[0].GetLength(1));
+        Debug.LogError(record.boundingBox.width + " " + record.boundingBox.height);
+        ds.Dispose();
+
         return true;
     }
 
