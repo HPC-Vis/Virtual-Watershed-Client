@@ -51,8 +51,9 @@ public class DataLoad
     public float Max;
     public DateTime Start;
     public DateTime End;
+    public string[] variable;
 
-    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a, float min, float max, DateTime minDate, DateTime maxDate)
+    public DataLoad(bool wms, ModelRun mr, List<Frame> fr, int t, bool a, string[] var)
     {
         WMS = wms;
         modelrun = mr;
@@ -61,10 +62,15 @@ public class DataLoad
         Projection = null;
         total = t;
         active = a;
-        Min = min;
-        Max = max;
-        Start = minDate;
-        End = maxDate;
+        Min = float.MaxValue;
+        Max = float.MinValue;
+        Start = DateTime.MaxValue;
+        End = DateTime.MinValue;
+        variable = new string[var.Length];
+        for(int i = 0; i < variable.Length; i++)
+        {
+            variable[i] = String.Copy(var[i]);
+        }
     }
 
     public void Toggle()
@@ -89,10 +95,12 @@ public class ActiveData : MonoBehaviour {
     // Variables
     public static Dictionary<String, DataLoad> Active = new Dictionary<String, DataLoad>();
     public ModelRunLoader temporalList;
+    public Dropdown Options;
     public Text DownloadTextbox;
     public static int GRAND_TOTAL = 0;
     public InputField minField;
     public InputField maxField;
+    public static bool Updated = false;
 
     // List of objects subscribing to the active data
     public Spooler spool;
@@ -109,73 +117,6 @@ public class ActiveData : MonoBehaviour {
         {
             Debug.LogError("HERE");
             ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
-        }
-
-        // This if statement is used for debugging code
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Debug.LogError("L Button  Pressed");
-            if (Active.Count > 1)
-            {
-                List<String> tracker = new List<String>();
-                foreach (var value in Active)
-                {
-                    tracker.Add(value.Key);
-                }
-                if(Active[tracker[0]].active && Active[tracker[1]].active)
-                {
-                    Active[tracker[1]].Toggle();
-
-                    // Update the subscribers
-                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0], Active[tracker[0]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0]);                    
-                    spool.UpdateMinMax(Active[tracker[0]].Min, Active[tracker[0]].Max);
-                    trendGraph.SetMin((int)Active[tracker[0]].Min);                    
-                    trendGraph.SetMax((int)Active[tracker[0]].Max);
-
-                    // fix the text
-                    minField.text = ((int)Active[tracker[0]].Min).ToString();
-                    maxField.text = ((int)Active[tracker[0]].Max).ToString();
-                }
-                else if(Active[tracker[0]].active)
-                {
-                    Active[tracker[0]].Toggle();
-                    Active[tracker[1]].Toggle();
-
-                    // Update the subscribers
-                    spool.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, Active[tracker[1]].WMS, tracker[1], Active[tracker[1]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[1]].BoundingBox, Active[tracker[1]].Projection, tracker[1]);
-                    spool.UpdateMinMax(Active[tracker[1]].Min, Active[tracker[1]].Max);
-                    trendGraph.SetMin((int)Active[tracker[1]].Min);
-                    trendGraph.SetMax((int)Active[tracker[1]].Max);
-
-                    // fix the text
-                    minField.text = ((int)Active[tracker[1]].Min).ToString();
-                    maxField.text = ((int)Active[tracker[1]].Max).ToString();
-                }
-                else if (Active[tracker[1]].active)
-                {
-                    Active[tracker[0]].Toggle();
-
-                    // Update the subscribers
-                    spool.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, Active[tracker[0]].WMS, tracker[0] + "\n" + tracker[1], Active[tracker[0]].modelrun.ModelRunUUID);
-                    trendGraph.UpdateData(Active[tracker[0]].BoundingBox, Active[tracker[0]].Projection, tracker[0] + "\n" + tracker[1]);
-
-                    // Calculate new min/max
-                    List<string> tempRef = GetCurrentAvtive();
-                    float min = Active[tempRef[0]].Min - Active[tempRef[1]].Max;
-                    float max = Active[tempRef[0]].Max - Active[tempRef[1]].Min;
-
-                    // Update the min/max
-                    spool.UpdateMinMax(min, max);
-                    trendGraph.SetMin((int)min);
-                    trendGraph.SetMax((int)max);
-
-                    // fix the text
-                    minField.text = ((int)min).ToString();
-                    maxField.text = ((int)max).ToString();
-                }
-            }
         }
 
         // Temp Patch
@@ -217,8 +158,11 @@ public class ActiveData : MonoBehaviour {
                         Active[record.variableName] = temp;
 
                         // Push the new information to the subscribers
-                        spool.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, Active[record.variableName].WMS, record.variableName, Active[record.variableName].modelrun.ModelRunUUID);
-                        trendGraph.UpdateData(Active[record.variableName].BoundingBox, Active[record.variableName].Projection, record.variableName);
+                        if (Active[record.variableName].active)
+                        {
+                            spool.UpdateData(record.variableName);
+                            trendGraph.UpdateData(record.variableName);
+                        }                        
                     }
 
                     // Build the texture
@@ -235,8 +179,8 @@ public class ActiveData : MonoBehaviour {
                             if (Active[record.variableName].active)
                             {
                                 maxField.text = ((int)record.Max).ToString();
-                                spool.UpdateMinMax(Active[record.variableName].Min, Active[record.variableName].Max);
-                                trendGraph.SetMax((int)Active[record.variableName].Max);
+                                spool.UpdateMinMax();
+                                trendGraph.UpdateMinMax();
                             }
                         }
                     }
@@ -250,8 +194,8 @@ public class ActiveData : MonoBehaviour {
                             if (Active[record.variableName].active)
                             {
                                 minField.text = ((int)record.Min).ToString();
-                                spool.UpdateMinMax(Active[record.variableName].Min, Active[record.variableName].Max);
-                                trendGraph.SetMin((int)Active[record.variableName].Min);
+                                spool.UpdateMinMax();
+                                trendGraph.UpdateMinMax();
                             }
                         }
                     }
@@ -267,8 +211,7 @@ public class ActiveData : MonoBehaviour {
                             spool.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
                             trendGraph.UpdateTimeDuration(Active[record.variableName].Start, Active[record.variableName].End);
                         }
-                    }
-           
+                    }           
                 }
             }
 
@@ -282,7 +225,72 @@ public class ActiveData : MonoBehaviour {
         
         // Updates across objects
         trendGraph.SetDataIndex(CurrentIndex);
+
+        if(Updated)
+        {
+            Updated = false;
+            foreach(var item in Active)
+            {
+                if(item.Value.active)
+                {
+                    spool.UpdateData(item.Key);
+                    spool.UpdateMinMax();
+                    trendGraph.UpdateData(item.Key);
+                    trendGraph.UpdateMinMax();
+                }                
+            }
+
+            List<string> tempRef = GetCurrentAvtive();
+            float min, max;
+            if (tempRef.Count > 1)
+            {
+                min = Active[tempRef[0]].Min - Active[tempRef[1]].Max;
+                max = Active[tempRef[0]].Max - Active[tempRef[1]].Min;               
+            }
+            else
+            {
+                min = Active[tempRef[0]].Min;
+                max = Active[tempRef[0]].Max;
+            }
+            
+            // fix the text
+            minField.text = ((int)min).ToString();
+            maxField.text = ((int)max).ToString();
+        }
     }
+
+
+    public static void ChangeActive(string name)
+    {
+        char[] splitval = { ':' };
+        string[] variable = name.Split(splitval);
+        
+        // Toggle off any active
+        foreach(var item in Active)
+        {
+            if(item.Value.active)
+            {
+                item.Value.Toggle();
+            }
+        }
+
+        // Make variable[0] active
+        try
+        {
+            Active[variable[0]].Toggle();            
+        }
+        catch (Exception e)
+        {
+            Dictionary<string, DataLoad>.Enumerator enumerator = Active.GetEnumerator();
+            enumerator.MoveNext();
+            enumerator.Current.Value.Toggle();
+            throw new ArgumentException("The value does not exist in the Active set: " + variable[0] + " " + e.Message);
+        }
+
+        // Ensure there is an update
+        ActiveData.Updated = true;
+    }
+
 
     /// <summary>
     /// Takes the currently worked on record and adds it to the spooler.
@@ -496,15 +504,28 @@ public class ActiveData : MonoBehaviour {
         {
             if(item.Value.active)
             {
-                returnval.Add(item.Key);
+                foreach(string val in item.Value.variable)
+                {
+                    returnval.Add(val);
+                }                
             }
         }
         return returnval;
     }
 
     public static Rect GetBoundingBox(String variable)
-    {
+    {       
         return Active[variable].BoundingBox;
+    }
+
+    public static string GetProjection(String variable)
+    {
+        return Active[variable].Projection;
+    }
+
+    public static bool GetWMS(String variable)
+    {
+        return Active[variable].WMS;
     }
 
     public static int GetCount(String variable)
@@ -578,12 +599,6 @@ public class ActiveData : MonoBehaviour {
             sp.width = 100;
             sp.height = 100;
 
-            // Get the Model Run
-            string variable = seled[index][2].ToString();
-            var Records = temp[index].FetchVariableData(variable);
-            GRAND_TOTAL += Records.Count;
-            Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
-
             // Check if there is a need to clear -- if greater than 2
             if (Active.Count > 1)
             {
@@ -593,16 +608,39 @@ public class ActiveData : MonoBehaviour {
                 trendGraph.Clear();
                 GRAND_TOTAL = 0;
             }
+
+            // Get the Model Run
+            string variable = seled[index][2].ToString();
+            var Records = temp[index].FetchVariableData(variable);
+            GRAND_TOTAL += Records.Count;
+            Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + Records.Count);
+
+            // Add the new loaded to the list
+            Options.options.Add(new Dropdown.OptionData(variable + ": " + VariableReference.GetDescription(variable)));
             
+            // Check if there are now two loaded, if so add to list
+            if(Active.Count == 1)
+            {
+                Dictionary<string, DataLoad>.Enumerator e = Active.GetEnumerator();
+                e.MoveNext();
+                string secondVar = e.Current.Key;
+                Options.options.Add(new Dropdown.OptionData(variable + "_" + secondVar + ": " + "Delta " + variable + " - " + secondVar));
+                Options.options.Add(new Dropdown.OptionData(secondVar + "_" + variable + ": " + "Delta " + secondVar + " - " + variable));
+                Active.Add(variable + "_" + secondVar, new DataLoad(true, null, new List<Frame>(), Records.Count, false, new string[] { variable, secondVar }));
+                Active.Add(secondVar + "_" + variable, new DataLoad(true, null, new List<Frame>(), Records.Count, false, new string[] { secondVar, variable }));
+                VariableReference.AddDescription(variable + "_" + secondVar, "Delta " + variable + " - " + secondVar);
+                VariableReference.AddDescription(secondVar + "_" + variable, "Delta " + secondVar + " - " + variable);
+            }
+
             // Set the download based on the doqq in description
             if (temp[index].Description.ToLower().Contains("doqq"))
             {
-                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, float.MaxValue, float.MinValue, DateTime.MaxValue, DateTime.MinValue));
+                Active.Add(variable, new DataLoad(true, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, new string[]{variable}));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp, operation: "wms");
             }
             else
             {
-                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, float.MaxValue, float.MinValue, DateTime.MaxValue, DateTime.MinValue));
+                Active.Add(variable, new DataLoad(false, ModelRunManager.GetByUUID(temp[index].ModelRunUUID), new List<Frame>(), Records.Count, Active.Count == 0, new string[] { variable }));
                 ModelRunManager.Download(Records, HandDataToSpooler, param: sp);
             }
         }

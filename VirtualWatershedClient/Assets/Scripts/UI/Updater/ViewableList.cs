@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System;
 
 public class ViewableList : MonoBehaviour {
 
@@ -22,11 +23,8 @@ public class ViewableList : MonoBehaviour {
         {
             IsRaster.ToggleToState(IsRasterState);
             //IsRaster.toggleObjects();
-            ApplyToggle = false;
-            
+            ApplyToggle = false;            
         }
-
-
 	}
 
     public void SetScale(string text)
@@ -87,8 +85,24 @@ public class ViewableList : MonoBehaviour {
         {
             return;
         }
-        IsRasterState = !ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster;
-        ApplyToggle = true;
+
+        try
+        {
+            IsRasterState = !ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster;
+            ApplyToggle = true;
+        }
+        catch(Exception e)
+        {
+            try
+            {
+                ActiveData.ChangeActive(ViewableDropDown.options[Option].text);
+            }
+            catch(Exception e1)
+            {
+                Debug.LogError("There was a problem getting the data for: " + ViewableDropDown.options[Option].text);
+            }
+        }
+        
         /*if (ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster && !IsRasterState)
         {
             ApplyToggle = true;

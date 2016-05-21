@@ -35,8 +35,6 @@ namespace VTL.TrendGraph
         Vector3 origin;
         float w;
         float h;
-        public int Row = 0;
-        public int Col = 0;
         RectTransform rectTransform;
         RectTransform lineAnchor;
         Canvas parentCanvas;
@@ -87,12 +85,18 @@ namespace VTL.TrendGraph
                      .text = unitsLabel;
         }
 
-        public void UpdateData(Rect BoundingBox, string projection, string variable)
+        public void UpdateData(string variable)
         {
+            // TODO: Handle multiple projections for a projector
+
+            // Get the active variables
+            List<string> tempRef = ActiveData.GetCurrentAvtive();
+            Rect BoundingBox = ActiveData.GetBoundingBox(tempRef[0]);
+
             // Set the bounding box to the trendgraph
-            WorldTransform tran = new WorldTransform(projection);
+            WorldTransform tran = new WorldTransform(ActiveData.GetProjection(tempRef[0]));
             //Debug.LogError("Coord System: " + record.projection);
-            tran.createCoordSystem(projection); // Create a coordinate transform
+            tran.createCoordSystem(ActiveData.GetProjection(tempRef[0])); // Create a coordinate transform
                                                 //Debug.Log("coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y)" + coordsystem.transformToUTM(record.boundingBox.x, record.boundingBox.y));
 
             // transfor a lat/long bounding box to UTM
@@ -113,20 +117,24 @@ namespace VTL.TrendGraph
         /// <summary>
         /// This sets the min value of the data. This is for the X axis.
         /// </summary>
-        /// <param name="min">Minimum.</param>
-        /// <param name="max">Max.</param>
-        public void SetMin(int min)
-        {            
-            yMin = min;
-            OnValidate();
-        }
-
-        /// <summary>
-        /// This sets max value of the data. This is for the X axis.
-        /// </summary>
-        /// <param name="max">Max.</param>
-        public void SetMax(int max)
+        public void UpdateMinMax()
         {
+            float min, max;
+            List<string> tempRef = ActiveData.GetCurrentAvtive();
+            if (tempRef.Count > 1)
+            {
+                Vector2 d1 = ActiveData.GetMinMax(tempRef[0]);
+                Vector2 d2 = ActiveData.GetMinMax(tempRef[1]);
+                min = d1.x - d2.y;
+                max = d1.y - d2.x;
+            }
+            else
+            {
+                Vector2 d1 = ActiveData.GetMinMax(tempRef[0]);
+                min = d1.x;
+                max = d1.y;
+            }
+            yMin = min;
             yMax = max;
             OnValidate();
         }
@@ -218,7 +226,10 @@ namespace VTL.TrendGraph
                     int y = (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) * NormalizedPoint.y), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1);
 
                     // Set the row then redraw
-                    selectedList.AddRow(new object[] { WorldPoint.z.ToString("#,##0") + "  Long: " + WorldPoint.x.ToString("#,##0"), tempFrameRef[0], ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x });
+                    for(int i = 0; i < tempFrameRef.Count; i++)
+                    {
+                        selectedList.AddRow(new object[] { WorldPoint.z.ToString("#,##0") + "  Long: " + WorldPoint.x.ToString("#,##0"), tempFrameRef[i], ActiveData.GetFrameAt(tempFrameRef[i], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[i], DataIndex).Data.GetLength(0) - 1 - x });
+                    }
                     SetPosition(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - y, ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - x);                                        
                 }
             }
@@ -576,11 +587,8 @@ namespace VTL.TrendGraph
         /// <param name="c"></param>
         public void SetPosition(int row, int col)
         {
-            // Set row and col
-            Row = row;
-            Col = col;
-            Compute();
             Debug.Log("Trend Graph row: " + row + " col: " + col);
+            Compute();            
         }
 
         /// <summary>
