@@ -30,6 +30,7 @@ Properties{
 	_MaxY("Max Y", float) = 1
 
 	_Compare("Compare", int) = 0
+	_Transpose("Transpose Image", int) = 0
 }
 
 Category{
@@ -78,6 +79,7 @@ Category{
 		uniform float _MaxY;
 
 		uniform int _Compare;
+		uniform int _Transpose;
 
 		float4x4 _Projector;
 
@@ -102,6 +104,13 @@ Category{
 			if (i.uv.x < 0.01 || i.uv.x > 0.99 || i.uv.y < 0.01 || i.uv.y > 0.99)
 			{
 				return float4(0, 0, 0, 1);
+			}
+
+			if (_Transpose == 1)
+			{
+				float temp = i.uv.x;
+				i.uv.x = i.uv.y;
+				i.uv.y = temp;
 			}
 
 			// Get the color of the texture and check for available module

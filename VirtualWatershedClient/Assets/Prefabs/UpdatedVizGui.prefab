@@ -18318,8 +18318,6 @@ MonoBehaviour:
   variable_name: 
   valueFormatString: 0.00
   Keep: 1
-  Row: 0
-  Col: 0
   easting: 0
   northing: 0
   GraphMaterial: {fileID: 0}
@@ -19380,12 +19378,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   testImage: {fileID: 11440894}
+  testImage2: {fileID: 0}
   gridSlider: {fileID: 0}
   timeSlider: {fileID: 11458378}
   TimeProjector: {fileID: 0}
   colorWindow: {fileID: 0}
   colorProjector: {fileID: 0}
   slideProjector: {fileID: 0}
+  colorWindow2: {fileID: 0}
   selectedVariableTextBox: {fileID: 11479612}
   minPin: {fileID: 0}
   maxPin: {fileID: 0}

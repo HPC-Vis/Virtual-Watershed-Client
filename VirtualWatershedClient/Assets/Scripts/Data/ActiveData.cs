@@ -676,6 +676,23 @@ public class ActiveData : MonoBehaviour {
                 }
             }
         }
+
+        // Do an output of the difference if two exist
+        if(tempFrameRef.Count > 1)
+        {
+            String pathDownload = Utilities.GetFilePath(tempFrameRef[0] + "_delta_" + tempFrameRef[1] + "_frameToFile.csv");
+            using (StreamWriter file = new StreamWriter(@pathDownload))
+            {
+                for (int i = 0; i < Mathf.Min(ActiveData.GetFrameAt(tempFrameRef[0], CurrentIndex).Data.GetLength(1), ActiveData.GetFrameAt(tempFrameRef[1], CurrentIndex).Data.GetLength(1)); i++)
+                {
+                    for (int j = Mathf.Min(ActiveData.GetFrameAt(tempFrameRef[0], CurrentIndex).Data.GetLength(0) - 1, ActiveData.GetFrameAt(tempFrameRef[1], CurrentIndex).Data.GetLength(0) - 1); j >= 0; j--)
+                    {
+                        file.Write((ActiveData.GetFrameAt(tempFrameRef[0], CurrentIndex).Data[i, j] - ActiveData.GetFrameAt(tempFrameRef[1], CurrentIndex).Data[i, j]) + ", ");
+                    }
+                    file.Write("\n");
+                }
+            }
+        }
     }
 
     public void CurrentFrameToFile(string format="tif")
@@ -687,7 +704,7 @@ public class ActiveData : MonoBehaviour {
             
             if (format == "tif")
             {
-                String pathDownload = name + "_frameToFile.tif";
+                String pathDownload = Utilities.GetFilePath(name + "_frameToFile.tif");
                 ActiveData.GetFrameAt(name, CurrentIndex).record.boundingBox = ActiveData.GetBoundingBox(name);
                 Utilities.SaveTif(pathDownload, ActiveData.GetFrameAt(name, CurrentIndex).record);
             }
