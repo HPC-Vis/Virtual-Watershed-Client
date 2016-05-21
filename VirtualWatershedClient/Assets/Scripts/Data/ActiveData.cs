@@ -113,6 +113,12 @@ public class ActiveData : MonoBehaviour {
 
     void Update()
     {
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            Debug.LogError("KEY CODE I PRESSED");
+            CurrentFrameToFile(format:"tif");
+        }
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             Debug.LogError("HERE");
@@ -440,11 +446,14 @@ public class ActiveData : MonoBehaviour {
 
     public static void UpdateTotal(String location, int value)
     {
-        DataLoad temp = Active[location];
-        GRAND_TOTAL -= temp.total;
-        temp.total = value;
-        GRAND_TOTAL += temp.total;
-        Active[location] = temp;
+        if (Active.ContainsKey(location))
+        {
+            DataLoad temp = Active[location];
+            GRAND_TOTAL -= temp.total;
+            temp.total = value;
+            GRAND_TOTAL += temp.total;
+            Active[location] = temp;
+        }
     }
 
 
@@ -667,5 +676,34 @@ public class ActiveData : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void CurrentFrameToFile(string format="tif")
+    {
+
+        List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+        foreach (var name in tempFrameRef)
+        {
+            
+            if (format == "tif")
+            {
+                String pathDownload = name + "_frameToFile.tif";
+                ActiveData.GetFrameAt(name, CurrentIndex).record.boundingBox = ActiveData.GetBoundingBox(name);
+                Utilities.SaveTif(pathDownload, ActiveData.GetFrameAt(name, CurrentIndex).record);
+            }
+            /*using (StreamWriter file = new StreamWriter(@pathDownload))
+            {
+                for (int i = 0; i < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(1); i++)
+                {
+                    for (int j = 0; j < ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0); j++)
+                    {
+                        file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[i, j] + ", ");
+                    }
+                    file.Write("\n");
+                }
+            }*/
+        }
+
+
     }
 }

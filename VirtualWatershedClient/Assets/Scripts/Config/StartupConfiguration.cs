@@ -32,11 +32,23 @@ public class StartupConfiguration : MonoBehaviour {
         sr.ImportFromEPSG(GlobalConfig.GlobalProjection);
         var transform = coordsystem.createUnityTransform(sr);
 
+
+        //int zone = CoordinateUtils.GetZone(40, GlobalConfig.BoundingBox.center.x);
+
+        Debug.LogError("ZONE 2: " + GlobalConfig.BoundingBox.center.x);
+
         // Set origin to configs transformed center
         double[] bboxcenter = { GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height / 2.0f };
         transform.TransformPoint(bboxcenter);
-        
+
+        Debug.LogError("==========================================");
+        Debug.LogError(bboxcenter[0] + " " + bboxcenter[1]);
+        Debug.LogError(GlobalConfig.Zone);
+        Debug.LogError("==========================================");
+        //Debug.Break();
+
         coordsystem.WorldOrigin = new Vector2((float)bboxcenter[0], (float)bboxcenter[1]);//new Vector2(GlobalConfig.BoundingBox.center.x, GlobalConfig.BoundingBox.y - GlobalConfig.BoundingBox.height/2.0f);
+        coordsystem.UnityOrigin = Vector2.zero;
 	}
 
 }

@@ -25,6 +25,11 @@ public class NetworkClient : WebClient
     int count = 0;
     DownloadRequest CurrentDownload;
 
+    public DownloadRequest CurrentJob
+    {
+        get { return CurrentDownload; }
+    }
+
     public int size { get {  return DownloadRequests.Count(); } }
 
     public NetworkClient(NetworkManager manager) : base()
@@ -84,6 +89,7 @@ public class NetworkClient : WebClient
         {
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
+            Logger.WriteLine(args.Error.StackTrace);
             netmanager.CallDataError(CurrentDownload.Url);
             CurrentDownload = null;
             StartNextDownload();
@@ -133,6 +139,7 @@ public class NetworkClient : WebClient
         {
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
+            Logger.WriteLine(args.Error.StackTrace);
             netmanager.CallDataError(CurrentDownload.Url);
             CurrentDownload = null;
             StartNextDownload();
@@ -153,6 +160,7 @@ public class NetworkClient : WebClient
             Logger.WriteLine(e.Message + " " + e.StackTrace);
             Logger.WriteLine("<color=red>Failed to download data from: " + CurrentDownload.Url + "</color>");
             Logger.WriteLine("PRIORITY: " + CurrentDownload.Priority.ToString());
+            Logger.WriteLine(args.Error.StackTrace);
             netmanager.CallDataError(CurrentDownload.Url);
             CurrentDownload = null;
             StartNextDownload();

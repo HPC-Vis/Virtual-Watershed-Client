@@ -272,16 +272,18 @@ public static class ModelRunManager
         ModelRun modelrun = ModelRunManager.GetByUUID(clone.modelRunUUID);
         Variable variable = modelrun.GetVariable(clone.variableName);
         variable.Remove(clone);
-
+        Debug.LogError("GOT THE STUFF.");
         RasterDataset rd = new RasterDataset(clone.services["file"]);
         if (rd.Open())
         {
+            Debug.LogError("OPENED!!!!!!!");
             var da = rd.GetData();
             variable.TotalRecords = da.Count;
+            Debug.LogError("COUNT: " + da.Count);
 
             //temporary patch is gross
             ActiveData.UpdateTotal(clone.variableName, da.Count);
-
+            
             for (int j = 0; j < da.Count; j++)
             {
                 DataRecord recClone = clone.Clone();
@@ -296,6 +298,10 @@ public static class ModelRunManager
                 variable.Insert(recClone);
                 SettingTheRecord(new List<DataRecord> { recClone });
             }
+        }
+        else
+        {
+            
         }
     }
 
@@ -674,6 +680,7 @@ public static class ModelRunManager
                             rec.start = tempTime;
                             rec.end = tempTime + tempSpan;
                             rec.bbox = modelData.GetBoundingBox();
+                            Debug.LogError("GDAL BBOX: " + rec.bbox);
                             rec.projection = modelData.ReturnProjection();
                             rec.numbands = modelData.GetRasterCount();
                             rec.services["file"] = FileName.ToString();

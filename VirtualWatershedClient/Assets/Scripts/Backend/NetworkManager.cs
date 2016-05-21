@@ -6,7 +6,7 @@ using System.Threading;
 
 // NetworkManager is more than a manager now. It also calls events now.
 
-public class NetworkManager 
+public class NetworkManager
 {
     // Members
     int index = 0;
@@ -24,10 +24,21 @@ public class NetworkManager
 
         // Allocate the clients
         clients = new NetworkClient[size];
-        for( int i = 0; i < size; ++i )
+        for (int i = 0; i < size; ++i)
         {
             clients[i] = new NetworkClient(this);
         }
+    }
+
+    public List<string> CurrentJobs()
+    {
+        List<string> jobs = new List<string>();
+        for(int i = 0; i < clients.Length; i++)
+        {
+            if (clients[i].CurrentJob != null)
+                jobs.Add(clients[i].CurrentJob.Url);
+        }
+        return jobs;
     }
 
     /// <summary>

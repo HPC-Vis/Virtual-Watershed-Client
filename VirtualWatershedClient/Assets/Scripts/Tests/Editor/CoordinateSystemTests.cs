@@ -187,5 +187,64 @@ namespace CoordinateSystemTests
             // Get Distance
             //float distance = a
         }
+        float ScaleFactor(float value)
+        {
+            Debug.LogError( "SCALE: " + Mathf.Cos((value - 500000) / 6378000));
+            return .9996f / Mathf.Cos( (value-500000) / 6378000); 
+        }
+
+        float SimponsRule(float Long1, float Lat1, float Long2, float Lat2, int zone)
+        {
+            var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+            var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+            double XDist6 = (point2.x - point1.x) / 6;
+            float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+            float ydist = point2.y - point1.y;
+            float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+            return Dist2;
+        }
+
+        [TestCase(35, 40, 37, 41)]
+        public void DistanceTest(double Long1, double Lat1, double Long2, double Lat2)
+        {
+            double Dist = CoordinateUtils.GetDistanceKM(Long1, Lat1, Long2, Lat2) * 1000.0;
+            double Dist3 = CoordinateUtils.VincentyDistanceKM(Long1, Lat1, Long2, Lat2) * 1000.0;
+            int zone = CoordinateUtils.GetZone(Lat1, Long1);
+            int zone2 = CoordinateUtils.GetZone(Lat2, Long2);
+            Debug.LogError(zone - zone2);
+            var point1 = CoordinateUtils.transformToUTMWithZone((float)Long1, (float)Lat1, zone);
+            var point2 = CoordinateUtils.transformToUTMWithZone((float)Long2, (float)Lat2, zone);
+
+            double XDist6 = (point2.x - point1.x) / 6;
+            float simpson = (float)XDist6 * (ScaleFactor(point1.x) + 4 * ScaleFactor((float)XDist6) + ScaleFactor(point2.x));
+            float ydist = point2.y - point1.y;
+            float Dist2 = Mathf.Sqrt(simpson * simpson + ydist * ydist);
+            Debug.ClearDeveloperConsole();
+            Debug.LogError(Dist);
+            Debug.LogError(Dist2);
+            Debug.LogError(Dist3);
+            Debug.LogError(Dist - Dist2);
+            Debug.LogError(Dist2 - Dist3);
+            Debug.LogError(Vector2.Distance(point1, point2));
+
+        }
+
+        [TestCase("test.tif")]
+        public void SaveTifTest(string filename)
+        {
+            DataRecord test = new DataRecord();
+            test.projection = "epsg:4326";
+            test.boundingBox = new Rect(33, 33, 10, 10);
+            var data = new float[100, 100];
+            for(int i = 0; i < 100; i++)
+            {
+                for(int j =0; j < 100; j++)
+                {
+                    data[i, j] = i + j;
+                }
+            }
+            test.Data.Add(data);
+            Utilities.SaveTif(filename, test);
+        }
     }
 }
