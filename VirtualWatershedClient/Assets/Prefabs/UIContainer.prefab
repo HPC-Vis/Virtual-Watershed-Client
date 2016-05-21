@@ -101380,6 +101380,8 @@ MonoBehaviour:
   miniMap: {fileID: 2092528}
   player: {fileID: 134692}
   playerMarker: {fileID: 176792}
+  Elevation: {fileID: 0}
+  Northsouth: {fileID: 0}
 --- !u!114 &11499294
 MonoBehaviour:
   m_ObjectHideFlags: 1

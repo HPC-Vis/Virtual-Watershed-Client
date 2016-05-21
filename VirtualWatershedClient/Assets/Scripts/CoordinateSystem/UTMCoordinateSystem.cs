@@ -73,7 +73,8 @@ public class UTMCoordinateSystem : WorldCoordinateSystem
     /// <returns></returns>
     public override Vector2 TranslateToWorld(Vector2 UnityCoord)
     {
-        return new Vector3(UnityOrigin.x + UnityCoord.x, UnityOrigin.y + UnityCoord.y);
+        var UTMOrigin = CoordinateUtils.transformToUTM(WorldOrigin.x, WorldOrigin.y);
+        return new Vector3(UTMOrigin.x + UnityCoord.x, UTMOrigin.y + UnityCoord.y);
     }
 
     public override void UpdateInternalOrigin()

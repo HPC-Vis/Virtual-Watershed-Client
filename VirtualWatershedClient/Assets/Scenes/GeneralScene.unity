@@ -1092,9 +1092,33 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 497864, guid: c1928bf77a7cd604e8ab0838c5bdeff8, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 11499292, guid: c1928bf77a7cd604e8ab0838c5bdeff8, type: 2}
+      propertyPath: Northsouth
+      value: 
+      objectReference: {fileID: 1160284335}
+    - target: {fileID: 11499292, guid: c1928bf77a7cd604e8ab0838c5bdeff8, type: 2}
+      propertyPath: Elevation
+      value: 
+      objectReference: {fileID: 1160284336}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c1928bf77a7cd604e8ab0838c5bdeff8, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1160284335 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11454824, guid: c1928bf77a7cd604e8ab0838c5bdeff8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1160284334}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+--- !u!114 &1160284336 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11473456, guid: c1928bf77a7cd604e8ab0838c5bdeff8,
+    type: 2}
+  m_PrefabInternal: {fileID: 1160284334}
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
 --- !u!1 &1205751053
 GameObject:
   m_ObjectHideFlags: 0
