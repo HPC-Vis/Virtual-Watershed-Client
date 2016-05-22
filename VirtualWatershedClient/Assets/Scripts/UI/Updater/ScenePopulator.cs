@@ -19,6 +19,15 @@ public class ScenePopulator : MonoBehaviour {
         }
     }
 
+    // This is a test variable;
+    //public Scene generalScene;
+
+
+    public void LoadGeneralScene()
+    {
+        SceneManager.LoadScene(6);
+    }
+
     public void LoadDryCreek() {
         Debug.Log("Load Dry Creek");
         GlobalConfig.Location = "Dry Creek";

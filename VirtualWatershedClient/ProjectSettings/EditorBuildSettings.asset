@@ -31,3 +31,5 @@ EditorBuildSettings:
     path: Assets/Scenes/SceneSelect.unity
   - enabled: 1
     path: Assets/Scenes/NewUIDryCreek.unity
+  - enabled: 1
+    path: Assets/Scenes/GeneralScene.unity

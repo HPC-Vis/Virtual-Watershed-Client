@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using System;
@@ -8,6 +9,8 @@ public class ViewableList : MonoBehaviour {
     public ToggleObjects IsRaster;
     public Dropdown ViewableDropDown;
     public InputField xField, yField, zField;
+    public Toggle showHide;
+
     bool ApplyToggle = false;
     // 
     bool IsRasterState = true;
@@ -89,12 +92,15 @@ public class ViewableList : MonoBehaviour {
         try
         {
             IsRasterState = !ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster;
+            showHide.isOn = ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).gameObject.activeSelf;
             ApplyToggle = true;
         }
         catch(Exception e)
         {
             try
             {
+                IsRasterState = true;
+                ApplyToggle = true;
                 ActiveData.ChangeActive(ViewableDropDown.options[Option].text);
             }
             catch(Exception e1)
@@ -102,6 +108,7 @@ public class ViewableList : MonoBehaviour {
                 Debug.LogError("There was a problem getting the data for: " + ViewableDropDown.options[Option].text);
             }
         }
+
         
         /*if (ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[Option].text).IsRaster && !IsRasterState)
         {
@@ -113,5 +120,18 @@ public class ViewableList : MonoBehaviour {
             ApplyToggle = true;
             IsRasterState = true;
         }*/
+    }
+
+    // A function meant for hiding and displaying datasets
+    public void EnableSelected()
+    {
+        if (ViewableDropDown.value > 0)
+        {
+            var go = ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[ViewableDropDown.value].text);
+            if (go != null)
+            {
+                go.gameObject.SetActive(!go.gameObject.activeSelf);
+            }
+        }
     }
 }
