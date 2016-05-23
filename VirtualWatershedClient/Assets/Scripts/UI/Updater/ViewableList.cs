@@ -134,4 +134,17 @@ public class ViewableList : MonoBehaviour {
             }
         }
     }
+
+    public void Transpose()
+    {
+        if (ViewableDropDown.value > 0)
+        {
+            var go = ModelRunManager.sessionData.GetSessionObject(ViewableDropDown.options[ViewableDropDown.value].text);
+            if (go != null)
+            {
+                go.Transpose();
+                //go.gameObject.SetActive(!go.gameObject.activeSelf);
+            }
+        }
+    }
 }

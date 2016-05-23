@@ -6,7 +6,7 @@ public class ProjectorObject : WorldObject {
     // projectors are placed based on the center...
 
 
-
+    bool Trans = false;
 	// Use this for initialization
 	void Start () {
         IsRaster = true;
@@ -284,5 +284,11 @@ public class ProjectorObject : WorldObject {
 
         // Return the object 
         return projector;
+    }
+
+    public override void Transpose()
+    {
+        Trans = !Trans;
+        GetComponent<Projector>().material.SetInt("_Transpose", Trans ? 1 : 0);
     }
 }

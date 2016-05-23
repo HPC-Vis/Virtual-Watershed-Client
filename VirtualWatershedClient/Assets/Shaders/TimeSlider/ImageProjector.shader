@@ -26,6 +26,9 @@
 		_x5("Range Limit 5", float) = 0.00000
 		_MaxX("Max X",Float) = 1
 		_MaxY("Max Y",Float) = 1
+
+		_Transpose("Transpose Image", int) = 0
+
 	}
 
 		Category{
@@ -73,6 +76,8 @@
 	float4x4 _Projector;
 	float4x4 _ProjectorClip;
 
+	uniform int _Transpose;
+
 	vertexInput vert(float4 vertex : POSITION)
 	{
 		vertexInput o;
@@ -94,6 +99,13 @@
 	{
 		i.uv.x = i.uv.x / _MaxX;
 	    i.uv.y = i.uv.y / _MaxY;
+
+		if (_Transpose == 1)
+		{
+			float temp = i.uv.x;
+			i.uv.x = i.uv.y;
+			i.uv.y = temp;
+		}
 
 	float4 col = tex2Dproj(_ShadowTex, UNITY_PROJ_COORD(i.uv));
 

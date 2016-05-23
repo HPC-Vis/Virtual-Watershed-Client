@@ -25,6 +25,10 @@ public abstract class WorldObject : MonoBehaviour
     public abstract void alterData();
 
     public abstract void getData();
+    virtual public void Transpose()
+    {
+
+    }
 
 
 }
