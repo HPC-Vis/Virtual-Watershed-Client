@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using ProjNet;
 using ProjNet.CoordinateSystems;
 using Gavaghan.Geodesy;
+using ASA.NetCDF4;
 
 namespace CoordinateSystemTests
 {
@@ -245,6 +246,59 @@ namespace CoordinateSystemTests
             }
             test.Data.Add(data);
             Utilities.SaveTif(filename, test);
+        }
+
+        [TestCase(@"C:\Users\appleness\Downloads\statvar.nc")]
+        public void LoadNetCDF(string filename)
+        {
+            NcFile file = new NcFile(filename, NcFileMode.read);
+            Debug.LogError("FILENESS");
+
+            foreach( var i in file.GetAtts())
+            {
+                Debug.LogError(i.Value.GetName());
+            }
+
+            foreach( var i in file.GetDims())
+            {
+                Debug.LogError(i.Value.GetName());
+            }
+            var vars = file.GetVars();
+            Debug.LogError("--------");
+            foreach(var i in vars)
+            {
+                if (i.Value.GetVar() != null)
+                {
+                    if (i.Value.GetNcType() != null && i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_FLOAT)
+                    {
+                        float[] values = new float[i.Value.GetVar().Length];
+                        i.Value.GetVar(values);
+                        //Debug.LogError(values.Length);
+                        //Debug.LogError(i.Value.GetName());
+                       // Debug.LogError(values[0]);
+                    }
+                    else if (i.Value.GetNcType() != null )
+                    {
+                        //string[] values = new string[i.Value.GetVar().Length];
+                        //var v = i.Value.GetVar();
+                        Debug.LogError("ATTR: " + i.Value.GetName());
+                        Debug.LogError(i.Value.GetNcType().GetTypeClassName());
+                        Debug.LogError(i.Value.GetAttCount());
+                        foreach(var k in i.Value.GetAtts())
+                        {
+                           // k.Value.GetValues()
+                            Debug.LogError(k.Value.GetValues());
+                        }
+                        //i.Value.GetVar(values);
+                        //Debug.LogError(values.Length);
+                        //Debug.LogError(i.Value.GetName());
+                        //Debug.LogError(values[0]);
+                    }
+                }
+            }
+
+            //Debug.LogError(file.GetVarCount());
+            //NCFile file = new NNcFileMode.read
         }
     }
 }

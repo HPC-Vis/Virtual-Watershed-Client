@@ -14,6 +14,21 @@ public class TerrainPopulater : MonoBehaviour
     List<DataRecord> Records = new List<DataRecord>();
     string TerrainListStr = "terrainlist";
     public GameObject Terrains;
+
+    public System.Net.WebClient client = new System.Net.WebClient();
+
+    Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
+    {
+        Texture2D temp = new Texture2D(width, height);
+        Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + bbox + "&width=" + width + "&height=" + height);
+        //layers=osm
+        //layers=landsat
+        var bytes = client.DownloadData("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&"+ "bbox="+bbox + "&width="+ width + "&height=" + height );
+        temp.LoadImage(bytes);
+
+        return temp;
+    }
+
     void GetTerrainList(List<DataRecord> Terrains)
     {
         Records = Terrains;
@@ -172,6 +187,8 @@ public class TerrainPopulater : MonoBehaviour
             record.Data[0] = Utilities.reflectData(record.Data[0]);
             Debug.LogError("The Terrain Name: " + record.location);
             GlobalConfig.Location = record.location;
+
+            BaseMap = LoadSatelliteImage(record.bbox2);
 
             var GO = ProceduralTerrain.BuildTerrain(record.Data[0], XRes, YRes, BaseMap);
             GO.transform.position = new Vector3(-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);

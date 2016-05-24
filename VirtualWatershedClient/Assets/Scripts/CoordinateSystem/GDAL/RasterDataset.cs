@@ -172,8 +172,13 @@ public class RasterDataset
         height = 100;
         width = height = Math.Max(width, height);
         Debug.LogError(width + " " + height);
+        //var Data = new float[dataset.RasterCount*dataset.RasterXSize * dataset.RasterYSize]
+        //dataset.ReadRaster(0,0,dataset.RasterXSize,dataset.RasterYSize)
         for (int i = 0; i < dataset.RasterCount; i++)
         {
+            Debug.LogError(i + "_" + dataset.RasterCount);
+            Debug.LogError(dataset.RasterXSize);
+            Debug.LogError(dataset.RasterYSize);
             float[] DataF = new float[width * height];
             float[,] Data = new float[width, height];
             var band = dataset.GetRasterBand(i + 1);
@@ -186,6 +191,7 @@ public class RasterDataset
                 Debug.LogError(e.Message);
                 return data;
             }
+            Debug.LogError("READ THE RASTER");
             // Debug.LogError(width + " " + height);
             
             for (int k = 0; k < width; k++)
