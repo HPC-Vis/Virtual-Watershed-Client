@@ -246,6 +246,9 @@ namespace CoordinateSystemTests
             }
             test.Data.Add(data);
             Utilities.SaveTif(filename, test);
+
+
+            //Gdal.ReprojectImage()
         }
 
         [TestCase(@"C:\Users\appleness\Downloads\statvar.nc")]
@@ -296,9 +299,29 @@ namespace CoordinateSystemTests
                     }
                 }
             }
-
             //Debug.LogError(file.GetVarCount());
             //NCFile file = new NNcFileMode.read
         }
+
+        [TestCase()]
+        public void ReprojectTest()
+        {
+            Gdal.AllRegister();
+            var ds = Gdal.Open(@"C:\Users\ccarthen\Desktop\I_lw_frameToFile(15).tif", Access.GA_ReadOnly);
+            var ds2 = ds.GetDriver().CreateCopy("testor2.tif", ds, 0, new string[] { }, null, null);
+            var doubleo = new double[6];
+            ds2.GetGeoTransform(doubleo);
+            doubleo [0] = doubleo[0] + 1;
+            ds2.SetGeoTransform(doubleo);
+
+            Gdal.ReprojectImage(ds, ds2, ds.GetProjection(), ds.GetProjection(), ResampleAlg.GRA_Average, 10000, 10, null, null, new string[] { });
+
+            // hopefully this worked
+            Debug.LogError("IT WORKS!!!");
+            ds.Dispose();
+            ds2.Dispose();
+        }
     }
+
+
 }

@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 using ProjNet;
 using ProjNet.CoordinateSystems;
 
+using ASA.NetCDF4;
 namespace OGC_Tests
 {
    
@@ -500,6 +501,14 @@ namespace OGC_Tests
             WCS_DescribeCoverage_Parser parser = new WCS_DescribeCoverage_Parser();
             parser.parseDescribeCoverage(new DataRecord(), s);
             //Assert.Pass();
+        }
+
+        [Test]
+        public void TestorTest()
+        {
+            NcFile file = new NcFile(@"C:\Users\ccarthen\Downloads\animation.nc", NcFileMode.read);
+            Debug.Log("HERE NOW");
+            Debug.Log(file.GetAttCount());
         }
 
 	}

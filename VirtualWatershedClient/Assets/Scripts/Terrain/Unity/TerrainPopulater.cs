@@ -20,12 +20,23 @@ public class TerrainPopulater : MonoBehaviour
     Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
     {
         Texture2D temp = new Texture2D(width, height);
-        Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + bbox + "&width=" + width + "&height=" + height);
+        //Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + bbox + "&width=" + width + "&height=" + height);
         //layers=osm
         //layers=landsat
-        var bytes = client.DownloadData("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&"+ "bbox="+bbox + "&width="+ width + "&height=" + height );
-        temp.LoadImage(bytes);
+        try
+        {
 
+
+            var bytes = client.DownloadData("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + "bbox=" + bbox + "&width=" + width + "&height=" + height);
+            if (bytes != null)
+            {
+                temp.LoadImage(bytes);
+            }
+        }
+        catch(Exception e)
+        {
+            Debug.LogError(e.Message);
+        }
         return temp;
     }
 
