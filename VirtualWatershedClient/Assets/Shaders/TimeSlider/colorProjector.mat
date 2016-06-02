@@ -38,20 +38,6 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _ShadowTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _ParallaxMap
         second:
           m_Texture: {fileID: 0}
@@ -88,6 +74,20 @@ Material:
       data:
         first:
           name: _EmissionMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _MainTex2
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _ShadowTex
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -158,10 +158,6 @@ Material:
         second: 0.8685177
       data:
         first:
-          name: _Compare
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
@@ -202,16 +198,20 @@ Material:
         second: 0
       data:
         first:
+          name: _Transpose
+        second: 0
+      data:
+        first:
+          name: _Compare
+        second: 0
+      data:
+        first:
           name: _FloatMin2
         second: 15
       data:
         first:
           name: _FloatMax2
         second: 100
-      data:
-        first:
-          name: _Transpose
-        second: 0
     m_Colors:
       data:
         first:

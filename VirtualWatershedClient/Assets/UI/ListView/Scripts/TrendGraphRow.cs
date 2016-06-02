@@ -6,11 +6,11 @@ using System.Collections;
 using System.Collections.Generic;
 using VTL.ListView;
 
-public class TrendGraphRow : MonoBehaviour {
+public class TrendGraphRow : MonoBehaviour, Row {
 
-    public bool isSelected = false;
-    public bool selectedOn = false;
-    public Guid guid;
+    public bool _isSelected = false;
+    public bool _selectedOn = false;
+    public Guid _guid;
 
     ListViewManager listViewManager;
     Image image;
@@ -32,6 +32,24 @@ public class TrendGraphRow : MonoBehaviour {
     bool once = false;
     public GameObject imageRow;
 
+    bool Row.isSelected
+    {
+        get { return _isSelected; }
+        set { _isSelected = value; }
+    }
+
+    bool Row.selectedOn
+    {
+        get { return _selectedOn; }
+        set { _selectedOn = value; }
+    }
+
+    Guid Row.guid
+    {
+        get { return _guid; }
+        set { _guid = value; }
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -49,7 +67,7 @@ public class TrendGraphRow : MonoBehaviour {
         // Need a reference to this to set the background color
         image = gameObject.GetComponent<Image>();
 
-        this.guid = guid;
+        _guid = guid;
 
         // Step 1 of this patch grab the row transform ...
         RowTransform = gameObject.GetComponent<RectTransform>();
@@ -108,6 +126,11 @@ public class TrendGraphRow : MonoBehaviour {
         image.color = ColorType;
     }
 
+    string Row.StringifyObject(object obj, string formatString, DataType dataType)
+    {
+        return StringifyObject(obj, formatString, dataType);
+    }
+
     /// <summary>
     /// 
     /// </summary>
@@ -146,14 +169,14 @@ public class TrendGraphRow : MonoBehaviour {
 
     public void UpdateSelectionAppearance()
     {
-        image.color = isSelected ? listViewManager.selectedColor :
+        image.color = _isSelected ? listViewManager.selectedColor :
                                     listViewManager.unselectedColor;
     }
 
     public void SetFields(object[] fieldData, Guid guid, bool selected)
     {
-        this.guid = guid;
-        isSelected = selected;
+        _guid = guid;
+        _isSelected = selected;
         UpdateSelectionAppearance();
 
         SetValues(fieldData);
@@ -171,7 +194,7 @@ public class TrendGraphRow : MonoBehaviour {
 
     public void OnSelectionEvent()
     {
-        listViewManager.OnSelectionEvent(guid, transform.GetSiblingIndex());
+        listViewManager.OnSelectionEvent(_guid, transform.GetSiblingIndex());
     }
 
     public object[] GetContents()
@@ -200,5 +223,5 @@ public class TrendGraphRow : MonoBehaviour {
 
         Name = (string)fieldData[1];
         Variable = (string)fieldData[2];
-    }
+    }    
 }

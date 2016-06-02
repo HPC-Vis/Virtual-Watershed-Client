@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
 
 public class Marker : MonoBehaviour {
 
@@ -13,8 +13,7 @@ public class Marker : MonoBehaviour {
     public GameObject csvButton;
     public GameObject PlayerController;
 
-    // What uses this??
-    float timecount;
+    private List<float> DataSlice = new List<float>();
 
     // Use this for initialization
     void Start () {
@@ -49,7 +48,7 @@ public class Marker : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker1Active = !marker1Active;
+                    marker1Active = true;
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
@@ -61,7 +60,7 @@ public class Marker : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker2Active = !marker2Active;
+                    marker2Active = true;
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
@@ -115,6 +114,37 @@ public class Marker : MonoBehaviour {
 
                     rayslice.marker1 = false;
                     rayslice.marker2 = false;
+                }
+            }
+
+            // Check if there is active markers
+            if (marker1.activeSelf && marker2.activeSelf)
+            {
+                // Place in the check locations
+                Vector3 WorldPoint1 = coordsystem.transformToWorld(marker1.transform.position);
+                Vector2 CheckPoint1 = new Vector2(WorldPoint1.x, WorldPoint1.z);
+                Vector3 WorldPoint2 = coordsystem.transformToWorld(marker2.transform.position);
+                Vector2 CheckPoint2 = new Vector2(WorldPoint2.x, WorldPoint2.z);
+                Rect BoundingBox = ActiveData.GetBoundingBox(ActiveData.GetCurrentAvtive()[0]);
+
+                if (BoundingBox.Contains(CheckPoint1) && BoundingBox.Contains(CheckPoint2))
+                {
+                    Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, BoundingBox);
+                    Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
+                    List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+                    int DataIndex = ActiveData.GetCurrentIndex();
+                    int marker1Row = ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) * NormalizedPoint1.x), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1);
+                    int marker1Col = ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) * NormalizedPoint1.y), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1);
+                    int marker2Row = ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) * NormalizedPoint2.x), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(0) - 1);
+                    int marker2Col = ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1 - (int)Math.Min(Math.Round(ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) * NormalizedPoint2.y), (double)ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data.GetLength(1) - 1);
+
+                    DataSlice.Clear();
+                    BuildSlice(marker1Row, marker1Col, marker2Row, marker2Col);
+                    //button.SetActive(true);
+                }
+                else
+                {
+                    //button.SetActive(false);
                 }
             }
 
@@ -259,6 +289,94 @@ public class Marker : MonoBehaviour {
         get
         {
             return new Vector3(cursor.transform.position.x, 0, cursor.transform.position.z);
+        }
+    }
+
+    /// <summary>
+    /// Computes a bilinear interoplation off the given initial location, end location, and the point to interpolate on
+    /// </summary>
+    /// <param name="x1">Initial x point</param>
+    /// <param name="y1">Initial y point</param>
+    /// <param name="x2">End x point</param>
+    /// <param name="y2">End y point</param>
+    /// <param name="x">Interpol Point x</param>
+    /// <param name="y">Interpol point y</param>
+    public float bilinearInterpolation(int x1, int y1, int x2, int y2, float x, float y)
+    {
+        // Debug log for testing the data
+        // Debug.LogError("The value x1, y1, x2, y2, x, y, ts(x1,y1), ts(x2,y1), ts(x1,y2), ts(x2,y2): " + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ", " + x + ", " + y + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y1] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x1, y2] + ", " + ActiveData.GetFrameAt(DataIndex).Data[x2, y2]);
+
+        // Run the Interpolation, and return.
+        List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+        int DataIndex = ActiveData.GetCurrentIndex();
+        float value = (1 / ((x2 - x1) * (y2 - y1))) * ((ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data[x1, y1] * (x2 - x) * (y2 - y)) + (ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data[x2, y1] * (x - x1) * (y2 - y)) + (ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data[x1, y2] * (x2 - x) * (y - y1)) + (ActiveData.GetFrameAt(tempFrameRef[0], DataIndex).Data[x2, y2] * (x - x1) * (y - y1)));
+        return value;
+    }
+
+    /// <summary>
+    /// takes the two given points and builds a interpolated slice off of it.
+    /// </summary>
+    public void BuildSlice(int m1r, int m1c, int m2r, int m2c)
+    {
+        int sample_rate = 50;
+        Vector2 vec = new Vector2(m2r - m1r, m2c - m1c);
+        float mag = Mathf.Sqrt((vec.x * vec.x) + (vec.y * vec.y));
+        int x1, y1, x2, y2;
+        float x, y;
+
+        Vector2 unit = new Vector2((1 / mag) * vec.x, (1 / mag) * vec.y);
+
+        for (int i = 0; i < sample_rate; i++)
+        {
+            x = m1r + (unit.x * (float)((float)i / (float)sample_rate) * mag);
+            y = m1c + (unit.y * (float)((float)i / (float)sample_rate) * mag);
+
+            x1 = (int)Mathf.Floor(x);
+            y1 = (int)Mathf.Floor(y);
+            x2 = (int)Mathf.Ceil(x);
+            y2 = (int)Mathf.Ceil(y);
+
+            if (x1 == x2)
+            {
+                x2 += 1;
+            }
+            if (y1 == y2)
+            {
+                y2 += 1;
+            }
+            DataSlice.Add(bilinearInterpolation(x1, y1, x2, y2, x, y));
+        }
+
+        x = m1r + (unit.x * 1 * mag);
+        y = m1c + (unit.y * 1 * mag);
+
+        x1 = m2r - 1;
+        y1 = m2c - 1;
+        x2 = m2r;
+        y2 = m2c;
+        DataSlice.Add(bilinearInterpolation(x1, y1, x2, y2, x, y));
+    }
+
+    /// <summary>
+    /// This will send the data on the slicer to a file
+    /// </summary>
+    public void SlicerToFile()
+    {
+        String pathDownload = Utilities.GetFilePath("slicer_data.csv");
+        Debug.LogError("The File Path: " + pathDownload);
+
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
+        {
+            file.WriteLine("This file represenets interpolated data that was calculated from a line across the currently shown dataset.");
+            //file.WriteLine(variable_name + ": " + unitsLabel);
+            List<String> tempFrameRef = ActiveData.GetCurrentAvtive();
+            file.WriteLine("Time of Frame: " + ActiveData.GetFrameAt(tempFrameRef[0], ActiveData.GetCurrentIndex()).starttime);
+            //file.WriteLine("UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ").");
+            file.WriteLine("UTM Zone: " + coordsystem.localzone);
+            foreach (var i in DataSlice)
+            {
+                file.Write(i + ", ");
+            }
         }
     }
 }

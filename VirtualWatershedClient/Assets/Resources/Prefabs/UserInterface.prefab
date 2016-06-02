@@ -34800,29 +34800,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db755282df011a49a30556822c672e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineColor: {r: 1, g: 1, b: 1, a: 1}
-  lineWidth: 1
-  yMax: 100
-  yMin: 0
-  timebase: 60
-  unitsLabel: 
-  variable_name: 
-  valueFormatString: 0.00
-  Keep: 1
-  easting: 0
-  northing: 0
   GraphMaterial: {fileID: 2100000, guid: 5a775563bdca74c5bbc1e0d8ab67d1dc, type: 2}
   GraphImage: {fileID: 11422718}
-  marker1: {fileID: 0}
-  marker2: {fileID: 0}
-  BoundingBox:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  DataIndex: 0
-  button: {fileID: 140150}
   selectedList: {fileID: 0}
 --- !u!114 &11426888
 MonoBehaviour:

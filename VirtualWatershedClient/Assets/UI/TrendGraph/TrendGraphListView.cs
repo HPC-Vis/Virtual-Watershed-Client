@@ -45,8 +45,9 @@ public class TrendGraphListView : MonoBehaviour {
         List<TrendGraphRow> selected = selectedList.GetSelectedTrendGraphRows();
         if(selected.Count == 3)
         {
-            selectedList.SetRowSelection(selected[0].guid, !selected[0].isSelected);            
-            selectedList.UpdateRowField(selected[0].guid, " ", Color.clear);
+            var interfaceValues = selected[0] as Row;
+            selectedList.SetRowSelection(interfaceValues.guid, !interfaceValues.isSelected);            
+            selectedList.UpdateRowField(interfaceValues.guid, " ", Color.clear);
         }
 
         object[] newObj = { colors.Dequeue().color, v[0], v[1], v[2], v[3] };
@@ -89,8 +90,9 @@ public class TrendGraphListView : MonoBehaviour {
                 {
                     index++;
                 }
-                selectedList.SetRowSelection(selected[index].guid, !selected[index].isSelected);
-                selectedList.UpdateRowField(selected[index].guid, " ", Color.clear);
+                var interfaceValues = selected[index] as Row;
+                selectedList.SetRowSelection(interfaceValues.guid, !interfaceValues.isSelected);
+                selectedList.UpdateRowField(interfaceValues.guid, " ", Color.clear);
             }
 
             Color newcolor = colors.Dequeue().color;

@@ -9,29 +9,14 @@
  */
  
 using UnityEngine;
-using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace VTL.ListView
 {
-
-    public enum DataType { String, Bool, Int, Float, Double, DateTime, TimeSpan };
-    public enum HorizontalAlignment {Left, Right};
-    public enum ListSelection { Many, One, None };
-
-    [System.Serializable]
-    public class HeaderElementInfo
-    {
-        public string text = "Item0";
-        public DataType dataType = DataType.String;
-        public string formatString = null;
-        public float preferredWidth = 150f;
-        public HorizontalAlignment horizontalAlignment = HorizontalAlignment.Left;
-    }
-
-    public class ListViewManager : MonoBehaviour
+        
+    public class ListViewManager : ListViewManagerParent
     {
         public delegate void SelectionChangeAction();
         public static event SelectionChangeAction SelectionChangeEvent;
@@ -40,37 +25,36 @@ namespace VTL.ListView
         public delegate void TrendgraphSelectionChangeAction(Guid guid);
         public static event TrendgraphSelectionChangeAction TrendgraphSelectionChangeEvent;
 
-        public List<HeaderElementInfo> headerElementInfo = new List<HeaderElementInfo>();
+        //public List<HeaderElementInfo> headerElementInfo = new List<HeaderElementInfo>();
 
-        public float rowHeight = 26f;
-        public Color unselectedColor = Color.white;
-        public Color selectedColor = new Color(0.1f, 0.1f, 0.1f, 0.4f);
-        public ListSelection listSelection = ListSelection.Many;
+        //public float rowHeight = 26f;
+        //public Color unselectedColor = Color.white;
+        //public Color selectedColor = new Color(0.1f, 0.1f, 0.1f, 0.4f);
+        //public ListSelection listSelection = ListSelection.Many;
 
-        public GameObject HeaderElementPrefab;
-        public GameObject RowPrefab;
-        public GameObject RowElementPrefab;
+        //public GameObject HeaderElementPrefab;
+        //public GameObject RowPrefab;
+        //public GameObject RowElementPrefab;
 
-        protected List<GameObject> headerElements = new List<GameObject>();
-        protected Dictionary<Guid, GameObject> rows = new Dictionary<Guid, GameObject>();
+        //protected List<GameObject> headerElements = new List<GameObject>();
+        //protected Dictionary<Guid, GameObject> rows = new Dictionary<Guid, GameObject>();
 
-        [HideInInspector]
-        public Dictionary<Guid, Dictionary<string, object>> listData = 
-            new Dictionary<Guid, Dictionary<string, object>>();
+        //[HideInInspector]
+        //public Dictionary<Guid, Dictionary<string, object>> listData = new Dictionary<Guid, Dictionary<string, object>>();
         const string SELECTED = "__Selected__";
         const string GUID = "__Guid__";
 
         Guid previousGUID;
 
-        GameObject header;
-        GameObject listPanel;
-        RectTransform listPanelRectTransform;
+        //GameObject header;
+        //GameObject listPanel;
+        //RectTransform listPanelRectTransform;
         
-        [HideInInspector] 
-        public bool shiftDown = false;
+        //[HideInInspector] 
+        //public bool shiftDown = false;
 
-        [HideInInspector]
-        public List<int> shiftDownSelections = new List<int>();
+        //[HideInInspector]
+        //public List<int> shiftDownSelections = new List<int>();
 
         // Use this for initialization
         void Awake()
@@ -85,59 +69,59 @@ namespace VTL.ListView
                     Destroy(child.gameObject);
         }
 
-        public int getCount()
-        {
-            return rows.Count;
-        }
+        //public int getCount()
+        //{
+        //    return rows.Count;
+        //}
 
-        public void Update()
-        {
-            shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        //public void Update()
+        //{
+        //    shiftDown = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 
-            // On shift keyup we can reset the selection
-            if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-                shiftDownSelections.Clear();
-        }
+        //    // On shift keyup we can reset the selection
+        //    if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        //        shiftDownSelections.Clear();
+        //}
 
-        public void OnValidate()
-        {
-            if (headerElementInfo.Count > 32)
-                throw new System.Exception("Add additional HeaderElement prefabs as children of Header");
+        //public void OnValidate()
+        //{
+        //    if (headerElementInfo.Count > 32)
+        //        throw new System.Exception("Add additional HeaderElement prefabs as children of Header");
 
-            header = transform.Find("Header").gameObject;
-            listPanel = transform.Find("List/ListPanel").gameObject;
+        //    header = transform.Find("Header").gameObject;
+        //    listPanel = transform.Find("List/ListPanel").gameObject;
 
-            // reset all the header elements to inactive
-            foreach (Transform child in header.transform)
-                child.gameObject.SetActive(false);
+        //    // reset all the header elements to inactive
+        //    foreach (Transform child in header.transform)
+        //        child.gameObject.SetActive(false);
 
-            // Need to make sure that duplicate column names are not present
-            // This HashSet is used to make sure duplicates do not exist.
-            HashSet<string> keys = new HashSet<string>();
+        //    // Need to make sure that duplicate column names are not present
+        //    // This HashSet is used to make sure duplicates do not exist.
+        //    HashSet<string> keys = new HashSet<string>();
 
-            // Loop through and setup the header elements
-            headerElements.Clear();
-            int i = 0;
-            foreach (var info in headerElementInfo)
-            {
-                if (keys.Contains(info.text))
-                    throw new System.Exception("ListView header elements must have distinct Text properties.");
-                keys.Add(info.text);
+        //    // Loop through and setup the header elements
+        //    headerElements.Clear();
+        //    int i = 0;
+        //    foreach (var info in headerElementInfo)
+        //    {
+        //        if (keys.Contains(info.text))
+        //            throw new System.Exception("ListView header elements must have distinct Text properties.");
+        //        keys.Add(info.text);
 
-                // For whatever reason it runs OnValidate when you hit play and it fails to 
-                // find the children of header. At this point Application.isPlaying is still false
-                // so it isn't clear how to cleanly detect this special state. Anyhoo, that is why
-                // this try/catch is needed.
-                try
-                {
-                    headerElements.Add(header.transform.GetChild(i).gameObject);
-                    headerElements[i].SetActive(true);
-                    headerElements[i].GetComponent<HeaderElement>().Initialize(info);
-                }
-                catch { return; }
-                i++;
-            }
-        }
+        //        // For whatever reason it runs OnValidate when you hit play and it fails to 
+        //        // find the children of header. At this point Application.isPlaying is still false
+        //        // so it isn't clear how to cleanly detect this special state. Anyhoo, that is why
+        //        // this try/catch is needed.
+        //        try
+        //        {
+        //            headerElements.Add(header.transform.GetChild(i).gameObject);
+        //            headerElements[i].SetActive(true);
+        //            headerElements[i].GetComponent<HeaderElement>().Initialize(info);
+        //        }
+        //        catch { return; }
+        //        i++;
+        //    }
+        //}
 
         void SetListPanelHeight()
         {
@@ -145,138 +129,139 @@ namespace VTL.ListView
                 new Vector2(listPanelRectTransform.sizeDelta.x, rows.Count * rowHeight);
         }
 
-        public void AddRow(object[] fieldData, Guid guid)
+        //public void AddRow(object[] fieldData, Guid guid)
+        //{
+        //    if (fieldData.Length < headerElementInfo.Count)
+        //        throw new System.Exception("fieldData does not match the size of the table!");
+
+        //    rows.Add(guid, Instantiate(RowPrefab));
+        //    rows[guid].transform.SetParent(listPanel.transform);
+
+        //    if (rows[guid].GetComponent<Row>() != null)
+        //    {
+        //        rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+        //    }
+        //    else if (rows[guid].GetComponent<TrendGraphRow>() != null)
+        //    {
+        //        rows[guid].GetComponent<TrendGraphRow>().Initialize(fieldData, guid);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Problem loading the proper component.");
+        //        // rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
+        //    }
+
+        //    SetListPanelHeight();
+
+        //    listData.Add(guid, new Dictionary<string, object>());
+
+        //    for (int i = 0; i < headerElementInfo.Count; i++)
+        //    {
+        //        listData[guid].Add(headerElementInfo[i].text, fieldData[i]);
+        //    }                
+
+        //    listData[guid].Add(SELECTED, false);
+        //    listData[guid].Add(GUID, guid);
+        //}
+
+        //public Guid AddRow(object[] fieldData)
+        //{
+        //    Guid guid = Guid.NewGuid();
+        //    AddRow(fieldData, guid);
+        //    return guid;
+        //}
+
+        public new void OnSelectionEvent(Guid guid, int index)
         {
-            if (fieldData.Length < headerElementInfo.Count)
-                throw new System.Exception("fieldData does not match the size of the table!");
+            //// The selection handling is a little convoluted. Basically each 
+            //// row element is a button. For each button the click event is
+            //// bound to their parent's Row component which passes the event
+            //// here.
+            ////
+            //// In this method we the selection logic and the SetRowSelection
+            //// method calls back to set the appearance of the row.
+            //if (listSelection == ListSelection.Many)
+            //{
+            //    if (shiftDown)
+            //    {
+            //        shiftDownSelections.Add(index);
 
-            rows.Add(guid, Instantiate(RowPrefab));
-            rows[guid].transform.SetParent(listPanel.transform);
-            if (rows[guid].GetComponent<Row>() != null)
-            {
-                rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
-            }
-            else if (rows[guid].GetComponent<TrendGraphRow>() != null)
-            {
-                rows[guid].GetComponent<TrendGraphRow>().Initialize(fieldData, guid);
-            }
-            else
-            {
-                Debug.LogError("Problem loading the proper component.");
-                // rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
-            }
- 
-            SetListPanelHeight();
+            //        if (shiftDownSelections.Count == 1)
+            //            SetRowSelection(guid, true);
+            //        else
+            //        {
+            //            int minIndx = Mathf.Min(shiftDownSelections.ToArray());
+            //            int maxIndx = Mathf.Max(shiftDownSelections.ToArray());
+            //            for (int i = minIndx; i < maxIndx + 1; i++)
+            //                SetRowSelection(i, true);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (rows[guid].GetComponent<Row>() != null)
+            //        {
+            //            SetRowSelection(guid, !rows[guid].GetComponent<Row>().isSelected);
+            //        }
+            //        else if (rows[guid].GetComponent<TrendGraphRow>() != null)
+            //        {
+            //            SetRowSelection(guid, !rows[guid].GetComponent<TrendGraphRow>().isSelected);
+            //        }
+            //        else
+            //        {
+            //            Debug.LogError("Problem loading the proper component.");
+            //        }
+            //    }
 
-            listData.Add(guid, new Dictionary<string, object>());
+            //}
+            //else if (listSelection == ListSelection.One)
+            //{
+            //    if (rows.ContainsKey(previousGUID))
+            //    {
+            //        if (RowPrefab.GetComponent("Row") != null)
+            //        {
+            //            rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
+            //            if (previousGUID != guid)
+            //            {
+            //                rows[previousGUID].GetComponent<Row>().selectedOn = false;
+            //            }
+            //        }
+            //        else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            //        {
+            //            rows[guid].GetComponent<TrendGraphRow>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<TrendGraphRow>().selectedOn;
+            //            if (previousGUID != guid)
+            //            {
+            //                rows[previousGUID].GetComponent<TrendGraphRow>().selectedOn = false;
+            //            }
+            //        }
+            //        else
+            //        {
+            //            Debug.LogError("Problem loading the proper component.");
+            //        }
+            //    }
+            //    bool newState = false;
+            //    if (RowPrefab.GetComponent("Row") != null)
+            //    {
+            //        newState = !rows[guid].GetComponent<Row>().isSelected;
+            //    }
+            //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+            //    {
+            //        newState = !rows[guid].GetComponent<TrendGraphRow>().isSelected;
+            //    }
+            //    else
+            //    {
+            //        Debug.LogError("Problem loading the proper component.");
+            //    }
 
-            for (int i = 0; i < headerElementInfo.Count; i++)
-            {
-                listData[guid].Add(headerElementInfo[i].text, fieldData[i]);
-            }                
+            //    DeselectAll();
+            //    SetRowSelection(guid, newState);
+            //    previousGUID = guid;
+            //}
+            //else
+            //{
+            //    return;
+            //}
 
-            listData[guid].Add(SELECTED, false);
-            listData[guid].Add(GUID, guid);
-        }
-
-        public Guid AddRow(object[] fieldData)
-        {
-            Guid guid = Guid.NewGuid();
-            AddRow(fieldData, guid);
-            return guid;
-        }
-
-        public void OnSelectionEvent(Guid guid, int index)
-        {
-            // The selection handling is a little convoluted. Basically each 
-            // row element is a button. For each button the click event is
-            // bound to their parent's Row component which passes the event
-            // here.
-            //
-            // In this method we the selection logic and the SetRowSelection
-            // method calls back to set the appearance of the row.
-            if (listSelection == ListSelection.Many)
-            {
-                if (shiftDown)
-                {
-                    shiftDownSelections.Add(index);
-
-                    if (shiftDownSelections.Count == 1)
-                        SetRowSelection(guid, true);
-                    else
-                    {
-                        int minIndx = Mathf.Min(shiftDownSelections.ToArray());
-                        int maxIndx = Mathf.Max(shiftDownSelections.ToArray());
-                        for (int i = minIndx; i < maxIndx + 1; i++)
-                            SetRowSelection(i, true);
-                    }
-                }
-                else
-                {
-                    if (rows[guid].GetComponent<Row> () != null)
-                    {
-                        SetRowSelection(guid, !rows[guid].GetComponent<Row>().isSelected);
-                    }
-                    else if(rows[guid].GetComponent<TrendGraphRow>() != null)
-                    {
-                        SetRowSelection(guid, !rows[guid].GetComponent<TrendGraphRow>().isSelected);
-                    }
-                    else
-                    {
-                        Debug.LogError("Problem loading the proper component.");
-                    }
-                }
-                    
-            }
-            else if (listSelection == ListSelection.One)
-            {
-                if (rows.ContainsKey(previousGUID))
-                {      
-                    if(RowPrefab.GetComponent("Row") != null)
-                    {
-                        rows[guid].GetComponent<Row>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<Row>().selectedOn;
-                        if (previousGUID != guid)
-                        {
-                            rows[previousGUID].GetComponent<Row>().selectedOn = false;
-                        }
-                    }
-                    else if(RowPrefab.GetComponent("TrendGraphRow") != null)
-                    {
-                        rows[guid].GetComponent<TrendGraphRow>().selectedOn = previousGUID == guid && !rows[guid].GetComponent<TrendGraphRow>().selectedOn;
-                        if (previousGUID != guid)
-                        {
-                            rows[previousGUID].GetComponent<TrendGraphRow>().selectedOn = false;
-                        }
-                    }
-                    else
-                    {
-                        Debug.LogError("Problem loading the proper component.");
-                    }
-                }
-                bool newState = false;
-                if (RowPrefab.GetComponent("Row") != null)
-                {
-                    newState = !rows[guid].GetComponent<Row>().isSelected;
-                }
-                else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-                {
-                    newState = !rows[guid].GetComponent<TrendGraphRow>().isSelected;
-                }
-                else
-                {
-                    Debug.LogError("Problem loading the proper component.");
-                }
-                
-                DeselectAll();
-                SetRowSelection(guid, newState);
-                previousGUID = guid;
-            }
-            else
-            {
-                return;
-            }
-
-
+            base.OnSelectionEvent(guid, index);
             if (RowPrefab.GetComponent("Row") != null)
             {
                 if (SelectionChangeEvent != null)
@@ -297,257 +282,257 @@ namespace VTL.ListView
             }
         }
 
-        public bool IsSelectedOn(Guid guid)
-        {
-            if (RowPrefab.GetComponent("Row") != null)
-            {
-                return rows[guid].GetComponent<Row>().selectedOn;
-            }
-            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-            {
-                return rows[guid].GetComponent<TrendGraphRow>().selectedOn;
-            }
-            else
-            {
-                Debug.LogError("Problem loading the proper component.");
-                return false;
-            }            
-        }
+        //public bool IsSelectedOn(Guid guid)
+        //{
+        //    if (RowPrefab.GetComponent("Row") != null)
+        //    {
+        //        return rows[guid].GetComponent<Row>().selectedOn;
+        //    }
+        //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //    {
+        //        return rows[guid].GetComponent<TrendGraphRow>().selectedOn;
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Problem loading the proper component.");
+        //        return false;
+        //    }            
+        //}
 
-        public void SelectAll()
-        {
-            foreach (var item in rows)
-                SetRowSelection(item.Key, true);
-        }
+        //public void SelectAll()
+        //{
+        //    foreach (var item in rows)
+        //        SetRowSelection(item.Key, true);
+        //}
 
-        public void DeselectAll()
-        {
-            foreach (var item in rows)
-                SetRowSelection(item.Key, false);
-        }
+        //public void DeselectAll()
+        //{
+        //    foreach (var item in rows)
+        //        SetRowSelection(item.Key, false);
+        //}
 
-        public void SetRowSelection(int index, bool selectedState)
-        {
-            SetRowSelection(GetGuidAtIndex(index), selectedState);
-        }
+        //public void SetRowSelection(int index, bool selectedState)
+        //{
+        //    SetRowSelection(GetGuidAtIndex(index), selectedState);
+        //}
 
-        public void SetRowSelection(Guid guid, bool selectedState)
-        {
-            listData[guid][SELECTED] = selectedState;
-         
-            if (RowPrefab.GetComponent("Row") != null)
-            {
-                Row row = rows[guid].GetComponent<Row>();
-                row.isSelected = selectedState;
-                row.UpdateSelectionAppearance();
-            }
-            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-            {
-                TrendGraphRow row = rows[guid].GetComponent<TrendGraphRow>();
-                row.isSelected = selectedState;
-                row.UpdateSelectionAppearance();
-            }
-            else
-            {
-                Debug.LogError("Problem loading the proper component.");
-            }            
-        }
+        //public void SetRowSelection(Guid guid, bool selectedState)
+        //{
+        //    listData[guid][SELECTED] = selectedState;
 
-        public void Sort(string key)
-        {
-            Sort(key, true);
-        }
+        //    if (RowPrefab.GetComponent("Row") != null)
+        //    {
+        //        Row row = rows[guid].GetComponent<Row>();
+        //        row.isSelected = selectedState;
+        //        row.UpdateSelectionAppearance();
+        //    }
+        //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //    {
+        //        TrendGraphRow row = rows[guid].GetComponent<TrendGraphRow>();
+        //        row.isSelected = selectedState;
+        //        row.UpdateSelectionAppearance();
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("Problem loading the proper component.");
+        //    }            
+        //}
 
-        public void Sort(string key, bool sortAscending)
-        {
-            // Check that key is valid
-            bool foundKey = false;
-            foreach (var info in headerElementInfo)
-                if (info.text.Equals(key))
-                    foundKey = true;
+        //public void Sort(string key)
+        //{
+        //    Sort(key, true);
+        //}
 
-            if (!foundKey)
-                throw new System.Exception("Key not in listview: " + key);
+        //public void Sort(string key, bool sortAscending)
+        //{
+        //    // Check that key is valid
+        //    bool foundKey = false;
+        //    foreach (var info in headerElementInfo)
+        //        if (info.text.Equals(key))
+        //            foundKey = true;
 
-            // Here we sort without Linq for maximum platform compatibility
-            // We only need to sort unique elements of a column. So we create
-            // a lookup dictionary to get all Guids that coorespond to a
-            // particular unique element
-            Dictionary<object, List<Guid>> lookup = new Dictionary<object, List<Guid>>();
-            foreach (var item in listData)
-            {
-                if (!lookup.ContainsKey(item.Value[key]))
-                    lookup[item.Value[key]] = new List<Guid>();
+        //    if (!foundKey)
+        //        throw new System.Exception("Key not in listview: " + key);
 
-                lookup[item.Value[key]].Add(item.Key);
-            }
+        //    // Here we sort without Linq for maximum platform compatibility
+        //    // We only need to sort unique elements of a column. So we create
+        //    // a lookup dictionary to get all Guids that coorespond to a
+        //    // particular unique element
+        //    Dictionary<object, List<Guid>> lookup = new Dictionary<object, List<Guid>>();
+        //    foreach (var item in listData)
+        //    {
+        //        if (!lookup.ContainsKey(item.Value[key]))
+        //            lookup[item.Value[key]] = new List<Guid>();
 
-            // Now sort the keys to the lookup table
-            List<object> uniqueElements = new List<object>(lookup.Keys);
-            uniqueElements.Sort(); // Sort in place
+        //        lookup[item.Value[key]].Add(item.Key);
+        //    }
 
-            if (!sortAscending)
-                uniqueElements.Reverse(); // Reverse in place
+        //    // Now sort the keys to the lookup table
+        //    List<object> uniqueElements = new List<object>(lookup.Keys);
+        //    uniqueElements.Sort(); // Sort in place
 
-            // Reorder the rows
-            int i = 0;
-            foreach (object objKey in uniqueElements)
-            {
-                foreach (Guid guid in lookup[objKey])
-                    rows[guid].transform.SetSiblingIndex(i++);
-            }
+        //    if (!sortAscending)
+        //        uniqueElements.Reverse(); // Reverse in place
 
-            // Set the arrow states for the header fields
-            foreach (Transform child in header.transform)
-            {
-                var headerElement = child.GetComponent<HeaderElement>();
-                if (headerElement != null)
-                    headerElement.SetSortState(headerElement.text == key ? sortAscending : (bool?)null);
-            }
-        }
+        //    // Reorder the rows
+        //    int i = 0;
+        //    foreach (object objKey in uniqueElements)
+        //    {
+        //        foreach (Guid guid in lookup[objKey])
+        //            rows[guid].transform.SetSiblingIndex(i++);
+        //    }
 
-        public Guid GetGuidAtIndex(int index)
-        {
-            return listPanel.transform.GetChild(index).GetComponent<Row>().guid;
-        }
+        //    // Set the arrow states for the header fields
+        //    foreach (Transform child in header.transform)
+        //    {
+        //        var headerElement = child.GetComponent<HeaderElement>();
+        //        if (headerElement != null)
+        //            headerElement.SetSortState(headerElement.text == key ? sortAscending : (bool?)null);
+        //    }
+        //}
 
-        public Guid GetGuidAtSelectedIndex(int index)
-        {
-            int indexCount = 0;
-            if (RowPrefab.GetComponent("Row") != null)
-            {
-                foreach (var item in rows)
-                {
-                    var ROW = item.Value.GetComponent<Row>();
-                    if (ROW.isSelected)
-                    {
-                        if(indexCount == index)
-                        {
-                            return ROW.guid;
-                        }
-                        indexCount++;
-                    }
-                }
-                throw new ArgumentNullException("No index selected of that value.");
-            }
-            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-            {
-                foreach (var item in rows)
-                {
-                    var ROW = item.Value.GetComponent<TrendGraphRow>();
-                    if (ROW.isSelected)
-                    {
-                        if (indexCount == index)
-                        {
-                            return ROW.guid;
-                        }
-                        indexCount++;
-                    }
-                }
-                throw new ArgumentNullException("No index selected of that value.");
-            }
-            else
-            {
-                throw new ArgumentNullException("Problem loading the proper component.");
-            }            
-        }
+        //public Guid GetGuidAtIndex(int index)
+        //{
+        //    return listPanel.transform.GetChild(index).GetComponent<Row>().guid;
+        //}
 
-        public void UpdateRow(Guid guid, object[] fieldData)
-        {
-            if (fieldData.Length < headerElementInfo.Count)
-                throw new System.Exception("fieldData does not match the size of the table!");
+        //public Guid GetGuidAtSelectedIndex(int index)
+        //{
+        //    int indexCount = 0;
+        //    if (RowPrefab.GetComponent("Row") != null)
+        //    {
+        //        foreach (var item in rows)
+        //        {
+        //            var ROW = item.Value.GetComponent<Row>();
+        //            if (ROW.isSelected)
+        //            {
+        //                if(indexCount == index)
+        //                {
+        //                    return ROW.guid;
+        //                }
+        //                indexCount++;
+        //            }
+        //        }
+        //        throw new ArgumentNullException("No index selected of that value.");
+        //    }
+        //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //    {
+        //        foreach (var item in rows)
+        //        {
+        //            var ROW = item.Value.GetComponent<TrendGraphRow>();
+        //            if (ROW.isSelected)
+        //            {
+        //                if (indexCount == index)
+        //                {
+        //                    return ROW.guid;
+        //                }
+        //                indexCount++;
+        //            }
+        //        }
+        //        throw new ArgumentNullException("No index selected of that value.");
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentNullException("Problem loading the proper component.");
+        //    }            
+        //}
 
-            for (int i = 0; i < fieldData.Length; i++)
-            {
-                listData[guid][headerElementInfo[i].text] = fieldData[i];
-            }               
+        //public void UpdateRow(Guid guid, object[] fieldData)
+        //{
+        //    if (fieldData.Length < headerElementInfo.Count)
+        //        throw new System.Exception("fieldData does not match the size of the table!");
 
-            bool selected = (bool)listData[guid][SELECTED];
-            rows[guid].GetComponent<Row>().SetFields(fieldData, guid, selected);
-        }
+        //    for (int i = 0; i < fieldData.Length; i++)
+        //    {
+        //        listData[guid][headerElementInfo[i].text] = fieldData[i];
+        //    }               
 
-        public void UpdateRow(int index, object[] fieldData)
-        {
-            UpdateRow(GetGuidAtIndex(index), fieldData);
-        }
+        //    bool selected = (bool)listData[guid][SELECTED];
+        //    rows[guid].GetComponent<Row>().SetFields(fieldData, guid, selected);
+        //}
 
-        public void UpdateRow(Guid guid, Dictionary<string, object> rowData)
-        {
-            foreach (var item in rowData)
-                listData[guid][item.Key] = item.Value;
+        //public void UpdateRow(int index, object[] fieldData)
+        //{
+        //    UpdateRow(GetGuidAtIndex(index), fieldData);
+        //}
 
-            bool selected = (bool)listData[guid][SELECTED];
-            rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
-        }
+        //public void UpdateRow(Guid guid, Dictionary<string, object> rowData)
+        //{
+        //    foreach (var item in rowData)
+        //        listData[guid][item.Key] = item.Value;
 
-        public void UpdateRow(int index, Dictionary<string, object> rowData)
-        {
-            UpdateRow(GetGuidAtIndex(index), rowData);
-        }
+        //    bool selected = (bool)listData[guid][SELECTED];
+        //    rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
+        //}
 
-        public void UpdateRowField(Guid guid, string key, object data)
-        {
-            listData[guid][key] = data;
+        //public void UpdateRow(int index, Dictionary<string, object> rowData)
+        //{
+        //    UpdateRow(GetGuidAtIndex(index), rowData);
+        //}
 
-            bool selected = (bool)listData[guid][SELECTED];
+        //public void UpdateRowField(Guid guid, string key, object data)
+        //{
+        //    listData[guid][key] = data;
 
-            if (RowPrefab.GetComponent("Row") != null)
-            {
-                rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
-            }
-            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-            {
-                rows[guid].GetComponent<TrendGraphRow>().SetFields(listData[guid], guid, selected);
-            }
-            else
-            {
-                throw new ArgumentNullException("Problem loading the proper component.");
-            }            
-        }
+        //    bool selected = (bool)listData[guid][SELECTED];
 
-        public void UpdateRowField(int index, string key, object data)
-        {
-            UpdateRowField(GetGuidAtIndex(index), key, data);
-        }
+        //    if (RowPrefab.GetComponent("Row") != null)
+        //    {
+        //        rows[guid].GetComponent<Row>().SetFields(listData[guid], guid, selected);
+        //    }
+        //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //    {
+        //        rows[guid].GetComponent<TrendGraphRow>().SetFields(listData[guid], guid, selected);
+        //    }
+        //    else
+        //    {
+        //        throw new ArgumentNullException("Problem loading the proper component.");
+        //    }            
+        //}
 
-        public IEnumerator Selected()
-        {
-            var buffer = new List<Guid>();
-            foreach (var rowData in listData.Values)
-                if ((bool)rowData[SELECTED])
-                    buffer.Add((Guid)rowData[GUID]);
- 
-            foreach (Guid guid in buffer)
-                yield return guid;
-        }
+        //public void UpdateRowField(int index, string key, object data)
+        //{
+        //    UpdateRowField(GetGuidAtIndex(index), key, data);
+        //}
 
-        public void RemoveSelected()
-        {
-            IEnumerator ienObj = Selected();
+        //public IEnumerator Selected()
+        //{
+        //    var buffer = new List<Guid>();
+        //    foreach (var rowData in listData.Values)
+        //        if ((bool)rowData[SELECTED])
+        //            buffer.Add((Guid)rowData[GUID]);
 
-            while (ienObj.MoveNext())
-                Remove((Guid)ienObj.Current);
-        }
+        //    foreach (Guid guid in buffer)
+        //        yield return guid;
+        //}
 
-        public void Remove(Guid guid)
-        {
-            Destroy(rows[guid]);
-            rows.Remove(guid);
-            listData.Remove(guid);
-            SetListPanelHeight();
-        }
+        //public void RemoveSelected()
+        //{
+        //    IEnumerator ienObj = Selected();
 
-        public void RemoveAt(int index)
-        {
-            Remove(GetGuidAtIndex(index));
-        }
+        //    while (ienObj.MoveNext())
+        //        Remove((Guid)ienObj.Current);
+        //}
 
-        public void Clear()
-        {
-            //Debug.Log("DESTROY ALL");
-            SelectAll();
-            RemoveSelected();
-        }
+        //public void Remove(Guid guid)
+        //{
+        //    Destroy(rows[guid]);
+        //    rows.Remove(guid);
+        //    listData.Remove(guid);
+        //    SetListPanelHeight();
+        //}
+
+        //public void RemoveAt(int index)
+        //{
+        //    Remove(GetGuidAtIndex(index));
+        //}
+
+        //public void Clear()
+        //{
+        //    //Debug.Log("DESTROY ALL");
+        //    SelectAll();
+        //    RemoveSelected();
+        //}
 
         public void AddRow(object[] fieldData, DataRecord record)
         {
@@ -558,8 +543,8 @@ namespace VTL.ListView
 
             rows.Add(guid, Instantiate(RowPrefab));
             rows[guid].transform.SetParent(listPanel.transform);
-            rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
-            rows[guid].GetComponent<Row>().record = record;
+            rows[guid].GetComponent<ModelRow>().Initialize(fieldData, guid);
+            rows[guid].GetComponent<ModelRow>().record = record;
             SetListPanelHeight();
 
             listData.Add(guid, new Dictionary<string, object>());
@@ -572,21 +557,21 @@ namespace VTL.ListView
 
         }
 
-        public object[] GetRowContent(System.Guid GUID)
-        {
-            if (RowPrefab.GetComponent("Row") != null)
-            {
-                return rows[GUID].GetComponent<Row>().GetContents();
-            }
-            else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-            {
-                return rows[GUID].GetComponent<TrendGraphRow>().GetContents();
-            }
-            else
-            {
-                throw new Exception("Problem loading the proper component.");
-            }
-        }
+        //public object[] GetRowContent(System.Guid GUID)
+        //{
+        //    if (RowPrefab.GetComponent("Row") != null)
+        //    {
+        //        return rows[GUID].GetComponent<Row>().GetContents();
+        //    }
+        //    else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //    {
+        //        return rows[GUID].GetComponent<TrendGraphRow>().GetContents();
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Problem loading the proper component.");
+        //    }
+        //}
 
         public void AddRow(object[] fieldData, ModelRun modelRun)
         {
@@ -597,9 +582,9 @@ namespace VTL.ListView
 
             rows.Add(guid, Instantiate(RowPrefab));
             rows[guid].transform.SetParent(listPanel.transform);
-            rows[guid].GetComponent<Row>().Initialize(fieldData, guid);
-            rows[guid].GetComponent<Row>().ModelRun = modelRun;
-            rows[guid].GetComponent<Row>().ModelRunUUID = modelRun.ModelRunUUID;
+            rows[guid].GetComponent<ModelRow>().Initialize(fieldData, guid);
+            rows[guid].GetComponent<ModelRow>().ModelRun = modelRun;
+            rows[guid].GetComponent<ModelRow>().ModelRunUUID = modelRun.ModelRunUUID;
 
             SetListPanelHeight();
 
@@ -618,8 +603,9 @@ namespace VTL.ListView
             List<DataRecord> records = new List<DataRecord>();
             foreach (var item in rows)
             {
-                var ROW = item.Value.GetComponent<Row>();  
-                if(ROW.isSelected)
+                var ROW = item.Value.GetComponent<ModelRow>();
+                var interfaceValues = ROW as Row;
+                if (interfaceValues.isSelected)
                 {
                     records.Add(ROW.record);
                 }
@@ -627,37 +613,37 @@ namespace VTL.ListView
             return records;
         }
 
-        public List<object[]> GetSelectedRowContent()
-        {
-            //List Rows= new List<Row>();
-            List<object[]> objects = new List<object[]>();
-            foreach (var item in rows)
-            {
-                if (RowPrefab.GetComponent("Row") != null)
-                {
-                    var ROW = item.Value.GetComponent<Row>();
-                    //var Objected = listData[item.Key];
-                    if (ROW.isSelected)
-                    {
-                        objects.Add(ROW.GetContents());
-                    }
-                }
-                else if (RowPrefab.GetComponent("TrendGraphRow") != null)
-                {
-                    var ROW = item.Value.GetComponent<TrendGraphRow>();
-                    //var Objected = listData[item.Key];
-                    if (ROW.isSelected)
-                    {
-                        objects.Add(ROW.GetContents());
-                    }
-                }
-                else
-                {
-                    Debug.LogError("Problem loading the proper component.");
-                }
-            }
-            return objects;
-        }
+        //public List<object[]> GetSelectedRowContent()
+        //{
+        //    //List Rows= new List<Row>();
+        //    List<object[]> objects = new List<object[]>();
+        //    foreach (var item in rows)
+        //    {
+        //        if (RowPrefab.GetComponent("Row") != null)
+        //        {
+        //            var ROW = item.Value.GetComponent<Row>();
+        //            //var Objected = listData[item.Key];
+        //            if (ROW.isSelected)
+        //            {
+        //                objects.Add(ROW.GetContents());
+        //            }
+        //        }
+        //        else if (RowPrefab.GetComponent("TrendGraphRow") != null)
+        //        {
+        //            var ROW = item.Value.GetComponent<TrendGraphRow>();
+        //            //var Objected = listData[item.Key];
+        //            if (ROW.isSelected)
+        //            {
+        //                objects.Add(ROW.GetContents());
+        //            }
+        //        }
+        //        else
+        //        {
+        //            Debug.LogError("Problem loading the proper component.");
+        //        }
+        //    }
+        //    return objects;
+        //}
 
         public List<TrendGraphRow> GetSelectedTrendGraphRows()
         {
@@ -665,7 +651,8 @@ namespace VTL.ListView
             foreach (var item in rows)
             {
                 TrendGraphRow ROW = item.Value.GetComponent<TrendGraphRow>();
-                if (ROW.isSelected)
+                var interfaceValues = ROW as Row;
+                if (interfaceValues.isSelected)
                 {
                     sel.Add(ROW);
                 }
@@ -679,15 +666,14 @@ namespace VTL.ListView
             List<ModelRun> mrs = new List<ModelRun>();
             foreach (var item in rows)
             {
-                var ROW = item.Value.GetComponent<Row>();
-                if (ROW.isSelected)
+                var ROW = item.Value.GetComponent<ModelRow>();
+                var interfaceValues = ROW as Row;
+                if (interfaceValues.isSelected)
                 {
                     mrs.Add(ROW.ModelRun);
                 }
             }
             return mrs;
         }
-
-
     }
 }
