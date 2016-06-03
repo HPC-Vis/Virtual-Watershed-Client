@@ -179,21 +179,41 @@ public class RasterDataset
             Debug.LogError(i + "_" + dataset.RasterCount);
             Debug.LogError(dataset.RasterXSize);
             Debug.LogError(dataset.RasterYSize);
+            width = dataset.RasterXSize;
+            height = dataset.RasterYSize;
             float[] DataF = new float[width * height];
             float[,] Data = new float[width, height];
             var band = dataset.GetRasterBand(i + 1);
+
+            int blockx = 0, blocky = 0;
+            band.GetBlockSize(out blockx, out blocky);
+
             try
             {
-                band.ReadRaster(0, 0, band.XSize, band.YSize, DataF, width, height, 0, 0);
+                for(int bandi = 0; bandi < band.XSize; bandi += blockx)
+                {
+                    for(int bandj = 0; bandj < band.YSize; bandj += blocky)
+                    {
+                        //Debug.LogError(bandi);
+                        //Debug.LogError(bandj);
+                        band.ReadRaster(bandi,bandj, blockx, blocky, DataF, blockx, blocky, 0, 0);
+
+                    }
+                }
+                //band.ReadRaster(0, 0, band.XSize, 1, DataF, width, 1, 0, 0);
             }
             catch (Exception e)
             {
                 Debug.LogError(e.Message);
                 return data;
             }
-            Debug.LogError("READ THE RASTER");
-            // Debug.LogError(width + " " + height);
             
+            Debug.LogError(blockx + "," + blocky);
+            
+            Debug.LogError("READ THE RASTER");
+            continue;
+            // Debug.LogError(width + " " + height);
+
             for (int k = 0; k < width; k++)
             {
                 for (int j = 0; j < height; j++)
@@ -201,7 +221,7 @@ public class RasterDataset
                     Data[k, j] = DataF[(k) * height + height-1-j];
                 }
             }
-
+            //break;
 
 
             data.Add(Data);

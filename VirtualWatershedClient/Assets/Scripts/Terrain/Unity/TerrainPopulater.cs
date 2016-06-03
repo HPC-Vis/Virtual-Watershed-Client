@@ -104,6 +104,9 @@ public class TerrainPopulater : MonoBehaviour
         sp.limit = 100;
         sp.offset = 0;
         vwc.RequestRecords(GetTerrainList, sp);
+        double[] doubleness = new double[1000 * 1000 * 500];
+        doubleness = null;
+        System.GC.Collect();
     }
 
     // Update is called once per frame
