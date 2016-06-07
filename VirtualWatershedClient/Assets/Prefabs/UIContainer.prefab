@@ -1646,7 +1646,7 @@ GameObject:
   - 114: {fileID: 11466146}
   - 114: {fileID: 11488596}
   m_Layer: 5
-  m_Name: SlicertoCSV
+  m_Name: SaveSlice
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5657,9 +5657,8 @@ GameObject:
   - 224: {fileID: 22450818}
   - 222: {fileID: 22208350}
   - 114: {fileID: 11400258}
-  - 114: {fileID: 11464492}
-  - 114: {fileID: 11474822}
   - 114: {fileID: 11408612}
+  - 114: {fileID: 11412072}
   m_Layer: 5
   m_Name: SlicerList
   m_TagString: Untagged
@@ -7118,7 +7117,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &124716
 GameObject:
   m_ObjectHideFlags: 1
@@ -8714,6 +8713,7 @@ GameObject:
   - 114: {fileID: 11487858}
   - 114: {fileID: 11470154}
   - 114: {fileID: 11445240}
+  - 114: {fileID: 11467690}
   m_Layer: 5
   m_Name: SlicerList
   m_TagString: Untagged
@@ -12588,7 +12588,7 @@ GameObject:
   - 222: {fileID: 22291488}
   - 114: {fileID: 11469738}
   - 114: {fileID: 11473798}
-  - 114: {fileID: 11484372}
+  - 114: {fileID: 11419970}
   m_Layer: 5
   m_Name: Row
   m_TagString: Untagged
@@ -19201,7 +19201,6 @@ GameObject:
   - 222: {fileID: 22226514}
   - 114: {fileID: 11496780}
   - 114: {fileID: 11468810}
-  - 114: {fileID: 11488352}
   m_Layer: 5
   m_Name: TrendGraph
   m_TagString: Untagged
@@ -19733,7 +19732,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &169392
 GameObject:
   m_ObjectHideFlags: 1
@@ -25219,7 +25218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &188466
 GameObject:
   m_ObjectHideFlags: 1
@@ -36872,7 +36871,7 @@ MonoBehaviour:
   m_IgnoreLayout: 0
   m_MinWidth: -1
   m_MinHeight: -1
-  m_PreferredWidth: 100
+  m_PreferredWidth: 0
   m_PreferredHeight: -1
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
@@ -39367,6 +39366,36 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
+--- !u!114 &11412072
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 119956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b36c71d0a7398f419e2506440c39855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headerElementInfo:
+  - text: Name
+    dataType: 0
+    formatString: 
+    preferredWidth: 0
+    horizontalAlignment: 0
+  rowHeight: 26
+  unselectedColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0.6102941, g: 0.6102941, b: 0.6102941, a: 0.4}
+  listSelection: 1
+  HeaderElementPrefab: {fileID: 139616}
+  RowPrefab: {fileID: 143442}
+  RowElementPrefab: {fileID: 129374}
+  header: {fileID: 105114}
+  listPanel: {fileID: 155444}
+  listPanelRectTransform: {fileID: 0}
+  shiftDown: 0
+  shiftDownSelections: 
+  markerController: {fileID: 11424368}
 --- !u!114 &11412078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -45243,6 +45272,22 @@ MonoBehaviour:
   m_PreferredHeight: 20
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &11419970
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 915a581c178b67144adb4e17ccb6836c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isSelected: 0
+  _selectedOn: 0
+  key: {fileID: 0}
+  rowElements: []
+  imageRow: {fileID: 0}
 --- !u!114 &11420002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -48622,8 +48667,9 @@ MonoBehaviour:
   marker1Active: 0
   marker2Active: 0
   rayslice: {fileID: 11414228}
-  csvButton: {fileID: 105602}
   PlayerController: {fileID: 134692}
+  SavePlacementButton: {fileID: 11488596}
+  listView: {fileID: 11412072}
 --- !u!114 &11424370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53581,7 +53627,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22475380}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -60784,7 +60830,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11488352}
+      - m_Target: {fileID: 0}
         m_MethodName: Remove
         m_Mode: 1
         m_Arguments:
@@ -66369,7 +66415,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Export to CSV
+  m_Text: Save Slice
 --- !u!114 &11448422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -66424,7 +66470,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: Name
   dataType: 0
-  preferredWidth: 100
+  preferredWidth: 0
 --- !u!114 &11448556
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -70197,7 +70243,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11460324}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11412072}
+        m_MethodName: Remove
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11453976
@@ -75487,7 +75544,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Export to KML
+  m_Text: Export to CSV
 --- !u!114 &11461516
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -78051,50 +78108,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11464492
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 738012399774d8e4abbfad08f1fc1b05, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  headerElementInfo:
-  - text: Name
-    dataType: 0
-    formatString: 
-    preferredWidth: 100
-    horizontalAlignment: 0
-  - text: Model Run UUID
-    dataType: 0
-    formatString: 
-    preferredWidth: 135
-    horizontalAlignment: 0
-  - text: Variable
-    dataType: 0
-    formatString: 
-    preferredWidth: 100
-    horizontalAlignment: 0
-  - text: Description
-    dataType: 0
-    formatString: 
-    preferredWidth: 300
-    horizontalAlignment: 0
-  rowHeight: 26
-  unselectedColor: {r: 1, g: 1, b: 1, a: 0.7254902}
-  selectedColor: {r: 0.5921569, g: 0.5921569, b: 0.5921569, a: 0.7254902}
-  listSelection: 0
-  HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
-  RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
-  RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
-  header: {fileID: 105114}
-  listPanel: {fileID: 155444}
-  listPanelRectTransform: {fileID: 0}
-  shiftDown: 0
-  shiftDownSelections: 
 --- !u!114 &11464578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80460,6 +80473,46 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11467690
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 129756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96a5d687a1bc27a4491d4bc21fe80cec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headerElementInfo:
+  - text: ' '
+    dataType: 0
+    formatString: 
+    preferredWidth: 50
+    horizontalAlignment: 0
+  - text: Name
+    dataType: 0
+    formatString: 
+    preferredWidth: 135
+    horizontalAlignment: 0
+  - text: Variable
+    dataType: 0
+    formatString: 
+    preferredWidth: 100
+    horizontalAlignment: 0
+  rowHeight: 26
+  unselectedColor: {r: 1, g: 1, b: 1, a: 1}
+  selectedColor: {r: 0.1, g: 0.1, b: 0.1, a: 0.4}
+  listSelection: 0
+  HeaderElementPrefab: {fileID: 115992}
+  RowPrefab: {fileID: 119782}
+  RowElementPrefab: {fileID: 148528}
+  header: {fileID: 162172}
+  listPanel: {fileID: 106078}
+  listPanelRectTransform: {fileID: 0}
+  shiftDown: 0
+  shiftDownSelections: 
+  trendgraph: {fileID: 11468810}
 --- !u!114 &11467738
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81518,7 +81571,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GraphMaterial: {fileID: 2100000, guid: 5a775563bdca74c5bbc1e0d8ab67d1dc, type: 2}
   GraphImage: {fileID: 11444054}
-  selectedList: {fileID: 11488352}
+  selectedList: {fileID: 11467690}
 --- !u!114 &11468880
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -85536,20 +85589,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &11474822
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 119956}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30689ea5ca2cc9e4b83b143dd93af9cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  downloadManager: {fileID: 0}
-  listView: {fileID: 0}
-  Options: {fileID: 0}
 --- !u!114 &11474848
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -89570,7 +89609,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11466522}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 11424368}
+        m_MethodName: MarkerOutputToFile
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &11479838
@@ -92665,80 +92715,6 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Name
---- !u!114 &11484372
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 143442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isSelected: 0
-  _selectedOn: 0
-  Name: 
-  record:
-    id: 
-    name: 
-    bbox: 
-    bbox2: 
-    projection: 
-    model_set_type: 
-    boundingBox:
-      x: 0
-      y: 0
-      width: 0
-      height: 0
-    WMSCapabilities: 
-    WFSCapabilities: 
-    WCSCapabilities: 
-    GDALPath: 
-    description: 
-    state: 
-    location: 
-    title: 
-    modelname: 
-    modelRunUUID: 
-    variableName: 
-    Min: 3.4028235e+38
-    Max: -3.4028235e+38
-    _MinContainer:
-      value: 0
-      location: {x: 0, y: 0}
-    _MaxContainer:
-      value: 0
-      location: {x: 0, y: 0}
-    Mean: 0
-    multiLayered: none
-    numbands: 0
-    band_id: -1
-    Temporal: 0
-    isSet: 0
-    texture: 
-    Type: 
-    width: 0
-    height: 0
-    xBound: 0
-    yBound: 0
-    xwidth: 0
-    yheight: 0
-    Identifier: 
-    Layer: 
-  ModelRun:
-    Name: 
-    ModelName: 
-    ModelDataSetType: 
-    ModelRunUUID: 
-    Location: None Specified
-    Description: None
-    isFile: 0
-    Total: 0
-    CurrentCapacity: 0
-  ModelRunUUID: 
-  Variable: []
-  rowElements: []
 --- !u!114 &11484426
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -93170,7 +93146,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22463254}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.99885046
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -94903,7 +94879,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 22474742}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -95599,19 +95575,6 @@ MonoBehaviour:
   text: Location
   dataType: 0
   preferredWidth: 90
---- !u!114 &11488352
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 167674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a5d687a1bc27a4491d4bc21fe80cec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  selectedList: {fileID: 11470154}
-  trendgraph: {fileID: 11468810}
 --- !u!114 &11488380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -95768,13 +95731,13 @@ MonoBehaviour:
     m_HighlightedTrigger: Highlighted
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 11466146}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: WriteSlicerToFile
+      - m_Target: {fileID: 11424368}
+        m_MethodName: AddToTable
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -115372,8 +115335,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 193.2779, y: -12}
-  m_SizeDelta: {x: 66.02684, y: 24}
+  m_AnchoredPosition: {x: 190.69629, y: -12}
+  m_SizeDelta: {x: 56.929802, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22408960
 RectTransform:
@@ -130200,7 +130163,7 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 22465890}
   m_RootOrder: 0
-  m_AnchorMin: {x: 0, y: 0.0011495352}
+  m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
@@ -135796,8 +135759,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 252.54565, y: -12}
-  m_SizeDelta: {x: 52.50869, y: 24}
+  m_AnchoredPosition: {x: 248.98059, y: -12}
+  m_SizeDelta: {x: 59.638794, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22483748
 RectTransform:
@@ -140186,8 +140149,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 80.13223, y: -12}
-  m_SizeDelta: {x: 160.26447, y: 24}
+  m_AnchoredPosition: {x: 81.11569, y: -12}
+  m_SizeDelta: {x: 162.23138, y: 24}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22499982
 RectTransform:

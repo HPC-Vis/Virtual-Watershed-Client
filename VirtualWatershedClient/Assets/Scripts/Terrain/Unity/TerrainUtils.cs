@@ -53,6 +53,14 @@ public static class TerrainUtils
         return TerrainTex;
     }
 
+    public static float [,] GetHeightmap(Terrain terrain)
+    {
+        var data = terrain.terrainData;
+        int width = data.heightmapWidth;
+        int height = data.heightmapHeight;
+        return data.GetHeights(0, 0, width, height);
+    }
+
     public static Texture2D GetHeightMapAsTexture(float[,] Data)
     {
         //var data = terrain.terrainData;

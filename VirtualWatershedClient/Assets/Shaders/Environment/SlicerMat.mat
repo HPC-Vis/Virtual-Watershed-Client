@@ -130,11 +130,11 @@ Material:
       data:
         first:
           name: _Max
-        second: 0.6529412
+        second: 0.59209585
       data:
         first:
           name: _Min
-        second: 0.47254905
+        second: 0.18449685
       data:
         first:
           name: _EmissionScaleUI
@@ -151,8 +151,8 @@ Material:
       data:
         first:
           name: _Point1
-        second: {r: 0.8159386, g: 0.3673659, b: 0, a: 0}
+        second: {r: 0.498977, g: 0.5008806, b: 0, a: 0}
       data:
         first:
           name: _Point2
-        second: {r: 0.8109385, g: 0.41798547, b: 0, a: 0}
+        second: {r: 0.5020264, g: 0.50546217, b: 0, a: 0}

@@ -12,7 +12,7 @@ public class TrendGraphRow : MonoBehaviour, Row {
     public bool _selectedOn = false;
     public Guid _guid;
 
-    ListViewManager listViewManager;
+    TrendGraphListView listViewManager;
     Image image;
 
     // ColorType is used as a means to differentiate between  model run and variable
@@ -62,7 +62,7 @@ public class TrendGraphRow : MonoBehaviour, Row {
         // it is easier to just find the listViewManager here
         listViewManager = transform.parent.
                             transform.parent.
-                            transform.parent.gameObject.GetComponent<ListViewManager>();
+                            transform.parent.gameObject.GetComponent<TrendGraphListView>();
 
         // Need a reference to this to set the background color
         image = gameObject.GetComponent<Image>();

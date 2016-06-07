@@ -391,6 +391,18 @@ namespace VTL.ListView
             Remove(GetGuidAtIndex(index));
         }
 
+        public void ClearSelected()
+        {
+            IEnumerator ienObj = Selected();
+
+            while (ienObj.MoveNext())
+            {
+                Row ROW = rows[(Guid)ienObj.Current].GetComponent<Row>();
+                ROW.isSelected = false;
+                ROW.UpdateSelectionAppearance();
+            }
+        }
+
         public void Clear()
         {
             //Debug.Log("DESTROY ALL");
