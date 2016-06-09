@@ -238,6 +238,31 @@ public static class Utilities
         min = min2;
     }
 
+    // finds the minimum and maximum values from a heightmap
+    public static void findMinMax(float[] data, ref float min, ref float max)
+    {
+        float min2 = float.MaxValue;
+        for (int i = 0; i < data.GetLength(0); i++)
+        {
+
+            float val = data[i];
+            if (val > max)
+            {
+                max = val;
+            }
+            if (val < min && val != min)//&& min != 0)
+            {
+                min = val;
+            }
+            if (min2 > min && min2 != min)
+            {
+                min2 = min;
+            }
+
+        }
+        min = min2;
+    }
+
     public static float[,] normalizeData(float[,] data)
     {
         // (point - min) / (max-min)

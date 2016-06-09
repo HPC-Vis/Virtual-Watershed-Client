@@ -257,7 +257,7 @@ namespace CoordinateSystemTests
             System.GC.WaitForPendingFinalizers();
             Debug.LogError(System.GC.GetTotalMemory(false));
         }
-        [TestCase(@"C:\Users\ccarthen\Downloads\animation2.nc")]
+        [TestCase(@"C:\Users\ccarthen\Downloads\animation.nc")]
         public void LoadNetCDF2(string filename)
         {
             NcFile file = new NcFile(filename, NcFileMode.read);
@@ -274,54 +274,26 @@ namespace CoordinateSystemTests
             foreach( var i in file.GetDims())
             {
                 Debug.LogError(i.Value.GetName());
+                Debug.LogError("DIM SIZE: " + i.Value.GetSize());
             }
             
             var vars = file.GetVars();
             Debug.LogError("--------");
             foreach(var i in vars)
             {
-                if (!i.Value.IsNull())
+                Debug.LogError(i.Value.GetName());
+                Debug.LogError(i.Value.GetNcType().GetTypeClassName());
+                Debug.LogError(i.Value.Shape.Length);
+                Debug.LogError(i.Value.Rank);
+                if(i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_CHAR )
                 {
-                    if (i.Value.GetNcType() != null && i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_DOUBLE && once && i.Value.Shape.Length > 1)
+                    //byte[] bytes = new byte[i.Value.Shape[0]];
+                    foreach(var j in i.Value.GetAtts())
                     {
-                        //float[] values = new float[1];
-                        //i.Value.GetVar(new int[] { 1},values);
-                        //i.Value.Shape
-                        Debug.LogError(i.Value.GetName());
-                        int length = 1;
-                        for(int j = 0; j < i.Value.Shape.Length; j++)
-                        {
-                            Debug.LogError("SHAPE: " + i + " _ " + i.Value.Shape[j].ToString());
-                            length *= i.Value.Shape[j];
-                        }
-                        var doubleness = new double[length];
-                        i.Value.GetVar(doubleness);
-                        doubleness = null;
-                        //Debug.LogError(data.GetValueAt(new int[] { 0,0,0}));
-                        //data = null;
-                        //Debug.LogError(values[0]);
-                       // Debug.LogError(i.Value.GetName());
-                        // Debug.LogError(values[0]);
-                        once = false;
+                        Debug.LogError(j.Value.GetName());
+                        Debug.LogError(j.Value.GetValues());
                     }
-                    else if (i.Value.GetNcType() != null )
-                    {
-                        //string[] values = new string[i.Value.GetVar().Length];
-                        //var v = i.Value.GetVar();
-                        //Debug.LogError("ATTR: " + i.Value.GetName());
-                        Debug.LogError(i.Value.GetNcType().GetTypeClassName());
-                        //Debug.LogError(i.Value.GetAttCount());
-                        foreach(var k in i.Value.GetAtts())
-                        {
-                           // k.Value.GetValues()
-                            //Debug.LogError(k.Value.GetValues());
-                        }
-                        //i.Value.GetVar(values);
-                        //Debug.LogError(values.Length);
-                        //Debug.LogError(i.Value.GetName());
-                        //Debug.LogError(values[0]);
-                        
-                    }
+                    //Debug.LogError(System.Text.Encoding.ASCII.GetString(obj));
                 }
             }
             //Debug.LogError(file.GetVarCount());

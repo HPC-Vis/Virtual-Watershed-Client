@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using ASA.NetCDF4;
 
 public class NetCDFTests : MonoBehaviour {
@@ -16,7 +17,7 @@ public class NetCDFTests : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        System.GC.Collect();
+        /*System.GC.Collect();
         System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
         timer.Start();
         LoadNetCDF2(CompressedFile);
@@ -28,8 +29,26 @@ public class NetCDFTests : MonoBehaviour {
         timer.Start();
         LoadNetCDF2(UncompressedFile);
         timer.Stop();
-        Debug.LogError("TIME it to load uncompressed with NetCDF4: " + timer.ElapsedMilliseconds / 1000);
+        Debug.LogError("TIME it to load uncompressed with NetCDF4: " + timer.ElapsedMilliseconds / 1000);*/
 
+
+        NetCDFDataset ncfile = new NetCDFDataset(UncompressedFile);
+        if(ncfile.Open())
+        {
+            List<DataRecord> records = new List<DataRecord>();
+            records = ncfile.Parse();
+            Debug.LogError(records.Count);
+            Debug.LogError(ncfile.GetBoundingBox());
+            foreach(var i in records)
+            {
+                Debug.LogError(i.name);
+                if(!once)
+                {
+                    Debug.LogError(ncfile.GetVariableData(i.name)[0].Length);
+                    once = true;
+                }
+            }
+        }
 
     }
 
@@ -61,8 +80,8 @@ public class NetCDFTests : MonoBehaviour {
 	void Update () {
         if (!once)
         {
-            System.Threading.Thread thread = new System.Threading.Thread(() => LoadStuff());
-            thread.Start();
+            //System.Threading.Thread thread = new System.Threading.Thread(() => LoadStuff());
+            //thread.Start();
             once = true;
         }
 	}
