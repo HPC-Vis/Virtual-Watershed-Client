@@ -269,6 +269,15 @@ public static class Utilities
         return outData;
     }
 
+    public static Vector2 GetDataPointFromWorldPoint(float[,] data, Rect boundingBox, Vector3 worldPoint)
+    {
+        Vector2 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(worldPoint, boundingBox);
+        Debug.LogError("Utilities: " + NormalizedPoint);
+        int Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint.x), (double)data.GetLength(0) - 1);
+        int Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint.y), (double)data.GetLength(1) - 1);
+        return new Vector2(Row, Col);
+    }
+
     /// <summary>
     /// Computes a bilinear interoplation off the given initial location, end location, and the point to interpolate on
     /// </summary>

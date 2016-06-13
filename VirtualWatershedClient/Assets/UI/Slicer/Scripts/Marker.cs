@@ -251,7 +251,7 @@ public class Marker : MonoBehaviour {
             file.WriteLine(name);
             file.WriteLine("UTM Zone: " + coordsystem.localzone);
             foreach (var i in DataSlice)
-            {
+            {                
                 file.Write(i + ", ");
             }
         }
@@ -262,44 +262,43 @@ public class Marker : MonoBehaviour {
         if(marker1.activeSelf && marker2.activeSelf)
         {
             // Place in the check locations
-            Vector3 WorldPoint1 = coordsystem.transformToWorld(marker1.transform.position);
+            Vector3 WorldPoint1 = marker1.transform.position; // coordsystem.transformToWorld(marker1.transform.position);
             Vector2 CheckPoint1 = new Vector2(WorldPoint1.x, WorldPoint1.z);
-            Vector3 WorldPoint2 = coordsystem.transformToWorld(marker2.transform.position);
+            Vector3 WorldPoint2 = marker2.transform.position; // coordsystem.transformToWorld(marker2.transform.position);
             Vector2 CheckPoint2 = new Vector2(WorldPoint2.x, WorldPoint2.z);
             string UTMName = "UTM, " + WorldPoint1.x + " - " + WorldPoint1.z + ", " + WorldPoint2.x + " - " + WorldPoint2.z;
+
+            // Predefined for data pulling
             List<float> dataslice = new List<float>();
             float[,] data;
+            Rect BoundingBox;
+            Vector2 marker1Points;
+            Vector2 marker2Points;
 
             // Run this for the loaded in data
             foreach (string activedata in ActiveData.GetCurrentAvtive())
             {
-                Rect BoundingBox = ActiveData.GetBoundingBox(activedata);
+                BoundingBox = ActiveData.GetBoundingBox(activedata);
                 if (BoundingBox.Contains(CheckPoint1) && BoundingBox.Contains(CheckPoint2))
                 {
-                    Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, BoundingBox);
-                    Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
                     int DataIndex = ActiveData.GetCurrentIndex();
                     data = ActiveData.GetFrameAt(activedata, DataIndex).Data;
-                    
-                    int marker1Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint1.x), (double)data.GetLength(0) - 1);
-                    int marker1Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint1.y), (double)data.GetLength(1) - 1);
-                    int marker2Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint2.x), (double)data.GetLength(0) - 1);
-                    int marker2Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint2.y), (double)data.GetLength(1) - 1);                    
 
-                    dataslice = Utilities.BuildSlice(marker1Row, marker1Col, marker2Row, marker2Col, data);                    
+                    marker1Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint1);
+                    marker2Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint2);
+
+                    dataslice = Utilities.BuildSlice((int)marker1Points.x, (int)marker1Points.y, (int)marker2Points.x, (int)marker2Points.y, data);                    
                     DataToFile(dataslice, activedata, activedata + ", " + VariableReference.GetDescription(activedata), UTMName, ActiveData.GetFrameAt(activedata, ActiveData.GetCurrentIndex()).starttime);
                 }
             }
 
             // Do this for the terrain data
             data = TerrainUtils.GetHeightmap(Terrain.activeTerrain);
-            Vector2 NormalizedPoint1 = TerrainUtils.NormalizePointToTerrain(WorldPoint1, Terrain.activeTerrain.);
-            Vector2 NormalizedPoint2 = TerrainUtils.NormalizePointToTerrain(WorldPoint2, BoundingBox);
-            int marker1Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint1.x), (double)data.GetLength(0) - 1);
-            int marker1Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint1.y), (double)data.GetLength(1) - 1);
-            int marker2Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint2.x), (double)data.GetLength(0) - 1);
-            int marker2Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint2.y), (double)data.GetLength(1) - 1);
-            dataslice = Utilities.BuildSlice(marker1Row, marker1Col, marker2Row, marker2Col, data);
+            BoundingBox = GlobalConfig.TerrainBoundingBox;
+            marker1Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint1);
+            marker2Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint2);
+
+            dataslice = Utilities.BuildSlice((int)marker1Points.x, (int)marker1Points.y, (int)marker2Points.x, (int)marker2Points.y, data);            
             DataToFile(dataslice, "Terrain", "Terrain", UTMName, DateTime.MinValue);
         }
     }
