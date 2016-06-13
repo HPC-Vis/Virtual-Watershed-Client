@@ -228,9 +228,6 @@ public class ActiveData : MonoBehaviour {
             }
             DownloadTextbox.text = "Downloaded: " + ((float)runningTotal / (float)GRAND_TOTAL).ToString("P");
         }
-        
-        // Updates across objects
-        trendGraph.SetDataIndex(CurrentIndex);
 
         if(Updated)
         {
@@ -469,6 +466,11 @@ public class ActiveData : MonoBehaviour {
             numerator += (float)(vari.Data.Count);
         }
         return numerator / denominator;
+    }
+
+    public static int GetCurrentIndex()
+    {
+        return CurrentIndex;
     }
 
     /// <summary>

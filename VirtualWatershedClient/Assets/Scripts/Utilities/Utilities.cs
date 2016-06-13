@@ -269,6 +269,136 @@ public static class Utilities
         return outData;
     }
 
+    public static Vector2 GetDataPointFromWorldPoint(float[,] data, Rect boundingBox, Vector3 worldPoint)
+    {
+        Vector2 NormalizedPoint = TerrainUtils.NormalizePointToTerrain(worldPoint, boundingBox);
+        Debug.LogError("Utilities: " + NormalizedPoint);
+        int Row = data.GetLength(0) - 1 - (int)Math.Min(Math.Round(data.GetLength(0) * NormalizedPoint.x), (double)data.GetLength(0) - 1);
+        int Col = data.GetLength(1) - 1 - (int)Math.Min(Math.Round(data.GetLength(1) * NormalizedPoint.y), (double)data.GetLength(1) - 1);
+        return new Vector2(Row, Col);
+    }
+
+    /// <summary>
+    /// Computes a bilinear interoplation off the given initial location, end location, and the point to interpolate on
+    /// </summary>
+    /// <param name="x1">Initial x point</param>
+    /// <param name="y1">Initial y point</param>
+    /// <param name="x2">End x point</param>
+    /// <param name="y2">End y point</param>
+    /// <param name="x">Interpol Point x</param>
+    /// <param name="y">Interpol point y</param>
+    /// <param name="data">The data array to work with.</param>
+    public static float bilinearInterpolation(int x1, int y1, int x2, int y2, float x, float y, float[,] data)
+    {
+        // Run the Interpolation, and return.
+        float value = (1 / ((x2 - x1) * (y2 - y1))) * ((data[x1, y1] * (x2 - x) * (y2 - y)) + (data[x2, y1] * (x - x1) * (y2 - y)) + (data[x1, y2] * (x2 - x) * (y - y1)) + (data[x2, y2] * (x - x1) * (y - y1)));
+        return value;
+    }
+
+    /// <summary>
+    /// takes the two given points and builds a interpolated slice off of it.
+    /// </summary>
+    public static List<float> BuildSlice(int m1r, int m1c, int m2r, int m2c, float[,] data)
+    {
+        List<float> DataSlice = new List<float>();
+        int sample_rate = 50;
+        Vector2 vec = new Vector2(m2r - m1r, m2c - m1c);
+        float mag = Mathf.Sqrt((vec.x * vec.x) + (vec.y * vec.y));
+        int x1, y1, x2, y2;
+        float x, y;
+
+        Vector2 unit = new Vector2((1 / mag) * vec.x, (1 / mag) * vec.y);
+
+        for (int i = 0; i < sample_rate; i++)
+        {
+            x = m1r + (unit.x * (float)((float)i / (float)sample_rate) * mag);
+            y = m1c + (unit.y * (float)((float)i / (float)sample_rate) * mag);
+
+            x1 = (int)Mathf.Floor(x);
+            y1 = (int)Mathf.Floor(y);
+            x2 = (int)Mathf.Ceil(x);
+            y2 = (int)Mathf.Ceil(y);
+
+            if (x1 == x2)
+            {
+                x2 += 1;
+            }
+            if (y1 == y2)
+            {
+                y2 += 1;
+            }
+            DataSlice.Add(Utilities.bilinearInterpolation(x1, y1, x2, y2, x, y, data));
+        }
+
+        x = m1r + (unit.x * 1 * mag);
+        y = m1c + (unit.y * 1 * mag);
+
+        x1 = m2r - 1;
+        y1 = m2c - 1;
+        x2 = m2r;
+        y2 = m2c;
+        DataSlice.Add(Utilities.bilinearInterpolation(x1, y1, x2, y2, x, y, data));
+        return DataSlice;
+    }
+
+    public static void ResizeObjects(GameObject obj, Vector3 resizeRelative)
+    {
+        float distance;
+        float xyThresh, zThresh;
+
+        if (obj == null)
+        {
+            return;
+        }
+
+        distance = (obj.transform.position - resizeRelative).magnitude;
+
+        if (distance / 150 < 1)
+        {
+            xyThresh = 0.1f;
+        }
+        else
+        {
+            xyThresh = distance / 150;
+        }
+        if (distance / 30 < 3)
+        {
+            zThresh = 0.3f;
+        }
+        else
+        {
+            zThresh = distance / 30;
+        }
+
+        obj.transform.localScale = new Vector3(xyThresh, xyThresh, zThresh);
+    }
+
+    public static void ResizeUniformObjects(GameObject obj, Vector3 resizeRelative)
+    {
+        float distance;
+        float zThresh;
+
+        if (obj == null)
+        {
+            return;
+        }
+
+        distance = (obj.transform.position - resizeRelative).magnitude;
+
+
+        if (distance / mouseray.slicerDistanceScaleFactor < mouseray.slicerMinScale)
+        {
+            // Change this
+            zThresh = mouseray.slicerMinScale;
+        }
+        else
+        {
+            zThresh = distance / mouseray.slicerDistanceScaleFactor;
+        }
+
+        obj.transform.localScale = new Vector3(zThresh, zThresh, zThresh);
+    }
+
     // Bilinear Interpolation -- interpolates height and width to the nearest square power of two.
     static float[,] interpolateValues(int dimension, int height, int width, float[,] data)
     {

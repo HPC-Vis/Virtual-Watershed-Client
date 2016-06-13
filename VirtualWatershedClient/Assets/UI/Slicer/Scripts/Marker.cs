@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using System;
+using UnityEngine.UI;
 
 public class Marker : MonoBehaviour {
 
@@ -10,11 +11,24 @@ public class Marker : MonoBehaviour {
     public bool marker2Active = false;
     private Vector3 cursorPos, CursorWorldPos;
     public raySlicer rayslice;
-    public GameObject csvButton;
     public GameObject PlayerController;
+    public Button SavePlacementButton;
+    public MarkerListView listView;
 
-    // What uses this??
-    float timecount;
+    Vector3 mark1posflat
+    {
+        get { return new Vector3(marker1.transform.position.x, 0, marker1.transform.position.z); }
+    }
+
+    Vector3 mark2posflat
+    {
+        get { return new Vector3(marker2.transform.position.x, 0, marker2.transform.position.z); }
+    }
+
+    Vector3 curposflat
+    {
+        get { return new Vector3(cursor.transform.position.x, 0, cursor.transform.position.z); }
+    }
 
     // Use this for initialization
     void Start () {
@@ -49,7 +63,8 @@ public class Marker : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker1Active = !marker1Active;
+                    marker1Active = true;
+                    SavePlacementButton.interactable = true;
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
@@ -61,7 +76,8 @@ public class Marker : MonoBehaviour {
             {
                 if (Input.GetMouseButtonDown(1))
                 {
-                    marker2Active = !marker2Active;
+                    marker2Active = true;
+                    SavePlacementButton.interactable = true;
                 }
                 if (Input.GetMouseButtonUp(1))
                 {
@@ -101,22 +117,15 @@ public class Marker : MonoBehaviour {
 
                     // set second marker position
                     marker2.transform.position = new Vector3(cursorPos.x, cursorPos.y - 10.0f, cursorPos.z);
+
+                    // Set the save button to interactiable
+                    SavePlacementButton.interactable = true;
                 }
                 else
                 {
-                    marker1.transform.position = Vector3.zero;
-                    marker2.transform.position = Vector3.zero;
-
-                    marker1.SetActive(false);
-                    marker2.SetActive(false);
-
-                    marker1Active = false;
-                    marker2Active = false;
-
-                    rayslice.marker1 = false;
-                    rayslice.marker2 = false;
+                    Clear();
                 }
-            }
+            }            
 
             // Update the cursor
             activateCursor(true);
@@ -127,15 +136,44 @@ public class Marker : MonoBehaviour {
 
         
         cursorPos.y = -10000;
-        ResizeObjects(cursor);
-        ResizeUniformObjects(marker1);
-        ResizeUniformObjects(marker2);
-        ResizeUniformObjects(minPin);
-        ResizeUniformObjects(maxPin);
+        Utilities.ResizeObjects(cursor, PlayerController.transform.position);
+        Utilities.ResizeUniformObjects(marker1, PlayerController.transform.position);
+        Utilities.ResizeUniformObjects(marker2, PlayerController.transform.position);
+        Utilities.ResizeUniformObjects(minPin, PlayerController.transform.position);
+        Utilities.ResizeUniformObjects(maxPin, PlayerController.transform.position);
         setPoints();
 
         cursor.transform.Rotate(Vector3.forward, 1);
     }
+
+    public void Clear()
+    {
+        marker1.transform.position = Vector3.zero;
+        marker2.transform.position = Vector3.zero;
+
+        marker1.SetActive(false);
+        marker2.SetActive(false);
+
+        marker1Active = false;
+        marker2Active = false;
+
+        rayslice.marker1 = false;
+        rayslice.marker2 = false;
+
+        SavePlacementButton.interactable = false;
+        listView.ClearSelected();
+    }
+
+    /// <summary>
+    /// Adds the current markers to the table.
+    /// </summary>
+    public void AddToTable()
+    {
+        Vector3 WorldPoint1 = coordsystem.transformToWorld(marker1.transform.position);
+        Vector3 WorldPoint2 = coordsystem.transformToWorld(marker2.transform.position);
+        listView.AddRow(new object [] { "UTM: (" + WorldPoint1.x + ", " + WorldPoint1.z + ") to (" + WorldPoint2.x + ", " + WorldPoint2.z + ")", marker1.transform.position, marker2.transform.position });
+    }
+
 
     float _modf(float k, float bound)
     {
@@ -168,97 +206,100 @@ public class Marker : MonoBehaviour {
             // Pass point 1 and point 2 to shader
             rayslice.setFirstPoint(Point1);
             rayslice.setSecondPoint(Point2);
-            csvButton.SetActive(true);
         }
-        else
+    }
+
+    /// <summary>
+    /// Used to set the markers by code in a specific spot
+    /// </summary>
+    /// <param name="m1">The marker1 position to move to.</param>
+    /// <param name="m2">The marker2 position to move to.</param>
+    public void SetMarkers(Vector3 m1, Vector3 m2)
+    {
+        // Activate
+        marker1.SetActive(true);
+        rayslice.marker1 = true;
+        marker2.SetActive(true);
+        rayslice.marker2 = true;
+
+        // set markers positions
+        marker1.transform.position = m1;
+        marker2.transform.position = m2;
+
+        // Make sure the user will not save the same values
+        SavePlacementButton.interactable = false;
+    }
+    
+    
+    private void DataToFile(List<float> DataSlice, string filename, string name, string variable, DateTime time)
+    {
+        String pathDownload = Utilities.GetFilePath(filename + "_slicer_data.csv");
+        Debug.LogError("The File Path: " + pathDownload);
+
+        using (System.IO.StreamWriter file = new System.IO.StreamWriter(@pathDownload))
         {
-            if (csvButton.activeSelf)
+            file.WriteLine("This file represenets interpolated data that was calculated from a line across the currently shown dataset.");
+            file.WriteLine("Variable, " + variable);
+            if (time == DateTime.MinValue)
             {
-                csvButton.SetActive(false);
+                file.WriteLine("Time of Data: UNKNOWN");
+            }
+            else
+            {
+                file.WriteLine("Time of Data: " + time);
+            }
+            file.WriteLine(name);
+            file.WriteLine("UTM Zone: " + coordsystem.localzone);
+            foreach (var i in DataSlice)
+            {                
+                file.Write(i + ", ");
             }
         }
     }
 
-    void ResizeObjects(GameObject obj)
+    public void MarkerOutputToFile()
     {
-        float distance;
-        float xyThresh, zThresh;
-
-        if (obj == null)
+        if(marker1.activeSelf && marker2.activeSelf)
         {
-            return;
-        }
+            // Place in the check locations
+            Vector3 WorldPoint1 = marker1.transform.position; // coordsystem.transformToWorld(marker1.transform.position);
+            Vector2 CheckPoint1 = new Vector2(WorldPoint1.x, WorldPoint1.z);
+            Vector3 WorldPoint2 = marker2.transform.position; // coordsystem.transformToWorld(marker2.transform.position);
+            Vector2 CheckPoint2 = new Vector2(WorldPoint2.x, WorldPoint2.z);
+            string UTMName = "UTM, " + WorldPoint1.x + " - " + WorldPoint1.z + ", " + WorldPoint2.x + " - " + WorldPoint2.z;
 
-        distance = (obj.transform.position - PlayerController.transform.position).magnitude;
+            // Predefined for data pulling
+            List<float> dataslice = new List<float>();
+            float[,] data;
+            Rect BoundingBox;
+            Vector2 marker1Points;
+            Vector2 marker2Points;
 
-        if (distance / 150 < 1)
-        {
-            xyThresh = 0.1f;
-        }
-        else
-        {
-            xyThresh = distance / 150;
-        }
-        if (distance / 30 < 3)
-        {
-            zThresh = 0.3f;
-        }
-        else
-        {
-            zThresh = distance / 30;
-        }
+            // Run this for the loaded in data
+            foreach (string activedata in ActiveData.GetCurrentAvtive())
+            {
+                BoundingBox = ActiveData.GetBoundingBox(activedata);
+                if (BoundingBox.Contains(CheckPoint1) && BoundingBox.Contains(CheckPoint2))
+                {
+                    int DataIndex = ActiveData.GetCurrentIndex();
+                    data = ActiveData.GetFrameAt(activedata, DataIndex).Data;
 
-        obj.transform.localScale = new Vector3(xyThresh, xyThresh, zThresh);
-    }
+                    marker1Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint1);
+                    marker2Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint2);
 
-    void ResizeUniformObjects(GameObject obj)
-    {
-        float distance;
-        float zThresh;
+                    dataslice = Utilities.BuildSlice((int)marker1Points.x, (int)marker1Points.y, (int)marker2Points.x, (int)marker2Points.y, data);                    
+                    DataToFile(dataslice, activedata, activedata + ", " + VariableReference.GetDescription(activedata), UTMName, ActiveData.GetFrameAt(activedata, ActiveData.GetCurrentIndex()).starttime);
+                }
+            }
 
-        if (obj == null)
-        {
-            return;
-        }
+            // Do this for the terrain data
+            data = TerrainUtils.GetHeightmap(Terrain.activeTerrain);
+            BoundingBox = GlobalConfig.TerrainBoundingBox;
+            marker1Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint1);
+            marker2Points = Utilities.GetDataPointFromWorldPoint(data, BoundingBox, WorldPoint2);
 
-        distance = (obj.transform.position - PlayerController.transform.position).magnitude;
-
-
-        if (distance / mouseray.slicerDistanceScaleFactor < mouseray.slicerMinScale)
-        {
-            // Change this
-            zThresh = mouseray.slicerMinScale;
-        }
-        else
-        {
-            zThresh = distance / mouseray.slicerDistanceScaleFactor;
-        }
-
-        obj.transform.localScale = new Vector3(zThresh, zThresh, zThresh);
-    }
-
-
-    Vector3 mark1posflat
-    {
-        get
-        {
-            return new Vector3(marker1.transform.position.x, 0, marker1.transform.position.z);
-        }
-    }
-
-    Vector3 mark2posflat
-    {
-        get
-        {
-            return new Vector3(marker2.transform.position.x, 0, marker2.transform.position.z);
-        }
-    }
-
-    Vector3 curposflat
-    {
-        get
-        {
-            return new Vector3(cursor.transform.position.x, 0, cursor.transform.position.z);
+            dataslice = Utilities.BuildSlice((int)marker1Points.x, (int)marker1Points.y, (int)marker2Points.x, (int)marker2Points.y, data);            
+            DataToFile(dataslice, "Terrain", "Terrain", UTMName, DateTime.MinValue);
         }
     }
 }
