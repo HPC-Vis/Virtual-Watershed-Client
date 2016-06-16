@@ -299,6 +299,11 @@ namespace VTL.ListView
 
         public bool IsSelectedOn(Guid guid)
         {
+            if (!rows.ContainsKey(guid))
+            {
+                return false;
+            }
+                
             if (RowPrefab.GetComponent("Row") != null)
             {
                 return rows[guid].GetComponent<Row>().selectedOn;

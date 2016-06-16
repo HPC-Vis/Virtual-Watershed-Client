@@ -60,6 +60,7 @@ public class NetCDFDataset : FileDataset
 
     public List<float[,]> GetVariableData(string VariableName)
     {
+        Debug.LogError("CRINGE!!! WORKS");
         List<float[,]> outlist = new List<float[,]>();
         var Var = FileHandle.GetVar(VariableName);
         //var Floats = GetFloats(Var);
@@ -81,12 +82,14 @@ public class NetCDFDataset : FileDataset
                 }
             }
         }*/
+        Debug.LogError(Var.GetName());
         Debug.LogError(Var.GetNcType().GetTypeClassName());
-        var fc = new double[1];
-        var index = new int[] { 0, 0, 0 };
-        var counts = new int[] { 1, 1, 1 };
-        
-        Var.GetVar(index, counts, new int[] { 1,1,1}, fc);
+        var fc = new int[5]; // new float[5];
+        var index = new System.Int32[] { 0,0,0};
+        //var counts = new System.Int32[] { 1,1,1 };
+        Var.CheckData();
+        //Var.GetVar();
+        Var.GetVar(index, fc);
         
 
         return outlist;

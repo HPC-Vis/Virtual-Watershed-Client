@@ -16,6 +16,7 @@ public class TerrainPopulater : MonoBehaviour
     public GameObject Terrains;
 
     public System.Net.WebClient client = new System.Net.WebClient();
+    public FileBrowse fb = new FileBrowse();
 
     Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
     {

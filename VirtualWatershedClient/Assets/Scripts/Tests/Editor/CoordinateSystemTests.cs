@@ -333,6 +333,15 @@ namespace CoordinateSystemTests
             ds2.Dispose();
             
         }
+
+        [Test()]
+        public void Rect()
+        {
+            Rect abc = new Rect(-100, -100, 100, 100);
+            Debug.LogError(abc.xMin);
+            Debug.LogError(abc);
+            Debug.LogError(abc.xMax);
+        }
     }
 
 

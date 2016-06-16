@@ -17,7 +17,7 @@ public struct DirectoryStruct
 public class FileBrowse : MonoBehaviour {
 
     public string CurrentDirectory = "";
-
+    public string SearchString = "*.nc";
 	// Use this for initialization
 	void Start () {
         CurrentDirectory = "";
@@ -85,7 +85,7 @@ public class FileBrowse : MonoBehaviour {
                 }
             }
 
-            foreach (var i in Directory.GetFiles(CurrentDirectory, "*.nc"))
+            foreach (var i in Directory.GetFiles(CurrentDirectory, SearchString))
             {
                 DirectoryStruct temp = new DirectoryStruct();
                 temp.Path = Path.GetFullPath(i);

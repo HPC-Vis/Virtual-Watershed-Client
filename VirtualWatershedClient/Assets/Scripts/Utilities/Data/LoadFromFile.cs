@@ -27,7 +27,7 @@ public class LoadFromFile : MonoBehaviour {
         // Why gameObject.GetComponent is beyond me.
         dl = gameObject.GetComponent<DoubleListener>();
         dl.LVM = fileView;
-        dl.Doubleness = new DoTheDouble(ChangeDirectory2);
+        dl.DoAction = new DoTheDouble(ChangeDirectory2);
         seDatCon = GameObject.Find("SelectedDatasets_ListView").GetComponent<SelectedDatabaseController>();
 
         //dl = new DoubleListener(fileView);

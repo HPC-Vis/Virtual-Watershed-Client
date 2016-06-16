@@ -44,7 +44,7 @@ public class NetCDFTests : MonoBehaviour {
                 Debug.LogError(i.name);
                 if(!once)
                 {
-                    Debug.LogError(ncfile.GetVariableData(i.name)[0].Length);
+                    Debug.LogError(ncfile.GetVariableData(i.name).Count);
                     once = true;
                 }
             }
@@ -61,7 +61,7 @@ public class NetCDFTests : MonoBehaviour {
         OSGeo.GDAL.Gdal.AllRegister();
         RasterDataset rd = new RasterDataset(ToNetCDFFile(UncompressedFile));
         rd.Open();
-
+        
         timer.Start();
         string sub = rd.GetSubDatasets()[1];
         rd = new RasterDataset(sub);
@@ -122,8 +122,10 @@ public class NetCDFTests : MonoBehaviour {
                         Debug.LogError("SHAPE: " + i + " _ " + i.Value.Shape[j].ToString());
                         length *= i.Value.Shape[j];
                     }
-                    var doubleness = new double[length];
-                    i.Value.GetVar(doubleness);
+                    
+                    var doubleness = new float[length];
+                    i.Value.GetVar(new int[] { 1},new int[] { 1} ,doubleness,false);
+                   
                     doubleness = null;
                     //Debug.LogError(data.GetValueAt(new int[] { 0,0,0}));
                     //data = null;
