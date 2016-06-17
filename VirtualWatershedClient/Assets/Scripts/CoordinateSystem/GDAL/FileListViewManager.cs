@@ -24,7 +24,7 @@ public class FileListViewManager : MonoBehaviour
         doubleClickListener.DoAction = new DoTheDouble(ChangeDirectoryOnClick);
         //selectedDatabaseController.Clear();
         populateFileWindow();
-        SetTextToSave();
+        //SetTextToSave();
 
     }
 
@@ -38,7 +38,11 @@ public class FileListViewManager : MonoBehaviour
         string searchString = "";
         for(int i = 0; i < formats.Length; i++)
         {
-            searchString += formats[i] + "|";
+            searchString += ".*" + formats[i]+"$";
+            if(i != formats.Length - 1)
+            {
+                searchString += "|";
+            }
         }
         fileBrowser.SearchString = searchString;
     }
@@ -99,8 +103,10 @@ public class FileListViewManager : MonoBehaviour
 
     public void ApplySelection()
     {
+        Debug.Log("Current selection: " + GetCurrentSelection());
         if (action != null)
         {
+            
             action();
         }
     }
@@ -113,6 +119,16 @@ public class FileListViewManager : MonoBehaviour
     public void SetTextToSave()
     {
         LoadSaveButton.transform.GetChild(0).GetComponent<Text>().text = "Save";
+    }
+
+    public string GetCurrentSelection()
+    {
+        var contents = fileListView.GetSelectedRowContent();
+        if (contents.Count > 0 && contents[0][2].ToString().ToLower() == "file")
+        {
+            return fileBrowser.CurrentDirectory + "/" + (string)contents[0][0];
+        }
+        return "";
     }
 
 }

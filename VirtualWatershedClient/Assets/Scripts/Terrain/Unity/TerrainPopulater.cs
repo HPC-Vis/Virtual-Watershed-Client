@@ -17,6 +17,7 @@ public class TerrainPopulater : MonoBehaviour
 
     public System.Net.WebClient client = new System.Net.WebClient();
     public FileBrowse fb = new FileBrowse();
+    public FileListViewManager fileview;
 
     Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
     {
@@ -105,8 +106,7 @@ public class TerrainPopulater : MonoBehaviour
         sp.limit = 100;
         sp.offset = 0;
         vwc.RequestRecords(GetTerrainList, sp);
-        double[] doubleness = new double[1000 * 1000 * 500];
-        doubleness = null;
+
         System.GC.Collect();
     }
 
@@ -204,7 +204,8 @@ public class TerrainPopulater : MonoBehaviour
             GlobalConfig.Location = record.location;
 
             BaseMap = LoadSatelliteImage(record.bbox2);
-
+            Debug.LogError(record.Data.Count);
+            Debug.LogError(BaseMap);
             var GO = ProceduralTerrain.BuildTerrain(record.Data[0], XRes, YRes, BaseMap);
             GO.transform.position = new Vector3(-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 
@@ -247,6 +248,44 @@ public class TerrainPopulater : MonoBehaviour
             }
 
             ModelRunManager.Download(new List<DataRecord> { Runs[0] }, loadTerrain, param: sp);
+        }
+    }
+
+    public void ActivateFileListView()
+    {
+
+        fileview.gameObject.SetActive(true);
+        fileview.SetSearchPattern(new string[] { "tif" });
+        fileview.action = LoadDemFromFile;
+        TerrainList.gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Assumptions in this function are that we are using gdal.
+    /// The data has a projection..
+    /// Data will be reprojected into epsg:4326... by rasterdataset.
+    /// </summary>
+    public void LoadDemFromFile()
+    {
+        string file = fileview.GetCurrentSelection();
+        // Loading Dem.
+        if (file != "" || file != null)
+        {
+            Debug.Log("Loading DEM");
+            RasterDataset Dem = new RasterDataset(file);
+            if(Dem.Open())
+            {
+                DataRecord record = new DataRecord("somename.tif");
+                string boundingbox = Dem.GetBoundingBox();
+                var Data = Dem.GetData(513,513);
+                
+
+                record.bbox = record.bbox2 = boundingbox;
+                record.Data = Data;
+                record.projection = "epsg:4326";
+                LoadTerrain(record);
+                //coordsystem.createTransform(new OSGEOProjection
+            }
         }
     }
 }

@@ -169,7 +169,7 @@ public class LoadFromFile : MonoBehaviour {
                         rec.start = tempTime;
                         rec.end = tempTime + tempSpan;
                         rec.bbox = modelData.GetBoundingBox();
-                        rec.projection = modelData.ReturnProjection();
+                        rec.projection = modelData.GetProjection();
                         rec.numbands = modelData.GetRasterCount();
                         rec.services["file"] = contents[0][0].ToString();
                         ModelRunManager.InsertDataRecord(rec, new List<DataRecord>());
@@ -198,7 +198,7 @@ public class LoadFromFile : MonoBehaviour {
                             rec.start = tempTime;
                             rec.end = tempTime + tempSpan;
                             rec.bbox = rd.GetBoundingBox(); 
-                            rec.projection = rd.ReturnProjection();
+                            rec.projection = rd.GetProjection();
                             rec.numbands = rd.GetRasterCount();
 							rec.services["file"] = str;
                             ModelRunManager.InsertDataRecord(rec, new List<DataRecord>() );

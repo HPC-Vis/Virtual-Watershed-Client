@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System;
+using System.Text.RegularExpressions;
 
 public struct DirectoryStruct
 {
@@ -85,25 +86,28 @@ public class FileBrowse : MonoBehaviour {
                 }
             }
 
-            foreach (var i in Directory.GetFiles(CurrentDirectory, SearchString))
+            foreach (var i in Directory.GetFiles(CurrentDirectory))
             {
-                DirectoryStruct temp = new DirectoryStruct();
-                temp.Path = Path.GetFullPath(i);
-                temp.IsDirectory = false;
-                temp.filename = Path.GetFileName(i);
-                temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
-                float size = (float)new FileInfo(temp.Path).Length / 1024;
-                if (size > 1000)
+                if (Regex.Match(i, SearchString).Success)
                 {
-                    size /= 1000;
-                    temp.bytes = size.ToString("F2") + " MB";
-                }
-                else
-                {
-                    temp.bytes = size.ToString("F2") + " KB";
-                }
+                    DirectoryStruct temp = new DirectoryStruct();
+                    temp.Path = Path.GetFullPath(i);
+                    temp.IsDirectory = false;
+                    temp.filename = Path.GetFileName(i);
+                    temp.dateModified = File.GetLastWriteTime(temp.Path).ToString();
+                    float size = (float)new FileInfo(temp.Path).Length / 1024;
+                    if (size > 1000)
+                    {
+                        size /= 1000;
+                        temp.bytes = size.ToString("F2") + " MB";
+                    }
+                    else
+                    {
+                        temp.bytes = size.ToString("F2") + " KB";
+                    }
 
-                Contents.Add(temp);
+                    Contents.Add(temp);
+                }
             }
         }
         else

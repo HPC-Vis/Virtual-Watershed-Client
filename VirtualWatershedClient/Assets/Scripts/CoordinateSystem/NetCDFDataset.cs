@@ -68,20 +68,7 @@ public class NetCDFDataset : FileDataset
         {
             Debug.LogError(Var.Shape[i]);
         }
-        /*
-        if(Var.Shape.Length == 3)
-        {
-            for (int i = 0; i < Var.Shape[0]; i++)
-            {
-                for(int j = 0; j < Var.Shape[1]; j++)
-                {
-                    for(int k = 0; k < Var.Shape[2]; k++)
-                    {
 
-                    }
-                }
-            }
-        }*/
         Debug.LogError(Var.GetName());
         Debug.LogError(Var.GetNcType().GetTypeClassName());
         var fc = new int[5]; // new float[5];
