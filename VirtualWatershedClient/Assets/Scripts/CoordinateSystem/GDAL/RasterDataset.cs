@@ -204,7 +204,7 @@ public class RasterDataset
                 }
             }
             //break;
-
+            Debug.LogError(i + "_" + dataset.RasterCount);
 
             data.Add(Data);
 

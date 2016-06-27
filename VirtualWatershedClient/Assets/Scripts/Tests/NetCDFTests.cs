@@ -15,6 +15,7 @@ public class NetCDFTests : MonoBehaviour {
         return "NETCDF:" + '"' + filepath + '"';
     }
 
+
     // Use this for initialization
     void Start() {
         /*System.GC.Collect();
@@ -31,24 +32,6 @@ public class NetCDFTests : MonoBehaviour {
         timer.Stop();
         Debug.LogError("TIME it to load uncompressed with NetCDF4: " + timer.ElapsedMilliseconds / 1000);*/
 
-
-        NetCDFDataset ncfile = new NetCDFDataset(UncompressedFile);
-        if(ncfile.Open())
-        {
-            List<DataRecord> records = new List<DataRecord>();
-            records = ncfile.Parse();
-            Debug.LogError(records.Count);
-            Debug.LogError(ncfile.GetBoundingBox());
-            foreach(var i in records)
-            {
-                Debug.LogError(i.name);
-                if(!once)
-                {
-                    Debug.LogError(ncfile.GetVariableData(i.name).Count);
-                    once = true;
-                }
-            }
-        }
 
     }
 
@@ -80,85 +63,34 @@ public class NetCDFTests : MonoBehaviour {
 	void Update () {
         if (!once)
         {
-            //System.Threading.Thread thread = new System.Threading.Thread(() => LoadStuff());
-            //thread.Start();
+            System.Threading.Thread thread = new System.Threading.Thread(() => LoadNetCDF2());
+            //System.Threading.Thread thread2 = new System.Threading.Thread(() => LoadStuff());
+            thread.Start();
+            //thread2.Start();
             once = true;
         }
 	}
 
-    public void LoadNetCDF2(string filename)
+    public void LoadNetCDF2()
     {
-        NcFile file = new NcFile(filename, NcFileMode.read);
-
-        Debug.LogError("FILENESS");
-        bool once = true;
-        var nothing = 1;
-        Debug.LogError(nothing);
-        foreach (var i in file.GetAtts())
+        bool once2 = false;
+        NetCDFDataset ncfile = new NetCDFDataset(CompressedFile);
+        if (ncfile.Open())
         {
-            Debug.LogError(i.Value.GetName());
-        }
-
-        foreach (var i in file.GetDims())
-        {
-            Debug.LogError(i.Value.GetName());
-        }
-
-        var vars = file.GetVars();
-        Debug.LogError("--------");
-        foreach (var i in vars)
-        {
-            if (!i.Value.IsNull())
+            List<DataRecord> records = new List<DataRecord>();
+            records = ncfile.Parse();
+            Debug.LogError(records.Count);
+            Debug.LogError(ncfile.GetBoundingBox());
+            foreach (var i in records)
             {
-                if (i.Value.GetNcType() != null && i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_DOUBLE && once && i.Value.Shape.Length > 1)
+                Debug.LogError(i.name);
+                if (!once2)
                 {
-                    //float[] values = new float[1];
-                    //i.Value.GetVar(new int[] { 1},values);
-                    //i.Value.Shape
-                    Debug.LogError(i.Value.GetName());
-                    int length = 1;
-                    for (int j = 0; j < i.Value.Shape.Length; j++)
-                    {
-                        Debug.LogError("SHAPE: " + i + " _ " + i.Value.Shape[j].ToString());
-                        length *= i.Value.Shape[j];
-                    }
-                    
-                    var doubleness = new float[length];
-                    i.Value.GetVar(new int[] { 1},new int[] { 1} ,doubleness,false);
-                   
-                    doubleness = null;
-                    //Debug.LogError(data.GetValueAt(new int[] { 0,0,0}));
-                    //data = null;
-                    //Debug.LogError(values[0]);
-                    // Debug.LogError(i.Value.GetName());
-                    // Debug.LogError(values[0]);
-                    once = false;
-                }
-                else if (i.Value.GetNcType() != null)
-                {
-                    //string[] values = new string[i.Value.GetVar().Length];
-                    //var v = i.Value.GetVar();
-                    //Debug.LogError("ATTR: " + i.Value.GetName());
-                    Debug.LogError(i.Value.GetNcType().GetTypeClassName());
-                    //Debug.LogError(i.Value.GetAttCount());
-                    foreach (var k in i.Value.GetAtts())
-                    {
-                        // k.Value.GetValues()
-                        //Debug.LogError(k.Value.GetValues());
-                    }
-                    //i.Value.GetVar(values);
-                    //Debug.LogError(values.Length);
-                    //Debug.LogError(i.Value.GetName());
-                    //Debug.LogError(values[0]);
-
+                    Debug.LogError(ncfile.GetVariableData(i.name).Count);
+                    once2 = true;
                 }
             }
         }
-        //Debug.LogError(file.GetVarCount());
-        //NCFile file = new NNcFileMode.read
-        file.Close();
-        //file = null;
-        Debug.LogError(file.IsNull());
-        System.GC.Collect();
     }
+
 }

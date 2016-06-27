@@ -72,6 +72,52 @@ namespace CoordinateSystemTests
             Assert.AreEqual(Vector2.Distance(CS.UnityOrigin, UnityPoint), (float)distance);
         }
 
+
+        [Test()]
+        public void NetCDFWriteTest()
+        {
+            NcFile file;
+            NcDim time = null;
+            NcVar timeVar = null;
+            //if (System.IO.File.Exists("test.nc"))
+            //    System.IO.File.Delete("test.nc");
+            //file = new NcFile("test.nc", NcFileMode.newFile);
+            //else
+            //file = new NcFile("test.nc", NcFileMode.write);
+            double[] readBuffer = new double[11];
+            for (int i = 0; i < 11; i++)
+            {
+                readBuffer[i] = 0;
+                Debug.LogError("I: " + i);
+            }
+            //double[] writeBuffer = new double[] { 0, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            //time = file.AddDim("time");
+            //timeVar = file.AddVar("t", NcFloat.Instance, time);
+            
+            //timeVar.PutVar(new int[] { 0 }, new int[] { 11 }, writeBuffer);
+            //timeVar.GetVar(new int[] { 1 },readBuffer);
+            //for (int i = 0; i < 1; i++)
+            //    Assert.AreEqual(readBuffer[i], (int)2);
+
+            //file.Close();
+            file = new NcFile(@"C:\Users\ccarthen\Downloads\animation.nc", NcFileMode.read);
+            foreach(var i in file.GetVars())
+            {
+                Debug.LogError("VAR: " + i.Key);
+            }
+            timeVar = file.GetVar("sroff");
+            Debug.LogError(timeVar.Shape.Length);
+            Debug.LogError("WHY YOU FAIL");
+            timeVar.GetVar(new int[] { 1,1,1 }, readBuffer);
+            for (int i = 0; i < 1; i++)
+            {
+                //Assert.AreEqual(readBuffer[i], (int)2);
+                Debug.LogError(readBuffer[i]);
+            }
+            Debug.LogError("SUCCESS");
+
+        }
+
         // http://stackoverflow.com/questions/3225803/calculate-endpoint-given-distance-bearing-starting-point
         [Test]
         [TestCase(33, 40, 33, -40)]

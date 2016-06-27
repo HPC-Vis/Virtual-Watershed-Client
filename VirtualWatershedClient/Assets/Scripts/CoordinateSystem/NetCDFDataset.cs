@@ -60,23 +60,60 @@ public class NetCDFDataset : FileDataset
 
     public List<float[,]> GetVariableData(string VariableName)
     {
-        Debug.LogError("CRINGE!!! WORKS");
+
         List<float[,]> outlist = new List<float[,]>();
         var Var = FileHandle.GetVar(VariableName);
-        //var Floats = GetFloats(Var);
-        for (int i = 0; i < Var.Shape.Length; i++)
-        {
-            Debug.LogError(Var.Shape[i]);
-        }
 
-        Debug.LogError(Var.GetName());
-        Debug.LogError(Var.GetNcType().GetTypeClassName());
-        var fc = new int[5]; // new float[5];
-        var index = new System.Int32[] { 0,0,0};
-        //var counts = new System.Int32[] { 1,1,1 };
-        Var.CheckData();
-        //Var.GetVar();
-        Var.GetVar(index, fc);
+        if(Var.Shape.Length < 3)
+        {
+            int total = 1;
+            for(int i =0;i < Var.Shape.Length; i++)
+            {
+                total *= Var.GetShape()[i];
+            }
+
+            float[] arr = new float[total];
+            Var.GetVar(arr);
+            if (Var.Shape.Length == 1)
+            {
+                float[,] arr2 = new float[1, total];
+                System.Buffer.BlockCopy(arr, 0, arr2, 0, 4*total);
+            }
+            else
+            {
+                float[,] arr2 = new float[Var.Shape[0], Var.Shape[1]];
+                System.Buffer.BlockCopy(arr, 0, arr2, 0, 4 * total);
+            }
+        }
+        else if(Var.Shape.Length == 3)
+        {
+            outlist = new List<float[,]>(Var.Shape[0]);
+            int total = 1;
+            for (int i = 1; i < Var.Shape.Length; i++)
+            {
+                total *= Var.GetShape()[i];
+            }
+
+            var arr = new float[total];
+            
+            var count = new int[] { 1,Var.GetShape()[1],Var.GetShape()[2] };
+
+            for (int i = 0; i < Var.GetShape()[0]; i++)
+            {
+                Debug.LogError("DONE: " + i);
+                var index = new int[] { i, 0, 0 };
+                
+                Var.GetVar(index, count, arr);
+
+                //float[,] arr2 = new float[Var.Shape[0], Var.Shape[1]];
+                //System.Buffer.BlockCopy(arr, 0, arr2, 0, 4 * total);
+                //outlist.Add(arr2);
+            }
+        }
+        else
+        {
+            throw new System.Exception("Anything beyond 3D is not supported for netcdf");
+        }
         
 
         return outlist;

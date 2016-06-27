@@ -7,6 +7,10 @@ public class FileListViewManager : MonoBehaviour
 {
     public delegate void UseSelected();
     public UseSelected action = null;
+
+    public Text CurrentDirectoryText;
+    public InputField UserSelection;
+
     FileBrowse fileBrowser = new FileBrowse();
 
     // Keeps track of what is currently selected
@@ -17,14 +21,22 @@ public class FileListViewManager : MonoBehaviour
 
     public Button LoadSaveButton;
 
+    bool IsSaving = false;
+
     public void Start()
     {
-        fileBrowser.CurrentDirectory = ".";
+        fileBrowser.CurrentDirectory = System.IO.Path.GetFullPath(".");
+        CurrentDirectoryText.text = fileBrowser.CurrentDirectory;
         //doubleClickListener = gameObject.GetComponent<DoubleListener>();
         doubleClickListener.DoAction = new DoTheDouble(ChangeDirectoryOnClick);
         //selectedDatabaseController.Clear();
         populateFileWindow();
         //SetTextToSave();
+
+    }
+
+    public void Update()
+    {
 
     }
 
@@ -61,6 +73,7 @@ public class FileListViewManager : MonoBehaviour
                 fileBrowser.SetDirectory((string)contents[0]);
                 populateFileWindow();
                 //currentDirectory.text = "Current Directory: " + fileBrowser.CurrentDirectory;
+                CurrentDirectoryText.text = fileBrowser.CurrentDirectory;
             }
         }
     }
@@ -78,7 +91,7 @@ public class FileListViewManager : MonoBehaviour
                 fileBrowser.SetDirectory((string)contents[0][0]);
                 populateFileWindow();
                 //currentDirectory.text = "Current Directory: " + fileBrowser.CurrentDirectory;
-
+                CurrentDirectoryText.text = fileBrowser.CurrentDirectory;
             }
         }
 
@@ -114,19 +127,27 @@ public class FileListViewManager : MonoBehaviour
     public void SetTextToLoad()
     {
         LoadSaveButton.transform.GetChild(0).GetComponent<Text>().text = "Load";
+        IsSaving = false;
+        UserSelection.gameObject.SetActive(false);
     }
 
     public void SetTextToSave()
     {
         LoadSaveButton.transform.GetChild(0).GetComponent<Text>().text = "Save";
+        IsSaving = true;
+        UserSelection.gameObject.SetActive(true);
     }
 
     public string GetCurrentSelection()
     {
         var contents = fileListView.GetSelectedRowContent();
-        if (contents.Count > 0 && contents[0][2].ToString().ToLower() == "file")
+        if (!IsSaving && contents.Count > 0 && contents[0][2].ToString().ToLower() == "file")
         {
             return fileBrowser.CurrentDirectory + "/" + (string)contents[0][0];
+        }
+        else if (IsSaving)
+        {
+            return fileBrowser.CurrentDirectory + "/" + UserSelection.text;
         }
         return "";
     }

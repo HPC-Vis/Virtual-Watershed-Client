@@ -18,7 +18,7 @@ public struct DirectoryStruct
 public class FileBrowse : MonoBehaviour {
 
     public string CurrentDirectory = "";
-    public string SearchString = "*.nc";
+    public string SearchString = ".*nc$";
 	// Use this for initialization
 	void Start () {
         CurrentDirectory = "";
