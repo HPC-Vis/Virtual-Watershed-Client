@@ -5,7 +5,7 @@ using ASA.NetCDF4;
 
 public class NetCDFTests : MonoBehaviour {
     // compressed file
-    string CompressedFile = @"C:\Users\ccarthen\Downloads\animation.nc";
+    string CompressedFile = @"C:\Users\ccarthen\Downloads\LC_animation.nc";
 
     // uncompressed file
     string UncompressedFile = @"C:\Users\ccarthen\Downloads\animation2.nc";
@@ -86,8 +86,8 @@ public class NetCDFTests : MonoBehaviour {
                 Debug.LogError(i.name);
                 if (!once2)
                 {
-                    Debug.LogError(ncfile.GetVariableData(i.name).Count);
-                    once2 = true;
+                    //Debug.LogError(ncfile.GetVariableData(i.name).Count);
+                    //once2 = true;
                 }
             }
         }

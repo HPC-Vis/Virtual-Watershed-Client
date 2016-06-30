@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using ASA.NetCDF4; // https://github.com/lukecampbell/netcdf4.net
+using System;
 using System.Collections.Generic;
 
 public class NetCDFDataset : FileDataset
@@ -40,6 +41,13 @@ public class NetCDFDataset : FileDataset
         variable.GetVar(new int[] { index }, new int[] { count } , arr);
         //System.Buffer.BlockCopy(arr)
         return arr2;
+    }
+
+    public float[] GetFloats(NcVar variable)
+    {
+        float[] Arr = new float[GetTotalSize(variable)];
+        variable.GetVar(Arr);
+        return Arr;
     }
 
     public double[] GetDoubles(NcVar variable)
@@ -101,13 +109,19 @@ public class NetCDFDataset : FileDataset
             for (int i = 0; i < Var.GetShape()[0]; i++)
             {
                 Debug.LogError("DONE: " + i);
+                float min = 0.0f;
+                float max = 0.0f;
                 var index = new int[] { i, 0, 0 };
                 
                 Var.GetVar(index, count, arr);
 
-                //float[,] arr2 = new float[Var.Shape[0], Var.Shape[1]];
-                //System.Buffer.BlockCopy(arr, 0, arr2, 0, 4 * total);
-                //outlist.Add(arr2);
+                float[,] arr2 = new float[Var.Shape[0], Var.Shape[1]];
+                System.Buffer.BlockCopy(arr, 0, arr2, 0, 4 * total);
+                Utilities.findMinMax(arr,ref min,ref max);
+                Debug.LogError(min + "_____" + max);
+                Utilities.findMinMax(arr2, ref min, ref max);
+                Debug.LogError(min + "_____" + max);
+                outlist.Add(arr2);
             }
         }
         else
@@ -126,6 +140,10 @@ public class NetCDFDataset : FileDataset
 
     public override List<DataRecord> Parse()
     {
+        System.DateTime start = new System.DateTime();
+        DateTime end = new System.DateTime();
+        start = System.DateTime.MinValue;
+        end = System.DateTime.MaxValue;
         float maxx = float.MinValue, maxy = float.MinValue, minx = float.MaxValue, miny = float.MaxValue;
         List<DataRecord> records = new List<DataRecord>();
 
@@ -146,13 +164,70 @@ public class NetCDFDataset : FileDataset
             var Lat = FileHandle.GetVar("lat");
             var Lon = FileHandle.GetVar("lon");
 
-            //var Lats = GetFloats(Lat);
-            //var Longs = GetFloats(Lon);
+            var Lats = GetFloats(Lat);
+            var Longs = GetFloats(Lon);
             
-            //Utilities.findMinMax(Lats, ref miny, ref maxy);
-            //Utilities.findMinMax(Longs, ref minx, ref maxx);
+            Utilities.findMinMax(Lats, ref miny, ref maxy);
+            Utilities.findMinMax(Longs, ref minx, ref maxx);
 
             boundingBox = minx + "," + miny + "," + maxx + "," + maxy;
+            Debug.LogError(boundingBox);
+        }
+
+        if(Dims.Contains("time"))
+        {
+            var Time = FileHandle.GetVar("time");
+            var Delta = "days";
+
+
+            foreach(var Attribute in Time.GetAtts())
+            {
+                string Att = Attribute.Value.GetValues();
+                Debug.LogError("SPLIT: " + Att);
+                if (Att.Contains("since"))
+                {
+                    var splits = Att.Split(new string[] { "since"},System.StringSplitOptions.RemoveEmptyEntries);
+                    splits[0] = splits[0].Split(' ')[0];
+                    splits[1] = splits[1].Split(' ')[1];
+
+                    Delta = splits[0];
+                    try
+                    {
+                        start = System.DateTime.ParseExact(splits[1], "yyyy-MM-dd:hh:mm:ss", null);
+                    }
+                    catch
+                    {
+                        Debug.LogError("Was unable to parse the datetime...");
+                    }
+
+                    TimeSpan ts = new TimeSpan();
+                    if (splits[0].ToLower() == "hours")
+                    {
+                        ts = new TimeSpan(Time.Shape[0], 0, 0);
+                        //Debug.LogError("HOURS: " + dataset.RasterCount);
+                    }
+                    else if (splits[0].ToLower() == "days")
+                    {
+                        ts = new TimeSpan(Time.Shape[0], 0, 0, 0);
+                        Debug.LogError("DAYS: " );
+                    }
+                    else if(splits[0].ToLower() == "years")
+                    {
+                        ts = TimeSpan.FromDays(365 * Time.Shape[0]);
+                    }
+                    Debug.LogError(Time.Shape[0] + "TOTAL");
+                    end = start + ts;
+
+
+                    Debug.LogError(ts);
+                    Debug.LogError(start);
+                    Debug.LogError(splits[1]);
+                    Debug.LogError(end);
+                    Debug.LogError("======");
+                }
+
+            }
+            
         }
 
 
@@ -179,7 +254,16 @@ public class NetCDFDataset : FileDataset
                 record.bbox2 = record.bbox = boundingBox;
 
                 records.Add(record);
-
+                record.Temporal = false;
+                record.start = start;
+                record.end = end;
+                foreach (var dim in Variable.Value.GetDims())
+                {
+                    if(dim.GetName().ToLower() == "time")
+                    {
+                        record.Temporal = true;
+                    }
+                }
                 // Grab the attributes and set their fields
                 //record
 
