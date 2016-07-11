@@ -17015,7 +17015,7 @@ GameObject:
   m_Layer: 0
   m_Name: UIContainer
   m_TagString: Untagged
-  m_Icon: {fileID: 1638116407661442457, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -58000,7 +58000,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentDirectory: .
-  SearchString: '*.nc'
+  SearchString: .*nc$
 --- !u!114 &11437372
 MonoBehaviour:
   m_ObjectHideFlags: 1

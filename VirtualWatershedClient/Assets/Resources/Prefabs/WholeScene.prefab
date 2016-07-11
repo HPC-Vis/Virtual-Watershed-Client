@@ -24493,7 +24493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentDirectory: .
-  SearchString: '*.nc'
+  SearchString: .*nc$
 --- !u!114 &11406528
 MonoBehaviour:
   m_ObjectHideFlags: 1
