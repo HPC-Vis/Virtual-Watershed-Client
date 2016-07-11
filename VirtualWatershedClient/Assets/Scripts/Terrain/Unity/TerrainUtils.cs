@@ -26,8 +26,7 @@ public static class TerrainUtils
     /// <returns></returns>
     static public Vector3 NormalizedTerrainPointToWorld(Vector2 NormalizedPoint, Terrain terrain)
     {
-        Vector2 ProjectedPoint = new Vector2(NormalizedPoint.x*terrain.terrainData.size.x,NormalizedPoint.y*terrain.terrainData.size.z);
-        
+        Vector2 ProjectedPoint = new Vector2(NormalizedPoint.x*terrain.terrainData.size.x,NormalizedPoint.y*terrain.terrainData.size.z);        
         return new Vector3(ProjectedPoint.x,0,ProjectedPoint.y);
     }
 
@@ -51,6 +50,22 @@ public static class TerrainUtils
         TerrainTex.SetPixels(Heights);
         TerrainTex.Apply();
         return TerrainTex;
+    }
+
+    public static float [,] GetHeightmap(Terrain terrain)
+    {
+        var data = terrain.terrainData;
+        int width = data.heightmapWidth;
+        int height = data.heightmapHeight;
+        float [,] map = data.GetHeights(0, 0, width, height);
+        for(int i = 0; i < map.GetLength(0); i++)
+        {
+            for(int j = 0; j < map.GetLength(1); j++)
+            {
+                map[i, j] = TerrainUtils.GetElevationFromPoint(map[i, j]);
+            }
+        }
+        return map;
     }
 
     public static Texture2D GetHeightMapAsTexture(float[,] Data)
@@ -84,9 +99,7 @@ public static class TerrainUtils
     /// <param name="terrain"></param>
     /// <returns></returns>
     static public Vector2 NormalizePointToTerrain(Vector3 WorldPoint, Rect BoundingArea)
-    {
-        
-           
+    {      
         //Vector3 Origin = terrain.gameObject.transform.position;
         //Vector3 Point = WorldPoint - Origin;
         return Rect.PointToNormalized(BoundingArea, new Vector2(WorldPoint.x, WorldPoint.z));/// new Vector2(Point.x / terrain.terrainData.size.x, Point.z / terrain.terrainData.size.z);
@@ -95,5 +108,20 @@ public static class TerrainUtils
     static public Vector2 TerrainToNormalizedPoint(Vector3 WorldPoint, Rect BoundingArea)
     {
         return Rect.NormalizedToPoint(BoundingArea, new Vector2(WorldPoint.x, WorldPoint.z));
+    }
+
+    public static float GetElevationFromPoint(float value)
+    {
+        float baseValue;
+        if (Terrain.activeTerrain.transform.position.y > 0)
+        {
+            baseValue = Terrain.activeTerrain.transform.position.y;
+        }
+        else
+        {
+            baseValue = (-1) * Terrain.activeTerrain.transform.position.y;
+        }
+        float scale = Terrain.activeTerrain.terrainData.heightmapHeight;
+        return (value * scale) + baseValue;
     }
 }

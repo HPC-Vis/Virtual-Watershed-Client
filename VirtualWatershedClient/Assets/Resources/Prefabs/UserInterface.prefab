@@ -22908,8 +22908,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -27638,8 +27638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -30030,8 +30030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -30242,6 +30242,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 178010}
+  listPanel: {fileID: 120424}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11418378
@@ -31023,6 +31026,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 165642}
+  listPanel: {fileID: 153630}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11419556
@@ -32391,8 +32397,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -33555,8 +33561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -34800,29 +34806,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3db755282df011a49a30556822c672e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineColor: {r: 1, g: 1, b: 1, a: 1}
-  lineWidth: 1
-  yMax: 100
-  yMin: 0
-  timebase: 60
-  unitsLabel: 
-  variable_name: 
-  valueFormatString: 0.00
-  Keep: 1
-  easting: 0
-  northing: 0
   GraphMaterial: {fileID: 2100000, guid: 5a775563bdca74c5bbc1e0d8ab67d1dc, type: 2}
   GraphImage: {fileID: 11422718}
-  marker1: {fileID: 0}
-  marker2: {fileID: 0}
-  BoundingBox:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 0
-    height: 0
-  DataIndex: 0
-  button: {fileID: 140150}
   selectedList: {fileID: 0}
 --- !u!114 &11426888
 MonoBehaviour:
@@ -44618,7 +44603,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 1
 --- !u!114 &11445636
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -49359,6 +49344,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 196994}
+  listPanel: {fileID: 114472}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11453700
@@ -58496,6 +58484,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 133416}
+  listPanel: {fileID: 110188}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11470106
@@ -61809,6 +61800,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 164316}
+  listPanel: {fileID: 167122}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11476342
@@ -63293,6 +63287,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 157502}
+  listPanel: {fileID: 142980}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11480172
@@ -65630,8 +65627,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -69164,6 +69161,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 187444}
+  listPanel: {fileID: 144024}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11491364
@@ -71507,8 +71507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 

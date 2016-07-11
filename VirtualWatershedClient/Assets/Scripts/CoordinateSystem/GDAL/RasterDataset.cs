@@ -175,8 +175,10 @@ public class RasterDataset
         //dataset.ReadRaster(0,0,dataset.RasterXSize,dataset.RasterYSize)
         for (int i = 0; i < dataset.RasterCount; i++)
         {
+
             //width = dataset.RasterXSize;
             //height = dataset.RasterYSize;
+
             float[] DataF = new float[width * height];
             float[,] Data = new float[width, height];
             var band = dataset.GetRasterBand(i + 1);
