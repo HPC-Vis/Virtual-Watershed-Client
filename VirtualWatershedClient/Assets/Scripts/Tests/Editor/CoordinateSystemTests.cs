@@ -72,6 +72,52 @@ namespace CoordinateSystemTests
             Assert.AreEqual(Vector2.Distance(CS.UnityOrigin, UnityPoint), (float)distance);
         }
 
+
+        [Test()]
+        public void NetCDFWriteTest()
+        {
+            NcFile file;
+            NcDim time = null;
+            NcVar timeVar = null;
+            //if (System.IO.File.Exists("test.nc"))
+            //    System.IO.File.Delete("test.nc");
+            //file = new NcFile("test.nc", NcFileMode.newFile);
+            //else
+            //file = new NcFile("test.nc", NcFileMode.write);
+            double[] readBuffer = new double[11];
+            for (int i = 0; i < 11; i++)
+            {
+                readBuffer[i] = 0;
+                Debug.LogError("I: " + i);
+            }
+            //double[] writeBuffer = new double[] { 0, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+            //time = file.AddDim("time");
+            //timeVar = file.AddVar("t", NcFloat.Instance, time);
+            
+            //timeVar.PutVar(new int[] { 0 }, new int[] { 11 }, writeBuffer);
+            //timeVar.GetVar(new int[] { 1 },readBuffer);
+            //for (int i = 0; i < 1; i++)
+            //    Assert.AreEqual(readBuffer[i], (int)2);
+
+            //file.Close();
+            file = new NcFile(@"C:\Users\ccarthen\Downloads\animation.nc", NcFileMode.read);
+            foreach(var i in file.GetVars())
+            {
+                Debug.LogError("VAR: " + i.Key);
+            }
+            timeVar = file.GetVar("sroff");
+            Debug.LogError(timeVar.Shape.Length);
+            Debug.LogError("WHY YOU FAIL");
+            timeVar.GetVar(new int[] { 1,1,1 }, readBuffer);
+            for (int i = 0; i < 1; i++)
+            {
+                //Assert.AreEqual(readBuffer[i], (int)2);
+                Debug.LogError(readBuffer[i]);
+            }
+            Debug.LogError("SUCCESS");
+
+        }
+
         // http://stackoverflow.com/questions/3225803/calculate-endpoint-given-distance-bearing-starting-point
         [Test]
         [TestCase(33, 40, 33, -40)]
@@ -250,13 +296,22 @@ namespace CoordinateSystemTests
 
             //Gdal.ReprojectImage()
         }
-
-        [TestCase(@"C:\Users\appleness\Downloads\statvar.nc")]
-        public void LoadNetCDF(string filename)
+        [Test]
+        public void TestGC()
+        {
+            System.GC.Collect();
+            System.GC.WaitForPendingFinalizers();
+            Debug.LogError(System.GC.GetTotalMemory(false));
+        }
+        [TestCase(@"C:\Users\ccarthen\Downloads\animation.nc")]
+        public void LoadNetCDF2(string filename)
         {
             NcFile file = new NcFile(filename, NcFileMode.read);
+            
             Debug.LogError("FILENESS");
-
+            bool once = true;
+            var nothing = 1;
+            Debug.LogError(nothing);
             foreach( var i in file.GetAtts())
             {
                 Debug.LogError(i.Value.GetName());
@@ -265,42 +320,44 @@ namespace CoordinateSystemTests
             foreach( var i in file.GetDims())
             {
                 Debug.LogError(i.Value.GetName());
+                Debug.LogError("DIM SIZE: " + i.Value.GetSize());
             }
+            
             var vars = file.GetVars();
             Debug.LogError("--------");
             foreach(var i in vars)
             {
-                if (i.Value.GetVar() != null)
+                Debug.LogError(i.Value.GetName());
+                Debug.LogError(i.Value.GetNcType().GetTypeClassName());
+                Debug.LogError(i.Value.Shape.Length);
+                Debug.LogError(i.Value.Rank);
+                if(i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_CHAR )
                 {
-                    if (i.Value.GetNcType() != null && i.Value.GetNcType().GetTypeClass() == NcTypeEnum.NC_FLOAT)
+                    //byte[] bytes = new byte[i.Value.Shape[0]];
+                    foreach(var j in i.Value.GetAtts())
                     {
-                        float[] values = new float[i.Value.GetVar().Length];
-                        i.Value.GetVar(values);
-                        //Debug.LogError(values.Length);
-                        //Debug.LogError(i.Value.GetName());
-                       // Debug.LogError(values[0]);
+                        Debug.LogError(j.Value.GetName());
+                        Debug.LogError(j.Value.GetValues());
                     }
-                    else if (i.Value.GetNcType() != null )
-                    {
-                        //string[] values = new string[i.Value.GetVar().Length];
-                        //var v = i.Value.GetVar();
-                        Debug.LogError("ATTR: " + i.Value.GetName());
-                        Debug.LogError(i.Value.GetNcType().GetTypeClassName());
-                        Debug.LogError(i.Value.GetAttCount());
-                        foreach(var k in i.Value.GetAtts())
-                        {
-                           // k.Value.GetValues()
-                            Debug.LogError(k.Value.GetValues());
-                        }
-                        //i.Value.GetVar(values);
-                        //Debug.LogError(values.Length);
-                        //Debug.LogError(i.Value.GetName());
-                        //Debug.LogError(values[0]);
-                    }
+                    //Debug.LogError(System.Text.Encoding.ASCII.GetString(obj));
                 }
             }
             //Debug.LogError(file.GetVarCount());
             //NCFile file = new NNcFileMode.read
+            file.Close();
+            //file = null;
+            Debug.LogError(file.IsNull());
+            System.GC.Collect();
+        }
+
+        [TestCase()]
+        public void Netcdftests()
+        {
+            double[] doubleness = new double[1000 * 1000 * 500];
+            doubleness = null;
+            
+            System.GC.Collect(System.GC.MaxGeneration);
+            Debug.LogError("NOT CLEARING EH");
         }
 
         [TestCase()]
@@ -320,6 +377,16 @@ namespace CoordinateSystemTests
             Debug.LogError("IT WORKS!!!");
             ds.Dispose();
             ds2.Dispose();
+            
+        }
+
+        [Test()]
+        public void Rect()
+        {
+            Rect abc = new Rect(-100, -100, 100, 100);
+            Debug.LogError(abc.xMin);
+            Debug.LogError(abc);
+            Debug.LogError(abc.xMax);
         }
     }
 

@@ -22,6 +22,11 @@ public abstract class Parser
         throw new System.NotImplementedException();
     }
 
+    public virtual List<DataRecord> Parse(string Path)
+    {
+        throw new System.NotImplementedException();
+    }
+
     public virtual List<DataRecord> Parse(List<DataRecord> record, string Contents)
     {
         throw new System.NotImplementedException();
@@ -48,6 +53,13 @@ public abstract class Parser
     {
         throw new System.NotImplementedException();
     }
+
+    // For those times when things are being halted...
+    public void Halt()
+    {
+        IsHalting = true;
+    }
+
     public string Name
     {
         get
@@ -59,6 +71,8 @@ public abstract class Parser
             name = value;
         }
     }
+
+    bool IsHalting = false;
 }
 
 /// <summary>

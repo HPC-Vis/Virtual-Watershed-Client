@@ -65411,6 +65411,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TerrainList: {fileID: 11453664}
   Terrains: {fileID: 0}
+  fb: {fileID: 0}
+  fileview: {fileID: 0}
   to: {fileID: 11409256}
   BaseMap: {fileID: 2800000, guid: d5cd325de1035cc4ead8b6eb573bd5b5, type: 3}
 --- !u!114 &11484248
