@@ -2707,8 +2707,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f2831ee734c7a4cb2c38a367a273d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSelected: 0
-  selectedOn: 0
+  _isSelected: 0
+  _selectedOn: 0
   Name: 
   record:
     id: 
@@ -6560,6 +6560,9 @@ MonoBehaviour:
   HeaderElementPrefab: {fileID: 153952, guid: 9b393a28695f55d4d834d338a3dbe835, type: 2}
   RowPrefab: {fileID: 170522, guid: 9c10508209c866c47839cf59f6de476c, type: 2}
   RowElementPrefab: {fileID: 163306, guid: 6d96f8f2788cb904cb6a3bb79041bf5a, type: 2}
+  header: {fileID: 191492}
+  listPanel: {fileID: 192970}
+  listPanelRectTransform: {fileID: 0}
   shiftDown: 0
   shiftDownSelections: 
 --- !u!114 &11463780
