@@ -49,10 +49,7 @@ namespace VTL.ListView
             base.OnSelectionEvent(guid, index);
 
             // Run the action on this item
-            if (SelectionChangeEvent != null)
-            {
-                SelectionChangeEvent();
-            }
+            SelectionChangeEvent();
         }
 
         public void AddRow(object[] fieldData, DataRecord record)
