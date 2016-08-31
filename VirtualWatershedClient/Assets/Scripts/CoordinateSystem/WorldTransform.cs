@@ -94,18 +94,16 @@ public class WorldTransform : MonoBehaviour
         if ("" != Regex.Match(epsg, @"(epsg:[0-9]+$)|(EPSG:[0-9][0-9][0-9][0-9]$)").Value)
         {
             var resultString = Regex.Match(epsg, @"\d+").Value;
-
             int EPSG = int.Parse(resultString);
             localCoords = new SpatialReference("");
             localCoords.ImportFromEPSG(EPSG);
         }
         else
-        {
+        {            
             localCoords = new SpatialReference(epsg);
         }
         localTrans = coordsystem.createUnityTransform(localCoords);
 
-        
         return true;
     }
 

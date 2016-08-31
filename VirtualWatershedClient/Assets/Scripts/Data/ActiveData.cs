@@ -125,6 +125,11 @@ public class ActiveData : MonoBehaviour {
             ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
         }
 
+        if(Input.GetKeyDown(KeyCode.F))
+        {            
+            LoadFireData();
+        }
+
         // Temp Patch
         if (SliderFrames.Count > 0)
         {
@@ -321,7 +326,7 @@ public class ActiveData : MonoBehaviour {
         if (rec.modelRunUUID != Active[rec.variableName].modelrun.ModelRunUUID)
         {
             // This is not the model run we want because something else was selected.
-            Debug.LogError("Ran This ITem");
+            Debug.LogError("Ran This Item");
             return;
         }
         var TS = rec.end.Value - rec.start.Value;
@@ -380,10 +385,17 @@ public class ActiveData : MonoBehaviour {
                 rec.MinContainer = min;
                 rec.MaxContainer = max;
                 rec.Mean = mean;
-                var vari = Active[rec.variableName].modelrun.GetVariable(rec.variableName);
-                vari.meanSum += mean;
-                vari.frameCount += 1;
-                vari.Mean = vari.meanSum / vari.frameCount;
+                try
+                {
+                    var vari = Active[rec.variableName].modelrun.GetVariable(rec.variableName);
+                    vari.meanSum += mean;
+                    vari.frameCount += 1;
+                    vari.Mean = vari.meanSum / vari.frameCount;
+                }
+                catch(Exception e)
+                {
+                    Debug.LogError("ActiveData.cs: " + e.Message);
+                }
 
                 //Debug.LogError("MIN AND MAX: " + rec.Min + " " + rec.Max);
             }
@@ -585,6 +597,41 @@ public class ActiveData : MonoBehaviour {
         SliderFrames.Enqueue(Records[0]);
     }
 
+    public void LoadFireData()
+    {
+        Debug.Log("Active Data Load Fire Called");
+
+
+        // Time to load some things
+        SystemParameters sp = new SystemParameters();
+        sp.interpolation = "bilinear";
+        sp.width = 100;
+        sp.height = 100;
+
+        // Check if there is a need to clear -- if greater than 2
+        if (Active.Count > 1)
+        {
+            // Initilize the Time
+            Active.Clear();
+            spool.Clear();
+            trendGraph.Clear();
+            GRAND_TOTAL = 0;
+        }
+
+        // Get the Fire Run
+        FireContent fc = new FireContent();
+        string variable = "Fire Data";
+        GRAND_TOTAL += fc.GetCount();
+        Logger.WriteLine("Load Selected: " + variable + " with Number of Records: " + fc.GetCount());
+
+        // Add the new loaded to the list
+        Options.options.Add(new Dropdown.OptionData(variable + ": " + VariableReference.GetDescription(variable)));
+
+        // Call the fire class
+        Active.Add(variable, new DataLoad(false, fc.GetModelRun(), new List<Frame>(), fc.GetCount(), Active.Count == 0, new string[] { variable }));
+        fc.Run(HandDataToSpooler);
+    }
+
     /// <summary>
     /// Gets the selected model run, begins the record download, and updates page data.
     /// </summary>
@@ -672,7 +719,7 @@ public class ActiveData : MonoBehaviour {
                 {
                     for (int j = ActiveData.GetFrameAt(name, CurrentIndex).Data.GetLength(0) - 1; j >= 0 ; j--)
                     {
-                        file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[i, j] + ", ");
+                        file.Write(ActiveData.GetFrameAt(name, CurrentIndex).Data[j, i] + ", ");
                     }
                     file.Write("\n");
                 }

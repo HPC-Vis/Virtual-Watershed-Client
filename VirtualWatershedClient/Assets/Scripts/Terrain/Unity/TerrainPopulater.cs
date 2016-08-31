@@ -22,13 +22,13 @@ public class TerrainPopulater : MonoBehaviour
     Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
     {
         Texture2D temp = new Texture2D(width, height);
-        //Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + bbox + "&width=" + width + "&height=" + height);
+        bbox = bbox.Replace(' ', ',');
+        Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + "bbox=" + bbox + "&width=" + width + "&height=" + height);
         //layers=osm
         //layers=landsat
         try
         {
-
-
+            Debug.LogError("Loading The Sat Imagery");
             var bytes = client.DownloadData("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + "bbox=" + bbox + "&width=" + width + "&height=" + height);
             if (bytes != null)
             {
@@ -37,7 +37,7 @@ public class TerrainPopulater : MonoBehaviour
         }
         catch(Exception e)
         {
-            Debug.LogError(e.Message);
+            Debug.LogError("Satellite Imagery Failed: " + e.Message);
         }
         return temp;
     }
@@ -255,7 +255,7 @@ public class TerrainPopulater : MonoBehaviour
     {
 
         fileview.gameObject.SetActive(true);
-        fileview.SetSearchPattern(new string[] { "tif" });
+        fileview.SetSearchPattern(new string[] { "tif", "dem" });
         fileview.action = LoadDemFromFile;
         TerrainList.gameObject.SetActive(false);
     }

@@ -195,8 +195,8 @@ public class RasterDataset
                 Debug.LogError(e.Message);
                 return data;
             }
-            
-            // Debug.LogError(width + " " + height);
+
+            // Debug.LogError("RasterDataset: " + width + " " + height);
 
             for (int k = 0; k < width; k++)
             {
@@ -205,13 +205,13 @@ public class RasterDataset
                     Data[k, j] = DataF[(k) * height + height-1-j];
                 }
             }
-            //break;
-            Debug.LogError(i + "_" + dataset.RasterCount);
+            // break;
+            // Debug.LogError("RasterDataset: " + i + "_" + dataset.RasterCount);
 
             data.Add(Data);
 
         }
-        Debug.LogError(dataset.RasterCount);
+        // Debug.LogError("RasterDataset: " + dataset.RasterCount);
         return data;
     }
 
