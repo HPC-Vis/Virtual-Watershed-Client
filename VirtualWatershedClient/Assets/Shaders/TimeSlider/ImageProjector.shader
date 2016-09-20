@@ -1,4 +1,7 @@
-﻿Shader "Custom/ImageProjector" {
+﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+// Upgrade NOTE: replaced '_ProjectorClip' with 'unity_ProjectorClip'
+
+Shader "Custom/ImageProjector" {
 
 	Properties{
 		_MainTex("32bit Float Map", RECT) = "white" {}
@@ -73,8 +76,8 @@
 		float4 pos : SV_POSITION;
 	};
 
-	float4x4 _Projector;
-	float4x4 _ProjectorClip;
+	float4x4 unity_Projector;
+	float4x4 unity_ProjectorClip;
 
 	uniform int _Transpose;
 
@@ -82,7 +85,7 @@
 	{
 		vertexInput o;
 		o.pos = mul(UNITY_MATRIX_MVP, vertex);
-		o.uv = mul(_Projector, vertex);
+		o.uv = mul(unity_Projector, vertex);
 		return o;
 	}
 

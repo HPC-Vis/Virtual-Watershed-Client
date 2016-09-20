@@ -1,4 +1,6 @@
-﻿Shader "Custom/ColorProjector" {
+﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+
+Shader "Custom/ColorProjector" {
 
 Properties{
 	_MainTex("32bit Float Map", RECT) = "white" {}
@@ -81,7 +83,7 @@ Category{
 		uniform int _Compare;
 		uniform int _Transpose;
 
-		float4x4 _Projector;
+		float4x4 unity_Projector;
 
 		struct vertexInput {
 			float4 uv : TEXCOORD0;
@@ -92,7 +94,7 @@ Category{
 		{
 			vertexInput o;
 			o.pos = mul(UNITY_MATRIX_MVP, vertex);
-			o.uv = mul(_Projector, vertex);
+			o.uv = mul(unity_Projector, vertex);
 			return o;
 		}
 

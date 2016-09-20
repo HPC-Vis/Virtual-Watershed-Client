@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 //
 // Relief Terrain Shader - version for far distances - used only in Unity4, Unity5
 // Tomasz Stobierski 2015
@@ -757,7 +759,7 @@ void vert (inout appdata_full v, out Input o) {
     #if defined(SHADER_API_D3D11) || defined(SHADER_API_D3D11_9X) || defined(UNITY_PI)
 		UNITY_INITIALIZE_OUTPUT(Input, o);
 	#endif
-	o._uv_Relief.xy=mul(_Object2World, v.vertex).xz / _TERRAIN_ReliefTransform.xy + _TERRAIN_ReliefTransform.zw;
+	o._uv_Relief.xy=mul(unity_ObjectToWorld, v.vertex).xz / _TERRAIN_ReliefTransform.xy + _TERRAIN_ReliefTransform.zw;
 #ifdef UNITY_PASS_META	
 	o._uv_Relief.zw=TRANSFORM_TEX(v.texcoord, _MainTex);
 #else
@@ -767,7 +769,7 @@ void vert (inout appdata_full v, out Input o) {
 // RTP specific
 //
 	#ifdef RTP_SNOW
-		o.snowDir.xyz = normalize( mul(_Object2World, float4(v.normal.xyz,0)).xyz );
+		o.snowDir.xyz = normalize( mul(unity_ObjectToWorld, float4(v.normal.xyz,0)).xyz );
 		o.snowDir.w = v.vertex.y;
 	#endif	
 /////////////////////////////////////////////////////////////////////

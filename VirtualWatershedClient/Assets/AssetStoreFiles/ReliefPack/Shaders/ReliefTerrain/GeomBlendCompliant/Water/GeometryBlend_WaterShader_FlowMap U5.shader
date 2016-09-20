@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 //
 // Relief Terrain  - Parallax mapped material + water (flowMap)
 // Tomasz Stobierski 2013
@@ -216,7 +219,7 @@ Shader "Relief Pack/GeometryBlend_WaterShader_FlowMap U5-PBL" {
 			
 			float3 viewDir = -ObjSpaceViewDir(v.vertex);
 			float3 viewRefl = reflect (viewDir, v.normal);
-			float2 refl_vec = normalize(mul((float3x3)_Object2World, viewRefl)).xz;
+			float2 refl_vec = normalize(mul((float3x3)unity_ObjectToWorld, viewRefl)).xz;
 			#ifdef RTP_ROTATE_REFLECTION
 				float3 refl_rot;
 				refl_rot.x=sin(_Time.x*TERRAIN_ReflectionRotSpeed);
@@ -230,10 +233,10 @@ Shader "Relief Pack/GeometryBlend_WaterShader_FlowMap U5-PBL" {
 			o._auxDir.xy=o._auxDir.xy*0.5+0.5;
 		#endif
 		#if defined(RTP_WETNESS)
-		o._auxDir.zw = ( mul (rotation, mul(_World2Object, float4(0,1,0,0)).xyz) ).xy;		
+		o._auxDir.zw = ( mul (rotation, mul(unity_WorldToObject, float4(0,1,0,0)).xyz) ).xy;		
 		#endif
 		
-		float3 Wpos=mul(_Object2World, v.vertex);
+		float3 Wpos=mul(unity_ObjectToWorld, v.vertex);
 		o.custUV.zw=Wpos.xz-_TERRAIN_PosSize.xy;
 		o.custUV.zw/=_TERRAIN_PosSize.zw;
 		

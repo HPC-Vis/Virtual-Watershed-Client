@@ -1,4 +1,7 @@
-﻿	float4 _MainTex_ST;
+﻿// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+	float4 _MainTex_ST;
 	void vert (inout appdata_full v, out Input o) {
 	    #if defined(SHADER_API_D3D11) || defined(SHADER_API_D3D11_9X) || defined(UNITY_PI)
 			UNITY_INITIALIZE_OUTPUT(Input, o);
@@ -6,7 +9,7 @@
 
 		o.texCoords_FlatRef.xy=TRANSFORM_TEX(v.texcoord, _MainTex);
 	
-		float3 Wpos=mul(_Object2World, v.vertex).xyz;
+		float3 Wpos=mul(unity_ObjectToWorld, v.vertex).xyz;
 		
 		#if defined(RTP_SNOW) || defined(RTP_WETNESS) || defined(RTP_CAUSTICS) || defined(RTP_REFLECTION) || defined(RTP_IBL_SPEC) || defined(RTP_PBL_FRESNEL)
 			float3 binormal = cross( v.normal, v.tangent.xyz ) * v.tangent.w;
@@ -14,7 +17,7 @@
 		#endif
 
 		#if defined(RTP_SNOW) || defined(RTP_WETNESS) || defined(RTP_CAUSTICS)
-			o.texCoords_FlatRef.zw = normalEncode(( mul (rotation, mul(_World2Object, float4(0,1,0,0)).xyz) ).xyz);
+			o.texCoords_FlatRef.zw = normalEncode(( mul (rotation, mul(unity_WorldToObject, float4(0,1,0,0)).xyz) ).xyz);
 		#endif
 	}
 

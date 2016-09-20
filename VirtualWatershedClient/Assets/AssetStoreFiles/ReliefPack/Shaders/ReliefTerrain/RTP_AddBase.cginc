@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 #ifdef RTP_STANDALONE
 	#define LIGHTDIR_UNAVAILABLE
 #endif
@@ -870,7 +873,7 @@ inline float3 myObjSpaceLightDir( in float4 v )
 	#else
 		float4 lpos=_WorldSpaceLightPos0;
 	#endif	
-	float3 objSpaceLightPos = mul(_World2Object, lpos).xyz;
+	float3 objSpaceLightPos = mul(unity_WorldToObject, lpos).xyz;
 	#ifndef USING_LIGHT_MULTI_COMPILE
 		#ifdef UNITY_PASS_PREPASSFINAL
 			return objSpaceLightPos.xyz * 1.0 - v.xyz * lpos.w;
@@ -967,9 +970,9 @@ inline float3 myObjSpaceLightDir( in float4 v )
 //    }	
     float4 tessEdge (appdata v0, appdata v1, appdata v2)
     {
-		float3 pos0 = mul(_Object2World,v0.vertex).xyz;
-		float3 pos1 = mul(_Object2World,v1.vertex).xyz;
-		float3 pos2 = mul(_Object2World,v2.vertex).xyz;
+		float3 pos0 = mul(unity_ObjectToWorld,v0.vertex).xyz;
+		float3 pos1 = mul(unity_ObjectToWorld,v1.vertex).xyz;
+		float3 pos2 = mul(unity_ObjectToWorld,v2.vertex).xyz;
 		float4 tess;
 		// distance to edge center
 		float3 edge_dist;
@@ -1019,7 +1022,7 @@ float2 RTP_CustomTiling;
 					// displace details
 					//
 				
-					float3 wPos=mul(_Object2World, v.vertex).xyz;
+					float3 wPos=mul(unity_ObjectToWorld, v.vertex).xyz;
 					float2 _INPUT_uv=wPos.xz / _TERRAIN_ReliefTransform.xy + _TERRAIN_ReliefTransform.zw;
 					
 					float _INPUT_distance=distance(_WorldSpaceCameraPos, wPos);
@@ -1261,7 +1264,7 @@ void surf (Input IN, inout RTPSurfaceOutput o) {
 	//
 	float3 vertexNorm=worldNormalFlat;
 	#if !defined(APPROX_TANGENTS) || defined(RTP_STANDALONE)
-		vertexNorm=normalize(mul(_World2Object, float4(vertexNorm,0)).xyz);
+		vertexNorm=normalize(mul(unity_WorldToObject, float4(vertexNorm,0)).xyz);
 	#else
 		// terrains are not rotated - world normal = object normal then
 	#endif
@@ -1321,7 +1324,7 @@ void surf (Input IN, inout RTPSurfaceOutput o) {
 			// nowa baza, ktora przelicza z object(world) na tangent space
 			vertexNorm=worldNormalFlat;
 			#if !defined(APPROX_TANGENTS) || defined(RTP_STANDALONE)
-				vertexNorm=normalize(mul(_World2Object, float4(vertexNorm,0)).xyz);
+				vertexNorm=normalize(mul(unity_WorldToObject, float4(vertexNorm,0)).xyz);
 			#else
 				// terrains are not rotated - world normal = object normal then
 			#endif
@@ -1573,7 +1576,7 @@ void surf (Input IN, inout RTPSurfaceOutput o) {
 		
 		float3 triplanar_blend;
 		#ifdef LOCAL_SPACE_UV
-			float3 worldNormalFlatTMP=normalize(mul(_World2Object, float4(worldNormalFlat,0)).xyz);
+			float3 worldNormalFlatTMP=normalize(mul(unity_WorldToObject, float4(worldNormalFlat,0)).xyz);
 		#else
 			float3 worldNormalFlatTMP=worldNormalFlat;
 		#endif
@@ -1802,7 +1805,7 @@ void surf (Input IN, inout RTPSurfaceOutput o) {
 		// vertical direction in tangent space
 		#ifdef RTP_PLANET
 			// gravitational "vertical" direction determined by planet surface to center vector
-			float3 planetCenter=float3(_Object2World[0][3], _Object2World[1][3], _Object2World[2][3]);
+			float3 planetCenter=float3(unity_ObjectToWorld[0][3], unity_ObjectToWorld[1][3], unity_ObjectToWorld[2][3]);
 			float3 vertDir = normalize(IN.worldPos - planetCenter);
 			float3 flat_dir = float3( dot(tangentBase, vertDir), dot(binormalBase, vertDir), dot(vertexNorm, vertDir) );
 		#else

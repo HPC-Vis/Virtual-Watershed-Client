@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
-using UnityEngine.Experimental.Networking;
 using UnityEngine.Networking;
 
 
@@ -111,6 +110,7 @@ public class FireContent : MonoBehaviour {
         Vector2 BottomRight = new Vector2((float)double.Parse(csvLines[2].Split(colon)[1].Trim()), (float)double.Parse(csvLines[3].Split(colon)[1].Trim()));
         int rows = int.Parse(csvLines[4].Split(colon)[1].Trim());
         int cols = int.Parse(csvLines[5].Split(colon)[1].Trim());
+
         int iterations = int.Parse(csvLines[6].Split(colon)[1].Trim());
         int nodata = int.Parse(csvLines[7].Split(colon)[1].Trim());
 
@@ -141,14 +141,17 @@ public class FireContent : MonoBehaviour {
             {
                 for (int j = 0; j < cols; j++)
                 {
+                    
                     if(tempData[i,j] <= k)
                     {
-                        rec.Data[0][i, j] = 1.0f;
+                        rec.Data[0][i, j] = tempData[i, j];
                     }
                     else
                     {
                         rec.Data[0][i,j] = 0.0f;
                     }
+                    
+                    //rec.Data[0][i, j] = tempData[i, j];
                 }
             }
             handDataToSpooler(new List<DataRecord> { rec });

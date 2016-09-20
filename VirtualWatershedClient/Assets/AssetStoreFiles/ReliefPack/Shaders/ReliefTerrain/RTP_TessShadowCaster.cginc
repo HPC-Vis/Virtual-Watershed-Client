@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 
 #ifdef UNITY_CAN_COMPILE_TESSELLATION
 
@@ -81,7 +83,7 @@ v2f_surf vert_surf (appdata v) {
   v2f_surf o;
   UNITY_INITIALIZE_OUTPUT(v2f_surf,o);
   o.pack0.xy = TRANSFORM_TEX(v.texcoord, _Control);
-  float3 worldPos = mul(_Object2World, v.vertex).xyz;
+  float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
   fixed3 worldNormal = UnityObjectToWorldNormal(v.normal);
   o.worldPos = worldPos;
   o.worldNormal = worldNormal;

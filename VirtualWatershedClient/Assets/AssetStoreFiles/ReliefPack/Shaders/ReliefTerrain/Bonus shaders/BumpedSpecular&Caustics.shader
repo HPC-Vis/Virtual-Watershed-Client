@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 //
 // Relief Terrain  -  Parallax mapped material with caustics
 // Tomasz Stobierski 2013
@@ -59,8 +61,8 @@ Shader "Relief Pack/BumpedSpecular caustics" {
 			UNITY_INITIALIZE_OUTPUT(Input, o);
 		#endif
 		
-		o._uvCaustics=mul(_Object2World, v.vertex).xz*TERRAIN_CausticsTex_ST.xy+TERRAIN_CausticsTex_ST.zw;
-		o.level=mul(_Object2World, v.vertex).y;
+		o._uvCaustics=mul(unity_ObjectToWorld, v.vertex).xz*TERRAIN_CausticsTex_ST.xy+TERRAIN_CausticsTex_ST.zw;
+		o.level=mul(unity_ObjectToWorld, v.vertex).y;
 	}	
 	
 	void surf (Input IN, inout SurfaceOutput o) {

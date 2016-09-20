@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 //
 // Relief Terrain  - vertex color blend - 2 Parallax mapped material
 // Tomasz Stobierski 2013
@@ -130,7 +132,7 @@ Shader "Relief Pack/GeometryBlend_2PM_VertexPaint_HB" {
 		
 		o.tc_MainTex.xy=TRANSFORM_TEX(v.texcoord, _MainTex);
 		
-		float3 Wpos=mul(_Object2World, v.vertex);
+		float3 Wpos=mul(unity_ObjectToWorld, v.vertex);
 		o.aux.xy=Wpos.xz-_TERRAIN_PosSize.xy+_TERRAIN_Tiling.zw;
 		o.aux.xy/=_TERRAIN_Tiling.xy;
 		o.aux.z=length(_WorldSpaceCameraPos.xyz-Wpos);

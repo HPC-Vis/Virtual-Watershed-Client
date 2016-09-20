@@ -418,7 +418,7 @@ public class ActiveData : MonoBehaviour {
             }
 
             tex.Apply();
-            frame.Picture = Sprite.Create(tex, new Rect(0, 0, 100, 100), Vector2.zero);
+            frame.Picture = Sprite.Create(tex, new Rect(0, 0, rec.Data[j].GetLength(0), rec.Data[j].GetLength(1)), Vector2.zero);
             Insert(frame, rec.variableName);
         }
     }
@@ -600,8 +600,7 @@ public class ActiveData : MonoBehaviour {
     public void LoadFireData()
     {
         Debug.Log("Active Data Load Fire Called");
-
-
+        
         // Time to load some things
         SystemParameters sp = new SystemParameters();
         sp.interpolation = "bilinear";
