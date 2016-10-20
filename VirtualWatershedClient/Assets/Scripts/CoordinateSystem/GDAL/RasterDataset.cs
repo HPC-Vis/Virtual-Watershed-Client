@@ -170,7 +170,6 @@ public class RasterDataset
         //width = 100;
         //height = 100;
         width = height = Math.Max(width, height);
-        Debug.LogError(width + " " + height);
         //var Data = new float[dataset.RasterCount*dataset.RasterXSize * dataset.RasterYSize]
         //dataset.ReadRaster(0,0,dataset.RasterXSize,dataset.RasterYSize)
         for (int i = 0; i < dataset.RasterCount; i++)
@@ -279,17 +278,11 @@ public class RasterDataset
             }
         }
 
-        Debug.LogError(dataset.GetProjection());
-        Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
-        
-        
-       
         sr2.ImportFromEPSG(4326);
 
         OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation(sr1, sr2);
         double[] upperleft = new double[] {minx,maxy};
         double[] lowerright = new double[] {maxx,miny};
-        Debug.LogError(upperleft[0] + " " + upperleft[1]);
         ct.TransformPoint(lowerright); 
         ct.TransformPoint(upperleft);
 

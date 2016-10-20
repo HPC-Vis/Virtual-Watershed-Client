@@ -100,8 +100,6 @@ public class ProjectorObject : WorldObject {
         pos.y += 10;
         point = tran.translateToGlobalCoordinateSystem(new Vector2(boundingBox.x + boundingBox.width/2.0f, boundingBox.y + boundingBox.height/2.0f));
 
-        Debug.LogError("POINT: " + point.x + " " + point.y);
-
         float dim = Math.Max(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
         float dim2 = Math.Min(Math.Abs((upperLeft - lowerRight).x) / 2.0f, Math.Abs((upperLeft - lowerRight).y) / 2.0f);
         float offset = dim - dim2;
@@ -117,7 +115,7 @@ public class ProjectorObject : WorldObject {
         {
             pos.x += offset;
         }
-        Debug.LogError("OFFSET: " + offset);
+
         //pos.x += dim;
         //pos.z += dim;
         //pos.x += Math.Abs((upperLeft - lowerRight).x) / 2.0f;
@@ -135,12 +133,12 @@ public class ProjectorObject : WorldObject {
         pro.material = Material.Instantiate(pro.material);
         pro.material.SetFloat("_MaxX", boundingAreaX);
         pro.material.SetFloat("_MaxY", boundingAreaY);
-        Debug.LogError("BOUNDING AREA X: " + boundingAreaX);
-        Debug.LogError("BOUNDING AREA Y: " + boundingAreaY);
-        Debug.LogError("ORTHOGRAPHIC SIZE X: " + pro.orthographicSize*2 * boundingAreaX);
-        Debug.LogError("ORTHOGRAPHIC SIZE Y: " + pro.orthographicSize * 2 * boundingAreaY);
-        Debug.LogError("BOUNDINGBOX HEIGHT: " + GlobalConfig.BoundingBox.height);
-        Debug.LogError("BOUNDINGBOX WIDTH: " + GlobalConfig.BoundingBox.width);
+        // Debug.LogError("BOUNDING AREA X: " + boundingAreaX);
+        // Debug.LogError("BOUNDING AREA Y: " + boundingAreaY);
+        // Debug.LogError("ORTHOGRAPHIC SIZE X: " + pro.orthographicSize*2 * boundingAreaX);
+        // Debug.LogError("ORTHOGRAPHIC SIZE Y: " + pro.orthographicSize * 2 * boundingAreaY);
+        // Debug.LogError("BOUNDINGBOX HEIGHT: " + GlobalConfig.BoundingBox.height);
+        // Debug.LogError("BOUNDINGBOX WIDTH: " + GlobalConfig.BoundingBox.width);
         BoundingScale.x = boundingAreaX;
         BoundingScale.y = boundingAreaY;
     }

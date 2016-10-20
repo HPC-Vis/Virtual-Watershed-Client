@@ -596,7 +596,7 @@ public class ActiveData : MonoBehaviour {
         // Set the record
         SliderFrames.Enqueue(Records[0]);
     }
-
+    
     public void LoadFireData()
     {
         Debug.Log("Active Data Load Fire Called");

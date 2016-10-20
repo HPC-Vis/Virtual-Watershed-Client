@@ -8,54 +8,35 @@ using UnityEngine.Networking;
 
 public class FireContent : MonoBehaviour {
 
-    private const string URL = "http://134.197.66.31:5000";
+    private const string URL = "http://134.197.66.19:5000";
     private string getResults = "/api/get_final_results";
     private string upload = "/upload";
-    private string csv;
+    private string[] csvLines;
     private string uuid;
 
-	// Use this for initialization
-	void Start () {
-        
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    // Fire information
+    private int iterations;
+    private int nodata;
+    private int rows;
+    private int cols;
+    Vector2 TopLeft, BottomRight;
+
+    // Parsing Values
+    private char[] endline = { '\n' };
+    private char[] colon = { ':' };
+    private char[] comma = { ',' };
 
     public FireContent()
     {
         uuid = Guid.NewGuid().ToString();
-    }
 
-    public void Go()
-    {
-        StartCoroutine(GetText());
-    }
+        // Temp patch for the location
+        TopLeft = new Vector2((float)-115.676788, (float)36.292502);
+        BottomRight = new Vector2((float)-115.582055, (float)36.236491);
 
-    IEnumerator GetText()
-    {
-        UnityWebRequest client = UnityWebRequest.Get(URL + getResults);
-
-        client.downloadHandler = new DownloadHandlerBuffer();
-        yield return client.Send();
-
-        if (client.isError)
-        {
-            Debug.LogError(client.error);
-        }
-        else
-        {
-            while (!client.isDone)
-            {
-                Debug.LogError("Waiting");
-            }
-            Debug.LogError(client.downloadHandler.text);
-            Debug.LogError(client.downloadedBytes);
-
-            csv = client.downloadHandler.text;
-        }
+        // Pull the CSV
+        GetTextCall();
+        GetMetaData();
     }
 
     public void GetTextCall()
@@ -71,23 +52,15 @@ public class FireContent : MonoBehaviour {
         }
         else
         {
-            while(!client.isDone)
-            {
-                Debug.LogError("Waiting");
-            }
-            Debug.LogError(client.downloadHandler.text);
-            Debug.LogError(client.downloadedBytes);
-
-            csv = client.downloadHandler.text;
-            // ParseFireCSV(client.downloadHandler.text);
-            //byte[] results = client.downloadHandler.data;
-            //Debug.LogError(System.Text.Encoding.Default.GetString(results));
+            while (!client.isDone);
+            string csv = client.downloadHandler.text;            
+            csvLines = csv.Split(endline);
         }
     }
 
     public int GetCount()
     {
-        return 2000;
+        return iterations;
     }
 
     public ModelRun GetModelRun()
@@ -98,29 +71,35 @@ public class FireContent : MonoBehaviour {
         return mr;
     }
 
+    /// <summary>
+    /// Get the header information out of the file
+    /// </summary>
+    private void GetMetaData()
+    {
+        //TopLeft = new Vector2((float)double.Parse(csvLines[0].Split(colon)[1].Trim()), (float)double.Parse(csvLines[1].Split(colon)[1].Trim()));
+        //BottomRight = new Vector2((float)double.Parse(csvLines[2].Split(colon)[1].Trim()), (float)double.Parse(csvLines[3].Split(colon)[1].Trim()));
+
+        rows = int.Parse(csvLines[4].Split(colon)[1].Trim());
+        cols = int.Parse(csvLines[5].Split(colon)[1].Trim());
+
+        iterations = int.Parse(csvLines[6].Split(colon)[1].Trim());
+        nodata = int.Parse(csvLines[7].Split(colon)[1].Trim());
+    }
+
+    /// <summary>
+    /// Make the single CSV into frames through time.
+    /// </summary>
+    /// <param name="handDataToSpooler">The callback to send data to the ActiveData class.</param>
     private void ParseFireCSV(DataRecordSetter handDataToSpooler)
     {
-        Debug.LogError("Running the parse");
-        char[] endline = { '\n' };
-        char[] colon = { ':' };
-        char[] comma = { ',' };
-        string [] csvLines = csv.Split(endline);
-
-        Vector2 TopLeft = new Vector2((float)double.Parse(csvLines[0].Split(colon)[1].Trim()), (float)double.Parse(csvLines[1].Split(colon)[1].Trim()));
-        Vector2 BottomRight = new Vector2((float)double.Parse(csvLines[2].Split(colon)[1].Trim()), (float)double.Parse(csvLines[3].Split(colon)[1].Trim()));
-        int rows = int.Parse(csvLines[4].Split(colon)[1].Trim());
-        int cols = int.Parse(csvLines[5].Split(colon)[1].Trim());
-
-        int iterations = int.Parse(csvLines[6].Split(colon)[1].Trim());
-        int nodata = int.Parse(csvLines[7].Split(colon)[1].Trim());
-
+        // Get the data to an array
         int[,] tempData = new int[rows, cols];
         for (int i = 0; i < rows; i++)
         {
             string[] row = csvLines[i + 8].Split(comma);
             for (int j = 0; j < cols; j++)
             {
-                tempData[i,j] = int.Parse(row[j]);
+                tempData[i, j] = int.Parse(row[j]);
             }
         }
 
@@ -129,7 +108,8 @@ public class FireContent : MonoBehaviour {
         {
             DataRecord rec = new DataRecord();
             rec.variableName = "Fire Data";
-            rec.projection = "EPSG:26911";
+            rec.projection = "EPSG:4326";
+            // Top Left "36."
             rec.bbox = TopLeft.x.ToString() + "," + BottomRight.y.ToString() + "," + BottomRight.x.ToString() + "," + TopLeft.y.ToString();
             rec.bbox2 = TopLeft.x.ToString() + "," + BottomRight.y.ToString() + "," + BottomRight.x.ToString() + "," + TopLeft.y.ToString();
             rec.modelRunUUID = uuid;
@@ -154,15 +134,15 @@ public class FireContent : MonoBehaviour {
                     //rec.Data[0][i, j] = tempData[i, j];
                 }
             }
+            rec.Data[0] = Utilities.interpolateValues(100, rows, cols, rec.Data[0]);
             handDataToSpooler(new List<DataRecord> { rec });
         }        
 
-        Debug.LogError("FireContent.cs: " + TopLeft + " " + BottomRight + " " + rows + " " + cols + " " + iterations + " " + nodata);
+        // Debug.LogError("FireContent.cs: " + TopLeft + " " + BottomRight + " " + rows + " " + cols + " " + iterations + " " + nodata);
     }
 
     public void Run(DataRecordSetter handDataToSpooler)
     {
-        GetTextCall();
         new Thread(() =>
         {
             ParseFireCSV(handDataToSpooler);
