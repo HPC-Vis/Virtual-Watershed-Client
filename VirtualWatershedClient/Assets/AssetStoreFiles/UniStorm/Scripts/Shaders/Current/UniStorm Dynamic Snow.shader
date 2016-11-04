@@ -1,4 +1,6 @@
-﻿//(Currently in Beta)
+﻿// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
+//(Currently in Beta)
 Shader "UniStorm/Dynamic Snow" 
 {
     Properties 
@@ -58,7 +60,7 @@ Shader "UniStorm/Dynamic Snow"
        
         void vert (inout appdata_full v) 
         {
-            float3 sn = mul((float3x3)_World2Object, _LayerDirection);
+            float3 sn = mul((float3x3)unity_WorldToObject, _LayerDirection);
            
             if (dot(v.normal, sn.xyz) >= lerp(1, -1, (_LayerStrength * 2) / 3))
             {

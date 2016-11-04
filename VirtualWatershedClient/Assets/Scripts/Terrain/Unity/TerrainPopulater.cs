@@ -22,13 +22,10 @@ public class TerrainPopulater : MonoBehaviour
     Texture2D LoadSatelliteImage(string bbox, int width = 1024, int height= 1024)
     {
         Texture2D temp = new Texture2D(width, height);
-        //Debug.LogError("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + bbox + "&width=" + width + "&height=" + height);
-        //layers=osm
-        //layers=landsat
+        bbox = bbox.Replace(' ', ',');
+        
         try
         {
-
-
             var bytes = client.DownloadData("http://irs.gis-lab.info/?layers=landsat&SERVICE=WMS&format=image/png&" + "bbox=" + bbox + "&width=" + width + "&height=" + height);
             if (bytes != null)
             {
@@ -37,7 +34,7 @@ public class TerrainPopulater : MonoBehaviour
         }
         catch(Exception e)
         {
-            Debug.LogError(e.Message);
+            Debug.LogError("Satellite Imagery Failed: " + e.Message);
         }
         return temp;
     }
@@ -149,9 +146,6 @@ public class TerrainPopulater : MonoBehaviour
         }
 
         record.boundingBox = new SerialRect(Utilities.bboxSplit3(record.bbox2));
-        Debug.LogError("BOUNDING BOX OF RECORD: " + new Rect(record.boundingBox));
-        Debug.LogError("BOUNDING BOX: " + record.bbox2);
-        //Debug.LogError(record.boundingBox);
         //WorldTransform tran = new WorldTransform(record.projection);
 
         Rect abc = record.boundingBox;
@@ -163,13 +157,6 @@ public class TerrainPopulater : MonoBehaviour
         GlobalConfig.GlobalProjection = 26900 + zone;
 
         GlobalConfig.Zone = zone;//CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x);
-
-
-
-        Debug.LogError("ZONE: " + GlobalConfig.Zone);
-        Debug.LogError("Zones : " + zone);
-
-        //Debug.LogError("PROJECTION: " + GlobalConfig.GlobalProjection);
 
         //tran.createCoordSystem(record.projection);
         OSGeo.OSR.SpatialReference source = new OSGeo.OSR.SpatialReference("");
@@ -192,7 +179,6 @@ public class TerrainPopulater : MonoBehaviour
             //Vector2 lowerLeft = CoordinateUtils.TransformPoint(tran, new Vector2(record.boundingBox.x, record.boundingBox.y - record.boundingBox.height));
 
             // Calculate average xres
-            Debug.LogError("UPPPER LEFT: " + upperLeft);
             //Debug.LogError("UPPER RIGHT: " + upperRight);
             GlobalConfig.BoundingBox = new Rect(upperLeft.x, upperLeft.y, Mathf.Abs(upperLeft.x - lowerRight.x), Mathf.Abs(upperLeft.y - lowerRight.y));
             //GlobalConfig.BoundingBox = new Rect(upperLeft.x, upperLeft.y, CoordinateUtils.SimpleRuleXDist(record.boundingBox.x, record.boundingBox.y, record.boundingBox.x + record.boundingBox.width, record.boundingBox.y - record.boundingBox.height, CoordinateUtils.GetZone(record.boundingBox.y, record.boundingBox.x)), Mathf.Abs(upperLeft.y - lowerRight.y));
@@ -200,12 +186,9 @@ public class TerrainPopulater : MonoBehaviour
             float YRes = GlobalConfig.BoundingBox.height / record.Data[0].GetLength(1);
             //StartupConfiguration.LoadConfig();
             record.Data[0] = Utilities.reflectData(record.Data[0]);
-            Debug.LogError("The Terrain Name: " + record.location);
             GlobalConfig.Location = record.location;
 
             BaseMap = LoadSatelliteImage(record.bbox2);
-            Debug.LogError(record.Data.Count);
-            Debug.LogError(BaseMap);
             var GO = ProceduralTerrain.BuildTerrain(record.Data[0], XRes, YRes, BaseMap);
             GO.transform.position = new Vector3(-GlobalConfig.BoundingBox.width / 2, 0, -GlobalConfig.BoundingBox.height / 2);
 
@@ -255,7 +238,7 @@ public class TerrainPopulater : MonoBehaviour
     {
 
         fileview.gameObject.SetActive(true);
-        fileview.SetSearchPattern(new string[] { "tif" });
+        fileview.SetSearchPattern(new string[] { "tif", "dem" });
         fileview.action = LoadDemFromFile;
         TerrainList.gameObject.SetActive(false);
     }

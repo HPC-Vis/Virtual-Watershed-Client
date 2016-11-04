@@ -170,7 +170,6 @@ public class RasterDataset
         //width = 100;
         //height = 100;
         width = height = Math.Max(width, height);
-        Debug.LogError(width + " " + height);
         //var Data = new float[dataset.RasterCount*dataset.RasterXSize * dataset.RasterYSize]
         //dataset.ReadRaster(0,0,dataset.RasterXSize,dataset.RasterYSize)
         for (int i = 0; i < dataset.RasterCount; i++)
@@ -195,8 +194,8 @@ public class RasterDataset
                 Debug.LogError(e.Message);
                 return data;
             }
-            
-            // Debug.LogError(width + " " + height);
+
+            // Debug.LogError("RasterDataset: " + width + " " + height);
 
             for (int k = 0; k < width; k++)
             {
@@ -205,13 +204,13 @@ public class RasterDataset
                     Data[k, j] = DataF[(k) * height + height-1-j];
                 }
             }
-            //break;
-            Debug.LogError(i + "_" + dataset.RasterCount);
+            // break;
+            // Debug.LogError("RasterDataset: " + i + "_" + dataset.RasterCount);
 
             data.Add(Data);
 
         }
-        Debug.LogError(dataset.RasterCount);
+        // Debug.LogError("RasterDataset: " + dataset.RasterCount);
         return data;
     }
 
@@ -279,17 +278,11 @@ public class RasterDataset
             }
         }
 
-        Debug.LogError(dataset.GetProjection());
-        Debug.LogError("BOUNDING BOX: " + minx + " " + maxy);
-        
-        
-       
         sr2.ImportFromEPSG(4326);
 
         OSGeo.OSR.CoordinateTransformation ct = new OSGeo.OSR.CoordinateTransformation(sr1, sr2);
         double[] upperleft = new double[] {minx,maxy};
         double[] lowerright = new double[] {maxx,miny};
-        Debug.LogError(upperleft[0] + " " + upperleft[1]);
         ct.TransformPoint(lowerright); 
         ct.TransformPoint(upperleft);
 

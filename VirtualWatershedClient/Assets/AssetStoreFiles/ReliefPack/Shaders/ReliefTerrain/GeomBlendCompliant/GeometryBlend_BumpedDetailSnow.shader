@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 //
 // Relief Terrain Geometry Blend shader
 // Tomasz Stobierski 2014
@@ -120,8 +123,8 @@ void vert (inout appdata_full v, out Input o) {
 //
 	#ifdef RTP_SNOW
 		TANGENT_SPACE_ROTATION;
-		o.snowDir.xyz = mul (rotation, mul(_World2Object, float4(0,1,0,0)).xyz);
-		o.snowDir.w = mul(_Object2World, v.vertex).y;
+		o.snowDir.xyz = mul (rotation, mul(unity_WorldToObject, float4(0,1,0,0)).xyz);
+		o.snowDir.w = mul(unity_ObjectToWorld, v.vertex).y;
 	#endif	
 /////////////////////////////////////////////////////////////////////	
 }
@@ -272,8 +275,8 @@ void vert (inout appdata_full v, out Input o) {
 // RTP specific
 //
 	#ifdef RTP_SNOW
-		o.snowDir.xyz = normalize( mul(_Object2World, float4(v.normal,0)).xyz );
-		o.snowDir.w = mul(_Object2World, v.vertex).y;
+		o.snowDir.xyz = normalize( mul(unity_ObjectToWorld, float4(v.normal,0)).xyz );
+		o.snowDir.w = mul(unity_ObjectToWorld, v.vertex).y;
 	#endif	
 /////////////////////////////////////////////////////////////////////	
 }

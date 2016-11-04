@@ -1,3 +1,6 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+// Upgrade NOTE: replaced '_World2Object' with 'unity_WorldToObject'
+
 //
 // Dynamic Snow Shader 
 // Tomasz Stobierski 2013
@@ -92,8 +95,8 @@ void vert (inout appdata_full v, out Input o) {
 	#endif	
 	
 	TANGENT_SPACE_ROTATION;
-	o.snowDir.xyz = mul (rotation, mul(_World2Object, float4(0,1,0,0)).xyz);
-	o.snowDir.w = mul(_Object2World, v.vertex).y;
+	o.snowDir.xyz = mul (rotation, mul(unity_WorldToObject, float4(0,1,0,0)).xyz);
+	o.snowDir.w = mul(unity_ObjectToWorld, v.vertex).y;
 /////////////////////////////////////////////////////////////////////	
 }
 
