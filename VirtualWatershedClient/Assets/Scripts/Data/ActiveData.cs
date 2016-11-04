@@ -125,11 +125,6 @@ public class ActiveData : MonoBehaviour {
             ModelRunManager.sessionData.SaveSessionData(Utilities.GetFilePath("test.json"));
         }
 
-        if(Input.GetKeyDown(KeyCode.F))
-        {            
-            LoadFireData();
-        }
-
         // Temp Patch
         if (SliderFrames.Count > 0)
         {
