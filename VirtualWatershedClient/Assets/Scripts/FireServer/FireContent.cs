@@ -134,7 +134,7 @@ public class FireContent : MonoBehaviour {
                     //rec.Data[0][i, j] = tempData[i, j];
                 }
             }
-            rec.Data[0] = Utilities.interpolateValues(100, rows, cols, rec.Data[0]);
+            rec.Data[0] = Utilities.interpolateValues(1000, rows, cols, rec.Data[0]);
             handDataToSpooler(new List<DataRecord> { rec });
         }        
 
