@@ -72,7 +72,7 @@ Material:
     m_Floats:
     - first:
         name: Time
-      second: 0.43897706
+      second: 0
     - first:
         name: _BumpScale
       second: 1
