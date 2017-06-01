@@ -124,7 +124,7 @@ public class FireContent : MonoBehaviour {
                     
                     if(tempData[i,j] <= k)
                     {
-                        rec.Data[0][i, j] = tempData[i, j] + 1.0f;
+                        rec.Data[0][i, j] = tempData[i, j];
                     }
                     else
                     {
