@@ -1,4 +1,6 @@
-﻿Shader "Envrionment/Environment" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Envrionment/Environment" {
 	
 	Properties {
 		_MainTex2 ("Texture", 2D) = "white" {}
@@ -44,7 +46,7 @@
         v2f vert (appdata_base v)
         {
 			v2f o;
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos (v.vertex);
 			o.uv.xz = _Point1.xy;
 			if(v.texcoord.x == 1)
 			{

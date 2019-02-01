@@ -354,7 +354,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 									RegisterUndoForMeshes (_atarget);
 									if (mft.sharedMesh == _atarget.orig_mesh) _atarget.MakeMeshCopy();
 									_atarget.StickToBlendedObject(stick_along_normals_flag);
-									Transform _underlying=_atarget.transform.FindChild("RTP_blend_underlying");
+									Transform _underlying=_atarget.transform.Find("RTP_blend_underlying");
 									if (_underlying) {
 										#if UNITY_5
 										_underlying.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
@@ -753,7 +753,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 		
 		Event current = Event.current;
 		switch(current.type) {
-			case EventType.keyDown:
+			case EventType.KeyDown:
 				if (current.keyCode==KeyCode.M) {
 					_target.paint_flag=!_target.paint_flag;
 					if (_target.paint_flag) {
@@ -779,7 +779,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 	public void OnSceneGUI() {
 		GeometryVsTerrainBlend _target=(GeometryVsTerrainBlend)target;
 		
-		if (Event.current.type==EventType.keyDown) {
+		if (Event.current.type==EventType.KeyDown) {
 			if (Event.current.keyCode==KeyCode.M) {
 				_target.paint_flag=!_target.paint_flag;
 				if (_target.paint_flag) {
@@ -822,13 +822,13 @@ public class GeometryVsTerrainBlendEditor : Editor {
 			return;
 		}		
 		
-		if (current.type==EventType.layout) {
+		if (current.type==EventType.Layout) {
 			HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 			return;
 		}
 		
 		switch(current.type) {
-			case EventType.keyDown:
+			case EventType.KeyDown:
 				if (current.keyCode==KeyCode.Escape) {
 					_target.ClearPaintMesh();
 					cover_num=0;
@@ -841,7 +841,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 		}
 
 		if (current.control) {
-				if (current.type==EventType.mouseMove) {
+				if (current.type==EventType.MouseMove) {
 					if (control_down_flag) {
 						control_down_flag=false;
 						EditorUtility.SetDirty(target);
@@ -852,7 +852,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 		control_down_flag=true;
 		
 		switch(current.type) {
-			case EventType.mouseDown:
+			case EventType.MouseDown:
 				get_paint_coverage(current.shift);
 				cover_num_start_drag=cover_num;
 				// Debug.Log(""+cover_num + "  "+ paintHitInfo_flag + _target.prepare_tmpColorMap());
@@ -890,7 +890,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 				current.Use();
 				_target.RealizePaint_Flag=true;
 			break;
-			case EventType.mouseDrag:
+			case EventType.MouseDrag:
 				get_paint_coverage(current.shift);
 				if (cover_num>0 || paintHitInfo_flag) {
 					if (_target.undo_flag) {
@@ -924,7 +924,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 				}
 				_target.RealizePaint_Flag=true;
 			break;
-			case EventType.mouseMove:
+			case EventType.MouseMove:
 				get_paint_coverage(current.shift);
 				if (_target.RealizePaint_Flag && _target.ModifyTris) {
 					if (_target.BuildMeshFlag) {
@@ -937,7 +937,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 								(_target.GetComponent<Collider>() as MeshCollider).sharedMesh=mf.sharedMesh;
 							}
 						}				
-						Transform tr=_target.transform.FindChild("RTP_blend_underlying");
+						Transform tr=_target.transform.Find("RTP_blend_underlying");
 						if (tr!=null) {
 							GameObject go=tr.gameObject;
 							MeshFilter mf_under=(MeshFilter)go.GetComponent(typeof(MeshFilter));
@@ -1043,7 +1043,7 @@ public class GeometryVsTerrainBlendEditor : Editor {
 				(_target.GetComponent<Collider>() as MeshCollider).sharedMesh=mf.sharedMesh;
 			}
 		}
-		Transform tr=_target.transform.FindChild("RTP_blend_underlying");
+		Transform tr=_target.transform.Find("RTP_blend_underlying");
 		if (tr!=null) {
 			GameObject go=tr.gameObject;
 			mf=(MeshFilter)go.GetComponent(typeof(MeshFilter));

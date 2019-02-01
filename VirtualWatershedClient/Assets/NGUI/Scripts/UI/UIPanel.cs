@@ -927,7 +927,7 @@ public class UIPanel : UIRect
 
 		mHalfPixelOffset = (Application.platform == RuntimePlatform.WindowsPlayer ||
 			Application.platform == RuntimePlatform.XBOX360 ||
-			Application.platform == RuntimePlatform.WindowsWebPlayer ||
+			Application.platform == RuntimePlatform.WebGLPlayer ||
 			Application.platform == RuntimePlatform.WindowsEditor) &&
 			SystemInfo.graphicsDeviceVersion.Contains("Direct3D") &&
 			SystemInfo.graphicsShaderLevel < 40;

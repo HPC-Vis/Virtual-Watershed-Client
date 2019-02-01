@@ -10,246 +10,99 @@ Material:
   m_Shader: {fileID: 4800000, guid: fd8d0ec793757c645afb5d7794f5350e, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: 3000
   stringTagMap: {}
+  disabledShaderPasses: []
   m_SavedProperties:
-    serializedVersion: 2
+    serializedVersion: 3
     m_TexEnvs:
-      data:
-        first:
-          name: _MainTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _BumpMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DetailNormalMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _ShadowTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MainTex2
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _ParallaxMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DetailMask
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _DetailAlbedoMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _MetallicGlossMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _OcclusionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _EmissionMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _FalloffTex
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FalloffTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ShadowTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-      data:
-        first:
-          name: _SrcBlend
-        second: 1
-      data:
-        first:
-          name: _DstBlend
-        second: 0
-      data:
-        first:
-          name: _Cutoff
-        second: 0.5
-      data:
-        first:
-          name: _Blend
-        second: 1
-      data:
-        first:
-          name: _NumLines
-        second: 1
-      data:
-        first:
-          name: _FloatMin
-        second: 0
-      data:
-        first:
-          name: _FloatMax
-        second: 5
-      data:
-        first:
-          name: _x1
-        second: 1
-      data:
-        first:
-          name: _x2
-        second: 1
-      data:
-        first:
-          name: _x3
-        second: 1
-      data:
-        first:
-          name: _x4
-        second: 1
-      data:
-        first:
-          name: _x5
-        second: 1
-      data:
-        first:
-          name: _MaxX
-        second: 1
-      data:
-        first:
-          name: _MaxY
-        second: 1
-      data:
-        first:
-          name: _Transpose
-        second: 1
-      data:
-        first:
-          name: _Parallax
-        second: 0.02
-      data:
-        first:
-          name: _ZWrite
-        second: 1
-      data:
-        first:
-          name: _Glossiness
-        second: 0.5
-      data:
-        first:
-          name: _BumpScale
-        second: 1
-      data:
-        first:
-          name: _OcclusionStrength
-        second: 1
-      data:
-        first:
-          name: _DetailNormalMapScale
-        second: 1
-      data:
-        first:
-          name: _UVSec
-        second: 0
-      data:
-        first:
-          name: _Mode
-        second: 0
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _Compare
-        second: 0
-      data:
-        first:
-          name: _FloatMin2
-        second: 15
-      data:
-        first:
-          name: _FloatMax2
-        second: 100
-      data:
-        first:
-          name: _Opacity
-        second: 1
-      data:
-        first:
-          name: _UsePoint
-        second: 1
+    - _Blend: 1
+    - _BumpScale: 1
+    - _Compare: 0
+    - _Cutoff: 0.5
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _FloatMax: 5
+    - _FloatMax2: 100
+    - _FloatMin: 0
+    - _FloatMin2: 15
+    - _Glossiness: 0.5
+    - _MaxX: 1
+    - _MaxY: 1
+    - _Metallic: 0
+    - _Mode: 0
+    - _NumLines: 1
+    - _OcclusionStrength: 1
+    - _Opacity: 1
+    - _Parallax: 0.02
+    - _SrcBlend: 1
+    - _Transpose: 1
+    - _UVSec: 0
+    - _UsePoint: 1
+    - _ZWrite: 1
+    - _x1: 1
+    - _x2: 1
+    - _x3: 1
+    - _x4: 1
+    - _x5: 1
     m_Colors:
-      data:
-        first:
-          name: _EmissionColor
-        second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
-      data:
-        first:
-          name: _SegmentData000
-        second: {r: 0.9372549, g: 0.9843137, b: 0.8039216, a: 1}
-      data:
-        first:
-          name: _SegmentData001
-        second: {r: 0.8627451, g: 0.90588236, b: 0.7411765, a: 1}
-      data:
-        first:
-          name: _SegmentData002
-        second: {r: 0.33333334, g: 0.31764707, b: 0.32156864, a: 1}
-      data:
-        first:
-          name: _SegmentData003
-        second: {r: 0.18039216, g: 0.14901961, b: 0.2, a: 1}
-      data:
-        first:
-          name: _SegmentData004
-        second: {r: 0.61960787, g: 0.16078432, b: 0.23137255, a: 1}
-      data:
-        first:
-          name: _SegmentData005
-        second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _Point
-        second: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Point: {r: 0, g: 0, b: 0, a: 0}
+    - _SegmentData000: {r: 0.9372549, g: 0.9843137, b: 0.8039216, a: 1}
+    - _SegmentData001: {r: 0.8627451, g: 0.90588236, b: 0.7411765, a: 1}
+    - _SegmentData002: {r: 0.33333334, g: 0.31764707, b: 0.32156864, a: 1}
+    - _SegmentData003: {r: 0.18039216, g: 0.14901961, b: 0.2, a: 1}
+    - _SegmentData004: {r: 0.61960787, g: 0.16078432, b: 0.23137255, a: 1}
+    - _SegmentData005: {r: 0, g: 0, b: 0, a: 1}

@@ -53,7 +53,7 @@ public class _appControlerShaderOnTriplanarMesh : MonoBehaviour {
 			model_dir = GUILayout.HorizontalSlider(model_dir, 0, 180);
 			modelT.rotation=Quaternion.Euler(model_dir, model_dir*0.7f, -model_dir*0.1f);
 			
-			if (!Application.isWebPlayer) {
+			if (Application.platform != RuntimePlatform.WebGLPlayer) {
 				if (GUILayout.Button("QUIT")) {
 					Application.Quit();
 				}
@@ -61,7 +61,7 @@ public class _appControlerShaderOnTriplanarMesh : MonoBehaviour {
 			GUILayout.Label ("  F (hold) - freeze camera");
 			GUILayout.Label ("  ,/. - zoom camera");
 		} else {
-			if (!Application.isWebPlayer) {
+			if (Application.platform != RuntimePlatform.WebGLPlayer) {
 				if (GUILayout.Button("QUIT")) {
 					Application.Quit();
 				}

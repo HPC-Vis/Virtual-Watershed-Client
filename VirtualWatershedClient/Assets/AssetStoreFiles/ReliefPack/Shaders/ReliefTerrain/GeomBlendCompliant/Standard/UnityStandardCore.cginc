@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 // Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
 
 #ifndef UNITY_STANDARD_CORE_INCLUDED
@@ -330,7 +332,7 @@ VertexOutputForwardBase vertForwardBase (VertexInput v)
 	//#if UNITY_SPECCUBE_BOX_PROJECTION
 		o.posWorld = posWorld.xyz; // RTP - geom blend - always available for mapping
 	//#endif
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.tex = TexCoords(v);
 	o.color = v.color; // RTP - geom blend - vertex color added
 	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);
@@ -434,7 +436,7 @@ VertexOutputForwardAdd vertForwardAdd (VertexInput v)
 	UNITY_INITIALIZE_OUTPUT(VertexOutputForwardAdd, o);
 
 	float4 posWorld = mul(unity_ObjectToWorld, v.vertex);
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.tex = TexCoords(v);
 	o.color = v.color; // RTP - geom blend - vertex color added
 	o.posWorld = posWorld; // RTP - geom blend - always available for mapping
@@ -512,7 +514,7 @@ VertexOutputDeferred vertDeferred (VertexInput v)
 	//#if UNITY_SPECCUBE_BOX_PROJECTION
 		o.posWorld = posWorld; // RTP - geom blend - always available for mapping
 	//#endif
-	o.pos = mul(UNITY_MATRIX_MVP, v.vertex);
+	o.pos = UnityObjectToClipPos(v.vertex);
 	o.tex = TexCoords(v);
 	o.color = v.color; // RTP - geom blend - vertex color added
 	o.eyeVec = NormalizePerVertexNormal(posWorld.xyz - _WorldSpaceCameraPos);

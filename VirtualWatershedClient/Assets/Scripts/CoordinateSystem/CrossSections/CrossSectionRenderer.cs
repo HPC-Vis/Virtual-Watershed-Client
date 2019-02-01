@@ -210,7 +210,7 @@ public class CrossSectionRenderer : MonoBehaviour
         meshFilter.mesh.vertices = verts.ToArray();
         meshFilter.mesh.triangles = frontTris.ToArray();
         meshFilter.mesh.uv = uvs.ToArray();
-        meshFilter.mesh.Optimize();
+        var o_212_8_636839392218808733 = meshFilter.mesh;
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.tangents = RecalculateTangents(meshFilter.mesh);
 
@@ -219,7 +219,7 @@ public class CrossSectionRenderer : MonoBehaviour
         meshFilterBack.mesh.vertices = verts.ToArray();
         meshFilterBack.mesh.triangles = backTris.ToArray();
         meshFilterBack.mesh.uv = uvs.ToArray();
-        meshFilterBack.mesh.Optimize();
+        var o_221_8_636839392219288721 = meshFilterBack.mesh;
         meshFilterBack.mesh.RecalculateNormals();
         meshFilterBack.mesh.tangents = RecalculateTangents(meshFilter.mesh);
     }
@@ -464,7 +464,7 @@ public class CrossSectionRenderer : MonoBehaviour
         meshFilter.mesh.vertices = newVerts.ToArray();
         meshFilter.mesh.triangles = newTris.ToArray();
         meshFilter.mesh.uv = newUVs.ToArray();
-        meshFilter.mesh.Optimize();
+        var o_466_8_636839392219363741 = meshFilter.mesh;
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.tangents = RecalculateTangents(meshFilter.mesh);
 
@@ -513,7 +513,7 @@ public class CrossSectionRenderer : MonoBehaviour
         meshFilter.mesh.vertices = sectionVerts.ToArray();
         meshFilter.mesh.triangles = sectionTris.ToArray();
         meshFilter.mesh.uv = sectionUVs.ToArray();
-        meshFilter.mesh.Optimize();
+        var o_515_8_636839392219403828 = meshFilter.mesh;
         meshFilter.mesh.RecalculateNormals();
         meshFilter.mesh.tangents = RecalculateTangents(meshFilter.mesh);
     }

@@ -101,7 +101,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 #endif		
 		if (blendedObject && ((blendedObject.GetComponent(typeof(MeshRenderer))!=null) || (blendedObject.GetComponent(typeof(Terrain))!=null))) {
 			GameObject go;
-			if (underlying_transform==null) underlying_transform=transform.FindChild("RTP_blend_underlying");
+			if (underlying_transform==null) underlying_transform=transform.Find("RTP_blend_underlying");
 			if (underlying_transform!=null) {
 				go=underlying_transform.gameObject;
 				underlying_renderer=(MeshRenderer)go.GetComponent(typeof(MeshRenderer));
@@ -176,14 +176,14 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 					} else {
 						underlying_renderer.lightmapIndex=blendedObject.GetComponent<Renderer>().lightmapIndex;
 					}
-					underlying_renderer.lightmapTilingOffset=new Vector4(1,1,0,0);
+					underlying_renderer.lightmapScaleOffset=new Vector4(1,1,0,0);
 					if (Sticked) {
 						if (terrainComp) {
 							GetComponent<Renderer>().lightmapIndex=terrainComp.lightmapIndex;
 						} else {
 							GetComponent<Renderer>().lightmapIndex=blendedObject.GetComponent<Renderer>().lightmapIndex;
 	                    }
-						GetComponent<Renderer>().lightmapTilingOffset=new Vector4(1,1,0,0);
+						GetComponent<Renderer>().lightmapScaleOffset=new Vector4(1,1,0,0);
 	                }
                 #endif
 			}
@@ -354,7 +354,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 		sh.triangles=tris;
 		sh.RecalculateBounds();
 		
-		Transform tr=transform.FindChild("RTP_blend_underlying");
+		Transform tr=transform.Find("RTP_blend_underlying");
 		if (tr!=null) {
 			GameObject go=tr.gameObject;
 			mf=(MeshFilter)go.GetComponent(typeof(MeshFilter));
@@ -719,7 +719,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 		mf.sharedMesh.name=orig_mesh.name+" (copy)";
 		Mesh new_mesh_underlying=new Mesh();
 		GameObject go;
-		Transform tr=transform.FindChild("RTP_blend_underlying");
+		Transform tr=transform.Find("RTP_blend_underlying");
 		MeshRenderer mr;
 		if (tr==null) {
 			go=new GameObject("RTP_blend_underlying");
@@ -1163,7 +1163,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 		mf.sharedMesh.name=orig_mesh.name+" (copy)";
 		Mesh new_mesh_underlying=new Mesh();
 		GameObject go;
-		Transform tr=transform.FindChild("RTP_blend_underlying");
+		Transform tr=transform.Find("RTP_blend_underlying");
 		MeshRenderer mr;
 		go=null;
 		mf=null;
@@ -1595,7 +1595,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 		mf.sharedMesh.name=orig_mesh.name+" (copy)";
 		Mesh new_mesh_underlying=new Mesh();
 		GameObject go;
-		Transform tr=transform.FindChild("RTP_blend_underlying");
+		Transform tr=transform.Find("RTP_blend_underlying");
 		MeshRenderer mr;
 		if (tr==null) {
 			go=new GameObject("RTP_blend_underlying");
@@ -1889,7 +1889,7 @@ public class GeometryVsTerrainBlend : MonoBehaviour {
 		mf.sharedMesh.name=orig_mesh.name+" (copy)";
 		Mesh new_mesh_underlying=new Mesh();
 		GameObject go;
-		Transform tr=transform.FindChild("RTP_blend_underlying");
+		Transform tr=transform.Find("RTP_blend_underlying");
 		MeshRenderer mr;
 		if (tr==null) {
 			go=new GameObject("RTP_blend_underlying");

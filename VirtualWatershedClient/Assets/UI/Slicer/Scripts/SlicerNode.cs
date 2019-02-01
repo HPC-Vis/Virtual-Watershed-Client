@@ -54,7 +54,7 @@ public class SlicerNode : MonoBehaviour {
             {
                 elevation = (((mouseray.raycastHitFurtherest(transform.position, Vector3.up).y) * Terrain.activeTerrain.terrainData.heightmapHeight) + (-1) * Terrain.activeTerrain.transform.position.y);
             }
-
+            //Debug.Log(elevation);
             //float[,] data = TerrainUtils.GetHeightmap(Terrain.activeTerrain);
             //Rect BoundingBox = GlobalConfig.BoundingBox;
             //Vector3 WorldPoint = coordsystem.transformToWorld(transform.position);
@@ -62,6 +62,7 @@ public class SlicerNode : MonoBehaviour {
             //Debug.LogError("SlicerNode: " + MarkerPoint + " " + WorldPoint + " " + BoundingBox);
             //float elevation = data[(int)MarkerPoint.x, (int)MarkerPoint.y];
             //Ele.text = elevation.ToString();
+            Ele.text = transform.position.y.ToString() + "m";
         }
     }
 

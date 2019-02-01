@@ -853,7 +853,7 @@ public class ReliefTerrainEditor : Editor {
 												Debug.LogWarning("Normal texture "+n+" ("+_target.splats[n].name+") has been imported with "+tex_importer.maxTextureSize+" size.");
 											}
 										}
-										tex_importer.textureType=TextureImporterType.Bump;
+										tex_importer.textureType=TextureImporterType.NormalMap;
 										AssetDatabase.ImportAsset(path,  ImportAssetOptions.ForceUpdate);
 										ntex=(Texture2D)AssetDatabase.LoadAssetAtPath(path, typeof(Texture2D));
 										_target.Bumps[n]=ntex;
@@ -2616,11 +2616,11 @@ public class ReliefTerrainEditor : Editor {
 					}
 					#else
 					if (terrainComp) {
-						if ((terrainComp.lightmapIndex!=255) && (terrainComp.lightmapIndex!=-1) && LightmapSettings.lightmapsMode!=LightmapsMode.Directional) {
+						if ((terrainComp.lightmapIndex!=255) && (terrainComp.lightmapIndex!=-1) && LightmapSettings.lightmapsMode!=LightmapsMode.CombinedDirectional) {
 							showLightmapShading=true;
 						}
 					} else {
-						if ((_targetRT.GetComponent<Renderer>().lightmapIndex!=255) && (_targetRT.GetComponent<Renderer>().lightmapIndex!=-1) && LightmapSettings.lightmapsMode!=LightmapsMode.Directional) {
+						if ((_targetRT.GetComponent<Renderer>().lightmapIndex!=255) && (_targetRT.GetComponent<Renderer>().lightmapIndex!=-1) && LightmapSettings.lightmapsMode!=LightmapsMode.CombinedDirectional) {
 							showLightmapShading=true;
 						}
 					}
@@ -3431,7 +3431,7 @@ public class ReliefTerrainEditor : Editor {
 									TextureImporter tex_importer=(TextureImporter)_importer;
 									if (tex_importer) {
 										tex_importer.wrapMode=TextureWrapMode.Clamp;
-										tex_importer.textureType=TextureImporterType.Bump;
+										tex_importer.textureType=TextureImporterType.NormalMap;
 										Debug.LogWarning("Global normal texture ("+_targetRT.NormalGlobal.name+") has been imported as normalmap type.");
 										AssetDatabase.ImportAsset(AssetDatabase.GetAssetPath(_targetRT.NormalGlobal),  ImportAssetOptions.ForceUpdate);
 									}
@@ -4657,7 +4657,7 @@ public class ReliefTerrainEditor : Editor {
 			
 			Event current = Event.current;
 			switch(current.type) {
-			case EventType.keyDown:
+			case EventType.KeyDown:
 				if (current.keyCode==KeyCode.M) {
 					_target.paint_flag=!_target.paint_flag;
 					if (!_targetRT.GetComponent<Collider>() || !_targetRT.GetComponent<Collider>().enabled) _target.paint_flag=false;
@@ -5527,7 +5527,7 @@ public class ReliefTerrainEditor : Editor {
 			
 			Event current = Event.current;
 			
-			if (Event.current.type==EventType.keyDown) {
+			if (Event.current.type==EventType.KeyDown) {
 				if (Event.current.keyCode==KeyCode.M) {
 					_target.paint_flag=!_target.paint_flag;
 					if (!_targetRT.GetComponent<Collider>() || !_targetRT.GetComponent<Collider>().enabled) _target.paint_flag=false;
@@ -5562,7 +5562,7 @@ public class ReliefTerrainEditor : Editor {
 				}
 			}
 			
-			if(Event.current.type==EventType.keyDown && Event.current.keyCode==KeyCode.L) {
+			if(Event.current.type==EventType.KeyDown && Event.current.keyCode==KeyCode.L) {
 				current.Use();
 				if (_targetRT.GetComponent<Collider>()) {
 					Ray ray = HandleUtility.GUIPointToWorldRay(Event.current.mousePosition);
@@ -5629,13 +5629,13 @@ public class ReliefTerrainEditor : Editor {
 				return;
 			}		
 			
-			if (current.type==EventType.layout) {
+			if (current.type==EventType.Layout) {
 				HandleUtility.AddDefaultControl(GUIUtility.GetControlID(FocusType.Passive));
 				return;
 			}
 			
 			switch(current.type) {
-			case EventType.keyDown:
+			case EventType.KeyDown:
 				if (current.keyCode==KeyCode.Escape) {
 					_target.paint_flag=false;
 					UnityEditor.Tools.current=prev_tool;
@@ -5646,7 +5646,7 @@ public class ReliefTerrainEditor : Editor {
 			}
 			
 			if (current.control) {
-				if (current.type==EventType.mouseMove) {
+				if (current.type==EventType.MouseMove) {
 					if (control_down_flag) {
 						control_down_flag=false;
 						EditorUtility.SetDirty(target);
@@ -5657,7 +5657,7 @@ public class ReliefTerrainEditor : Editor {
 			control_down_flag=true;
 			
 			switch(current.type) {
-			case EventType.mouseDown:
+			case EventType.MouseDown:
 				get_paint_coverage();
 				// Debug.Log(""+cover_verts_num + "  "+ paintHitInfo_flag + _target.prepare_tmpColorMap());
 				if (paintHitInfo_flag) {
@@ -5674,7 +5674,7 @@ public class ReliefTerrainEditor : Editor {
 				}
 				current.Use();
 				break;
-			case EventType.mouseDrag:
+			case EventType.MouseDrag:
 				get_paint_coverage();
 				if (paintHitInfo_flag) {
 					if (_target.undo_flag) {
@@ -5695,7 +5695,7 @@ public class ReliefTerrainEditor : Editor {
 					}
 				}
 				break;
-			case EventType.mouseMove:
+			case EventType.MouseMove:
 				get_paint_coverage();
 				break;
 			}

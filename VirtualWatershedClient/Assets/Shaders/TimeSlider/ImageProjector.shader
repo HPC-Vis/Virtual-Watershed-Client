@@ -1,4 +1,6 @@
-﻿// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+// Upgrade NOTE: replaced '_Projector' with 'unity_Projector'
 // Upgrade NOTE: replaced '_ProjectorClip' with 'unity_ProjectorClip'
 
 Shader "Custom/ImageProjector" {
@@ -84,7 +86,7 @@ Shader "Custom/ImageProjector" {
 	vertexInput vert(float4 vertex : POSITION)
 	{
 		vertexInput o;
-		o.pos = mul(UNITY_MATRIX_MVP, vertex);
+		o.pos = UnityObjectToClipPos(vertex);
 		o.uv = mul(unity_Projector, vertex);
 		return o;
 	}

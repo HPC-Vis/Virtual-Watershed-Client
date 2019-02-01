@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 Shader "Hidden/Internal-DeferredShading_RTP" {
 	Properties {
 		_LightTexture0 ("", any) = "" {}
@@ -146,7 +148,7 @@ Shader "Hidden/Internal-DeferredShading_RTP" {
 			v2f vert (float4 vertex : POSITION, float2 texcoord : TEXCOORD0)
 			{
 				v2f o;
-				o.vertex = mul(UNITY_MATRIX_MVP, vertex);
+				o.vertex = UnityObjectToClipPos(vertex);
 				o.texcoord = texcoord.xy;
 				return o;
 			}

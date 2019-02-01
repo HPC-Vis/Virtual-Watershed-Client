@@ -173,7 +173,7 @@ public class _appControlerTerrain : MonoBehaviour {
 //				}
 //			}
 			
-			if (!Application.isWebPlayer) {
+			if (Application.platform != RuntimePlatform.WebGLPlayer) {
 				if (GUILayout.Button("QUIT")) {
 					Application.Quit();
 				}
@@ -181,7 +181,7 @@ public class _appControlerTerrain : MonoBehaviour {
 			GUILayout.Label ("  F (hold) - freeze camera");
 			GUILayout.Label ("  ,/. - change cam position");
 		} else {
-			if (!Application.isWebPlayer) {
+			if (Application.platform != RuntimePlatform.WebGLPlayer) {
 				if (GUILayout.Button("QUIT")) {
 					Application.Quit();
 				}

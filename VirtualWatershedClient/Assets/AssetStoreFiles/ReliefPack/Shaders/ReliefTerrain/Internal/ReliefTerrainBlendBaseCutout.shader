@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
 //
 // Relief Terrain Shader
 // Tomasz Stobierski 2014
@@ -35,7 +37,7 @@ SubShader {
 
 		v2f vert (appdata_full v) {
 			v2f o;
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos (v.vertex);
 			o.color = v.color;
 			return o;
 		}
@@ -71,7 +73,7 @@ SubShader {
 
 		v2f vert (appdata_full v) {
 			v2f o;
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos (v.vertex);
 			o.color = v.color;
 			return o;
 		}
@@ -118,7 +120,7 @@ SubShader {
 
 		v2f vert (appdata_full v) {
 			v2f o;
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos (v.vertex);
 			o.color = v.color;
 			return o;
 		}

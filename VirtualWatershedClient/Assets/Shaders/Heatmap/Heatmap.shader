@@ -1,4 +1,6 @@
-﻿Shader "Custom/Heatmap" {
+﻿// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
+
+Shader "Custom/Heatmap" {
 
 	Properties {
 		_MainTex ("Color (RGB) Alpha (A)", 2D) = "white"
@@ -99,7 +101,7 @@
         {
 			v2f o;
 			
-			o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
+			o.pos = UnityObjectToClipPos (v.vertex);
             o.uv = v.texcoord;
             
             return o;

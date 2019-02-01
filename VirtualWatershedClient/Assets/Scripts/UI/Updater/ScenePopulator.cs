@@ -36,7 +36,7 @@ public class ScenePopulator : MonoBehaviour {
         GlobalConfig.BoundingBox = new Rect(565889.360f, 4844940.560f, 569986.360f - 565889.360f, 4844940.560f - 4840843.560f);
         GlobalConfig.Zone = 11;
         GlobalConfig.terrainImage = Resources.Load<Sprite>("Images/DryCreekSelect");
-        SceneManager.LoadScene(5);
+        SceneManager.LoadScene(4);
     }
 
     public void LoadReynoldsCreek() {

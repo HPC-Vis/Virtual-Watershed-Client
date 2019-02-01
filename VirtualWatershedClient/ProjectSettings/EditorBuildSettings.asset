@@ -6,30 +6,47 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 0
-    path: Assets/Scenes/TerrainSelection.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/Jemez Caldera.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/Lehman Creek.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/Reynolds Creek.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
-    path: Assets/Scenes/glslscene.unity
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/SceneSelect.unity
+    guid: f2e76339d91020f4fbd68ce9922c0c97
   - enabled: 1
     path: Assets/Scenes/DryCreek.unity
-  - enabled: 1
-    path: Assets/Scenes/ReynoldsCreek.unity
+    guid: 7aabbe79446cfda479680effe6e61dc5
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 0
     path: Assets/Scenes/TestScenes/General Terrain Scene.unity
+    guid: 1e0ad3262213d4348ba40611c5897147
   - enabled: 1
     path: Assets/Scenes/Jemez.unity
-  - enabled: 1
+    guid: fec41954ae7625d49963ecfbd8c8aa7c
+  - enabled: 0
     path: Assets/Scenes/LehmanCreek.unity
+    guid: 1e05c33e1abc9d94596aa9e1ca00e64a
+  - enabled: 1
+    path: Assets/Scenes/Lehman noRTPmarch10.unity
+    guid: c94736620408855438056173883cbd2e
   - enabled: 0
     path: Assets/Scenes/SceneSelect.unity
+    guid: f2e76339d91020f4fbd68ce9922c0c97
   - enabled: 1
     path: Assets/Scenes/NewUIDryCreek.unity
+    guid: 79aaf36cc8727d24390d5f456007d030
   - enabled: 1
     path: Assets/Scenes/GeneralScene.unity
+    guid: a09d933f7772ce44daf7528251036af4

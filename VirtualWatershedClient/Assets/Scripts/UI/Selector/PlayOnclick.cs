@@ -14,7 +14,7 @@ public class PlayOnclick : MonoBehaviour
     {
         playBtnText = GameObject.FindGameObjectWithTag("PlayButton")
                                 .transform
-                                .FindChild("Text")
+                                .Find("Text")
                                 .GetComponent<Text>();
 
         slider = GameObject.FindWithTag("TimeSlider"); 

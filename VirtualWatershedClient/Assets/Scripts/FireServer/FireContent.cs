@@ -46,7 +46,7 @@ public class FireContent : MonoBehaviour {
         client.downloadHandler = new DownloadHandlerBuffer();
         client.Send();
 
-        if (client.isError)
+        if (client.isNetworkError)
         {
             Debug.LogError(client.error);
         }
